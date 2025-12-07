@@ -6,6 +6,7 @@ import { useRouter, useSearchParams } from "next/navigation"
 import { PortfolioHeader } from "@/components/portfolio-header"
 import { PortfolioClient } from "@/components/portfolio-client"
 import { ProjectModal } from "@/components/project-modal"
+import { LoadingSpinner } from "@/components/global-ui/loading-spinner"
 import type { Project } from "@/types"
 
 function PortfolioContent() {
@@ -48,7 +49,12 @@ function PortfolioContent() {
     <>
       <div className="container mx-auto px-3 md:px-4 py-6 md:py-8 max-w-7xl overflow-x-hidden">
         <PortfolioHeader />
-        {loading ? <p className="text-muted-foreground text-sm md:text-base">Loading projects…</p> : <PortfolioClient projects={projects} />}
+        {loading ? (
+          <div className="flex items-center gap-3 text-muted-foreground text-sm md:text-base">
+            <LoadingSpinner />
+            <span>Loading projects…</span>
+          </div>
+        ) : <PortfolioClient projects={projects} />}
       </div>
       {!loading && <ProjectModal project={modalProject} isOpen={!!projectId && !!modalProject} onClose={handleCloseModal} />}
     </>
@@ -61,7 +67,10 @@ export default function PortfolioPage() {
       <Suspense fallback={
         <div className="container mx-auto px-3 md:px-4 py-6 md:py-8 max-w-7xl overflow-x-hidden">
           <PortfolioHeader />
-          <p className="text-muted-foreground text-sm md:text-base">Loading…</p>
+          <div className="flex items-center gap-3 text-muted-foreground text-sm md:text-base">
+            <LoadingSpinner />
+            <span>Loading…</span>
+          </div>
         </div>
       }>
         <PortfolioContent />
