@@ -132,65 +132,6 @@ export function ProjectFilters({
     return Array.from(set).sort()
   }, [projects])
 
-  const totalProjects = projects.length
-
-  const filteredProjects = useMemo(() => {
-    const parsed = parseSearchQuery(searchQuery)
-    return projects.filter((p) => {
-      if (!showAll && !p.featured) return false
-
-      // Apply prefix-based filters
-      if (parsed.filterType === "domain" && parsed.term) {
-        if (!String(p.domain).toLowerCase().includes(parsed.term.toLowerCase())) return false
-      }
-      if (parsed.filterType === "medium" && parsed.term) {
-        const projectMediums = [
-          ...(p.mediums || []),
-          ...((p as unknown as { scriptMediums?: string[] }).scriptMediums || []),
-          ...((p as unknown as { gameMediums?: string[] }).gameMediums || []),
-        ].map(String)
-        if (!projectMediums.some(m => m.toLowerCase().includes(parsed.term.toLowerCase()))) return false
-      }
-      if (parsed.filterType === "status" && parsed.term) {
-        const status = (p as unknown as { status?: string })?.status
-        if (!status || !status.toLowerCase().includes(parsed.term.toLowerCase())) return false
-      }
-
-      // Regular search scope filtering
-      if (parsed.term && !parsed.filterType) {
-        const inTitle = p.title?.toLowerCase().includes(parsed.term.toLowerCase())
-        const inTags = Array.isArray(p.tags) && p.tags.join(" ").toLowerCase().includes(parsed.term.toLowerCase())
-        const inAll = inTitle || inTags || String(p.summary || "").toLowerCase().includes(parsed.term.toLowerCase())
-        if (parsed.scope === "all" && !inAll) return false
-        if (parsed.scope === "title" && !inTitle) return false
-        if (parsed.scope === "tags" && !inTags) return false
-      }
-
-      // Domain filter
-      if (selectedDomains.length > 0 && !(selectedDomains.length === 1 && selectedDomains[0] === "all")) {
-        if (!selectedDomains.includes(String(p.domain))) return false
-      }
-
-      // Medium filter
-      if (selectedMediums.length > 0 && !(selectedMediums.length === 1 && selectedMediums[0] === "all")) {
-        const projectMediums = [
-          ...(p.mediums || []),
-          ...((p as unknown as { scriptMediums?: string[] }).scriptMediums || []),
-          ...((p as unknown as { gameMediums?: string[] }).gameMediums || []),
-        ].map(String)
-        const matchesMedium = selectedMediums.some((m) => projectMediums.includes(m))
-        if (!matchesMedium) return false
-      }
-
-      // Status filter
-      if (selectedStatuses.length > 0 && !(selectedStatuses.length === 1 && selectedStatuses[0] === "all")) {
-        if (!selectedStatuses.includes(String((p as unknown as { status?: string })?.status))) return false
-      }
-
-      return true
-    }).length
-  }, [projects, showAll, selectedDomains, selectedMediums, selectedStatuses, searchQuery])
-
   // Update suggestions based on search query
   useEffect(() => {
     const parsed = parseSearchQuery(searchQuery)
@@ -322,13 +263,6 @@ export function ProjectFilters({
           <Star className={`h-4 w-4 ${!showAll ? "fill-current" : ""}`} />
         </Button>
 
-        {/* Project count */}
-        {/* <div className="text-sm text-muted-foreground">
-          <span className="font-medium text-foreground">{filteredProjects}</span>
-          <span className="hidden sm:inline"> of </span>
-          <span className="sm:hidden">/</span>
-          <span className="font-medium text-foreground">{totalProjects}</span>
-        </div> */}
 
         {/* Search - collapsible */}
         {!isSearchOpen ? (
@@ -346,7 +280,7 @@ export function ProjectFilters({
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
               ref={searchInputRef}
-              placeholder="Search or use domain:, medium:, status:, tags:, title:"
+              placeholder="Search projects..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-9 pr-9 h-10"
