@@ -49,7 +49,16 @@ export function Collection({ project, inModal }: CollectionProps) {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {items.map((item, idx) => (
-            <CollectionItemCard key={item.id || idx} item={item} project={project} inModal={inModal} folderName={folderName} collectionName={collectionName} />
+            <CollectionItemCard 
+              key={item.id || idx} 
+              item={item} 
+              project={project} 
+              inModal={inModal} 
+              folderName={folderName} 
+              collectionName={collectionName}
+              allItems={items}
+              currentIndex={idx}
+            />
           ))}
         </div>
       </div>
@@ -96,7 +105,16 @@ export function Collection({ project, inModal }: CollectionProps) {
             )}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {items.map((item, idx) => (
-                <CollectionItemCard key={item.id || idx} item={item} project={project} inModal={inModal} folderName={folderName} collectionName={collectionName} />
+                <CollectionItemCard 
+                  key={item.id || idx} 
+                  item={item} 
+                  project={project} 
+                  inModal={inModal} 
+                  folderName={folderName} 
+                  collectionName={collectionName}
+                  allItems={items}
+                  currentIndex={idx}
+                />
               ))}
             </div>
           </TabsContent>

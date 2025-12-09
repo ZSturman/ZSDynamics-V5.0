@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { X } from "lucide-react";
+import { X, ChevronLeft, ChevronRight } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import ResourceButton from "../resource-button";
@@ -34,25 +34,62 @@ function getItemResources(item: CollectionItem): Resource[] {
 interface CollectionFullscreenProps {
   item: CollectionItem;
   project: Project;
-  //allItems: CollectionItem[]
+  allItems?: CollectionItem[];
+  currentIndex?: number;
   onClose: () => void;
   inModal?: boolean;
   folderName?: string;
   collectionName?: string;
-  //onNavigate?: (item: CollectionItem) => void
+  onNavigate?: (index: number) => void;
 }
 
 export function CollectionFullscreen({
   item,
   project,
+  allItems,
+  currentIndex,
   onClose,
   inModal,
   folderName,
   collectionName,
+  onNavigate,
 }: CollectionFullscreenProps) {
-  const [showSidebar, setShowSidebar] = useState(true);
+  const [showSidebar, setShowSidebar] = useState(false);
   
   const resources = getItemResources(item);
+
+  // Navigation helpers
+  const hasNavigation = allItems && allItems.length > 1 && currentIndex !== undefined && onNavigate;
+  const hasPrevious = hasNavigation && currentIndex > 0;
+  const hasNext = hasNavigation && currentIndex < allItems.length - 1;
+
+  const handlePrevious = useCallback(() => {
+    if (hasPrevious && onNavigate && currentIndex !== undefined) {
+      onNavigate(currentIndex - 1);
+    }
+  }, [hasPrevious, onNavigate, currentIndex]);
+
+  const handleNext = useCallback(() => {
+    if (hasNext && onNavigate && currentIndex !== undefined) {
+      onNavigate(currentIndex + 1);
+    }
+  }, [hasNext, onNavigate, currentIndex]);
+
+  // Keyboard navigation
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowLeft' && hasPrevious) {
+        handlePrevious();
+      } else if (e.key === 'ArrowRight' && hasNext) {
+        handleNext();
+      } else if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [hasPrevious, hasNext, currentIndex, handlePrevious, handleNext, onClose]);
 
   // Prevent background scrolling when fullscreen is open (only when not in modal)
   useEffect(() => {
@@ -97,6 +134,33 @@ export function CollectionFullscreen({
 
           <Badge variant="secondary">{item.type}</Badge>
         </div>
+
+        {/* Navigation controls */}
+        {hasNavigation && (
+          <div className="flex items-center gap-2">
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              onClick={handlePrevious}
+              disabled={!hasPrevious}
+              title="Previous (←)"
+            >
+              <ChevronLeft className="h-5 w-5" />
+            </Button>
+            <span className="text-sm text-muted-foreground min-w-[60px] text-center">
+              {currentIndex! + 1} / {allItems!.length}
+            </span>
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              onClick={handleNext}
+              disabled={!hasNext}
+              title="Next (→)"
+            >
+              <ChevronRight className="h-5 w-5" />
+            </Button>
+          </div>
+        )}
       </div>
 
       {/* Main content area */}
@@ -123,10 +187,7 @@ export function CollectionFullscreen({
               )}
               {item.summary && (
                 <div className="space-y-2">
-                  <h3 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
-                    About
-                  </h3>
-                  <p className="text-sm leading-relaxed">{item.summary}</p>
+                  <p className="text-sm leading-relaxed opacity-80">{item.summary}</p>
                 </div>
               )}
 
@@ -143,14 +204,7 @@ export function CollectionFullscreen({
 
               {/* Metadata section */}
               <div className="space-y-2 pt-4 border-t">
-                <h3 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
-                  Details
-                </h3>
                 <div className="space-y-1 text-sm">
-                  <div className="flex justify-between">
-                    <span className="text-muted-foreground">Type</span>
-                    <span className="font-medium">{item.type}</span>
-                  </div>
                   {resources.length > 0 && (
                     <div className="flex justify-between">
                       <span className="text-muted-foreground">Resources</span>

@@ -37,7 +37,7 @@ export default function RootLayout({
         <meta name="mobile-web-app-capable" content="yes" />
 
         {/* SEO */}
-        <title>Zachary Sturman | Software Engineer</title>
+        <title>Zachary Sturman</title>
         <meta
           name="description"
           content="Zachary Sturman. I think a lot about how design influences trust, and how AI can support human judgment instead of replacing it."
@@ -49,7 +49,7 @@ export default function RootLayout({
         <meta property="og:type" content="website" />
         <meta
           property="og:title"
-          content="Zachary Sturman | Software Engineer"
+          content="Zachary Sturman"
         />
         <meta
           property="og:description"
@@ -66,7 +66,7 @@ export default function RootLayout({
         <meta name="twitter:card" content="summary_large_image" />
         <meta
           name="twitter:title"
-          content="Zachary Sturman | Software Engineer"
+          content="Zachary Sturman"
         />
         <meta
           name="twitter:description"

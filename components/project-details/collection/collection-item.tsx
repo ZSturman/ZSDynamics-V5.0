@@ -183,6 +183,8 @@ interface ExtendedCollectionItemCardProps extends CollectionItemViewerProps {
   inModal?: boolean
   folderName?: string
   collectionName?: string
+  allItems?: CollectionItem[]
+  currentIndex?: number
 }
 
 interface ExtendedCollectionItemViewerProps extends CollectionItemViewerProps {
@@ -267,13 +269,33 @@ function CollectionItemWrapper({ item, onRequestFullscreen, children, className,
   )
 }
 
-export default function CollectionItemCard({ item, project, inModal, folderName, collectionName }: ExtendedCollectionItemCardProps) {
+export default function CollectionItemCard({ item, project, inModal, folderName, collectionName, allItems, currentIndex }: ExtendedCollectionItemCardProps) {
   const [isFullscreen, setIsFullscreen] = useState(false)
+  const [currentItemIndex, setCurrentItemIndex] = useState(currentIndex ?? 0)
   const router = useRouter()
   const { setPreviousPath } = useBreadcrumb()
 
   const openFullscreen = () => setIsFullscreen(true)
   const closeFullscreen = () => setIsFullscreen(false)
+
+  // Update currentItemIndex when currentIndex prop changes
+  useEffect(() => {
+    if (currentIndex !== undefined) {
+      setCurrentItemIndex(currentIndex)
+    }
+  }, [currentIndex])
+
+  // Get current item from allItems if available
+  const currentItem = allItems && currentItemIndex !== undefined 
+    ? allItems[currentItemIndex] 
+    : item
+
+  // Navigation handler
+  const handleNavigate = (index: number) => {
+    if (allItems && index >= 0 && index < allItems.length) {
+      setCurrentItemIndex(index)
+    }
+  }
 
   // When fullscreen opens in a modal, prevent the modal content from scrolling
   useEffect(() => {
@@ -361,7 +383,17 @@ export default function CollectionItemCard({ item, project, inModal, folderName,
       
       {/* Don't show fullscreen for folio type */}
       {isFullscreen && item.type !== "folio" && (
-        <CollectionFullscreen item={item} onClose={closeFullscreen} project={project} inModal={inModal} folderName={folderName} collectionName={collectionName} />
+        <CollectionFullscreen 
+          item={currentItem} 
+          onClose={closeFullscreen} 
+          project={project} 
+          inModal={inModal} 
+          folderName={folderName} 
+          collectionName={collectionName}
+          allItems={allItems}
+          currentIndex={currentItemIndex}
+          onNavigate={handleNavigate}
+        />
       )}
       
     </>

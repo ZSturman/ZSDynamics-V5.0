@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react"
 import type { Project } from "@/types"
-import { Search, X, Grid3X3, List, ArrowUpDown, Star } from "lucide-react"
+import { Search, X, Grid3X3, List, ArrowUpDown } from "lucide-react"
 import { friendlyStatusLabel } from "@/lib/resource-map"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -59,6 +59,7 @@ export function ProjectFilters({
   initialTags = [],
 }: ProjectFiltersProps) {
   const [isSearchOpen, setIsSearchOpen] = useState(false)
+  const [isFeaturedAnimating, setIsFeaturedAnimating] = useState(false)
   const [searchQuery, setSearchQuery] = useState<string>(initialSearch)
   const [suggestions, setSuggestions] = useState<string[]>([])
   const searchInputRef = useRef<HTMLInputElement>(null)
@@ -254,13 +255,21 @@ export function ProjectFilters({
       <div className="flex items-center gap-2 flex-wrap">
         {/* Featured toggle - star icon */}
         <Button
-          variant={showAll ? "outline" : "default"}
+          variant="outline"
           size="sm"
-          onClick={() => onShowAllToggle?.(!showAll)}
-          className="min-h-[40px] min-w-[40px] p-0"
+          onClick={() => {
+            onShowAllToggle?.(!showAll)
+            setIsFeaturedAnimating(true)
+            setTimeout(() => setIsFeaturedAnimating(false), 200)
+          }}
+          className={`min-h-[40px] min-w-[40px] px-2 transition-transform duration-200 ${
+            isFeaturedAnimating ? "scale-105" : "scale-100"
+          }`}
           title={showAll ? "Show featured only" : "Show all projects"}
         >
-          <Star className={`h-4 w-4 ${!showAll ? "fill-current" : ""}`} />
+          <p>
+            <span className="sr-only">Show </span>{showAll ? "Showing All Projects" : "Showing Featured Only"}
+          </p>
         </Button>
 
 
