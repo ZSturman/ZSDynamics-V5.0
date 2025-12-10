@@ -526,12 +526,12 @@
   {
     "category": "Software",
     "collection": {
-      "Versions": {
+      "Projects": {
         "images": {},
         "items": [
           {
             "id": "88EF03D6-E7E5-4A22-972E-BFC26D5142C0",
-            "label": "Version 4",
+            "label": "Personal Portfolio V4",
             "order": 0,
             "resource": {
               "category": "folio",
@@ -546,7 +546,7 @@
           },
           {
             "id": "C1FC5A45-FD8E-4DC9-BCDF-70D875E81551",
-            "label": "Version 3",
+            "label": "Personal Portfolio V3",
             "order": 1,
             "resource": {
               "category": "folio",
@@ -561,7 +561,7 @@
           },
           {
             "id": "A7B0239D-D7B7-49C0-A656-1C70413B53D4",
-            "label": "Version 2",
+            "label": "Personal Portfolio V2",
             "order": 2,
             "resource": {
               "category": "folio",
@@ -576,7 +576,7 @@
           },
           {
             "id": "3E56C901-0CB7-4C2E-B6C9-C1636323B2A8",
-            "label": "Version 1.1",
+            "label": "Personal Portfolio V1.1",
             "order": 3,
             "resource": {
               "category": "folio",
@@ -591,7 +591,7 @@
           },
           {
             "id": "DCE4E0B0-8038-4986-9ED6-95374DF59D84",
-            "label": "Version 1",
+            "label": "Personal Portfolio V1",
             "order": 4,
             "resource": {
               "category": "folio",
@@ -603,6 +603,21 @@
             "thumbnail": "thumbnail.png",
             "type": "url-link",
             "url": "https://zsturman.github.io/ZSDynamics-V1.0/"
+          },
+          {
+            "id": "E97FAD64-609A-487F-9D47-1ADF7FAC13A9",
+            "label": "TowardBetter",
+            "order": 5,
+            "resource": {
+              "category": "repository",
+              "label": "Repo",
+              "type": "github",
+              "url": "https://github.com/ZSturman/TowardBetter-Announcement-Page"
+            },
+            "summary": "The announcement page for a women’s community site.",
+            "thumbnail": "thumbnail.png",
+            "type": "url-link",
+            "url": "https://zsturman.github.io/TowardBetter-Announcement-Page/"
           }
         ]
       }
@@ -637,7 +652,7 @@
       "JavaScript"
     ],
     "title": "Frontend Collection",
-    "updatedAt": 786553030.306411,
+    "updatedAt": 787067906.428231,
     "name": "Frontend Collection",
     "folderName": "frontend_collection_BB2F567C-B29C-4666-AABF-986E69AA9592"
   }
