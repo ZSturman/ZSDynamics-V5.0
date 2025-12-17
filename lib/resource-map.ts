@@ -1,4 +1,4 @@
-import type { ResourceType } from "@/types";
+import type { Resource, ResourceType } from "@/types";
 
 
   // human-friendly labels for common status keys
@@ -112,8 +112,68 @@ export function iconPath(key: string): string | null {
   return `/icons/${name}.svg`;
 }
 
-export function bestIconPath(resourceType?: ResourceType | string, medium?: string): string {
-  // If resourceType is namespaced like "repository:github", try exact match first, then the suffix
+export function bestIconPath(resourceType?: ResourceType | string, medium?: string, resource?: Resource): string {
+  // First, try to infer from the resource object itself
+  if (resource) {
+    const url = (resource as { url?: string; path?: string }).url || (resource as { url?: string; path?: string }).path || "";
+    const urlLower = url.toLowerCase();
+    
+    // Check for video platforms
+    if (urlLower.includes("youtube.com") || urlLower.includes("youtu.be")) {
+      const ytPath = iconPath("youtube");
+      if (ytPath) return ytPath;
+    }
+    if (urlLower.includes("vimeo.com")) {
+      const vimeoPath = iconPath("vimeo");
+      if (vimeoPath) return vimeoPath;
+    }
+    
+    // Check for code repositories
+    if (urlLower.includes("github.com")) {
+      return iconPath("github")!;
+    }
+    if (urlLower.includes("gitlab.com")) {
+      return iconPath("gitlab")!;
+    }
+    
+    // Check for Google services
+    if (urlLower.includes("docs.google.com/document")) {
+      return iconPath("gdoc")!;
+    }
+    if (urlLower.includes("docs.google.com/presentation")) {
+      return iconPath("gslide")!;
+    }
+    
+    // Check for Overleaf
+    if (urlLower.includes("overleaf.com")) {
+      return iconPath("overleaf")!;
+    }
+    
+    // Check file extensions
+    if (urlLower.endsWith(".pdf")) {
+      return iconPath("pdf")!;
+    }
+    if (urlLower.endsWith(".md") || urlLower.endsWith(".markdown")) {
+      return iconPath("markdown")!;
+    }
+    if (urlLower.endsWith(".mp4") || urlLower.endsWith(".mov") || urlLower.endsWith(".avi") || urlLower.endsWith(".webm")) {
+      return iconPath("video")!;
+    }
+    if (urlLower.endsWith(".mp3") || urlLower.endsWith(".wav") || urlLower.endsWith(".ogg") || urlLower.endsWith(".m4a")) {
+      return iconPath("audio")!;
+    }
+    if (urlLower.endsWith(".jpg") || urlLower.endsWith(".jpeg") || urlLower.endsWith(".png") || urlLower.endsWith(".gif") || urlLower.endsWith(".svg") || urlLower.endsWith(".webp")) {
+      return iconPath("image")!;
+    }
+    if (urlLower.endsWith(".csv") || urlLower.endsWith(".json") || urlLower.endsWith(".xml")) {
+      return iconPath("dataset")!;
+    }
+    if (urlLower.endsWith(".zip") || urlLower.endsWith(".tar") || urlLower.endsWith(".gz") || urlLower.endsWith(".rar")) {
+      return iconPath("download")!;
+    }
+  }
+  
+  // Fall back to resourceType-based detection
   if (!resourceType && !medium) return iconPath("placeholder")!;
   const rt = (resourceType || "").toString();
   const exact = iconPath(rt);

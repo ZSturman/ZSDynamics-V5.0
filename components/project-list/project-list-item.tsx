@@ -9,6 +9,7 @@ import { MediaDisplay } from "@/components/ui/media-display";
 import { formatDate, getOptimizedMediaPath, formatTextWithNewlines } from "@/lib/utils";
 import ResourceButton from "../project-details/resource-button";
 import { useRef } from "react";
+import { displayDateLabel } from "@/lib/site-content-display";
 
 export interface ProjectListItemProps {
   project: Project;
@@ -31,13 +32,8 @@ export function ProjectListItem({ project, onClick, sortField = "updatedAt" }: P
   
   // Determine which date to display and label
   const displayDate = sortField === "createdAt" ? project.createdAt : project.updatedAt;
-  const isArchived = project.status?.toLowerCase() === "archive" || project.status?.toLowerCase() === "archived" || project.phase?.toLowerCase() === "archive" || project.phase?.toLowerCase() === "archived";
-  const dateLabel = isArchived 
-    ? "Archived" 
-    : sortField === "createdAt" 
-      ? "Created" 
-      : "Updated";
-  
+  const dateLabel = displayDateLabel(project.status, sortField, project.phase);
+    
   // Note: no extra derived project shape needed here; `project` is used directly
   return (
     <Card

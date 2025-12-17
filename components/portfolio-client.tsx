@@ -1,9 +1,10 @@
 "use client";
-import { useMemo, useState, useEffect, useRef } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { ProjectFilters } from "@/components/project-filters";
 import { ProjectList } from "@/components/project-list/project-list";
 import type { Project } from "@/types";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
+import { FeaturedCarousel } from "./project-list/featured-carousel";
 
 interface PortfolioClientProps {
   projects: Project[];
@@ -15,12 +16,6 @@ export function PortfolioClient({ projects }: PortfolioClientProps) {
   const pathname = usePathname()
 
   const [viewMode, setViewMode] = useState<"grid" | "list">("list");
-
-  // whether to show all public projects or the initial starred-only view
-  const [showAll, setShowAll] = useState<boolean>(false);
-  const showAllRef = useRef<boolean>(showAll)
-
-  useEffect(() => { showAllRef.current = showAll }, [showAll])
 
   // Initialize from URL params once on mount
   useEffect(() => {
@@ -38,7 +33,6 @@ export function PortfolioClient({ projects }: PortfolioClientProps) {
       "searchScope",
       "sort",
       "view",
-      "showAll",
     ].some((k) => typeof spEntries[k] === "string" && spEntries[k] !== "")
 
     if (hasFilterParams) {
@@ -53,13 +47,11 @@ export function PortfolioClient({ projects }: PortfolioClientProps) {
       const urlSearchScope = (sp.searchScope as "all" | "title" | "tags") || "any"
       const urlSort = (typeof sp.sort === "string" ? sp.sort : "newest") as "newest" | "oldest" | "title-asc" | "title-desc"
       const urlView = (typeof sp.view === "string" ? sp.view : "list") as "grid" | "list"
-      const urlShowAll = sp.showAll === "1" || sp.showAll === "true"
       setFilters({ search: urlSearch, medium: urlDomain, status: urlStatus, tags: urlTags })
       setExplicitMediums(urlMediums)
       setSearchScope(urlSearchScope)
       setSort(urlSort)
       setViewMode(urlView === "grid" ? "grid" : "list")
-      setShowAll(Boolean(urlShowAll))
     } else {
       try {
         // Prefer sessionStorage (per-tab/session persistence). If nothing is there, fall back to localStorage
@@ -75,7 +67,6 @@ export function PortfolioClient({ projects }: PortfolioClientProps) {
             setSearchScope(saved.searchScope || "all")
             setSort(saved.sort || "newest")
             setViewMode(saved.viewMode === "grid" ? "grid" : "list")
-            setShowAll(Boolean(saved.showAll))
           }
         }
       } catch {
@@ -134,28 +125,44 @@ export function PortfolioClient({ projects }: PortfolioClientProps) {
 
     // push to URL (encode domain as legacy `medium` param, explicit as `mediums`) so the main list page reflects the filters
     // Only update the URL if we're on the main list path (safety check)
+    // Only add non-default query parameters to keep URL clean
     const scope = next.searchScope ?? searchScope
-    const params = new URLSearchParams(Array.from(searchParams || []).concat([
-      ["q", adapted.search || ""],
-      ["medium", (adapted.medium || ["all"]).filter(Boolean).join(",")],
-      ["mediums", (explicit || ["all"]).filter(Boolean).join(",")],
-      ["status", (adapted.status || ["all"]).filter(Boolean).join(",")],
-      ["tags", (adapted.tags || []).filter(Boolean).join(",")],
-      ["searchScope", scope],
-      ["sort", sort],
-      ["view", viewMode],
-      ["showAll", showAll ? "1" : "0"],
-    ]))
+    const params = new URLSearchParams()
+    
+    // Only add params that differ from defaults
+    if (adapted.search) params.set("q", adapted.search)
+    
+    const mediumValue = (adapted.medium || ["all"]).filter(Boolean)
+    if (mediumValue.length > 0 && !(mediumValue.length === 1 && mediumValue[0] === "all")) {
+      params.set("medium", mediumValue.join(","))
+    }
+    
+    const mediumsValue = (explicit || ["all"]).filter(Boolean)
+    if (mediumsValue.length > 0 && !(mediumsValue.length === 1 && mediumsValue[0] === "all")) {
+      params.set("mediums", mediumsValue.join(","))
+    }
+    
+    const statusValue = (adapted.status || ["all"]).filter(Boolean)
+    if (statusValue.length > 0 && !(statusValue.length === 1 && statusValue[0] === "all")) {
+      params.set("status", statusValue.join(","))
+    }
+    
+    const tagsValue = (adapted.tags || []).filter(Boolean)
+    if (tagsValue.length > 0) params.set("tags", tagsValue.join(","))
+    
+    if (scope !== "all") params.set("searchScope", scope)
+    if (sort !== "newest") params.set("sort", sort)
+    if (viewMode !== "list") params.set("view", viewMode)
+    
     try {
-      const url = `?${params.toString()}`
+      const url = params.toString() ? `?${params.toString()}` : pathname || "/"
       if (initialized && (!pathname || pathname === "/")) router.replace(url)
     } catch {
       // router.replace may throw in certain environments; ignore and rely on sessionStorage
     }
   };
 
-  // helper: persist current filter state to localStorage. optional overrides allow callers
-  // to ensure latest changes (like showAll) are saved immediately.
+  // helper: persist current filter state to sessionStorage.
   const [initialized, setInitialized] = useState(false)
 
   function persistFiltersToSessionStorage(overrides?: Partial<{
@@ -167,7 +174,6 @@ export function PortfolioClient({ projects }: PortfolioClientProps) {
     searchScope: string;
     sort: typeof sort;
     viewMode: typeof viewMode;
-    showAll: boolean;
   }>) {
     try {
       const toSave = {
@@ -179,7 +185,6 @@ export function PortfolioClient({ projects }: PortfolioClientProps) {
         searchScope: overrides?.searchScope ?? searchScope ?? "all",
         sort: overrides?.sort ?? sort,
         viewMode: overrides?.viewMode ?? viewMode,
-        showAll: overrides?.showAll ?? showAllRef.current,
       }
       if (typeof window !== "undefined") window.sessionStorage.setItem("portfolio.filters.v1", JSON.stringify(toSave))
     } catch {
@@ -187,37 +192,19 @@ export function PortfolioClient({ projects }: PortfolioClientProps) {
     }
   }
 
-  // wrapped setter for showAll which persists immediately and updates the URL if on main page
-  function setShowAllAndPersist(v: boolean) {
-    setShowAll(v)
-    persistFiltersToSessionStorage({ showAll: v })
-    try {
-      if (!pathname || pathname === "/") {
-        const params = new URLSearchParams(Array.from(searchParams || []))
-        params.set("sort", sort)
-        params.set("view", viewMode)
-        params.set("showAll", v ? "1" : "0")
-        const url = `?${params.toString()}`
-        if (initialized) router.replace(url)
-      }
-    } catch {
-      // ignore router errors
-    }
-  }
+  // Get all public projects for the list
+  const publicProjects = useMemo(() => {
+    return projects.filter((p) => {
+      const vis = (p as unknown as { visibility?: string })?.visibility;
+      const isPublic = typeof vis === "string" ? vis === "public" : true;
+      return isPublic;
+    });
+  }, [projects]);
 
   const filteredProjects = useMemo(() => {
     const s = filters.search.trim().toLowerCase();
-    // Base set: either all public projects or only starred projects
-    const base = projects.filter((p) => {
-      // visibility may not exist in some content sources; default to public
-      const vis = (p as unknown as { visibility?: string })?.visibility;
-      const isPublic = typeof vis === "string" ? vis === "public" : true;
-      if (!isPublic) return false;
-      if (showAll) return true;
-      return Boolean((p as unknown as { featured?: boolean })?.featured);
-    });
 
-  return base.filter((p) => {
+  return publicProjects.filter((p) => {
       // search matches according to searchScope
       if (s) {
         const inTitle = p.title.toLowerCase().includes(s) || (p.subtitle || "").toLowerCase().includes(s)
@@ -273,7 +260,7 @@ export function PortfolioClient({ projects }: PortfolioClientProps) {
 
       return true;
     });
-  }, [projects, filters, showAll, explicitMediums, searchScope]);
+  }, [publicProjects, filters, explicitMediums, searchScope]);
 
   const sortedProjects = useMemo(() => {
     const copy = [...filteredProjects];
@@ -311,7 +298,7 @@ export function PortfolioClient({ projects }: PortfolioClientProps) {
     }
   }, [filteredProjects, sort]);
 
-  // Sync sort/view/showAll changes to URL
+  // Sync sort/view changes to URL
   useEffect(() => {
     if (!initialized) return
 
@@ -323,30 +310,64 @@ export function PortfolioClient({ projects }: PortfolioClientProps) {
         ...saved,
         sort,
         viewMode,
-        showAll,
       }
       if (typeof window !== "undefined") window.sessionStorage.setItem("portfolio.filters.v1", JSON.stringify(toSave))
     } catch {
-      console.error("Failed to save sort/view/showAll to sessionStorage")
+      console.error("Failed to save sort/view to sessionStorage")
     }
 
-    // also update URL if on main list
+    // also update URL if on main list - only add non-default params
     try {
       if (!pathname || pathname === "/") {
-        const params = new URLSearchParams(Array.from(searchParams || []))
-        params.set("sort", sort)
-        params.set("view", viewMode)
-        params.set("showAll", showAll ? "1" : "0")
-        router.replace(`?${params.toString()}`)
+        const params = new URLSearchParams()
+        
+        // Preserve existing filter params
+        if (filters.search) params.set("q", filters.search)
+        
+        const mediumValue = (filters.medium || ["all"]).filter(Boolean)
+        if (mediumValue.length > 0 && !(mediumValue.length === 1 && mediumValue[0] === "all")) {
+          params.set("medium", mediumValue.join(","))
+        }
+        
+        const mediumsValue = (explicitMediums || ["all"]).filter(Boolean)
+        if (mediumsValue.length > 0 && !(mediumsValue.length === 1 && mediumsValue[0] === "all")) {
+          params.set("mediums", mediumsValue.join(","))
+        }
+        
+        const statusValue = (filters.status || ["all"]).filter(Boolean)
+        if (statusValue.length > 0 && !(statusValue.length === 1 && statusValue[0] === "all")) {
+          params.set("status", statusValue.join(","))
+        }
+        
+        const tagsValue = (filters.tags || []).filter(Boolean)
+        if (tagsValue.length > 0) params.set("tags", tagsValue.join(","))
+        
+        if (searchScope !== "all") params.set("searchScope", searchScope)
+        if (sort !== "newest") params.set("sort", sort)
+        if (viewMode !== "list") params.set("view", viewMode)
+        
+        const url = params.toString() ? `?${params.toString()}` : pathname || "/"
+        router.replace(url)
       }
     } catch {
       // ignore router errors
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sort, viewMode, showAll])
+  }, [sort, viewMode])
 
   return (
     <>
+      {/* Featured Carousel */}
+      <FeaturedCarousel projects={publicProjects} />
+      
+      {/* Project List Header */}
+      <div className="mb-4">
+        <h2 className="text-lg md:text-xl font-semibold text-foreground mb-4">
+          All Projects
+        </h2>
+      </div>
+
+      {/* Filters */}
       {initialized ? (
         <ProjectFilters
           projects={projects}
@@ -355,10 +376,8 @@ export function PortfolioClient({ projects }: PortfolioClientProps) {
           onViewModeChange={setViewMode}
           onSortChange={(s) => setSort(s)}
           sort={sort}
-          totalCount={projects.length}
+          totalCount={publicProjects.length}
           visibleCount={filteredProjects.length}
-          showAll={showAll}
-          onShowAllToggle={(v: boolean) => setShowAllAndPersist(v)}
           initialSearch={filters.search}
           initialMedium={filters.medium}
           initialStatus={filters.status}
@@ -366,6 +385,7 @@ export function PortfolioClient({ projects }: PortfolioClientProps) {
           initialSearchScope={searchScope}
         />
       ) : null}
+      
       <ProjectList 
         viewMode={viewMode} 
         projects={sortedProjects}

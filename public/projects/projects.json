@@ -1,5 +1,612 @@
 [
   {
+    "category": "Art",
+    "collection": {
+      "Models": {
+        "images": {},
+        "items": [
+          {
+            "filePath": "Standard Model.obj",
+            "id": "8AF85A7E-96D4-4211-A035-E583B9721A58",
+            "label": "Standard Model",
+            "order": 0,
+            "resource": {
+              "category": "app",
+              "label": "",
+              "type": "googlePlay",
+              "url": ""
+            },
+            "summary": "A wall-mounted 3D model that presents the Standard Model of particle physics in a clear, physical layout, turning an abstract framework into a tangible object. Designed to be both printable and educational, it emphasizes structure and relationships rather than decorative detail.",
+            "thumbnail": "thumbnail.png",
+            "type": "3d-model"
+          }
+        ]
+      }
+    },
+    "createdAt": 548254201.534619,
+    "description": "This collection brings together a range of 3D models created during my early work in Blender. Each piece was built with a specific purpose, from simple objects intended for 3D printing to assets designed for animation and game environments. The collection is not centered on a single style or outcome, but on learning how digital form works across different contexts. Earlier models focus on basic structure, lighting, and scale, while later ones begin to account for motion, function, and narrative use. Taken together, the work documents a gradual shift from experimenting with tools to understanding how design decisions support real-world and virtual applications.",
+    "domain": "Creative",
+    "featured": false,
+    "id": "F0FAAE95-5037-4030-B0CB-A4C0F7F700F6",
+    "images": {
+      "thumbnail": "thumbnail.png"
+    },
+    "isPublic": true,
+    "phase": "Adding on",
+    "status": "In Progress",
+    "story": "I started using Blender without a defined goal, beyond wanting to understand how 3D objects are constructed. The first models were simple and practical, often made so they could be printed or physically tested, which helped clarify how digital geometry translates into real space. As I grew more comfortable, I began creating characters and props for small animations and game scenes, where models needed to work within a larger system. Each project added a small lesson that stayed with me, whether about lighting, surface detail, or how form can suggest use or weight. Looking back, the collection reads as a timeline of that learning process, showing gradual improvement, experimentation, and a growing sense of control rather than a polished end result.  ",
+    "subtitle": "",
+    "summary": "A personal collection of 3D models made while learning Blender, focused on understanding form, scale, and how digital objects function across different uses. It serves as a record of skill development rather than a single, unified project.  ",
+    "tags": [
+      "Art",
+      "Blender",
+      "3D",
+      "Modeling",
+      "Printing"
+    ],
+    "title": "3D Models Collection",
+    "updatedAt": 727192681.798278,
+    "name": "3D Models Collection",
+    "folderName": "3d_models_collection_F0FAAE95-5037-4030-B0CB-A4C0F7F700F6"
+  },
+  {
+    "category": "Art",
+    "collection": {
+      "Pages": {
+        "images": {},
+        "items": [
+          {
+            "filePath": "7D2099B3-AA65-4583-8AFE-6341BA5B4B02.bin",
+            "id": "CDA0E946-5AAD-4842-A1E4-5EEC7C4D1F05",
+            "label": "1. In The Beginning",
+            "order": 0,
+            "resource": {
+              "category": "app",
+              "label": "",
+              "type": "googlePlay",
+              "url": ""
+            },
+            "summary": "This page shows the Big Bang, marking the origin of the universe and the start of space, time, and matter.",
+            "thumbnail": {
+              "id": "55C09A96-019A-4B39-9D7D-A06C5981DE28",
+              "path": ""
+            },
+            "type": "image"
+          },
+          {
+            "filePath": "D9172DF6-78CF-4C4A-9D18-F258F048B818.bin",
+            "id": "7639335E-405B-4944-98B4-2451AB3EADFD",
+            "label": "2. Building Blocks",
+            "order": 1,
+            "resource": {
+              "category": "app",
+              "label": "",
+              "type": "googlePlay",
+              "url": ""
+            },
+            "summary": "An overview of the standard model, introducing the fundamental particles and forces that make up everything in the universe.",
+            "thumbnail": {
+              "id": "17C321E5-06A2-4697-A410-DDA4EC0FA6E4",
+              "path": ""
+            },
+            "type": "image"
+          },
+          {
+            "filePath": "C321D643-A729-471F-A3C0-FE8FEF171771.bin",
+            "id": "C02ABBDC-FFA9-405C-994D-95943B4DCBBC",
+            "label": "3. Stars and Galaxies",
+            "order": 2,
+            "resource": {
+              "category": "app",
+              "label": "",
+              "type": "googlePlay",
+              "url": ""
+            },
+            "summary": "Stars form from clouds of gas and dust, grouping into galaxies that shape the large-scale structure of the universe.",
+            "thumbnail": {
+              "id": "D4504B37-FCF9-45DC-8E2C-47BA39F80FE7",
+              "path": ""
+            },
+            "type": "image"
+          },
+          {
+            "filePath": "110993D4-0DBD-4C0D-B877-66216F9735B8.bin",
+            "id": "132ACA57-2D7A-4F10-8CE3-92426D754243",
+            "label": "4. The Solar System",
+            "order": 3,
+            "resource": {
+              "category": "app",
+              "label": "",
+              "type": "googlePlay",
+              "url": ""
+            },
+            "thumbnail": {
+              "id": "77DAC928-7B02-4E73-928B-21023DBF4A31",
+              "path": ""
+            },
+            "type": "image"
+          },
+          {
+            "filePath": "E4D64053-9AEE-495D-AD79-BDDA409BF0F1.bin",
+            "id": "90F01B39-E50B-4349-9209-EABF120DD8C5",
+            "label": "5. Earth Science",
+            "order": 4,
+            "resource": {
+              "category": "app",
+              "label": "",
+              "type": "googlePlay",
+              "url": ""
+            },
+            "summary": "Earth’s geology, atmosphere, and oceans interact as a system, shaping the planet’s surface and long-term stability.",
+            "thumbnail": {
+              "id": "D408F063-8DB1-48F7-9DEC-8DD518A23B91",
+              "path": ""
+            },
+            "type": "image"
+          },
+          {
+            "filePath": "BC794A17-E4DA-41E1-8085-BA8B736279FF.bin",
+            "id": "BD3B8BF1-7D32-43EC-90BB-C9AB57521694",
+            "label": "6. Hadean Eon",
+            "order": 5,
+            "resource": {
+              "category": "app",
+              "label": "",
+              "type": "googlePlay",
+              "url": ""
+            },
+            "thumbnail": {
+              "id": "C46C74F8-9FBE-4766-9A82-E643285A14CD",
+              "path": ""
+            },
+            "type": "image"
+          },
+          {
+            "filePath": "E31BC596-89E4-4F0C-9068-5304D17BE594.bin",
+            "id": "803D5E0B-7E2C-4936-8828-5517EA0C69DD",
+            "label": "7. Archean Eon",
+            "order": 6,
+            "resource": {
+              "category": "app",
+              "label": "",
+              "type": "googlePlay",
+              "url": ""
+            },
+            "thumbnail": {
+              "id": "1D4A06A3-5E65-449E-BBCB-21080F7A7CA4",
+              "path": ""
+            },
+            "type": "image"
+          },
+          {
+            "filePath": "0F67D9A2-8D6E-415C-B7E9-9DC1F14EA5F3.bin",
+            "id": "55799E85-0F65-4D27-9AE1-811376BC9613",
+            "label": "8. Proterozoic Eon",
+            "order": 7,
+            "resource": {
+              "category": "app",
+              "label": "",
+              "type": "googlePlay",
+              "url": ""
+            },
+            "thumbnail": {
+              "id": "80A4A2FD-EFBE-4EFC-A004-FE0F69FED352",
+              "path": ""
+            },
+            "type": "image"
+          },
+          {
+            "filePath": "C63BE22C-20E5-4CF4-A5C9-B0E69755C125.bin",
+            "id": "7F3DBADE-11EC-452A-8F85-226749525925",
+            "label": "9. Cambrian Period",
+            "order": 8,
+            "resource": {
+              "category": "app",
+              "label": "",
+              "type": "googlePlay",
+              "url": ""
+            },
+            "summary": "Life rapidly diversifies, with most major animal body plans appearing in the fossil record.",
+            "thumbnail": {
+              "id": "E952B7B2-62B9-4EB5-B0F6-624E15B597E8",
+              "path": ""
+            },
+            "type": "image"
+          },
+          {
+            "filePath": "9A64B4E3-0052-40A8-80A8-F1D8E7BB1F4E.bin",
+            "id": "E843403E-3810-4A17-945D-19FE065AEB27",
+            "label": "10. Ordovician",
+            "order": 9,
+            "resource": {
+              "category": "app",
+              "label": "",
+              "type": "googlePlay",
+              "url": ""
+            },
+            "thumbnail": {
+              "id": "C603E026-A70B-475A-AACA-189E1A343FD3",
+              "path": ""
+            },
+            "type": "image"
+          },
+          {
+            "filePath": "23D95CAA-F6A3-404E-811D-AD5B045C7900.bin",
+            "id": "69A23240-3158-4B81-B637-79F5B5F3545A",
+            "label": "11. Silurian Period",
+            "order": 10,
+            "resource": {
+              "category": "app",
+              "label": "",
+              "type": "googlePlay",
+              "url": ""
+            },
+            "thumbnail": {
+              "id": "18792A4F-ACB3-46BE-808A-0882EE8C348E",
+              "path": ""
+            },
+            "type": "image"
+          },
+          {
+            "filePath": "BD9CA3F7-4EF3-416C-B843-614B076231B8.bin",
+            "id": "D21CF940-7A4D-44A7-83DB-03A9AB52E767",
+            "label": "12. Devonian Period",
+            "order": 11,
+            "resource": {
+              "category": "app",
+              "label": "",
+              "type": "googlePlay",
+              "url": ""
+            },
+            "thumbnail": {
+              "id": "C56F35DC-2BF2-4CBE-920A-A17FCFD7814D",
+              "path": ""
+            },
+            "type": "image"
+          },
+          {
+            "filePath": "DE02DA6D-E494-46F2-9C12-DC96438FD56F.bin",
+            "id": "76F2B256-4500-49C6-BF84-4B970607695B",
+            "label": "13. Carboniferous Period",
+            "order": 12,
+            "resource": {
+              "category": "app",
+              "label": "",
+              "type": "googlePlay",
+              "url": ""
+            },
+            "thumbnail": {
+              "id": "2C78A25A-4A49-457D-9202-06B61EE1080C",
+              "path": ""
+            },
+            "type": "image"
+          },
+          {
+            "filePath": "ADC075DB-4603-48A9-B7CE-9ACBFBDEC7B5.bin",
+            "id": "F1C971A6-E63A-4338-BDA3-6474B2DFFDDC",
+            "label": "14. Permian Period",
+            "order": 13,
+            "resource": {
+              "category": "app",
+              "label": "",
+              "type": "googlePlay",
+              "url": ""
+            },
+            "thumbnail": {
+              "id": "D3FDDBA5-1D59-4DB6-9CE2-AC6625E6EADB",
+              "path": ""
+            },
+            "type": "image"
+          },
+          {
+            "filePath": "8E2D08FA-2083-4AA4-BAAC-6D7159D37AB2.bin",
+            "id": "40D5EF16-5402-4C06-8F58-6B5E93830557",
+            "label": "15. Triassic Period",
+            "order": 14,
+            "resource": {
+              "category": "app",
+              "label": "",
+              "type": "googlePlay",
+              "url": ""
+            },
+            "thumbnail": {
+              "id": "B12DE8A9-5CC2-4AE6-8319-6FDC915F772E",
+              "path": ""
+            },
+            "type": "audio"
+          },
+          {
+            "filePath": "307DD0D6-F38D-4D90-A704-3BE0B40A6753.bin",
+            "id": "3E67C8F8-6481-41F1-9D0C-32A5DCABB415",
+            "label": "16. Jurassic Period",
+            "order": 15,
+            "resource": {
+              "category": "app",
+              "label": "",
+              "type": "googlePlay",
+              "url": ""
+            },
+            "thumbnail": {
+              "id": "9328E7B5-8764-4ED8-8216-9D02BBB072E2",
+              "path": ""
+            },
+            "type": "image"
+          },
+          {
+            "filePath": "FF73232E-1F86-4370-B07A-BE3591D0AB44.bin",
+            "id": "595780F1-10B2-4FF9-92D0-B43984D9DCA7",
+            "label": "17. Cretaceous Period",
+            "order": 16,
+            "resource": {
+              "category": "app",
+              "label": "",
+              "type": "googlePlay",
+              "url": ""
+            },
+            "thumbnail": {
+              "id": "213F09CE-3AA5-4682-9F15-71D5A30CF90F",
+              "path": ""
+            },
+            "type": "image"
+          },
+          {
+            "filePath": "BE249F3A-CA56-4D3B-AF1C-073667128CCA.bin",
+            "id": "8C1585A9-0804-4AA5-AF7B-288BB5C9EA09",
+            "label": "18. Paleogene Period",
+            "order": 17,
+            "resource": {
+              "category": "app",
+              "label": "",
+              "type": "googlePlay",
+              "url": ""
+            },
+            "thumbnail": {
+              "id": "BC7A3614-ED8A-45A7-9A35-E2705F76EE8B",
+              "path": ""
+            },
+            "type": "image"
+          },
+          {
+            "filePath": "7A354121-2264-439A-8104-0DDF12686CAE.bin",
+            "id": "0357FDAF-4018-4B12-A76A-E4F539F4FB58",
+            "label": "19. Neogene Period",
+            "order": 18,
+            "resource": {
+              "category": "app",
+              "label": "",
+              "type": "googlePlay",
+              "url": ""
+            },
+            "thumbnail": {
+              "id": "8E2F3568-D604-4A12-8596-7C99D7E3E1EA",
+              "path": ""
+            },
+            "type": "image"
+          },
+          {
+            "filePath": "35185F18-9A69-4FCE-8110-7706BD19529F.bin",
+            "id": "9E41710F-F600-4B5B-82A9-98108A5909CA",
+            "label": "20. Family Tree",
+            "order": 19,
+            "resource": {
+              "category": "app",
+              "label": "",
+              "type": "googlePlay",
+              "url": ""
+            },
+            "thumbnail": {
+              "id": "165E3722-9104-4830-9D6D-1D1B8A685925",
+              "path": ""
+            },
+            "type": "image"
+          },
+          {
+            "filePath": "5688BC17-B82A-41ED-A028-902C922FC690.bin",
+            "id": "1B202A66-A53A-457D-8309-87BA0E246FF0",
+            "label": "21. Human Biology",
+            "order": 20,
+            "resource": {
+              "category": "app",
+              "label": "",
+              "type": "googlePlay",
+              "url": ""
+            },
+            "thumbnail": {
+              "id": "6F5A514E-473A-4D90-B247-8EDFAAED621D",
+              "path": ""
+            },
+            "type": "image"
+          },
+          {
+            "filePath": "6CAC51D0-E1B9-4BFB-83B8-BD9A219C687B.bin",
+            "id": "D997D1F1-9F67-449D-A60B-9D1ACD3AC03E",
+            "label": "22. Prey to Predator to Conquerer",
+            "order": 21,
+            "resource": {
+              "category": "app",
+              "label": "",
+              "type": "googlePlay",
+              "url": ""
+            },
+            "summary": "Humans transition from vulnerable animals to dominant hunters and tool users.",
+            "thumbnail": {
+              "id": "F7A32BB7-55BC-419B-821C-7D1945068FC2",
+              "path": ""
+            },
+            "type": "image"
+          },
+          {
+            "filePath": "87BA4209-1ED8-4ED7-B59E-8E23DA723840.bin",
+            "id": "BD6B870E-6D21-40EE-AA7D-30EC7CA3032F",
+            "label": "23. Mesopotamia // Indus Valley",
+            "order": 22,
+            "resource": {
+              "category": "app",
+              "label": "",
+              "type": "googlePlay",
+              "url": ""
+            },
+            "summary": "Early river civilizations develop agriculture, cities, and written systems to manage growing societies.",
+            "thumbnail": {
+              "id": "F7FC553C-8D0D-4C53-9653-8816E30505D6",
+              "path": ""
+            },
+            "type": "image"
+          },
+          {
+            "filePath": "072586F0-EBBC-4E6A-95FD-FB03A11FEB32.bin",
+            "id": "4862A94A-5E36-41AA-8BDE-3C9D6666234A",
+            "label": "24. Ancient Egypt",
+            "order": 23,
+            "resource": {
+              "category": "app",
+              "label": "",
+              "type": "googlePlay",
+              "url": ""
+            },
+            "summary": "A centralized civilization built around the Nile, defined by long-lasting institutions and monumental architecture.",
+            "thumbnail": {
+              "id": "8069C235-B20E-471B-8894-CD29C7DD9D8C",
+              "path": ""
+            },
+            "type": "image"
+          },
+          {
+            "filePath": "7E3D5F6F-84C0-401B-AA03-C389AFE382CE.bin",
+            "id": "8E8366D7-914C-43D0-B302-674E5E044B06",
+            "label": "25. Akkadian Empire // Babylonian Dynasty",
+            "order": 24,
+            "resource": {
+              "category": "app",
+              "label": "",
+              "type": "googlePlay",
+              "url": ""
+            },
+            "summary": "Empires form through conquest and law, spreading shared systems across large regions.",
+            "thumbnail": {
+              "id": "617E4806-BAE0-4A65-914F-6107032A8A69",
+              "path": ""
+            },
+            "type": "image"
+          },
+          {
+            "filePath": "4D201CA0-21A5-4949-9260-9DE8648388CD.bin",
+            "id": "88DC7AE5-4A64-42A0-91D8-C28CBC5EFF6D",
+            "label": "26. Vedic Period // Shang Dynasty",
+            "order": 25,
+            "resource": {
+              "category": "app",
+              "label": "",
+              "type": "googlePlay",
+              "url": ""
+            },
+            "summary": "Religious traditions, social structures, and early states take shape in South and East Asia.",
+            "thumbnail": {
+              "id": "C02B523E-ABB1-497A-850D-FEDF2A33614D",
+              "path": ""
+            },
+            "type": "image"
+          },
+          {
+            "filePath": "0A8BD498-F6F1-4CC8-819C-11B268FEFB10.bin",
+            "id": "62AB2E92-6C5E-447B-9B37-4732DB68F826",
+            "label": "27. Ancient Greece",
+            "order": 26,
+            "resource": {
+              "category": "app",
+              "label": "",
+              "type": "googlePlay",
+              "url": ""
+            },
+            "summary": "Independent city-states and vast empires develop contrasting approaches to governance and culture.",
+            "thumbnail": {
+              "id": "646309CA-85E1-452C-B556-9D13948B10E5",
+              "path": ""
+            },
+            "type": "image"
+          },
+          {
+            "filePath": "53D83FAD-E2E0-4D11-86C2-E0F3671A348D.bin",
+            "id": "5986F413-2C41-43BB-97EC-E0673C175C79",
+            "label": "28. Persian Empire",
+            "order": 27,
+            "resource": {
+              "category": "app",
+              "label": "",
+              "type": "googlePlay",
+              "url": ""
+            },
+            "summary": "Independent city-states and vast empires develop contrasting approaches to governance and culture.",
+            "thumbnail": {
+              "id": "89C450B0-EC32-4643-968B-AB76C5FE9F8A",
+              "path": ""
+            },
+            "type": "image"
+          },
+          {
+            "filePath": "196F4329-21B1-439F-A8F1-EBEE52648FB8.bin",
+            "id": "9AC8118A-B17C-4BAF-9C7E-74963BFBC62A",
+            "label": "49. Quantum Revolution",
+            "order": 28,
+            "resource": {
+              "category": "app",
+              "label": "",
+              "type": "googlePlay",
+              "url": ""
+            },
+            "summary": "New theories overturn classical physics and redefine our understanding of reality.",
+            "thumbnail": {
+              "id": "C00AE86E-1EB1-498D-9613-105797D6AB34",
+              "path": ""
+            },
+            "type": "image"
+          }
+        ]
+      }
+    },
+    "createdAt": 590412667.72301,
+    "description": "This coloring book traces major moments in history through a series of hand-drawn illustrations. Each page focuses on a specific period or event, presenting information in a simple, visual way that can be engaged with by coloring. The drawings were made on an iPad using an Apple Pencil and then compiled into a printed format. The goal was to make the scope of history feel more manageable by breaking it into individual pages that invite slower, more focused attention. It’s meant for anyone curious about how large stretches of time and events connect, from the beginnings of life to the stories that shaped the world.",
+    "domain": "Creative",
+    "featured": false,
+    "genres": [
+      "Educational",
+      "Activity book"
+    ],
+    "id": "FC466C78-53F8-42F2-BD85-95F08E4A5544",
+    "images": {
+      "banner": "banner.png",
+      "thumbnail": "thumbnail.png"
+    },
+    "isPublic": true,
+    "mediums": [
+      "Coloring book"
+    ],
+    "phase": "abandoned",
+    "status": "done",
+    "story": "I started this project after finishing work on my TV pilot, during a period when I was watching a lot of PBS Eons and reading about science and early life. I missed drawing, especially the slower background work I had done on Greenhorn, but I’ve always had a hard time making art without a clear purpose. I tend to work better when there’s a defined structure behind the idea. The coloring book came out of that mix of curiosity and restlessness. I liked the idea of laying out the history of everything, one page at a time, in a format people could spend time with. For a while, the project felt steady and satisfying—the research, the drawing, and the accumulation of pages. Over time, though, it started to feel more like an obligation than an exploration, so I stopped working on it. In hindsight, it served its role. It gave me a reason to draw again, to approach history in a different way, and to value the process even though the book itself remains unfinished.",
+    "subjects": [
+      "History",
+      "Science",
+      "Universe",
+      "Human civilization"
+    ],
+    "subtitle": "A Coloring Book",
+    "summary": "A hand-drawn coloring book that maps major moments in history, designed to make large timelines feel more approachable one page at a time. The project functioned as a structured way to return to drawing and research, even though it was never fully completed.",
+    "tags": [
+      "Art",
+      "Illustration",
+      "Hand drawn"
+    ],
+    "title": "History of everything",
+    "topics": [
+      "Historical timelines",
+      "Origins of life"
+    ],
+    "updatedAt": 619359570.567772,
+    "name": "History of everything",
+    "folderName": "history_of_everything_FC466C78-53F8-42F2-BD85-95F08E4A5544"
+  },
+  {
     "category": "Story",
     "createdAt": 532952195.17305505,
     "description": "Greenhorn is an animated dark comedy-drama about Jeff Wyatt, a sixth grader forced to navigate grief, crime, and moral decay in the icy Alaskan town of Greenhorn. After accidentally killing a man, Jeff is blackmailed into joining a small-town gang, dragging his fractured family into a world of violence and manipulation. The series mixes grounded emotional storytelling with sharp humor, drawing tonal inspiration from Breaking Bad, South Park, and Rick and Morty. Beneath its absurdity runs a story about power, guilt, and the limits of control—how ordinary people rationalize extraordinary wrongdoing. The project is designed for adult animation audiences who appreciate shows that balance comedy with moral consequence and psychological realism.",
@@ -36,16 +643,74 @@
       "Animation"
     ],
     "title": "Greenhorn",
-    "updatedAt": 786624424.207523,
+    "updatedAt": 657798424.207523,
     "name": "Greenhorn",
     "folderName": "greenhorn_F3A1D353-A5DE-4622-9CE0-E0094471BC35"
+  },
+  {
+    "category": "Story",
+    "createdAt": 401117373.221702,
+    "description": "Mind Adrift is a short-form narrative work centered on cognitive decline and disorientation, told from the inside rather than observed from a distance. It follows a person who is still present in the world—surrounded by family, routines, and familiar spaces—but increasingly unable to connect those pieces into a stable sense of reality. Time slips, relationships blur, and moments repeat or contradict one another without warning.\n\nThe project is less about plot progression and more about structure and perspective. Scenes loop, reset, or fracture in ways that mirror how memory fails in real life. The goal is not to explain the condition or resolve it, but to place the audience inside that experience long enough to understand its logic and weight. It is designed for readers interested in character-driven narratives, psychological realism, and stories that prioritize internal experience over external action.",
+    "domain": "Creative",
+    "featured": false,
+    "genres": [
+      "Tragedy",
+      "Drama",
+      "Literary Fiction"
+    ],
+    "id": "EEE82D81-DCED-47AD-AE5E-30FAC8C56BE5",
+    "images": {
+      "thumbnail": "thumbnail.tiff"
+    },
+    "isPublic": true,
+    "mediums": [
+      "Short Story"
+    ],
+    "phase": "published",
+    "resources": [
+      {
+        "category": "download",
+        "label": "Mind Adrift PDF",
+        "type": "Mind Adrift",
+        "url": "/projects/mind_adrift_EEE82D81-DCED-47AD-AE5E-30FAC8C56BE5/Mind Adrift.pdf"
+      }
+    ],
+    "status": "done",
+    "story": "I made Mind Adrift because I wanted to explore what happens when memory becomes unreliable, not as a twist, but as the central condition of the story. I wasn’t interested in dramatizing decline from the outside. I wanted to write from a place where confusion feels reasonable and persistence feels like effort.\n\nThe process focused on restraint. I avoided explanations and leaned into repetition, small contradictions, and moments that don’t fully land. Writing it meant paying attention to how often we rely on memory to confirm who we are, and how unsettling it is when that system breaks down. This project became a way to slow that experience down and examine it without trying to fix it, letting the gaps and resets speak for themselves.",
+    "subjects": [
+      "Dementia",
+      "Grief and Loss",
+      "Relationships"
+    ],
+    "subtitle": "A Story of Forgetting and Holding On",
+    "summary": "Mind Adrift is a narrative project that explores what it feels like to lose continuity with your own life while still moving through it. It focuses on memory, identity, and the quiet confusion that comes from trying to stay oriented when your mind no longer cooperates.",
+    "tags": [
+      "Story",
+      "Family",
+      "Loss",
+      "Time",
+      "Perception",
+      "Disorientation",
+      "Aging",
+      "Grief",
+      "Memory"
+    ],
+    "title": "Mind Adrift",
+    "topics": [
+      "Family",
+      "Memory loss",
+      "Personal identity"
+    ],
+    "updatedAt": 401124113.54183304,
+    "name": "Mind Adrift",
+    "folderName": "mind_adrift_EEE82D81-DCED-47AD-AE5E-30FAC8C56BE5"
   },
   {
     "category": "System",
     "createdAt": 782236017.360592,
     "description": "ChewSense is an iOS app that helps people slow down while they eat and pay more attention to their habits. It uses the motion sensors in AirPods to pick up chewing—mainly through X-axis acceleration—and gives gentle alerts when someone might be eating too fast. The app records motion and optional video so it can learn a person’s eating pattern and adjust over time. The goal is simple: improve digestion, avoid overeating, and make meals feel more mindful without asking the user to track anything manually.",
     "domain": "Technology",
-    "featured": true,
+    "featured": false,
     "id": "96B6C759-C77C-41F9-AFA1-64325010C604",
     "images": {
       "banner": "banner.png",
@@ -85,7 +750,8 @@
     ],
     "title": "Chew Sense - Data Collection and Labelling",
     "topics": [
-      "Health"
+      "Health",
+      "Eating"
     ],
     "updatedAt": 786473287.596777,
     "name": "Chew Sense - Data Collection and Labelling",
@@ -138,6 +804,50 @@
     "updatedAt": 785264362.30178,
     "name": "MediLedger",
     "folderName": "mediledger_B9E63C92-6B9D-499C-A2B7-D72A7DA412EE"
+  },
+  {
+    "category": "Software",
+    "createdAt": 754574419.297672,
+    "description": "TowardBetter.me is a platform designed to help women find supportive communities around life transitions, personal growth, and difficult moments that are often navigated alone. I was brought on to build an announcement page that could clearly communicate the mission of the project while laying the technical groundwork for what would eventually become a larger, authenticated platform. The goal was to create something simple, welcoming, and trustworthy—an entry point that felt intentional rather than promotional.\n\nThe site was built with React and Next.js, with Firebase Authentication integrated to support future user accounts and onboarding flows. From the beginning, the focus was on clarity and structure: clean UI, predictable behavior, and a codebase that could evolve without needing to be rethought later. This project served as both a public-facing introduction and a technical foundation for what TowardBetter.me would grow into.",
+    "domain": "Technology",
+    "featured": false,
+    "id": "C7FB95D2-6AD5-4819-A578-87AC2DC76E0C",
+    "images": {
+      "thumbnail": "thumbnail.png"
+    },
+    "isPublic": true,
+    "mediums": [
+      "Web"
+    ],
+    "phase": "live",
+    "resources": [
+      {
+        "category": "url",
+        "label": "TowardBetter-Announcement-Page",
+        "type": "website",
+        "url": "https://zsturman.github.io/TowardBetter-Announcement-Page/"
+      },
+      {
+        "category": "repository",
+        "label": "Repo",
+        "type": "github",
+        "url": "https://github.com/ZSturman/TowardBetter-Announcement-Page"
+      }
+    ],
+    "status": "done",
+    "story": "This was the first project I worked on after returning to the U.S. from Australia, and in a lot of ways it marked a reset for me. Coming back, I wanted to be intentional about the kinds of projects I took on and the kinds of systems I helped build. TowardBetter.me stood out because it wasn’t about chasing features—it was about creating space, clarity, and trust for people who might already be overwhelmed.\n\nMy process was deliberately measured. I focused on building something that felt calm and grounded, both visually and structurally. Using Next.js gave me flexibility around performance and future expansion, while Firebase Auth allowed me to wire up real authentication early without overcomplicating the stack. I treated the announcement page less like a marketing artifact and more like the first chapter of a longer product story—something stable enough to stand on its own, but ready to support what came next.",
+    "subtitle": "Designing a calm, trustworthy entry point for community-driven support",
+    "summary": "An announcement page built for TowardBetter.me using React, Next.js, and Firebase Auth, designed as a clear and trustworthy entry point into a community-focused platform. It was my first project after returning from Australia and set the tone for how I wanted to approach product and system design moving forward.",
+    "tags": [
+      "React",
+      "Next.js",
+      "Firebase",
+      "Frontend"
+    ],
+    "title": "TowardBetter.me — Announcement Page",
+    "updatedAt": 760537453.047667,
+    "name": "TowardBetter.me — Announcement Page",
+    "folderName": "towardbetterme_announcement_page_C7FB95D2-6AD5-4819-A578-87AC2DC76E0C"
   },
   {
     "category": "Software",
@@ -305,7 +1015,7 @@
     "topics": [
       "Productivity"
     ],
-    "updatedAt": 786627011.258017,
+    "updatedAt": 787663811.258017,
     "name": "Top Note",
     "folderName": "top_note_AD76406D-450D-457B-96B4-4979A19EF490"
   },
@@ -561,6 +1271,7 @@
       "TypeScript"
     ],
     "title": "ZSDynamics v4.0",
+    "updatedAt": 784484467.39128,
     "name": "ZSDynamics v4.0",
     "folderName": "zsdynamics_v40_55B14B05-726C-45BC-ACF6-7D21C943B78E"
   },
@@ -650,10 +1361,10 @@
             "label": "TowardBetter",
             "order": 5,
             "resource": {
-              "category": "repository",
-              "label": "Repo",
-              "type": "github",
-              "url": "https://github.com/ZSturman/TowardBetter-Announcement-Page"
+              "category": "folio",
+              "label": "TowardBetter.me",
+              "type": "local-link",
+              "url": "/projects/C7FB95D2-6AD5-4819-A578-87AC2DC76E0C"
             },
             "summary": "The announcement page for a women’s community site.",
             "thumbnail": "thumbnail.png",
@@ -693,7 +1404,7 @@
       "JavaScript"
     ],
     "title": "Frontend Collection",
-    "updatedAt": 787067906.428231,
+    "updatedAt": 787668609.809411,
     "name": "Frontend Collection",
     "folderName": "frontend_collection_BB2F567C-B29C-4666-AABF-986E69AA9592"
   }

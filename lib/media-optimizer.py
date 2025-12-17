@@ -72,6 +72,20 @@ def check_ffmpeg() -> bool:
         return False
 
 
+def check_obj2gltf() -> bool:
+    """Check if obj2gltf is available in the system."""
+    try:
+        subprocess.run(
+            ["obj2gltf", "--version"],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            check=False
+        )
+        return True
+    except FileNotFoundError:
+        return False
+
+
 def get_file_size_mb(path: Path) -> float:
     """Get file size in megabytes."""
     return path.stat().st_size / (1024 * 1024)
@@ -504,10 +518,130 @@ def optimize_video_full(src: Path, output_dir: Optional[Path] = None) -> Dict[st
     return results
 
 
+def optimize_3d_model(src: Path, dest: Path) -> Optional[Path]:
+    """
+    Convert a 3D model to GLB format for web optimization.
+    
+    Currently supports:
+    - OBJ to GLB conversion (requires obj2gltf)
+    - Passthrough for GLB/GLTF files (already optimized)
+    
+    Args:
+        src: Source model path (.obj, .gltf, .glb, etc.)
+        dest: Destination GLB path
+    
+    Returns:
+        Path to optimized model, or None on failure
+    """
+    src_ext = src.suffix.lower()
+    
+    # If already GLB, just copy it
+    if src_ext == '.glb':
+        if src != dest:
+            try:
+                import shutil
+                shutil.copy2(src, dest)
+                return dest
+            except Exception as e:
+                print(f"Error copying GLB {src}: {e}", file=sys.stderr)
+                return None
+        return src
+    
+    # If GLTF, we could convert to GLB but for now just note it
+    if src_ext == '.gltf':
+        print(f"Note: {src.name} is GLTF. Consider converting to GLB for better performance.", file=sys.stderr)
+        return None
+    
+    # Convert OBJ to GLB
+    if src_ext == '.obj':
+        if not check_obj2gltf():
+            print("Warning: obj2gltf not found. Install with: npm install -g obj2gltf", file=sys.stderr)
+            print(f"Skipping {src.name}", file=sys.stderr)
+            return None
+        
+        try:
+            # obj2gltf command with optimization flags
+            cmd = [
+                'obj2gltf',
+                '-i', str(src),
+                '-o', str(dest),
+                '--binary',  # Output as GLB (binary)
+            ]
+            
+            # Check if there's an MTL file (material file)
+            mtl_path = src.with_suffix('.mtl')
+            if mtl_path.exists():
+                print(f"  Found material file: {mtl_path.name}")
+            
+            result = subprocess.run(
+                cmd,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                check=False
+            )
+            
+            if result.returncode == 0 and dest.exists():
+                original_size = get_file_size_mb(src)
+                new_size = get_file_size_mb(dest)
+                savings = ((original_size - new_size) / original_size * 100) if original_size > 0 else 0
+                print(f"  Converted {src.name}: {original_size:.2f}MB → {new_size:.2f}MB ({savings:.1f}% reduction)")
+                return dest
+            else:
+                error_msg = result.stderr.decode() if result.stderr else "Unknown error"
+                print(f"Error converting {src.name}: {error_msg}", file=sys.stderr)
+                return None
+        except Exception as e:
+            print(f"Error converting {src}: {e}", file=sys.stderr)
+            return None
+    
+    # Unsupported format
+    print(f"Warning: Unsupported 3D model format: {src_ext}", file=sys.stderr)
+    return None
+
+
+def optimize_3d_model_full(src: Path, output_dir: Optional[Path] = None) -> Dict[str, str]:
+    """
+    Generate optimized GLB version of a 3D model.
+    
+    Args:
+        src: Source model path
+        output_dir: Directory for optimized files (default: same as src)
+    
+    Returns:
+        Dictionary with optimization results:
+        {
+            'original': 'model.obj',
+            'optimized': 'model.glb',
+            'useCloudStorage': True/False
+        }
+    """
+    if output_dir is None:
+        output_dir = src.parent
+    
+    output_dir.mkdir(parents=True, exist_ok=True)
+    stem = src.stem
+    
+    results = {
+        'original': src.name,
+        'useCloudStorage': should_use_cloud_storage(src)
+    }
+    
+    # Generate optimized GLB
+    optimized_path = output_dir / f"{stem}.glb"
+    if optimize_3d_model(src, optimized_path):
+        results['optimized'] = optimized_path.name
+        # Update cloud storage check for optimized version
+        if optimized_path.exists():
+            results['useCloudStorage'] = should_use_cloud_storage(optimized_path)
+    
+    return results
+
+
 def batch_optimize_directory(
     directory: Path,
     image_exts: set = {'.jpg', '.jpeg', '.png', '.webp', '.gif', '.tiff', '.tif', '.bmp', '.ico', '.heic', '.heif'},
-    video_exts: set = {'.mp4', '.mov', '.webm'}
+    video_exts: set = {'.mp4', '.mov', '.webm'},
+    model_exts: set = {'.obj', '.gltf'}
 ) -> Dict[str, Dict[str, str]]:
     """
     Optimize all media files in a directory.
@@ -516,6 +650,7 @@ def batch_optimize_directory(
         directory: Directory to process
         image_exts: Set of image extensions to process
         video_exts: Set of video extensions to process
+        model_exts: Set of 3D model extensions to process
     
     Returns:
         Dictionary mapping original filenames to their variant info
@@ -526,6 +661,7 @@ def batch_optimize_directory(
     print(f"Scanning {directory} for media files...")
     all_images = []
     all_videos = []
+    all_models = []
     
     for file in directory.rglob('*'):
         if not file.is_file():
@@ -537,14 +673,20 @@ def batch_optimize_directory(
         if any(suffix in file.stem for suffix in ['-optimized', '-thumb', '-placeholder']):
             continue
         
+        # Skip GLB files (already optimized)
+        if ext == '.glb':
+            continue
+        
         if ext in image_exts:
             all_images.append(file)
         elif ext in video_exts:
             all_videos.append(file)
+        elif ext in model_exts:
+            all_models.append(file)
     
-    print(f"Found {len(all_images)} images and {len(all_videos)} videos")
+    print(f"Found {len(all_images)} images, {len(all_videos)} videos, and {len(all_models)} 3D models")
     
-    if not all_images and not all_videos:
+    if not all_images and not all_videos and not all_models:
         print("No media files found to optimize.")
         return results
     
@@ -557,6 +699,11 @@ def batch_optimize_directory(
     for i, file in enumerate(all_videos, 1):
         print(f"[{i}/{len(all_videos)}] Optimizing video: {file.relative_to(directory)}")
         results[str(file.relative_to(directory))] = optimize_video_full(file)
+    
+    # Process 3D models
+    for i, file in enumerate(all_models, 1):
+        print(f"[{i}/{len(all_models)}] Optimizing 3D model: {file.relative_to(directory)}")
+        results[str(file.relative_to(directory))] = optimize_3d_model_full(file)
     
     return results
 
@@ -604,6 +751,8 @@ if __name__ == "__main__":
             result = optimize_image_full(path, output_dir)
         elif ext in {'.mp4', '.mov', '.webm', '.avi'}:
             result = optimize_video_full(path, output_dir)
+        elif ext in {'.obj', '.gltf'}:
+            result = optimize_3d_model_full(path, output_dir)
         else:
             print(f"Error: Unsupported file type: {ext}", file=sys.stderr)
             sys.exit(1)

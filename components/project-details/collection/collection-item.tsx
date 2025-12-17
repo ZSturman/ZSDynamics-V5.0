@@ -10,7 +10,8 @@ import { Button } from "@/components/ui/button"
 import { Play, Pause, Volume2, VolumeX } from "lucide-react"
 import { Canvas } from "@react-three/fiber"
 import { OrbitControls, useGLTF, useAnimations } from "@react-three/drei"
-import type * as THREE from "three"
+import * as THREE from "three"
+import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader.js"
 import { CollectionItem, Project, Resource } from "@/types"
 import { ExternalLink, ArrowRight } from "lucide-react"
 import { CollectionFullscreen } from "./collection-item-fullscreen"
@@ -850,7 +851,25 @@ function ModelViewer({ item, onRequestFullscreen, folderName, collectionName, pr
   const [isPlaying, setIsPlaying] = useState(shouldAutoPlay)
   const [hasAnimations, setHasAnimations] = useState(false)
   
-  const itemPath = getItemPath(item, folderName, collectionName);
+  const rawPath = getItemPath(item, folderName, collectionName);
+  
+  // Convert to optimized GLB format for 3D models
+  const getOptimizedModelPath = (path: string | undefined): string | undefined => {
+    if (!path || typeof path !== 'string') return undefined;
+    
+    // If it's an external URL, return as-is
+    if (path.startsWith('http://') || path.startsWith('https://')) return path;
+    
+    // Convert OBJ/GLTF to GLB (optimized format)
+    if (path.match(/\.(obj|gltf)$/i)) {
+      return path.replace(/\.[^.]+$/, '.glb');
+    }
+    
+    // GLB files are already optimized
+    return path;
+  };
+  
+  const itemPath = getOptimizedModelPath(rawPath);
 
   const handlePlayClick = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -894,16 +913,29 @@ interface Model3DProps {
 }
 
 function Model3D({ path, isPlaying, loop, onAnimationsDetected }: Model3DProps) {
+  // Determine file type
+  const isOBJ = path.toLowerCase().endsWith('.obj')
+  const isGLTF = path.toLowerCase().endsWith('.gltf') || path.toLowerCase().endsWith('.glb')
+  
+  // Render the appropriate model component based on file type
+  if (isGLTF) {
+    return <GLTFModel path={path} isPlaying={isPlaying} loop={loop} onAnimationsDetected={onAnimationsDetected} />
+  }
+  
+  if (isOBJ) {
+    return <OBJModel path={path} onAnimationsDetected={onAnimationsDetected} />
+  }
+  
+  return null
+}
+
+function GLTFModel({ path, isPlaying, loop, onAnimationsDetected }: Model3DProps) {
   const group = useRef<THREE.Group>(null)
   const { scene, animations } = useGLTF(path)
   const { actions, names } = useAnimations(animations, group)
 
   useEffect(() => {
-    if (animations && animations.length > 0) {
-      onAnimationsDetected(true)
-    } else {
-      onAnimationsDetected(false)
-    }
+    onAnimationsDetected(animations.length > 0)
   }, [animations, onAnimationsDetected])
 
   useEffect(() => {
@@ -921,6 +953,43 @@ function Model3D({ path, isPlaying, loop, onAnimationsDetected }: Model3DProps) 
   }, [isPlaying, loop, actions, names])
 
   return <primitive ref={group} object={scene} />
+}
+
+function OBJModel({ path, onAnimationsDetected }: Omit<Model3DProps, 'isPlaying' | 'loop'>) {
+  const group = useRef<THREE.Group>(null)
+  const [model, setModel] = useState<THREE.Group | null>(null)
+  
+  useEffect(() => {
+    const loader = new OBJLoader()
+    loader.load(
+      path,
+      (object) => {
+        // Center the model
+        const box = new THREE.Box3().setFromObject(object)
+        const center = box.getCenter(new THREE.Vector3())
+        object.position.sub(center)
+        
+        // Scale to fit in view
+        const size = box.getSize(new THREE.Vector3())
+        const maxDim = Math.max(size.x, size.y, size.z)
+        const scale = 2 / maxDim
+        object.scale.multiplyScalar(scale)
+        
+        setModel(object)
+        onAnimationsDetected(false)
+      },
+      undefined,
+      (error) => {
+        console.error('Error loading OBJ:', error)
+      }
+    )
+  }, [path, onAnimationsDetected])
+
+  if (!model) {
+    return null
+  }
+
+  return <primitive ref={group} object={model} />
 }
 
 function GameViewer({ item, onRequestFullscreen, folderName, collectionName, project }: ExtendedCollectionItemViewerProps) {

@@ -5,6 +5,7 @@ export interface Resource {
   type: ResourceType;
   label: string;
   url: string;
+  category?: string;
 }
 
 export type CollectionItemType =

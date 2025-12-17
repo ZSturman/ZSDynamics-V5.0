@@ -35,8 +35,6 @@ interface ProjectFiltersProps {
   sort?: "newest" | "oldest" | "title-asc" | "title-desc";
   totalCount?: number;
   visibleCount?: number;
-  showAll?: boolean;
-  onShowAllToggle?: (v: boolean) => void;
   initialSearch?: string;
   initialMedium?: string[];
   initialStatus?: string[];
@@ -51,15 +49,12 @@ export function ProjectFilters({
   onViewModeChange,
   onSortChange,
   sort = "newest",
-  showAll = false,
-  onShowAllToggle,
   initialSearch = "",
   initialMedium = ["all"],
   initialStatus = ["all"],
   initialTags = [],
 }: ProjectFiltersProps) {
-  const [isSearchOpen, setIsSearchOpen] = useState(false)
-  const [isFeaturedAnimating, setIsFeaturedAnimating] = useState(false)
+  const [isSearchFocused, setIsSearchFocused] = useState(true)
   const [searchQuery, setSearchQuery] = useState<string>(initialSearch)
   const [suggestions, setSuggestions] = useState<string[]>([])
   const searchInputRef = useRef<HTMLInputElement>(null)
@@ -167,23 +162,23 @@ export function ProjectFilters({
 
   // Auto-focus search input when opened
   useEffect(() => {
-    if (isSearchOpen && searchInputRef.current) {
+    if (!isSearchFocused && searchInputRef.current) {
       searchInputRef.current.focus()
     }
-  }, [isSearchOpen])
+  }, [isSearchFocused])
 
   // Handle escape key to close search
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
-      if (e.key === "Escape" && isSearchOpen) {
-        setIsSearchOpen(false)
+      if (e.key === "Escape" && searchInputRef.current === document.activeElement) {
         setSearchQuery("")
         setSuggestions([])
+        searchInputRef.current?.blur()
       }
     }
     document.addEventListener("keydown", onKey)
     return () => document.removeEventListener("keydown", onKey)
-  }, [isSearchOpen])
+  }, [isSearchFocused])
 
   // Propagate filter changes
   useEffect(() => {
@@ -215,7 +210,6 @@ export function ProjectFilters({
   const handleSearchClear = () => {
     setSearchQuery("")
     setSuggestions([])
-    setIsSearchOpen(false)
   }
 
   const clearAllFilters = () => {
@@ -225,7 +219,6 @@ export function ProjectFilters({
     setSelectedTags([])
     setSearchQuery("")
     setSuggestions([])
-    onShowAllToggle?.(true)
   }
 
   const removeDomainFilter = (domain: string) => {
@@ -253,43 +246,13 @@ export function ProjectFilters({
     <div className="mb-4 space-y-3">
       {/* Single row with all controls */}
       <div className="flex items-center gap-2 flex-wrap">
-        {/* Featured toggle - star icon */}
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => {
-            onShowAllToggle?.(!showAll)
-            setIsFeaturedAnimating(true)
-            setTimeout(() => setIsFeaturedAnimating(false), 200)
-          }}
-          className={`min-h-[40px] min-w-[40px] px-2 transition-transform duration-200 ${
-            isFeaturedAnimating ? "scale-105" : "scale-100"
-          }`}
-          title={showAll ? "Show featured only" : "Show all projects"}
-        >
-          <p>
-            <span className="sr-only">Show </span>{showAll ? "Showing All Projects" : "Showing Featured Only"}
-          </p>
-        </Button>
-
-
         {/* Search - collapsible */}
-        {!isSearchOpen ? (
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => setIsSearchOpen(true)}
-            className="min-h-[40px] min-w-[40px] p-0"
-            title="Search projects"
-          >
-            <Search className="h-4 w-4" />
-          </Button>
-        ) : (
+
           <div className="relative flex-1 max-w-md">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
               ref={searchInputRef}
-              placeholder="Search projects..."
+              placeholder="Search (e.g., tag:react, medium:video, status:completed, tags:react)"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-9 pr-9 h-10"
@@ -320,7 +283,7 @@ export function ProjectFilters({
               </div>
             )}
           </div>
-        )}
+        
 
         {/* Spacer to push right-side controls */}
         <div className="flex-1" />

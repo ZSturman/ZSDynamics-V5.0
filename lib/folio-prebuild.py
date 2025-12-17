@@ -318,7 +318,7 @@ def copy_images_for_project(proj_dir: Path, project_obj: dict, public_projects_r
 
 
 def copy_resources_for_project(proj_dir: Path, project_obj: dict, public_projects_root: Path) -> list[str]:
-    """Copy files for resources with type 'local-download' into public/projects/<folder_name>/.
+    """Copy files for resources with category 'download' or type 'local-download' into public/projects/<folder_name>/.
     Updates each resource's 'url' to point to the public path ("/projects/<folder_name>/<filename>").
     Returns list of destination paths copied (strings).
     """
@@ -374,8 +374,15 @@ def copy_resources_for_project(proj_dir: Path, project_obj: dict, public_project
             # nothing to copy for local-link, continue to next resource
             continue
 
-        if res.get("type") != "local-download":
+        # Check for both category=="download" and type=="local-download"
+        category = res.get("category", "").lower() if res.get("category") else ""
+        rtype_lower = (res.get("type") or "").lower()
+        is_download = category == "download" or rtype_lower == "local-download"
+        
+        if not is_download:
             continue
+
+        # Get the URL value for download resources
         url_val = res.get("url")
         if not url_val:
             continue
@@ -504,7 +511,7 @@ def copy_collection_for_project(proj_dir: Path, project_obj: dict, public_projec
             if item.get("filePath"):
                 fp = item["filePath"]
                 if isinstance(fp, dict):
-                    path_for_type = fp.get("pathToEdited") or fp.get("pathToOriginal")
+                    path_for_type = fp.get("path") or fp.get("pathToEdited") or fp.get("pathToOriginal")
                 elif isinstance(fp, str):
                     path_for_type = fp
             elif item.get("path"):
@@ -580,8 +587,20 @@ def copy_collection_for_project(proj_dir: Path, project_obj: dict, public_projec
                         dest.parent.mkdir(parents=True, exist_ok=True)
                         shutil.copy2(found, dest)
                         out.append(str(dest))
-                        # update filePath to just the filename
-                        item["filePath"] = found.name
+                        
+                        # For 3D models, check if an optimized GLB version exists
+                        if normalized_type == "3d-model" and found.suffix.lower() in {'.obj', '.gltf'}:
+                            glb_path = item_dir / f"{found.stem}.glb"
+                            if glb_path.exists():
+                                # Use the optimized GLB filename instead
+                                item["filePath"] = glb_path.name
+                                print(f"  Using optimized GLB: {glb_path.name}")
+                            else:
+                                # Keep original filename if GLB doesn't exist yet
+                                item["filePath"] = found.name
+                        else:
+                            # For non-3D-model types, use the copied filename
+                            item["filePath"] = found.name
                     except Exception:
                         pass
 

@@ -25,7 +25,7 @@ export default function ResourceButton({
   const { setPreviousPath } = useBreadcrumb();
 
     // Check if this is a folio resource (local project link)
-  const isFolio = resource.type === "folio" || resource.type === "Folio" || (typeof resource.url === "string" && resource.url.startsWith("/projects/"));
+  const isFolio = resource.type === "folio" || resource.type === "Folio" || (typeof resource.url === "string" && resource.url.startsWith("/projects/") && resource.category !== "download");
 
   const icon = bestIconPath(isFolio ? "folio" : resource.type);
   
