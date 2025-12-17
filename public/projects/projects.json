@@ -1,5 +1,46 @@
 [
   {
+    "category": "Story",
+    "createdAt": 532952195.17305505,
+    "description": "Greenhorn is an animated dark comedy-drama about Jeff Wyatt, a sixth grader forced to navigate grief, crime, and moral decay in the icy Alaskan town of Greenhorn. After accidentally killing a man, Jeff is blackmailed into joining a small-town gang, dragging his fractured family into a world of violence and manipulation. The series mixes grounded emotional storytelling with sharp humor, drawing tonal inspiration from Breaking Bad, South Park, and Rick and Morty. Beneath its absurdity runs a story about power, guilt, and the limits of control—how ordinary people rationalize extraordinary wrongdoing. The project is designed for adult animation audiences who appreciate shows that balance comedy with moral consequence and psychological realism.",
+    "domain": "Creative",
+    "featured": false,
+    "genres": [
+      "Comedy",
+      "Crime Drama"
+    ],
+    "id": "F3A1D353-A5DE-4622-9CE0-E0094471BC35",
+    "images": {
+      "banner": "banner.png",
+      "poster": "poster.tiff",
+      "thumbnail": "thumbnail.tiff"
+    },
+    "isPublic": true,
+    "mediums": [
+      "Television"
+    ],
+    "phase": "released",
+    "resources": [
+      {
+        "category": "url",
+        "label": "Pilot Episode",
+        "type": "youtube",
+        "url": "https://www.youtube.com/watch?v=QTkuCfIJOps"
+      }
+    ],
+    "status": "done",
+    "story": "This story began as a thought experiment that shifted forms countless times before becoming Greenhorn. I started with the feeling of pressure—wanting to tell a story that felt big while being able to make it entirely on my own. Film was too expensive, too dependent on others, so animation became the path forward. After watching Breaking Bad and Rick and Morty, I became fascinated by how both could balance humor and despair within a single frame. The sad endings of Futurama and Rick and Morty stayed with me, the ones that lingered long after the joke was over. I wanted to build something that could carry that same weight, but through characters that felt painfully human despite their absurdity. Over time, Greenhorn grew into a study of how good intentions curdle under pressure and how easy it is to justify doing the wrong thing for the right reason. Each rewrite brought it closer to the story I saw in my head—the one about a kid who thinks he’s coasting through life but ends up steering straight into hell.",
+    "subtitle": "A TV Pilot",
+    "summary": "An Alaskan middle schooler accidentally kills a man and is pulled into a spiraling world of crime, power, and consequence, turning a small town into his personal battlefield.",
+    "tags": [
+      "Animation"
+    ],
+    "title": "Greenhorn",
+    "updatedAt": 786624424.207523,
+    "name": "Greenhorn",
+    "folderName": "greenhorn_F3A1D353-A5DE-4622-9CE0-E0094471BC35"
+  },
+  {
     "category": "System",
     "createdAt": 782236017.360592,
     "description": "ChewSense is an iOS app that helps people slow down while they eat and pay more attention to their habits. It uses the motion sensors in AirPods to pick up chewing—mainly through X-axis acceleration—and gives gentle alerts when someone might be eating too fast. The app records motion and optional video so it can learn a person’s eating pattern and adjust over time. The goal is simple: improve digestion, avoid overeating, and make meals feel more mindful without asking the user to track anything manually.",
