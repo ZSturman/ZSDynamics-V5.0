@@ -803,7 +803,8 @@
     ],
     "updatedAt": 785264362.30178,
     "name": "MediLedger",
-    "folderName": "mediledger_B9E63C92-6B9D-499C-A2B7-D72A7DA412EE"
+    "folderName": "mediledger_B9E63C92-6B9D-499C-A2B7-D72A7DA412EE",
+    "featuredOrder": 3
   },
   {
     "category": "Software",
@@ -1017,7 +1018,8 @@
     ],
     "updatedAt": 787663811.258017,
     "name": "Top Note",
-    "folderName": "top_note_AD76406D-450D-457B-96B4-4979A19EF490"
+    "folderName": "top_note_AD76406D-450D-457B-96B4-4979A19EF490",
+    "featuredOrder": 1
   },
   {
     "category": "Software",
@@ -1406,6 +1408,7 @@
     "title": "Frontend Collection",
     "updatedAt": 787668609.809411,
     "name": "Frontend Collection",
-    "folderName": "frontend_collection_BB2F567C-B29C-4666-AABF-986E69AA9592"
+    "folderName": "frontend_collection_BB2F567C-B29C-4666-AABF-986E69AA9592",
+    "featuredOrder": 2
   }
 ]

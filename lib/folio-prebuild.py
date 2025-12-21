@@ -1496,6 +1496,67 @@ def main():
     logger.info(f"Resolving folio resources with {len(folio_url_to_id)} known folio URLs")
     all_projects = resolve_folio_resources(all_projects, folio_url_to_id)
     
+    # Interactive featured project ordering prompt
+    featured_projects = [p for p in all_projects if p.get("featured")]
+    if featured_projects:
+        print("\n⭐ Featured Projects Ordering")
+        print("━" * 60)
+        print("The following projects are marked as featured:")
+        for idx, proj in enumerate(featured_projects, 1):
+            title = proj.get("title", "Untitled")
+            proj_id = proj.get("id", "No ID")
+            print(f"  {idx}. {title}")
+            print(f"     ID: {proj_id}")
+        
+        print("\n" + "━" * 60)
+        print("Enter the order you want these featured projects to appear")
+        print("as comma-separated numbers (e.g., '1,3,2' or '2,1,3').")
+        print("Press Enter to skip and keep current order.")
+        print("━" * 60)
+        
+        try:
+            user_input = input("Order: ").strip()
+            
+            if user_input:
+                # Parse the input
+                order_indices = [int(x.strip()) for x in user_input.split(",")]
+                
+                # Validate indices
+                valid = True
+                for idx in order_indices:
+                    if idx < 1 or idx > len(featured_projects):
+                        print(f"❌ Error: Index {idx} is out of range (1-{len(featured_projects)})")
+                        valid = False
+                        break
+                
+                if valid and len(set(order_indices)) == len(order_indices):
+                    # Apply the ordering
+                    for position, original_idx in enumerate(order_indices, 1):
+                        project = featured_projects[original_idx - 1]
+                        project["featuredOrder"] = position
+                    
+                    # For any featured projects not in the list, don't assign order
+                    ordered_ids = {featured_projects[i - 1].get("id") for i in order_indices}
+                    for proj in featured_projects:
+                        if proj.get("id") not in ordered_ids:
+                            # Remove featuredOrder if it exists
+                            proj.pop("featuredOrder", None)
+                    
+                    print(f"✅ Applied custom order to {len(order_indices)} featured projects")
+                elif not valid:
+                    print("⚠️  Invalid input. Keeping current order.")
+                else:
+                    print("❌ Error: Duplicate indices found. Keeping current order.")
+            else:
+                print("⏭️  Skipped ordering. Featured projects will use current order.")
+        except ValueError:
+            print("❌ Error: Invalid input format. Keeping current order.")
+        except KeyboardInterrupt:
+            print("\n⚠️  Interrupted. Keeping current order.")
+        except EOFError:
+            # Handle non-interactive mode (CI/CD, etc.)
+            print("⏭️  Non-interactive mode detected. Skipping ordering.")
+    
     # Extract all external image hostnames from projects
     external_hostnames = extract_external_image_hostnames(all_projects)
     

@@ -59,13 +59,6 @@ export function ProjectListItem({ project, onClick, sortField = "updatedAt" }: P
           <div className="flex flex-row items-center justify-between gap-1 md:gap-4 mb-1 md:mb-3 me-1.5 max-w-full">
             <div className="flex flex-row items-start gap-0.5 md:gap-1 min-w-0 flex-1">
               <h3 className="text-xs md:text-lg font-semibold text-foreground group-hover:text-primary transition-colors break-words max-w-[calc(100%-4rem)] flex items-center">
-                {Boolean(
-                  (project as unknown as { featured?: boolean }).featured
-                ) && (
-                  <span className="text-yellow-400" title="Starred">
-                    ★{" "}
-                  </span>
-                )}
                 {project.title}
                 </h3>
             

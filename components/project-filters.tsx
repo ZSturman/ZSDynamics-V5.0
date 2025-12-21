@@ -245,48 +245,43 @@ export function ProjectFilters({
   return (
     <div className="mb-4 space-y-3">
       {/* Single row with all controls */}
-      <div className="flex items-center gap-2 flex-wrap">
-        {/* Search - collapsible */}
-
-          <div className="relative flex-1 max-w-md">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input
-              ref={searchInputRef}
-              placeholder="Search (e.g., tag:react, medium:video, status:completed, tags:react)"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-9 pr-9 h-10"
-            />
-            <button
-              onClick={handleSearchClear}
-              className="absolute right-3 top-1/2 -translate-y-1/2 hover:text-foreground text-muted-foreground"
-              title="Clear search"
-            >
-              <X className="h-4 w-4" />
-            </button>
-            {/* Suggestions dropdown */}
-            {suggestions.length > 0 && (
-              <div className="absolute top-full left-0 right-0 mt-1 bg-popover border rounded-md shadow-lg z-50 max-h-48 overflow-auto">
-                {suggestions.map((suggestion) => (
-                  <button
-                    key={suggestion}
-                    onClick={() => {
-                      const prefix = searchQuery.split(":")[0] + ":"
-                      setSearchQuery(prefix + suggestion)
-                      setSuggestions([])
-                    }}
-                    className="w-full text-left px-3 py-2 hover:bg-accent text-sm"
-                  >
-                    {suggestion}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-        
-
-        {/* Spacer to push right-side controls */}
-        <div className="flex-1" />
+      <div className="flex items-center gap-2">
+        {/* Search - takes remaining space */}
+        <div className="relative flex-1">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Input
+            ref={searchInputRef}
+            placeholder="Search (e.g., tag:react, medium:video, status:completed, tags:react)"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="pl-9 pr-9 h-10"
+          />
+          <button
+            onClick={handleSearchClear}
+            className="absolute right-3 top-1/2 -translate-y-1/2 hover:text-foreground text-muted-foreground"
+            title="Clear search"
+          >
+            <X className="h-4 w-4" />
+          </button>
+          {/* Suggestions dropdown */}
+          {suggestions.length > 0 && (
+            <div className="absolute top-full left-0 right-0 mt-1 bg-popover border rounded-md shadow-lg z-50 max-h-48 overflow-auto">
+              {suggestions.map((suggestion) => (
+                <button
+                  key={suggestion}
+                  onClick={() => {
+                    const prefix = searchQuery.split(":")[0] + ":"
+                    setSearchQuery(prefix + suggestion)
+                    setSuggestions([])
+                  }}
+                  className="w-full text-left px-3 py-2 hover:bg-accent text-sm"
+                >
+                  {suggestion}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
 
         {/* Sort dropdown */}
         <DropdownMenu>

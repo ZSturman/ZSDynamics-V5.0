@@ -50,6 +50,7 @@ export interface Project {
   requiresFollowUp?: boolean;
   createdAt: string;           // ISO 8601 or timestamp
   updatedAt: string;           // ISO 8601 or timestamp
+  featuredOrder?: number;
   
   assetsFolder?: string;
   
