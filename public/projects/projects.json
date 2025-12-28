@@ -706,6 +706,51 @@
     "folderName": "mind_adrift_EEE82D81-DCED-47AD-AE5E-30FAC8C56BE5"
   },
   {
+    "category": "Story",
+    "createdAt": 440752495.54586804,
+    "description": "Timeline 7 is a sprawling science fiction novel set hundreds of years after a catastrophic global collapse. The story follows a future civilization struggling to rebuild from the ashes of war, plague, and corruption. Human survivors, fractured into evolving species and new hierarchies, rediscover power, morality, and identity amid shifting political and biological landscapes. Through multiple intersecting perspectives—a soldier, a scientist, and a sentient machine—the book explores how progress and destruction often walk hand in hand. Written for readers who enjoy world-building and layered timelines, Timeline 7 examines the cyclical nature of humanity’s rise and fall with an eye toward resilience and reinvention.",
+    "domain": "Creative",
+    "featured": false,
+    "genres": [
+      "Science Fiction",
+      "Post-Apocalyptic"
+    ],
+    "id": "7AFC000A-A537-42EF-A4B4-40D3258435B0",
+    "images": {
+      "banner": "banner.png",
+      "thumbnail": "thumbnail.png"
+    },
+    "isPublic": true,
+    "mediums": [
+      "Novel"
+    ],
+    "phase": "Published",
+    "resources": [
+      {
+        "category": "download",
+        "label": "Timeline 7 PDF",
+        "type": "Timeline 7 by Zachary Sturman",
+        "url": "/projects/timeline_7_7AFC000A-A537-42EF-A4B4-40D3258435B0/Timeline 7 by Zachary Sturman.pdf"
+      }
+    ],
+    "status": "Done",
+    "story": "This was the first long project I ever truly finished. I began it in Anchorage during long, quiet hours at a news station job that left me more time than purpose. When I moved to Kansas City and took a telemarketing job I didn’t like, the story became an escape. By the time I finished it in Colorado, it had followed me through three states and several stages of who I was becoming. The original idea came from childhood—stories I imagined on a swing set about futuristic heroes fighting impossible wars. Those fragments stayed with me until I decided to give them a world and a structure.\n\nWriting Timeline 7 taught me more about storytelling than anything else I’ve done. I didn’t know exactly how it would end, and in truth, it never quite did. I even started a sequel that I’ll probably never finish. Reading it later, I realized the story wanted to be something else—a graphic novel or maybe a video game—something more visual and alive than a book could hold. Still, finishing it mattered. It was proof I could see something through from beginning to end, even if I later learned it needed a different form.",
+    "subtitle": "Across time, technology, and survival—what remains of humanity fights to define itself again.",
+    "summary": "A post-apocalyptic science fiction story about humanity’s struggle to rebuild after self-destruction, told through intertwined lives across generations and technologies. It’s a personal milestone as much as a narrative one—the first complete story of a lifelong idea.",
+    "tags": [
+      "Epic",
+      "SciFi"
+    ],
+    "title": "Timeline 7",
+    "topics": [
+      "Technology vs Humanity",
+      "Time Travel"
+    ],
+    "updatedAt": 501907437.672914,
+    "name": "Timeline 7",
+    "folderName": "timeline_7_7AFC000A-A537-42EF-A4B4-40D3258435B0"
+  },
+  {
     "category": "System",
     "createdAt": 782236017.360592,
     "description": "ChewSense is an iOS app that helps people slow down while they eat and pay more attention to their habits. It uses the motion sensors in AirPods to pick up chewing—mainly through X-axis acceleration—and gives gentle alerts when someone might be eating too fast. The app records motion and optional video so it can learn a person’s eating pattern and adjust over time. The goal is simple: improve digestion, avoid overeating, and make meals feel more mindful without asking the user to track anything manually.",
