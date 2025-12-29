@@ -50,6 +50,245 @@
     "folderName": "3d_models_collection_F0FAAE95-5037-4030-B0CB-A4C0F7F700F6"
   },
   {
+    "category": "Other",
+    "collection": {
+      "2D": {
+        "images": {},
+        "items": [
+          {
+            "filePath": "The Vortex.mov",
+            "id": "DB9648E5-C64B-420C-83A8-21187DF4FFA6",
+            "label": "The Vortex",
+            "order": 0,
+            "resource": {
+              "category": "app",
+              "label": "",
+              "type": "Google Play",
+              "url": ""
+            },
+            "summary": "This was basically an animation test of a character jumping off a cliff, but the real goal was to play with camera movement, staging, and perspective. It shows the character from a bunch of different angles and in different poses so I could practice movement, timing, and action.",
+            "thumbnail": {
+              "id": "12E143EF-AB4F-4ED4-B28D-686DF42C2488",
+              "path": ""
+            },
+            "type": "video"
+          },
+          {
+            "filePath": "Easter Bunny.mov",
+            "id": "963324A2-DC62-48BC-8CBD-FD467F53CE91",
+            "label": "Easter Bunny",
+            "order": 1,
+            "resource": {
+              "category": "app",
+              "label": "",
+              "type": "Google Play",
+              "url": ""
+            },
+            "summary": "This was a goofy little animation I made that imagines the Easter Bunny as the unlikely hero of the Easter story. It shows the bunny stumbling upon Jesus after the crucifixion and saving Him, basically giving a ridiculous alternate “origin story” for the Easter Bunny and why he becomes such a symbolic character. It’s meant to be playful, weird, and not taken too seriously.",
+            "thumbnail": {
+              "id": "9D049E89-A479-4102-94AB-D097AB0B0AB2",
+              "path": ""
+            },
+            "type": "video"
+          },
+          {
+            "filePath": "Santa.mov",
+            "id": "FCCD6BF4-42C9-4C52-AB2B-A7173479B7CB",
+            "label": "Santa",
+            "order": 2,
+            "resource": {
+              "category": "app",
+              "label": "",
+              "type": "Google Play",
+              "url": ""
+            },
+            "summary": "This one is a darker, funny short where Santa spends the entire year obsessively trying to lose weight… only for Christmas to roll around and reveal that he has a full-blown cookie addiction. It’s a ridiculous, exaggerated take on Santa with a slightly messed-up sense of humor.",
+            "thumbnail": {
+              "id": "057B013F-3146-499E-AC52-E8D28D71BB74",
+              "path": ""
+            },
+            "type": "video"
+          },
+          {
+            "filePath": "Greenhorn version 1.mov",
+            "id": "5692E011-BC7E-4BFC-A90E-847A1B0CEFDE",
+            "label": "Greenhorn V1",
+            "order": 3,
+            "resource": {
+              "category": "folio",
+              "label": "Greenhorn",
+              "type": "local-link",
+              "url": "/projects/F3A1D353-A5DE-4622-9CE0-E0094471BC35"
+            },
+            "summary": "This was my first attempt at what Greenhorn as a show could look like. It has a lot of Cyanide & Happiness vibes in tone and style, kind of crude, simple, and punchline-driven.",
+            "thumbnail": {
+              "id": "F48AE053-333D-45B4-ACAA-0141743BA6E0",
+              "path": ""
+            },
+            "type": "video",
+            "url": "/projects/F3A1D353-A5DE-4622-9CE0-E0094471BC35"
+          },
+          {
+            "filePath": "Greenhorn - Uncanny.mov",
+            "id": "02FC22DE-56D0-43E3-A85A-CE0D01CE74FC",
+            "label": "Greenhorn Uncanny",
+            "order": 4,
+            "resource": {
+              "category": "folio",
+              "label": "Greenhorn",
+              "type": "local-link",
+              "url": "/projects/F3A1D353-A5DE-4622-9CE0-E0094471BC35"
+            },
+            "summary": "Another experiment with Greenhorn, but this time I pushed the characters toward a much more human, slightly unsettling style. It’s basically me exploring how weird the show could feel visually.",
+            "thumbnail": {
+              "id": "77641C33-E2D2-4DC1-B4C1-7402643D00E1",
+              "path": ""
+            },
+            "type": "video",
+            "url": "/projects/F3A1D353-A5DE-4622-9CE0-E0094471BC35"
+          },
+          {
+            "filePath": "Greenhorn - Less Animated.mov",
+            "id": "A329F037-5B8E-4D12-B452-7248AA7BCD74",
+            "label": "Greenhorn Less Animated",
+            "order": 5,
+            "resource": {
+              "category": "folio",
+              "label": "Greenhorn",
+              "type": "local-link",
+              "url": "/projects/F3A1D353-A5DE-4622-9CE0-E0094471BC35"
+            },
+            "summary": "This version was closer to a moving storyboard than a full animation. The characters look very different, and the focus was more on storytelling and beats rather than fluid animation.",
+            "thumbnail": {
+              "id": "4D0254F0-486D-4236-971A-5888FDBC1F31",
+              "path": ""
+            },
+            "type": "video",
+            "url": "/projects/F3A1D353-A5DE-4622-9CE0-E0094471BC35"
+          },
+          {
+            "filePath": "Funeral.mov",
+            "id": "BE2DC8B0-910B-4466-995E-F230AFCF7268",
+            "label": "Funeral",
+            "order": 6,
+            "resource": {
+              "category": "app",
+              "label": "",
+              "type": "Google Play",
+              "url": ""
+            },
+            "summary": "A silly sketch about a jerk’s funeral. It leans into dark humor and just kind of plays with the idea of how people might actually feel when someone awful dies.",
+            "thumbnail": {
+              "id": "F81797CF-C343-49B1-AD09-E9C022982A58",
+              "path": ""
+            },
+            "type": "video"
+          },
+          {
+            "filePath": "Cheap_Timeline_7_S1.mov",
+            "id": "A407536C-7482-4FB1-AD0B-3C62BC3791EC",
+            "label": "Timeline 7 – Cheap Version",
+            "order": 7,
+            "resource": {
+              "category": "folio",
+              "label": "Timeline 7",
+              "type": "local-link",
+              "url": "/projects/7AFC000A-A537-42EF-A4B4-40D3258435B0"
+            },
+            "summary": "When I thought Timeline 7 might become an animation, I made this super rough, cheap-looking version just to get the idea out and see what it might feel like.",
+            "thumbnail": {
+              "id": "6B078CC3-94EA-4672-8FD2-12C68BE53DB2",
+              "path": ""
+            },
+            "type": "video",
+            "url": "/projects/7AFC000A-A537-42EF-A4B4-40D3258435B0"
+          },
+          {
+            "filePath": "Cheap T7.mov",
+            "id": "21031255-A941-4541-8FC2-C2E09FFADD13",
+            "label": "Timeline 7 – Slightly Better Version",
+            "order": 8,
+            "resource": {
+              "category": "folio",
+              "label": "Timeline 7",
+              "type": "local-link",
+              "url": "/projects/7AFC000A-A537-42EF-A4B4-40D3258435B0"
+            },
+            "summary": "Same idea as the cheap version, but this time I realized backgrounds kind of matter, so I actually hand-drew them and bumped the quality up a bit.",
+            "thumbnail": {
+              "id": "1CE9E538-0641-4FD9-80B2-57F2F0F2339F",
+              "path": ""
+            },
+            "type": "video",
+            "url": "/projects/7AFC000A-A537-42EF-A4B4-40D3258435B0"
+          },
+          {
+            "filePath": "Channel 5 News - Bo Burnham.mov",
+            "id": "C59E86C1-6557-4652-8073-DAB7B268A21E",
+            "label": "Channel 5 News",
+            "order": 9,
+            "resource": {
+              "category": "app",
+              "label": "",
+              "type": "Google Play",
+              "url": ""
+            },
+            "summary": "This was a lip sync animation test using a Bo Burnham song. Mostly just me practicing mouth shapes, timing, and expressiveness.",
+            "thumbnail": {
+              "id": "93488390-EF17-40BC-960A-8D1C7CD9411F",
+              "path": ""
+            },
+            "type": "video"
+          },
+          {
+            "filePath": "Bass_Ackward_Lip_Sync_Test.mov",
+            "id": "758D142D-EB2B-4F84-B178-BAFE97EB8CB6",
+            "label": "Bassakwards",
+            "order": 10,
+            "resource": {
+              "category": "app",
+              "label": "",
+              "type": "Google Play",
+              "url": ""
+            },
+            "summary": "Another lip sync test, but this time using a Tech N9ne track, which meant faster pacing and trickier timing. It was mainly about pushing accuracy and rhythm.",
+            "thumbnail": {
+              "id": "957E0E3F-C786-4ACD-B6F9-7F473F160214",
+              "path": ""
+            },
+            "type": "video"
+          }
+        ]
+      }
+    },
+    "createdAt": 415278441.44893646,
+    "description": "This collection brings together a range of animations produced across different periods, tools, and creative goals. It includes 3D models and scenes developed in Blender alongside 2D animations focused on timing, clarity, and visual communication. Some works are polished and complete, while others function more as studies—short explorations of movement, structure, or technique. Together, they show how ideas evolve when approached through different dimensions and constraints. The collection is intended for viewers interested in process as much as outcome, offering a clear look at how visual ideas are tested, refined, and sometimes left intentionally unresolved.",
+    "domain": "Creative",
+    "featured": false,
+    "id": "C99BCDBF-5992-44EE-A939-E55CE8CF945A",
+    "images": {
+      "thumbnail": "thumbnail.webp"
+    },
+    "isPublic": true,
+    "phase": "Designing",
+    "status": "In Progress",
+    "story": "I created these animations at different points while learning, experimenting, and working through specific visual problems. Some started as technical exercises—understanding lighting, rigging, or motion curves—while others came from a desire to translate an idea into something that moved and felt coherent. Working across both 2D and 3D helped me think more precisely about space, pacing, and intent. This collection isn’t meant to present a single style or conclusion, but rather to document how my approach to animation has changed over time, and what I’ve learned by building things that move instead of just imagining them.",
+    "subtitle": "A personal archive of motion studies, experiments, and finished pieces across 2D and 3D.",
+    "summary": "A curated collection of animations created over time, spanning 2D work and 3D models built and animated in Blender. Each piece reflects a specific problem explored through motion, form, or timing.",
+    "tags": [
+      "3D Modeling",
+      "Blender",
+      "2D Animation",
+      "3D Animation",
+      "Motion Design",
+      "Animation"
+    ],
+    "title": "Animation Collection",
+    "updatedAt": 630848018.206808,
+    "name": "Animation Collection",
+    "folderName": "animation_collection_C99BCDBF-5992-44EE-A939-E55CE8CF945A"
+  },
+  {
     "category": "Art",
     "collection": {
       "Pages": {
