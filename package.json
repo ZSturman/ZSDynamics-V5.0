@@ -8,7 +8,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "generate-projects": "python3 lib/folio-prebuild.py /Users/zacharysturman/Desktop/PORTFOLIO",
+    "generate-projects": "python3 lib/folio-prebuild.py /Users/zacharysturman/Downloads/PORTFOLIO",
     "optimize": "python3 lib/media-optimizer.py public/projects --delete-originals"
   },
   "dependencies": {

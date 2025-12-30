@@ -114,57 +114,36 @@
             "id": "5692E011-BC7E-4BFC-A90E-847A1B0CEFDE",
             "label": "Greenhorn V1",
             "order": 3,
-            "resource": {
-              "category": "folio",
-              "label": "Greenhorn",
-              "type": "local-link",
-              "url": "/projects/F3A1D353-A5DE-4622-9CE0-E0094471BC35"
-            },
             "summary": "This was my first attempt at what Greenhorn as a show could look like. It has a lot of Cyanide & Happiness vibes in tone and style, kind of crude, simple, and punchline-driven.",
             "thumbnail": {
               "id": "F48AE053-333D-45B4-ACAA-0141743BA6E0",
               "path": ""
             },
-            "type": "video",
-            "url": "/projects/F3A1D353-A5DE-4622-9CE0-E0094471BC35"
+            "type": "video"
           },
           {
             "filePath": "Greenhorn - Uncanny.mov",
             "id": "02FC22DE-56D0-43E3-A85A-CE0D01CE74FC",
             "label": "Greenhorn Uncanny",
             "order": 4,
-            "resource": {
-              "category": "folio",
-              "label": "Greenhorn",
-              "type": "local-link",
-              "url": "/projects/F3A1D353-A5DE-4622-9CE0-E0094471BC35"
-            },
             "summary": "Another experiment with Greenhorn, but this time I pushed the characters toward a much more human, slightly unsettling style. It’s basically me exploring how weird the show could feel visually.",
             "thumbnail": {
               "id": "77641C33-E2D2-4DC1-B4C1-7402643D00E1",
               "path": ""
             },
-            "type": "video",
-            "url": "/projects/F3A1D353-A5DE-4622-9CE0-E0094471BC35"
+            "type": "video"
           },
           {
             "filePath": "Greenhorn - Less Animated.mov",
             "id": "A329F037-5B8E-4D12-B452-7248AA7BCD74",
             "label": "Greenhorn Less Animated",
             "order": 5,
-            "resource": {
-              "category": "folio",
-              "label": "Greenhorn",
-              "type": "local-link",
-              "url": "/projects/F3A1D353-A5DE-4622-9CE0-E0094471BC35"
-            },
             "summary": "This version was closer to a moving storyboard than a full animation. The characters look very different, and the focus was more on storytelling and beats rather than fluid animation.",
             "thumbnail": {
               "id": "4D0254F0-486D-4236-971A-5888FDBC1F31",
               "path": ""
             },
-            "type": "video",
-            "url": "/projects/F3A1D353-A5DE-4622-9CE0-E0094471BC35"
+            "type": "video"
           },
           {
             "filePath": "Funeral.mov",
@@ -189,38 +168,24 @@
             "id": "A407536C-7482-4FB1-AD0B-3C62BC3791EC",
             "label": "Timeline 7 – Cheap Version",
             "order": 7,
-            "resource": {
-              "category": "folio",
-              "label": "Timeline 7",
-              "type": "local-link",
-              "url": "/projects/7AFC000A-A537-42EF-A4B4-40D3258435B0"
-            },
             "summary": "When I thought Timeline 7 might become an animation, I made this super rough, cheap-looking version just to get the idea out and see what it might feel like.",
             "thumbnail": {
               "id": "6B078CC3-94EA-4672-8FD2-12C68BE53DB2",
               "path": ""
             },
-            "type": "video",
-            "url": "/projects/7AFC000A-A537-42EF-A4B4-40D3258435B0"
+            "type": "video"
           },
           {
             "filePath": "Cheap T7.mov",
             "id": "21031255-A941-4541-8FC2-C2E09FFADD13",
             "label": "Timeline 7 – Slightly Better Version",
             "order": 8,
-            "resource": {
-              "category": "folio",
-              "label": "Timeline 7",
-              "type": "local-link",
-              "url": "/projects/7AFC000A-A537-42EF-A4B4-40D3258435B0"
-            },
             "summary": "Same idea as the cheap version, but this time I realized backgrounds kind of matter, so I actually hand-drew them and bumped the quality up a bit.",
             "thumbnail": {
               "id": "1CE9E538-0641-4FD9-80B2-57F2F0F2339F",
               "path": ""
             },
-            "type": "video",
-            "url": "/projects/7AFC000A-A537-42EF-A4B4-40D3258435B0"
+            "type": "video"
           },
           {
             "filePath": "Channel 5 News - Bo Burnham.mov",
@@ -1315,7 +1280,7 @@
     "images": {
       "banner": "banner.png",
       "poster": "poster.png",
-      "thumbnail": "thumbnail copy.png"
+      "thumbnail": "thumbnail copy 2.png"
     },
     "isPublic": true,
     "mediums": [
@@ -1334,12 +1299,6 @@
         "label": "Repo",
         "type": "github",
         "url": "https://github.com/ZSturman/ZSDynamics-V1.0"
-      },
-      {
-        "category": "folio",
-        "label": "Portfolio Collection",
-        "type": "local-link",
-        "url": "/projects/BB2F567C-B29C-4666-AABF-986E69AA9592"
       }
     ],
     "status": "done",
@@ -1385,12 +1344,6 @@
         "label": "Repo",
         "type": "github",
         "url": "https://github.com/ZSturman/ZSDynamics-v1.1"
-      },
-      {
-        "category": "folio",
-        "label": "Collection of all previous portfolio pages",
-        "type": "local-link",
-        "url": "/projects/BB2F567C-B29C-4666-AABF-986E69AA9592"
       }
     ],
     "status": "done",
@@ -1435,12 +1388,6 @@
         "label": "Repo",
         "type": "github",
         "url": "https://github.com/ZSturman/ZSDynamics-V2.0"
-      },
-      {
-        "category": "folio",
-        "label": "Collection of previous portfolios",
-        "type": "local-link",
-        "url": "/projects/BB2F567C-B29C-4666-AABF-986E69AA9592"
       }
     ],
     "status": "done",
@@ -1487,12 +1434,6 @@
         "label": "Repo",
         "type": "github",
         "url": "https://github.com/ZSturman/ZSDynamics-V3.0"
-      },
-      {
-        "category": "folio",
-        "label": "Collection of previous portfolios",
-        "type": "local-link",
-        "url": "/projects/BB2F567C-B29C-4666-AABF-986E69AA9592"
       }
     ],
     "status": "done",
@@ -1538,12 +1479,6 @@
         "label": "Animated portfolio with parallax and dynamic SVGs",
         "type": "website",
         "url": "https://zsturman.github.io/ZSDynamics-V4.0/ "
-      },
-      {
-        "category": "folio",
-        "label": "ZSDynamics Collection",
-        "type": "local-link",
-        "url": "/projects/BB2F567C-B29C-4666-AABF-986E69AA9592"
       }
     ],
     "status": "done",
@@ -1571,12 +1506,6 @@
             "id": "88EF03D6-E7E5-4A22-972E-BFC26D5142C0",
             "label": "Personal Portfolio V4",
             "order": 0,
-            "resource": {
-              "category": "folio",
-              "label": "V4",
-              "type": "local-link",
-              "url": "/projects/55B14B05-726C-45BC-ACF6-7D21C943B78E"
-            },
             "summary": "A Next.js-powered portfolio featuring server-side rendering, dynamic routing, and a more scalable, production-ready structure.",
             "thumbnail": "thumbnail.png",
             "type": "url-link",
@@ -1586,12 +1515,6 @@
             "id": "C1FC5A45-FD8E-4DC9-BCDF-70D875E81551",
             "label": "Personal Portfolio V3",
             "order": 1,
-            "resource": {
-              "category": "folio",
-              "label": "V3",
-              "type": "local-link",
-              "url": "/projects/F9E04D0A-42AB-4091-8856-CC612DDBE276"
-            },
             "summary": "A fast and lightweight portfolio built with React and Vite, optimized for improved performance and developer experience.",
             "thumbnail": "thumbnail.png",
             "type": "url-link",
@@ -1601,12 +1524,6 @@
             "id": "A7B0239D-D7B7-49C0-A656-1C70413B53D4",
             "label": "Personal Portfolio V2",
             "order": 2,
-            "resource": {
-              "category": "folio",
-              "label": "V2",
-              "type": "local-link",
-              "url": "/projects/B998390B-405B-4D50-BA41-B9E4C5D124CC"
-            },
             "summary": "A modern portfolio using a React frontend with a Python backend, introducing a fully separated client–server architecture.",
             "thumbnail": "thumbnail.png",
             "type": "url-link",
@@ -1616,12 +1533,6 @@
             "id": "3E56C901-0CB7-4C2E-B6C9-C1636323B2A8",
             "label": "Personal Portfolio V1.1",
             "order": 3,
-            "resource": {
-              "category": "folio",
-              "label": "V1.1",
-              "type": "local-link",
-              "url": "/projects/8D5D9392-990D-4431-82B5-5997F094FBA3"
-            },
             "summary": "An enhanced Flask-based portfolio improving on v1 with refined structure, better styling, and more efficient backend logic.",
             "thumbnail": "thumbnail.png",
             "type": "url-link",
@@ -1631,12 +1542,6 @@
             "id": "DCE4E0B0-8038-4986-9ED6-95374DF59D84",
             "label": "Personal Portfolio V1",
             "order": 4,
-            "resource": {
-              "category": "folio",
-              "label": "V1.0",
-              "type": "local-link",
-              "url": "/projects/B062E7E0-387F-4D08-B0B6-A75410AACCE1"
-            },
             "summary": "A foundational portfolio built with Python and Flask, focused on simple routing and clean server-side rendering.",
             "thumbnail": "thumbnail.png",
             "type": "url-link",
@@ -1646,12 +1551,6 @@
             "id": "E97FAD64-609A-487F-9D47-1ADF7FAC13A9",
             "label": "TowardBetter",
             "order": 5,
-            "resource": {
-              "category": "folio",
-              "label": "TowardBetter.me",
-              "type": "local-link",
-              "url": "/projects/C7FB95D2-6AD5-4819-A578-87AC2DC76E0C"
-            },
             "summary": "The announcement page for a women’s community site.",
             "thumbnail": "thumbnail.png",
             "type": "url-link",

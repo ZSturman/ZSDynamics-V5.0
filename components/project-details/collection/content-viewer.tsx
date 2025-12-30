@@ -255,9 +255,9 @@ function VideoContent({ item, folderName, collectionName }: { item: CollectionIt
   const rawPath = getItemPath(item, folderName, collectionName);
   const itemPath = getOptimizedPath(rawPath) || rawPath;
 
-  // Default to true for autoPlay and loop unless explicitly set to false
-  const shouldAutoPlay = item.autoPlay !== false;
-  const shouldLoop = item.loop !== false;
+  // Default to false for autoPlay and loop unless explicitly set to true
+  const shouldAutoPlay = item.autoPlay === true
+  const shouldLoop = item.loop === true
 
   const togglePlay = () => {
     if (videoRef.current) {

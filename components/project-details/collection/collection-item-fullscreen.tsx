@@ -55,8 +55,20 @@ export function CollectionFullscreen({
   onNavigate,
 }: CollectionFullscreenProps) {
   const [showSidebar, setShowSidebar] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   
   const resources = getItemResources(item);
+
+  // Detect mobile screen size
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768); // md breakpoint
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   // Navigation helpers
   const hasNavigation = allItems && allItems.length > 1 && currentIndex !== undefined && onNavigate;
@@ -166,19 +178,22 @@ export function CollectionFullscreen({
       {/* Main content area */}
       <div className="flex flex-1 min-h-0 relative">
         {/* Content viewer */}
-        <div className={cn("flex-1 overflow-y-auto overflow-x-hidden", showSidebar && "pr-80")}>
+        <div className={cn(
+          "flex-1 overflow-y-auto overflow-x-hidden",
+          showSidebar && !isMobile && "md:pr-80"
+        )}>
           <div className="min-h-full flex items-center justify-center p-4">
             <ContentViewer item={item} folderName={folderName} collectionName={collectionName} />
           </div>
         </div>
 
-        {/* Sidebar */}
-        {showSidebar && (
+        {/* Desktop Sidebar */}
+        {showSidebar && !isMobile && (
           <div className={cn(
             // When inside modal we want the sidebar to be positioned
             // absolutely within the modal content area rather than fixed
             inModal ? "absolute right-0 top-0 bottom-0 w-80" : "fixed right-0 top-0 bottom-0 w-80",
-            "border-l bg-background overflow-y-auto"
+            "border-l bg-background overflow-y-auto hidden md:block"
           )}>
             <div className="p-6 space-y-6">
               {/* Summary section */}
@@ -219,12 +234,76 @@ export function CollectionFullscreen({
           </div>
         )}
 
-        {/* Sidebar toggle */}
+        {/* Mobile Bottom Sheet */}
+        {showSidebar && isMobile && (
+          <>
+            {/* Backdrop */}
+            <div 
+              className={cn(
+                "md:hidden",
+                inModal ? "absolute inset-0 bg-black/50 z-20" : "fixed inset-0 bg-black/50 z-40"
+              )}
+              onClick={() => setShowSidebar(false)}
+            />
+            
+            {/* Bottom Sheet */}
+            <div className={cn(
+              "md:hidden",
+              inModal ? "absolute bottom-0 left-0 right-0 z-30" : "fixed bottom-0 left-0 right-0 z-50",
+              "bg-background border-t rounded-t-2xl max-h-[80vh] overflow-y-auto",
+              "animate-in slide-in-from-bottom duration-300"
+            )}>
+              {/* Drag handle */}
+              <div className="flex justify-center pt-3 pb-2">
+                <div className="w-12 h-1 bg-muted-foreground/30 rounded-full" />
+              </div>
+              
+              <div className="p-6 space-y-6">
+                {/* Summary section */}
+                {item.label && (
+                  <h2 className="text-lg font-semibold">{item.label}</h2>
+                )}
+                {item.summary && (
+                  <div className="space-y-2">
+                    <p className="text-sm leading-relaxed opacity-80">{item.summary}</p>
+                  </div>
+                )}
+
+                {/* Resources section */}
+                {resources.length > 0 && (
+                  <div className="space-y-3">
+                    <div className="space-y-2">
+                      {resources.map((resource, idx) => (
+                        <ResourceButton key={idx} resource={resource} currentProject={project} />
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Metadata section */}
+                <div className="space-y-2 pt-4 border-t">
+                  <div className="space-y-1 text-sm">
+                    {resources.length > 0 && (
+                      <div className="flex justify-between">
+                        <span className="text-muted-foreground">Resources</span>
+                        <span className="font-medium">
+                          {resources.length}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </>
+        )}
+
+        {/* Info toggle button */}
         <Button
           variant="outline"
           size="sm"
           className={cn(
-            "z-10 bg-transparent",
+            "z-10 bg-background/95 backdrop-blur",
             inModal ? "absolute right-4 bottom-4" : "fixed right-4 bottom-4"
           )}
           onClick={() => setShowSidebar(!showSidebar)}
