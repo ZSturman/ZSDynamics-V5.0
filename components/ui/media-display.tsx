@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { isVideoFile } from "@/lib/utils";
 import { cn } from "@/lib/utils";
@@ -40,7 +41,13 @@ export function MediaDisplay({
   sizes,
   objectFit = "cover",
 }: MediaDisplayProps) {
+  const [isMobile, setIsMobile] = useState(false);
   const isVideo = isVideoFile(src);
+
+  // Detect mobile on mount
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 768);
+  }, []);
 
   if (isVideo) {
     return (

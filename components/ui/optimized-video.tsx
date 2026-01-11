@@ -43,7 +43,13 @@ export function OptimizedVideo({
   const [isInView, setIsInView] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasError, setHasError] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const videoRef = useRef<HTMLDivElement>(null);
+
+  // Detect mobile on mount
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 768);
+  }, []);
 
   // Intersection Observer for lazy loading
   useEffect(() => {
@@ -102,7 +108,7 @@ export function OptimizedVideo({
             isLoaded ? 'opacity-100' : 'opacity-0'
           }`}
           controls={controls}
-          autoPlay={autoPlay}
+          autoPlay={isMobile ? false : autoPlay}
           muted={muted}
           loop={loop}
           poster={poster}

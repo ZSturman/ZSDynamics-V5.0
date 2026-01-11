@@ -46,9 +46,9 @@ export function ProjectList({ viewMode = "list", projects, sortField = "updatedA
     <>
       {viewMode === "grid" ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 max-w-full overflow-x-hidden">
-          {projects.map((project, idx) => (
+          {projects.map((project) => (
             <ProjectCard
-              key={project.id + idx}
+              key={project.id}
               project={project}
               onClick={() => handleClick(project)}
               compact
@@ -57,9 +57,9 @@ export function ProjectList({ viewMode = "list", projects, sortField = "updatedA
         </div>
       ) : (
         <div className="space-y-4 max-w-full overflow-x-hidden">
-          {projects.map((project, idx) => (
+          {projects.map((project) => (
             <ProjectListItem
-              key={project.id + idx}
+              key={project.id}
               project={project}
               onClick={() => handleClick(project)}
               sortField={sortField}

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import { useSwipeable } from "react-swipeable";
 
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -69,6 +70,17 @@ export function CollectionFullscreen({
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
+
+  // Swipeable handler for pull-to-dismiss on mobile
+  const swipeHandlers = useSwipeable({
+    onSwipedDown: () => {
+      if (isMobile && showSidebar) {
+        setShowSidebar(false);
+      }
+    },
+    trackMouse: false,
+    delta: 50, // Minimum swipe distance in pixels
+  });
 
   // Navigation helpers
   const hasNavigation = allItems && allItems.length > 1 && currentIndex !== undefined && onNavigate;
@@ -247,18 +259,28 @@ export function CollectionFullscreen({
             />
             
             {/* Bottom Sheet */}
-            <div className={cn(
-              "md:hidden",
-              inModal ? "absolute bottom-0 left-0 right-0 z-30" : "fixed bottom-0 left-0 right-0 z-50",
-              "bg-background border-t rounded-t-2xl max-h-[80vh] overflow-y-auto",
-              "animate-in slide-in-from-bottom duration-300"
-            )}>
-              {/* Drag handle */}
-              <div className="flex justify-center pt-3 pb-2">
-                <div className="w-12 h-1 bg-muted-foreground/30 rounded-full" />
+            <div 
+              {...swipeHandlers}
+              className={cn(
+                "md:hidden",
+                inModal ? "absolute bottom-0 left-0 right-0 z-30" : "fixed bottom-0 left-0 right-0 z-50",
+                "bg-background border-t rounded-t-2xl max-h-[80vh] overflow-y-auto",
+                "animate-in slide-in-from-bottom duration-300"
+              )}
+            >
+              {/* Close button */}
+              <div className="flex justify-end pt-3 pb-2 px-4">
+                <Button 
+                  variant="ghost" 
+                  size="icon"
+                  onClick={() => setShowSidebar(false)}
+                  className="h-8 w-8"
+                >
+                  <X className="h-4 w-4" />
+                </Button>
               </div>
               
-              <div className="p-6 space-y-6">
+              <div className="px-6 pb-6 space-y-6">
                 {/* Summary section */}
                 {item.label && (
                   <h2 className="text-lg font-semibold">{item.label}</h2>

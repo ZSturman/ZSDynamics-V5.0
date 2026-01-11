@@ -846,6 +846,40 @@ function VideoViewer({ item, onRequestFullscreen, folderName, collectionName, pr
 }
 
 function ModelViewer({ item, onRequestFullscreen, folderName, collectionName, project }: ExtendedCollectionItemViewerProps) {
+  // Check if thumbnail exists - if so, render thumbnail instead of 3D model
+  const thumbnailPath = getThumbnailPath(item);
+  
+  if (thumbnailPath) {
+    // Build full thumbnail path
+    const getOptimizedThumbnail = (): string => {
+      if (thumbnailPath.startsWith('http://') || thumbnailPath.startsWith('https://')) {
+        return thumbnailPath;
+      }
+      
+      // Build full path with collection structure
+      if (folderName && item.id && collectionName) {
+        const basePath = `/projects/${folderName}/${collectionName}/${item.id}`;
+        return `${basePath}/${thumbnailPath}`;
+      }
+      
+      return thumbnailPath;
+    };
+    
+    const optimizedThumbnailPath = getOptimizedThumbnail();
+    
+    return (
+      <CollectionItemWrapper item={item} onRequestFullscreen={onRequestFullscreen} project={project}>
+        <Image 
+          src={optimizedThumbnailPath} 
+          alt={item.label || "3D Model preview"} 
+          fill
+          className="object-cover" 
+        />
+      </CollectionItemWrapper>
+    );
+  }
+  
+  // No thumbnail - render 3D model as before
   // Default to true for autoPlay unless explicitly set to false
   const shouldAutoPlay = item.autoPlay !== false;
   const [isPlaying, setIsPlaying] = useState(shouldAutoPlay)

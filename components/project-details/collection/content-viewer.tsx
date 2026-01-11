@@ -251,12 +251,18 @@ function VideoContent({ item, folderName, collectionName }: { item: CollectionIt
   const videoRef = useRef<HTMLVideoElement>(null)
   const [isPlaying, setIsPlaying] = useState(false)
   const [isMuted, setIsMuted] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
   
   const rawPath = getItemPath(item, folderName, collectionName);
   const itemPath = getOptimizedPath(rawPath) || rawPath;
 
+  // Detect mobile on mount
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 768);
+  }, []);
+
   // Default to false for autoPlay and loop unless explicitly set to true
-  const shouldAutoPlay = item.autoPlay === true
+  const shouldAutoPlay = item.autoPlay === true && !isMobile
   const shouldLoop = item.loop === true
 
   const togglePlay = () => {

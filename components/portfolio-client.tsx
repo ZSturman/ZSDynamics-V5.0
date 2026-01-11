@@ -156,7 +156,7 @@ export function PortfolioClient({ projects }: PortfolioClientProps) {
     
     try {
       const url = params.toString() ? `?${params.toString()}` : pathname || "/"
-      if (initialized && (!pathname || pathname === "/")) router.replace(url)
+      if (initialized && (!pathname || pathname === "/")) router.replace(url, { scroll: false })
     } catch {
       // router.replace may throw in certain environments; ignore and rely on sessionStorage
     }
@@ -347,7 +347,7 @@ export function PortfolioClient({ projects }: PortfolioClientProps) {
         if (viewMode !== "list") params.set("view", viewMode)
         
         const url = params.toString() ? `?${params.toString()}` : pathname || "/"
-        router.replace(url)
+        router.replace(url, { scroll: false })
       }
     } catch {
       // ignore router errors
