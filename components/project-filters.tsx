@@ -54,7 +54,7 @@ export function ProjectFilters({
   initialStatus = ["all"],
   initialTags = [],
 }: ProjectFiltersProps) {
-  const [isSearchFocused, setIsSearchFocused] = useState(true)
+  const [isSearchFocused] = useState(true)
   const [searchQuery, setSearchQuery] = useState<string>(initialSearch)
   const [suggestions, setSuggestions] = useState<string[]>([])
   const searchInputRef = useRef<HTMLInputElement>(null)

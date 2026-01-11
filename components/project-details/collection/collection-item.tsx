@@ -846,9 +846,14 @@ function VideoViewer({ item, onRequestFullscreen, folderName, collectionName, pr
 }
 
 function ModelViewer({ item, onRequestFullscreen, folderName, collectionName, project }: ExtendedCollectionItemViewerProps) {
+  // Default to true for autoPlay unless explicitly set to false
+  const shouldAutoPlay = item.autoPlay !== false;
+  const [isPlaying, setIsPlaying] = useState(shouldAutoPlay)
+  const [hasAnimations, setHasAnimations] = useState(false)
+
   // Check if thumbnail exists - if so, render thumbnail instead of 3D model
   const thumbnailPath = getThumbnailPath(item);
-  
+
   if (thumbnailPath) {
     // Build full thumbnail path
     const getOptimizedThumbnail = (): string => {
@@ -880,11 +885,6 @@ function ModelViewer({ item, onRequestFullscreen, folderName, collectionName, pr
   }
   
   // No thumbnail - render 3D model as before
-  // Default to true for autoPlay unless explicitly set to false
-  const shouldAutoPlay = item.autoPlay !== false;
-  const [isPlaying, setIsPlaying] = useState(shouldAutoPlay)
-  const [hasAnimations, setHasAnimations] = useState(false)
-  
   const rawPath = getItemPath(item, folderName, collectionName);
   
   // Convert to optimized GLB format for 3D models
