@@ -1286,7 +1286,7 @@
     "updatedAt": 787663811.258017,
     "name": "Top Note",
     "folderName": "top_note_AD76406D-450D-457B-96B4-4979A19EF490",
-    "featuredOrder": 1
+    "featuredOrder": 2
   },
   {
     "category": "Software",
@@ -1610,6 +1610,6 @@
     "updatedAt": 787668609.809411,
     "name": "Frontend Collection",
     "folderName": "frontend_collection_BB2F567C-B29C-4666-AABF-986E69AA9592",
-    "featuredOrder": 2
+    "featuredOrder": 1
   }
 ]
