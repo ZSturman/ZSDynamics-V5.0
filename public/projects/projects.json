@@ -1026,6 +1026,57 @@
   },
   {
     "category": "Software",
+    "createdAt": 740801790.553758,
+    "description": "Lost & Hound is a mobile application designed to make it easier to reconnect lost pets with the people looking for them. Instead of relying on flyers, chance encounters, or social media posts that quickly disappear, the app provides a centralized place to report lost pets and log sightings in real time. Users can post details, photos, and locations, browse nearby reports, and reach out directly when something looks like a match.\n\nThe app currently only works in Australia, reflecting where the initial rollout and testing took place. The project was built as a full-stack React Native application with a Node backend and Firebase for data and authentication. One team extended the system further by integrating computer vision, allowing uploaded images of spotted animals to be compared against photos of missing pets. The goal was not to replace human judgment, but to reduce friction and shorten the path between seeing an animal and contacting the right person.",
+    "domain": "Technology",
+    "featured": false,
+    "id": "972176B2-94D9-4C97-B685-61AC32D0B71C",
+    "images": {
+      "banner": "banner.png",
+      "icon": "icon.svg",
+      "poster": "poster.png",
+      "thumbnail": "thumbnail.png"
+    },
+    "isPublic": true,
+    "mediums": [
+      "Mobile"
+    ],
+    "phase": "Released",
+    "resources": [
+      {
+        "category": "repository",
+        "label": "Repo",
+        "type": "GitHub",
+        "url": "https://github.com/ZSturman/Lost-Hound"
+      }
+    ],
+    "status": "Done",
+    "story": "The idea started on my morning walks. I would regularly see lost pet flyers taped to poles, and sometimes I would pass an animal that looked like one of them. By the time I noticed, I had already walked past the flyer and had to backtrack just to get a phone number. After doing that a few times, it felt obvious that there should be a better way to connect sightings with owners in the moment.\n\nAt first the project was going to be called “Lost Paws,” but once someone pointed out that it sounded like “lost cause,” I could not unhear it. Around the same time, I was in Australia pet sitting for a professor at the University of Melbourne. As part of their final grade, students were required to work on a real-world project, and he asked if I would act as an industry professional. I met weekly with two student teams, helping shape requirements, review designs, and think through tradeoffs without prescribing solutions.\n\nOne group went beyond the original scope and built a computer vision pipeline to help match photos of spotted animals with photos of pets reported missing. On my last day in Australia, I attended their award ceremony and watched them present the work they had done. Seeing the app exist in the same place that inspired it, and watching students take ownership of a real system, was the most meaningful outcome of the project.",
+    "subtitle": "Find your Furry Friend",
+    "summary": "A community-driven mobile app that helps reunite lost pets with their owners by turning scattered, offline sightings into a shared, searchable system. The live app currently operates in Australia.",
+    "tags": [
+      "React",
+      "React Native",
+      "Expo",
+      "Node.js",
+      "Firebase",
+      "Computer Vision",
+      "Machine Learning",
+      "Mobile App",
+      "Full Stack",
+      "Australia"
+    ],
+    "title": "Lost & Hound",
+    "topics": [
+      "Pets",
+      "Animals"
+    ],
+    "updatedAt": 750738875.444826,
+    "name": "Lost & Hound",
+    "folderName": "lost_hound_972176B2-94D9-4C97-B685-61AC32D0B71C"
+  },
+  {
+    "category": "Software",
     "createdAt": 778175671.555743,
     "description": "MediLedger is designed around a simple idea: most of what you need to do with your medication shouldn’t require opening an app. With interactive widgets, you can log a full or half dose, check how many pills you have left, see when your refill is coming up, and set up different widgets for different medications. The app handles both prescription and non-prescription meds, tracks strength and dosage, and keeps a full history of what you’ve taken. Everything syncs through SwiftData across iPhone, iPad, and Mac, and it works offline when it needs to. You can customize what each widget shows, set up alerts for refills, and rely on automatic calculations to keep your supply accurate without any extra effort.",
     "domain": "Technology",
@@ -1286,7 +1337,7 @@
     "updatedAt": 787663811.258017,
     "name": "Top Note",
     "folderName": "top_note_AD76406D-450D-457B-96B4-4979A19EF490",
-    "featuredOrder": 2
+    "featuredOrder": 1
   },
   {
     "category": "Software",
@@ -1610,6 +1661,6 @@
     "updatedAt": 787668609.809411,
     "name": "Frontend Collection",
     "folderName": "frontend_collection_BB2F567C-B29C-4666-AABF-986E69AA9592",
-    "featuredOrder": 1
+    "featuredOrder": 2
   }
 ]
