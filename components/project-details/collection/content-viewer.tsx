@@ -252,6 +252,7 @@ function VideoContent({ item, folderName, collectionName }: { item: CollectionIt
   const [isPlaying, setIsPlaying] = useState(false)
   const [isMuted, setIsMuted] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
+  const [userInitiatedPlay, setUserInitiatedPlay] = useState(false)
   
   const rawPath = getItemPath(item, folderName, collectionName);
   const itemPath = getOptimizedPath(rawPath) || rawPath;
@@ -261,8 +262,8 @@ function VideoContent({ item, folderName, collectionName }: { item: CollectionIt
     setIsMobile(window.innerWidth < 768);
   }, []);
 
-  // Default to false for autoPlay and loop unless explicitly set to true
-  const shouldAutoPlay = item.autoPlay === true && !isMobile
+  // On mobile, never autoplay. On desktop, respect item settings (default false unless explicit true)
+  const shouldAutoPlay = isMobile ? false : (item.autoPlay === true);
   const shouldLoop = item.loop === true
 
   const togglePlay = () => {
@@ -270,6 +271,7 @@ function VideoContent({ item, folderName, collectionName }: { item: CollectionIt
       if (isPlaying) {
         videoRef.current.pause()
       } else {
+        setUserInitiatedPlay(true)
         videoRef.current.play()
       }
       setIsPlaying(!isPlaying)
@@ -283,16 +285,91 @@ function VideoContent({ item, folderName, collectionName }: { item: CollectionIt
     }
   }
 
+  // Helper to get optimized thumbnail path for poster
+  const getOptimizedPoster = (): string | undefined => {
+    const thumbnailPath = typeof item.thumbnail === 'string' ? item.thumbnail : 
+      (typeof item.thumbnail === 'object' && item.thumbnail && 'path' in item.thumbnail) 
+        ? (item.thumbnail as { path?: string }).path 
+        : undefined;
+    
+    if (!thumbnailPath || thumbnailPath === '') return undefined;
+    
+    // If it's an external URL, return as-is
+    if (thumbnailPath.startsWith('http://') || thumbnailPath.startsWith('https://')) {
+      return thumbnailPath;
+    }
+    
+    // Build the full path with collection structure
+    const buildFullPath = (relativePath: string): string => {
+      if (!folderName) return relativePath;
+      
+      if (item.id && collectionName) {
+        return `/projects/${folderName}/${collectionName}/${item.id}/${relativePath}`;
+      }
+      
+      return `/projects/${folderName}/${relativePath}`;
+    };
+    
+    const fullPath = buildFullPath(thumbnailPath);
+    
+    // If already optimized, use as-is
+    if (fullPath.includes('-optimized') || fullPath.includes('-thumb')) {
+      return fullPath;
+    }
+    
+    // Convert to optimized version
+    const withoutExt = fullPath.replace(/\.[^.]+$/, '');
+    return `${withoutExt}-optimized.webp`;
+  };
+
+  const poster = getOptimizedPoster();
+
+  // On mobile, show a thumbnail/poster with play button overlay until user taps play
+  if (isMobile && !userInitiatedPlay) {
+    return (
+      <div className="relative group max-w-full">
+        <div 
+          className="relative max-w-full max-h-[80vh] rounded-lg overflow-hidden cursor-pointer bg-muted"
+          style={{ minHeight: '200px', minWidth: '300px' }}
+          onClick={() => setUserInitiatedPlay(true)}
+        >
+          {poster ? (
+            <Image
+              src={poster}
+              alt={item.label || "Video thumbnail"}
+              fill
+              className="object-contain"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
+            />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center" style={{ minHeight: '200px' }}>
+              <Play className="h-12 w-12 text-muted-foreground" />
+            </div>
+          )}
+          
+          {/* Play button overlay */}
+          <div className="absolute inset-0 flex items-center justify-center bg-black/20">
+            <div className="bg-background/90 rounded-full p-6 shadow-lg">
+              <Play className="h-12 w-12" />
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="relative group max-w-full">
       <video
         ref={videoRef}
         src={itemPath}
+        poster={poster}
         className="max-w-full max-h-[80vh] rounded-lg"
         controls
-        autoPlay={shouldAutoPlay}
+        autoPlay={shouldAutoPlay || userInitiatedPlay}
         loop={shouldLoop}
-        muted={shouldAutoPlay}
+        muted={shouldAutoPlay && !userInitiatedPlay}
+        playsInline // Critical for iOS - prevents fullscreen takeover
         onPlay={() => setIsPlaying(true)}
         onPause={() => setIsPlaying(false)}
       >
