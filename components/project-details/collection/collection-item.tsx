@@ -404,7 +404,13 @@ export default function CollectionItemCard({ item, project, inModal, folderName,
 function UrlLinkViewer({ item, onRequestFullscreen, folderName, collectionName, project }: ExtendedCollectionItemViewerProps) {
   // embed state: null = loading, true = allowed, false = blocked
   const [embedAllowed, setEmbedAllowed] = useState<boolean | null>(null)
+  const [isMobile, setIsMobile] = useState(false)
   const timeoutRef = useRef<number | null>(null)
+  
+  // Detect mobile on mount
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 768);
+  }, []);
   
   const rawPath = getItemPath(item, folderName, collectionName);
   // Prefer optimized video file when available, fall back to original
@@ -452,7 +458,35 @@ function UrlLinkViewer({ item, onRequestFullscreen, folderName, collectionName, 
     return `${withoutExt}-optimized.webp`;
   };
   
+  // Helper to get a static poster image from video thumbnail
+  const getVideoPosterPath = (): string | undefined => {
+    const thumbnailPath = getThumbnailPath(item);
+    if (!thumbnailPath || thumbnailPath === '') return undefined;
+    
+    // Build the full path with collection structure
+    const buildFullPath = (relativePath: string): string => {
+      if (!folderName) return relativePath;
+      
+      if (item.id && collectionName) {
+        return `/projects/${folderName}/${collectionName}/${item.id}/${relativePath}`;
+      }
+      
+      return `/projects/${folderName}/${relativePath}`;
+    };
+    
+    // If it's an external URL, no poster available
+    if (thumbnailPath.startsWith('http://') || thumbnailPath.startsWith('https://')) {
+      return undefined;
+    }
+    
+    const fullPath = buildFullPath(thumbnailPath);
+    // Try to get a -thumb.jpg version of the video
+    const withoutExt = fullPath.replace(/\.[^.]+$/, '');
+    return `${withoutExt}-thumb.jpg`;
+  };
+  
   const thumbnailPath = getOptimizedThumbnail();
+  const videoPosterPath = getVideoPosterPath();
 
   // Determine if the link is external or same-host
   const isSameHost = (url: string): boolean => {
@@ -484,6 +518,9 @@ function UrlLinkViewer({ item, onRequestFullscreen, folderName, collectionName, 
 
   const hasThumbnail = !!getThumbnailPath(item)
   const thumbnailIsVideo = isVideoThumbnail(getThumbnailPath(item))
+  
+  // On mobile, never autoplay video thumbnails
+  const shouldAutoPlayVideoThumbnail = isMobile ? false : (item.autoPlay !== false);
 
   useEffect(() => {
     // Only set up embed timeout if we don't have a thumbnail
@@ -521,14 +558,34 @@ function UrlLinkViewer({ item, onRequestFullscreen, folderName, collectionName, 
       >
         <div className="relative aspect-video bg-muted overflow-hidden cursor-pointer" onClick={(e) => { e.stopPropagation(); handleOpen(); }}>
           {thumbnailIsVideo ? (
-            <video
-              src={thumbnailPath}
-              className="w-full h-full object-cover"
-              autoPlay={item.autoPlay !== false}
-              loop={item.loop !== false}
-              muted
-              playsInline
-            />
+            shouldAutoPlayVideoThumbnail ? (
+              <video
+                src={thumbnailPath}
+                className="w-full h-full object-cover"
+                autoPlay
+                loop={item.loop !== false}
+                muted
+                playsInline
+              />
+            ) : (
+              // On mobile, show static poster instead of autoplaying video thumbnail
+              videoPosterPath ? (
+                <Image
+                  src={videoPosterPath}
+                  alt={item.label || "Link preview"}
+                  fill
+                  className="object-cover"
+                />
+              ) : (
+                <video
+                  src={thumbnailPath}
+                  className="w-full h-full object-cover"
+                  muted
+                  playsInline
+                  poster={videoPosterPath}
+                />
+              )
+            )
           ) : (
             <Image
               src={thumbnailPath || "/placeholder.svg"}
@@ -595,6 +652,13 @@ function UrlLinkViewer({ item, onRequestFullscreen, folderName, collectionName, 
 }
 
 function FolioViewer({ item, onRequestFullscreen, folderName, collectionName, project }: ExtendedCollectionItemViewerProps) {
+  const [isMobile, setIsMobile] = useState(false)
+  
+  // Detect mobile on mount
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 768);
+  }, []);
+  
   // Helper to get optimized thumbnail path
   const getOptimizedThumbnail = (): string | undefined => {
     const thumbnailPath = getThumbnailPath(item);
@@ -628,7 +692,35 @@ function FolioViewer({ item, onRequestFullscreen, folderName, collectionName, pr
     return `${withoutExt}-optimized.webp`;
   };
   
+  // Helper to get a static poster image from video thumbnail
+  const getVideoPosterPath = (): string | undefined => {
+    const thumbnailPath = getThumbnailPath(item);
+    if (!thumbnailPath || thumbnailPath === '') return undefined;
+    
+    // Build the full path with collection structure
+    const buildFullPath = (relativePath: string): string => {
+      if (!folderName) return relativePath;
+      
+      if (item.id && collectionName) {
+        return `/projects/${folderName}/${collectionName}/${item.id}/${relativePath}`;
+      }
+      
+      return `/projects/${folderName}/${relativePath}`;
+    };
+    
+    // If it's an external URL, no poster available
+    if (thumbnailPath.startsWith('http://') || thumbnailPath.startsWith('https://')) {
+      return undefined;
+    }
+    
+    const fullPath = buildFullPath(thumbnailPath);
+    // Try to get a -thumb.jpg version of the video
+    const withoutExt = fullPath.replace(/\.[^.]+$/, '');
+    return `${withoutExt}-thumb.jpg`;
+  };
+  
   const thumbnailPath = getOptimizedThumbnail();
+  const videoPosterPath = getVideoPosterPath();
   
   // Helper to determine if thumbnail is a video
   const isVideoThumbnail = (thumbnail?: string): boolean => {
@@ -639,6 +731,9 @@ function FolioViewer({ item, onRequestFullscreen, folderName, collectionName, pr
 
   const hasThumbnail = !!getThumbnailPath(item)
   const thumbnailIsVideo = isVideoThumbnail(getThumbnailPath(item))
+  
+  // On mobile, never autoplay video thumbnails
+  const shouldAutoPlayVideoThumbnail = isMobile ? false : (item.autoPlay !== false);
 
   return (
     <CollectionItemWrapper 
@@ -650,14 +745,34 @@ function FolioViewer({ item, onRequestFullscreen, folderName, collectionName, pr
       <div className="relative aspect-video bg-muted overflow-hidden cursor-pointer" onClick={(e) => { e.stopPropagation(); onRequestFullscreen?.(); }}>
         {hasThumbnail ? (
           thumbnailIsVideo ? (
-            <video
-              src={thumbnailPath}
-              className="w-full h-full object-cover"
-              autoPlay={item.autoPlay !== false}
-              loop={item.loop !== false}
-              muted
-              playsInline
-            />
+            shouldAutoPlayVideoThumbnail ? (
+              <video
+                src={thumbnailPath}
+                className="w-full h-full object-cover"
+                autoPlay
+                loop={item.loop !== false}
+                muted
+                playsInline
+              />
+            ) : (
+              // On mobile, show static poster instead of autoplaying video thumbnail
+              videoPosterPath ? (
+                <Image
+                  src={videoPosterPath}
+                  alt={item.label || "Project link"}
+                  fill
+                  className="object-cover"
+                />
+              ) : (
+                <video
+                  src={thumbnailPath}
+                  className="w-full h-full object-cover"
+                  muted
+                  playsInline
+                  poster={videoPosterPath}
+                />
+              )
+            )
           ) : (
             <Image
               src={thumbnailPath || "/placeholder.svg"}
@@ -730,6 +845,13 @@ function VideoViewer({ item, onRequestFullscreen, folderName, collectionName, pr
   const videoRef = useRef<HTMLVideoElement>(null)
   const [isPlaying, setIsPlaying] = useState(false)
   const [isMuted, setIsMuted] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
+  const [userInitiatedPlay, setUserInitiatedPlay] = useState(false)
+  
+  // Detect mobile on mount
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 768);
+  }, []);
   
   const rawPath = getItemPath(item, folderName, collectionName);
   
@@ -762,6 +884,7 @@ function VideoViewer({ item, onRequestFullscreen, folderName, collectionName, pr
       if (isPlaying) {
         videoRef.current.pause()
       } else {
+        setUserInitiatedPlay(true)
         videoRef.current.play()
       }
       setIsPlaying(!isPlaying)
@@ -811,9 +934,46 @@ function VideoViewer({ item, onRequestFullscreen, folderName, collectionName, pr
   // use thumbnail as poster when provided
   const poster = getOptimizedPoster();
   
-  // Default to true for autoPlay and loop unless explicitly set to false
-  const shouldAutoPlay = item.autoPlay !== false;
+  // On mobile, never autoplay to prevent videos from taking over the screen
+  // Users must tap play to start the video
+  const shouldAutoPlay = isMobile ? false : (item.autoPlay !== false);
   const shouldLoop = item.loop !== false;
+
+  // On mobile, show a thumbnail/poster with play button overlay until user taps play
+  if (isMobile && !userInitiatedPlay) {
+    return (
+      <CollectionItemWrapper item={item} onRequestFullscreen={onRequestFullscreen} project={project}>
+        <div 
+          className="relative w-full h-full cursor-pointer"
+          onClick={(e) => {
+            e.stopPropagation();
+            setUserInitiatedPlay(true);
+          }}
+        >
+          {/* Poster/thumbnail image */}
+          {poster ? (
+            <Image
+              src={poster}
+              alt={item.label || "Video thumbnail"}
+              fill
+              className="object-cover"
+            />
+          ) : (
+            <div className="w-full h-full bg-muted flex items-center justify-center">
+              <Play className="h-8 w-8 text-muted-foreground" />
+            </div>
+          )}
+          
+          {/* Play button overlay */}
+          <div className="absolute inset-0 flex items-center justify-center bg-black/20">
+            <div className="bg-background/90 rounded-full p-4 shadow-lg">
+              <Play className="h-8 w-8" />
+            </div>
+          </div>
+        </div>
+      </CollectionItemWrapper>
+    )
+  }
 
   return (
     <CollectionItemWrapper item={item} onRequestFullscreen={onRequestFullscreen} project={project}>
@@ -823,9 +983,10 @@ function VideoViewer({ item, onRequestFullscreen, folderName, collectionName, pr
         poster={poster}
         className="w-full h-full object-cover"
         controls
-        autoPlay={shouldAutoPlay}
+        autoPlay={shouldAutoPlay || userInitiatedPlay}
         loop={shouldLoop}
-        muted={shouldAutoPlay} // Auto-playing videos should be muted by default
+        muted={shouldAutoPlay && !userInitiatedPlay} // Auto-playing videos should be muted by default
+        playsInline // Critical for iOS - prevents fullscreen takeover
         onPlay={() => setIsPlaying(true)}
         onPause={() => setIsPlaying(false)}
         onClick={(e) => e.stopPropagation()}
