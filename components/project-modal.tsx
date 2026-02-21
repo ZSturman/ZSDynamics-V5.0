@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import { useBreadcrumb } from "@/lib/breadcrumb-context";
 import ProjectDetailsFooter from "./project-details/project-details-footer";
 import ProjectDetailsMediaDisplay from "./project-details/project-details-media-display";
+import { ProjectWorkLogs } from "./project-details/project-work-logs";
 
 interface ProjectModalProps {
   project: Project | null;
@@ -32,6 +33,11 @@ export function ProjectModal({ project, isOpen, onClose }: ProjectModalProps) {
   };
 
   if (!project) return null;
+  const hasContent = Boolean(
+    (project.description && String(project.description).trim()) ||
+      (project.story && String(project.story).trim())
+  );
+  const hasCollection = Boolean(project.collection && Object.keys(project.collection).length > 0);
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -46,69 +52,42 @@ export function ProjectModal({ project, isOpen, onClose }: ProjectModalProps) {
         <div className="relative flex-1 min-h-0 overflow-y-auto px-4 pt-6 pb-12">
           <ProjectHeader project={project} />
 
-          {/* Responsive grid: left content, right metadata on md+.
-              If there is no description/story, show metadata full-width. */}
-          {(() => {
-            const hasContent = Boolean(
-              (project.description && String(project.description).trim()) ||
-                (project.story && String(project.story).trim())
-            );
-
-            if (!hasContent) {
-              return (
-                <div className="mt-6 grid gap-6">
-                  {/* Button for full-width mobile/modal */}
-                  <div>
-                    <Button onClick={goToProjectPage} variant="outline" size="sm" className="w-full">
-                      Go to Project Page
-                    </Button>
-                  </div>
-
-                  <ProjectMetadata project={project} />
-                </div>
-              );
-            }
-
-            return (
-              <div className="mt-6 grid gap-6 grid-cols-1 md:grid-cols-[1fr_320px] items-start md:items-stretch">
-                <div className="space-y-6">
-                  {/* Button - shown above content on md+ left column */}
-                  <div className="md:hidden">
-                    <Button onClick={goToProjectPage} variant="outline" size="sm" className="w-full">
-                      Go to Project Page
-                    </Button>
-                  </div>
-
-                  {/* Priority: Collection/Media first */}
-                  {project.collection && (
-                    <div>
-                      <Collection project={project} inModal={true} />
-                    </div>
-                  )}
-
-
-                  {/* About/Story content */}
-                  <div>
-                    <ProjectContent project={project} />
-                  </div>
-                </div>
-
-                <aside className="min-w-[280px] md:min-w-[320px]">
-                  {/* Button - visible on small screens inside sidebar area */}
-                  <div className="hidden md:flex mb-4">
-                    <Button onClick={goToProjectPage} variant="outline" size="sm" className="w-full">
-                      Go to Project Page
-                    </Button>
-                  </div>
-
-                  <div className="h-full">
-                    <ProjectDetailsMediaDisplay project={project} />
-                    <ProjectMetadata project={project} />
-                  </div>
-                </aside>
+          <div className="mt-6 grid gap-6 grid-cols-1 md:grid-cols-[1fr_320px] items-start md:items-stretch">
+            <div className="space-y-6">
+              <div className="md:hidden">
+                <Button onClick={goToProjectPage} variant="outline" size="sm" className="w-full">
+                  Go to Project Page
+                </Button>
               </div>
-            );
-          })()}
+
+              {hasCollection && (
+                <div>
+                  <Collection project={project} inModal={true} />
+                </div>
+              )}
+
+              <ProjectWorkLogs project={project} />
+
+              {hasContent && (
+                <div>
+                  <ProjectContent project={project} />
+                </div>
+              )}
+            </div>
+
+            <aside className="min-w-[280px] md:min-w-[320px]">
+              <div className="hidden md:flex mb-4">
+                <Button onClick={goToProjectPage} variant="outline" size="sm" className="w-full">
+                  Go to Project Page
+                </Button>
+              </div>
+
+              <div className="h-full space-y-6">
+                <ProjectDetailsMediaDisplay project={project} />
+                <ProjectMetadata project={project} />
+              </div>
+            </aside>
+          </div>
 
           <ProjectDetailsFooter />
         </div>

@@ -12,6 +12,7 @@ import ProjectDescriptionAndStory from "./project-description-and-story";
 import ResourceButtons from "./resource-buttons";
 import { ProjectSidebar } from "./project-sidebar";
 import { ProjectMetadata } from "./project-metadata";
+import { ProjectWorkLogs } from "./project-work-logs";
 
 interface ProjectDetailsProps {
   project: Project;
@@ -72,7 +73,7 @@ function MobileStatusBadge({ project }: { project: Project }) {
     <div className="lg:hidden mb-4">
       <Badge
         variant={getStatusVariant(project.status)}
-        className="text-xs px-2 py-0.5"
+        className="text-xs px-2 py-0.5 pointer-events-none cursor-default"
       >
         {getStatusLabel(project.status, project.phase)}
       </Badge>
@@ -116,6 +117,7 @@ export function ProjectDetails({ project }: ProjectDetailsProps) {
 
   const hasCollection = project.collection && Object.keys(project.collection).length > 0;
   const hasResources = project.resources && project.resources.length > 0;
+  const hasWorkLogs = project.workLogs && project.workLogs.length > 0;
   const useTwoColumnLayout = hasSubstantialContent(project);
 
   return (
@@ -162,6 +164,12 @@ export function ProjectDetails({ project }: ProjectDetailsProps) {
                 <ProjectDescriptionAndStory project={project} />
               </section>
 
+              {hasWorkLogs && (
+                <section>
+                  <ProjectWorkLogs project={project} />
+                </section>
+              )}
+
               {/* Mobile-only: Show metadata at bottom on smaller screens */}
               <div className="lg:hidden">
                 <ProjectMetadata project={project} />
@@ -203,6 +211,12 @@ export function ProjectDetails({ project }: ProjectDetailsProps) {
               <ProjectDescriptionAndStory project={project} />
             </section>
 
+            {hasWorkLogs && (
+              <section>
+                <ProjectWorkLogs project={project} />
+              </section>
+            )}
+
             {/* 5. Metadata - Full width in single column */}
             <section>
               <ProjectMetadata project={project} />
@@ -213,6 +227,4 @@ export function ProjectDetails({ project }: ProjectDetailsProps) {
     </div>
   );
 }
-
-
 

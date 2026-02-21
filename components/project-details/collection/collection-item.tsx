@@ -404,13 +404,7 @@ export default function CollectionItemCard({ item, project, inModal, folderName,
 function UrlLinkViewer({ item, onRequestFullscreen, folderName, collectionName, project }: ExtendedCollectionItemViewerProps) {
   // embed state: null = loading, true = allowed, false = blocked
   const [embedAllowed, setEmbedAllowed] = useState<boolean | null>(null)
-  const [isMobile, setIsMobile] = useState(false)
   const timeoutRef = useRef<number | null>(null)
-  
-  // Detect mobile on mount
-  useEffect(() => {
-    setIsMobile(window.innerWidth < 768);
-  }, []);
   
   const rawPath = getItemPath(item, folderName, collectionName);
   // Prefer optimized video file when available, fall back to original
@@ -519,8 +513,8 @@ function UrlLinkViewer({ item, onRequestFullscreen, folderName, collectionName, 
   const hasThumbnail = !!getThumbnailPath(item)
   const thumbnailIsVideo = isVideoThumbnail(getThumbnailPath(item))
   
-  // On mobile, never autoplay video thumbnails
-  const shouldAutoPlayVideoThumbnail = isMobile ? false : (item.autoPlay !== false);
+  // Prefer a static thumbnail for link cards to avoid autoplaying previews in the grid.
+  const shouldAutoPlayVideoThumbnail = false;
 
   useEffect(() => {
     // Only set up embed timeout if we don't have a thumbnail
@@ -652,13 +646,6 @@ function UrlLinkViewer({ item, onRequestFullscreen, folderName, collectionName, 
 }
 
 function FolioViewer({ item, onRequestFullscreen, folderName, collectionName, project }: ExtendedCollectionItemViewerProps) {
-  const [isMobile, setIsMobile] = useState(false)
-  
-  // Detect mobile on mount
-  useEffect(() => {
-    setIsMobile(window.innerWidth < 768);
-  }, []);
-  
   // Helper to get optimized thumbnail path
   const getOptimizedThumbnail = (): string | undefined => {
     const thumbnailPath = getThumbnailPath(item);
@@ -732,8 +719,8 @@ function FolioViewer({ item, onRequestFullscreen, folderName, collectionName, pr
   const hasThumbnail = !!getThumbnailPath(item)
   const thumbnailIsVideo = isVideoThumbnail(getThumbnailPath(item))
   
-  // On mobile, never autoplay video thumbnails
-  const shouldAutoPlayVideoThumbnail = isMobile ? false : (item.autoPlay !== false);
+  // Prefer a static thumbnail for folio cards to avoid autoplaying previews in the grid.
+  const shouldAutoPlayVideoThumbnail = false;
 
   return (
     <CollectionItemWrapper 
@@ -925,6 +912,12 @@ function VideoViewer({ item, onRequestFullscreen, folderName, collectionName, pr
     if (fullPath.includes('-optimized') || fullPath.includes('-thumb')) {
       return fullPath;
     }
+
+    // Video thumbnails should use a generated still image for preview
+    if (thumbnailPath.match(/\.(mp4|mov|webm|avi|mkv)$/i)) {
+      const withoutExt = fullPath.replace(/\.[^.]+$/, '');
+      return `${withoutExt}-thumb.jpg`;
+    }
     
     // Convert to optimized version
     const withoutExt = fullPath.replace(/\.[^.]+$/, '');
@@ -933,27 +926,32 @@ function VideoViewer({ item, onRequestFullscreen, folderName, collectionName, pr
 
   // use thumbnail as poster when provided
   const poster = getOptimizedPoster();
+  const hasPosterThumbnail = Boolean(poster);
   
   // On mobile, never autoplay to prevent videos from taking over the screen
   // Users must tap play to start the video
   const shouldAutoPlay = isMobile ? false : (item.autoPlay !== false);
   const shouldLoop = item.loop !== false;
 
-  // On mobile, show a thumbnail/poster with play button overlay until user taps play
-  if (isMobile && !userInitiatedPlay) {
+  // In the collection grid, if a thumbnail exists, use the thumbnail card instead of autoplaying video.
+  if (hasPosterThumbnail && !userInitiatedPlay) {
     return (
       <CollectionItemWrapper item={item} onRequestFullscreen={onRequestFullscreen} project={project}>
         <div 
           className="relative w-full h-full cursor-pointer"
           onClick={(e) => {
             e.stopPropagation();
-            setUserInitiatedPlay(true);
+            if (isMobile) {
+              setUserInitiatedPlay(true);
+            } else {
+              onRequestFullscreen?.();
+            }
           }}
         >
           {/* Poster/thumbnail image */}
-          {poster ? (
+          {hasPosterThumbnail ? (
             <Image
-              src={poster}
+              src={poster as string}
               alt={item.label || "Video thumbnail"}
               fill
               className="object-cover"

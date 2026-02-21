@@ -1,1666 +1,602 @@
 [
   {
-    "category": "Art",
-    "collection": {
-      "Models": {
-        "images": {},
-        "items": [
-          {
-            "filePath": "Standard Model.obj",
-            "id": "8AF85A7E-96D4-4211-A035-E583B9721A58",
-            "label": "Standard Model",
-            "order": 0,
-            "resource": {
-              "category": "app",
-              "label": "",
-              "type": "googlePlay",
-              "url": ""
-            },
-            "summary": "A wall-mounted 3D model that presents the Standard Model of particle physics in a clear, physical layout, turning an abstract framework into a tangible object. Designed to be both printable and educational, it emphasizes structure and relationships rather than decorative detail.",
-            "thumbnail": "thumbnail.png",
-            "type": "3d-model"
-          },
-          {
-            "filePath": "Unity_Demo.mov",
-            "id": "FAE237D8-651C-40E4-8B4C-474CD15AF543",
-            "label": "Unity Video Game Demo",
-            "order": 1,
-            "resource": {
-              "category": "app",
-              "label": "",
-              "type": "Google Play",
-              "url": ""
-            },
-            "summary": "This was a short video game I made to learn how to use Unity software.",
-            "thumbnail": {
-              "id": "0CEB29C9-9FFD-4D5B-A0B4-E7EB9C56F02D",
-              "path": ""
-            },
-            "type": "video"
-          }
-        ]
-      }
-    },
-    "createdAt": 548254201.534619,
-    "description": "This collection brings together a range of 3D models created during my early work in Blender. Each piece was built with a specific purpose, from simple objects intended for 3D printing to assets designed for animation and game environments. The collection is not centered on a single style or outcome, but on learning how digital form works across different contexts. Earlier models focus on basic structure, lighting, and scale, while later ones begin to account for motion, function, and narrative use. Taken together, the work documents a gradual shift from experimenting with tools to understanding how design decisions support real-world and virtual applications.",
-    "domain": "Creative",
-    "featured": false,
-    "id": "F0FAAE95-5037-4030-B0CB-A4C0F7F700F6",
-    "images": {
-      "thumbnail": "thumbnail.png"
-    },
-    "isPublic": true,
-    "phase": "Adding on",
-    "status": "In Progress",
-    "story": "I started using Blender without a defined goal, beyond wanting to understand how 3D objects are constructed. The first models were simple and practical, often made so they could be printed or physically tested, which helped clarify how digital geometry translates into real space. As I grew more comfortable, I began creating characters and props for small animations and game scenes, where models needed to work within a larger system. Each project added a small lesson that stayed with me, whether about lighting, surface detail, or how form can suggest use or weight. Looking back, the collection reads as a timeline of that learning process, showing gradual improvement, experimentation, and a growing sense of control rather than a polished end result.  ",
+    "id": "304aec94-4d3c-8029-a1b1-ea0f92487137",
+    "title": "Notion Project Organization",
+    "name": "Notion Project Organization",
     "subtitle": "",
-    "summary": "A personal collection of 3D models made while learning Blender, focused on understanding form, scale, and how digital objects function across different uses. It serves as a record of skill development rather than a single, unified project.  ",
-    "tags": [
-      "Art",
-      "Blender",
-      "3D",
-      "Modeling",
-      "Printing"
-    ],
-    "title": "3D Models Collection",
-    "updatedAt": 599542630.5881424,
-    "name": "3D Models Collection",
-    "folderName": "3d_models_collection_F0FAAE95-5037-4030-B0CB-A4C0F7F700F6"
-  },
-  {
-    "category": "Other",
-    "collection": {
-      "2D": {
-        "images": {},
-        "items": [
-          {
-            "filePath": "The Vortex.mov",
-            "id": "DB9648E5-C64B-420C-83A8-21187DF4FFA6",
-            "label": "The Vortex",
-            "order": 0,
-            "resource": {
-              "category": "app",
-              "label": "",
-              "type": "Google Play",
-              "url": ""
-            },
-            "summary": "This was basically an animation test of a character jumping off a cliff, but the real goal was to play with camera movement, staging, and perspective. It shows the character from a bunch of different angles and in different poses so I could practice movement, timing, and action.",
-            "thumbnail": {
-              "id": "12E143EF-AB4F-4ED4-B28D-686DF42C2488",
-              "path": ""
-            },
-            "type": "video"
-          },
-          {
-            "filePath": "Easter Bunny.mov",
-            "id": "963324A2-DC62-48BC-8CBD-FD467F53CE91",
-            "label": "Easter Bunny",
-            "order": 1,
-            "resource": {
-              "category": "app",
-              "label": "",
-              "type": "Google Play",
-              "url": ""
-            },
-            "summary": "This was a goofy little animation I made that imagines the Easter Bunny as the unlikely hero of the Easter story. It shows the bunny stumbling upon Jesus after the crucifixion and saving Him, basically giving a ridiculous alternate “origin story” for the Easter Bunny and why he becomes such a symbolic character. It’s meant to be playful, weird, and not taken too seriously.",
-            "thumbnail": {
-              "id": "9D049E89-A479-4102-94AB-D097AB0B0AB2",
-              "path": ""
-            },
-            "type": "video"
-          },
-          {
-            "filePath": "Santa.mov",
-            "id": "FCCD6BF4-42C9-4C52-AB2B-A7173479B7CB",
-            "label": "Santa",
-            "order": 2,
-            "resource": {
-              "category": "app",
-              "label": "",
-              "type": "Google Play",
-              "url": ""
-            },
-            "summary": "This one is a darker, funny short where Santa spends the entire year obsessively trying to lose weight… only for Christmas to roll around and reveal that he has a full-blown cookie addiction. It’s a ridiculous, exaggerated take on Santa with a slightly messed-up sense of humor.",
-            "thumbnail": {
-              "id": "057B013F-3146-499E-AC52-E8D28D71BB74",
-              "path": ""
-            },
-            "type": "video"
-          },
-          {
-            "filePath": "Greenhorn version 1.mov",
-            "id": "5692E011-BC7E-4BFC-A90E-847A1B0CEFDE",
-            "label": "Greenhorn V1",
-            "order": 3,
-            "summary": "This was my first attempt at what Greenhorn as a show could look like. It has a lot of Cyanide & Happiness vibes in tone and style, kind of crude, simple, and punchline-driven.",
-            "thumbnail": {
-              "id": "F48AE053-333D-45B4-ACAA-0141743BA6E0",
-              "path": ""
-            },
-            "type": "video"
-          },
-          {
-            "filePath": "Greenhorn - Uncanny.mov",
-            "id": "02FC22DE-56D0-43E3-A85A-CE0D01CE74FC",
-            "label": "Greenhorn Uncanny",
-            "order": 4,
-            "summary": "Another experiment with Greenhorn, but this time I pushed the characters toward a much more human, slightly unsettling style. It’s basically me exploring how weird the show could feel visually.",
-            "thumbnail": {
-              "id": "77641C33-E2D2-4DC1-B4C1-7402643D00E1",
-              "path": ""
-            },
-            "type": "video"
-          },
-          {
-            "filePath": "Greenhorn - Less Animated.mov",
-            "id": "A329F037-5B8E-4D12-B452-7248AA7BCD74",
-            "label": "Greenhorn Less Animated",
-            "order": 5,
-            "summary": "This version was closer to a moving storyboard than a full animation. The characters look very different, and the focus was more on storytelling and beats rather than fluid animation.",
-            "thumbnail": {
-              "id": "4D0254F0-486D-4236-971A-5888FDBC1F31",
-              "path": ""
-            },
-            "type": "video"
-          },
-          {
-            "filePath": "Funeral.mov",
-            "id": "BE2DC8B0-910B-4466-995E-F230AFCF7268",
-            "label": "Funeral",
-            "order": 6,
-            "resource": {
-              "category": "app",
-              "label": "",
-              "type": "Google Play",
-              "url": ""
-            },
-            "summary": "A silly sketch about a jerk’s funeral. It leans into dark humor and just kind of plays with the idea of how people might actually feel when someone awful dies.",
-            "thumbnail": {
-              "id": "F81797CF-C343-49B1-AD09-E9C022982A58",
-              "path": ""
-            },
-            "type": "video"
-          },
-          {
-            "filePath": "Cheap_Timeline_7_S1.mov",
-            "id": "A407536C-7482-4FB1-AD0B-3C62BC3791EC",
-            "label": "Timeline 7 – Cheap Version",
-            "order": 7,
-            "summary": "When I thought Timeline 7 might become an animation, I made this super rough, cheap-looking version just to get the idea out and see what it might feel like.",
-            "thumbnail": {
-              "id": "6B078CC3-94EA-4672-8FD2-12C68BE53DB2",
-              "path": ""
-            },
-            "type": "video"
-          },
-          {
-            "filePath": "Cheap T7.mov",
-            "id": "21031255-A941-4541-8FC2-C2E09FFADD13",
-            "label": "Timeline 7 – Slightly Better Version",
-            "order": 8,
-            "summary": "Same idea as the cheap version, but this time I realized backgrounds kind of matter, so I actually hand-drew them and bumped the quality up a bit.",
-            "thumbnail": {
-              "id": "1CE9E538-0641-4FD9-80B2-57F2F0F2339F",
-              "path": ""
-            },
-            "type": "video"
-          },
-          {
-            "filePath": "Channel 5 News - Bo Burnham.mov",
-            "id": "C59E86C1-6557-4652-8073-DAB7B268A21E",
-            "label": "Channel 5 News",
-            "order": 9,
-            "resource": {
-              "category": "app",
-              "label": "",
-              "type": "Google Play",
-              "url": ""
-            },
-            "summary": "This was a lip sync animation test using a Bo Burnham song. Mostly just me practicing mouth shapes, timing, and expressiveness.",
-            "thumbnail": {
-              "id": "93488390-EF17-40BC-960A-8D1C7CD9411F",
-              "path": ""
-            },
-            "type": "video"
-          },
-          {
-            "filePath": "Bass_Ackward_Lip_Sync_Test.mov",
-            "id": "758D142D-EB2B-4F84-B178-BAFE97EB8CB6",
-            "label": "Bassakwards",
-            "order": 10,
-            "resource": {
-              "category": "app",
-              "label": "",
-              "type": "Google Play",
-              "url": ""
-            },
-            "summary": "Another lip sync test, but this time using a Tech N9ne track, which meant faster pacing and trickier timing. It was mainly about pushing accuracy and rhythm.",
-            "thumbnail": {
-              "id": "957E0E3F-C786-4ACD-B6F9-7F473F160214",
-              "path": ""
-            },
-            "type": "video"
-          }
-        ]
-      }
-    },
-    "createdAt": 415278441.44893646,
-    "description": "This collection brings together a range of animations produced across different periods, tools, and creative goals. It includes 3D models and scenes developed in Blender alongside 2D animations focused on timing, clarity, and visual communication. Some works are polished and complete, while others function more as studies—short explorations of movement, structure, or technique. Together, they show how ideas evolve when approached through different dimensions and constraints. The collection is intended for viewers interested in process as much as outcome, offering a clear look at how visual ideas are tested, refined, and sometimes left intentionally unresolved.",
-    "domain": "Creative",
+    "summary": "",
+    "domain": "Personal",
+    "category": "organization",
+    "status": "Active",
+    "phase": "Development",
     "featured": false,
-    "id": "C99BCDBF-5992-44EE-A939-E55CE8CF945A",
-    "images": {
-      "thumbnail": "thumbnail.webp"
-    },
+    "createdAt": "2026-02-11",
+    "updatedAt": "2026-02-11",
     "isPublic": true,
-    "phase": "Designing",
-    "status": "In Progress",
-    "story": "I created these animations at different points while learning, experimenting, and working through specific visual problems. Some started as technical exercises—understanding lighting, rigging, or motion curves—while others came from a desire to translate an idea into something that moved and felt coherent. Working across both 2D and 3D helped me think more precisely about space, pacing, and intent. This collection isn’t meant to present a single style or conclusion, but rather to document how my approach to animation has changed over time, and what I’ve learned by building things that move instead of just imagining them.",
-    "subtitle": "A personal archive of motion studies, experiments, and finished pieces across 2D and 3D.",
-    "summary": "A curated collection of animations created over time, spanning 2D work and 3D models built and animated in Blender. Each piece reflects a specific problem explored through motion, form, or timing.",
-    "tags": [
-      "3D Modeling",
-      "Blender",
-      "2D Animation",
-      "3D Animation",
-      "Motion Design",
-      "Animation"
-    ],
-    "title": "Animation Collection",
-    "updatedAt": 630848018.206808,
-    "name": "Animation Collection",
-    "folderName": "animation_collection_C99BCDBF-5992-44EE-A939-E55CE8CF945A"
-  },
-  {
-    "category": "Art",
-    "collection": {
-      "Pages": {
-        "images": {},
-        "items": [
-          {
-            "filePath": "7D2099B3-AA65-4583-8AFE-6341BA5B4B02.bin",
-            "id": "CDA0E946-5AAD-4842-A1E4-5EEC7C4D1F05",
-            "label": "1. In The Beginning",
-            "order": 0,
-            "resource": {
-              "category": "app",
-              "label": "",
-              "type": "googlePlay",
-              "url": ""
-            },
-            "summary": "This page shows the Big Bang, marking the origin of the universe and the start of space, time, and matter.",
-            "thumbnail": {
-              "id": "55C09A96-019A-4B39-9D7D-A06C5981DE28",
-              "path": ""
-            },
-            "type": "image"
-          },
-          {
-            "filePath": "D9172DF6-78CF-4C4A-9D18-F258F048B818.bin",
-            "id": "7639335E-405B-4944-98B4-2451AB3EADFD",
-            "label": "2. Building Blocks",
-            "order": 1,
-            "resource": {
-              "category": "app",
-              "label": "",
-              "type": "googlePlay",
-              "url": ""
-            },
-            "summary": "An overview of the standard model, introducing the fundamental particles and forces that make up everything in the universe.",
-            "thumbnail": {
-              "id": "17C321E5-06A2-4697-A410-DDA4EC0FA6E4",
-              "path": ""
-            },
-            "type": "image"
-          },
-          {
-            "filePath": "C321D643-A729-471F-A3C0-FE8FEF171771.bin",
-            "id": "C02ABBDC-FFA9-405C-994D-95943B4DCBBC",
-            "label": "3. Stars and Galaxies",
-            "order": 2,
-            "resource": {
-              "category": "app",
-              "label": "",
-              "type": "googlePlay",
-              "url": ""
-            },
-            "summary": "Stars form from clouds of gas and dust, grouping into galaxies that shape the large-scale structure of the universe.",
-            "thumbnail": {
-              "id": "D4504B37-FCF9-45DC-8E2C-47BA39F80FE7",
-              "path": ""
-            },
-            "type": "image"
-          },
-          {
-            "filePath": "110993D4-0DBD-4C0D-B877-66216F9735B8.bin",
-            "id": "132ACA57-2D7A-4F10-8CE3-92426D754243",
-            "label": "4. The Solar System",
-            "order": 3,
-            "resource": {
-              "category": "app",
-              "label": "",
-              "type": "googlePlay",
-              "url": ""
-            },
-            "thumbnail": {
-              "id": "77DAC928-7B02-4E73-928B-21023DBF4A31",
-              "path": ""
-            },
-            "type": "image"
-          },
-          {
-            "filePath": "E4D64053-9AEE-495D-AD79-BDDA409BF0F1.bin",
-            "id": "90F01B39-E50B-4349-9209-EABF120DD8C5",
-            "label": "5. Earth Science",
-            "order": 4,
-            "resource": {
-              "category": "app",
-              "label": "",
-              "type": "googlePlay",
-              "url": ""
-            },
-            "summary": "Earth’s geology, atmosphere, and oceans interact as a system, shaping the planet’s surface and long-term stability.",
-            "thumbnail": {
-              "id": "D408F063-8DB1-48F7-9DEC-8DD518A23B91",
-              "path": ""
-            },
-            "type": "image"
-          },
-          {
-            "filePath": "BC794A17-E4DA-41E1-8085-BA8B736279FF.bin",
-            "id": "BD3B8BF1-7D32-43EC-90BB-C9AB57521694",
-            "label": "6. Hadean Eon",
-            "order": 5,
-            "resource": {
-              "category": "app",
-              "label": "",
-              "type": "googlePlay",
-              "url": ""
-            },
-            "thumbnail": {
-              "id": "C46C74F8-9FBE-4766-9A82-E643285A14CD",
-              "path": ""
-            },
-            "type": "image"
-          },
-          {
-            "filePath": "E31BC596-89E4-4F0C-9068-5304D17BE594.bin",
-            "id": "803D5E0B-7E2C-4936-8828-5517EA0C69DD",
-            "label": "7. Archean Eon",
-            "order": 6,
-            "resource": {
-              "category": "app",
-              "label": "",
-              "type": "googlePlay",
-              "url": ""
-            },
-            "thumbnail": {
-              "id": "1D4A06A3-5E65-449E-BBCB-21080F7A7CA4",
-              "path": ""
-            },
-            "type": "image"
-          },
-          {
-            "filePath": "0F67D9A2-8D6E-415C-B7E9-9DC1F14EA5F3.bin",
-            "id": "55799E85-0F65-4D27-9AE1-811376BC9613",
-            "label": "8. Proterozoic Eon",
-            "order": 7,
-            "resource": {
-              "category": "app",
-              "label": "",
-              "type": "googlePlay",
-              "url": ""
-            },
-            "thumbnail": {
-              "id": "80A4A2FD-EFBE-4EFC-A004-FE0F69FED352",
-              "path": ""
-            },
-            "type": "image"
-          },
-          {
-            "filePath": "C63BE22C-20E5-4CF4-A5C9-B0E69755C125.bin",
-            "id": "7F3DBADE-11EC-452A-8F85-226749525925",
-            "label": "9. Cambrian Period",
-            "order": 8,
-            "resource": {
-              "category": "app",
-              "label": "",
-              "type": "googlePlay",
-              "url": ""
-            },
-            "summary": "Life rapidly diversifies, with most major animal body plans appearing in the fossil record.",
-            "thumbnail": {
-              "id": "E952B7B2-62B9-4EB5-B0F6-624E15B597E8",
-              "path": ""
-            },
-            "type": "image"
-          },
-          {
-            "filePath": "9A64B4E3-0052-40A8-80A8-F1D8E7BB1F4E.bin",
-            "id": "E843403E-3810-4A17-945D-19FE065AEB27",
-            "label": "10. Ordovician",
-            "order": 9,
-            "resource": {
-              "category": "app",
-              "label": "",
-              "type": "googlePlay",
-              "url": ""
-            },
-            "thumbnail": {
-              "id": "C603E026-A70B-475A-AACA-189E1A343FD3",
-              "path": ""
-            },
-            "type": "image"
-          },
-          {
-            "filePath": "23D95CAA-F6A3-404E-811D-AD5B045C7900.bin",
-            "id": "69A23240-3158-4B81-B637-79F5B5F3545A",
-            "label": "11. Silurian Period",
-            "order": 10,
-            "resource": {
-              "category": "app",
-              "label": "",
-              "type": "googlePlay",
-              "url": ""
-            },
-            "thumbnail": {
-              "id": "18792A4F-ACB3-46BE-808A-0882EE8C348E",
-              "path": ""
-            },
-            "type": "image"
-          },
-          {
-            "filePath": "BD9CA3F7-4EF3-416C-B843-614B076231B8.bin",
-            "id": "D21CF940-7A4D-44A7-83DB-03A9AB52E767",
-            "label": "12. Devonian Period",
-            "order": 11,
-            "resource": {
-              "category": "app",
-              "label": "",
-              "type": "googlePlay",
-              "url": ""
-            },
-            "thumbnail": {
-              "id": "C56F35DC-2BF2-4CBE-920A-A17FCFD7814D",
-              "path": ""
-            },
-            "type": "image"
-          },
-          {
-            "filePath": "DE02DA6D-E494-46F2-9C12-DC96438FD56F.bin",
-            "id": "76F2B256-4500-49C6-BF84-4B970607695B",
-            "label": "13. Carboniferous Period",
-            "order": 12,
-            "resource": {
-              "category": "app",
-              "label": "",
-              "type": "googlePlay",
-              "url": ""
-            },
-            "thumbnail": {
-              "id": "2C78A25A-4A49-457D-9202-06B61EE1080C",
-              "path": ""
-            },
-            "type": "image"
-          },
-          {
-            "filePath": "ADC075DB-4603-48A9-B7CE-9ACBFBDEC7B5.bin",
-            "id": "F1C971A6-E63A-4338-BDA3-6474B2DFFDDC",
-            "label": "14. Permian Period",
-            "order": 13,
-            "resource": {
-              "category": "app",
-              "label": "",
-              "type": "googlePlay",
-              "url": ""
-            },
-            "thumbnail": {
-              "id": "D3FDDBA5-1D59-4DB6-9CE2-AC6625E6EADB",
-              "path": ""
-            },
-            "type": "image"
-          },
-          {
-            "filePath": "8E2D08FA-2083-4AA4-BAAC-6D7159D37AB2.bin",
-            "id": "40D5EF16-5402-4C06-8F58-6B5E93830557",
-            "label": "15. Triassic Period",
-            "order": 14,
-            "resource": {
-              "category": "app",
-              "label": "",
-              "type": "googlePlay",
-              "url": ""
-            },
-            "thumbnail": {
-              "id": "B12DE8A9-5CC2-4AE6-8319-6FDC915F772E",
-              "path": ""
-            },
-            "type": "audio"
-          },
-          {
-            "filePath": "307DD0D6-F38D-4D90-A704-3BE0B40A6753.bin",
-            "id": "3E67C8F8-6481-41F1-9D0C-32A5DCABB415",
-            "label": "16. Jurassic Period",
-            "order": 15,
-            "resource": {
-              "category": "app",
-              "label": "",
-              "type": "googlePlay",
-              "url": ""
-            },
-            "thumbnail": {
-              "id": "9328E7B5-8764-4ED8-8216-9D02BBB072E2",
-              "path": ""
-            },
-            "type": "image"
-          },
-          {
-            "filePath": "FF73232E-1F86-4370-B07A-BE3591D0AB44.bin",
-            "id": "595780F1-10B2-4FF9-92D0-B43984D9DCA7",
-            "label": "17. Cretaceous Period",
-            "order": 16,
-            "resource": {
-              "category": "app",
-              "label": "",
-              "type": "googlePlay",
-              "url": ""
-            },
-            "thumbnail": {
-              "id": "213F09CE-3AA5-4682-9F15-71D5A30CF90F",
-              "path": ""
-            },
-            "type": "image"
-          },
-          {
-            "filePath": "BE249F3A-CA56-4D3B-AF1C-073667128CCA.bin",
-            "id": "8C1585A9-0804-4AA5-AF7B-288BB5C9EA09",
-            "label": "18. Paleogene Period",
-            "order": 17,
-            "resource": {
-              "category": "app",
-              "label": "",
-              "type": "googlePlay",
-              "url": ""
-            },
-            "thumbnail": {
-              "id": "BC7A3614-ED8A-45A7-9A35-E2705F76EE8B",
-              "path": ""
-            },
-            "type": "image"
-          },
-          {
-            "filePath": "7A354121-2264-439A-8104-0DDF12686CAE.bin",
-            "id": "0357FDAF-4018-4B12-A76A-E4F539F4FB58",
-            "label": "19. Neogene Period",
-            "order": 18,
-            "resource": {
-              "category": "app",
-              "label": "",
-              "type": "googlePlay",
-              "url": ""
-            },
-            "thumbnail": {
-              "id": "8E2F3568-D604-4A12-8596-7C99D7E3E1EA",
-              "path": ""
-            },
-            "type": "image"
-          },
-          {
-            "filePath": "35185F18-9A69-4FCE-8110-7706BD19529F.bin",
-            "id": "9E41710F-F600-4B5B-82A9-98108A5909CA",
-            "label": "20. Family Tree",
-            "order": 19,
-            "resource": {
-              "category": "app",
-              "label": "",
-              "type": "googlePlay",
-              "url": ""
-            },
-            "thumbnail": {
-              "id": "165E3722-9104-4830-9D6D-1D1B8A685925",
-              "path": ""
-            },
-            "type": "image"
-          },
-          {
-            "filePath": "5688BC17-B82A-41ED-A028-902C922FC690.bin",
-            "id": "1B202A66-A53A-457D-8309-87BA0E246FF0",
-            "label": "21. Human Biology",
-            "order": 20,
-            "resource": {
-              "category": "app",
-              "label": "",
-              "type": "googlePlay",
-              "url": ""
-            },
-            "thumbnail": {
-              "id": "6F5A514E-473A-4D90-B247-8EDFAAED621D",
-              "path": ""
-            },
-            "type": "image"
-          },
-          {
-            "filePath": "6CAC51D0-E1B9-4BFB-83B8-BD9A219C687B.bin",
-            "id": "D997D1F1-9F67-449D-A60B-9D1ACD3AC03E",
-            "label": "22. Prey to Predator to Conquerer",
-            "order": 21,
-            "resource": {
-              "category": "app",
-              "label": "",
-              "type": "googlePlay",
-              "url": ""
-            },
-            "summary": "Humans transition from vulnerable animals to dominant hunters and tool users.",
-            "thumbnail": {
-              "id": "F7A32BB7-55BC-419B-821C-7D1945068FC2",
-              "path": ""
-            },
-            "type": "image"
-          },
-          {
-            "filePath": "87BA4209-1ED8-4ED7-B59E-8E23DA723840.bin",
-            "id": "BD6B870E-6D21-40EE-AA7D-30EC7CA3032F",
-            "label": "23. Mesopotamia // Indus Valley",
-            "order": 22,
-            "resource": {
-              "category": "app",
-              "label": "",
-              "type": "googlePlay",
-              "url": ""
-            },
-            "summary": "Early river civilizations develop agriculture, cities, and written systems to manage growing societies.",
-            "thumbnail": {
-              "id": "F7FC553C-8D0D-4C53-9653-8816E30505D6",
-              "path": ""
-            },
-            "type": "image"
-          },
-          {
-            "filePath": "072586F0-EBBC-4E6A-95FD-FB03A11FEB32.bin",
-            "id": "4862A94A-5E36-41AA-8BDE-3C9D6666234A",
-            "label": "24. Ancient Egypt",
-            "order": 23,
-            "resource": {
-              "category": "app",
-              "label": "",
-              "type": "googlePlay",
-              "url": ""
-            },
-            "summary": "A centralized civilization built around the Nile, defined by long-lasting institutions and monumental architecture.",
-            "thumbnail": {
-              "id": "8069C235-B20E-471B-8894-CD29C7DD9D8C",
-              "path": ""
-            },
-            "type": "image"
-          },
-          {
-            "filePath": "7E3D5F6F-84C0-401B-AA03-C389AFE382CE.bin",
-            "id": "8E8366D7-914C-43D0-B302-674E5E044B06",
-            "label": "25. Akkadian Empire // Babylonian Dynasty",
-            "order": 24,
-            "resource": {
-              "category": "app",
-              "label": "",
-              "type": "googlePlay",
-              "url": ""
-            },
-            "summary": "Empires form through conquest and law, spreading shared systems across large regions.",
-            "thumbnail": {
-              "id": "617E4806-BAE0-4A65-914F-6107032A8A69",
-              "path": ""
-            },
-            "type": "image"
-          },
-          {
-            "filePath": "4D201CA0-21A5-4949-9260-9DE8648388CD.bin",
-            "id": "88DC7AE5-4A64-42A0-91D8-C28CBC5EFF6D",
-            "label": "26. Vedic Period // Shang Dynasty",
-            "order": 25,
-            "resource": {
-              "category": "app",
-              "label": "",
-              "type": "googlePlay",
-              "url": ""
-            },
-            "summary": "Religious traditions, social structures, and early states take shape in South and East Asia.",
-            "thumbnail": {
-              "id": "C02B523E-ABB1-497A-850D-FEDF2A33614D",
-              "path": ""
-            },
-            "type": "image"
-          },
-          {
-            "filePath": "0A8BD498-F6F1-4CC8-819C-11B268FEFB10.bin",
-            "id": "62AB2E92-6C5E-447B-9B37-4732DB68F826",
-            "label": "27. Ancient Greece",
-            "order": 26,
-            "resource": {
-              "category": "app",
-              "label": "",
-              "type": "googlePlay",
-              "url": ""
-            },
-            "summary": "Independent city-states and vast empires develop contrasting approaches to governance and culture.",
-            "thumbnail": {
-              "id": "646309CA-85E1-452C-B556-9D13948B10E5",
-              "path": ""
-            },
-            "type": "image"
-          },
-          {
-            "filePath": "53D83FAD-E2E0-4D11-86C2-E0F3671A348D.bin",
-            "id": "5986F413-2C41-43BB-97EC-E0673C175C79",
-            "label": "28. Persian Empire",
-            "order": 27,
-            "resource": {
-              "category": "app",
-              "label": "",
-              "type": "googlePlay",
-              "url": ""
-            },
-            "summary": "Independent city-states and vast empires develop contrasting approaches to governance and culture.",
-            "thumbnail": {
-              "id": "89C450B0-EC32-4643-968B-AB76C5FE9F8A",
-              "path": ""
-            },
-            "type": "image"
-          },
-          {
-            "filePath": "196F4329-21B1-439F-A8F1-EBEE52648FB8.bin",
-            "id": "9AC8118A-B17C-4BAF-9C7E-74963BFBC62A",
-            "label": "49. Quantum Revolution",
-            "order": 28,
-            "resource": {
-              "category": "app",
-              "label": "",
-              "type": "googlePlay",
-              "url": ""
-            },
-            "summary": "New theories overturn classical physics and redefine our understanding of reality.",
-            "thumbnail": {
-              "id": "C00AE86E-1EB1-498D-9613-105797D6AB34",
-              "path": ""
-            },
-            "type": "image"
-          }
-        ]
-      }
-    },
-    "createdAt": 590412667.72301,
-    "description": "This coloring book traces major moments in history through a series of hand-drawn illustrations. Each page focuses on a specific period or event, presenting information in a simple, visual way that can be engaged with by coloring. The drawings were made on an iPad using an Apple Pencil and then compiled into a printed format. The goal was to make the scope of history feel more manageable by breaking it into individual pages that invite slower, more focused attention. It’s meant for anyone curious about how large stretches of time and events connect, from the beginnings of life to the stories that shaped the world.",
-    "domain": "Creative",
-    "featured": false,
-    "genres": [
-      "Educational",
-      "Activity book"
-    ],
-    "id": "FC466C78-53F8-42F2-BD85-95F08E4A5544",
-    "images": {
-      "banner": "banner.png",
-      "thumbnail": "thumbnail.png"
-    },
-    "isPublic": true,
-    "mediums": [
-      "Coloring book"
-    ],
-    "phase": "abandoned",
-    "status": "done",
-    "story": "I started this project after finishing work on my TV pilot, during a period when I was watching a lot of PBS Eons and reading about science and early life. I missed drawing, especially the slower background work I had done on Greenhorn, but I’ve always had a hard time making art without a clear purpose. I tend to work better when there’s a defined structure behind the idea. The coloring book came out of that mix of curiosity and restlessness. I liked the idea of laying out the history of everything, one page at a time, in a format people could spend time with. For a while, the project felt steady and satisfying—the research, the drawing, and the accumulation of pages. Over time, though, it started to feel more like an obligation than an exploration, so I stopped working on it. In hindsight, it served its role. It gave me a reason to draw again, to approach history in a different way, and to value the process even though the book itself remains unfinished.",
-    "subjects": [
-      "History",
-      "Science",
-      "Universe",
-      "Human civilization"
-    ],
-    "subtitle": "A Coloring Book",
-    "summary": "A hand-drawn coloring book that maps major moments in history, designed to make large timelines feel more approachable one page at a time. The project functioned as a structured way to return to drawing and research, even though it was never fully completed.",
-    "tags": [
-      "Art",
-      "Illustration",
-      "Hand drawn"
-    ],
-    "title": "History of everything",
-    "topics": [
-      "Historical timelines",
-      "Origins of life"
-    ],
-    "updatedAt": 619359570.567772,
-    "name": "History of everything",
-    "folderName": "history_of_everything_FC466C78-53F8-42F2-BD85-95F08E4A5544"
-  },
-  {
-    "category": "Story",
-    "createdAt": 532952195.17305505,
-    "description": "Greenhorn is an animated dark comedy-drama about Jeff Wyatt, a sixth grader forced to navigate grief, crime, and moral decay in the icy Alaskan town of Greenhorn. After accidentally killing a man, Jeff is blackmailed into joining a small-town gang, dragging his fractured family into a world of violence and manipulation. The series mixes grounded emotional storytelling with sharp humor, drawing tonal inspiration from Breaking Bad, South Park, and Rick and Morty. Beneath its absurdity runs a story about power, guilt, and the limits of control—how ordinary people rationalize extraordinary wrongdoing. The project is designed for adult animation audiences who appreciate shows that balance comedy with moral consequence and psychological realism.",
-    "domain": "Creative",
-    "featured": false,
-    "genres": [
-      "Comedy",
-      "Crime Drama"
-    ],
-    "id": "F3A1D353-A5DE-4622-9CE0-E0094471BC35",
-    "images": {
-      "banner": "banner.png",
-      "poster": "poster.tiff",
-      "thumbnail": "thumbnail.tiff"
-    },
-    "isPublic": true,
-    "mediums": [
-      "Television"
-    ],
-    "phase": "released",
-    "resources": [
+    "tags": [],
+    "mediums": [],
+    "genres": [],
+    "topics": [],
+    "subjects": [],
+    "description": "",
+    "story": "",
+    "images": {},
+    "resources": [],
+    "collection": {},
+    "workLogs": [
       {
-        "category": "url",
-        "label": "Pilot Episode",
-        "type": "youtube",
-        "url": "https://www.youtube.com/watch?v=QTkuCfIJOps"
-      }
-    ],
-    "status": "done",
-    "story": "This story began as a thought experiment that shifted forms countless times before becoming Greenhorn. I started with the feeling of pressure—wanting to tell a story that felt big while being able to make it entirely on my own. Film was too expensive, too dependent on others, so animation became the path forward. After watching Breaking Bad and Rick and Morty, I became fascinated by how both could balance humor and despair within a single frame. The sad endings of Futurama and Rick and Morty stayed with me, the ones that lingered long after the joke was over. I wanted to build something that could carry that same weight, but through characters that felt painfully human despite their absurdity. Over time, Greenhorn grew into a study of how good intentions curdle under pressure and how easy it is to justify doing the wrong thing for the right reason. Each rewrite brought it closer to the story I saw in my head—the one about a kid who thinks he’s coasting through life but ends up steering straight into hell.",
-    "subtitle": "A TV Pilot",
-    "summary": "An Alaskan middle schooler accidentally kills a man and is pulled into a spiraling world of crime, power, and consequence, turning a small town into his personal battlefield.",
-    "tags": [
-      "Animation"
-    ],
-    "title": "Greenhorn",
-    "updatedAt": 657798424.207523,
-    "name": "Greenhorn",
-    "folderName": "greenhorn_F3A1D353-A5DE-4622-9CE0-E0094471BC35"
-  },
-  {
-    "category": "Story",
-    "createdAt": 401117373.221702,
-    "description": "Mind Adrift is a short-form narrative work centered on cognitive decline and disorientation, told from the inside rather than observed from a distance. It follows a person who is still present in the world—surrounded by family, routines, and familiar spaces—but increasingly unable to connect those pieces into a stable sense of reality. Time slips, relationships blur, and moments repeat or contradict one another without warning.\n\nThe project is less about plot progression and more about structure and perspective. Scenes loop, reset, or fracture in ways that mirror how memory fails in real life. The goal is not to explain the condition or resolve it, but to place the audience inside that experience long enough to understand its logic and weight. It is designed for readers interested in character-driven narratives, psychological realism, and stories that prioritize internal experience over external action.",
-    "domain": "Creative",
-    "featured": false,
-    "genres": [
-      "Tragedy",
-      "Drama",
-      "Literary Fiction"
-    ],
-    "id": "EEE82D81-DCED-47AD-AE5E-30FAC8C56BE5",
-    "images": {
-      "thumbnail": "thumbnail.tiff"
-    },
-    "isPublic": true,
-    "mediums": [
-      "Short Story"
-    ],
-    "phase": "published",
-    "resources": [
-      {
-        "category": "download",
-        "label": "Mind Adrift PDF",
-        "type": "Mind Adrift",
-        "url": "/projects/mind_adrift_EEE82D81-DCED-47AD-AE5E-30FAC8C56BE5/Mind Adrift.pdf"
-      }
-    ],
-    "status": "done",
-    "story": "I made Mind Adrift because I wanted to explore what happens when memory becomes unreliable, not as a twist, but as the central condition of the story. I wasn’t interested in dramatizing decline from the outside. I wanted to write from a place where confusion feels reasonable and persistence feels like effort.\n\nThe process focused on restraint. I avoided explanations and leaned into repetition, small contradictions, and moments that don’t fully land. Writing it meant paying attention to how often we rely on memory to confirm who we are, and how unsettling it is when that system breaks down. This project became a way to slow that experience down and examine it without trying to fix it, letting the gaps and resets speak for themselves.",
-    "subjects": [
-      "Dementia",
-      "Grief and Loss",
-      "Relationships"
-    ],
-    "subtitle": "A Story of Forgetting and Holding On",
-    "summary": "Mind Adrift is a narrative project that explores what it feels like to lose continuity with your own life while still moving through it. It focuses on memory, identity, and the quiet confusion that comes from trying to stay oriented when your mind no longer cooperates.",
-    "tags": [
-      "Story",
-      "Family",
-      "Loss",
-      "Time",
-      "Perception",
-      "Disorientation",
-      "Aging",
-      "Grief",
-      "Memory"
-    ],
-    "title": "Mind Adrift",
-    "topics": [
-      "Family",
-      "Memory loss",
-      "Personal identity"
-    ],
-    "updatedAt": 401124113.54183304,
-    "name": "Mind Adrift",
-    "folderName": "mind_adrift_EEE82D81-DCED-47AD-AE5E-30FAC8C56BE5"
-  },
-  {
-    "category": "Story",
-    "createdAt": 440752495.54586804,
-    "description": "Timeline 7 is a sprawling science fiction novel set hundreds of years after a catastrophic global collapse. The story follows a future civilization struggling to rebuild from the ashes of war, plague, and corruption. Human survivors, fractured into evolving species and new hierarchies, rediscover power, morality, and identity amid shifting political and biological landscapes. Through multiple intersecting perspectives—a soldier, a scientist, and a sentient machine—the book explores how progress and destruction often walk hand in hand. Written for readers who enjoy world-building and layered timelines, Timeline 7 examines the cyclical nature of humanity’s rise and fall with an eye toward resilience and reinvention.",
-    "domain": "Creative",
-    "featured": false,
-    "genres": [
-      "Science Fiction",
-      "Post-Apocalyptic"
-    ],
-    "id": "7AFC000A-A537-42EF-A4B4-40D3258435B0",
-    "images": {
-      "banner": "banner.png",
-      "thumbnail": "thumbnail.png"
-    },
-    "isPublic": true,
-    "mediums": [
-      "Novel"
-    ],
-    "phase": "Published",
-    "resources": [
-      {
-        "category": "download",
-        "label": "Timeline 7 PDF",
-        "type": "Timeline 7 by Zachary Sturman",
-        "url": "/projects/timeline_7_7AFC000A-A537-42EF-A4B4-40D3258435B0/Timeline 7 by Zachary Sturman.pdf"
-      }
-    ],
-    "status": "Done",
-    "story": "This was the first long project I ever truly finished. I began it in Anchorage during long, quiet hours at a news station job that left me more time than purpose. When I moved to Kansas City and took a telemarketing job I didn’t like, the story became an escape. By the time I finished it in Colorado, it had followed me through three states and several stages of who I was becoming. The original idea came from childhood—stories I imagined on a swing set about futuristic heroes fighting impossible wars. Those fragments stayed with me until I decided to give them a world and a structure.\n\nWriting Timeline 7 taught me more about storytelling than anything else I’ve done. I didn’t know exactly how it would end, and in truth, it never quite did. I even started a sequel that I’ll probably never finish. Reading it later, I realized the story wanted to be something else—a graphic novel or maybe a video game—something more visual and alive than a book could hold. Still, finishing it mattered. It was proof I could see something through from beginning to end, even if I later learned it needed a different form.",
-    "subtitle": "Across time, technology, and survival—what remains of humanity fights to define itself again.",
-    "summary": "A post-apocalyptic science fiction story about humanity’s struggle to rebuild after self-destruction, told through intertwined lives across generations and technologies. It’s a personal milestone as much as a narrative one—the first complete story of a lifelong idea.",
-    "tags": [
-      "Epic",
-      "SciFi"
-    ],
-    "title": "Timeline 7",
-    "topics": [
-      "Technology vs Humanity",
-      "Time Travel"
-    ],
-    "updatedAt": 501907437.672914,
-    "name": "Timeline 7",
-    "folderName": "timeline_7_7AFC000A-A537-42EF-A4B4-40D3258435B0"
-  },
-  {
-    "category": "System",
-    "createdAt": 782236017.360592,
-    "description": "ChewSense is an iOS app that helps people slow down while they eat and pay more attention to their habits. It uses the motion sensors in AirPods to pick up chewing—mainly through X-axis acceleration—and gives gentle alerts when someone might be eating too fast. The app records motion and optional video so it can learn a person’s eating pattern and adjust over time. The goal is simple: improve digestion, avoid overeating, and make meals feel more mindful without asking the user to track anything manually.",
-    "domain": "Technology",
-    "featured": false,
-    "id": "96B6C759-C77C-41F9-AFA1-64325010C604",
-    "images": {
-      "banner": "banner.png",
-      "poster": "poster.png",
-      "thumbnail": "thumbnail.png"
-    },
-    "isPublic": true,
-    "mediums": [
-      "Mobile"
-    ],
-    "phase": "live",
-    "resources": [
-      {
-        "category": "app",
-        "label": "App Store Download",
-        "type": "iosAppStore",
-        "url": "https://apps.apple.com/us/app/chew-sense-collect-and-label/id6755277802"
+        "id": "30caec94-4d3c-800c-96ef-e94a94bad09a",
+        "title": "Created full automation and ingest system with project addition in Notion and n8n",
+        "entry": "Created full automation and ingest system with project addition in Notion and n8n",
+        "url": "https://www.notion.so/Created-full-automation-and-ingest-system-with-project-addition-in-Notion-and-n8n-30caec944d3c800c96efe94a94bad09a",
+        "startTime": "2026-02-18T18:54:00.000-08:00",
+        "endTime": "2026-02-18T18:54:00.000-08:00",
+        "date": "2026-02-18T18:54:00.000-08:00",
+        "sessionType": [
+          "Experiment",
+          "Build",
+          "Organizing",
+          "Learning"
+        ],
+        "whatHappened": null,
+        "problems": null,
+        "nextStep": null,
+        "feelGoodAboutWork": 0.9,
+        "accomplishedWhatYouWanted": 0.8,
+        "durationMinutes": 0
       },
       {
-        "category": "repository",
-        "label": "Repo",
-        "type": "github",
-        "url": "https://github.com/ZSturman/ChewSense---Data-Collection-and-Labeling"
-      }
-    ],
-    "status": "done",
-    "story": "This project started from an idea I’d been thinking about for years. I originally assumed I’d have to build my own hardware to detect chewing, which is why I bought a 3D printer and began experimenting with custom sensors. That approach got complicated fast. Instead, I looked for something people already use every day. When I found out AirPods could actually pick up chewing through their motion data, I tested it and saw that the X-axis readings were consistent enough to use. From there, I built two iOS app versions that could record motion and video while someone eats. Working through it showed me that you don’t always need custom hardware—sometimes the tools we already have are good enough to bring an idea to life.",
-    "subtitle": "Using AirPods and motion data to help people slow down and eat more mindfully.",
-    "summary": "An iOS app that uses AirPods’ motion sensors to detect chewing and help users eat more mindfully by slowing down their pace.",
-    "tags": [
-      "iOS",
-      "Swift",
-      "AirPods",
-      "Machine Learning",
-      "Data Analysis",
-      "AI"
-    ],
-    "title": "Chew Sense - Data Collection and Labelling",
-    "topics": [
-      "Health",
-      "Eating"
-    ],
-    "updatedAt": 786473287.596777,
-    "name": "Chew Sense - Data Collection and Labelling",
-    "folderName": "chew_sense_data_collection_and_labelling_96B6C759-C77C-41F9-AFA1-64325010C604"
-  },
-  {
-    "category": "Software",
-    "createdAt": 740801790.553758,
-    "description": "Lost & Hound is a mobile application designed to make it easier to reconnect lost pets with the people looking for them. Instead of relying on flyers, chance encounters, or social media posts that quickly disappear, the app provides a centralized place to report lost pets and log sightings in real time. Users can post details, photos, and locations, browse nearby reports, and reach out directly when something looks like a match.\n\nThe app currently only works in Australia, reflecting where the initial rollout and testing took place. The project was built as a full-stack React Native application with a Node backend and Firebase for data and authentication. One team extended the system further by integrating computer vision, allowing uploaded images of spotted animals to be compared against photos of missing pets. The goal was not to replace human judgment, but to reduce friction and shorten the path between seeing an animal and contacting the right person.",
-    "domain": "Technology",
-    "featured": false,
-    "id": "972176B2-94D9-4C97-B685-61AC32D0B71C",
-    "images": {
-      "banner": "banner.png",
-      "icon": "icon.svg",
-      "poster": "poster.png",
-      "thumbnail": "thumbnail.png"
-    },
-    "isPublic": true,
-    "mediums": [
-      "Mobile"
-    ],
-    "phase": "Released",
-    "resources": [
-      {
-        "category": "repository",
-        "label": "Repo",
-        "type": "GitHub",
-        "url": "https://github.com/ZSturman/Lost-Hound"
-      }
-    ],
-    "status": "Done",
-    "story": "The idea started on my morning walks. I would regularly see lost pet flyers taped to poles, and sometimes I would pass an animal that looked like one of them. By the time I noticed, I had already walked past the flyer and had to backtrack just to get a phone number. After doing that a few times, it felt obvious that there should be a better way to connect sightings with owners in the moment.\n\nAt first the project was going to be called “Lost Paws,” but once someone pointed out that it sounded like “lost cause,” I could not unhear it. Around the same time, I was in Australia pet sitting for a professor at the University of Melbourne. As part of their final grade, students were required to work on a real-world project, and he asked if I would act as an industry professional. I met weekly with two student teams, helping shape requirements, review designs, and think through tradeoffs without prescribing solutions.\n\nOne group went beyond the original scope and built a computer vision pipeline to help match photos of spotted animals with photos of pets reported missing. On my last day in Australia, I attended their award ceremony and watched them present the work they had done. Seeing the app exist in the same place that inspired it, and watching students take ownership of a real system, was the most meaningful outcome of the project.",
-    "subtitle": "Find your Furry Friend",
-    "summary": "A community-driven mobile app that helps reunite lost pets with their owners by turning scattered, offline sightings into a shared, searchable system. The live app currently operates in Australia.",
-    "tags": [
-      "React",
-      "React Native",
-      "Expo",
-      "Node.js",
-      "Firebase",
-      "Computer Vision",
-      "Machine Learning",
-      "Mobile App",
-      "Full Stack",
-      "Australia"
-    ],
-    "title": "Lost & Hound",
-    "topics": [
-      "Pets",
-      "Animals"
-    ],
-    "updatedAt": 750738875.444826,
-    "name": "Lost & Hound",
-    "folderName": "lost_hound_972176B2-94D9-4C97-B685-61AC32D0B71C"
-  },
-  {
-    "category": "Software",
-    "createdAt": 778175671.555743,
-    "description": "MediLedger is designed around a simple idea: most of what you need to do with your medication shouldn’t require opening an app. With interactive widgets, you can log a full or half dose, check how many pills you have left, see when your refill is coming up, and set up different widgets for different medications. The app handles both prescription and non-prescription meds, tracks strength and dosage, and keeps a full history of what you’ve taken. Everything syncs through SwiftData across iPhone, iPad, and Mac, and it works offline when it needs to. You can customize what each widget shows, set up alerts for refills, and rely on automatic calculations to keep your supply accurate without any extra effort.",
-    "domain": "Technology",
-    "featured": true,
-    "id": "B9E63C92-6B9D-499C-A2B7-D72A7DA412EE",
-    "images": {
-      "banner": "banner.png",
-      "heroBanner": "heroBanner.png",
-      "poster": "poster.png",
-      "thumbnail": "thumbnail.png"
-    },
-    "isPublic": true,
-    "mediums": [
-      "Mobile"
-    ],
-    "phase": "live",
-    "resources": [
-      {
-        "category": "app",
-        "label": "App Store Download",
-        "type": "iosAppStore",
-        "url": "https://apps.apple.com/us/app/mediledger/id6744004933"
+        "id": "30aaec94-4d3c-8056-bfda-ed4b11e44ddc",
+        "title": "Got n8n automations setup with Notion db and created several templates in Notion for Tasks and Projects",
+        "entry": "Got n8n automations setup with Notion db and created several templates in Notion for Tasks and Projects",
+        "url": "https://www.notion.so/Got-n8n-automations-setup-with-Notion-db-and-created-several-templates-in-Notion-for-Tasks-and-Proje-30aaec944d3c8056bfdaed4b11e44ddc",
+        "startTime": "2026-02-17T09:13:00.000-08:00",
+        "endTime": "2026-02-17T09:13:00.000-08:00",
+        "date": "2026-02-17T09:13:00.000-08:00",
+        "sessionType": [
+          "Build",
+          "Organizing",
+          "Learning",
+          "Planning"
+        ],
+        "whatHappened": "Spent a lot of time designing and organizing the flow of data",
+        "problems": "Found myself a little too distracted updating colors and icons when I should’ve been saving that for the very end",
+        "nextStep": "Create the basic Project template for each domain, the different types of notes templates as well as the log templates.",
+        "feelGoodAboutWork": 0.85,
+        "accomplishedWhatYouWanted": 0.85,
+        "durationMinutes": 0
       },
       {
-        "category": "repository",
-        "label": "repo",
-        "type": "github",
-        "url": "https://github.com/ZSturman/MediLedger"
-      }
-    ],
-    "status": "done",
-    "story": "This started as a project to see how far I could push a widget-first approach. I wanted something simple enough to test the idea but useful enough that the effort felt worth it. Medication tracking made sense—it’s structured, it matters day to day, and most interactions are quick. I spent a lot of time figuring out how much a widget could handle: what buttons made sense, what info people would need at a glance, and how to keep things clean without stripping away control. The goal wasn’t to build a perfect app; it was to learn what happens when the widget becomes the main interaction surface. Eventually, I want this to connect with Trackables so all these small bits of daily data live in one place and start forming patterns that actually help people. It’s still early, but it feels like the right direction.",
-    "subtitle": "Widget-first medication tracking built for everyday reliability.",
-    "summary": "MediLedger is a medication management tool built around interactive Home Screen widgets. It lets users log doses, track supply, monitor refills, and sync data across all Apple devices. Designed for simplicity and precision, it shifts medication tracking from the app itself to the widget, making daily adherence faster and more accessible.",
-    "tags": [
-      "iOS",
-      "Swift"
-    ],
-    "title": "MediLedger",
-    "topics": [
-      "Health"
-    ],
-    "updatedAt": 785264362.30178,
-    "name": "MediLedger",
-    "folderName": "mediledger_B9E63C92-6B9D-499C-A2B7-D72A7DA412EE",
-    "featuredOrder": 3
-  },
-  {
-    "category": "Software",
-    "createdAt": 754574419.297672,
-    "description": "TowardBetter.me is a platform designed to help women find supportive communities around life transitions, personal growth, and difficult moments that are often navigated alone. I was brought on to build an announcement page that could clearly communicate the mission of the project while laying the technical groundwork for what would eventually become a larger, authenticated platform. The goal was to create something simple, welcoming, and trustworthy—an entry point that felt intentional rather than promotional.\n\nThe site was built with React and Next.js, with Firebase Authentication integrated to support future user accounts and onboarding flows. From the beginning, the focus was on clarity and structure: clean UI, predictable behavior, and a codebase that could evolve without needing to be rethought later. This project served as both a public-facing introduction and a technical foundation for what TowardBetter.me would grow into.",
-    "domain": "Technology",
-    "featured": false,
-    "id": "C7FB95D2-6AD5-4819-A578-87AC2DC76E0C",
-    "images": {
-      "thumbnail": "thumbnail.png"
-    },
-    "isPublic": true,
-    "mediums": [
-      "Web"
-    ],
-    "phase": "live",
-    "resources": [
-      {
-        "category": "url",
-        "label": "TowardBetter-Announcement-Page",
-        "type": "website",
-        "url": "https://zsturman.github.io/TowardBetter-Announcement-Page/"
+        "id": "30aaec94-4d3c-80cd-839b-cc963a276876",
+        "title": "Created all n8n automation and added dashboard to notion",
+        "entry": "Created all n8n automation and added dashboard to notion",
+        "url": "https://www.notion.so/Created-all-n8n-automation-and-added-dashboard-to-notion-30aaec944d3c80cd839bcc963a276876",
+        "startTime": "2026-02-16T19:38:00.000-08:00",
+        "endTime": "2026-02-16T19:38:00.000-08:00",
+        "date": "2026-02-16T19:38:00.000-08:00",
+        "sessionType": [],
+        "whatHappened": null,
+        "problems": null,
+        "nextStep": null,
+        "feelGoodAboutWork": 0.95,
+        "accomplishedWhatYouWanted": 0.95,
+        "durationMinutes": 0
       },
       {
-        "category": "repository",
-        "label": "Repo",
-        "type": "github",
-        "url": "https://github.com/ZSturman/TowardBetter-Announcement-Page"
-      }
-    ],
-    "status": "done",
-    "story": "This was the first project I worked on after returning to the U.S. from Australia, and in a lot of ways it marked a reset for me. Coming back, I wanted to be intentional about the kinds of projects I took on and the kinds of systems I helped build. TowardBetter.me stood out because it wasn’t about chasing features—it was about creating space, clarity, and trust for people who might already be overwhelmed.\n\nMy process was deliberately measured. I focused on building something that felt calm and grounded, both visually and structurally. Using Next.js gave me flexibility around performance and future expansion, while Firebase Auth allowed me to wire up real authentication early without overcomplicating the stack. I treated the announcement page less like a marketing artifact and more like the first chapter of a longer product story—something stable enough to stand on its own, but ready to support what came next.",
-    "subtitle": "Designing a calm, trustworthy entry point for community-driven support",
-    "summary": "An announcement page built for TowardBetter.me using React, Next.js, and Firebase Auth, designed as a clear and trustworthy entry point into a community-focused platform. It was my first project after returning from Australia and set the tone for how I wanted to approach product and system design moving forward.",
-    "tags": [
-      "React",
-      "Next.js",
-      "Firebase",
-      "Frontend"
-    ],
-    "title": "TowardBetter.me — Announcement Page",
-    "updatedAt": 760537453.047667,
-    "name": "TowardBetter.me — Announcement Page",
-    "folderName": "towardbetterme_announcement_page_C7FB95D2-6AD5-4819-A578-87AC2DC76E0C"
-  },
-  {
-    "category": "Software",
-    "createdAt": 734002577.359291,
-    "description": "This project is a modular toolkit designed to make working inside Obsidian more dynamic and visual. It includes a dashboard system modeled after how Next.js handles routing, turning your folder structure into a navigable home view that mirrors the way web frameworks organize content. Alongside it is QueueCards, a note queueing system that helps prioritize ideas, tasks, or references by tracking how often items are skipped. Together, they create a workspace that’s both structured and adaptable, aimed at people who like to think in systems and want their vault to feel more like a living interface than a static archive.",
-    "domain": "Technology",
-    "featured": false,
-    "id": "E416F69B-82AA-42FE-85CC-D0D41D3689A3",
-    "images": {
-      "banner": "banner.gif",
-      "poster": "poster.gif",
-      "thumbnail": "thumbnail.png"
-    },
-    "isPublic": true,
-    "mediums": [
-      "Desktop"
-    ],
-    "phase": "Developing",
-    "resources": [
-      {
-        "category": "repository",
-        "label": "Repo",
-        "type": "github",
-        "url": "https://github.com/ZSturman/The-2nd-Best-Obsidian-Collection"
-      }
-    ],
-    "status": "In Progress",
-    "story": "I built this collection out of curiosity about what it would look like if a note vault could behave like a web app. I’d been working with Next.js and liked its clean, predictable routing model, so I brought that idea into Obsidian, building a dashboard that treated folders as routes and notes as pages. Around the same time, I started experimenting with QueueCards, which became an early version of what would later become my app Top Note. This earlier version stayed fully local—everything lived inside Obsidian—but it taught me a lot about how people manage unfinished thoughts. Looking back, it was less about building tools and more about understanding how I think when the tools get out of the way.",
-    "subtitle": "The-2nd-Best-Obsidian-Collection",
-    "summary": "A modular Obsidian toolkit that turns your vault into an interactive dashboard and adds a simple queue system for managing notes. It’s an experiment in blending web-style structure with personal note-taking.",
-    "tags": [
-      "Obsidian",
-      "Dashboard",
-      "Notes",
-      "JavaScript",
-      "Next.js"
-    ],
-    "title": "Obsidian Toolkit",
-    "topics": [
-      "Productivity"
-    ],
-    "updatedAt": 741865093.849213,
-    "name": "Obsidian Toolkit",
-    "folderName": "obsidian_toolkit_E416F69B-82AA-42FE-85CC-D0D41D3689A3"
-  },
-  {
-    "category": "Software",
-    "collection": {
-      "Assets": {
-        "images": {},
-        "items": [
-          {
-            "filePath": "9A64A5BD-7D30-4D90-AE67-E0F0C67F8E1C.bin",
-            "id": "CC496FAE-CCFF-4B45-99E3-0B935E7AEF07",
-            "label": "How I use Top Note",
-            "order": 0,
-            "resource": {
-              "category": "app",
-              "label": "",
-              "type": "googlePlay",
-              "url": ""
-            },
-            "summary": "Adding multiple widgets",
-            "thumbnail": {
-              "id": "D64F58EA-ED13-4F46-93D2-DAD8A241907A",
-              "path": ""
-            },
-            "type": "image"
-          },
-          {
-            "filePath": "4A72607E-DC58-4B3F-AB24-62AEDFDF4B3B.bin",
-            "id": "3E4FF1A8-637D-4E24-BF07-CA83F86FEBC7",
-            "label": "Flashcards",
-            "order": 1,
-            "resource": {
-              "category": "app",
-              "label": "",
-              "type": "googlePlay",
-              "url": ""
-            },
-            "thumbnail": {
-              "id": "0550AFD1-D850-4B6F-B6B3-6C0035477523",
-              "path": ""
-            },
-            "type": "image"
-          },
-          {
-            "filePath": "64151973-2C2A-40D7-9085-6F1A36078C55.bin",
-            "id": "5D2D678D-AD42-4285-8536-2EBC3CDA75CB",
-            "label": "Old Version - in app",
-            "order": 2,
-            "resource": {
-              "category": "app",
-              "label": "",
-              "type": "googlePlay",
-              "url": ""
-            },
-            "summary": "Iterating UI",
-            "thumbnail": {
-              "id": "FAEC8F5D-C18B-4926-BF87-480F99C91FE0",
-              "path": ""
-            },
-            "type": "image"
-          },
-          {
-            "filePath": "A932DA7B-99D7-4E74-976B-09BA07E597D2.bin",
-            "id": "B49E7640-E603-488E-BAFE-CC4995D499B7",
-            "label": "Old Version - widgets",
-            "order": 3,
-            "resource": {
-              "category": "app",
-              "label": "",
-              "type": "googlePlay",
-              "url": ""
-            },
-            "summary": "Iterating UI",
-            "thumbnail": {
-              "id": "CF787A34-266B-499F-AD41-60171FE1744F",
-              "path": ""
-            },
-            "type": "image"
-          }
-        ]
-      }
-    },
-    "createdAt": 773247960.782938,
-    "description": "Top Note is a focused productivity app for people who tend to ignore reminders or feel weighed down by long to-do lists. It takes a simpler approach: one reminder, flashcard, or note at a time. You can complete it or skip it, and if you skip, it returns sooner through a spaced repetition system that keeps important things visible.\n\nThis design encourages accountability and steady progress. It helps build habits, strengthen memory, and keep personal ideas within reach—without the noise of endless lists.\n\nWhy it works\nTop Note combines two familiar ideas: single-task focus and spaced repetition. Together they keep your attention on what matters next, reinforcing memory and consistency over time.\n\nFeatures\n– One-at-a-time reminders that reduce distraction.\n– Skip and repeat so skipped items return sooner.\n– Spaced repetition flashcards for better recall.\n– Widget-first design that keeps the app close at hand.\n– Flexible note support for quotes, goals, or brief thoughts.\n– Simple setup inside the app; most use happens in the widget.\n\nBest for\n– People who often dismiss reminders.\n– Habit tracking and reinforcement.\n– Short study or review sessions.\n– Keeping a meaningful note visible through the day.\n\nTop Note makes productivity manageable by narrowing your focus. Instead of managing a list, you engage with one small task—and let time handle the rest.",
-    "domain": "Technology",
-    "featured": true,
-    "id": "AD76406D-450D-457B-96B4-4979A19EF490",
-    "images": {
-      "banner": "banner.png",
-      "poster": "poster.png",
-      "thumbnail": "thumbnail.png"
-    },
-    "isPublic": true,
-    "mediums": [
-      "Mobile"
-    ],
-    "phase": "live",
-    "resources": [
-      {
-        "category": "app",
-        "label": "App Store Download",
-        "type": "iosAppStore",
-        "url": "https://apps.apple.com/us/app/top-note/id6742725271"
+        "id": "309aec94-4d3c-80c2-a8dd-f4d35d94fcd4",
+        "title": "Created automation for tasks and subtasks using n8n",
+        "entry": "Created automation for tasks and subtasks using n8n",
+        "url": "https://www.notion.so/Created-automation-for-tasks-and-subtasks-using-n8n-309aec944d3c80c2a8ddf4d35d94fcd4",
+        "startTime": "2026-02-16T08:00:00.000-08:00",
+        "endTime": "2026-02-16T08:00:00.000-08:00",
+        "date": "2026-02-16T08:00:00.000-08:00",
+        "sessionType": [
+          "Build"
+        ],
+        "whatHappened": "Created a workflow that checks for updates to notion’s Tasks db then syncs the data for accompanying tasks subtasks, project, milestone as well as adds a note to say what happened.",
+        "problems": "Workflow on n8n takes longer than expected to set up and logically workthrough",
+        "nextStep": "- Add workflows for task status change → work log update",
+        "feelGoodAboutWork": 0.9,
+        "accomplishedWhatYouWanted": 0.8,
+        "durationMinutes": 0
       },
       {
-        "category": "repository",
-        "label": "Repo",
-        "type": "github",
-        "url": "https://github.com/ZSturman/TopNote"
+        "id": "308aec94-4d3c-8038-802e-d88105de0427",
+        "title": "Focused on getting n8n automation to work with notion",
+        "entry": "Focused on getting n8n automation to work with notion",
+        "url": "https://www.notion.so/Focused-on-getting-n8n-automation-to-work-with-notion-308aec944d3c8038802ed88105de0427",
+        "startTime": "2026-02-15T09:36:00.000-08:00",
+        "endTime": "2026-02-15T09:36:00.000-08:00",
+        "date": "2026-02-15T09:36:00.000-08:00",
+        "sessionType": [
+          "Build",
+          "Planning"
+        ],
+        "whatHappened": "Worked on getting automatic SQL like tables to be be generated based on automation from n8n",
+        "problems": "Didn't get as much done as I had hoped",
+        "nextStep": "Finish automation steps and finalize tables",
+        "feelGoodAboutWork": 0.65,
+        "accomplishedWhatYouWanted": 0.45,
+        "durationMinutes": 0
+      },
+      {
+        "id": "307aec94-4d3c-800e-81e4-e1756a399666",
+        "title": "Built Test DB design for easier ingest of projects",
+        "entry": "Built Test DB design for easier ingest of projects",
+        "url": "https://www.notion.so/Built-Test-DB-design-for-easier-ingest-of-projects-307aec944d3c800e81e4e1756a399666",
+        "startTime": "2026-02-14T08:36:00.000-08:00",
+        "endTime": "2026-02-14T08:36:00.000-08:00",
+        "date": "2026-02-14T08:36:00.000-08:00",
+        "sessionType": [
+          "Organizing",
+          "Learning",
+          "Planning",
+          "Experiment"
+        ],
+        "whatHappened": "Learned a lot about Notion but didn’t actually get as far as I’d liked.",
+        "problems": "Didn’t achieve all the stuff I wanted and feel like loops are still open.",
+        "nextStep": "Move the stuff out of the Test area and into the main Notion app.",
+        "feelGoodAboutWork": 0.7,
+        "accomplishedWhatYouWanted": 0.4,
+        "durationMinutes": 0
+      },
+      {
+        "id": "306aec94-4d3c-800a-87d7-ce6fc1b59ba4",
+        "title": "Added tables to notion",
+        "entry": "Added tables to notion",
+        "url": "https://www.notion.so/Added-tables-to-notion-306aec944d3c800a87d7ce6fc1b59ba4",
+        "startTime": "2026-02-13",
+        "endTime": "2026-02-13",
+        "date": "2026-02-13",
+        "sessionType": [
+          "Organizing",
+          "Learning"
+        ],
+        "whatHappened": "Learned how to use Notion",
+        "problems": null,
+        "nextStep": null,
+        "feelGoodAboutWork": 0.9,
+        "accomplishedWhatYouWanted": 0.6,
+        "durationMinutes": 0
+      },
+      {
+        "id": "306aec94-4d3c-807c-9a2e-d09d20b60275",
+        "title": "Organized notes and created Dashboard system",
+        "entry": "Organized notes and created Dashboard system",
+        "url": "https://www.notion.so/Organized-notes-and-created-Dashboard-system-306aec944d3c807c9a2ed09d20b60275",
+        "startTime": "2026-02-13",
+        "endTime": "2026-02-13",
+        "date": "2026-02-13",
+        "sessionType": [
+          "Organizing"
+        ],
+        "whatHappened": "• Figured out how to import .md files into Notion",
+        "problems": "Didn’t go into today with a clear enough plan",
+        "nextStep": "Sleep on it",
+        "feelGoodAboutWork": 0.75,
+        "accomplishedWhatYouWanted": 0.7,
+        "durationMinutes": 0
       }
     ],
-    "status": "done",
+    "folderName": "notion_project_organization_304aec94-4d3c-8029-a1b1-ea0f92487137"
+  },
+  {
+    "id": "306aec94-4d3c-8008-9985-d94ba1780069",
+    "title": "Top Note",
+    "name": "Top Note",
     "subtitle": "A widget based iOS app",
-    "summary": "A widget-first productivity app that keeps you focused on what's next and only on what’s next.",
+    "summary": "Top Note is a focused productivity app for people who tend to ignore reminders or feel weighed down by long to-do lists. It takes a simpler approach: one reminder, flashcard, or note at a time. You can complete it or skip it, and if you skip, it returns sooner through a spaced repetition system that keeps important things visible.\n\n\nThis design encourages accountability and steady progress. It helps build habits, strengthen memory, and keep personal ideas within reach—without the noise of endless lists.\n\n\nWhy it works\nTop Note combines two familiar ideas: single-task focus and spaced repetition. Together they keep your attention on what matters next, reinforcing memory and consistency over time.\n\n\nFeatures\n– One-at-a-time reminders that reduce distraction.\n– Skip and repeat so skipped items return sooner.\n– Spaced repetition flashcards for better recall.\n– Widget-first design that keeps the app close at hand.\n– Flexible note support for quotes, goals, or brief thoughts.\n– Simple setup inside the app; most use happens in the widget.\n\n\nBest for\n– People who often dismiss reminders.\n– Habit tracking and reinforcement.\n– Short study or review sessions.\n– Keeping a meaningful note visible through the day.\n\n\nTop Note makes productivity manageable by narrowing your focus. Instead of managing a list, you engage with one small task—and let time handle the rest.",
+    "domain": "Technology",
+    "category": "application",
+    "status": "Complete",
+    "phase": "Regular updates",
+    "featured": true,
+    "createdAt": "2026-02-13",
+    "updatedAt": "2026-02-13",
+    "isPublic": true,
     "tags": [
-      "Swift",
       "iOS",
+      "Productivity",
+      "Reminders",
+      "Spaced Repetition",
+      "Widgets",
       "Flashcards",
+      "Learning",
       "Focus"
     ],
-    "title": "Top Note",
-    "topics": [
-      "Productivity"
-    ],
-    "updatedAt": 787663811.258017,
-    "name": "Top Note",
-    "folderName": "top_note_AD76406D-450D-457B-96B4-4979A19EF490",
-    "featuredOrder": 1
-  },
-  {
-    "category": "Software",
-    "createdAt": 630679022.7447052,
-    "description": "The first version of my portfolio came from following Corey Schafer’s Flask tutorials and trying to understand how a real web app fits together. I set up my own server, configured Nginx, and handled deployment myself—mostly because I didn’t know there were easier options. It took a lot of trial and error, but it taught me how everything actually works behind the scenes. I added some of my own SVG graphics and simple animations to make it feel personal. It wasn’t perfect, but it ran, and I learned a lot from getting it there.",
-    "domain": "Technology",
-    "featured": false,
-    "id": "B062E7E0-387F-4D08-B0B6-A75410AACCE1",
+    "mediums": [],
+    "genres": [],
+    "topics": [],
+    "subjects": [],
+    "description": "",
+    "story": "",
     "images": {
+      "thumbnail": "thumbnail.png",
       "banner": "banner.png",
-      "poster": "poster.png",
-      "thumbnail": "thumbnail copy 2.png"
+      "poster": "poster.png"
     },
-    "isPublic": true,
-    "mediums": [
-      "Web"
-    ],
-    "phase": "Archived",
     "resources": [
       {
-        "category": "url",
-        "label": "Flask Portfolio",
-        "type": "website",
-        "url": "https://zsturman.github.io/ZSDynamics-V1.0/"
+        "type": "github",
+        "label": "Github Repo",
+        "url": "https://github.com/ZSturman/TopNote"
       },
       {
-        "category": "repository",
-        "label": "Repo",
-        "type": "github",
-        "url": "https://github.com/ZSturman/ZSDynamics-V1.0"
+        "type": "apple",
+        "label": "App Store",
+        "url": "https://apps.apple.com/us/app/top-note/id6742725271"
       }
     ],
-    "status": "done",
-    "story": "I found “data scientist” on Indeed and thought it looked like something I’d enjoy, so I started teaching myself Python. Once I understood the basics, I needed a way to show what I could do. I followed Corey Schafer’s Flask tutorials and tried to build my own version, which meant learning about servers, Nginx, deployment, and all the setup that comes with it. I didn’t realize how complicated I was making things, but working through it taught me more than the tutorials themselves. When I finally got it online, it felt like I had actually learned how things fit together.",
-    "subtitle": "Built with Flask",
-    "summary": "A Flask-based portfolio deployed manually with Nginx on a self-hosted server. Included custom SVGs, simple animations, and hand-configured routing and deployment. Functioned as an early full-stack project that introduced web app structure, hosting, and deployment fundamentals.",
-    "tags": [
-      "Python",
-      "Portfolio",
-      "Flask"
-    ],
-    "title": "ZSDynamics V1.0",
-    "updatedAt": 647015121.840316,
-    "name": "ZSDynamics V1.0",
-    "folderName": "zsdynamics_v10_B062E7E0-387F-4D08-B0B6-A75410AACCE1"
-  },
-  {
-    "category": "Software",
-    "createdAt": 648956975.59953,
-    "description": "After digging deeper into data science, I wanted the portfolio to be more than a place to drop my work. So I added a simple email subscription so visitors could get updates, and I integrated Dashly for some lightweight analytics and visualization. It was a noticeable step forward for me—not just in the code, but in how I was thinking about the people visiting the site.",
-    "domain": "Technology",
-    "featured": false,
-    "id": "8D5D9392-990D-4431-82B5-5997F094FBA3",
-    "images": {
-      "banner": "banner.png",
-      "poster": "poster.png",
-      "thumbnail": "thumbnail.png"
-    },
-    "isPublic": true,
-    "mediums": [
-      "Web"
-    ],
-    "phase": "Archived",
-    "resources": [
-      {
-        "category": "url",
-        "label": "Flask Portfolio with Email Integration",
-        "type": "website",
-        "url": "https://zsturman.github.io/ZSDynamics-V1.1/"
-      },
-      {
-        "category": "repository",
-        "label": "Repo",
-        "type": "github",
-        "url": "https://github.com/ZSturman/ZSDynamics-v1.1"
-      }
-    ],
-    "status": "done",
-    "story": "Once the first version was up, I realized it needed to do more than just sit there. I added signup options for updates and built a few small tools to track engagement. By then I was approaching things more like a developer—less focused on the code in isolation and more on how someone might actually use the site. It was a small shift, but it made me realize I liked working at the intersection of users and data.",
-    "subtitle": "Built with Flask",
-    "summary": "This version turned the portfolio from a static project list into an interactive site with email subscriptions and built-in analytics to better understand user engagement.",
-    "tags": [
-      "Python",
-      "Portfolio"
-    ],
-    "title": "ZSDynamics V1.1",
-    "updatedAt": 670687413.282519,
-    "name": "ZSDynamics V1.1",
-    "folderName": "zsdynamics_v11_8D5D9392-990D-4431-82B5-5997F094FBA3"
-  },
-  {
-    "category": "Software",
-    "createdAt": 672630594.0857086,
-    "description": "While I was in Australia on a working holiday visa, I started noticing how often React showed up in job descriptions. I didn’t want to throw away the Python knowledge I already had, so I rebuilt my portfolio using Python on the backend and React on the frontend. It helped me connect what I knew with what I needed to learn and gave me a better sense of how a modern stack actually fits together.",
-    "domain": "Technology",
-    "featured": false,
-    "id": "B998390B-405B-4D50-BA41-B9E4C5D124CC",
-    "images": {
-      "banner": "banner.png",
-      "poster": "poster.png",
-      "thumbnail": "thumbnail.png"
-    },
-    "isPublic": true,
-    "mediums": [
-      "Web"
-    ],
-    "phase": "Archived",
-    "resources": [
-      {
-        "category": "url",
-        "label": "Python + React Hybrid Portfolio",
-        "type": "website",
-        "url": "https://zsturman.github.io/ZSDynamics-V2.0/"
-      },
-      {
-        "category": "repository",
-        "label": "Repo",
-        "type": "github",
-        "url": "https://github.com/ZSturman/ZSDynamics-V2.0"
-      }
-    ],
-    "status": "done",
-    "story": "Living in Australia made me pay more attention to what companies were prioritizing in new hires. React kept coming up, so I used my portfolio as a way to learn it. I kept Python for the backend and used React for the frontend, which forced me to learn how the two communicate. It updated the portfolio, but more importantly, it taught me how real-world applications blend multiple technologies.",
-    "subtitle": "Built with Python and React",
-    "summary": "A full-stack rebuild using a Python backend and a React frontend, created to modernize the stack while keeping existing Python experience in play. Developed during a working holiday in Australia, it featured responsive layouts, component-based design, and a structure suited for showcasing data-focused projects.",
-    "tags": [
-      "Python",
-      "Portfolio",
-      "React",
-      "JavaScript"
-    ],
-    "title": "ZSDynamics V2.0",
-    "updatedAt": 720713255.866251,
-    "name": "ZSDynamics V2.0",
-    "folderName": "zsdynamics_v20_B998390B-405B-4D50-BA41-B9E4C5D124CC"
-  },
-  {
-    "category": "Software",
-    "createdAt": 722659814.456604,
-    "description": "After I got more comfortable with React, I wanted to see how design choices and small interactions could change the experience. I built a feature that let users switch between themes and font styles. It wasn’t the most practical feature, but it taught me a lot and pushed me to pay more attention to how design decisions show up in real use. That curiosity drove most of what I built during this stage.",
-    "domain": "Technology",
-    "featured": false,
-    "id": "F9E04D0A-42AB-4091-8856-CC612DDBE276",
-    "images": {
-      "banner": "banner.png",
-      "poster": "poster.png",
-      "thumbnail": "thumbnail copy.png"
-    },
-    "isPublic": true,
-    "mediums": [
-      "Web"
-    ],
-    "phase": "Archived",
-    "resources": [
-      {
-        "category": "url",
-        "label": "Interactive Theme Portfolio",
-        "type": "website",
-        "url": "https://zsturman.github.io/ZSDynamics-V3.0/ "
-      },
-      {
-        "category": "repository",
-        "label": "Repo",
-        "type": "github",
-        "url": "https://github.com/ZSturman/ZSDynamics-V3.0"
-      }
-    ],
-    "status": "done",
-    "story": "After I got more comfortable with React, I wanted to see how design choices and small interactions could change the experience. I built a feature that let users switch between themes and font styles. It wasn’t the most practical feature, but it taught me a lot and pushed me to pay more attention to how design decisions show up in real use. That curiosity drove most of what I built during this stage.",
-    "subtitle": "Built with React",
-    "summary": "Added interactive features such as a live theme and font selector to experiment with frontend flexibility. Focused on React state management, component communication, and styling behavior. Served as a small sandbox for improving overall frontend fluency.",
-    "tags": [
-      "React",
-      "JavaScript",
-      "Portfolio"
-    ],
-    "title": "ZSDynamics V3.0",
-    "updatedAt": 736440314.672471,
-    "name": "ZSDynamics V3.0",
-    "folderName": "zsdynamics_v30_F9E04D0A-42AB-4091-8856-CC612DDBE276"
-  },
-  {
-    "category": "Software",
-    "createdAt": 737082127.8361893,
-    "description": "In the latest version, I focused on making the site feel more refined. I experimented with parallax effects and smoother animations to understand how small design choices change the overall experience. I also created an SVG character of myself that shifts colors in light and dark mode, which made the site feel a bit more personal. At this point, the portfolio wasn’t just about showing projects—it was a way to see how my design and development skills had grown.",
-    "domain": "Technology",
-    "featured": false,
-    "id": "55B14B05-726C-45BC-ACF6-7D21C943B78E",
-    "images": {
-      "banner": "banner.png",
-      "poster": "poster.png",
-      "thumbnail": "thumbnail copy.png"
-    },
-    "isPublic": true,
-    "mediums": [
-      "Web"
-    ],
-    "phase": "Archived",
-    "resources": [
-      {
-        "category": "repository",
-        "label": "Repo",
-        "type": "github",
-        "url": "https://github.com/ZSturman/ZSDynamics-V4.0 "
-      },
-      {
-        "category": "url",
-        "label": "Animated portfolio with parallax and dynamic SVGs",
-        "type": "website",
-        "url": "https://zsturman.github.io/ZSDynamics-V4.0/ "
-      }
-    ],
-    "status": "done",
-    "story": "For this version, I spent time on the details. I added parallax scrolling, smoother animations, and an SVG self-portrait that adapts to light and dark mode. It let me pull together everything I’d learned—Python, React, design, and motion—into a single project that felt consistent. Each version ends up marking where I was in my learning, both in coding and in figuring out how to build something that keeps improving.",
-    "subtitle": "Built with React",
-    "summary": "A design-driven update centered on smoother motion, subtle parallax effects, and an adaptive SVG avatar. Combined earlier technical and design skills into a more polished, cohesive, and expressive version of the portfolio.",
-    "tags": [
-      "Next.js",
-      "Portfolio",
-      "React",
-      "TypeScript"
-    ],
-    "title": "ZSDynamics v4.0",
-    "updatedAt": 784484467.39128,
-    "name": "ZSDynamics v4.0",
-    "folderName": "zsdynamics_v40_55B14B05-726C-45BC-ACF6-7D21C943B78E"
-  },
-  {
-    "category": "Software",
     "collection": {
-      "Projects": {
+      "top note assets": {
+        "label": "Top Note Collection of Assets",
+        "summary": "this is a summary for the collection of assets",
         "images": {},
         "items": [
           {
-            "id": "88EF03D6-E7E5-4A22-972E-BFC26D5142C0",
-            "label": "Personal Portfolio V4",
+            "id": "30eaec94-4d3c-80c7-b53b-ec458cd011cc",
+            "label": "How I use Top Note",
             "order": 0,
-            "summary": "A Next.js-powered portfolio featuring server-side rendering, dynamic routing, and a more scalable, production-ready structure.",
-            "thumbnail": "thumbnail.png",
-            "type": "url-link",
-            "url": "https://zsturman.github.io/ZSDynamics-V4.0/"
+            "type": "image",
+            "filePath": "How I use Top Note.png"
           },
           {
-            "id": "C1FC5A45-FD8E-4DC9-BCDF-70D875E81551",
-            "label": "Personal Portfolio V3",
+            "id": "30eaec94-4d3c-803a-bd8d-ebed3d0685d7",
+            "label": "Video",
             "order": 1,
-            "summary": "A fast and lightweight portfolio built with React and Vite, optimized for improved performance and developer experience.",
-            "thumbnail": "thumbnail.png",
-            "type": "url-link",
-            "url": "https://zsturman.github.io/ZSDynamics-V3.0/"
+            "type": "video",
+            "filePath": "Intro.mov",
+            "thumbnail": "thumbnail.tiff"
+          }
+        ]
+      },
+      "assets": {
+        "label": "Assets",
+        "summary": "Ungrouped project assets",
+        "images": {},
+        "items": [
+          {
+            "id": "30eaec94-4d3c-8021-b8f9-c32997422e6c",
+            "label": "Video Thumbnail",
+            "order": 0,
+            "type": "image",
+            "filePath": "thumbnail.tiff"
           },
           {
-            "id": "A7B0239D-D7B7-49C0-A656-1C70413B53D4",
-            "label": "Personal Portfolio V2",
+            "id": "30eaec94-4d3c-80a9-9500-de7a5ae72c6e",
+            "label": "Top Note thumbnail",
             "order": 2,
-            "summary": "A modern portfolio using a React frontend with a Python backend, introducing a fully separated client–server architecture.",
-            "thumbnail": "thumbnail.png",
-            "type": "url-link",
-            "url": "https://zsturman.github.io/ZSDynamics-V2.0/"
+            "type": "image",
+            "filePath": "thumbnail.png"
           },
           {
-            "id": "3E56C901-0CB7-4C2E-B6C9-C1636323B2A8",
-            "label": "Personal Portfolio V1.1",
-            "order": 3,
-            "summary": "An enhanced Flask-based portfolio improving on v1 with refined structure, better styling, and more efficient backend logic.",
-            "thumbnail": "thumbnail.png",
-            "type": "url-link",
-            "url": "https://zsturman.github.io/ZSDynamics-V1.1/"
-          },
-          {
-            "id": "DCE4E0B0-8038-4986-9ED6-95374DF59D84",
-            "label": "Personal Portfolio V1",
+            "id": "30eaec94-4d3c-80ea-a5c6-ecddab4f2156",
+            "label": "Top Note Banner",
             "order": 4,
-            "summary": "A foundational portfolio built with Python and Flask, focused on simple routing and clean server-side rendering.",
-            "thumbnail": "thumbnail.png",
-            "type": "url-link",
-            "url": "https://zsturman.github.io/ZSDynamics-V1.0/"
+            "type": "image",
+            "filePath": "banner.png"
           },
           {
-            "id": "E97FAD64-609A-487F-9D47-1ADF7FAC13A9",
-            "label": "TowardBetter",
+            "id": "30eaec94-4d3c-80fe-b2c3-f1961da031c0",
+            "label": "Top Note poster",
             "order": 5,
-            "summary": "The announcement page for a women’s community site.",
-            "thumbnail": "thumbnail.png",
-            "type": "url-link",
-            "url": "https://zsturman.github.io/TowardBetter-Announcement-Page/"
+            "type": "image",
+            "filePath": "poster.png"
           }
         ]
       }
     },
-    "createdAt": 628572668.088934,
-    "description": "Across these versions, you can see me going from basic experiments with servers and deployment to paying more attention to how things actually feel to use. What started as me trying to learn the fundamentals turned into a steady process of trying something, seeing what worked, and adjusting. Each version added a small piece—a backend tweak, a visual idea, a different layout—and the whole set basically shows how I learn by building, fixing, and trying again.",
+    "workLogs": [
+      {
+        "id": "30eaec94-4d3c-803b-b75e-c20143339b7a",
+        "title": "Added a bunch of stuff to the automation steps including the work log.",
+        "entry": "Added a bunch of stuff to the automation steps including the work log.",
+        "url": "https://www.notion.so/Added-a-bunch-of-stuff-to-the-automation-steps-including-the-work-log-30eaec944d3c803bb75ec20143339b7a",
+        "startTime": "2026-02-21T08:02:00.000-08:00",
+        "endTime": "2026-02-21T08:02:00.000-08:00",
+        "date": "2026-02-21T08:02:00.000-08:00",
+        "sessionType": [
+          "Build"
+        ],
+        "whatHappened": "A log for saying what happened",
+        "problems": null,
+        "nextStep": null,
+        "feelGoodAboutWork": 0.7,
+        "accomplishedWhatYouWanted": 0.8,
+        "durationMinutes": 0
+      }
+    ],
+    "folderName": "top_note_306aec94-4d3c-8008-9985-d94ba1780069"
+  },
+  {
+    "id": "306aec94-4d3c-800b-9d7d-ed0c879ab5b3",
+    "title": "ZSDynamics 2.0",
+    "name": "ZSDynamics 2.0",
+    "subtitle": "",
+    "summary": "",
     "domain": "Technology",
-    "featured": true,
-    "id": "BB2F567C-B29C-4666-AABF-986E69AA9592",
-    "images": {
-      "banner": "banner.png",
-      "heroBanner": "heroBanner.png",
-      "poster": "poster.gif",
-      "thumbnail": "thumbnail.png"
-    },
+    "category": "web",
+    "status": "Complete",
+    "phase": "Deprecated",
+    "featured": false,
+    "createdAt": "2026-02-13",
+    "updatedAt": "2026-02-13",
     "isPublic": true,
-    "mediums": [
-      "Web"
-    ],
-    "phase": "Developing",
-    "status": "In Progress",
-    "story": "When I first started learning Python, I wanted a place to put what I was figuring out, even if it wasn’t great yet. The early versions were rough, and I made a lot of mistakes, but working through them helped me understand what I was doing. Every version taught me something new—sometimes about code, sometimes about design, sometimes just about slowing down and solving one problem at a time. By the latest version, it wasn’t about proving anything; it was just a clear record of how my skills grew as I kept building.",
-    "subtitle": "A collection of my previous portfolio pages",
-    "summary": "This collection brings together different versions of my portfolio, each one capturing how my design sense, presentation choices, technical skill, and even career direction have shifted and sharpened over time.",
+    "tags": [],
+    "mediums": [],
+    "genres": [],
+    "topics": [],
+    "subjects": [],
+    "description": "",
+    "story": "",
+    "images": {},
+    "resources": [],
+    "collection": {},
+    "workLogs": [],
+    "folderName": "zsdynamics_20_306aec94-4d3c-800b-9d7d-ed0c879ab5b3"
+  },
+  {
+    "id": "306aec94-4d3c-800f-8fd6-c80ad845b5df",
+    "title": "MediLedger",
+    "name": "MediLedger",
+    "subtitle": "",
+    "summary": "MediLedger is a medication management tool built around interactive Home Screen widgets. It lets users log doses, track supply, monitor refills, and sync data across all Apple devices. Designed for simplicity and precision, it shifts medication tracking from the app itself to the widget, making daily adherence faster and more accessible.",
+    "domain": "Technology",
+    "category": "application",
+    "status": "Complete",
+    "phase": "Regular updates",
+    "featured": true,
+    "createdAt": "2026-02-13",
+    "updatedAt": "2026-02-13",
+    "isPublic": true,
     "tags": [
-      "Portfolio",
-      "Flask",
-      "Next.js",
-      "Python",
-      "React",
-      "TypeScript",
-      "JavaScript"
+      "iOS",
+      "Swift",
+      "Widgets",
+      "Health"
     ],
-    "title": "Frontend Collection",
-    "updatedAt": 787668609.809411,
-    "name": "Frontend Collection",
-    "folderName": "frontend_collection_BB2F567C-B29C-4666-AABF-986E69AA9592",
-    "featuredOrder": 2
+    "mediums": [],
+    "genres": [],
+    "topics": [],
+    "subjects": [],
+    "description": "",
+    "story": "",
+    "images": {},
+    "resources": [],
+    "collection": {},
+    "workLogs": [],
+    "folderName": "mediledger_306aec94-4d3c-800f-8fd6-c80ad845b5df"
+  },
+  {
+    "id": "306aec94-4d3c-801d-b601-cb6d0de3219e",
+    "title": "Mind Adrift",
+    "name": "Mind Adrift",
+    "subtitle": "",
+    "summary": "",
+    "domain": "Narrative",
+    "category": "short story",
+    "status": "Complete",
+    "phase": "Published",
+    "featured": false,
+    "createdAt": "2026-02-13",
+    "updatedAt": "2026-02-13",
+    "isPublic": true,
+    "tags": [],
+    "mediums": [],
+    "genres": [],
+    "topics": [],
+    "subjects": [],
+    "description": "",
+    "story": "",
+    "images": {},
+    "resources": [],
+    "collection": {
+      "assets": {
+        "label": "Assets",
+        "summary": "Ungrouped project assets",
+        "images": {},
+        "items": [
+          {
+            "id": "30eaec94-4d3c-80da-85b0-e17e2b55025f",
+            "label": "Mind Adrift download pdf",
+            "order": 0,
+            "type": "text",
+            "filePath": "Mind Adrift.pdf",
+            "thumbnail": "thumbnail.tiff"
+          }
+        ]
+      }
+    },
+    "workLogs": [],
+    "folderName": "mind_adrift_306aec94-4d3c-801d-b601-cb6d0de3219e"
+  },
+  {
+    "id": "306aec94-4d3c-803d-8230-fe06337c4a51",
+    "title": "ZSDynamics 1.0",
+    "name": "ZSDynamics 1.0",
+    "subtitle": "",
+    "summary": "",
+    "domain": "Technology",
+    "category": "web",
+    "status": "Complete",
+    "phase": "Deprecated",
+    "featured": false,
+    "createdAt": "2026-02-13",
+    "updatedAt": "2026-02-13",
+    "isPublic": true,
+    "tags": [],
+    "mediums": [],
+    "genres": [],
+    "topics": [],
+    "subjects": [],
+    "description": "",
+    "story": "",
+    "images": {},
+    "resources": [],
+    "collection": {},
+    "workLogs": [],
+    "folderName": "zsdynamics_10_306aec94-4d3c-803d-8230-fe06337c4a51"
+  },
+  {
+    "id": "306aec94-4d3c-8064-9e5a-c59f1df02bee",
+    "title": "Towardbetter.me",
+    "name": "Towardbetter.me",
+    "subtitle": "",
+    "summary": "",
+    "domain": "Technology",
+    "category": "web",
+    "status": "Complete",
+    "phase": "Live",
+    "featured": false,
+    "createdAt": "2026-02-13",
+    "updatedAt": "2026-02-13",
+    "isPublic": true,
+    "tags": [],
+    "mediums": [],
+    "genres": [],
+    "topics": [],
+    "subjects": [],
+    "description": "",
+    "story": "",
+    "images": {},
+    "resources": [],
+    "collection": {},
+    "workLogs": [],
+    "folderName": "towardbetterme_306aec94-4d3c-8064-9e5a-c59f1df02bee"
+  },
+  {
+    "id": "306aec94-4d3c-807e-a7ef-db0aa63a2ec7",
+    "title": "ZSDynamics 4.0",
+    "name": "ZSDynamics 4.0",
+    "subtitle": "",
+    "summary": "",
+    "domain": "Technology",
+    "category": "web",
+    "status": "Complete",
+    "phase": "Deprecated",
+    "featured": false,
+    "createdAt": "2026-02-13",
+    "updatedAt": "2026-02-13",
+    "isPublic": true,
+    "tags": [],
+    "mediums": [],
+    "genres": [],
+    "topics": [],
+    "subjects": [],
+    "description": "",
+    "story": "",
+    "images": {},
+    "resources": [],
+    "collection": {},
+    "workLogs": [],
+    "folderName": "zsdynamics_40_306aec94-4d3c-807e-a7ef-db0aa63a2ec7"
+  },
+  {
+    "id": "306aec94-4d3c-80b0-b478-e070bcd1d517",
+    "title": "Greenhorn",
+    "name": "Greenhorn",
+    "subtitle": "",
+    "summary": "",
+    "domain": "Narrative",
+    "category": "television",
+    "status": "Complete",
+    "phase": "Released",
+    "featured": false,
+    "createdAt": "2026-02-13",
+    "updatedAt": "2026-02-13",
+    "isPublic": true,
+    "tags": [],
+    "mediums": [],
+    "genres": [],
+    "topics": [],
+    "subjects": [],
+    "description": "",
+    "story": "",
+    "images": {},
+    "resources": [],
+    "collection": {},
+    "workLogs": [],
+    "folderName": "greenhorn_306aec94-4d3c-80b0-b478-e070bcd1d517"
+  },
+  {
+    "id": "306aec94-4d3c-80c9-a6d4-f6362f15b981",
+    "title": "Mass and Time",
+    "name": "Mass and Time",
+    "subtitle": "",
+    "summary": "",
+    "domain": "Expository",
+    "category": "physics",
+    "status": "Active",
+    "phase": "Researching",
+    "featured": false,
+    "createdAt": "2026-02-13",
+    "updatedAt": "2026-02-13",
+    "isPublic": true,
+    "tags": [],
+    "mediums": [],
+    "genres": [],
+    "topics": [],
+    "subjects": [],
+    "description": "",
+    "story": "",
+    "images": {},
+    "resources": [],
+    "collection": {},
+    "workLogs": [],
+    "folderName": "mass_and_time_306aec94-4d3c-80c9-a6d4-f6362f15b981"
+  },
+  {
+    "id": "306aec94-4d3c-80d4-a8bd-d83a8832ebf8",
+    "title": "ZSDynamics 3.0",
+    "name": "ZSDynamics 3.0",
+    "subtitle": "",
+    "summary": "",
+    "domain": "Technology",
+    "category": "web",
+    "status": "Complete",
+    "phase": "Deprecated",
+    "featured": false,
+    "createdAt": "2026-02-13",
+    "updatedAt": "2026-02-13",
+    "isPublic": true,
+    "tags": [],
+    "mediums": [],
+    "genres": [],
+    "topics": [],
+    "subjects": [],
+    "description": "",
+    "story": "",
+    "images": {},
+    "resources": [],
+    "collection": {},
+    "workLogs": [],
+    "folderName": "zsdynamics_30_306aec94-4d3c-80d4-a8bd-d83a8832ebf8"
+  },
+  {
+    "id": "306aec94-4d3c-80ff-a96a-c3c51900e249",
+    "title": "ZSDynamics 1.1",
+    "name": "ZSDynamics 1.1",
+    "subtitle": "",
+    "summary": "",
+    "domain": "Technology",
+    "category": "web",
+    "status": "Complete",
+    "phase": "Deprecated",
+    "featured": false,
+    "createdAt": "2026-02-13",
+    "updatedAt": "2026-02-13",
+    "isPublic": true,
+    "tags": [],
+    "mediums": [],
+    "genres": [],
+    "topics": [],
+    "subjects": [],
+    "description": "",
+    "story": "",
+    "images": {},
+    "resources": [],
+    "collection": {},
+    "workLogs": [],
+    "folderName": "zsdynamics_11_306aec94-4d3c-80ff-a96a-c3c51900e249"
   }
 ]

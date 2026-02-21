@@ -9,6 +9,7 @@ import { useBreadcrumb } from "@/lib/breadcrumb-context";
 import { ArrowLeft } from "lucide-react";
 import ProjectDetailsFooter from "./project-details/project-details-footer";
 import ProjectDetailsMediaDisplay from "./project-details/project-details-media-display";
+import { ProjectWorkLogs } from "./project-details/project-work-logs";
 
 interface ProjectDetailsProps {
   project: Project;
@@ -57,6 +58,8 @@ export default function ProjectDetails({ project }: ProjectDetailsProps) {
     notFound();
   }
 
+  const hasCollection = Boolean(project.collection && Object.keys(project.collection).length > 0);
+
   return (
     <div className="min-h-screen bg-background">
       <HomeLink project={project} />
@@ -66,11 +69,13 @@ export default function ProjectDetails({ project }: ProjectDetailsProps) {
 
         <div className="mt-8 md:mt-12 space-y-8">
           {/* Priority: Collection/Media first */}
-          {project.collection && (
+          {hasCollection && (
             <div>
               <Collection project={project} inModal={false} />
             </div>
           )}
+
+          <ProjectWorkLogs project={project} />
 
 
           {/* Metadata and About/Story arranged responsively in a grid.

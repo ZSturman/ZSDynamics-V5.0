@@ -50,7 +50,7 @@ export function ProjectCard({
               sizes="(min-width: 768px) 400px, 100vw"
               priority={false}
               loop={thumbnailSettings?.loop ?? true}
-              autoPlay={thumbnailSettings?.autoPlay ?? true}
+              autoPlay={thumbnailSettings?.autoPlay ?? false}
             />
 
             {showStatusBadge && (
@@ -59,7 +59,7 @@ export function ProjectCard({
                   variant="secondary"
                   className={`${
                     STATUS_COLOR[project.status as keyof typeof STATUS_COLOR]
-                  } font-medium text-[10px] md:text-xs py-0 px-1.5 md:px-2`}
+                  } font-medium text-[10px] md:text-xs py-0 px-1.5 md:px-2 pointer-events-none cursor-default`}
                 >
                   {(project.status || "").charAt(0).toUpperCase() +
                     (project.status || "").slice(1)}
@@ -102,12 +102,16 @@ export function ProjectCard({
         {/* Tags */}
         <div className="flex flex-wrap gap-0.5 md:gap-1">
           {project.tags?.slice(0, 3).map((tag) => (
-            <Badge key={tag} variant="outline" className="text-[8px] md:text-[10px] py-0 px-1 md:px-1.5 truncate max-w-full">
+            <Badge
+              key={tag}
+              variant="outline"
+              className="text-[8px] md:text-[10px] py-0 px-1 md:px-1.5 truncate max-w-full pointer-events-none cursor-default bg-muted/30"
+            >
               {tag}
             </Badge>
           ))}
           {project.tags && project.tags.length > 3 && (
-            <Badge variant="outline" className="text-[8px] md:text-[10px] py-0 px-1 md:px-1.5">
+            <Badge variant="outline" className="text-[8px] md:text-[10px] py-0 px-1 md:px-1.5 pointer-events-none cursor-default bg-muted/30">
               +{project.tags.length - 3}
             </Badge>
           )}

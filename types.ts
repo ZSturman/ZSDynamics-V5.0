@@ -21,16 +21,34 @@ export type CollectionItemType =
 export type CollectionItem = {
   id: string;
   path?: string; // Main path for the item (can be image, video, or other media)
-  filePath?: string; // Alternative path structure (simplified from legacy object format)
+  filePath?: string | { path?: string }; // Alternative path structure (simplified from legacy object format)
   label?: string;
   summary?: string;
-  thumbnail?: string; // Can be image or video
+  thumbnail?: string | { path?: string }; // Can be image or video
   resource?: Resource; // Single resource (legacy)
   resources?: Resource[]; // Multiple resources
+  url?: string;
   type: CollectionItemType;
   loop?: boolean; // Whether video/animation should loop
   autoPlay?: boolean; // Whether video should autoplay (defaults to true for thumbnails/banners/posters)
 };
+
+export interface WorkLog {
+  id: string;
+  title: string;
+  entry?: string;
+  url?: string;
+  date?: string;
+  startTime?: string;
+  endTime?: string;
+  durationMinutes?: number;
+  sessionType?: string[];
+  whatHappened?: string;
+  problems?: string;
+  nextStep?: string;
+  feelGoodAboutWork?: number;
+  accomplishedWhatYouWanted?: number;
+}
 
 
 
@@ -88,6 +106,7 @@ export interface Project {
   collection?: {
     [collectionName: string]: CollectionItem[] | { items: CollectionItem[]; [key: string]: unknown };
   };
+  workLogs?: WorkLog[];
 
   details?: [
     {

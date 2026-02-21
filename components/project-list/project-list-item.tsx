@@ -50,7 +50,7 @@ export function ProjectListItem({ project, onClick, sortField = "updatedAt" }: P
               fill
               className="object-cover md:group-hover:scale-105 transition-transform duration-200"
               loop={thumbnailSettings?.loop ?? true}
-              autoPlay={thumbnailSettings?.autoPlay ?? true}
+              autoPlay={thumbnailSettings?.autoPlay ?? false}
             />
           </div>
         </div>
@@ -64,7 +64,7 @@ export function ProjectListItem({ project, onClick, sortField = "updatedAt" }: P
             
 
         {mediums.slice(0,4).map((m) => (
-          <Badge key={String(m)} variant="secondary" className="ml-2 text-[10px] md:text-xs opacity-80 truncate hidden md:inline-block">
+          <Badge key={String(m)} variant="secondary" className="ml-2 text-[10px] md:text-xs opacity-80 truncate hidden md:inline-block pointer-events-none cursor-default">
             {m}
           </Badge>
         ))}
@@ -91,12 +91,12 @@ export function ProjectListItem({ project, onClick, sortField = "updatedAt" }: P
           <div className="flex flex-col gap-1.5 md:flex-row md:items-center md:justify-between md:gap-2 max-w-full">
             <div ref={tagsContainerRef} className="hidden md:flex flex-wrap gap-1 max-w-full overflow-hidden">
               {(project.tags || []).slice(0, 4).map((tag: string) => (
-                <Badge key={tag} variant="secondary" className="text-[10px] md:text-xs truncate">
+                <Badge key={tag} variant="outline" className="text-[10px] md:text-xs truncate pointer-events-none cursor-default bg-muted/30">
                   {tag}
                 </Badge>
               ))}
               {project.tags && project.tags.length > 4 && (
-                <Badge variant="secondary" className="text-[10px] md:text-xs">
+                <Badge variant="outline" className="text-[10px] md:text-xs pointer-events-none cursor-default bg-muted/30">
                   +{project.tags.length - 4}
                 </Badge>
               )}

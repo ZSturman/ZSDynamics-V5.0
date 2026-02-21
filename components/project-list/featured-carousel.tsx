@@ -143,7 +143,7 @@ export function FeaturedCarousel({
                         sizes="100vw"
                         priority
                         loop={bannerSettings?.loop ?? true}
-                        autoPlay={bannerSettings?.autoPlay ?? true}
+                        autoPlay={bannerSettings?.autoPlay ?? false}
                       />
                       
                       {/* Gradient overlay for text readability */}
@@ -192,7 +192,7 @@ export function FeaturedCarousel({
                             {/* Tags - Show up to 2 tags */}
                             <div className="flex items-center gap-2">
                               {project.tags?.slice(0, 2).map((tag) => (
-                                <Badge key={tag} variant="outline" className="text-xs">
+                                <Badge key={tag} variant="outline" className="text-xs pointer-events-none cursor-default bg-background/40">
                                   {tag}
                                 </Badge>
                               ))}
@@ -218,7 +218,7 @@ export function FeaturedCarousel({
                           sizes="(min-width: 1024px) 60vw, (min-width: 768px) 50vw, 40vw"
                           priority
                           loop={bannerSettings?.loop ?? true}
-                          autoPlay={bannerSettings?.autoPlay ?? true}
+                          autoPlay={bannerSettings?.autoPlay ?? false}
                         />
                         {/* Gradient overlay for text readability */}
                         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-background/80" />
@@ -230,7 +230,7 @@ export function FeaturedCarousel({
                               variant="secondary"
                               className={`${
                                 STATUS_COLOR[project.status as keyof typeof STATUS_COLOR]
-                              } font-medium text-xs px-3 py-1`}
+                              } font-medium text-xs px-3 py-1 pointer-events-none cursor-default`}
                             >
                               {statusValue.charAt(0).toUpperCase() + statusValue.slice(1)}
                             </Badge>
