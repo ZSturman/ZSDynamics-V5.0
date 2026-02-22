@@ -1,6 +1,6 @@
 import type { Project } from "@/types";
 import { loadPublicJsonRecursively } from "@/lib/load-public-json";
-import { WorkLogWithProject } from "@/components/work-logs/work-log-timeline";
+import type { WorkLogWithProject } from "@/components/work-logs/work-log-timeline";
 import { WorkLogsPageClient } from "@/components/work-logs/work-logs-page-client";
 
 export const dynamic = "force-static";
@@ -16,6 +16,7 @@ export default async function WorkLogsPage() {
         projectId: project.id,
         projectTitle: project.title,
         projectHref: `/projects/${project.id}`,
+        projectFolderName: project.folderName || project.id,
       });
     }
   }

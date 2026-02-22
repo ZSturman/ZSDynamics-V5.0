@@ -8,7 +8,6 @@ import { Collection } from "./project-details/collection/collection";
 import { useBreadcrumb } from "@/lib/breadcrumb-context";
 import { ArrowLeft } from "lucide-react";
 import ProjectDetailsFooter from "./project-details/project-details-footer";
-import ProjectDetailsMediaDisplay from "./project-details/project-details-media-display";
 import { ProjectWorkLogs } from "./project-details/project-work-logs";
 
 interface ProjectDetailsProps {
@@ -59,6 +58,11 @@ export default function ProjectDetails({ project }: ProjectDetailsProps) {
   }
 
   const hasCollection = Boolean(project.collection && Object.keys(project.collection).length > 0);
+  const hasContent = Boolean(
+    (project.description && String(project.description).trim()) ||
+      (project.story && String(project.story).trim())
+  );
+  const hasWorkLogs = Boolean(project.workLogs && project.workLogs.length > 0);
 
   return (
     <div className="min-h-screen bg-background">
@@ -68,55 +72,28 @@ export default function ProjectDetails({ project }: ProjectDetailsProps) {
         <ProjectHeader project={project} />
 
         <div className="mt-8 md:mt-12 space-y-8">
-          {/* Priority: Collection/Media first */}
           {hasCollection && (
-            <div>
+            <section>
               <Collection project={project} inModal={false} />
-            </div>
+            </section>
           )}
 
-          <ProjectWorkLogs project={project} />
+          {hasContent && (
+            <section>
+              <ProjectContent project={project} />
+            </section>
+          )}
 
+          <section className="border-t border-border pt-6">
+            <h3 className="mb-4 text-sm font-medium text-muted-foreground">Project Details</h3>
+            <ProjectMetadata project={project} />
+          </section>
 
-          {/* Metadata and About/Story arranged responsively in a grid.
-              If there's no description/story, show metadata full-width. */}
-          {(() => {
-            const hasContent = Boolean(
-              (project.description && String(project.description).trim()) ||
-                (project.story && String(project.story).trim())
-            );
-
-            if (!hasContent) {
-              return (
-                <div className="grid gap-6">
-                  <ProjectMetadata project={project} />
-                </div>
-              );
-            }
-
-            return (
-              <div className="grid gap-6 lg:gap-8 grid-cols-1 lg:grid-cols-[1fr_320px] items-start">
-                <div className="min-w-0 space-y-6">
-                  {/* Show metadata first on mobile */}
-                  <div className="lg:hidden">
-                    <ProjectMetadata project={project} />
-                  </div>
-                  
-                  <ProjectContent project={project} />
-                  
-                  {/* Media display on mobile */}
-                  <div className="lg:hidden">
-                    <ProjectDetailsMediaDisplay project={project} />
-                  </div>
-                </div>
-
-                <aside className="hidden lg:block min-w-[320px] space-y-6 sticky top-20">
-                  <ProjectDetailsMediaDisplay project={project} />
-                  <ProjectMetadata project={project} />
-                </aside>
-              </div>
-            );
-          })()}
+          {hasWorkLogs && (
+            <section className="border-t border-border pt-6">
+              <ProjectWorkLogs project={project} />
+            </section>
+          )}
         </div>
 
         <ProjectDetailsFooter />

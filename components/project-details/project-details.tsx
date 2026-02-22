@@ -13,6 +13,7 @@ import ResourceButtons from "./resource-buttons";
 import { ProjectSidebar } from "./project-sidebar";
 import { ProjectMetadata } from "./project-metadata";
 import { ProjectWorkLogs } from "./project-work-logs";
+import ProjectDetailsMediaDisplay from "./project-details-media-display";
 
 interface ProjectDetailsProps {
   project: Project;
@@ -152,6 +153,10 @@ export function ProjectDetails({ project }: ProjectDetailsProps) {
                 <ProjectHero project={project} />
               </section>
 
+              <section className="lg:hidden">
+                <ProjectDetailsMediaDisplay project={project} />
+              </section>
+
               {/* 3. Collections */}
               {hasCollection && (
                 <section>
@@ -178,7 +183,8 @@ export function ProjectDetails({ project }: ProjectDetailsProps) {
 
             {/* Sidebar Column - Sticky on desktop */}
             <aside className="hidden lg:block">
-              <div className="sticky top-24">
+              <div className="sticky top-24 space-y-6">
+                <ProjectDetailsMediaDisplay project={project} />
                 <ProjectSidebar project={project} />
               </div>
             </aside>
@@ -197,6 +203,10 @@ export function ProjectDetails({ project }: ProjectDetailsProps) {
             {/* 2. Project Hero/Media */}
             <section>
               <ProjectHero project={project} />
+            </section>
+
+            <section>
+              <ProjectDetailsMediaDisplay project={project} />
             </section>
 
             {/* 3. Collections */}
@@ -227,4 +237,3 @@ export function ProjectDetails({ project }: ProjectDetailsProps) {
     </div>
   );
 }
-

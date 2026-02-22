@@ -23,10 +23,17 @@ export function ProjectMetadata({ project, compact = false }: ProjectMetadataPro
   const getStatusVariant = (status: string): "default" | "secondary" | "destructive" | "outline" => {
     switch (status.toLowerCase()) {
       case "done":
+      case "complete":
+      case "completed":
+      case "published":
         return "default";
+      case "active":
       case "in_progress":
       case "in progress":
         return "secondary";
+      case "archived":
+      case "deprecated":
+        return "destructive";
       case "idea":
         return "outline";
       default:

@@ -10,8 +10,8 @@
     "status": "Active",
     "phase": "Development",
     "featured": false,
-    "createdAt": "2026-02-11",
-    "updatedAt": "2026-02-11",
+    "createdAt": "2026-02-03T09:00:00.000-08:00",
+    "updatedAt": "2026-03-07T09:00:00.000-08:00",
     "isPublic": true,
     "tags": [],
     "mediums": [],
@@ -145,8 +145,8 @@
         "title": "Added tables to notion",
         "entry": "Added tables to notion",
         "url": "https://www.notion.so/Added-tables-to-notion-306aec944d3c800a87d7ce6fc1b59ba4",
-        "startTime": "2026-02-13",
-        "endTime": "2026-02-13",
+        "startTime": "2026-02-13T09:00:00.000-08:00",
+        "endTime": "2026-02-13T11:00:00.000-08:00",
         "date": "2026-02-13",
         "sessionType": [
           "Organizing",
@@ -157,7 +157,7 @@
         "nextStep": null,
         "feelGoodAboutWork": 0.9,
         "accomplishedWhatYouWanted": 0.6,
-        "durationMinutes": 0
+        "durationMinutes": 120
       },
       {
         "id": "306aec94-4d3c-807c-9a2e-d09d20b60275",
@@ -191,8 +191,8 @@
     "status": "Complete",
     "phase": "Regular updates",
     "featured": true,
-    "createdAt": "2026-02-13",
-    "updatedAt": "2026-02-13",
+    "createdAt": "2026-02-03T09:00:00.000-08:00",
+    "updatedAt": "2026-02-28T09:00:00.000-08:00",
     "isPublic": true,
     "tags": [
       "iOS",
@@ -213,7 +213,8 @@
     "images": {
       "thumbnail": "thumbnail.png",
       "banner": "banner.png",
-      "poster": "poster.png"
+      "poster": "poster.png",
+      "icon": "Screenshot 2026-01-12 at 02.25.16.png"
     },
     "resources": [
       {
@@ -247,41 +248,6 @@
             "type": "video",
             "filePath": "Intro.mov",
             "thumbnail": "thumbnail.tiff"
-          }
-        ]
-      },
-      "assets": {
-        "label": "Assets",
-        "summary": "Ungrouped project assets",
-        "images": {},
-        "items": [
-          {
-            "id": "30eaec94-4d3c-8021-b8f9-c32997422e6c",
-            "label": "Video Thumbnail",
-            "order": 0,
-            "type": "image",
-            "filePath": "thumbnail.tiff"
-          },
-          {
-            "id": "30eaec94-4d3c-80a9-9500-de7a5ae72c6e",
-            "label": "Top Note thumbnail",
-            "order": 2,
-            "type": "image",
-            "filePath": "thumbnail.png"
-          },
-          {
-            "id": "30eaec94-4d3c-80ea-a5c6-ecddab4f2156",
-            "label": "Top Note Banner",
-            "order": 4,
-            "type": "image",
-            "filePath": "banner.png"
-          },
-          {
-            "id": "30eaec94-4d3c-80fe-b2c3-f1961da031c0",
-            "label": "Top Note poster",
-            "order": 5,
-            "type": "image",
-            "filePath": "poster.png"
           }
         ]
       }
@@ -319,8 +285,8 @@
     "status": "Complete",
     "phase": "Deprecated",
     "featured": false,
-    "createdAt": "2026-02-13",
-    "updatedAt": "2026-02-13",
+    "createdAt": "2026-02-13T13:31:00.000Z",
+    "updatedAt": "2026-02-22T10:45:00.000Z",
     "isPublic": true,
     "tags": [],
     "mediums": [],
@@ -346,8 +312,8 @@
     "status": "Complete",
     "phase": "Regular updates",
     "featured": true,
-    "createdAt": "2026-02-13",
-    "updatedAt": "2026-02-13",
+    "createdAt": "2025-08-06T09:00:00.000-07:00",
+    "updatedAt": "2026-02-22T13:26:00.000Z",
     "isPublic": true,
     "tags": [
       "iOS",
@@ -378,8 +344,8 @@
     "status": "Complete",
     "phase": "Published",
     "featured": false,
-    "createdAt": "2026-02-13",
-    "updatedAt": "2026-02-13",
+    "createdAt": "2026-02-13T13:27:00.000Z",
+    "updatedAt": "2026-02-22T10:46:00.000Z",
     "isPublic": true,
     "tags": [],
     "mediums": [],
@@ -388,7 +354,9 @@
     "subjects": [],
     "description": "",
     "story": "",
-    "images": {},
+    "images": {
+      "thumbnail": "thumbnail.tiff"
+    },
     "resources": [],
     "collection": {
       "assets": {
@@ -399,7 +367,7 @@
           {
             "id": "30eaec94-4d3c-80da-85b0-e17e2b55025f",
             "label": "Mind Adrift download pdf",
-            "order": 0,
+            "order": 1,
             "type": "text",
             "filePath": "Mind Adrift.pdf",
             "thumbnail": "thumbnail.tiff"
@@ -421,8 +389,8 @@
     "status": "Complete",
     "phase": "Deprecated",
     "featured": false,
-    "createdAt": "2026-02-13",
-    "updatedAt": "2026-02-13",
+    "createdAt": "2026-02-13T13:29:00.000Z",
+    "updatedAt": "2026-02-22T10:45:00.000Z",
     "isPublic": true,
     "tags": [],
     "mediums": [],
@@ -442,23 +410,27 @@
     "title": "Towardbetter.me",
     "name": "Towardbetter.me",
     "subtitle": "",
-    "summary": "",
+    "summary": "A summary",
     "domain": "Technology",
     "category": "web",
     "status": "Complete",
     "phase": "Live",
     "featured": false,
-    "createdAt": "2026-02-13",
-    "updatedAt": "2026-02-13",
+    "createdAt": "2025-01-10T09:00:00.000-08:00",
+    "updatedAt": "2025-01-30T09:00:00.000-08:00",
     "isPublic": true,
-    "tags": [],
+    "tags": [
+      "web"
+    ],
     "mediums": [],
     "genres": [],
     "topics": [],
     "subjects": [],
     "description": "",
     "story": "",
-    "images": {},
+    "images": {
+      "thumbnail": "Mind Adrift.pdf"
+    },
     "resources": [],
     "collection": {},
     "workLogs": [],
@@ -475,8 +447,8 @@
     "status": "Complete",
     "phase": "Deprecated",
     "featured": false,
-    "createdAt": "2026-02-13",
-    "updatedAt": "2026-02-13",
+    "createdAt": "2026-02-13T13:34:00.000Z",
+    "updatedAt": "2026-02-22T10:45:00.000Z",
     "isPublic": true,
     "tags": [],
     "mediums": [],
@@ -502,8 +474,8 @@
     "status": "Complete",
     "phase": "Released",
     "featured": false,
-    "createdAt": "2026-02-13",
-    "updatedAt": "2026-02-13",
+    "createdAt": "2026-02-13T13:29:00.000Z",
+    "updatedAt": "2026-02-22T10:45:00.000Z",
     "isPublic": true,
     "tags": [],
     "mediums": [],
@@ -529,8 +501,8 @@
     "status": "Active",
     "phase": "Researching",
     "featured": false,
-    "createdAt": "2026-02-13",
-    "updatedAt": "2026-02-13",
+    "createdAt": "2026-02-13T14:08:00.000Z",
+    "updatedAt": "2026-02-22T11:17:00.000Z",
     "isPublic": true,
     "tags": [],
     "mediums": [],
@@ -556,8 +528,8 @@
     "status": "Complete",
     "phase": "Deprecated",
     "featured": false,
-    "createdAt": "2026-02-13",
-    "updatedAt": "2026-02-13",
+    "createdAt": "2026-02-13T13:31:00.000Z",
+    "updatedAt": "2026-02-22T10:45:00.000Z",
     "isPublic": true,
     "tags": [],
     "mediums": [],
@@ -583,8 +555,8 @@
     "status": "Complete",
     "phase": "Deprecated",
     "featured": false,
-    "createdAt": "2026-02-13",
-    "updatedAt": "2026-02-13",
+    "createdAt": "2026-02-13T13:30:00.000Z",
+    "updatedAt": "2026-02-22T10:45:00.000Z",
     "isPublic": true,
     "tags": [],
     "mediums": [],

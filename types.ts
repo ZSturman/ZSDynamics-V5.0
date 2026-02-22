@@ -38,7 +38,10 @@ export interface WorkLog {
   title: string;
   entry?: string;
   url?: string;
+  assetUrl?: string;
   date?: string;
+  sessionStart?: string;
+  sessionEnd?: string;
   startTime?: string;
   endTime?: string;
   durationMinutes?: number;
@@ -48,6 +51,20 @@ export interface WorkLog {
   nextStep?: string;
   feelGoodAboutWork?: number;
   accomplishedWhatYouWanted?: number;
+  assets?: Array<{
+    id?: string;
+    label?: string;
+    name?: string;
+    type?: string;
+    url?: string;
+    path?: string;
+    filePath?: string | { path?: string };
+    relativePath?: string;
+    thumbnail?: string | { path?: string };
+    summary?: string;
+  }>;
+  resource?: Resource;
+  resources?: Resource[];
 }
 
 

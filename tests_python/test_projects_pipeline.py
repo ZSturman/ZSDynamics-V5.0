@@ -259,6 +259,152 @@ class TestProjectsPipeline(unittest.TestCase):
                     temp_public_projects_root=out_dir,
                 )
 
+    def test_generated_assets_exclude_reused_and_preview_media(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_root_str, tempfile.TemporaryDirectory() as out_str:
+            temp_root = Path(temp_root_str)
+            out_dir = Path(out_str)
+
+            assets_dir = temp_root / "Technology" / "Demo" / "FolioAssets"
+            assets_dir.mkdir(parents=True)
+
+            media_files = {
+                "thumbnail.png": b"thumb",
+                "banner.png": b"banner",
+                "poster.png": b"poster",
+                "icon.png": b"icon",
+                "video-thumb.png": b"video-thumb",
+                "spec-cover.png": b"spec-cover",
+                "unique.png": b"unique",
+                "explicit.png": b"explicit",
+                "intro.mp4": b"intro-video",
+            }
+            for filename, content in media_files.items():
+                (assets_dir / filename).write_bytes(content)
+
+            input_payload = {
+                "config": {"root_path": str(temp_root)},
+                "projects": [
+                    {
+                        "id": "proj-assets",
+                        "title": "Asset Demo",
+                        "summary": "Asset coverage",
+                        "domain": "Technology",
+                        "category": ["application"],
+                        "status": "Complete",
+                        "phase": "Build",
+                        "startDate": "2026-02-14",
+                        "thumbnail": {"relativePath": "Technology/Demo/FolioAssets/thumbnail.png"},
+                        "resources": [
+                            {
+                                "label": "Spec",
+                                "type": "local-download",
+                                "category": "download",
+                                "url": "Technology/Demo/FolioAssets/spec-cover.png",
+                            }
+                        ],
+                        "collections": [
+                            {
+                                "name": "Showcase",
+                                "items": [
+                                    {
+                                        "id": "video-item",
+                                        "label": "Intro Video",
+                                        "type": "video",
+                                        "relativePath": "Technology/Demo/FolioAssets/intro.mp4",
+                                        "thumbnail": {
+                                            "relativePath": "Technology/Demo/FolioAssets/video-thumb.png"
+                                        },
+                                    },
+                                    {
+                                        "id": "asset-explicit",
+                                        "label": "Explicit Asset",
+                                        "type": "image",
+                                        "relativePath": "Technology/Demo/FolioAssets/explicit.png",
+                                    },
+                                ],
+                            }
+                        ],
+                        "assets": [
+                            {
+                                "id": "asset-thumb",
+                                "label": "Project Thumbnail",
+                                "type": "image",
+                                "relativePath": "Technology/Demo/FolioAssets/thumbnail.png",
+                            },
+                            {
+                                "id": "asset-banner",
+                                "label": "Project Banner",
+                                "type": "image",
+                                "relativePath": "Technology/Demo/FolioAssets/banner.png",
+                            },
+                            {
+                                "id": "asset-poster",
+                                "label": "Project Poster",
+                                "type": "image",
+                                "relativePath": "Technology/Demo/FolioAssets/poster.png",
+                            },
+                            {
+                                "id": "asset-icon",
+                                "label": "Project Icon",
+                                "type": "image",
+                                "relativePath": "Technology/Demo/FolioAssets/icon.png",
+                            },
+                            {
+                                "id": "asset-video-thumb",
+                                "label": "Video Thumbnail",
+                                "type": "image",
+                                "relativePath": "Technology/Demo/FolioAssets/video-thumb.png",
+                            },
+                            {
+                                "id": "asset-download-cover",
+                                "label": "Spec Cover",
+                                "type": "image",
+                                "relativePath": "Technology/Demo/FolioAssets/spec-cover.png",
+                            },
+                            {
+                                "id": "asset-explicit",
+                                "label": "Explicit Asset",
+                                "type": "image",
+                                "relativePath": "Technology/Demo/FolioAssets/explicit.png",
+                            },
+                            {
+                                "id": "asset-unique",
+                                "label": "Unique Asset",
+                                "type": "image",
+                                "relativePath": "Technology/Demo/FolioAssets/unique.png",
+                            },
+                        ],
+                    }
+                ],
+            }
+
+            input_json = temp_root / "new_projects.json"
+            input_json.write_text(json.dumps(input_payload), encoding="utf-8")
+
+            result = build_projects_from_json(
+                input_json_path=input_json,
+                temp_public_projects_root=out_dir,
+            )
+
+            self.assertEqual(len(result["projects"]), 1)
+            project = result["projects"][0]
+
+            # Project media roles are still assigned.
+            self.assertEqual(project["images"]["thumbnail"], "thumbnail.png")
+            self.assertEqual(project["images"]["banner"], "banner.png")
+            self.assertEqual(project["images"]["poster"], "poster.png")
+            self.assertEqual(project["images"]["icon"], "icon.png")
+
+            # Explicit collection items remain intact.
+            showcase = project["collection"]["Showcase"]
+            showcase_ids = {item["id"] for item in showcase["items"]}
+            self.assertIn("asset-explicit", showcase_ids)
+
+            # Auto-generated assets should only contain genuinely unused items.
+            generated_assets = project["collection"]["assets"]["items"]
+            generated_asset_ids = {item["id"] for item in generated_assets}
+            self.assertEqual(generated_asset_ids, {"asset-unique"})
+
 
 if __name__ == "__main__":
     unittest.main()

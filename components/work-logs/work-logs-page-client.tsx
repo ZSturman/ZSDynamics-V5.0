@@ -1,31 +1,39 @@
 "use client";
 
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
-import { WorkLogTimeline, WorkLogWithProject } from "@/components/work-logs/work-log-timeline";
-
-interface WorkLogsProjectMeta {
-  id: string;
-  title: string;
-}
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import {
+  WorkLogTimeline,
+  WorkLogWithProject,
+  WorkLogProjectOption,
+} from "@/components/work-logs/work-log-timeline";
 
 interface WorkLogsPageClientProps {
   logs: WorkLogWithProject[];
-  projects: WorkLogsProjectMeta[];
+  projects: WorkLogProjectOption[];
 }
 
 export function WorkLogsPageClient({ logs, projects }: WorkLogsPageClientProps) {
+  const router = useRouter();
+  const pathname = usePathname();
   const searchParams = useSearchParams();
-  const rawProjectFilter = searchParams.get("project");
-  const projectFilter = rawProjectFilter || undefined;
-
-  const filteredLogs = projectFilter
-    ? logs.filter((workLog) => workLog.projectId === projectFilter)
-    : logs;
+  const projectFilter = searchParams.get("project") || undefined;
 
   const filteredProject = projectFilter
     ? projects.find((project) => project.id === projectFilter)
     : null;
+
+  const handleProjectFilterChange = (projectId?: string) => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (projectId) {
+      params.set("project", projectId);
+    } else {
+      params.delete("project");
+    }
+    const nextQuery = params.toString();
+    const nextUrl = nextQuery ? `${pathname}?${nextQuery}` : pathname;
+    router.replace(nextUrl, { scroll: false });
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -50,7 +58,12 @@ export function WorkLogsPageClient({ logs, projects }: WorkLogsPageClientProps) 
         </div>
 
         <WorkLogTimeline
-          logs={filteredLogs}
+          logs={logs}
+          showControls
+          projectOptions={projects}
+          initialProjectId={projectFilter}
+          initialViewMode="project-chart"
+          onProjectFilterChange={handleProjectFilterChange}
           emptyText={filteredProject ? "No work logs for this project yet." : "No work logs found yet."}
         />
       </main>

@@ -28,6 +28,7 @@ INTERNAL_LINK_TYPES = {"folio", "local-link"}
 INTERNAL_LINK_PREFIX = "local-link:"
 DOWNLOAD_RESOURCE_TYPES = {"local-download"}
 DOWNLOAD_RESOURCE_CATEGORIES = {"download"}
+PREVIEW_IMAGE_ROLES = {"thumbnail", "banner", "poster", "posterPortrait", "posterLandscape", "icon"}
 
 UUID_RE = re.compile(r"[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
 SCHEME_RE = re.compile(r"^[a-zA-Z][a-zA-Z0-9+.-]*://")
@@ -318,6 +319,46 @@ def _copy_file_if_exists(src: Optional[Path], dest_dir: Path, copied: List[str],
     shutil.copy2(src, dest)
     copied.append(str(dest))
     return dest.name
+
+
+def _normalize_path_fingerprint(path: Path) -> str:
+    try:
+        normalized = path.expanduser().resolve(strict=False)
+    except Exception:
+        normalized = path
+    return f"path:{normalized.as_posix()}"
+
+
+def _asset_reference_fingerprint(value: Any, root_path: Path) -> Optional[str]:
+    candidate = _extract_path_candidate(value)
+    if not candidate:
+        return None
+
+    raw_candidate = str(candidate).strip()
+    if not raw_candidate:
+        return None
+
+    if raw_candidate.startswith("file://"):
+        decoded = _decode_file_uri(raw_candidate)
+        if decoded:
+            return _normalize_path_fingerprint(decoded)
+        return None
+
+    normalized_url = _normalize_url(raw_candidate)
+    if normalized_url and normalized_url.startswith(("http://", "https://", "ftp://")):
+        return f"url:{normalized_url}"
+
+    candidates = _build_source_candidates(value, root_path)
+    if not candidates:
+        return None
+
+    return _normalize_path_fingerprint(candidates[0])
+
+
+def _add_asset_reference_fingerprint(fingerprints: Set[str], value: Any, root_path: Path) -> None:
+    fingerprint = _asset_reference_fingerprint(value, root_path)
+    if fingerprint:
+        fingerprints.add(fingerprint)
 
 
 def _resolve_internal_target(value: Any, alias_to_project_id: Dict[str, str]) -> Optional[str]:
@@ -729,6 +770,58 @@ def _normalize_collection(
     return collection_name, out
 
 
+def _collect_used_asset_fingerprints(
+    source: Dict[str, Any],
+    *,
+    root_path: Path,
+    image_candidates: Dict[str, Any],
+) -> Set[str]:
+    used_asset_fingerprints: Set[str] = set()
+
+    for role in PREVIEW_IMAGE_ROLES:
+        _add_asset_reference_fingerprint(used_asset_fingerprints, source.get(role), root_path)
+
+    for role, asset_like in image_candidates.items():
+        if role in PREVIEW_IMAGE_ROLES:
+            _add_asset_reference_fingerprint(used_asset_fingerprints, asset_like, root_path)
+
+    for resource in source.get("resources") or []:
+        if isinstance(resource, dict) and _resource_looks_like_download(resource):
+            _add_asset_reference_fingerprint(used_asset_fingerprints, resource, root_path)
+
+    collections = source.get("collections") if isinstance(source.get("collections"), list) else []
+    for collection in collections:
+        if not isinstance(collection, dict):
+            continue
+
+        _add_asset_reference_fingerprint(used_asset_fingerprints, collection.get("thumbnail"), root_path)
+
+        collection_items = collection.get("items")
+        if not isinstance(collection_items, list):
+            collection_items = collection.get("assets")
+
+        if not isinstance(collection_items, list):
+            continue
+
+        for item in collection_items:
+            if not isinstance(item, dict):
+                continue
+
+            # Item main media path is carried directly on the item object.
+            _add_asset_reference_fingerprint(used_asset_fingerprints, item, root_path)
+            _add_asset_reference_fingerprint(used_asset_fingerprints, item.get("thumbnail"), root_path)
+
+            for resource in item.get("resources") or []:
+                if isinstance(resource, dict) and _resource_looks_like_download(resource):
+                    _add_asset_reference_fingerprint(used_asset_fingerprints, resource, root_path)
+
+            singular_resource = item.get("resource")
+            if isinstance(singular_resource, dict) and _resource_looks_like_download(singular_resource):
+                _add_asset_reference_fingerprint(used_asset_fingerprints, singular_resource, root_path)
+
+    return used_asset_fingerprints
+
+
 def _normalize_project(
     source: Dict[str, Any],
     *,
@@ -749,14 +842,28 @@ def _normalize_project(
     project_dest_dir.mkdir(parents=True, exist_ok=True)
 
     raw_obj = source.get("raw") if isinstance(source.get("raw"), dict) else {}
+    project_date_range_raw = source.get("projectDateRangeRaw") if isinstance(source.get("projectDateRangeRaw"), dict) else {}
+    raw_started_last_updated = (
+        raw_obj.get("property_started_at_last_update_at")
+        if isinstance(raw_obj.get("property_started_at_last_update_at"), dict)
+        else {}
+    )
 
     created_at = _first_non_empty(
         source.get("startDate"),
+        project_date_range_raw.get("start"),
+        raw_started_last_updated.get("start"),
         _get_nested(raw_obj, "property_start_date"),
+        _get_nested(raw_obj, "property_created_time"),
     )
     updated_at = _first_non_empty(
+        source.get("lastUpdateDate"),
+        project_date_range_raw.get("end"),
+        raw_started_last_updated.get("end"),
+        _get_nested(raw_obj, "property_last_update_date"),
         _get_nested(raw_obj, "property_last_update"),
         _get_nested(raw_obj, "property_last_status_update"),
+        _get_nested(raw_obj, "property_last_edited_time"),
         created_at,
     )
 
@@ -820,6 +927,12 @@ def _normalize_project(
     if not project_out["images"].get("thumbnail"):
         missing_thumbnail_projects.append(project_id)
 
+    used_asset_fingerprints = _collect_used_asset_fingerprints(
+        source,
+        root_path=root_path,
+        image_candidates=image_candidates,
+    )
+
     for r in source.get("resources") or []:
         if not isinstance(r, dict):
             continue
@@ -861,8 +974,17 @@ def _normalize_project(
     for idx, asset in enumerate(assets):
         if not isinstance(asset, dict):
             continue
+
+        inferred_roles = set(_infer_project_image_roles(asset))
+        if inferred_roles & PREVIEW_IMAGE_ROLES:
+            continue
+
         asset_id = _as_str(asset.get("id"))
         if asset_id and asset_id in collected_item_ids:
+            continue
+
+        asset_fingerprint = _asset_reference_fingerprint(asset, root_path)
+        if asset_fingerprint and asset_fingerprint in used_asset_fingerprints:
             continue
 
         normalized_asset_item = _normalize_collection_item(
