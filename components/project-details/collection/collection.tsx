@@ -2,7 +2,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MediaDisplay } from "@/components/ui/media-display";
 import { Project, CollectionItem } from "@/types";
 import CollectionItemCard from "./collection-item";
-import { formatTextWithNewlines, isImageFile, isVideoFile } from "@/lib/utils";
+import { extractPathValue, formatTextWithNewlines, isImageFile, isVideoFile, resolveProjectAssetPath } from "@/lib/utils";
+import { getProjectCollectionEntries } from "@/lib/project-collections";
 
 interface CollectionProps {
   project: Project;
@@ -22,19 +23,21 @@ interface CollectionMeta {
 
 function getCollectionMeta(
   collectionName: string,
-  collectionData: CollectionShape,
+  collectionData: CollectionShape | { assets?: CollectionItem[]; [key: string]: unknown },
   folderName: string
 ): CollectionMeta {
   const isArrayShape = Array.isArray(collectionData);
   const data = isArrayShape ? {} : (collectionData as { [key: string]: unknown });
-  const items = isArrayShape ? (collectionData as CollectionItem[]) : (data.items as CollectionItem[] | undefined) || [];
+  const items = isArrayShape
+    ? (collectionData as CollectionItem[])
+    : (data.items as CollectionItem[] | undefined) || (data.assets as CollectionItem[] | undefined) || [];
 
   const label = typeof data.label === "string" ? data.label : collectionName;
   const summary = typeof data.summary === "string" ? data.summary : undefined;
   const description = typeof data.description === "string" ? data.description : undefined;
 
   const images = (data.images as { [key: string]: unknown } | undefined) || {};
-  const thumbnailPath = typeof images.thumbnail === "string" ? images.thumbnail : undefined;
+  const thumbnailPath = extractPathValue(images.thumbnail);
 
   return {
     key: collectionName,
@@ -42,17 +45,13 @@ function getCollectionMeta(
     summary,
     description,
     thumbnail: toCollectionMediaPath(thumbnailPath, folderName, collectionName),
-    items,
+    items: [...items].sort((a, b) => (a.order ?? 0) - (b.order ?? 0)),
   };
 }
 
 function toCollectionMediaPath(mediaPath: string | undefined, folderName: string, collectionName: string): string | undefined {
   if (!mediaPath) return undefined;
-  if (mediaPath.startsWith("http://") || mediaPath.startsWith("https://")) return mediaPath;
-
-  const rawPath = mediaPath.startsWith("/projects/")
-    ? mediaPath
-    : `/projects/${folderName}/${collectionName}/${mediaPath}`;
+  const rawPath = resolveProjectAssetPath(mediaPath, { folderName, collectionName }) || mediaPath;
 
   if (rawPath.includes("-optimized") || rawPath.includes("-thumb") || rawPath.includes("-placeholder")) {
     return rawPath;
@@ -104,13 +103,14 @@ function CollectionHeader({ label, summary, description, thumbnail }: Omit<Colle
 }
 
 export function Collection({ project, inModal }: CollectionProps) {
-  if (!project.collection || Object.keys(project.collection).length === 0) {
+  const collectionEntries = getProjectCollectionEntries(project);
+  if (collectionEntries.length === 0) {
     return null;
   }
 
   const folderName = project.folderName || project.id;
-  const collections = Object.entries(project.collection)
-    .map(([name, data]) => getCollectionMeta(name, data as CollectionShape, folderName))
+  const collections = collectionEntries
+    .map(({ key, data }) => getCollectionMeta(key, data as CollectionShape, folderName))
     .filter((collection) => collection.items.length > 0);
 
   if (collections.length === 0) {

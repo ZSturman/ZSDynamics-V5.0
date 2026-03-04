@@ -13,15 +13,22 @@ export function ProjectHeader({ project, hideBanner = false }: ProjectHeaderProp
   const folderName = project.folderName || project.id;
   const folderPath = `/projects/${folderName}`;
 
-  const iconPath = project.images?.icon ? getOptimizedMediaPath(project.images.icon, folderPath) : null;
-  const iconSettings = project.imageSettings?.icon;
-  const headerMedia = project.images?.banner || project.images?.posterLandscape || project.images?.poster;
+  const iconMedia = project.images?.icon || project.images?.thumbnail;
+  const iconPath = iconMedia ? getOptimizedMediaPath(iconMedia, folderPath) : null;
+  const iconSettings = project.images?.icon ? project.imageSettings?.icon : project.imageSettings?.thumbnail;
+  const headerMedia =
+    project.images?.banner ||
+    project.images?.posterLandscape ||
+    project.images?.poster ||
+    project.images?.thumbnail;
   const srcBanner = headerMedia ? getOptimizedMediaPath(headerMedia, folderPath) : null;
   const headerMediaSettings = project.images?.banner
     ? project.imageSettings?.banner
     : project.images?.posterLandscape
     ? project.imageSettings?.posterLandscape || project.imageSettings?.poster
-    : project.imageSettings?.poster;
+    : project.images?.poster
+    ? project.imageSettings?.poster
+    : project.imageSettings?.thumbnail;
   const posterAccentPath = project.images?.posterPortrait
     ? getOptimizedMediaPath(project.images.posterPortrait, folderPath)
     : project.images?.poster
@@ -30,11 +37,20 @@ export function ProjectHeader({ project, hideBanner = false }: ProjectHeaderProp
   const posterAccentSettings = project.images?.posterPortrait
     ? project.imageSettings?.posterPortrait || project.imageSettings?.poster
     : project.imageSettings?.poster;
+  const heroPath = project.images?.hero
+    ? getOptimizedMediaPath(project.images.hero, folderPath)
+    : null;
+  const heroSettings = project.imageSettings?.hero;
 
   return (
-    <header className="space-y-3 md:space-y-6 border-b border-border pb-4 md:pb-8">
+    <header data-testid="project-header" data-project-id={project.id} className="space-y-3 md:space-y-6 border-b border-border pb-4 md:pb-8">
       {!hideBanner && srcBanner && (
-        <div className="relative -mx-3 md:-mx-6 -mt-3 md:-mt-6 mb-3 md:mb-6 h-32 md:h-48 lg:h-64 overflow-hidden rounded-t-lg">
+        <div
+          data-testid="project-header-banner"
+          data-project-id={project.id}
+          data-media-role={project.images?.banner ? "banner" : project.images?.posterLandscape ? "posterLandscape" : project.images?.poster ? "poster" : "thumbnail"}
+          className="relative -mx-3 md:-mx-6 -mt-3 md:-mt-6 mb-3 md:mb-6 h-32 md:h-48 lg:h-64 overflow-hidden rounded-t-lg"
+        >
           <MediaDisplay
             src={srcBanner}
             alt={`${project.title} banner`}
@@ -51,7 +67,12 @@ export function ProjectHeader({ project, hideBanner = false }: ProjectHeaderProp
         <div className="flex-1 space-y-1 md:space-y-2">
           <div className="flex items-center gap-2 md:gap-3 flex-wrap">
             {iconPath && (
-              <div className="relative h-10 w-10 md:h-12 md:w-12 overflow-hidden rounded-xl border border-border/70 bg-card">
+              <div
+                data-testid="project-header-icon"
+                data-project-id={project.id}
+                data-media-role={project.images?.icon ? "icon" : "thumbnail"}
+                className="relative h-10 w-10 md:h-12 md:w-12 overflow-hidden rounded-xl border border-border/70 bg-card"
+              >
                 <MediaDisplay
                   src={iconPath}
                   alt={`${project.title} icon`}
@@ -67,8 +88,8 @@ export function ProjectHeader({ project, hideBanner = false }: ProjectHeaderProp
             </h1>
             {project.resources && project.resources.length > 0 && (
               <div className="flex gap-2">
-                {project.resources.slice(0, 4).map((resource) => (
-                  <ResourceButton key={resource.url} resource={resource} iconOnly className="h-8 w-8 border-0" />
+                {project.resources.slice(0, 4).map((resource, index) => (
+                  <ResourceButton key={`${resource.url}-${index}`} resource={resource} iconOnly className="h-8 w-8 border-0" />
                 ))}
               </div>
             )}
@@ -78,9 +99,34 @@ export function ProjectHeader({ project, hideBanner = false }: ProjectHeaderProp
       </div>
 
       <div className="overflow-hidden">
+        {heroPath && (
+          <div className="mb-4 md:mb-6">
+            <div
+              data-testid="project-header-hero"
+              data-project-id={project.id}
+              data-media-role="hero"
+              className="relative aspect-video w-full overflow-hidden rounded-xl border border-border/70 bg-card/30"
+            >
+              <MediaDisplay
+                src={heroPath}
+                alt={`${project.title} hero media`}
+                fill
+                className="object-cover"
+                autoPlay={heroSettings?.autoPlay ?? false}
+                loop={heroSettings?.loop ?? true}
+              />
+            </div>
+          </div>
+        )}
+
         {posterAccentPath && (
           <div className="float-none sm:float-right sm:ml-4 sm:mb-2 w-[8.5rem] md:w-[10rem] lg:w-[11rem]">
-            <div className="relative aspect-[3/4] w-full overflow-hidden rounded-lg border border-border/70 bg-card/30">
+            <div
+              data-testid="project-header-poster-accent"
+              data-project-id={project.id}
+              data-media-role={project.images?.posterPortrait ? "posterPortrait" : "poster"}
+              className="relative aspect-[3/4] w-full overflow-hidden rounded-lg border border-border/70 bg-card/30"
+            >
               <MediaDisplay
                 src={posterAccentPath}
                 alt={`${project.title} poster`}

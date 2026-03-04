@@ -65,6 +65,8 @@ class TestProjectsPipeline(unittest.TestCase):
                         "category": ["application"],
                         "status": "Complete",
                         "phase": "Regular updates",
+                        "startedAt": "2026-02-13T10:00:00.000Z",
+                        "lastUpdateAt": "2026-02-20T18:30:00.000Z",
                         "startDate": "2026-02-13",
                         "thumbnail": {
                             "relativePath": "Technology/Top Note/FolioAssets/thumbnail.png"
@@ -137,6 +139,7 @@ class TestProjectsPipeline(unittest.TestCase):
                         "category": ["application"],
                         "status": "In Progress",
                         "phase": "Build",
+                        "startedAt": "2025-01-01T00:00:00.000Z",
                         "startDate": "2025-01-01",
                         "collections": [],
                         "resources": [],
@@ -188,6 +191,10 @@ class TestProjectsPipeline(unittest.TestCase):
             self.assertEqual(proj_a["name"], "Top Note")
             self.assertEqual(proj_a["domain"], "Unknown Domain")
             self.assertEqual(proj_a["folderName"], make_project_folder_name("Top Note", "proj-a"))
+            self.assertEqual(proj_a["createdAt"], "2026-02-13T10:00:00.000Z")
+            self.assertEqual(proj_a["updatedAt"], "2026-02-20T18:30:00.000Z")
+            self.assertEqual(proj_b["createdAt"], "2025-01-01T00:00:00.000Z")
+            self.assertIsNone(proj_b["updatedAt"])
 
             # Top-level image copied + rewritten to filename
             self.assertEqual(proj_a["images"]["thumbnail"], "thumbnail.png")
@@ -227,7 +234,7 @@ class TestProjectsPipeline(unittest.TestCase):
             self.assertEqual(item2["filePath"], "video clip.mp4")
 
             item3 = next(i for i in collection["items"] if i["id"] == "item-3")
-            self.assertEqual(item3["type"], "local-link")
+            self.assertEqual(item3["type"], "url-link")
             self.assertEqual(item3["url"], "/projects/proj-b")
 
             # Paths are rewritten to public references, not local absolute paths
@@ -259,6 +266,219 @@ class TestProjectsPipeline(unittest.TestCase):
                     temp_public_projects_root=out_dir,
                 )
 
+    def test_collection_item_project_link_inherits_target_thumbnail_and_resources(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_root_str, tempfile.TemporaryDirectory() as out_str:
+            temp_root = Path(temp_root_str)
+            out_dir = Path(out_str)
+
+            parent_assets_dir = temp_root / "Technology" / "Parent" / "FolioAssets"
+            target_assets_dir = temp_root / "Technology" / "Target" / "FolioAssets"
+            parent_assets_dir.mkdir(parents=True)
+            target_assets_dir.mkdir(parents=True)
+
+            (parent_assets_dir / "parent-thumb.png").write_bytes(b"parent-thumb")
+            (target_assets_dir / "target-thumb.png").write_bytes(b"target-thumb")
+            (target_assets_dir / "Target Guide.pdf").write_text("guide", encoding="utf-8")
+
+            input_payload = {
+                "config": {"root_path": str(temp_root)},
+                "projects": [
+                    {
+                        "id": "proj-parent",
+                        "projectPageId": "proj-parent-page",
+                        "title": "Parent Project",
+                        "summary": "Parent summary",
+                        "domain": "Technology",
+                        "category": ["application"],
+                        "status": "Complete",
+                        "phase": "Build",
+                        "startDate": "2026-02-14",
+                        "thumbnail": {"relativePath": "Technology/Parent/FolioAssets/parent-thumb.png"},
+                        "collections": [
+                            {
+                                "name": "Related Projects",
+                                "items": [
+                                    {
+                                        "id": "item-target-project",
+                                        "label": "Target Project",
+                                        "type": "URL",
+                                        "projectId": "proj-target-page",
+                                    }
+                                ],
+                            }
+                        ],
+                        "resources": [],
+                    },
+                    {
+                        "id": "proj-target",
+                        "projectPageId": "proj-target-page",
+                        "title": "Target Project",
+                        "summary": "Target summary from project page",
+                        "domain": "Technology",
+                        "category": ["application"],
+                        "status": "Complete",
+                        "phase": "Ship",
+                        "startDate": "2026-01-01",
+                        "thumbnail": {"relativePath": "Technology/Target/FolioAssets/target-thumb.png"},
+                        "resources": [
+                            {
+                                "label": "Target Site",
+                                "type": "website",
+                                "url": "https://example.com/target",
+                            },
+                            {
+                                "label": "Target Guide",
+                                "type": "local-download",
+                                "category": "download",
+                                "url": "Technology/Target/FolioAssets/Target Guide.pdf",
+                            },
+                        ],
+                        "collections": [],
+                    },
+                ],
+            }
+
+            input_json = temp_root / "new_projects.json"
+            input_json.write_text(json.dumps(input_payload), encoding="utf-8")
+
+            result = build_projects_from_json(
+                input_json_path=input_json,
+                temp_public_projects_root=out_dir,
+            )
+
+            parent_project = next(p for p in result["projects"] if p["id"] == "proj-parent")
+            target_project = next(p for p in result["projects"] if p["id"] == "proj-target")
+            related_collection = parent_project["collection"]["Related Projects"]
+            linked_item = related_collection["items"][0]
+
+            self.assertEqual(linked_item["type"], "url-link")
+            self.assertEqual(linked_item["url"], "/projects/proj-target")
+            self.assertEqual(linked_item["thumbnail"], "target-thumb.png")
+            self.assertEqual(linked_item["summary"], "Target summary from project page")
+
+            inherited_labels = {resource["label"] for resource in linked_item["resources"]}
+            self.assertIn("Target Site", inherited_labels)
+            self.assertIn("Target Guide", inherited_labels)
+
+            inherited_download = next(r for r in linked_item["resources"] if r["label"] == "Target Guide")
+            self.assertEqual(
+                inherited_download["url"],
+                f"/projects/{target_project['folderName']}/Target Guide.pdf",
+            )
+            self.assertTrue((out_dir / target_project["folderName"] / "Target Guide.pdf").exists())
+            self.assertTrue(
+                (
+                    out_dir
+                    / parent_project["folderName"]
+                    / "Related Projects"
+                    / "item-target-project"
+                    / "target-thumb.png"
+                ).exists()
+            )
+
+    def test_fallback_builds_project_collections_from_relation_ids(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_root_str, tempfile.TemporaryDirectory() as out_str:
+            temp_root = Path(temp_root_str)
+            out_dir = Path(out_str)
+
+            assets_dir = temp_root / "Technology" / "Frontend" / "FolioAssets"
+            assets_dir.mkdir(parents=True)
+            (assets_dir / "frontend-thumb.png").write_bytes(b"frontend-thumb")
+            (assets_dir / "proj-a-thumb.png").write_bytes(b"proj-a-thumb")
+            (assets_dir / "proj-b-thumb.png").write_bytes(b"proj-b-thumb")
+
+            collection_id = "collection-frontend"
+
+            input_payload = {
+                "config": {"root_path": str(temp_root)},
+                "projects": [
+                    {
+                        "id": "proj-front",
+                        "projectPageId": "proj-front-page",
+                        "title": "Frontend Collection",
+                        "oneLiner": "Frontend versions",
+                        "summary": "Owner summary",
+                        "domain": "Technology",
+                        "category": ["web"],
+                        "status": "Complete",
+                        "phase": "Maintained",
+                        "startDate": "2024-01-01",
+                        "thumbnail": {"relativePath": "Technology/Frontend/FolioAssets/frontend-thumb.png"},
+                        "collections": [],
+                        "collectionIds": [collection_id],
+                        "resources": [],
+                        "raw": {
+                            "property_collections": [collection_id],
+                            "property_as_an_item_in_collection": [],
+                        },
+                    },
+                    {
+                        "id": "proj-a",
+                        "projectPageId": "proj-a-page",
+                        "title": "ZSDynamics 1.0",
+                        "summary": "Project A summary",
+                        "domain": "Technology",
+                        "category": ["web"],
+                        "status": "Complete",
+                        "phase": "Archived",
+                        "startDate": "2023-01-01",
+                        "thumbnail": {"relativePath": "Technology/Frontend/FolioAssets/proj-a-thumb.png"},
+                        "collections": [],
+                        "resources": [{"label": "Project A Site", "type": "visit", "url": "https://example.com/a"}],
+                        "raw": {
+                            "property_collections": [],
+                            "property_as_an_item_in_collection": [collection_id],
+                        },
+                    },
+                    {
+                        "id": "proj-b",
+                        "projectPageId": "proj-b-page",
+                        "title": "Towardbetter.me",
+                        "summary": "Project B summary",
+                        "domain": "Technology",
+                        "category": ["web"],
+                        "status": "Complete",
+                        "phase": "Archived",
+                        "startDate": "2023-02-01",
+                        "thumbnail": {"relativePath": "Technology/Frontend/FolioAssets/proj-b-thumb.png"},
+                        "collections": [],
+                        "resources": [{"label": "Project B Site", "type": "visit", "url": "https://example.com/b"}],
+                        "raw": {
+                            "property_collections": [],
+                            "property_as_an_item_in_collection": [collection_id],
+                        },
+                    },
+                ],
+            }
+
+            input_json = temp_root / "new_projects.json"
+            input_json.write_text(json.dumps(input_payload), encoding="utf-8")
+
+            result = build_projects_from_json(
+                input_json_path=input_json,
+                temp_public_projects_root=out_dir,
+            )
+
+            owner_project = next(p for p in result["projects"] if p["id"] == "proj-front")
+            self.assertIn("Frontend Collection", owner_project["collection"])
+
+            collection = owner_project["collection"]["Frontend Collection"]
+            self.assertEqual(collection["label"], "Frontend Collection")
+            self.assertEqual(collection["summary"], "Frontend versions")
+
+            items = collection["items"]
+            self.assertEqual({item["id"] for item in items}, {"proj-a", "proj-b"})
+            for item in items:
+                self.assertEqual(item["type"], "url-link")
+                self.assertTrue(item["url"].startswith("/projects/"))
+                self.assertIn("thumbnail", item)
+                self.assertIn("resources", item)
+
+            item_a = next(item for item in items if item["id"] == "proj-a")
+            self.assertEqual(item_a["url"], "/projects/proj-a")
+            self.assertEqual(item_a["summary"], "Project A summary")
+            self.assertEqual(item_a["resource"]["label"], "Project A Site")
+
     def test_generated_assets_exclude_reused_and_preview_media(self) -> None:
         with tempfile.TemporaryDirectory() as temp_root_str, tempfile.TemporaryDirectory() as out_str:
             temp_root = Path(temp_root_str)
@@ -270,6 +490,7 @@ class TestProjectsPipeline(unittest.TestCase):
             media_files = {
                 "thumbnail.png": b"thumb",
                 "banner.png": b"banner",
+                "hero.png": b"hero",
                 "poster.png": b"poster",
                 "icon.png": b"icon",
                 "video-thumb.png": b"video-thumb",
@@ -338,6 +559,12 @@ class TestProjectsPipeline(unittest.TestCase):
                                 "relativePath": "Technology/Demo/FolioAssets/banner.png",
                             },
                             {
+                                "id": "asset-hero",
+                                "label": "Project Hero",
+                                "type": "image",
+                                "relativePath": "Technology/Demo/FolioAssets/hero.png",
+                            },
+                            {
                                 "id": "asset-poster",
                                 "label": "Project Poster",
                                 "type": "image",
@@ -392,6 +619,7 @@ class TestProjectsPipeline(unittest.TestCase):
             # Project media roles are still assigned.
             self.assertEqual(project["images"]["thumbnail"], "thumbnail.png")
             self.assertEqual(project["images"]["banner"], "banner.png")
+            self.assertEqual(project["images"]["hero"], "hero.png")
             self.assertEqual(project["images"]["poster"], "poster.png")
             self.assertEqual(project["images"]["icon"], "icon.png")
 
@@ -404,6 +632,160 @@ class TestProjectsPipeline(unittest.TestCase):
             generated_assets = project["collection"]["assets"]["items"]
             generated_asset_ids = {item["id"] for item in generated_assets}
             self.assertEqual(generated_asset_ids, {"asset-unique"})
+
+    def test_project_dates_only_use_started_and_last_update_columns(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_root_str, tempfile.TemporaryDirectory() as out_str:
+            temp_root = Path(temp_root_str)
+            out_dir = Path(out_str)
+
+            input_payload = {
+                "config": {"root_path": str(temp_root)},
+                "projects": [
+                    {
+                        "id": "proj-dates",
+                        "title": "Date Rules",
+                        "startDate": "2001-01-01",
+                        "lastUpdateDate": "2002-02-02",
+                        "startedAt": "2026-02-01T12:00:00.000Z",
+                        "lastUpdateAt": "2026-03-01T10:45:00.000Z",
+                        "raw": {
+                            "property_start_date": "1999-01-01",
+                            "property_created_time": "1998-01-01T00:00:00.000Z",
+                            "property_last_update_date": "1997-01-01",
+                            "property_last_edited_time": "1996-01-01T00:00:00.000Z",
+                        },
+                    },
+                    {
+                        "id": "proj-dates-missing",
+                        "title": "Date Missing",
+                        "startDate": "2001-01-01",
+                        "lastUpdateDate": "2002-02-02",
+                        "raw": {
+                            "property_start_date": "1999-01-01",
+                            "property_last_update_date": "1997-01-01",
+                        },
+                    },
+                ],
+            }
+
+            input_json = temp_root / "new_projects.json"
+            input_json.write_text(json.dumps(input_payload), encoding="utf-8")
+
+            result = build_projects_from_json(
+                input_json_path=input_json,
+                temp_public_projects_root=out_dir,
+            )
+
+            project_by_id = {project["id"]: project for project in result["projects"]}
+            self.assertEqual(project_by_id["proj-dates"]["createdAt"], "2026-02-01T12:00:00.000Z")
+            self.assertEqual(project_by_id["proj-dates"]["updatedAt"], "2026-03-01T10:45:00.000Z")
+            self.assertIsNone(project_by_id["proj-dates-missing"]["createdAt"])
+            self.assertIsNone(project_by_id["proj-dates-missing"]["updatedAt"])
+
+    def test_collection_falls_back_to_assets_when_items_is_empty_list(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_root_str, tempfile.TemporaryDirectory() as out_str:
+            temp_root = Path(temp_root_str)
+            out_dir = Path(out_str)
+
+            pages_dir = temp_root / "Creative" / "Coloring Book"
+            pages_dir.mkdir(parents=True)
+            (pages_dir / "1_In The Beginning.PNG").write_bytes(b"page-image")
+
+            input_payload = {
+                "config": {"root_path": str(temp_root)},
+                "projects": [
+                    {
+                        "id": "proj-history",
+                        "title": "History of Everything Coloring Book",
+                        "collections": [
+                            {
+                                "name": "Pages",
+                                "items": [],
+                                "assets": [
+                                    {
+                                        "id": "page-1",
+                                        "label": "1. In The Beginning",
+                                        "type": "image",
+                                        "relativePath": "Creative/Coloring Book/1_In The Beginning.PNG",
+                                    }
+                                ],
+                            }
+                        ],
+                    }
+                ],
+            }
+
+            input_json = temp_root / "new_projects.json"
+            input_json.write_text(json.dumps(input_payload), encoding="utf-8")
+
+            result = build_projects_from_json(
+                input_json_path=input_json,
+                temp_public_projects_root=out_dir,
+            )
+
+            self.assertEqual(len(result["projects"]), 1)
+            project = result["projects"][0]
+            self.assertIn("Pages", project["collection"])
+            pages = project["collection"]["Pages"]
+            self.assertEqual(len(pages["items"]), 1)
+            page_item = pages["items"][0]
+            self.assertEqual(page_item["id"], "page-1")
+            self.assertEqual(page_item["filePath"], "1_In The Beginning.PNG")
+
+    def test_source_path_fallback_handles_collection_filename_mismatches(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_root_str, tempfile.TemporaryDirectory() as out_str:
+            temp_root = Path(temp_root_str)
+            out_dir = Path(out_str)
+
+            pages_dir = temp_root / "Creative" / "Coloring Book"
+            pages_dir.mkdir(parents=True)
+            (pages_dir / "23_Mesopotamia :: Indus Valley.PNG").write_bytes(b"mesopotamia")
+            (pages_dir / "5_Earth Science.PNG").write_bytes(b"earth-science")
+
+            input_payload = {
+                "config": {"root_path": str(temp_root)},
+                "projects": [
+                    {
+                        "id": "proj-history-paths",
+                        "title": "History Paths",
+                        "collections": [
+                            {
+                                "name": "Pages",
+                                "items": [],
+                                "assets": [
+                                    {
+                                        "id": "page-mesopotamia",
+                                        "label": "23_Mesopotamia // Indus Valley.PNG",
+                                        "type": "image",
+                                        "relativePath": "Creative/Coloring Book/23_Mesopotamia // Indus Valley.PNG",
+                                    },
+                                    {
+                                        "id": "page-earth",
+                                        "label": "5. Earth Science",
+                                        "type": "image",
+                                        "relativePath": "5_Earth Science.PNG",
+                                    },
+                                ],
+                            }
+                        ],
+                    }
+                ],
+            }
+
+            input_json = temp_root / "new_projects.json"
+            input_json.write_text(json.dumps(input_payload), encoding="utf-8")
+
+            result = build_projects_from_json(
+                input_json_path=input_json,
+                temp_public_projects_root=out_dir,
+            )
+
+            project = result["projects"][0]
+            pages = project["collection"]["Pages"]["items"]
+            page_by_id = {item["id"]: item for item in pages}
+
+            self.assertEqual(page_by_id["page-mesopotamia"]["filePath"], "23_Mesopotamia :: Indus Valley.PNG")
+            self.assertEqual(page_by_id["page-earth"]["filePath"], "5_Earth Science.PNG")
 
 
 if __name__ == "__main__":

@@ -26,6 +26,7 @@ export function ProjectCard({
   
   const thumb = getOptimizedMediaPath(project.images?.thumbnail, folderPath);
   const thumbnailSettings = project.imageSettings?.thumbnail;
+  const updatedLabel = formatDate(project.updatedAt);
 
   // Get status value and check if it should be displayed
   const statusValue = project.status || "";
@@ -33,6 +34,8 @@ export function ProjectCard({
 
   return (
     <Card
+      data-testid="project-card-root"
+      data-project-id={project.id}
       className="group cursor-pointer transition-all duration-200 hover:shadow-lg md:hover:scale-[1.01] bg-card border-border max-w-full overflow-hidden flex flex-col h-full p-0"
       onClick={onClick}
     >
@@ -41,7 +44,12 @@ export function ProjectCard({
       <CardHeader className="p-0">
         {/* Thumbnail with aspect-video to match Collection Items */}
         <div className="relative overflow-hidden">
-          <div className="relative w-full aspect-video ">
+          <div
+            data-testid="project-card-media"
+            data-project-id={project.id}
+            data-media-role="thumbnail"
+            className="relative w-full aspect-video "
+          >
             <MediaDisplay
               src={thumb}
               alt={`${project.title} thumbnail`}
@@ -119,9 +127,13 @@ export function ProjectCard({
 
         {/* Footer with date and action */}
         <div className="flex items-center justify-between gap-1 pt-1">
-          <span className="text-[9px] md:text-[10px] text-muted-foreground truncate">
-            {formatDate(project.updatedAt)}
-          </span>
+          {updatedLabel ? (
+            <span className="text-[9px] md:text-[10px] text-muted-foreground truncate">
+              {updatedLabel}
+            </span>
+          ) : (
+            <span />
+          )}
           
           {/* Resource icons and action button */}
           <div className="flex items-center gap-0.5">

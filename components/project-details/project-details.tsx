@@ -14,6 +14,7 @@ import { ProjectSidebar } from "./project-sidebar";
 import { ProjectMetadata } from "./project-metadata";
 import { ProjectWorkLogs } from "./project-work-logs";
 import ProjectDetailsMediaDisplay from "./project-details-media-display";
+import { hasProjectCollectionItems } from "@/lib/project-collections";
 
 interface ProjectDetailsProps {
   project: Project;
@@ -84,7 +85,7 @@ function MobileStatusBadge({ project }: { project: Project }) {
 
 /** Check if project has substantial content to warrant two-column layout */
 function hasSubstantialContent(project: Project): boolean {
-  const hasCollection = project.collection && Object.keys(project.collection).length > 0;
+  const hasCollection = hasProjectCollectionItems(project);
   const hasDescription = project.description && project.description.trim().length > 0;
   const hasStory = project.story && project.story.trim().length > 0;
   const hasResources = project.resources && project.resources.length > 0;
@@ -116,7 +117,7 @@ export function ProjectDetails({ project }: ProjectDetailsProps) {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const hasCollection = project.collection && Object.keys(project.collection).length > 0;
+  const hasCollection = hasProjectCollectionItems(project);
   const hasResources = project.resources && project.resources.length > 0;
   const hasWorkLogs = project.workLogs && project.workLogs.length > 0;
   const useTwoColumnLayout = hasSubstantialContent(project);

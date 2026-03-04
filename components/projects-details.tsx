@@ -9,6 +9,7 @@ import { useBreadcrumb } from "@/lib/breadcrumb-context";
 import { ArrowLeft } from "lucide-react";
 import ProjectDetailsFooter from "./project-details/project-details-footer";
 import { ProjectWorkLogs } from "./project-details/project-work-logs";
+import { hasProjectCollectionItems } from "@/lib/project-collections";
 
 interface ProjectDetailsProps {
   project: Project;
@@ -57,7 +58,7 @@ export default function ProjectDetails({ project }: ProjectDetailsProps) {
     notFound();
   }
 
-  const hasCollection = Boolean(project.collection && Object.keys(project.collection).length > 0);
+  const hasCollection = hasProjectCollectionItems(project);
   const hasContent = Boolean(
     (project.description && String(project.description).trim()) ||
       (project.story && String(project.story).trim())

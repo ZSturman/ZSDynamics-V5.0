@@ -26,28 +26,52 @@ const ProjectHero = ({ project }: { project: Project }) => {
   const mobileMedia = srcPosterPortrait || srcBanner || srcThumb;
 
   if (!desktopMedia && !mobileMedia) {
-    return <NoImageHeroImage project={project} />;
+    return (
+      <div data-testid="project-hero-empty" data-project-id={project.id}>
+        <NoImageHeroImage project={project} />
+      </div>
+    );
   }
 
   return (
-    <div className="space-y-4">
+    <div data-testid="project-hero-container" data-project-id={project.id} className="space-y-4">
       <div className="md:hidden">
         {mobileMedia === srcPosterPortrait && srcPosterPortrait ? (
-          <PortraitView project={project} image={srcPosterPortrait} />
+          <div data-testid="project-hero-mobile" data-project-id={project.id} data-media-role="posterPortrait">
+            <PortraitView project={project} image={srcPosterPortrait} />
+          </div>
         ) : mobileMedia ? (
-          <LandscapeView project={project} image={mobileMedia} />
+          <div
+            data-testid="project-hero-mobile"
+            data-project-id={project.id}
+            data-media-role={mobileMedia === srcBanner ? "banner" : "thumbnail"}
+          >
+            <LandscapeView project={project} image={mobileMedia} />
+          </div>
         ) : (
-          <ThumbnailView project={project} image={srcThumb || "/placeholder.svg"} />
+          <div data-testid="project-hero-mobile" data-project-id={project.id} data-media-role="thumbnail">
+            <ThumbnailView project={project} image={srcThumb || "/placeholder.svg"} />
+          </div>
         )}
       </div>
 
       <div className="hidden md:block">
         {desktopMedia === srcBanner && srcBanner ? (
-          <LandscapeView project={project} image={srcBanner} />
+          <div data-testid="project-hero-desktop" data-project-id={project.id} data-media-role="banner">
+            <LandscapeView project={project} image={srcBanner} />
+          </div>
         ) : desktopMedia === srcPosterLandscape && srcPosterLandscape ? (
-          <PortraitView project={project} image={srcPosterLandscape} />
+          <div
+            data-testid="project-hero-desktop"
+            data-project-id={project.id}
+            data-media-role={project.images?.posterLandscape ? "posterLandscape" : "poster"}
+          >
+            <PortraitView project={project} image={srcPosterLandscape} />
+          </div>
         ) : (
-          <ThumbnailView project={project} image={desktopMedia || "/placeholder.svg"} />
+          <div data-testid="project-hero-desktop" data-project-id={project.id} data-media-role="thumbnail">
+            <ThumbnailView project={project} image={desktopMedia || "/placeholder.svg"} />
+          </div>
         )}
       </div>
     </div>

@@ -28,13 +28,15 @@ INTERNAL_LINK_TYPES = {"folio", "local-link"}
 INTERNAL_LINK_PREFIX = "local-link:"
 DOWNLOAD_RESOURCE_TYPES = {"local-download"}
 DOWNLOAD_RESOURCE_CATEGORIES = {"download"}
-PREVIEW_IMAGE_ROLES = {"thumbnail", "banner", "poster", "posterPortrait", "posterLandscape", "icon"}
+PREVIEW_IMAGE_ROLES = {"thumbnail", "banner", "hero", "poster", "posterPortrait", "posterLandscape", "icon"}
 
 UUID_RE = re.compile(r"[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
 SCHEME_RE = re.compile(r"^[a-zA-Z][a-zA-Z0-9+.-]*://")
 BARE_DOMAIN_RE = re.compile(
     r"^(?:[A-Za-z0-9-]+\.)+[A-Za-z]{2,63}(?::\d+)?(?:/[^\s]*)?$"
 )
+
+_FILENAME_SEARCH_CACHE: Dict[Tuple[str, str], Optional[Path]] = {}
 
 
 def determine_collection_item_type(raw_type: Optional[str], path_val: Optional[str]) -> str:
@@ -254,6 +256,11 @@ def _extract_filename_candidate(value: Any) -> Optional[str]:
         if candidate:
             p = Path(unquote(candidate))
             return p.name if p.name else None
+
+    path_candidate = _extract_path_candidate(value)
+    if path_candidate:
+        p = Path(unquote(path_candidate))
+        return p.name if p.name else None
     return None
 
 
@@ -270,28 +277,83 @@ def _build_source_candidates(path_value: Any, root_path: Path) -> List[Path]:
     if decoded_value.startswith(("http://", "https://", "ftp://")):
         return []
 
-    base_path = Path(decoded_value)
     filename = _extract_filename_candidate(path_value)
     candidates: List[Path] = []
+    candidate_values = [decoded_value]
+    if " // " in decoded_value:
+        candidate_values.append(decoded_value.replace(" // ", " :: "))
 
     def add_path(p: Path) -> None:
         if p not in candidates:
             candidates.append(p)
 
-    if base_path.is_absolute():
+    for candidate_value in candidate_values:
+        base_path = Path(candidate_value)
+        if base_path.is_absolute():
+            add_path(base_path)
+            if filename and base_path.name != filename:
+                add_path(base_path / filename)
+            continue
+
+        add_path(root_path / base_path)
         add_path(base_path)
+
         if filename and base_path.name != filename:
+            add_path(root_path / base_path / filename)
             add_path(base_path / filename)
-        return candidates
-
-    add_path(root_path / base_path)
-    add_path(base_path)
-
-    if filename and base_path.name != filename:
-        add_path(root_path / base_path / filename)
-        add_path(base_path / filename)
 
     return candidates
+
+
+def _find_unique_file_by_name(root_path: Path, filename: str) -> Optional[Path]:
+    if not filename:
+        return None
+
+    try:
+        root_key = root_path.expanduser().resolve(strict=False).as_posix()
+    except Exception:
+        root_key = root_path.as_posix()
+
+    cache_key = (root_key, filename)
+    if cache_key in _FILENAME_SEARCH_CACHE:
+        return _FILENAME_SEARCH_CACHE[cache_key]
+
+    matches: List[Path] = []
+    try:
+        for match in root_path.rglob(filename):
+            if not match.is_file():
+                continue
+            matches.append(match)
+            if len(matches) > 1:
+                break
+    except Exception:
+        _FILENAME_SEARCH_CACHE[cache_key] = None
+        return None
+
+    resolved = matches[0] if len(matches) == 1 else None
+    _FILENAME_SEARCH_CACHE[cache_key] = resolved
+    return resolved
+
+
+def _resolve_source_path_fallback(path_value: Any, root_path: Path) -> Optional[Path]:
+    raw_candidate = _extract_path_candidate(path_value)
+    if not raw_candidate:
+        return None
+
+    decoded_value = unquote(str(raw_candidate))
+    if decoded_value.startswith(("http://", "https://", "ftp://", "file://")):
+        return None
+
+    parsed_path = Path(decoded_value)
+    filename = _extract_filename_candidate(path_value)
+    if not filename:
+        return None
+
+    # If we only got a bare filename (no folder), recover by unique filename lookup under root_path.
+    if len(parsed_path.parts) <= 1:
+        return _find_unique_file_by_name(root_path, filename)
+
+    return None
 
 
 def resolve_source_path(path_value: Any, root_path: Path) -> Optional[Path]:
@@ -302,6 +364,10 @@ def resolve_source_path(path_value: Any, root_path: Path) -> Optional[Path]:
     for candidate in candidates:
         if candidate.exists() and candidate.is_file():
             return candidate
+
+    fallback = _resolve_source_path_fallback(path_value, root_path)
+    if fallback and fallback.exists() and fallback.is_file():
+        return fallback
 
     print(f"⚠️ Missing source file. Tried: {', '.join(str(c) for c in candidates)}")
     return candidates[0]
@@ -478,6 +544,10 @@ def _infer_project_image_roles(asset_like: Dict[str, Any]) -> List[str]:
                 _as_str(asset_like.get("label")),
                 _as_str(asset_like.get("name")),
                 _as_str(asset_like.get("filename")),
+                _as_str(asset_like.get("relativePath")),
+                _as_str(asset_like.get("filePath")),
+                _as_str(asset_like.get("path")),
+                _as_str(asset_like.get("url")),
             ],
         )
     ).lower()
@@ -488,8 +558,10 @@ def _infer_project_image_roles(asset_like: Dict[str, Any]) -> List[str]:
     roles: List[str] = []
     if "thumbnail" in candidates or "thumb" in candidates:
         roles.append("thumbnail")
-    if "banner" in candidates or "hero" in candidates:
+    if "banner" in candidates:
         roles.append("banner")
+    if "hero" in candidates:
+        roles.append("hero")
     if "poster" in candidates:
         if "portrait" in candidates or "vertical" in candidates:
             roles.append("posterPortrait")
@@ -531,6 +603,24 @@ def _extract_work_log_timestamp(value: Any) -> Optional[str]:
     if isinstance(value, dict):
         return _first_non_empty(value.get("start"), value.get("date"), value.get("value"))
     return _as_str(value)
+
+
+def _extract_started_last_update_dates(value: Any) -> Tuple[Optional[str], Optional[str]]:
+    if isinstance(value, list):
+        first = value[0] if value else None
+        return _extract_started_last_update_dates(first)
+
+    if isinstance(value, dict):
+        return (
+            _first_non_empty(value.get("start"), value.get("date"), value.get("value")),
+            _first_non_empty(value.get("end")),
+        )
+
+    if isinstance(value, str):
+        normalized = _as_str(value)
+        return normalized, None
+
+    return None, None
 
 
 def _to_timestamp(value: Optional[str]) -> float:
@@ -599,14 +689,150 @@ def _normalize_work_log(work_log: Dict[str, Any], fallback_timestamp: Optional[s
     return out
 
 
+def _dedupe_resources(resources: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    seen: Set[Tuple[str, str, str, str]] = set()
+    out: List[Dict[str, Any]] = []
+    for resource in resources:
+        if not isinstance(resource, dict):
+            continue
+        key = (
+            (_as_str(resource.get("type")) or "").lower(),
+            _as_str(resource.get("label")) or "",
+            _as_str(resource.get("url")) or "",
+            (_as_str(resource.get("category")) or "").lower(),
+        )
+        if key in seen:
+            continue
+        seen.add(key)
+        out.append(resource)
+    return out
+
+
+def _pick_source_project_thumbnail_asset(source_project: Dict[str, Any]) -> Any:
+    explicit_thumbnail = source_project.get("thumbnail")
+    if explicit_thumbnail:
+        return explicit_thumbnail
+
+    assets = source_project.get("assets")
+    if not isinstance(assets, list):
+        return None
+
+    for asset in assets:
+        if not isinstance(asset, dict):
+            continue
+        if "thumbnail" in _infer_project_image_roles(asset):
+            return asset
+
+    return None
+
+
+def _resolve_collection_item_target_project_id(
+    item: Dict[str, Any],
+    *,
+    item_url: Optional[str],
+    alias_to_project_id: Dict[str, str],
+    current_project_id: Optional[str],
+) -> Optional[str]:
+    raw_item = item.get("raw") if isinstance(item.get("raw"), dict) else {}
+
+    explicit_candidates: List[Any] = [
+        item_url,
+        item.get("url"),
+        item.get("projectReferenceId"),
+        item.get("projectId"),
+        item.get("projectSlug"),
+        raw_item.get("property_url"),
+        raw_item.get("property_project_page"),
+        raw_item.get("property_project_page_id"),
+    ]
+
+    for candidate in explicit_candidates:
+        resolved = _resolve_internal_target(candidate, alias_to_project_id)
+        if resolved and resolved != current_project_id:
+            return resolved
+
+    has_explicit_reference = any(_as_str(candidate) for candidate in explicit_candidates)
+    if has_explicit_reference:
+        return None
+
+    relation_candidates: List[str] = []
+    relation_candidates.extend(_normalize_relation_ids(item.get("projectIds")))
+    relation_candidates.extend(_normalize_relation_ids(raw_item.get("property_projects")))
+    relation_candidates.extend(_normalize_relation_ids(raw_item.get("property_project")))
+    relation_candidates.extend(_normalize_relation_ids(raw_item.get("property_project_id")))
+
+    for candidate in relation_candidates:
+        resolved = _resolve_internal_target(candidate, alias_to_project_id)
+        if resolved and resolved != current_project_id:
+            return resolved
+
+    return None
+
+
+def _normalize_source_project_resources(
+    source_project: Dict[str, Any],
+    *,
+    root_path: Path,
+    public_projects_root: Path,
+    alias_to_project_id: Dict[str, str],
+    copied: List[str],
+    warnings: List[str],
+    context: str,
+) -> List[Dict[str, Any]]:
+    out: List[Dict[str, Any]] = []
+    source_resources = source_project.get("resources")
+    if not isinstance(source_resources, list):
+        return out
+
+    source_project_id = _as_str(source_project.get("id")) or "unknown-project"
+    source_project_title = _first_non_empty(source_project.get("title"), source_project.get("name"), source_project_id) or source_project_id
+    source_project_folder_name = make_project_folder_name(source_project_title, source_project_id)
+    source_project_dest_dir = public_projects_root / source_project_folder_name
+
+    for resource in source_resources:
+        if not isinstance(resource, dict):
+            continue
+        normalized = _normalize_resource(
+            resource,
+            root_path=root_path,
+            project_folder_name=source_project_folder_name,
+            project_dest_dir=source_project_dest_dir,
+            alias_to_project_id=alias_to_project_id,
+            copied=copied,
+            warnings=warnings,
+            context=context,
+        )
+        if normalized:
+            out.append(normalized)
+
+    return _dedupe_resources(out)
+
+
+def _extract_source_collection_ids(source: Dict[str, Any]) -> List[str]:
+    explicit = _normalize_relation_ids(source.get("collectionIds"))
+    if explicit:
+        return explicit
+
+    raw_obj = source.get("raw") if isinstance(source.get("raw"), dict) else {}
+    return _normalize_relation_ids(raw_obj.get("property_collections"))
+
+
+def _collection_fallback_label(source: Dict[str, Any], collection_id: str, index: int) -> str:
+    if (collection_name := _first_non_empty(source.get("title"), source.get("name"))):
+        return collection_name if index == 0 else f"{collection_name} {index + 1}"
+    return f"Collection {index + 1} ({collection_id})"
+
+
 def _normalize_collection_item(
     item: Dict[str, Any],
     *,
     root_path: Path,
+    current_project_id: str,
     project_folder_name: str,
     project_dest_dir: Path,
     collection_name: str,
     alias_to_project_id: Dict[str, str],
+    source_projects_by_id: Dict[str, Dict[str, Any]],
     copied: List[str],
     warnings: List[str],
     order_index: int,
@@ -695,18 +921,58 @@ def _normalize_collection_item(
     if copied_thumbnail:
         out["thumbnail"] = copied_thumbnail
 
-    item_url = _normalize_url(item.get("url"))
+    raw_item = item.get("raw") if isinstance(item.get("raw"), dict) else {}
+    item_url = _normalize_url(_first_non_empty(item.get("url"), raw_item.get("property_url")))
+    target_id = None
     if item_type in {"url-link", "folio"}:
-        target_id = _resolve_internal_target(item_url, alias_to_project_id)
+        target_id = _resolve_collection_item_target_project_id(
+            item,
+            item_url=item_url,
+            alias_to_project_id=alias_to_project_id,
+            current_project_id=current_project_id,
+        )
         if target_id:
             out["url"] = f"/projects/{target_id}"
-            out["type"] = "local-link"
+            out["type"] = "url-link"
         elif item_url:
             out["url"] = item_url
 
+    source_target_project = source_projects_by_id.get(target_id) if target_id else None
+
+    if source_target_project and not copied_thumbnail:
+        source_thumbnail = _pick_source_project_thumbnail_asset(source_target_project)
+        fallback_thumbnail = _copy_file_if_exists(
+            resolve_source_path(source_thumbnail, root_path),
+            item_dir,
+            copied,
+            warnings,
+            f"collection item thumbnail ({collection_name}/{normalized_item_id}) from project {target_id}",
+        )
+        if fallback_thumbnail:
+            out["thumbnail"] = fallback_thumbnail
+
+    if source_target_project:
+        inherited_resources = _normalize_source_project_resources(
+            source_target_project,
+            root_path=root_path,
+            public_projects_root=project_dest_dir.parent,
+            alias_to_project_id=alias_to_project_id,
+            copied=copied,
+            warnings=warnings,
+            context=f"collection item {collection_name}/{normalized_item_id} via project {target_id}",
+        )
+        if inherited_resources:
+            normalized_resources = _dedupe_resources(inherited_resources + normalized_resources)
+
+        if "summary" not in out:
+            inherited_summary = _as_str(source_target_project.get("summary"))
+            if inherited_summary:
+                out["summary"] = inherited_summary
+
     if normalized_resources:
-        out["resources"] = normalized_resources
-        out["resource"] = normalized_resources[0]
+        deduped_resources = _dedupe_resources(normalized_resources)
+        out["resources"] = deduped_resources
+        out["resource"] = deduped_resources[0]
 
     return out
 
@@ -715,9 +981,11 @@ def _normalize_collection(
     collection: Dict[str, Any],
     *,
     root_path: Path,
+    current_project_id: str,
     project_folder_name: str,
     project_dest_dir: Path,
     alias_to_project_id: Dict[str, str],
+    source_projects_by_id: Dict[str, Dict[str, Any]],
     copied: List[str],
     warnings: List[str],
 ) -> Tuple[str, Dict[str, Any]]:
@@ -747,20 +1015,29 @@ def _normalize_collection(
     if collection_thumbnail:
         out["images"]["thumbnail"] = collection_thumbnail
 
-    items = collection.get("items")
-    if not isinstance(items, list):
-        items = collection.get("assets")
-    if isinstance(items, list):
-        for idx, item in enumerate(items):
+    items_raw = collection.get("items")
+    assets_raw = collection.get("assets")
+
+    if isinstance(items_raw, list) and items_raw:
+        collection_items = items_raw
+    elif isinstance(assets_raw, list):
+        collection_items = assets_raw
+    else:
+        collection_items = []
+
+    if isinstance(collection_items, list):
+        for idx, item in enumerate(collection_items):
             if not isinstance(item, dict):
                 continue
             normalized_item = _normalize_collection_item(
                 item,
                 root_path=root_path,
+                current_project_id=current_project_id,
                 project_folder_name=project_folder_name,
                 project_dest_dir=project_dest_dir,
                 collection_name=collection_name,
                 alias_to_project_id=alias_to_project_id,
+                source_projects_by_id=source_projects_by_id,
                 copied=copied,
                 warnings=warnings,
                 order_index=idx,
@@ -797,7 +1074,7 @@ def _collect_used_asset_fingerprints(
         _add_asset_reference_fingerprint(used_asset_fingerprints, collection.get("thumbnail"), root_path)
 
         collection_items = collection.get("items")
-        if not isinstance(collection_items, list):
+        if not isinstance(collection_items, list) or not collection_items:
             collection_items = collection.get("assets")
 
         if not isinstance(collection_items, list):
@@ -828,6 +1105,8 @@ def _normalize_project(
     root_path: Path,
     public_projects_root: Path,
     alias_to_project_id: Dict[str, str],
+    source_projects_by_id: Dict[str, Dict[str, Any]],
+    collection_member_projects_by_id: Dict[str, List[Dict[str, Any]]],
     source_work_logs: List[Dict[str, Any]],
     copied: List[str],
     warnings: List[str],
@@ -842,30 +1121,24 @@ def _normalize_project(
     project_dest_dir.mkdir(parents=True, exist_ok=True)
 
     raw_obj = source.get("raw") if isinstance(source.get("raw"), dict) else {}
-    project_date_range_raw = source.get("projectDateRangeRaw") if isinstance(source.get("projectDateRangeRaw"), dict) else {}
-    raw_started_last_updated = (
-        raw_obj.get("property_started_at_last_update_at")
-        if isinstance(raw_obj.get("property_started_at_last_update_at"), dict)
-        else {}
-    )
+    project_date_range_raw = source.get("projectDateRangeRaw")
+    raw_started_last_updated = raw_obj.get("property_started_at_last_update_at")
+    raw_started_at, _ = _extract_started_last_update_dates(raw_obj.get("property_started_at"))
+    raw_last_update_at, _ = _extract_started_last_update_dates(raw_obj.get("property_last_update_at"))
 
-    created_at = _first_non_empty(
-        source.get("startDate"),
-        project_date_range_raw.get("start"),
-        raw_started_last_updated.get("start"),
-        _get_nested(raw_obj, "property_start_date"),
-        _get_nested(raw_obj, "property_created_time"),
-    )
-    updated_at = _first_non_empty(
-        source.get("lastUpdateDate"),
-        project_date_range_raw.get("end"),
-        raw_started_last_updated.get("end"),
-        _get_nested(raw_obj, "property_last_update_date"),
-        _get_nested(raw_obj, "property_last_update"),
-        _get_nested(raw_obj, "property_last_status_update"),
-        _get_nested(raw_obj, "property_last_edited_time"),
-        created_at,
-    )
+    created_at = _first_non_empty(source.get("startedAt"), raw_started_at)
+    updated_at = _first_non_empty(source.get("lastUpdateAt"), raw_last_update_at)
+
+    range_start, range_end = _extract_started_last_update_dates(source.get("startedAtLastUpdateAt"))
+    if not range_start and not range_end:
+        range_start, range_end = _extract_started_last_update_dates(project_date_range_raw)
+    if not range_start and not range_end:
+        range_start, range_end = _extract_started_last_update_dates(raw_started_last_updated)
+
+    if not created_at:
+        created_at = range_start
+    if not updated_at:
+        updated_at = range_end
 
     project_out: Dict[str, Any] = {
         "id": project_id,
@@ -900,8 +1173,11 @@ def _normalize_project(
         missing_summary_projects.append(project_id)
 
     image_candidates: Dict[str, Any] = {}
-    if source.get("thumbnail"):
-        image_candidates["thumbnail"] = source.get("thumbnail")
+
+    # Always honor explicit project-level preview fields when present.
+    for role in PREVIEW_IMAGE_ROLES:
+        if source.get(role):
+            image_candidates[role] = source.get(role)
 
     assets = source.get("assets") if isinstance(source.get("assets"), list) else []
     for asset in assets:
@@ -957,9 +1233,11 @@ def _normalize_project(
         collection_name, normalized_collection = _normalize_collection(
             collection,
             root_path=root_path,
+            current_project_id=project_id,
             project_folder_name=folder_name,
             project_dest_dir=project_dest_dir,
             alias_to_project_id=alias_to_project_id,
+            source_projects_by_id=source_projects_by_id,
             copied=copied,
             warnings=warnings,
         )
@@ -969,6 +1247,62 @@ def _normalize_project(
                 collection_item_id = _as_str(collection_item.get("id"))
                 if collection_item_id:
                     collected_item_ids.add(collection_item_id)
+
+    source_collection_ids = _extract_source_collection_ids(source)
+    for idx, collection_id in enumerate(source_collection_ids):
+        related_sources = collection_member_projects_by_id.get(collection_id, [])
+        if not related_sources:
+            continue
+
+        fallback_collection_key = _collection_fallback_label(source, collection_id, idx)
+        if fallback_collection_key in project_out["collection"]:
+            continue
+
+        fallback_items: List[Dict[str, Any]] = []
+        for member_source in related_sources:
+            member_project_id = _as_str(member_source.get("id"))
+            if not member_project_id or member_project_id == project_id:
+                continue
+
+            target_reference = _first_non_empty(member_source.get("projectPageId"), member_project_id)
+            item_source = {
+                "id": member_project_id,
+                "label": _first_non_empty(member_source.get("title"), member_source.get("name"), member_project_id),
+                "summary": _as_str(member_source.get("summary")),
+                "type": "URL",
+                "projectId": target_reference,
+            }
+            normalized_fallback_item = _normalize_collection_item(
+                item_source,
+                root_path=root_path,
+                current_project_id=project_id,
+                project_folder_name=folder_name,
+                project_dest_dir=project_dest_dir,
+                collection_name=fallback_collection_key,
+                alias_to_project_id=alias_to_project_id,
+                source_projects_by_id=source_projects_by_id,
+                copied=copied,
+                warnings=warnings,
+                order_index=len(fallback_items),
+            )
+
+            has_visible_content = bool(
+                normalized_fallback_item.get("filePath")
+                or normalized_fallback_item.get("url")
+                or normalized_fallback_item.get("thumbnail")
+                or normalized_fallback_item.get("resource")
+                or normalized_fallback_item.get("resources")
+            )
+            if has_visible_content:
+                fallback_items.append(normalized_fallback_item)
+
+        if fallback_items:
+            project_out["collection"][fallback_collection_key] = {
+                "label": fallback_collection_key,
+                "summary": _as_str(source.get("oneLiner")) or "",
+                "images": {},
+                "items": fallback_items,
+            }
 
     assets_collection_items: List[Dict[str, Any]] = []
     for idx, asset in enumerate(assets):
@@ -990,10 +1324,12 @@ def _normalize_project(
         normalized_asset_item = _normalize_collection_item(
             asset,
             root_path=root_path,
+            current_project_id=project_id,
             project_folder_name=folder_name,
             project_dest_dir=project_dest_dir,
             collection_name="assets",
             alias_to_project_id=alias_to_project_id,
+            source_projects_by_id=source_projects_by_id,
             copied=copied,
             warnings=warnings,
             order_index=idx,
@@ -1174,6 +1510,20 @@ def build_projects_from_json(
     root_path, source_projects, global_work_logs = _load_and_validate_input(input_json_path, root_path_override)
 
     alias_to_project_id = _build_alias_map(source_projects)
+    source_projects_by_id: Dict[str, Dict[str, Any]] = {}
+    collection_member_projects_by_id: Dict[str, List[Dict[str, Any]]] = {}
+    for source_project in source_projects:
+        if not isinstance(source_project, dict):
+            continue
+        source_project_id = _as_str(source_project.get("id"))
+        if source_project_id:
+            source_projects_by_id[source_project_id] = source_project
+
+        raw_obj = source_project.get("raw") if isinstance(source_project.get("raw"), dict) else {}
+        in_collection_ids = _normalize_relation_ids(raw_obj.get("property_as_an_item_in_collection"))
+        for collection_id in in_collection_ids:
+            members = collection_member_projects_by_id.setdefault(collection_id, [])
+            members.append(source_project)
 
     global_work_logs_by_project: Dict[str, List[Dict[str, Any]]] = {}
     for work_log in global_work_logs:
@@ -1200,6 +1550,8 @@ def build_projects_from_json(
             root_path=root_path,
             public_projects_root=temp_public_projects_root,
             alias_to_project_id=alias_to_project_id,
+            source_projects_by_id=source_projects_by_id,
+            collection_member_projects_by_id=collection_member_projects_by_id,
             source_work_logs=project_work_logs,
             copied=copied,
             warnings=warnings,

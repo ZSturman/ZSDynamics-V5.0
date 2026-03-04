@@ -62,7 +62,7 @@ export function WorkLogsPageClient({ logs, projects }: WorkLogsPageClientProps) 
           showControls
           projectOptions={projects}
           initialProjectId={projectFilter}
-          initialViewMode="project-chart"
+          initialViewMode="rail"
           onProjectFilterChange={handleProjectFilterChange}
           emptyText={filteredProject ? "No work logs for this project yet." : "No work logs found yet."}
         />

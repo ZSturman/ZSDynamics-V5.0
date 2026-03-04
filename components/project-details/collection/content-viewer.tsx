@@ -13,71 +13,50 @@ import * as THREE from "three"
 import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader.js"
 import { CollectionItem, Resource } from "@/types"
 import Image from "next/image"
+import { resolveProjectAssetPath } from "@/lib/utils"
 
 // Helper function to get the item path from various possible formats
 function getItemPath(item: CollectionItem, folderName?: string, collectionName?: string): string | undefined {
-  // Build the base path: /projects/{folderName}/{collectionName}/{itemId}/
-  const buildFullPath = (relativePath: string): string => {
-    if (!folderName) return relativePath;
-    
-    // If item has an ID and collectionName, include the subfolder structure
-    if (item.id && collectionName) {
-      return `/projects/${folderName}/${collectionName}/${item.id}/${relativePath}`;
-    }
-    
-    // Otherwise just use the project folder
-    return `/projects/${folderName}/${relativePath}`;
-  };
+  const pathOptions = { folderName, collectionName, itemId: item.id };
   
   // First check for direct path
   if (item.path) {
-    // If it's an external URL, return as-is
-    if (item.path.startsWith('http://') || item.path.startsWith('https://')) {
-      return item.path;
-    }
-    // Otherwise build full path
-    return buildFullPath(item.path);
+    const resolvedPath = resolveProjectAssetPath(item.path, pathOptions);
+    if (resolvedPath) return resolvedPath;
   }
   
-  // Then check for filePath (now simplified to string)
+  if (item.relativePath) {
+    const resolvedPath = resolveProjectAssetPath(item.relativePath, pathOptions);
+    if (resolvedPath) return resolvedPath;
+  }
+
+  // Then check for filePath
   if (item.filePath) {
-    const path = item.filePath;
-    
-    if (!path || typeof path !== 'string') return undefined;
-    
-    // If it's an external URL, return as-is
-    if (path.startsWith('http://') || path.startsWith('https://')) {
-      return path;
-    }
-    // Otherwise build full path
-    return buildFullPath(path);
+    const resolvedPath = resolveProjectAssetPath(item.filePath, pathOptions);
+    if (resolvedPath) return resolvedPath;
   }
   // If this is a URL/link item, prefer any explicit URL found in the item
   const recordItem = item as unknown as Record<string, unknown>
   const maybeUrl = recordItem["url"]
-  if (typeof maybeUrl === "string" && (item.type === 'url-link' || item.type === 'folio')) return maybeUrl
+  if (typeof maybeUrl === "string" && (item.type === 'url-link' || item.type === 'local-link' || item.type === 'folio')) return maybeUrl
   const maybeHref = recordItem["href"]
-  if (typeof maybeHref === "string" && (item.type === 'url-link' || item.type === 'folio')) return maybeHref
+  if (typeof maybeHref === "string" && (item.type === 'url-link' || item.type === 'local-link' || item.type === 'folio')) return maybeHref
 
   // Check resources (resource/resources)
   const resource = (item as unknown as { resource?: Resource }).resource
-  if (resource && typeof resource.url === 'string' && (item.type === 'url-link' || item.type === 'folio')) {
+  if (resource && typeof resource.url === 'string' && (item.type === 'url-link' || item.type === 'local-link' || item.type === 'folio')) {
     return resource.url
   }
   const resourcesArr = (item as unknown as { resources?: Resource[] }).resources
-  if (resourcesArr && Array.isArray(resourcesArr) && (item.type === 'url-link' || item.type === 'folio')) {
+  if (resourcesArr && Array.isArray(resourcesArr) && (item.type === 'url-link' || item.type === 'local-link' || item.type === 'folio')) {
     const found = resourcesArr.find(r => typeof r.url === 'string')
     if (found) return found.url
   }
 
   // Check thumbnail as fallback
-  if (item.thumbnail && typeof item.thumbnail === 'string') {
-    // If it's an external URL, return as-is
-    if (item.thumbnail.startsWith('http://') || item.thumbnail.startsWith('https://')) {
-      return item.thumbnail;
-    }
-    // Otherwise build full path
-    return buildFullPath(item.thumbnail);
+  if (item.thumbnail) {
+    const resolvedPath = resolveProjectAssetPath(item.thumbnail, pathOptions);
+    if (resolvedPath) return resolvedPath;
   }
   
   return undefined;
@@ -103,7 +82,7 @@ function getOptimizedPath(path: string | undefined): string | undefined {
   }
   
   // For images, convert to optimized webp
-  if (path.match(/\.(jpg|jpeg|png|webp|gif)$/i)) {
+  if (path.match(/\.(jpg|jpeg|png|webp|gif|bmp|tiff|avif|heic)$/i)) {
     return path.replace(/\.[^.]+$/, '-optimized.webp');
   }
   
@@ -139,6 +118,7 @@ export function ContentViewer({ item, folderName, collectionName }: ContentViewe
     case "game":
       return <GameContent path={itemPath || ""} />
     case "url-link":
+    case "local-link":
     case "folio":
       return <UrlLinkContent path={itemPath || ""} item={item} />
     case "text":

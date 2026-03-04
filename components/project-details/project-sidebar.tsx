@@ -69,7 +69,7 @@ export function ProjectSidebar({ project }: ProjectSidebarProps) {
               <div className="flex items-center gap-3">
                 <Clock className="h-4 w-4 text-muted-foreground flex-shrink-0" />
                 <div className="flex flex-col">
-                  <span className="text-xs text-muted-foreground">Created</span>
+                  <span className="text-xs text-muted-foreground">Started</span>
                   <span className="text-sm text-foreground">
                     {formatDate(project.createdAt, { month: "short", year: "numeric" })}
                   </span>
@@ -86,7 +86,7 @@ export function ProjectSidebar({ project }: ProjectSidebarProps) {
                 )}
                 <div className="flex flex-col">
                   <span className="text-xs text-muted-foreground">
-                    {isArchived ? "Archived" : "Updated"}
+                    {isArchived ? "Archived" : "Last Updated"}
                   </span>
                   <span className="text-sm text-foreground">
                     {formatDate(project.updatedAt, { month: "short", year: "numeric" })}

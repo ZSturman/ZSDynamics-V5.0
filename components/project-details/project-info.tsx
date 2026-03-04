@@ -7,8 +7,8 @@ export default function ProjectInfo({ project }: { project: Project }) {
     <div className="space-y-6 p-6 bg-muted/30 rounded-lg">
       <div className="space-y-4">
         
-        <InfoItem label="Created" value={formatDate(project.createdAt)} />
-        <InfoItem label="Updated" value={formatDate(project.updatedAt)} />
+        <InfoItem label="Started" value={formatDate(project.createdAt)} />
+        <InfoItem label="Last Updated" value={formatDate(project.updatedAt)} />
         {project.category && (
           <InfoItem label="Category" value={project.category} />
         )}

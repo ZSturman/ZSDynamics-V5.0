@@ -8,6 +8,7 @@ interface ProjectDetailsMediaDisplayProps {
 
 interface MediaCard {
   id: string;
+  mediaRole: string;
   label: string;
   src: string;
   aspectClass: string;
@@ -90,7 +91,8 @@ const ProjectDetailsMediaDisplay = ({ project }: ProjectDetailsMediaDisplayProps
   addMediaCard(
     posterPortraitPath
       ? {
-          id: "poster-portrait",
+          id: "posterPortrait",
+          mediaRole: "posterPortrait",
           label: "Poster (Portrait)",
           src: posterPortraitPath,
           aspectClass: "aspect-[3/4]",
@@ -104,7 +106,8 @@ const ProjectDetailsMediaDisplay = ({ project }: ProjectDetailsMediaDisplayProps
   addMediaCard(
     landscapeMediaPath
       ? {
-          id: bannerPath ? "banner" : "poster-landscape",
+          id: bannerPath ? "banner" : "posterLandscape",
+          mediaRole: bannerPath ? "banner" : "posterLandscape",
           label: bannerPath ? "Banner" : "Poster (Landscape)",
           src: landscapeMediaPath,
           aspectClass: "aspect-video",
@@ -119,6 +122,7 @@ const ProjectDetailsMediaDisplay = ({ project }: ProjectDetailsMediaDisplayProps
     shouldRenderDedicatedPoster && posterPath
       ? {
           id: "poster",
+          mediaRole: "poster",
           label: "Poster",
           src: posterPath,
           aspectClass: "aspect-[4/5]",
@@ -133,6 +137,7 @@ const ProjectDetailsMediaDisplay = ({ project }: ProjectDetailsMediaDisplayProps
     thumbnailPath
       ? {
           id: "thumbnail",
+          mediaRole: "thumbnail",
           label: "Thumbnail",
           src: thumbnailPath,
           aspectClass: "aspect-square",
@@ -148,6 +153,7 @@ const ProjectDetailsMediaDisplay = ({ project }: ProjectDetailsMediaDisplayProps
     iconPath
       ? {
           id: "icon",
+          mediaRole: "icon",
           label: "Icon",
           src: iconPath,
           aspectClass: "aspect-square",
@@ -174,6 +180,7 @@ const ProjectDetailsMediaDisplay = ({ project }: ProjectDetailsMediaDisplayProps
     const src = getOptimizedMediaPath(value, folderPath);
     addMediaCard({
       id: key,
+      mediaRole: key,
       label: roleToLabel(key),
       src,
       aspectClass: "aspect-video",
@@ -188,7 +195,7 @@ const ProjectDetailsMediaDisplay = ({ project }: ProjectDetailsMediaDisplayProps
   }
 
   return (
-    <section className="space-y-3">
+    <section data-testid="project-assets-section" data-project-id={project.id} className="space-y-3">
       <div className="flex items-center justify-between">
         <h3 className="text-sm font-medium text-foreground">Project Assets</h3>
         <span className="text-xs text-muted-foreground">{mediaCards.length}</span>
@@ -196,11 +203,20 @@ const ProjectDetailsMediaDisplay = ({ project }: ProjectDetailsMediaDisplayProps
 
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-1">
         {mediaCards.map((media) => (
-          <article key={media.id} className="rounded-lg border border-border bg-card/50 p-2.5">
+          <article
+            key={media.id}
+            data-testid="project-asset-card"
+            data-project-id={project.id}
+            data-media-role={media.mediaRole}
+            className="rounded-lg border border-border bg-card/50 p-2.5"
+          >
             <p className="mb-2 text-[11px] font-medium uppercase tracking-wide text-muted-foreground">
               {media.label}
             </p>
             <div
+              data-testid="project-asset-media"
+              data-project-id={project.id}
+              data-media-role={media.mediaRole}
               className={cn(
                 "relative mx-auto w-full overflow-hidden rounded-md border border-border/60 bg-muted/20",
                 media.aspectClass,

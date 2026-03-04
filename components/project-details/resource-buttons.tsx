@@ -4,8 +4,8 @@ import ResourceButton from "./resource-button";
 export default function ResourceButtons({ project, showMessage = true }: { project: Project, showMessage?: boolean }) {
   return project.resources?.length ? (
     <div className="flex flex-row flex-wrap gap-2">
-      {project.resources.map((resource) => {
-        return <ResourceButton key={resource.url} resource={resource} currentProject={project} />;
+      {project.resources.map((resource, index) => {
+        return <ResourceButton key={`${resource.url}-${index}`} resource={resource} currentProject={project} />;
       })}
     </div>
   ) : showMessage ? (

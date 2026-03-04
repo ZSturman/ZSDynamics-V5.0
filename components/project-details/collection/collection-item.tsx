@@ -15,77 +15,36 @@ import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader.js"
 import { CollectionItem, Project, Resource } from "@/types"
 import { ExternalLink, ArrowRight } from "lucide-react"
 import { CollectionFullscreen } from "./collection-item-fullscreen"
-import { cn } from "@/lib/utils"
+import { cn, extractPathValue, resolveProjectAssetPath } from "@/lib/utils"
 import ResourceButton from "../resource-button"
 import { useBreadcrumb } from "@/lib/breadcrumb-context"
 
 // Helper function to extract thumbnail path from various formats (string or object)
 function getThumbnailPath(item: CollectionItem): string | undefined {
-  if (!item.thumbnail) return undefined;
-  
-  // Handle thumbnail as string
-  if (typeof item.thumbnail === 'string') {
-    return item.thumbnail;
-  }
-  
-  // Handle thumbnail as object with path property
-  if (typeof item.thumbnail === 'object' && 'path' in item.thumbnail) {
-    const thumbnailPath = (item.thumbnail as { path?: string }).path;
-    return thumbnailPath || undefined;
-  }
-  
-  return undefined;
+  return extractPathValue(item.thumbnail);
 }
 
 // Helper function to get the item path from various possible formats
 function getItemPath(item: CollectionItem, folderName?: string, collectionName?: string): string | undefined {
-  // Build the base path: /projects/{folderName}/{collectionName}/{itemId}/
-  const buildFullPath = (relativePath: string): string => {
-    if (!folderName) return relativePath;
-    
-    // If item has an ID and collectionName, include the subfolder structure
-    if (item.id && collectionName) {
-      return `/projects/${folderName}/${collectionName}/${item.id}/${relativePath}`;
-    }
-    
-    // Otherwise just use the project folder
-    return `/projects/${folderName}/${relativePath}`;
-  };
+  const pathOptions = { folderName, collectionName, itemId: item.id };
   
   // First check for direct path
   if (item.path) {
-    // If it's an external URL, return as-is
-    if (typeof item.path === 'string' && (item.path.startsWith('http://') || item.path.startsWith('https://'))) {
-      return item.path;
-    }
-    // Otherwise build full path
     if (typeof item.path === 'string') {
-      return buildFullPath(item.path);
+      const resolvedPath = resolveProjectAssetPath(item.path, pathOptions);
+      if (resolvedPath) return resolvedPath;
     }
   }
   
   // Then check for filePath (can be string or object)
   if (item.filePath) {
-    let path: string | undefined;
-    
-    // Handle filePath as string
-    if (typeof item.filePath === 'string') {
-      path = item.filePath;
-    }
-    // Handle filePath as object with path property
-    else if (typeof item.filePath === 'object' && 'path' in item.filePath) {
-      path = (item.filePath as { path?: string }).path;
-    }
-    
-    // If we got a valid path string
-    if (path && path !== '') {
-      // If it's an external URL, return as-is
-      if (path.startsWith('http://') || path.startsWith('https://')) {
-        return path;
-      }
-      // Otherwise build full path
-      return buildFullPath(path);
-    }
+    const resolvedPath = resolveProjectAssetPath(item.filePath, pathOptions);
+    if (resolvedPath) return resolvedPath;
+  }
+
+  if (item.relativePath) {
+    const resolvedPath = resolveProjectAssetPath(item.relativePath, pathOptions);
+    if (resolvedPath) return resolvedPath;
   }
   // If this is a URL/link item, prefer any explicit URL found in the item
   const extractUrlFromResources = (): string | undefined => {
@@ -109,45 +68,27 @@ function getItemPath(item: CollectionItem, folderName?: string, collectionName?:
   }
 
   const resolvedResourceUrl = extractUrlFromResources()
-  if (resolvedResourceUrl && (item.type === 'url-link' || item.type === 'folio')) {
+  if (resolvedResourceUrl && (item.type === 'url-link' || item.type === 'local-link' || item.type === 'folio')) {
     return resolvedResourceUrl
   }
 
   // Check thumbnail as fallback
   const thumbnailPath = getThumbnailPath(item);
   if (thumbnailPath && thumbnailPath !== '') {
-    // If it's an external URL, return as-is
-    if (thumbnailPath.startsWith('http://') || thumbnailPath.startsWith('https://')) {
-      return thumbnailPath;
-    }
-    // Otherwise build full path
-    return buildFullPath(thumbnailPath);
+    const resolvedPath = resolveProjectAssetPath(thumbnailPath, pathOptions);
+    if (resolvedPath) return resolvedPath;
   }
   
   // If thumbnail.path is empty and this is an image type, use the main path/filePath instead
   if (item.type === 'image' && (!thumbnailPath || thumbnailPath === '')) {
     // Fall back to path or filePath for image types
     if (item.path) {
-      return typeof item.path === 'string' && (item.path.startsWith('http://') || item.path.startsWith('https://'))
-        ? item.path
-        : buildFullPath(item.path);
+      const resolvedPath = resolveProjectAssetPath(item.path, pathOptions);
+      if (resolvedPath) return resolvedPath;
     }
     if (item.filePath) {
-      // Handle filePath as string
-      if (typeof item.filePath === 'string') {
-        return item.filePath.startsWith('http://') || item.filePath.startsWith('https://')
-          ? item.filePath
-          : buildFullPath(item.filePath);
-      }
-      // Handle filePath as object with path property
-      if (typeof item.filePath === 'object' && 'path' in item.filePath) {
-        const filePathStr = (item.filePath as { path?: string }).path;
-        if (filePathStr && filePathStr !== '') {
-          return filePathStr.startsWith('http://') || filePathStr.startsWith('https://')
-            ? filePathStr
-            : buildFullPath(filePathStr);
-        }
-      }
+      const resolvedPath = resolveProjectAssetPath(item.filePath, pathOptions);
+      if (resolvedPath) return resolvedPath;
     }
   }
   
@@ -168,10 +109,19 @@ function getItemResources(item: CollectionItem): Resource[] {
     resources.push(item.resource);
   }
   
-  // Filter out resources with empty url or label
-  return resources.filter(resource => {
-    return resource.url && resource.url !== '' && resource.label && resource.label !== '';
+  const deduped: Resource[] = [];
+  const seen = new Set<string>();
+
+  // Filter out invalid resources and dedupe by url+label
+  resources.forEach((resource) => {
+    if (!resource.url || !resource.label) return;
+    const key = `${resource.url}::${resource.label}`;
+    if (seen.has(key)) return;
+    seen.add(key);
+    deduped.push(resource);
   });
+
+  return deduped;
 }
 
 interface CollectionItemViewerProps {
@@ -290,6 +240,11 @@ export default function CollectionItemCard({ item, project, inModal, folderName,
   const currentItem = allItems && currentItemIndex !== undefined 
     ? allItems[currentItemIndex] 
     : item
+  const itemPath = getItemPath(item, folderName, collectionName)
+  const isProjectPageItem =
+    item.type === "folio"
+    || item.type === "local-link"
+    || (item.type === "url-link" && typeof itemPath === "string" && itemPath.startsWith("/projects/"))
 
   // Navigation handler
   const handleNavigate = (index: number) => {
@@ -320,9 +275,8 @@ export default function CollectionItemCard({ item, project, inModal, folderName,
     }
   }, [isFullscreen, inModal]);
 
-  // Handle folio type - redirect directly to the page
+  // Handle project-link items - redirect directly to the page
   const handleFolioClick = () => {
-    const itemPath = getItemPath(item, folderName, collectionName);
     if (itemPath && typeof itemPath === 'string') {
       // Check if it's a local path or external URL
       if (itemPath.startsWith('http://') || itemPath.startsWith('https://')) {
@@ -352,8 +306,8 @@ export default function CollectionItemCard({ item, project, inModal, folderName,
   };
 
   function renderInline() {
-    // For folio type, render a clickable card that redirects
-    if (item.type === "folio") {
+    // For project links, render a clickable card that redirects
+    if (isProjectPageItem) {
       return <FolioViewer item={item} onRequestFullscreen={handleFolioClick} folderName={folderName} collectionName={collectionName} project={project} />;
     }
     
@@ -361,6 +315,7 @@ export default function CollectionItemCard({ item, project, inModal, folderName,
       case "image":
         return <ImageViewer item={item} onRequestFullscreen={openFullscreen} folderName={folderName} collectionName={collectionName} project={project} />
       case "url-link":
+      case "local-link":
         return <UrlLinkViewer item={item} onRequestFullscreen={openFullscreen} folderName={folderName} collectionName={collectionName} project={project} />
       case "video":
         return <VideoViewer item={item} onRequestFullscreen={openFullscreen} folderName={folderName} collectionName={collectionName} project={project} />
@@ -382,8 +337,8 @@ export default function CollectionItemCard({ item, project, inModal, folderName,
     <>
       {renderInline()}
       
-      {/* Don't show fullscreen for folio type */}
-      {isFullscreen && item.type !== "folio" && (
+      {/* Don't show fullscreen for project-link types */}
+      {isFullscreen && !isProjectPageItem && (
         <CollectionFullscreen 
           item={currentItem} 
           onClose={closeFullscreen} 
@@ -418,29 +373,14 @@ function UrlLinkViewer({ item, onRequestFullscreen, folderName, collectionName, 
     return path;
   }
   const itemPath = getOptimizedVideoPath(rawPath) || rawPath;
+  const pathOptions = { folderName, collectionName, itemId: item.id };
   
   // Helper to get optimized thumbnail path
   const getOptimizedThumbnail = (): string | undefined => {
     const thumbnailPath = getThumbnailPath(item);
     if (!thumbnailPath || thumbnailPath === '') return undefined;
-    
-    // If it's an external URL, return as-is
-    if (thumbnailPath.startsWith('http://') || thumbnailPath.startsWith('https://')) {
-      return thumbnailPath;
-    }
-    
-    // Build the full path with collection structure
-    const buildFullPath = (relativePath: string): string => {
-      if (!folderName) return relativePath;
-      
-      if (item.id && collectionName) {
-        return `/projects/${folderName}/${collectionName}/${item.id}/${relativePath}`;
-      }
-      
-      return `/projects/${folderName}/${relativePath}`;
-    };
-    
-    const fullPath = buildFullPath(thumbnailPath);
+    const fullPath = resolveProjectAssetPath(thumbnailPath, pathOptions);
+    if (!fullPath) return undefined;
     
     // If already optimized, use as-is
     if (fullPath.includes('-optimized') || fullPath.includes('-thumb')) {
@@ -456,24 +396,8 @@ function UrlLinkViewer({ item, onRequestFullscreen, folderName, collectionName, 
   const getVideoPosterPath = (): string | undefined => {
     const thumbnailPath = getThumbnailPath(item);
     if (!thumbnailPath || thumbnailPath === '') return undefined;
-    
-    // Build the full path with collection structure
-    const buildFullPath = (relativePath: string): string => {
-      if (!folderName) return relativePath;
-      
-      if (item.id && collectionName) {
-        return `/projects/${folderName}/${collectionName}/${item.id}/${relativePath}`;
-      }
-      
-      return `/projects/${folderName}/${relativePath}`;
-    };
-    
-    // If it's an external URL, no poster available
-    if (thumbnailPath.startsWith('http://') || thumbnailPath.startsWith('https://')) {
-      return undefined;
-    }
-    
-    const fullPath = buildFullPath(thumbnailPath);
+    const fullPath = resolveProjectAssetPath(thumbnailPath, pathOptions);
+    if (!fullPath || fullPath.startsWith("http://") || fullPath.startsWith("https://")) return undefined;
     // Try to get a -thumb.jpg version of the video
     const withoutExt = fullPath.replace(/\.[^.]+$/, '');
     return `${withoutExt}-thumb.jpg`;
@@ -646,28 +570,13 @@ function UrlLinkViewer({ item, onRequestFullscreen, folderName, collectionName, 
 }
 
 function FolioViewer({ item, onRequestFullscreen, folderName, collectionName, project }: ExtendedCollectionItemViewerProps) {
+  const pathOptions = { folderName, collectionName, itemId: item.id };
   // Helper to get optimized thumbnail path
   const getOptimizedThumbnail = (): string | undefined => {
     const thumbnailPath = getThumbnailPath(item);
     if (!thumbnailPath || thumbnailPath === '') return undefined;
-    
-    // If it's an external URL, return as-is
-    if (thumbnailPath.startsWith('http://') || thumbnailPath.startsWith('https://')) {
-      return thumbnailPath;
-    }
-    
-    // Build the full path with collection structure
-    const buildFullPath = (relativePath: string): string => {
-      if (!folderName) return relativePath;
-      
-      if (item.id && collectionName) {
-        return `/projects/${folderName}/${collectionName}/${item.id}/${relativePath}`;
-      }
-      
-      return `/projects/${folderName}/${relativePath}`;
-    };
-    
-    const fullPath = buildFullPath(thumbnailPath);
+    const fullPath = resolveProjectAssetPath(thumbnailPath, pathOptions);
+    if (!fullPath) return undefined;
     
     // If already optimized, use as-is
     if (fullPath.includes('-optimized') || fullPath.includes('-thumb')) {
@@ -683,24 +592,8 @@ function FolioViewer({ item, onRequestFullscreen, folderName, collectionName, pr
   const getVideoPosterPath = (): string | undefined => {
     const thumbnailPath = getThumbnailPath(item);
     if (!thumbnailPath || thumbnailPath === '') return undefined;
-    
-    // Build the full path with collection structure
-    const buildFullPath = (relativePath: string): string => {
-      if (!folderName) return relativePath;
-      
-      if (item.id && collectionName) {
-        return `/projects/${folderName}/${collectionName}/${item.id}/${relativePath}`;
-      }
-      
-      return `/projects/${folderName}/${relativePath}`;
-    };
-    
-    // If it's an external URL, no poster available
-    if (thumbnailPath.startsWith('http://') || thumbnailPath.startsWith('https://')) {
-      return undefined;
-    }
-    
-    const fullPath = buildFullPath(thumbnailPath);
+    const fullPath = resolveProjectAssetPath(thumbnailPath, pathOptions);
+    if (!fullPath || fullPath.startsWith("http://") || fullPath.startsWith("https://")) return undefined;
     // Try to get a -thumb.jpg version of the video
     const withoutExt = fullPath.replace(/\.[^.]+$/, '');
     return `${withoutExt}-thumb.jpg`;
@@ -841,6 +734,7 @@ function VideoViewer({ item, onRequestFullscreen, folderName, collectionName, pr
   }, []);
   
   const rawPath = getItemPath(item, folderName, collectionName);
+  const pathOptions = { folderName, collectionName, itemId: item.id };
   
   // Helper to get optimized video path
   const getOptimizedVideoPath = (path: string | undefined): string | undefined => {
@@ -889,24 +783,8 @@ function VideoViewer({ item, onRequestFullscreen, folderName, collectionName, pr
   const getOptimizedPoster = (): string | undefined => {
     const thumbnailPath = getThumbnailPath(item);
     if (!thumbnailPath || thumbnailPath === '') return undefined;
-    
-    // If it's an external URL, return as-is
-    if (thumbnailPath.startsWith('http://') || thumbnailPath.startsWith('https://')) {
-      return thumbnailPath;
-    }
-    
-    // Build the full path with collection structure
-    const buildFullPath = (relativePath: string): string => {
-      if (!folderName) return relativePath;
-      
-      if (item.id && collectionName) {
-        return `/projects/${folderName}/${collectionName}/${item.id}/${relativePath}`;
-      }
-      
-      return `/projects/${folderName}/${relativePath}`;
-    };
-    
-    const fullPath = buildFullPath(thumbnailPath);
+    const fullPath = resolveProjectAssetPath(thumbnailPath, pathOptions);
+    if (!fullPath) return undefined;
     
     // If already optimized, use as-is
     if (fullPath.includes('-optimized') || fullPath.includes('-thumb')) {
@@ -1016,17 +894,10 @@ function ModelViewer({ item, onRequestFullscreen, folderName, collectionName, pr
   if (thumbnailPath) {
     // Build full thumbnail path
     const getOptimizedThumbnail = (): string => {
-      if (thumbnailPath.startsWith('http://') || thumbnailPath.startsWith('https://')) {
-        return thumbnailPath;
-      }
-      
-      // Build full path with collection structure
-      if (folderName && item.id && collectionName) {
-        const basePath = `/projects/${folderName}/${collectionName}/${item.id}`;
-        return `${basePath}/${thumbnailPath}`;
-      }
-      
-      return thumbnailPath;
+      return (
+        resolveProjectAssetPath(thumbnailPath, { folderName, collectionName, itemId: item.id }) ||
+        thumbnailPath
+      );
     };
     
     const optimizedThumbnailPath = getOptimizedThumbnail();
@@ -1204,29 +1075,14 @@ function GameViewer({ item, onRequestFullscreen, folderName, collectionName, pro
 
 function TextViewer({ item, onRequestFullscreen, folderName, collectionName, project }: ExtendedCollectionItemViewerProps) {
   const itemPath = getItemPath(item, folderName, collectionName);
+  const pathOptions = { folderName, collectionName, itemId: item.id };
 
   // Helper to get optimized thumbnail path
   const getOptimizedThumbnail = (): string | undefined => {
     const thumbnailPath = getThumbnailPath(item);
     if (!thumbnailPath || thumbnailPath === '') return undefined;
-    
-    // If it's an external URL, return as-is
-    if (thumbnailPath.startsWith('http://') || thumbnailPath.startsWith('https://')) {
-      return thumbnailPath;
-    }
-    
-    // Build the full path with collection structure
-    const buildFullPath = (relativePath: string): string => {
-      if (!folderName) return relativePath;
-      
-      if (item.id && collectionName) {
-        return `/projects/${folderName}/${collectionName}/${item.id}/${relativePath}`;
-      }
-      
-      return `/projects/${folderName}/${relativePath}`;
-    };
-    
-    const fullPath = buildFullPath(thumbnailPath);
+    const fullPath = resolveProjectAssetPath(thumbnailPath, pathOptions);
+    if (!fullPath) return undefined;
     
     // If already optimized, use as-is
     if (fullPath.includes('-optimized') || fullPath.includes('-thumb')) {
@@ -1301,28 +1157,13 @@ function TextViewer({ item, onRequestFullscreen, folderName, collectionName, pro
 }
 
 function UnsupportedTypeViewer({ item, onRequestFullscreen, folderName, collectionName, project }: ExtendedCollectionItemViewerProps) {
+  const pathOptions = { folderName, collectionName, itemId: item.id };
   // Helper to get optimized thumbnail path
   const getOptimizedThumbnail = (): string | undefined => {
     const thumbnailPath = getThumbnailPath(item);
     if (!thumbnailPath || thumbnailPath === '') return undefined;
-    
-    // If it's an external URL, return as-is
-    if (thumbnailPath.startsWith('http://') || thumbnailPath.startsWith('https://')) {
-      return thumbnailPath;
-    }
-    
-    // Build the full path with collection structure
-    const buildFullPath = (relativePath: string): string => {
-      if (!folderName) return relativePath;
-      
-      if (item.id && collectionName) {
-        return `/projects/${folderName}/${collectionName}/${item.id}/${relativePath}`;
-      }
-      
-      return `/projects/${folderName}/${relativePath}`;
-    };
-    
-    const fullPath = buildFullPath(thumbnailPath);
+    const fullPath = resolveProjectAssetPath(thumbnailPath, pathOptions);
+    if (!fullPath) return undefined;
     
     // If already optimized, use as-is
     if (fullPath.includes('-optimized') || fullPath.includes('-thumb')) {

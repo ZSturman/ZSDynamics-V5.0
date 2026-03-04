@@ -1,22 +1,22 @@
-import { test, expect } from '@playwright/test';
+import { expect, test } from "@playwright/test";
 
-test.describe('Project Details Page', () => {
-  const projectId = 'B062E7E0-387F-4D08-B0B6-A75410AACCE1';
+import { loadCanonicalProjects, pickDefaultProject } from "./media/helpers/project-media-fixtures";
 
-  test('should load project details for a valid ID', async ({ page }) => {
-    await page.goto(`/projects/${projectId}`);
-    
-    // Check for project title
-    await expect(page.getByRole('heading', { name: 'ZSDynamics V1.0' })).toBeVisible();
-    
-    // Check for "Back to Home" link
-    await expect(page.getByRole('link', { name: '← Home' })).toBeVisible();
+const canonicalProjects = loadCanonicalProjects();
+const defaultProject = pickDefaultProject(canonicalProjects);
+
+test.describe("Project Details Page", () => {
+  test("should load project details for a valid ID", async ({ page }) => {
+    await page.goto(`/projects/${defaultProject.id}`);
+
+    await expect(page.getByRole("heading", { name: defaultProject.title })).toBeVisible();
+    await expect(page.getByRole("link", { name: /←/ })).toBeVisible();
   });
 
-  test('should show error for invalid project ID', async ({ page }) => {
-    await page.goto('/projects/invalid-id');
-    
-    await expect(page.getByText('Project not found.')).toBeVisible();
-    await expect(page.getByRole('link', { name: '← Home' })).toBeVisible();
+  test("should show error for invalid project ID", async ({ page }) => {
+    await page.goto("/projects/invalid-id");
+
+    await expect(page.getByText("Project not found.")).toBeVisible();
+    await expect(page.getByRole("link", { name: /←/ })).toBeVisible();
   });
 });

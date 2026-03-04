@@ -32,18 +32,26 @@ export function ProjectListItem({ project, onClick, sortField = "updatedAt" }: P
   
   // Determine which date to display and label
   const displayDate = sortField === "createdAt" ? project.createdAt : project.updatedAt;
+  const formattedDisplayDate = formatDate(displayDate, { month: "short", year: "numeric" });
   const dateLabel = displayDateLabel(project.status, sortField, project.phase);
     
   // Note: no extra derived project shape needed here; `project` is used directly
   return (
     <Card
+      data-testid="project-list-item-root"
+      data-project-id={project.id}
       className="p-2 md:px-6 md:pb-4 md:pt-3 hover:shadow-md transition-all duration-200 cursor-pointer group mb-2 max-w-full overflow-hidden"
       onClick={onClick}
     >
       <div className="flex flex-row-reverse md:flex-row gap-2 md:gap-6 max-w-full">
         {/* Thumbnail - Right on mobile, Left on desktop */}
         <div className="flex-shrink-0 ">
-          <div className="relative w-24 h-24 md:w-32 md:h-32 lg:w-48 lg:h-48 rounded-lg overflow-hidden bg-muted aspect-square">
+          <div
+            data-testid="project-list-item-media"
+            data-project-id={project.id}
+            data-media-role="thumbnail"
+            className="relative w-24 h-24 md:w-32 md:h-32 lg:w-48 lg:h-48 rounded-lg overflow-hidden bg-muted aspect-square"
+          >
             <MediaDisplay
               src={thumbnailPath}
               alt={`${project.title} thumbnail`}
@@ -74,14 +82,16 @@ export function ProjectListItem({ project, onClick, sortField = "updatedAt" }: P
           </div>
 
           {/* Date positioned at top-right of the content area */}
-          <div className="absolute top-1  right-2 z-10 flex flex-col items-end gap-0.5">
-            <span className="text-[8px] md:text-[10px] text-muted-foreground/70 font-medium uppercase tracking-wide hidden md:inline-block">
-              {dateLabel}
-            </span>
-            <span className="text-[9px] md:text-sm text-muted-foreground whitespace-nowrap">
-              {formatDate(displayDate, { month: "short", year: "numeric" })}
-            </span>
-          </div>
+          {formattedDisplayDate && (
+            <div className="absolute top-1  right-2 z-10 flex flex-col items-end gap-0.5">
+              <span className="text-[8px] md:text-[10px] text-muted-foreground/70 font-medium uppercase tracking-wide hidden md:inline-block">
+                {dateLabel}
+              </span>
+              <span className="text-[9px] md:text-sm text-muted-foreground whitespace-nowrap">
+                {formattedDisplayDate}
+              </span>
+            </div>
+          )}
 
           <p className="text-muted-foreground text-[10px] md:text-sm mb-1.5 md:mb-4 pt-2 line-clamp-3 whitespace-pre-wrap break-words max-w-full">
             {formatTextWithNewlines(project.summary)}
