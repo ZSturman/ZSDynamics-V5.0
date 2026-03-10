@@ -4,7 +4,7 @@ export const displayDateLabel: (
   projectPhase?: string
 ) => string = (projectStatus, sortField, projectPhase) => {
   if (sortField == "createdAt") {
-    return "Created";
+    return "Started";
   }
 
   // Normalize for further checks
@@ -28,14 +28,14 @@ export const displayDateLabel: (
   }
 
   if (phase == "live") {
-    return "Updated";
+    return "Last Updated";
   }
 
   if (status == "in progress") {
     if (phase == "developing") {
-           return "Updated";
+           return "Last Updated";
     }
   }
 
-  return "Updated";
+  return "Last Updated";
 };

@@ -20,7 +20,7 @@ export default function LandscapeView({
         className="object-cover"
         priority
         loop={bannerSettings?.loop ?? true}
-        autoPlay={bannerSettings?.autoPlay ?? true}
+        autoPlay={bannerSettings?.autoPlay ?? false}
       />
     </div>
   );

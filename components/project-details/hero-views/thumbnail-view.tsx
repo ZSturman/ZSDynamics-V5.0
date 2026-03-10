@@ -18,9 +18,9 @@ export default function ThumbnailView({
           src={image || "/placeholder.svg"}
           alt={project.title}
           fill
-          className="object-contain"
+        className="object-contain"
           loop={thumbnailSettings?.loop ?? true}
-          autoPlay={thumbnailSettings?.autoPlay ?? true}
+          autoPlay={thumbnailSettings?.autoPlay ?? false}
         />
       </div>
     </div>

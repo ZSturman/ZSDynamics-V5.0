@@ -8,7 +8,12 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "generate-projects": "python3 lib/folio-prebuild.py /Users/zacharysturman/Downloads/PORTFOLIO",
+    "test:media": "playwright test -c playwright.media.config.ts",
+    "test:media:smoke": "playwright test -c playwright.media.config.ts --project=chromium-desktop --project=chromium-mobile --grep @smoke",
+    "test:media:matrix": "playwright test -c playwright.media.config.ts --grep @matrix",
+    "hooks:install": "node scripts/install-hooks.mjs",
+    "hooks:pre-push": "bash .githooks/pre-push",
+    "generate-projects": "python3 lib/folio-prebuild.py --input-json /Users/zacharysturman/n8n-files/exports/new_projects.json",
     "optimize": "python3 lib/media-optimizer.py public/projects --delete-originals"
   },
   "dependencies": {

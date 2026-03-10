@@ -17,7 +17,7 @@ export default function PortraitView({ project, image }: { project: Project; ima
           className="object-cover"
           priority
           loop={posterSettings?.loop ?? true}
-          autoPlay={posterSettings?.autoPlay ?? true}
+          autoPlay={posterSettings?.autoPlay ?? false}
         />
       </div>
     </div>

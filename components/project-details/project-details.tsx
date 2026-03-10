@@ -12,6 +12,9 @@ import ProjectDescriptionAndStory from "./project-description-and-story";
 import ResourceButtons from "./resource-buttons";
 import { ProjectSidebar } from "./project-sidebar";
 import { ProjectMetadata } from "./project-metadata";
+import { ProjectWorkLogs } from "./project-work-logs";
+import ProjectDetailsMediaDisplay from "./project-details-media-display";
+import { hasProjectCollectionItems } from "@/lib/project-collections";
 
 interface ProjectDetailsProps {
   project: Project;
@@ -72,7 +75,7 @@ function MobileStatusBadge({ project }: { project: Project }) {
     <div className="lg:hidden mb-4">
       <Badge
         variant={getStatusVariant(project.status)}
-        className="text-xs px-2 py-0.5"
+        className="text-xs px-2 py-0.5 pointer-events-none cursor-default"
       >
         {getStatusLabel(project.status, project.phase)}
       </Badge>
@@ -82,7 +85,7 @@ function MobileStatusBadge({ project }: { project: Project }) {
 
 /** Check if project has substantial content to warrant two-column layout */
 function hasSubstantialContent(project: Project): boolean {
-  const hasCollection = project.collection && Object.keys(project.collection).length > 0;
+  const hasCollection = hasProjectCollectionItems(project);
   const hasDescription = project.description && project.description.trim().length > 0;
   const hasStory = project.story && project.story.trim().length > 0;
   const hasResources = project.resources && project.resources.length > 0;
@@ -114,8 +117,9 @@ export function ProjectDetails({ project }: ProjectDetailsProps) {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const hasCollection = project.collection && Object.keys(project.collection).length > 0;
+  const hasCollection = hasProjectCollectionItems(project);
   const hasResources = project.resources && project.resources.length > 0;
+  const hasWorkLogs = project.workLogs && project.workLogs.length > 0;
   const useTwoColumnLayout = hasSubstantialContent(project);
 
   return (
@@ -150,6 +154,10 @@ export function ProjectDetails({ project }: ProjectDetailsProps) {
                 <ProjectHero project={project} />
               </section>
 
+              <section className="lg:hidden">
+                <ProjectDetailsMediaDisplay project={project} />
+              </section>
+
               {/* 3. Collections */}
               {hasCollection && (
                 <section>
@@ -162,6 +170,12 @@ export function ProjectDetails({ project }: ProjectDetailsProps) {
                 <ProjectDescriptionAndStory project={project} />
               </section>
 
+              {hasWorkLogs && (
+                <section>
+                  <ProjectWorkLogs project={project} />
+                </section>
+              )}
+
               {/* Mobile-only: Show metadata at bottom on smaller screens */}
               <div className="lg:hidden">
                 <ProjectMetadata project={project} />
@@ -170,7 +184,8 @@ export function ProjectDetails({ project }: ProjectDetailsProps) {
 
             {/* Sidebar Column - Sticky on desktop */}
             <aside className="hidden lg:block">
-              <div className="sticky top-24">
+              <div className="sticky top-24 space-y-6">
+                <ProjectDetailsMediaDisplay project={project} />
                 <ProjectSidebar project={project} />
               </div>
             </aside>
@@ -191,6 +206,10 @@ export function ProjectDetails({ project }: ProjectDetailsProps) {
               <ProjectHero project={project} />
             </section>
 
+            <section>
+              <ProjectDetailsMediaDisplay project={project} />
+            </section>
+
             {/* 3. Collections */}
             {hasCollection && (
               <section>
@@ -203,6 +222,12 @@ export function ProjectDetails({ project }: ProjectDetailsProps) {
               <ProjectDescriptionAndStory project={project} />
             </section>
 
+            {hasWorkLogs && (
+              <section>
+                <ProjectWorkLogs project={project} />
+              </section>
+            )}
+
             {/* 5. Metadata - Full width in single column */}
             <section>
               <ProjectMetadata project={project} />
@@ -213,6 +238,3 @@ export function ProjectDetails({ project }: ProjectDetailsProps) {
     </div>
   );
 }
-
-
-

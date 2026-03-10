@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+repo_root="$(git rev-parse --show-toplevel)"
+cd "$repo_root"
+
+check_canonical_media_clean() {
+  local status
+  status="$(git status --porcelain -- public/projects public/image-hostnames.json)"
+
+  if [[ -n "$status" ]]; then
+    echo "[pre-push] Blocked: canonical media source files have pending changes."
+    echo "[pre-push] Please review/commit/revert these before pushing:"
+    echo "$status"
+    exit 1
+  fi
+}
+
+check_canonical_media_clean
+
+echo "[pre-push] Running media smoke tests..."
+npm run test:media:smoke
+
+check_canonical_media_clean
+
+echo "[pre-push] Media smoke checks passed."

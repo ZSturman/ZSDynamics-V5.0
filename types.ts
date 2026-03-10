@@ -16,21 +16,59 @@ export type CollectionItemType =
   | "text"
   | "audio"
   | "url-link"
+  | "local-link"
   | "folio";
 
 export type CollectionItem = {
   id: string;
+  order?: number;
   path?: string; // Main path for the item (can be image, video, or other media)
-  filePath?: string; // Alternative path structure (simplified from legacy object format)
+  relativePath?: string;
+  filePath?: string | { path?: string }; // Alternative path structure (simplified from legacy object format)
   label?: string;
   summary?: string;
-  thumbnail?: string; // Can be image or video
+  thumbnail?: string | { path?: string }; // Can be image or video
   resource?: Resource; // Single resource (legacy)
   resources?: Resource[]; // Multiple resources
+  url?: string;
   type: CollectionItemType;
   loop?: boolean; // Whether video/animation should loop
   autoPlay?: boolean; // Whether video should autoplay (defaults to true for thumbnails/banners/posters)
 };
+
+export interface WorkLog {
+  id: string;
+  title: string;
+  entry?: string;
+  url?: string;
+  assetUrl?: string;
+  date?: string;
+  sessionStart?: string;
+  sessionEnd?: string;
+  startTime?: string;
+  endTime?: string;
+  durationMinutes?: number;
+  sessionType?: string[];
+  whatHappened?: string;
+  problems?: string;
+  nextStep?: string;
+  feelGoodAboutWork?: number;
+  accomplishedWhatYouWanted?: number;
+  assets?: Array<{
+    id?: string;
+    label?: string;
+    name?: string;
+    type?: string;
+    url?: string;
+    path?: string;
+    filePath?: string | { path?: string };
+    relativePath?: string;
+    thumbnail?: string | { path?: string };
+    summary?: string;
+  }>;
+  resource?: Resource;
+  resources?: Resource[];
+}
 
 
 
@@ -48,8 +86,8 @@ export interface Project {
   phase?: string;
   featured?: boolean;
   requiresFollowUp?: boolean;
-  createdAt: string;           // ISO 8601 or timestamp
-  updatedAt: string;           // ISO 8601 or timestamp
+  createdAt: string | null;           // ISO 8601 or timestamp
+  updatedAt: string | null;           // ISO 8601 or timestamp
   featuredOrder?: number;
   
   assetsFolder?: string;
@@ -57,6 +95,7 @@ export interface Project {
   images?: {
     thumbnail?: string; // Can be image (including GIF) or video
     banner?: string; // Can be image (including GIF) or video
+    hero?: string; // Can be image (including GIF) or video
     poster?: string; // Can be image (including GIF) or video
     posterPortrait?: string; // Can be image (including GIF) or video
     posterLandscape?: string; // Can be image (including GIF) or video
@@ -68,6 +107,7 @@ export interface Project {
   imageSettings?: {
     thumbnail?: { loop?: boolean; autoPlay?: boolean };
     banner?: { loop?: boolean; autoPlay?: boolean };
+    hero?: { loop?: boolean; autoPlay?: boolean };
     poster?: { loop?: boolean; autoPlay?: boolean };
     posterPortrait?: { loop?: boolean; autoPlay?: boolean };
     posterLandscape?: { loop?: boolean; autoPlay?: boolean };
@@ -88,6 +128,18 @@ export interface Project {
   collection?: {
     [collectionName: string]: CollectionItem[] | { items: CollectionItem[]; [key: string]: unknown };
   };
+  collections?: Array<{
+    id?: string;
+    name?: string;
+    label?: string;
+    summary?: string;
+    description?: string;
+    images?: { [k: string]: string | { path?: string } | undefined };
+    items?: CollectionItem[];
+    assets?: CollectionItem[];
+  }>;
+  assets?: CollectionItem[];
+  workLogs?: WorkLog[];
 
   details?: [
     {

@@ -100,7 +100,7 @@ export function FeaturedCarousel({
   }
 
   return (
-    <div className="mb-8">
+    <div className="mb-8" data-testid="featured-carousel">
       {/* Embla Carousel Container */}
       <div className="relative group">
         <div className="overflow-hidden" ref={emblaRef}>
@@ -114,12 +114,18 @@ export function FeaturedCarousel({
                 folderPath
               )
               const bannerSettings = project.imageSettings?.banner || project.imageSettings?.poster
+              const updatedLabel = formatDate(project.updatedAt)
 
               const statusValue = project.status || ""
               const showStatusBadge = statusValue && statusValue.trim() !== "" && statusValue.toLowerCase() !== "done"
 
               return (
-                <div key={project.id} className="flex-[0_0_100%] min-w-0">
+                <div
+                  key={project.id}
+                  data-testid="featured-carousel-slide"
+                  data-project-id={project.id}
+                  className="flex-[0_0_100%] min-w-0"
+                >
                   <div 
                     className="relative rounded-xl overflow-hidden bg-card border border-border shadow-lg cursor-pointer transition-all duration-300 hover:shadow-xl mx-1"
                     onClick={() => {
@@ -135,16 +141,18 @@ export function FeaturedCarousel({
                     {/* Mobile: Full background image with overlay text */}
                     <div className="sm:hidden relative min-h-[280px]">
                       {/* Background Image */}
-                      <MediaDisplay
-                        src={bannerPath}
-                        alt={`${project.title} banner`}
-                        fill
-                        className="object-cover"
-                        sizes="100vw"
-                        priority
-                        loop={bannerSettings?.loop ?? true}
-                        autoPlay={bannerSettings?.autoPlay ?? true}
-                      />
+                      <div data-testid="featured-carousel-media" data-project-id={project.id} data-media-role="banner">
+                        <MediaDisplay
+                          src={bannerPath}
+                          alt={`${project.title} banner`}
+                          fill
+                          className="object-cover"
+                          sizes="100vw"
+                          priority
+                          loop={bannerSettings?.loop ?? true}
+                          autoPlay={bannerSettings?.autoPlay ?? false}
+                        />
+                      </div>
                       
                       {/* Gradient overlay for text readability */}
                       <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent" />
@@ -185,14 +193,18 @@ export function FeaturedCarousel({
 
                           {/* Footer */}
                           <div className="flex items-center justify-between mt-2 pt-2 border-t border-border/50">
-                            <span className="text-xs text-muted-foreground">
-                              Updated {formatDate(project.updatedAt)}
-                            </span>
+                            {updatedLabel ? (
+                              <span className="text-xs text-muted-foreground">
+                                Last Updated {updatedLabel}
+                              </span>
+                            ) : (
+                              <span />
+                            )}
                             
                             {/* Tags - Show up to 2 tags */}
                             <div className="flex items-center gap-2">
                               {project.tags?.slice(0, 2).map((tag) => (
-                                <Badge key={tag} variant="outline" className="text-xs">
+                                <Badge key={tag} variant="outline" className="text-xs pointer-events-none cursor-default bg-background/40">
                                   {tag}
                                 </Badge>
                               ))}
@@ -210,16 +222,18 @@ export function FeaturedCarousel({
                     <div className="hidden sm:flex flex-row min-h-[320px] lg:min-h-[380px]">
                       {/* Left: Image/Banner */}
                       <div className="relative w-2/5 md:w-1/2 lg:w-3/5">
-                        <MediaDisplay
-                          src={bannerPath}
-                          alt={`${project.title} banner`}
-                          fill
-                          className="object-cover transition-transform duration-500"
-                          sizes="(min-width: 1024px) 60vw, (min-width: 768px) 50vw, 40vw"
-                          priority
-                          loop={bannerSettings?.loop ?? true}
-                          autoPlay={bannerSettings?.autoPlay ?? true}
-                        />
+                        <div data-testid="featured-carousel-media" data-project-id={project.id} data-media-role="banner">
+                          <MediaDisplay
+                            src={bannerPath}
+                            alt={`${project.title} banner`}
+                            fill
+                            className="object-cover transition-transform duration-500"
+                            sizes="(min-width: 1024px) 60vw, (min-width: 768px) 50vw, 40vw"
+                            priority
+                            loop={bannerSettings?.loop ?? true}
+                            autoPlay={bannerSettings?.autoPlay ?? false}
+                          />
+                        </div>
                         {/* Gradient overlay for text readability */}
                         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-background/80" />
                         
@@ -230,7 +244,7 @@ export function FeaturedCarousel({
                               variant="secondary"
                               className={`${
                                 STATUS_COLOR[project.status as keyof typeof STATUS_COLOR]
-                              } font-medium text-xs px-3 py-1`}
+                              } font-medium text-xs px-3 py-1 pointer-events-none cursor-default`}
                             >
                               {statusValue.charAt(0).toUpperCase() + statusValue.slice(1)}
                             </Badge>
@@ -275,9 +289,13 @@ export function FeaturedCarousel({
 
                         {/* Footer - Show on md and up */}
                         <div className="flex items-center justify-between mt-4 pt-4 border-t border-border/50">
-                          <span className="text-xs text-muted-foreground">
-                            Updated {formatDate(project.updatedAt)}
-                          </span>
+                          {updatedLabel ? (
+                            <span className="text-xs text-muted-foreground">
+                              Last Updated {updatedLabel}
+                            </span>
+                          ) : (
+                            <span />
+                          )}
                           
                           <div className="flex items-center gap-2">
                             {project.resources?.slice(0, 3).map((resource) => (
@@ -350,6 +368,8 @@ export function FeaturedCarousel({
               <button
                 key={index}
                 onClick={() => scrollTo(index)}
+                data-testid="featured-carousel-dot"
+                data-selected={index === selectedIndex ? "true" : "false"}
                 className={`transition-all duration-300 rounded-full ${
                   index === selectedIndex
                     ? "w-8 h-2 bg-primary"

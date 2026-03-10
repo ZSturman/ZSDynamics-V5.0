@@ -7,6 +7,82 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 /**
+ * Extract a string path from either a direct string value or an object shape
+ * that contains a path-like field.
+ */
+export function extractPathValue(value: unknown): string | undefined {
+  if (typeof value === "string") {
+    const trimmed = value.trim();
+    return trimmed || undefined;
+  }
+
+  if (!value || typeof value !== "object") {
+    return undefined;
+  }
+
+  const record = value as Record<string, unknown>;
+  const candidates = ["path", "filePath", "relativePath", "url", "href"];
+
+  for (const key of candidates) {
+    const candidate = record[key];
+    if (typeof candidate === "string") {
+      const trimmed = candidate.trim();
+      if (trimmed) return trimmed;
+    }
+  }
+
+  return undefined;
+}
+
+function isExternalUrl(path: string): boolean {
+  return path.startsWith("http://") || path.startsWith("https://");
+}
+
+/**
+ * Resolve a project asset path from either an absolute URL/path or a relative
+ * path stored in JSON. Supports multiple on-disk layouts used by older and
+ * newer import pipelines.
+ */
+export function resolveProjectAssetPath(
+  rawPath: unknown,
+  options?: { folderName?: string; collectionName?: string; itemId?: string }
+): string | undefined {
+  const extracted = extractPathValue(rawPath);
+  if (!extracted) return undefined;
+  if (isExternalUrl(extracted)) return extracted;
+  if (extracted.startsWith("/")) return extracted;
+
+  const cleaned = extracted.replace(/^[.][/\\]+/, "").replace(/^\/+/, "");
+  const folderName = options?.folderName;
+  const collectionName = options?.collectionName;
+  const itemId = options?.itemId;
+
+  if (!folderName) {
+    return cleaned;
+  }
+
+  // If the stored path already includes collection/item hierarchy, do not
+  // duplicate those segments.
+  if (collectionName && cleaned.startsWith(`${collectionName}/`)) {
+    return `/projects/${folderName}/${cleaned}`;
+  }
+
+  if (collectionName && itemId && cleaned.startsWith(`${itemId}/`)) {
+    return `/projects/${folderName}/${collectionName}/${cleaned}`;
+  }
+
+  if (collectionName && itemId && (cleaned.includes(`/${collectionName}/`) || cleaned.includes(`/${itemId}/`))) {
+    return `/projects/${folderName}/${cleaned}`;
+  }
+
+  if (collectionName && itemId) {
+    return `/projects/${folderName}/${collectionName}/${itemId}/${cleaned}`;
+  }
+
+  return `/projects/${folderName}/${cleaned}`;
+}
+
+/**
  * Check if a file path is a video file based on its extension
  */
 export function isVideoFile(path?: string | null): boolean {
@@ -31,29 +107,36 @@ export function isImageFile(path?: string | null): boolean {
  * @param folderPath - The folder path (e.g., "/projects/my-project")
  * @returns The path to the optimized version
  */
-export function getOptimizedMediaPath(filename: string | undefined, folderPath: string): string {
-  if (!filename || typeof filename !== 'string') return "/placeholder.svg"
+export function getOptimizedMediaPath(filename: string | { path?: string } | undefined, folderPath: string): string {
+  const resolvedFilename = extractPathValue(filename)
+  if (!resolvedFilename || typeof resolvedFilename !== 'string') return "/placeholder.svg"
   
   // If it's an external URL, return as-is
-  if (filename.startsWith("http://") || filename.startsWith("https://")) {
-    return filename
+  if (resolvedFilename.startsWith("http://") || resolvedFilename.startsWith("https://")) {
+    return resolvedFilename
+  }
+
+  // If already absolute (e.g. "/projects/..."), return as-is. This guards
+  // against double-prefixing when JSON already stores rooted web paths.
+  if (resolvedFilename.startsWith("/")) {
+    return resolvedFilename
   }
   
-  const stem = filename.substring(0, filename.lastIndexOf('.')) || filename
+  const stem = resolvedFilename.substring(0, resolvedFilename.lastIndexOf('.')) || resolvedFilename
   
   // Check if it's a video
-  if (isVideoFile(filename)) {
+  if (isVideoFile(resolvedFilename)) {
     // Videos get optimized to .mp4
     return `${folderPath}/${stem}-optimized.mp4`
   }
   
   // Images (including GIFs) get optimized to .webp
-  if (isImageFile(filename)) {
+  if (isImageFile(resolvedFilename)) {
     return `${folderPath}/${stem}-optimized.webp`
   }
   
   // For other files, return as-is
-  return `${folderPath}/${filename}`
+  return `${folderPath}/${resolvedFilename}`
 }
 
 export function getCategory(type?: string, path?: string) {
@@ -124,7 +207,7 @@ export type DateFormatPreset = "year" | "shortMonthYear" | "long" | "iso"
 const APPLE_EPOCH_OFFSET = 978307200
 
 export const formatDate = (
-  s?: string | number,
+  s?: string | number | null,
   formatter?: Intl.DateTimeFormatOptions | ((date: Date) => string) | DateFormatPreset | string
 ): string | null => {
   if (s === undefined || s === null) return null

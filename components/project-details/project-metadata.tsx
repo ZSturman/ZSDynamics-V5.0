@@ -23,10 +23,17 @@ export function ProjectMetadata({ project, compact = false }: ProjectMetadataPro
   const getStatusVariant = (status: string): "default" | "secondary" | "destructive" | "outline" => {
     switch (status.toLowerCase()) {
       case "done":
+      case "complete":
+      case "completed":
+      case "published":
         return "default";
+      case "active":
       case "in_progress":
       case "in progress":
         return "secondary";
+      case "archived":
+      case "deprecated":
+        return "destructive";
       case "idea":
         return "outline";
       default:
@@ -45,7 +52,7 @@ export function ProjectMetadata({ project, compact = false }: ProjectMetadataPro
               <div className="flex items-center justify-between flex-wrap gap-2">
                 <Badge
                   variant={getStatusVariant(project.status)}
-                  className="text-sm px-3 py-1"
+                  className="text-sm px-3 py-1 pointer-events-none cursor-default"
                 >
                   {getStatusLabel(project.status, project.phase)}
                 </Badge>
@@ -66,7 +73,7 @@ export function ProjectMetadata({ project, compact = false }: ProjectMetadataPro
                 <div className="flex items-center gap-2">
                   <Clock className="h-4 w-4 text-muted-foreground flex-shrink-0" />
                   <div className="flex flex-col">
-                    <span className="text-xs text-muted-foreground">Created</span>
+                    <span className="text-xs text-muted-foreground">Started</span>
                     <span className="text-sm text-foreground">
                       {formatDate(project.createdAt, { month: "short", year: "numeric" })}
                     </span>
@@ -83,7 +90,7 @@ export function ProjectMetadata({ project, compact = false }: ProjectMetadataPro
                   )}
                   <div className="flex flex-col">
                     <span className="text-xs text-muted-foreground">
-                      {isArchived ? "Archived" : "Updated"}
+                      {isArchived ? "Archived" : "Last Updated"}
                     </span>
                     <span className="text-sm text-foreground">
                       {formatDate(project.updatedAt, { month: "short", year: "numeric" })}
@@ -101,7 +108,7 @@ export function ProjectMetadata({ project, compact = false }: ProjectMetadataPro
             {project.category && (
               <div>
                 <p className="text-xs text-muted-foreground mb-1.5">Category</p>
-                <Badge variant="secondary" className="text-xs">
+                <Badge variant="secondary" className="text-xs pointer-events-none cursor-default">
                   {project.category}
                 </Badge>
               </div>
@@ -110,7 +117,7 @@ export function ProjectMetadata({ project, compact = false }: ProjectMetadataPro
             {project.domain && (
               <div>
                 <p className="text-xs text-muted-foreground mb-1.5">Domain</p>
-                <Badge variant="outline" className="text-xs">
+                <Badge variant="outline" className="text-xs pointer-events-none cursor-default bg-muted/20">
                   {project.domain}
                 </Badge>
               </div>
@@ -124,7 +131,7 @@ export function ProjectMetadata({ project, compact = false }: ProjectMetadataPro
             <p className="text-xs text-muted-foreground mb-1.5">Genres</p>
             <div className="flex flex-wrap gap-1">
               {project.genres.map((genre) => (
-                <Badge key={genre} variant="outline" className="text-xs">
+                <Badge key={genre} variant="outline" className="text-xs pointer-events-none cursor-default bg-muted/20">
                   {genre}
                 </Badge>
               ))}
@@ -137,7 +144,7 @@ export function ProjectMetadata({ project, compact = false }: ProjectMetadataPro
             <p className="text-xs text-muted-foreground mb-1.5">Mediums</p>
             <div className="flex flex-wrap gap-1">
               {project.mediums.map((medium) => (
-                <Badge key={medium} variant="secondary" className="text-xs">
+                <Badge key={medium} variant="secondary" className="text-xs pointer-events-none cursor-default">
                   {medium}
                 </Badge>
               ))}
@@ -150,7 +157,7 @@ export function ProjectMetadata({ project, compact = false }: ProjectMetadataPro
             <p className="text-xs text-muted-foreground mb-1.5">Tags</p>
             <div className="flex flex-wrap gap-1">
               {project.tags.map((tag) => (
-                <Badge key={tag} variant="outline" className="text-xs">
+                <Badge key={tag} variant="outline" className="text-xs pointer-events-none cursor-default bg-muted/20">
                   {tag}
                 </Badge>
               ))}

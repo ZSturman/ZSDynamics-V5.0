@@ -1,0 +1,450 @@
+{
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "5b5d9825-9bf4-4e5a-b278-2722cd711195",
+      "name": "When clicking 'Execute workflow'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        336,
+        384
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "getAll",
+        "databaseId": {
+          "__rl": true,
+          "value": "304aec94-4d3c-80a8-82f6-fd7ff4d2b607",
+          "mode": "list",
+          "cachedResultName": "projects",
+          "cachedResultUrl": "https://www.notion.so/304aec944d3c80a882f6fd7ff4d2b607"
+        },
+        "returnAll": true,
+        "filterType": "manual",
+        "matchType": "allFilters",
+        "filters": {
+          "conditions": [
+            {
+              "key": "in showcase|checkbox",
+              "condition": "equals",
+              "checkboxValue": true
+            },
+            {
+              "key": "public|checkbox",
+              "condition": "equals",
+              "checkboxValue": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "f12b258c-f335-4c94-95a0-8cd59a430331",
+      "name": "Query Showcase (Projects)",
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2,
+      "position": [
+        560,
+        192
+      ],
+      "credentials": {
+        "notionApi": {
+          "id": "um5X4aoNtxRS0uUI",
+          "name": "Notion account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "getAll",
+        "databaseId": {
+          "__rl": true,
+          "value": "30baec94-4d3c-8050-80e9-f6b12c892615",
+          "mode": "list",
+          "cachedResultName": "collections",
+          "cachedResultUrl": "https://www.notion.so/30baec944d3c805080e9f6b12c892615"
+        },
+        "returnAll": true,
+        "filterType": "manual",
+        "matchType": "allFilters",
+        "filters": {
+          "conditions": [
+            {
+              "key": "public|checkbox",
+              "condition": "equals",
+              "checkboxValue": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "47b43a58-73d8-4e67-9629-4b255b2cb20b",
+      "name": "Query Collections (All Public)",
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2,
+      "position": [
+        560,
+        384
+      ],
+      "credentials": {
+        "notionApi": {
+          "id": "um5X4aoNtxRS0uUI",
+          "name": "Notion account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "getAll",
+        "databaseId": {
+          "__rl": true,
+          "value": "30baec94-4d3c-8071-8cc5-c1ca2a3f3eb0",
+          "mode": "list",
+          "cachedResultName": "assets",
+          "cachedResultUrl": "https://www.notion.so/30baec944d3c80718cc5c1ca2a3f3eb0"
+        },
+        "returnAll": true,
+        "filterType": "manual",
+        "matchType": "allFilters",
+        "filters": {
+          "conditions": [
+            {
+              "key": "public|checkbox",
+              "condition": "equals",
+              "checkboxValue": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "8de21bb8-9039-4fda-b75a-ed5d176c5c19",
+      "name": "Query Assets (All Public)",
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2,
+      "position": [
+        560,
+        576
+      ],
+      "credentials": {
+        "notionApi": {
+          "id": "um5X4aoNtxRS0uUI",
+          "name": "Notion account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "getAll",
+        "databaseId": {
+          "__rl": true,
+          "value": "30baec94-4d3c-807e-887b-cfb9c1aac846",
+          "mode": "list",
+          "cachedResultName": "resources",
+          "cachedResultUrl": "https://www.notion.so/30baec944d3c807e887bcfb9c1aac846"
+        },
+        "returnAll": true,
+        "filterType": "manual",
+        "matchType": "allFilters",
+        "filters": {
+          "conditions": [
+            {
+              "key": "public|checkbox",
+              "condition": "equals",
+              "checkboxValue": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "9a5108eb-5937-4f83-9cba-a650468ce190",
+      "name": "Query Resources (All Public)",
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2,
+      "position": [
+        560,
+        768
+      ],
+      "credentials": {
+        "notionApi": {
+          "id": "um5X4aoNtxRS0uUI",
+          "name": "Notion account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "/*\nBulk-build nested JSON in one pass.\n- No SplitInBatches.\n- Aggressively maps fields (keeps raw property_* too).\n\nDesired nesting rules:\n- Project:\n  - collections[] (each collection includes its own items/resources/assets/thumbnail)\n  - resources[]\n  - assets[]\n  - workLogs[]   <-- added\n  - thumbnail (single related asset or null)\n- Collection:\n  - items[] (assets referenced by property_collection_items)\n  - resources[]\n  - assets[] (assets that reference the collection via their own relation)\n  - thumbnail (single related asset or null)\n- Asset:\n  - resources[]\n  - thumbnail (single related asset or null)\n\nExpected Notion shapes from your workflow:\n- Projects (showcase): property_* fields like property_name, property_summary, property_collections, property_assets, property_resources, etc.\n- Collections: property_projects, property_thumbnail (optional), property_collection_items (relation to assets), etc.\n- Assets: property_projects, property_collections, property_thumbnail (relation to another asset), etc.\n- Resources: property_projects, property_collections, property_assets\n- Work Log: property_project (relation to project), property_date, property_entry, etc.\n*/\n\nconst uniq = (arr) => Array.from(new Set((arr ?? []).filter(Boolean)));\n\nfunction safeArray(v) {\n  return Array.isArray(v) ? v : (v == null ? [] : [v]);\n}\n\nfunction pickFirst(v) {\n  const a = safeArray(v);\n  return a.length ? a[0] : null;\n}\n\nfunction dedupById(arr) {\n  const seen = new Set();\n  const out = [];\n  for (const x of arr ?? []) {\n    const id = x?.id ?? JSON.stringify(x);\n    if (!seen.has(id)) {\n      seen.add(id);\n      out.push(x);\n    }\n  }\n  return out;\n}\n\nfunction parseDateValue(v) {\n  if (!v) return null;\n  if (typeof v === \"string\") return v;\n  if (typeof v === \"object\" && v.start) return v.start;\n  return null;\n}\n\nfunction parseStartedLastUpdateRange(v) {\n  const value = pickFirst(v) ?? v;\n  if (!value) {\n    return {\n      raw: null,\n      startedAt: null,\n      lastUpdateAt: null,\n    };\n  }\n\n  if (typeof value === \"string\") {\n    return {\n      raw: value,\n      startedAt: value,\n      lastUpdateAt: null,\n    };\n  }\n\n  if (typeof value === \"object\") {\n    return {\n      raw: value,\n      startedAt: parseDateValue(value.start ?? value),\n      lastUpdateAt: parseDateValue(value.end),\n    };\n  }\n\n  return {\n    raw: null,\n    startedAt: null,\n    lastUpdateAt: null,\n  };\n}\n\nfunction sortByDateDesc(arr, getDate) {\n  return [...(arr ?? [])].sort((a, b) => {\n    const da = getDate(a);\n    const db = getDate(b);\n    const ta = da ? Date.parse(da) : 0;\n    const tb = db ? Date.parse(db) : 0;\n    return tb - ta;\n  });\n}\n\nconst PROJECT_SINGLE_ASSET_RELATION_EXCLUDE = new Set([\n  \"property_assets\",\n  \"property_collections\",\n  \"property_resources\",\n  \"property_title\",\n]);\n\nconst PROJECT_MEDIA_HINT_RE =\n  /(thumbnail|banner|icon|poster|hero|image|cover|logo|artwork|media|preview|screenshot)/i;\n\nfunction stripPropertyPrefix(key) {\n  return String(key ?? \"\").replace(/^property_/, \"\");\n}\n\nfunction getFirstRelationId(v) {\n  const first = pickFirst(v);\n  if (!first) return null;\n  if (typeof first === \"string\") return first;\n  if (typeof first === \"object\") return first.id ?? null;\n  return null;\n}\n\nfunction resolveSingleAssetRelation(row, propertyKey, assetById) {\n  const relationId = getFirstRelationId(row?.[propertyKey]);\n  if (!relationId) return { relationId: null, asset: null };\n  const rawAsset = assetById[relationId];\n  return {\n    relationId,\n    asset: rawAsset ? normalizeThumbnail(rawAsset) : null,\n  };\n}\n\nfunction detectProjectSingleAssetRelationKeys(projectRows, assetById) {\n  const keys = new Set([\"property_thumbnail\"]);\n\n  for (const row of projectRows ?? []) {\n    for (const [key, value] of Object.entries(row ?? {})) {\n      if (!key.startsWith(\"property_\")) continue;\n      if (PROJECT_SINGLE_ASSET_RELATION_EXCLUDE.has(key)) continue;\n\n      const values = safeArray(value);\n      if (values.length > 1) continue;\n\n      if (values.length === 0) {\n        if (PROJECT_MEDIA_HINT_RE.test(key)) keys.add(key);\n        continue;\n      }\n\n      const relationId = getFirstRelationId(values);\n      if (relationId && assetById[relationId]) {\n        keys.add(key);\n        continue;\n      }\n\n      if (PROJECT_MEDIA_HINT_RE.test(key)) keys.add(key);\n    }\n  }\n\n  return [...keys];\n}\n\nfunction normalizeResource(r) {\n  return {\n    id: r.id ?? null,\n    name: r.name ?? null,\n    label: r.property_label ?? null,\n    type: r.property_type ?? null,\n    url: r.property_url ?? null,\n    icon: r.property_icon ?? null,\n\n    projectIds: uniq(r.property_projects),\n    collectionIds: uniq(r.property_collections),\n    assetIds: uniq(r.property_assets),\n\n    raw: r,\n  };\n}\n\nfunction normalizeThumbnail(a) {\n  return {\n    id: a.id ?? null,\n    name: a.name ?? null,\n    label: a.property_label ?? null,\n    type: a.property_type ?? null,\n    filename: a.property_filename ?? null,\n    relativePath: a.property_relative_path ?? null,\n\n    projectIds: uniq(a.property_projects),\n    collectionIds: uniq(a.property_collections),\n\n    // resources attached later (if any resource points at this asset id)\n    resources: [],\n\n    raw: a,\n  };\n}\n\nfunction normalizeAsset(a, assetById) {\n  const thumbId = getFirstRelationId(a.property_thumbnail);\n  const thumb =\n    thumbId && assetById[thumbId] ? normalizeThumbnail(assetById[thumbId]) : null;\n\n  return {\n    id: a.id ?? null,\n    name: a.name ?? null,\n    label: a.property_label ?? null,\n    type: a.property_type ?? null,\n    filename: a.property_filename ?? null,\n    relativePath: a.property_relative_path ?? null,\n\n    projectIds: uniq(a.property_projects),\n    collectionIds: uniq(a.property_collections),\n\n    thumbnail: thumb,\n\n    // resources attached later\n    resources: [],\n\n    raw: a,\n  };\n}\n\nfunction normalizeCollection(c, assetById) {\n  const thumbId = getFirstRelationId(c.property_thumbnail);\n  const thumb =\n    thumbId && assetById[thumbId] ? normalizeThumbnail(assetById[thumbId]) : null;\n\n  return {\n    id: c.id ?? null,\n    name: c.name ?? null,\n    label: c.property_label ?? null,\n    oneLiner: pickFirst(c.property_one_liner) ?? null,\n    summary: pickFirst(c.property_summary) ?? null,\n\n    projectIds: uniq(c.property_projects),\n\n    // IDs of assets that are the \"collection items\"\n    collectionItemIds: uniq(c.property_collection_items),\n\n    thumbnail: thumb,\n\n    // attached later\n    assets: [],\n    resources: [],\n\n    // populated later from collectionItemIds -> normalized asset objects\n    items: [],\n\n    raw: c,\n  };\n}\n\nfunction normalizeWorkLog(w) {\n  const dateVal = parseDateValue(w.property_date);\n\n  return {\n    id: w.id ?? null,\n    name: w.name ?? null,\n    url: w.url ?? null,\n\n    // Common fields from your sample\n    entry: w.property_entry ?? w.name ?? null,\n    date: dateVal,\n    dateRaw: w.property_date ?? null,\n\n    sessionStart: parseDateValue(w.property_session_start),\n    sessionEnd: parseDateValue(w.property_session_end),\n\n    public: !!w.property_public,\n    projectIds: uniq(w.property_project),\n\n    whatHappened: w.property_what_happened ?? null,\n    problems: (typeof w.property_problems === \"string\" && w.property_problems.trim() === \"\") ? null : (w.property_problems ?? null),\n    nextStep: (typeof w.property_next_step === \"string\" && w.property_next_step.trim() === \"\") ? null : (w.property_next_step ?? null),\n\n    sessionType: safeArray(w.property_session_type),\n    milestoneIds: uniq(w.property_milestone),\n    relatedTaskIds: uniq(w.property_related_tasks),\n    sessionIds: uniq(w.property_sessions),\n\n    assetsUrl: w.property_assets_url ?? null,\n    assetsFilesMedia: safeArray(w.property_assets_files_media),\n    automationLogs: safeArray(w.property_automation_logs),\n\n    allowAutomation: !!w.property_allow_automation,\n    feelGoodAboutWork: w.property_feel_good_about_work ?? null,\n    accomplishedWhatYouWanted: w.property_accomplished_what_you_wanted ?? null,\n\n    raw: w,\n  };\n}\n\nfunction normalizeProject(p, assetById, projectSingleAssetRelationKeys) {\n  // If you truly have a separate Project page id field, keep it.\n  // Otherwise, p.id is already the Notion page id for the showcase record.\n  const projectPageId = pickFirst(p.property_title) ?? p.projectPageId ?? p.id ?? null;\n\n  const singleAssetRelationIds = {};\n  const singleAssetMedia = {};\n  for (const propertyKey of projectSingleAssetRelationKeys ?? [\"property_thumbnail\"]) {\n    const outputKey = stripPropertyPrefix(propertyKey);\n    const resolved = resolveSingleAssetRelation(p, propertyKey, assetById);\n    singleAssetRelationIds[outputKey] = resolved.relationId;\n    singleAssetMedia[outputKey] = resolved.asset;\n  }\n\n  const thumb = singleAssetMedia.thumbnail ?? null;\n  const startedAndUpdatedRange = parseStartedLastUpdateRange(\n    p.property_started_at_last_update_at\n  );\n  const startedAt = parseDateValue(p.property_started_at) ?? startedAndUpdatedRange.startedAt ?? null;\n  const lastUpdateAt = parseDateValue(p.property_last_update_at) ?? startedAndUpdatedRange.lastUpdateAt ?? null;\n  const startedAtLastUpdateAt =\n    startedAt || lastUpdateAt\n      ? {\n          start: startedAt,\n          end: lastUpdateAt,\n          time_zone: null,\n        }\n      : null;\n\n  const project = {\n    id: p.id ?? null,\n    projectPageId,\n\n    title: p.property_name ?? p.name ?? null,\n    name: p.property_name ?? p.name ?? null,\n    subtitle: pickFirst(p.property_subtitle) ?? null,\n    oneLiner: pickFirst(p.property_one_liner) ?? null,\n    summary: pickFirst(p.property_summary) ?? null,\n    domain: pickFirst(p.property_domain) ?? null,\n    featured: !!pickFirst(p.property_featured),\n    featuredOrder: p.property_featured_order ?? null,\n    tags: safeArray(p.property_tags),\n    category: safeArray(p.property_category),\n    status: pickFirst(p.property_status) ?? null,\n    phase: pickFirst(p.property_phase) ?? null,\n    startedAt,\n    lastUpdateAt,\n    startDate: startedAt,\n    lastUpdateDate: lastUpdateAt,\n    startedAtLastUpdateAt,\n    projectDateRangeRaw: startedAtLastUpdateAt,\n\n    thumbnail: thumb,\n    singleAssetMedia,\n    singleAssetRelationIds,\n\n    // attached later\n    collections: [],\n    assets: [],\n    resources: [],\n    workLogs: [], // <-- added\n\n    // keep raw relations if present (still useful for explicit attach)\n    collectionIds: uniq(p.property_collections),\n    assetIds: uniq(p.property_assets),\n    resourceIds: uniq(p.property_resources),\n\n    raw: p,\n  };\n\n  // Keep easy top-level access for single project media fields (banner, hero, icon, etc.)\n  // while preserving all existing output keys.\n  for (const [key, asset] of Object.entries(singleAssetMedia)) {\n    if (key === \"thumbnail\") continue;\n    if (Object.prototype.hasOwnProperty.call(project, key)) continue;\n    project[key] = asset;\n  }\n\n  return project;\n}\n\n// --- Gather items by origin node\nconst projectsRaw = $items(\"Query Showcase (Projects)\").map((i) => i.json);\nconst collectionsRaw = $items(\"Query Collections (All Public)\").map((i) => i.json);\nconst assetsRaw = $items(\"Query Assets (All Public)\").map((i) => i.json);\nconst resourcesRaw = $items(\"Query Resources (All Public)\").map((i) => i.json);\nconst workLogsRaw = $items(\"Query Work Log (All Public)\").map((i) => i.json); // <-- added\n\n// --- Index raw assets first (needed for thumbnails)\nconst assetById = {};\nfor (const a of assetsRaw) assetById[a.id] = a;\nconst projectSingleAssetRelationKeys = detectProjectSingleAssetRelationKeys(\n  projectsRaw,\n  assetById\n);\n\n// --- Normalize\nconst resources = resourcesRaw.map(normalizeResource);\nconst workLogs = workLogsRaw.map(normalizeWorkLog); // <-- added\n\nconst normalizedAssets = assetsRaw.map((a) => normalizeAsset(a, assetById));\nconst assetNormById = Object.fromEntries(normalizedAssets.map((a) => [a.id, a]));\n\nconst normalizedCollections = collectionsRaw.map((c) => normalizeCollection(c, assetById));\nconst collectionNormById = Object.fromEntries(normalizedCollections.map((c) => [c.id, c]));\n\nconst normalizedProjects = projectsRaw.map((p) =>\n  normalizeProject(p, assetById, projectSingleAssetRelationKeys)\n);\nconst projectNormById = Object.fromEntries(\n  normalizedProjects.map((p) => [p.projectPageId ?? p.id, p])\n);\n\n// --- Attach resources to parents (projects/collections/assets)\nfor (const r of resources) {\n  for (const pid of r.projectIds) {\n    const p =\n      projectNormById[pid] ||\n      normalizedProjects.find((x) => x.id === pid || x.projectPageId === pid);\n    if (p) p.resources.push(r);\n  }\n  for (const cid of r.collectionIds) {\n    const c = collectionNormById[cid];\n    if (c) c.resources.push(r);\n  }\n  for (const aid of r.assetIds) {\n    const a = assetNormById[aid];\n    if (a) a.resources.push(r);\n  }\n}\n\n// --- Attach assets to collections + projects\n// (This is \"membership via asset.property_collections\" and \"asset.property_projects\")\nfor (const a of normalizedAssets) {\n  for (const cid of a.collectionIds) {\n    const c = collectionNormById[cid];\n    if (c) c.assets.push(a);\n  }\n  for (const pid of a.projectIds) {\n    const p =\n      projectNormById[pid] ||\n      normalizedProjects.find((x) => x.id === pid || x.projectPageId === pid);\n    if (p) p.assets.push(a);\n  }\n}\n\n// --- Attach collection items (assets) to collections via collection.property_collection_items\nfor (const c of normalizedCollections) {\n  const itemIds = uniq(c.collectionItemIds);\n  c.items = itemIds.map((id) => assetNormById[id]).filter(Boolean);\n}\n\n// --- Attach collections to projects\n// Prefer explicit relation lists from project rows (property_collections), but also support collection.property_projects.\nfor (const p of normalizedProjects) {\n  const explicit = uniq(p.collectionIds);\n  if (explicit.length) {\n    for (const cid of explicit) {\n      const c = collectionNormById[cid];\n      if (c) p.collections.push(c);\n    }\n  } else {\n    // fallback: infer by collection.projectIds\n    for (const c of normalizedCollections) {\n      if ((c.projectIds ?? []).includes(p.projectPageId) || (c.projectIds ?? []).includes(p.id)) {\n        p.collections.push(c);\n      }\n    }\n  }\n}\n\n// --- Attach work logs to projects (via workLog.property_project relation)\nfor (const wl of workLogs) {\n  for (const pid of wl.projectIds) {\n    const p =\n      projectNormById[pid] ||\n      normalizedProjects.find((x) => x.id === pid || x.projectPageId === pid);\n    if (p) p.workLogs.push(wl);\n  }\n}\n\n// --- De-dup arrays + sort work logs\nfor (const p of normalizedProjects) {\n  p.resources = dedupById(p.resources);\n  p.assets = dedupById(p.assets);\n  p.collections = dedupById(p.collections);\n  p.workLogs = dedupById(p.workLogs);\n  p.workLogs = sortByDateDesc(p.workLogs, (w) => w.date);\n}\nfor (const c of normalizedCollections) {\n  c.resources = dedupById(c.resources);\n  c.assets = dedupById(c.assets);\n  c.items = dedupById(c.items);\n}\nfor (const a of normalizedAssets) {\n  a.resources = dedupById(a.resources);\n}\n\n// Note: thumbnails are normalized assets but are not included in normalizedAssets unless they are also in assetsRaw.\n// If thumbnail assets are included in assetsRaw, they will also receive resources via the same attachment loop above.\n// If thumbnails are NOT in assetsRaw (filtered out), they will remain without resources here.\n\n// --- Config (robust + auto fields)\nconst configItems = $items(\"Query Config\").map(i => i.json);\n\n// Pick a single config row:\n// - If \"name\" is an ISO-ish date (YYYY-MM-DD), pick the max (latest)\n// - Else fall back to the first row\nconst dateLike = (s) => typeof s === 'string' && /^\\d{4}-\\d{2}-\\d{2}$/.test(s);\n\nlet configRow = configItems[0] ?? {};\nconst datedRows = configItems.filter(r => dateLike(r.name));\nif (datedRows.length) {\n  configRow = datedRows.sort((a, b) => a.name.localeCompare(b.name)).at(-1);\n}\n\n// Value normalization helper\nfunction normalizeConfigValue(v) {\n  // Flatten 0/1 length arrays\n  if (Array.isArray(v)) {\n    if (v.length === 0) return null;\n    if (v.length === 1) return normalizeConfigValue(v[0]);\n    return v.map(normalizeConfigValue);\n  }\n\n  // Convert whitespace-only strings to null\n  if (typeof v === 'string') {\n    const t = v.trim();\n    return t === '' ? null : t;\n  }\n\n  return v ?? null;\n}\n\nconst config = Object.fromEntries(\n  Object.entries(configRow)\n    .filter(([k]) => k.startsWith(\"property_\"))\n    .map(([k, v]) => [k.replace(/^property_/, \"\"), normalizeConfigValue(v)])\n    .filter(([, v]) => v !== null)\n);\n\n// Optional: keep a top-level copy of all public work logs (sorted)\nconst workLogsSorted = sortByDateDesc(dedupById(workLogs), (w) => w.date);\n\nreturn [\n  {\n    json: {\n      config,\n      projects: normalizedProjects,\n      workLogs: workLogsSorted, // <-- optional top-level export\n    },\n  },\n];\n"
+      },
+      "id": "2f071233-a35f-421a-9f5d-00adc54c09a6",
+      "name": "Assemble Nested JSON",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1008,
+        384
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const payload = $json; // whatever your Assemble node outputs (e.g. { projects: [...] })\nconst text = JSON.stringify(payload, null, 2);\n\nreturn [\n  {\n    json: { filename: 'projects.json' },\n    binary: {\n      data: {\n        data: Buffer.from(text, 'utf8').toString('base64'),\n        mimeType: 'application/json',\n        fileName: 'projects.json',\n      },\n    },\n  },\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1232,
+        384
+      ],
+      "id": "d9189773-0d28-4d4a-868e-edbf7063394d",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "operation": "write",
+        "fileName": "/home/node/.n8n-files/exports/new_projects.json",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1.1,
+      "position": [
+        1456,
+        384
+      ],
+      "id": "90d8793f-cc6b-4586-b203-c0dfdb3ab947",
+      "name": "Read/Write Files from Disk",
+      "alwaysOutputData": false,
+      "executeOnce": true,
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "getAll",
+        "databaseId": {
+          "__rl": true,
+          "value": "30baec94-4d3c-80ac-8774-f40327ab3f17",
+          "mode": "list",
+          "cachedResultName": "config",
+          "cachedResultUrl": "https://www.notion.so/30baec944d3c80ac8774f40327ab3f17"
+        },
+        "returnAll": true,
+        "filterType": "manual",
+        "matchType": "allFilters",
+        "options": {}
+      },
+      "id": "8aa41bda-0702-490a-baff-1a1e27605d61",
+      "name": "Query Config",
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2,
+      "position": [
+        560,
+        0
+      ],
+      "credentials": {
+        "notionApi": {
+          "id": "um5X4aoNtxRS0uUI",
+          "name": "Notion account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "numberInputs": 6
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        784,
+        336
+      ],
+      "id": "0d0fd72a-5297-4485-8459-b7f5f5b2336a",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "getAll",
+        "databaseId": {
+          "__rl": true,
+          "value": "304aec94-4d3c-803f-9e54-ffda217f9426",
+          "mode": "list",
+          "cachedResultName": "work log",
+          "cachedResultUrl": "https://www.notion.so/304aec944d3c803f9e54ffda217f9426"
+        },
+        "returnAll": true,
+        "filterType": "manual",
+        "matchType": "allFilters",
+        "filters": {
+          "conditions": [
+            {
+              "key": "public|checkbox",
+              "condition": "equals",
+              "checkboxValue": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "3db642ef-6b93-4f4e-a94c-f206ace42167",
+      "name": "Query Work Log (All Public)",
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2,
+      "position": [
+        560,
+        976
+      ],
+      "credentials": {
+        "notionApi": {
+          "id": "um5X4aoNtxRS0uUI",
+          "name": "Notion account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "When clicking 'Execute workflow'": {
+      "main": [
+        [
+          {
+            "node": "Query Showcase (Projects)",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Query Collections (All Public)",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Query Assets (All Public)",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Query Resources (All Public)",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Query Config",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Query Work Log (All Public)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Query Showcase (Projects)": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Query Collections (All Public)": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "Query Assets (All Public)": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 3
+          }
+        ]
+      ]
+    },
+    "Query Resources (All Public)": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 4
+          }
+        ]
+      ]
+    },
+    "Assemble Nested JSON": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Read/Write Files from Disk",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Query Config": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Assemble Nested JSON",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Query Work Log (All Public)": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 5
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "9ccb64bf54cc9768d2e999f6f80b37c50137298c26b3981b0d527f2b82621d0f"
+  }
+}

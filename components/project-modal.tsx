@@ -10,7 +10,10 @@ import { Button } from "./ui/button";
 import { useRouter } from "next/navigation";
 import { useBreadcrumb } from "@/lib/breadcrumb-context";
 import ProjectDetailsFooter from "./project-details/project-details-footer";
-import ProjectDetailsMediaDisplay from "./project-details/project-details-media-display";
+import { ProjectWorkLogs } from "./project-details/project-work-logs";
+import { getOptimizedMediaPath } from "@/lib/utils";
+import { MediaDisplay } from "./ui/media-display";
+import { hasProjectCollectionItems } from "@/lib/project-collections";
 
 interface ProjectModalProps {
   project: Project | null;
@@ -32,6 +35,27 @@ export function ProjectModal({ project, isOpen, onClose }: ProjectModalProps) {
   };
 
   if (!project) return null;
+  const hasContent = Boolean(
+    (project.description && String(project.description).trim()) ||
+      (project.story && String(project.story).trim())
+  );
+  const hasCollection = hasProjectCollectionItems(project);
+  const hasWorkLogs = Boolean(project.workLogs && project.workLogs.length > 0);
+  const folderName = project.folderName || project.id;
+  const folderPath = `/projects/${folderName}`;
+  const bannerMedia =
+    project.images?.banner ||
+    project.images?.posterLandscape ||
+    project.images?.poster ||
+    project.images?.thumbnail;
+  const bannerPath = bannerMedia ? getOptimizedMediaPath(bannerMedia, folderPath) : null;
+  const bannerSettings = project.images?.banner
+    ? project.imageSettings?.banner
+    : project.images?.posterLandscape
+    ? project.imageSettings?.posterLandscape || project.imageSettings?.poster
+    : project.images?.poster
+    ? project.imageSettings?.poster
+    : project.imageSettings?.thumbnail;
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -42,75 +66,67 @@ export function ProjectModal({ project, isOpen, onClose }: ProjectModalProps) {
         </span>
       </DialogTitle>
 
-      <DialogContent className="max-h-[90vh] max-w-7xl p-0 flex flex-col overflow-hidden">
-        <div className="relative flex-1 min-h-0 overflow-y-auto px-4 pt-6 pb-12">
-          <ProjectHeader project={project} />
+      <DialogContent
+        data-testid="project-modal-content"
+        data-project-id={project.id}
+        className="max-h-[92vh] max-w-7xl p-0 flex flex-col overflow-hidden"
+      >
+        <div className="relative flex-1 min-h-0 overflow-y-auto">
+          {bannerPath && (
+            <div
+              data-testid="project-modal-banner"
+              data-project-id={project.id}
+              data-media-role={project.images?.banner ? "banner" : project.images?.posterLandscape ? "posterLandscape" : project.images?.poster ? "poster" : "thumbnail"}
+              className="relative h-40 md:h-56 lg:h-64 w-full overflow-hidden border-b border-border"
+            >
+              <MediaDisplay
+                src={bannerPath}
+                alt={`${project.title} banner`}
+                fill
+                className="h-full w-full object-cover opacity-45"
+                autoPlay={bannerSettings?.autoPlay ?? false}
+                loop={bannerSettings?.loop ?? true}
+              />
+              <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/40 to-background" />
+            </div>
+          )}
 
-          {/* Responsive grid: left content, right metadata on md+.
-              If there is no description/story, show metadata full-width. */}
-          {(() => {
-            const hasContent = Boolean(
-              (project.description && String(project.description).trim()) ||
-                (project.story && String(project.story).trim())
-            );
+          <div className="px-4 pt-6 pb-12 md:px-6 space-y-8">
+            <div className="flex justify-end">
+              <Button onClick={goToProjectPage} variant="outline" size="sm">
+                Go to Project Page
+              </Button>
+            </div>
 
-            if (!hasContent) {
-              return (
-                <div className="mt-6 grid gap-6">
-                  {/* Button for full-width mobile/modal */}
-                  <div>
-                    <Button onClick={goToProjectPage} variant="outline" size="sm" className="w-full">
-                      Go to Project Page
-                    </Button>
-                  </div>
+            <ProjectHeader project={project} hideBanner />
 
-                  <ProjectMetadata project={project} />
-                </div>
-              );
-            }
+            {hasCollection && (
+              <section>
+                <Collection project={project} inModal={true} />
+              </section>
+            )}
 
-            return (
-              <div className="mt-6 grid gap-6 grid-cols-1 md:grid-cols-[1fr_320px] items-start md:items-stretch">
-                <div className="space-y-6">
-                  {/* Button - shown above content on md+ left column */}
-                  <div className="md:hidden">
-                    <Button onClick={goToProjectPage} variant="outline" size="sm" className="w-full">
-                      Go to Project Page
-                    </Button>
-                  </div>
+            {hasContent && (
+              <section>
+                <ProjectContent project={project} />
+              </section>
+            )}
 
-                  {/* Priority: Collection/Media first */}
-                  {project.collection && (
-                    <div>
-                      <Collection project={project} inModal={true} />
-                    </div>
-                  )}
+            <section className="border-t border-border pt-6">
+              <h3 className="mb-4 text-sm font-medium text-muted-foreground">Project Details</h3>
+              <ProjectMetadata project={project} />
+            </section>
 
+            {hasWorkLogs && (
+              <section className="border-t border-border pt-6">
+                <ProjectWorkLogs project={project} />
+              </section>
+            )}
 
-                  {/* About/Story content */}
-                  <div>
-                    <ProjectContent project={project} />
-                  </div>
-                </div>
-
-                <aside className="min-w-[280px] md:min-w-[320px]">
-                  {/* Button - visible on small screens inside sidebar area */}
-                  <div className="hidden md:flex mb-4">
-                    <Button onClick={goToProjectPage} variant="outline" size="sm" className="w-full">
-                      Go to Project Page
-                    </Button>
-                  </div>
-
-                  <div className="h-full">
-                    <ProjectDetailsMediaDisplay project={project} />
-                    <ProjectMetadata project={project} />
-                  </div>
-                </aside>
-              </div>
-            );
-          })()}
-
-          <ProjectDetailsFooter />
+            <div className="pt-2">
+              <ProjectDetailsFooter />
+            </div>
+          </div>
         </div>
       </DialogContent>
     </Dialog>

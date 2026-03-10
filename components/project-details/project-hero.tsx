@@ -1,5 +1,4 @@
 import { Project } from "@/types";
-import React from "react";
 import ThumbnailView from "./hero-views/thumbnail-view";
 import PortraitView from "./hero-views/portrait-view";
 import LandscapeView from "./hero-views/landscape-view";
@@ -11,24 +10,72 @@ const ProjectHero = ({ project }: { project: Project }) => {
   const folderPath = `/projects/${folderName}`;
 
   const srcBanner = project.images?.banner ? getOptimizedMediaPath(project.images.banner, folderPath) : null;
-  const srcPoster = project.images?.poster ? getOptimizedMediaPath(project.images.poster, folderPath) : null;
+  const srcPosterLandscape = project.images?.posterLandscape
+    ? getOptimizedMediaPath(project.images.posterLandscape, folderPath)
+    : project.images?.poster
+    ? getOptimizedMediaPath(project.images.poster, folderPath)
+    : null;
+  const srcPosterPortrait = project.images?.posterPortrait
+    ? getOptimizedMediaPath(project.images.posterPortrait, folderPath)
+    : project.images?.poster
+    ? getOptimizedMediaPath(project.images.poster, folderPath)
+    : null;
   const srcThumb = project.images?.thumbnail ? getOptimizedMediaPath(project.images.thumbnail, folderPath) : null;
 
-  // Prefer banner, then poster, then thumbnail
-  const media = srcBanner || srcPoster || srcThumb;
+  const desktopMedia = srcBanner || srcPosterLandscape || srcThumb;
+  const mobileMedia = srcPosterPortrait || srcBanner || srcThumb;
 
-  if (!media) {
-    return <NoImageHeroImage project={project} />;
+  if (!desktopMedia && !mobileMedia) {
+    return (
+      <div data-testid="project-hero-empty" data-project-id={project.id}>
+        <NoImageHeroImage project={project} />
+      </div>
+    );
   }
 
-  // Use banner as landscape view
-  if (srcBanner) {
-    return <LandscapeView project={project} image={media} />;
-  } else if (srcPoster) {
-    return <PortraitView project={project} image={media} />;
-  } else {
-    return <ThumbnailView project={project} image={media} />;
-  }
+  return (
+    <div data-testid="project-hero-container" data-project-id={project.id} className="space-y-4">
+      <div className="md:hidden">
+        {mobileMedia === srcPosterPortrait && srcPosterPortrait ? (
+          <div data-testid="project-hero-mobile" data-project-id={project.id} data-media-role="posterPortrait">
+            <PortraitView project={project} image={srcPosterPortrait} />
+          </div>
+        ) : mobileMedia ? (
+          <div
+            data-testid="project-hero-mobile"
+            data-project-id={project.id}
+            data-media-role={mobileMedia === srcBanner ? "banner" : "thumbnail"}
+          >
+            <LandscapeView project={project} image={mobileMedia} />
+          </div>
+        ) : (
+          <div data-testid="project-hero-mobile" data-project-id={project.id} data-media-role="thumbnail">
+            <ThumbnailView project={project} image={srcThumb || "/placeholder.svg"} />
+          </div>
+        )}
+      </div>
+
+      <div className="hidden md:block">
+        {desktopMedia === srcBanner && srcBanner ? (
+          <div data-testid="project-hero-desktop" data-project-id={project.id} data-media-role="banner">
+            <LandscapeView project={project} image={srcBanner} />
+          </div>
+        ) : desktopMedia === srcPosterLandscape && srcPosterLandscape ? (
+          <div
+            data-testid="project-hero-desktop"
+            data-project-id={project.id}
+            data-media-role={project.images?.posterLandscape ? "posterLandscape" : "poster"}
+          >
+            <PortraitView project={project} image={srcPosterLandscape} />
+          </div>
+        ) : (
+          <div data-testid="project-hero-desktop" data-project-id={project.id} data-media-role="thumbnail">
+            <ThumbnailView project={project} image={desktopMedia || "/placeholder.svg"} />
+          </div>
+        )}
+      </div>
+    </div>
+  );
 };
 
 export default ProjectHero;
