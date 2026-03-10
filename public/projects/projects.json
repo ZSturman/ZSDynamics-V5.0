@@ -27,7 +27,13 @@
     "images": {
       "thumbnail": "episodic memory thumbnail.png"
     },
-    "resources": [],
+    "resources": [
+      {
+        "type": "github",
+        "label": "Repo",
+        "url": "https://github.com/ZSturman/Episodic-Memory-Agent"
+      }
+    ],
     "collection": {},
     "workLogs": [],
     "folderName": "episodic_memory_agent_306aec94-4d3c-8005-97ab-d4572f1ab679"
@@ -64,9 +70,9 @@
     "description": "",
     "story": "",
     "images": {
-      "poster": "poster.png",
       "thumbnail": "thumbnail.png",
       "icon": "TopNote AppIcon v2-watchOS-Default-1088x1088@1x.png",
+      "poster": "poster.png",
       "banner": "banner.png"
     },
     "resources": [
@@ -89,15 +95,15 @@
     "id": "306aec94-4d3c-800b-9d7d-ed0c879ab5b3",
     "title": "ZSDynamics 2.0",
     "name": "ZSDynamics 2.0",
-    "subtitle": "",
-    "summary": "",
+    "subtitle": "Built with Python and React",
+    "summary": "While I was in Australia on a working holiday visa, I started noticing how often React showed up in job descriptions. I didn’t want to throw away the Python knowledge I already had, so I rebuilt my portfolio using Python on the backend and React on the frontend. It helped me connect what I knew with what I needed to learn and gave me a better sense of how a modern stack actually fits together.",
     "domain": "Technology",
     "category": "Web",
     "status": "Complete",
     "phase": "Deprecated",
     "featured": false,
-    "createdAt": null,
-    "updatedAt": null,
+    "createdAt": "2022-04-10",
+    "updatedAt": "2023-11-13",
     "isPublic": true,
     "tags": [],
     "mediums": [],
@@ -107,7 +113,18 @@
     "description": "",
     "story": "",
     "images": {},
-    "resources": [],
+    "resources": [
+      {
+        "type": "web",
+        "label": "Visit",
+        "url": "https://zsturman.github.io/ZSDynamics-V2.0/"
+      },
+      {
+        "type": "github",
+        "label": "Repo",
+        "url": "https://github.com/ZSturman/ZSDynamics-V2.0"
+      }
+    ],
     "collection": {},
     "workLogs": [],
     "folderName": "zsdynamics_20_306aec94-4d3c-800b-9d7d-ed0c879ab5b3"
@@ -144,7 +161,13 @@
       "icon": "thumbnail.png",
       "banner": "banner.png"
     },
-    "resources": [],
+    "resources": [
+      {
+        "type": "github",
+        "label": "Repo",
+        "url": "https://github.com/ZSturman/MediLedger"
+      }
+    ],
     "collection": {},
     "workLogs": [],
     "folderName": "mediledger_306aec94-4d3c-800f-8fd6-c80ad845b5df"
@@ -154,16 +177,21 @@
     "title": "Mind Adrift",
     "name": "Mind Adrift",
     "subtitle": "",
-    "summary": "",
+    "summary": "Mind Adrift is a short-form narrative work centered on cognitive decline and disorientation, told from the inside rather than observed from a distance. It follows a person who is still present in the world—surrounded by family, routines, and familiar spaces—but increasingly unable to connect those pieces into a stable sense of reality. Time slips, relationships blur, and moments repeat or contradict one another without warning.The project is less about plot progression and more about structure and perspective. Scenes loop, reset, or fracture in ways that mirror how memory fails in real life. The goal is not to explain the condition or resolve it, but to place the audience inside that experience long enough to understand its logic and weight. It is designed for readers interested in character-driven narratives, psychological realism, and stories that prioritize internal experience over external action.",
     "domain": "Narrative",
     "category": "Short story",
     "status": "Complete",
     "phase": "Published",
     "featured": false,
-    "createdAt": null,
-    "updatedAt": null,
+    "createdAt": "2013-09-01",
+    "updatedAt": "2013-09-01",
     "isPublic": true,
-    "tags": [],
+    "tags": [
+      "Story",
+      "Loss",
+      "Family",
+      "Getting Old"
+    ],
     "mediums": [],
     "genres": [],
     "topics": [],
@@ -171,7 +199,9 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "thumbnail.tiff"
+      "thumbnail": "E4690E5D-3901-4E26-A237-8AA0FF26EE76.png",
+      "hero": "hero.png",
+      "banner": "banner.png"
     },
     "resources": [],
     "collection": {
@@ -223,9 +253,9 @@
     "description": "",
     "story": "",
     "images": {
-      "poster": "poster.gif",
       "thumbnail": "thumbnail.png",
       "icon": "logo.png",
+      "poster": "poster.gif",
       "banner": "banner.png"
     },
     "resources": [],
@@ -246,14 +276,50 @@
             "label": "ZSDynamics 2.0",
             "order": 0,
             "type": "url-link",
-            "url": "/projects/306aec94-4d3c-800b-9d7d-ed0c879ab5b3"
+            "summary": "While I was in Australia on a working holiday visa, I started noticing how often React showed up in job descriptions. I didn’t want to throw away the Python knowledge I already had, so I rebuilt my portfolio using Python on the backend and React on the frontend. It helped me connect what I knew with what I needed to learn and gave me a better sense of how a modern stack actually fits together.",
+            "url": "/projects/306aec94-4d3c-800b-9d7d-ed0c879ab5b3",
+            "resources": [
+              {
+                "type": "web",
+                "label": "Visit",
+                "url": "https://zsturman.github.io/ZSDynamics-V2.0/"
+              },
+              {
+                "type": "github",
+                "label": "Repo",
+                "url": "https://github.com/ZSturman/ZSDynamics-V2.0"
+              }
+            ],
+            "resource": {
+              "type": "web",
+              "label": "Visit",
+              "url": "https://zsturman.github.io/ZSDynamics-V2.0/"
+            }
           },
           {
             "id": "306aec94-4d3c-803d-8230-fe06337c4a51",
             "label": "ZSDynamics 1.0",
             "order": 1,
             "type": "url-link",
-            "url": "/projects/306aec94-4d3c-803d-8230-fe06337c4a51"
+            "summary": "The first version of my portfolio came from following Corey Schafer’s Flask tutorials and trying to understand how a real web app fits together. I set up my own server, configured Nginx, and handled deployment myself—mostly because I didn’t know there were easier options. It took a lot of trial and error, but it taught me how everything actually works behind the scenes. I added some of my own SVG graphics and simple animations to make it feel personal. It wasn’t perfect, but it ran, and I learned a lot from getting it there.",
+            "url": "/projects/306aec94-4d3c-803d-8230-fe06337c4a51",
+            "resources": [
+              {
+                "type": "web",
+                "label": "Visit",
+                "url": "https://zsturman.github.io/ZSDynamics-V1.0/"
+              },
+              {
+                "type": "github",
+                "label": "Repo",
+                "url": "https://github.com/ZSturman/ZSDynamics-V1.0"
+              }
+            ],
+            "resource": {
+              "type": "web",
+              "label": "Visit",
+              "url": "https://zsturman.github.io/ZSDynamics-V1.0/"
+            }
           },
           {
             "id": "306aec94-4d3c-8064-9e5a-c59f1df02bee",
@@ -286,21 +352,54 @@
             "label": "ZSDynamics 4.0",
             "order": 3,
             "type": "url-link",
-            "url": "/projects/306aec94-4d3c-807e-a7ef-db0aa63a2ec7"
+            "summary": "In the latest version, I focused on making the site feel more refined. I experimented with parallax effects and smoother animations to understand how small design choices change the overall experience. I also created an SVG character of myself that shifts colors in light and dark mode, which made the site feel a bit more personal. At this point, the portfolio wasn’t just about showing projects—it was a way to see how my design and development skills had grown.",
+            "url": "/projects/306aec94-4d3c-807e-a7ef-db0aa63a2ec7",
+            "thumbnail": "thumbnail.png"
           },
           {
             "id": "306aec94-4d3c-80d4-a8bd-d83a8832ebf8",
             "label": "ZSDynamics 3.0",
             "order": 4,
             "type": "url-link",
-            "url": "/projects/306aec94-4d3c-80d4-a8bd-d83a8832ebf8"
+            "summary": "After I got more comfortable with React, I wanted to see how design choices and small interactions could change the experience. I built a feature that let users switch between themes and font styles. It wasn’t the most practical feature, but it taught me a lot and pushed me to pay more attention to how design decisions show up in real use. That curiosity drove most of what I built during this stage.",
+            "url": "/projects/306aec94-4d3c-80d4-a8bd-d83a8832ebf8",
+            "resources": [
+              {
+                "type": "github",
+                "label": "Repo",
+                "url": "https://github.com/ZSturman/ZSDynamics-V3.0"
+              }
+            ],
+            "resource": {
+              "type": "github",
+              "label": "Repo",
+              "url": "https://github.com/ZSturman/ZSDynamics-V3.0"
+            }
           },
           {
             "id": "306aec94-4d3c-80ff-a96a-c3c51900e249",
             "label": "ZSDynamics 1.1",
             "order": 5,
             "type": "url-link",
-            "url": "/projects/306aec94-4d3c-80ff-a96a-c3c51900e249"
+            "summary": "After digging deeper into data science, I wanted the portfolio to be more than a place to drop my work. So I added a simple email subscription so visitors could get updates, and I integrated Dashly for some lightweight analytics and visualization. It was a noticeable step forward for me—not just in the code, but in how I was thinking about the people visiting the site.",
+            "url": "/projects/306aec94-4d3c-80ff-a96a-c3c51900e249",
+            "resources": [
+              {
+                "type": "github",
+                "label": "Repo",
+                "url": "https://github.com/ZSturman/ZSDynamics-v1.1"
+              },
+              {
+                "type": "web",
+                "label": "Visit",
+                "url": "https://zsturman.github.io/ZSDynamics-V1.1/"
+              }
+            ],
+            "resource": {
+              "type": "github",
+              "label": "Repo",
+              "url": "https://github.com/ZSturman/ZSDynamics-v1.1"
+            }
           },
           {
             "id": "311aec94-4d3c-8124-ba15-f3ad719a31c1",
@@ -338,15 +437,15 @@
     "id": "306aec94-4d3c-803d-8230-fe06337c4a51",
     "title": "ZSDynamics 1.0",
     "name": "ZSDynamics 1.0",
-    "subtitle": "",
-    "summary": "",
+    "subtitle": "Built with Flask",
+    "summary": "The first version of my portfolio came from following Corey Schafer’s Flask tutorials and trying to understand how a real web app fits together. I set up my own server, configured Nginx, and handled deployment myself—mostly because I didn’t know there were easier options. It took a lot of trial and error, but it taught me how everything actually works behind the scenes. I added some of my own SVG graphics and simple animations to make it feel personal. It wasn’t perfect, but it ran, and I learned a lot from getting it there.",
     "domain": "Technology",
     "category": "Web",
     "status": "Complete",
     "phase": "Deprecated",
     "featured": false,
-    "createdAt": null,
-    "updatedAt": null,
+    "createdAt": "2020-12-01",
+    "updatedAt": "2021-07-10",
     "isPublic": true,
     "tags": [],
     "mediums": [],
@@ -356,7 +455,18 @@
     "description": "",
     "story": "",
     "images": {},
-    "resources": [],
+    "resources": [
+      {
+        "type": "web",
+        "label": "Visit",
+        "url": "https://zsturman.github.io/ZSDynamics-V1.0/"
+      },
+      {
+        "type": "github",
+        "label": "Repo",
+        "url": "https://github.com/ZSturman/ZSDynamics-V1.0"
+      }
+    ],
     "collection": {},
     "workLogs": [],
     "folderName": "zsdynamics_10_306aec94-4d3c-803d-8230-fe06337c4a51"
@@ -365,24 +475,31 @@
     "id": "306aec94-4d3c-805d-b085-e4252d4601b3",
     "title": "Timeline 7",
     "name": "Timeline 7",
-    "subtitle": "",
-    "summary": "",
+    "subtitle": "Across time, technology, and survival—what remains of humanity fights to define itself again.",
+    "summary": "Timeline 7 is a sprawling science fiction novel set hundreds of years after a catastrophic global collapse. The story follows a future civilization struggling to rebuild from the ashes of war, plague, and corruption. Human survivors, fractured into evolving species and new hierarchies, rediscover power, morality, and identity amid shifting political and biological landscapes. Through multiple intersecting perspectives—a soldier, a scientist, and a sentient machine—the book explores how progress and destruction often walk hand in hand. Written for readers who enjoy world-building and layered timelines, Timeline 7 examines the cyclical nature of humanity’s rise and fall with an eye toward resilience and reinvention.",
     "domain": "Narrative",
-    "category": "Other",
+    "category": "Novel",
     "status": "Complete",
     "phase": "Published",
     "featured": false,
-    "createdAt": null,
-    "updatedAt": null,
+    "createdAt": "2014-12-01",
+    "updatedAt": "2016-11-01",
     "isPublic": true,
-    "tags": [],
+    "tags": [
+      "Epic",
+      "Sci-fi",
+      "Dystopian"
+    ],
     "mediums": [],
     "genres": [],
     "topics": [],
     "subjects": [],
     "description": "",
     "story": "",
-    "images": {},
+    "images": {
+      "thumbnail": "thumbnail.png",
+      "banner": "banner.png"
+    },
     "resources": [],
     "collection": {},
     "workLogs": [],
@@ -687,23 +804,33 @@
     "title": "ZSDynamics 4.0",
     "name": "ZSDynamics 4.0",
     "subtitle": "",
-    "summary": "",
+    "summary": "In the latest version, I focused on making the site feel more refined. I experimented with parallax effects and smoother animations to understand how small design choices change the overall experience. I also created an SVG character of myself that shifts colors in light and dark mode, which made the site feel a bit more personal. At this point, the portfolio wasn’t just about showing projects—it was a way to see how my design and development skills had grown.",
     "domain": "Technology",
     "category": "Web",
     "status": "Complete",
     "phase": "Deprecated",
     "featured": false,
-    "createdAt": null,
-    "updatedAt": null,
+    "createdAt": "2025-05-01",
+    "updatedAt": "2025-11-07",
     "isPublic": true,
-    "tags": [],
+    "tags": [
+      "web",
+      "React",
+      "Next.js",
+      "TS",
+      "Portfolio"
+    ],
     "mediums": [],
     "genres": [],
     "topics": [],
     "subjects": [],
     "description": "",
     "story": "",
-    "images": {},
+    "images": {
+      "thumbnail": "thumbnail.png",
+      "icon": "banner.png",
+      "banner": "poster.png"
+    },
     "resources": [],
     "collection": {},
     "workLogs": [],
@@ -714,16 +841,19 @@
     "title": "Obsidian Toolkit",
     "name": "Obsidian Toolkit",
     "subtitle": "",
-    "summary": "",
+    "summary": "This project is a modular toolkit designed to make working inside Obsidian more dynamic and visual. It includes a dashboard system modeled after how Next.js handles routing, turning your folder structure into a navigable home view that mirrors the way web frameworks organize content. Alongside it is QueueCards, a note queueing system that helps prioritize ideas, tasks, or references by tracking how often items are skipped. Together, they create a workspace that’s both structured and adaptable, aimed at people who like to think in systems and want their vault to feel more like a living interface than a static archive.",
     "domain": "Technology",
-    "category": "Other",
+    "category": "Module",
     "status": "Complete",
-    "phase": "",
+    "phase": "Released",
     "featured": false,
-    "createdAt": null,
-    "updatedAt": null,
+    "createdAt": "2024-04-01",
+    "updatedAt": "2024-07-01",
     "isPublic": true,
-    "tags": [],
+    "tags": [
+      "Obsidian",
+      "JavaScript"
+    ],
     "mediums": [],
     "genres": [],
     "topics": [],
@@ -731,12 +861,18 @@
     "description": "",
     "story": "",
     "images": {
-      "hero": "queueExample.png",
-      "poster": "poster.gif",
       "thumbnail": "thumbnail.png",
+      "poster": "poster.gif",
+      "hero": "queueExample.png",
       "banner": "banner.gif"
     },
-    "resources": [],
+    "resources": [
+      {
+        "type": "github",
+        "label": "Repo",
+        "url": "https://github.com/ZSturman/The-2nd-Best-Obsidian-Collection"
+      }
+    ],
     "collection": {},
     "workLogs": [],
     "folderName": "obsidian_toolkit_306aec94-4d3c-8085-a43d-f9ac3bec06ef"
@@ -770,12 +906,18 @@
     "description": "",
     "story": "",
     "images": {
-      "poster": "poster.png",
       "thumbnail": "thumbnail.png",
       "icon": "thumbnail.png",
+      "poster": "poster.png",
       "banner": "banner.png"
     },
-    "resources": [],
+    "resources": [
+      {
+        "type": "github",
+        "label": "Repo",
+        "url": "https://github.com/ZSturman/ChewSense---Data-Collection-and-Labeling"
+      }
+    ],
     "collection": {},
     "workLogs": [],
     "folderName": "chewsense_306aec94-4d3c-808d-9ada-f0ccca484d3b"
@@ -807,7 +949,36 @@
       "banner": "banner.png"
     },
     "resources": [],
-    "collection": {},
+    "collection": {
+      "2D": {
+        "label": "2D",
+        "summary": "",
+        "images": {},
+        "items": [
+          {
+            "id": "31faec94-4d3c-805a-8e41-c69cd68fc48d",
+            "label": "Bassackwards",
+            "order": 0,
+            "type": "video",
+            "filePath": "Bass_Ackward_Lip_Sync_Test.mov"
+          }
+        ]
+      },
+      "3D": {
+        "label": "3D",
+        "summary": "",
+        "images": {},
+        "items": [
+          {
+            "id": "31faec94-4d3c-8067-8bdb-dd31ac6c20b9",
+            "label": "Fire",
+            "order": 0,
+            "type": "video",
+            "filePath": "Fire.avi"
+          }
+        ]
+      }
+    },
     "workLogs": [],
     "folderName": "animation_collection_306aec94-4d3c-8091-876a-f028b4c582c4"
   },
@@ -822,8 +993,8 @@
     "status": "Complete",
     "phase": "",
     "featured": false,
-    "createdAt": null,
-    "updatedAt": null,
+    "createdAt": "2024-06-01",
+    "updatedAt": "2024-10-10",
     "isPublic": true,
     "tags": [],
     "mediums": [],
@@ -832,8 +1003,19 @@
     "subjects": [],
     "description": "",
     "story": "",
-    "images": {},
-    "resources": [],
+    "images": {
+      "thumbnail": "thumbnail.png",
+      "icon": "icon.svg",
+      "poster": "poster.png",
+      "banner": "banner.png"
+    },
+    "resources": [
+      {
+        "type": "github",
+        "label": "Repo",
+        "url": "https://github.com/ZSturman/Lost-Hound"
+      }
+    ],
     "collection": {},
     "workLogs": [],
     "folderName": "lost_hound_306aec94-4d3c-80a5-b00e-f67cc4ff5901"
@@ -863,9 +1045,9 @@
     "description": "",
     "story": "",
     "images": {
-      "poster": "poster.tiff",
       "thumbnail": "thumbnail.tiff",
       "icon": "thumbnail.tiff",
+      "poster": "poster.tiff",
       "banner": "banner.png"
     },
     "resources": [],
@@ -877,15 +1059,15 @@
     "id": "306aec94-4d3c-80d4-a8bd-d83a8832ebf8",
     "title": "ZSDynamics 3.0",
     "name": "ZSDynamics 3.0",
-    "subtitle": "",
-    "summary": "",
+    "subtitle": "Built with React",
+    "summary": "After I got more comfortable with React, I wanted to see how design choices and small interactions could change the experience. I built a feature that let users switch between themes and font styles. It wasn’t the most practical feature, but it taught me a lot and pushed me to pay more attention to how design decisions show up in real use. That curiosity drove most of what I built during this stage.",
     "domain": "Technology",
     "category": "Web",
     "status": "Complete",
     "phase": "Deprecated",
     "featured": false,
-    "createdAt": null,
-    "updatedAt": null,
+    "createdAt": "2023-11-10",
+    "updatedAt": "2024-05-10",
     "isPublic": true,
     "tags": [],
     "mediums": [],
@@ -895,7 +1077,13 @@
     "description": "",
     "story": "",
     "images": {},
-    "resources": [],
+    "resources": [
+      {
+        "type": "github",
+        "label": "Repo",
+        "url": "https://github.com/ZSturman/ZSDynamics-V3.0"
+      }
+    ],
     "collection": {},
     "workLogs": [],
     "folderName": "zsdynamics_30_306aec94-4d3c-80d4-a8bd-d83a8832ebf8"
@@ -904,15 +1092,15 @@
     "id": "306aec94-4d3c-80ff-a96a-c3c51900e249",
     "title": "ZSDynamics 1.1",
     "name": "ZSDynamics 1.1",
-    "subtitle": "",
-    "summary": "",
+    "subtitle": "Built with Flask",
+    "summary": "After digging deeper into data science, I wanted the portfolio to be more than a place to drop my work. So I added a simple email subscription so visitors could get updates, and I integrated Dashly for some lightweight analytics and visualization. It was a noticeable step forward for me—not just in the code, but in how I was thinking about the people visiting the site.",
     "domain": "Technology",
     "category": "Web",
     "status": "Complete",
     "phase": "Deprecated",
     "featured": false,
-    "createdAt": null,
-    "updatedAt": null,
+    "createdAt": "2021-07-10",
+    "updatedAt": "2022-04-10",
     "isPublic": true,
     "tags": [],
     "mediums": [],
@@ -922,7 +1110,18 @@
     "description": "",
     "story": "",
     "images": {},
-    "resources": [],
+    "resources": [
+      {
+        "type": "github",
+        "label": "Repo",
+        "url": "https://github.com/ZSturman/ZSDynamics-v1.1"
+      },
+      {
+        "type": "web",
+        "label": "Visit",
+        "url": "https://zsturman.github.io/ZSDynamics-V1.1/"
+      }
+    ],
     "collection": {},
     "workLogs": [],
     "folderName": "zsdynamics_11_306aec94-4d3c-80ff-a96a-c3c51900e249"
