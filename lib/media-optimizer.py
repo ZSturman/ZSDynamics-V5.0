@@ -24,7 +24,7 @@ import subprocess
 from pathlib import Path
 from typing import Optional, Tuple, Dict, List
 import json
-import hashlib
+import shutil
 
 try:
     from PIL import Image
@@ -84,6 +84,42 @@ def check_obj2gltf() -> bool:
         return True
     except FileNotFoundError:
         return False
+
+
+# SVG optimization: just copy and treat as all variants
+def optimize_svg_full(src: Path, output_dir: Optional[Path] = None) -> Dict[str, str]:
+    """
+    Handle SVG assets without rasterizing them.
+
+    SVGs are already resolution-independent and usually small, so we preserve
+    the original file instead of attempting Pillow-based optimization.
+
+    Args:
+        src: Source SVG path
+        output_dir: Directory for output files (default: same as src)
+
+    Returns:
+        Dictionary mapping variant names to relative paths.
+        SVGs reuse the original asset for optimized/thumbnail variants so
+        downstream media resolution can treat them like a valid image asset.
+    """
+    if output_dir is None:
+        output_dir = src.parent
+
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    output_path = output_dir / src.name
+    if src != output_path:
+        shutil.copy2(src, output_path)
+
+    results = {
+        'original': output_path.name,
+        'optimized': output_path.name,
+        'thumbnail': output_path.name,
+        'useCloudStorage': should_use_cloud_storage(output_path)
+    }
+
+    return results
 
 
 def get_file_size_mb(path: Path) -> float:
@@ -326,6 +362,8 @@ def optimize_image_full(src: Path, output_dir: Optional[Path] = None) -> Dict[st
     output_dir.mkdir(parents=True, exist_ok=True)
     stem = src.stem
     is_gif = src.suffix.lower() == '.gif'
+    if src.suffix.lower() == '.svg':
+        return optimize_svg_full(src, output_dir)
     
     results = {
         'original': src.name,
@@ -539,7 +577,6 @@ def optimize_3d_model(src: Path, dest: Path) -> Optional[Path]:
     if src_ext == '.glb':
         if src != dest:
             try:
-                import shutil
                 shutil.copy2(src, dest)
                 return dest
             except Exception as e:
@@ -639,7 +676,7 @@ def optimize_3d_model_full(src: Path, output_dir: Optional[Path] = None) -> Dict
 
 def batch_optimize_directory(
     directory: Path,
-    image_exts: set = {'.jpg', '.jpeg', '.png', '.webp', '.gif', '.tiff', '.tif', '.bmp', '.ico', '.heic', '.heif'},
+    image_exts: set = {'.jpg', '.jpeg', '.png', '.webp', '.gif', '.tiff', '.tif', '.bmp', '.ico', '.heic', '.heif', '.svg'},
     video_exts: set = {'.mp4', '.mov', '.webm'},
     model_exts: set = {'.obj', '.gltf'}
 ) -> Dict[str, Dict[str, str]]:
@@ -747,7 +784,7 @@ if __name__ == "__main__":
     
     if path.is_file():
         ext = path.suffix.lower()
-        if ext in {'.jpg', '.jpeg', '.png', '.webp', '.gif', '.tiff', '.tif', '.bmp', '.ico', '.heic', '.heif'}:
+        if ext in {'.jpg', '.jpeg', '.png', '.webp', '.gif', '.tiff', '.tif', '.bmp', '.ico', '.heic', '.heif', '.svg'}:
             result = optimize_image_full(path, output_dir)
         elif ext in {'.mp4', '.mov', '.webm', '.avi'}:
             result = optimize_video_full(path, output_dir)

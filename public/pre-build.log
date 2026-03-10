@@ -51,3 +51,7 @@
 1773135500: SUCCESS: replaced projects with new build; wrote 20 projects
 1773146482: SUCCESS: replaced projects with new build; wrote 20 projects
 1773146952: SUCCESS: replaced projects with new build; wrote 19 projects
+1773147915: ERROR: build failed: Duplicate project id found: 306aec94-4d3c-8005-97ab-d4572f1ab679
+1773147922: ERROR: build failed: Duplicate project id found: 306aec94-4d3c-8005-97ab-d4572f1ab679
+1773148028: ERROR: build failed: Duplicate project id found: 306aec94-4d3c-8005-97ab-d4572f1ab679
+1773148068: SUCCESS: replaced projects with new build; wrote 19 projects

@@ -70,9 +70,9 @@
     "description": "",
     "story": "",
     "images": {
+      "thumbnail": "thumbnail.png",
       "icon": "TopNote AppIcon v2-watchOS-Default-1088x1088@1x.png",
       "banner": "banner.png",
-      "thumbnail": "thumbnail.png",
       "poster": "poster.png"
     },
     "resources": [
@@ -118,8 +118,8 @@
     "description": "",
     "story": "",
     "images": {
-      "banner": "banner.png",
-      "thumbnail": "thumbnail.png"
+      "thumbnail": "thumbnail.png",
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -165,9 +165,9 @@
     "description": "",
     "story": "",
     "images": {
+      "thumbnail": "thumbnail.png",
       "icon": "thumbnail.png",
-      "banner": "banner.png",
-      "thumbnail": "thumbnail.png"
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -207,9 +207,9 @@
     "description": "",
     "story": "",
     "images": {
+      "thumbnail": "E4690E5D-3901-4E26-A237-8AA0FF26EE76.png",
       "hero": "hero.png",
-      "banner": "banner.png",
-      "thumbnail": "E4690E5D-3901-4E26-A237-8AA0FF26EE76.png"
+      "banner": "banner.png"
     },
     "resources": [],
     "collection": {
@@ -261,9 +261,9 @@
     "description": "",
     "story": "",
     "images": {
+      "thumbnail": "thumbnail.png",
       "icon": "logo.png",
       "banner": "banner.png",
-      "thumbnail": "thumbnail.png",
       "poster": "poster.gif"
     },
     "resources": [],
@@ -445,9 +445,9 @@
     "description": "",
     "story": "",
     "images": {
+      "thumbnail": "thumbnail.png",
       "icon": "poster.png",
-      "banner": "banner.png",
-      "thumbnail": "thumbnail.png"
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -491,8 +491,8 @@
     "description": "",
     "story": "",
     "images": {
-      "banner": "banner.png",
-      "thumbnail": "thumbnail.png"
+      "thumbnail": "thumbnail.png",
+      "banner": "banner.png"
     },
     "resources": [],
     "collection": {},
@@ -526,9 +526,9 @@
     "description": "",
     "story": "",
     "images": {
+      "thumbnail": "thumbnail.png",
       "icon": "Celestial Hands Holding Heart.png",
-      "banner": "Collaborative Effort with Green Ball.png",
-      "thumbnail": "thumbnail.png"
+      "banner": "Collaborative Effort with Green Ball.png"
     },
     "resources": [
       {
@@ -573,9 +573,9 @@
     "description": "",
     "story": "",
     "images": {
+      "thumbnail": "thumbnail.png",
       "icon": "banner.png",
-      "banner": "banner.png",
-      "thumbnail": "thumbnail.png"
+      "banner": "banner.png"
     },
     "resources": [],
     "collection": {
@@ -821,9 +821,9 @@
     "description": "",
     "story": "",
     "images": {
+      "thumbnail": "thumbnail.png",
       "icon": "banner.png",
-      "banner": "poster.png",
-      "thumbnail": "thumbnail.png"
+      "banner": "poster.png"
     },
     "resources": [],
     "collection": {},
@@ -855,9 +855,9 @@
     "description": "",
     "story": "",
     "images": {
+      "thumbnail": "thumbnail.png",
       "hero": "queueExample.png",
       "banner": "banner.gif",
-      "thumbnail": "thumbnail.png",
       "poster": "poster.gif"
     },
     "resources": [
@@ -900,9 +900,9 @@
     "description": "",
     "story": "",
     "images": {
+      "thumbnail": "thumbnail.png",
       "icon": "thumbnail.png",
       "banner": "banner.png",
-      "thumbnail": "thumbnail.png",
       "poster": "poster.png"
     },
     "resources": [
@@ -938,9 +938,9 @@
     "description": "",
     "story": "",
     "images": {
+      "thumbnail": "collection thumbnail.png",
       "icon": "icon.png",
-      "banner": "banner.png",
-      "thumbnail": "collection thumbnail.png"
+      "banner": "banner.png"
     },
     "resources": [],
     "collection": {
@@ -1014,9 +1014,9 @@
     "description": "",
     "story": "",
     "images": {
+      "thumbnail": "thumbnail.png",
       "icon": "icon.svg",
       "banner": "banner.png",
-      "thumbnail": "thumbnail.png",
       "poster": "poster.png"
     },
     "resources": [
@@ -1055,9 +1055,9 @@
     "description": "",
     "story": "",
     "images": {
+      "thumbnail": "thumbnail.tiff",
       "icon": "thumbnail.tiff",
       "banner": "banner.png",
-      "thumbnail": "thumbnail.tiff",
       "poster": "poster.tiff"
     },
     "resources": [],
@@ -1091,8 +1091,8 @@
     "description": "",
     "story": "",
     "images": {
-      "banner": "banner.png",
-      "thumbnail": "thumbnail.png"
+      "thumbnail": "thumbnail.png",
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -1131,8 +1131,8 @@
     "description": "",
     "story": "",
     "images": {
-      "banner": "banner.png",
-      "thumbnail": "thumbnail.png"
+      "thumbnail": "thumbnail.png",
+      "banner": "banner.png"
     },
     "resources": [
       {
