@@ -70,10 +70,10 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "thumbnail.png",
       "icon": "TopNote AppIcon v2-watchOS-Default-1088x1088@1x.png",
-      "poster": "poster.png",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "thumbnail": "thumbnail.png",
+      "poster": "poster.png"
     },
     "resources": [
       {
@@ -105,14 +105,22 @@
     "createdAt": "2022-04-10",
     "updatedAt": "2023-11-13",
     "isPublic": true,
-    "tags": [],
+    "tags": [
+      "Portfolio",
+      "React",
+      "Next.js",
+      "TS"
+    ],
     "mediums": [],
     "genres": [],
     "topics": [],
     "subjects": [],
     "description": "",
     "story": "",
-    "images": {},
+    "images": {
+      "banner": "banner.png",
+      "thumbnail": "thumbnail.png"
+    },
     "resources": [
       {
         "type": "web",
@@ -157,9 +165,9 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "thumbnail.png",
       "icon": "thumbnail.png",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "thumbnail": "thumbnail.png"
     },
     "resources": [
       {
@@ -199,9 +207,9 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "E4690E5D-3901-4E26-A237-8AA0FF26EE76.png",
       "hero": "hero.png",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "thumbnail": "E4690E5D-3901-4E26-A237-8AA0FF26EE76.png"
     },
     "resources": [],
     "collection": {
@@ -253,10 +261,10 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "thumbnail.png",
       "icon": "logo.png",
-      "poster": "poster.gif",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "thumbnail": "thumbnail.png",
+      "poster": "poster.gif"
     },
     "resources": [],
     "collection": {
@@ -278,6 +286,7 @@
             "type": "url-link",
             "summary": "While I was in Australia on a working holiday visa, I started noticing how often React showed up in job descriptions. I didn’t want to throw away the Python knowledge I already had, so I rebuilt my portfolio using Python on the backend and React on the frontend. It helped me connect what I knew with what I needed to learn and gave me a better sense of how a modern stack actually fits together.",
             "url": "/projects/306aec94-4d3c-800b-9d7d-ed0c879ab5b3",
+            "thumbnail": "thumbnail.png",
             "resources": [
               {
                 "type": "web",
@@ -303,6 +312,7 @@
             "type": "url-link",
             "summary": "The first version of my portfolio came from following Corey Schafer’s Flask tutorials and trying to understand how a real web app fits together. I set up my own server, configured Nginx, and handled deployment myself—mostly because I didn’t know there were easier options. It took a lot of trial and error, but it taught me how everything actually works behind the scenes. I added some of my own SVG graphics and simple animations to make it feel personal. It wasn’t perfect, but it ran, and I learned a lot from getting it there.",
             "url": "/projects/306aec94-4d3c-803d-8230-fe06337c4a51",
+            "thumbnail": "thumbnail.png",
             "resources": [
               {
                 "type": "web",
@@ -363,6 +373,7 @@
             "type": "url-link",
             "summary": "After I got more comfortable with React, I wanted to see how design choices and small interactions could change the experience. I built a feature that let users switch between themes and font styles. It wasn’t the most practical feature, but it taught me a lot and pushed me to pay more attention to how design decisions show up in real use. That curiosity drove most of what I built during this stage.",
             "url": "/projects/306aec94-4d3c-80d4-a8bd-d83a8832ebf8",
+            "thumbnail": "thumbnail.png",
             "resources": [
               {
                 "type": "github",
@@ -383,6 +394,7 @@
             "type": "url-link",
             "summary": "After digging deeper into data science, I wanted the portfolio to be more than a place to drop my work. So I added a simple email subscription so visitors could get updates, and I integrated Dashly for some lightweight analytics and visualization. It was a noticeable step forward for me—not just in the code, but in how I was thinking about the people visiting the site.",
             "url": "/projects/306aec94-4d3c-80ff-a96a-c3c51900e249",
+            "thumbnail": "thumbnail.png",
             "resources": [
               {
                 "type": "github",
@@ -399,32 +411,6 @@
               "type": "github",
               "label": "Repo",
               "url": "https://github.com/ZSturman/ZSDynamics-v1.1"
-            }
-          },
-          {
-            "id": "311aec94-4d3c-8124-ba15-f3ad719a31c1",
-            "label": "ZSDynamics V1.0",
-            "order": 6,
-            "type": "url-link",
-            "summary": "The first version of my portfolio came from following Corey Schafer’s Flask tutorials and trying to understand how a real web app fits together. I set up my own server, configured Nginx, and handled deployment myself—mostly because I didn’t know there were easier options. It took a lot of trial and error, but it taught me how everything actually works behind the scenes. I added some of my own SVG graphics and simple animations to make it feel personal. It wasn’t perfect, but it ran, and I learned a lot from getting it there.",
-            "url": "/projects/311aec94-4d3c-8124-ba15-f3ad719a31c1",
-            "thumbnail": "thumbnail copy.png",
-            "resources": [
-              {
-                "type": "github",
-                "label": "Repo",
-                "url": "https://github.com/ZSturman/ZSDynamics-V1.0"
-              },
-              {
-                "type": "web",
-                "label": "Visit",
-                "url": "https://zsturman.github.io/ZSDynamics-V1.0/"
-              }
-            ],
-            "resource": {
-              "type": "github",
-              "label": "Repo",
-              "url": "https://github.com/ZSturman/ZSDynamics-V1.0"
             }
           }
         ]
@@ -447,14 +433,22 @@
     "createdAt": "2020-12-01",
     "updatedAt": "2021-07-10",
     "isPublic": true,
-    "tags": [],
+    "tags": [
+      "Flask",
+      "Python",
+      "Portfolio"
+    ],
     "mediums": [],
     "genres": [],
     "topics": [],
     "subjects": [],
     "description": "",
     "story": "",
-    "images": {},
+    "images": {
+      "icon": "poster.png",
+      "banner": "banner.png",
+      "thumbnail": "thumbnail.png"
+    },
     "resources": [
       {
         "type": "web",
@@ -497,8 +491,8 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "thumbnail.png",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "thumbnail": "thumbnail.png"
     },
     "resources": [],
     "collection": {},
@@ -532,9 +526,9 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "thumbnail.png",
       "icon": "Celestial Hands Holding Heart.png",
-      "banner": "Collaborative Effort with Green Ball.png"
+      "banner": "Collaborative Effort with Green Ball.png",
+      "thumbnail": "thumbnail.png"
     },
     "resources": [
       {
@@ -579,9 +573,9 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "thumbnail.png",
       "icon": "banner.png",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "thumbnail": "thumbnail.png"
     },
     "resources": [],
     "collection": {
@@ -827,9 +821,9 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "thumbnail.png",
       "icon": "banner.png",
-      "banner": "poster.png"
+      "banner": "poster.png",
+      "thumbnail": "thumbnail.png"
     },
     "resources": [],
     "collection": {},
@@ -861,10 +855,10 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "thumbnail.png",
-      "poster": "poster.gif",
       "hero": "queueExample.png",
-      "banner": "banner.gif"
+      "banner": "banner.gif",
+      "thumbnail": "thumbnail.png",
+      "poster": "poster.gif"
     },
     "resources": [
       {
@@ -906,10 +900,10 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "thumbnail.png",
       "icon": "thumbnail.png",
-      "poster": "poster.png",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "thumbnail": "thumbnail.png",
+      "poster": "poster.png"
     },
     "resources": [
       {
@@ -934,7 +928,7 @@
     "phase": "Occasional updates",
     "featured": false,
     "createdAt": "2020-12-28",
-    "updatedAt": null,
+    "updatedAt": "2023-03-10",
     "isPublic": true,
     "tags": [],
     "mediums": [],
@@ -944,9 +938,9 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "collection thumbnail.png",
       "icon": "icon.png",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "thumbnail": "collection thumbnail.png"
     },
     "resources": [],
     "collection": {
@@ -956,9 +950,16 @@
         "images": {},
         "items": [
           {
+            "id": "31faec94-4d3c-802c-bf1c-c5bacccb0d38",
+            "label": "Channel 5 News",
+            "order": 0,
+            "type": "video",
+            "filePath": "Channel 5 News - Bo Burnham.mov"
+          },
+          {
             "id": "31faec94-4d3c-805a-8e41-c69cd68fc48d",
             "label": "Bassackwards",
-            "order": 0,
+            "order": 1,
             "type": "video",
             "filePath": "Bass_Ackward_Lip_Sync_Test.mov"
           }
@@ -986,17 +987,26 @@
     "id": "306aec94-4d3c-80a5-b00e-f67cc4ff5901",
     "title": "Lost & Hound",
     "name": "Lost & Hound",
-    "subtitle": "",
-    "summary": "",
+    "subtitle": "Find your Furry Friend",
+    "summary": "Lost & Hound is a mobile application designed to make it easier to reconnect lost pets with the people looking for them. Instead of relying on flyers, chance encounters, or social media posts that quickly disappear, the app provides a centralized place to report lost pets and log sightings in real time. Users can post details, photos, and locations, browse nearby reports, and reach out directly when something looks like a match.The app currently only works in Australia, reflecting where the initial rollout and testing took place. The project was built as a full-stack React Native application with a Node backend and Firebase for data and authentication. One team extended the system further by integrating computer vision, allowing uploaded images of spotted animals to be compared against photos of missing pets. The goal was not to replace human judgment, but to reduce friction and shorten the path between seeing an animal and contacting the right person.",
     "domain": "Technology",
-    "category": "Other",
+    "category": "Mobile App",
     "status": "Complete",
-    "phase": "",
+    "phase": "Archived",
     "featured": false,
     "createdAt": "2024-06-01",
     "updatedAt": "2024-10-10",
     "isPublic": true,
-    "tags": [],
+    "tags": [
+      "React",
+      "React Native",
+      "Expo",
+      "Node.js",
+      "Firebase",
+      "Computer Vision",
+      "Machine Learning",
+      "Mobile"
+    ],
     "mediums": [],
     "genres": [],
     "topics": [],
@@ -1004,10 +1014,10 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "thumbnail.png",
       "icon": "icon.svg",
-      "poster": "poster.png",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "thumbnail": "thumbnail.png",
+      "poster": "poster.png"
     },
     "resources": [
       {
@@ -1045,10 +1055,10 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "thumbnail.tiff",
       "icon": "thumbnail.tiff",
-      "poster": "poster.tiff",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "thumbnail": "thumbnail.tiff",
+      "poster": "poster.tiff"
     },
     "resources": [],
     "collection": {},
@@ -1069,14 +1079,21 @@
     "createdAt": "2023-11-10",
     "updatedAt": "2024-05-10",
     "isPublic": true,
-    "tags": [],
+    "tags": [
+      "Portfolio",
+      "React",
+      "TS"
+    ],
     "mediums": [],
     "genres": [],
     "topics": [],
     "subjects": [],
     "description": "",
     "story": "",
-    "images": {},
+    "images": {
+      "banner": "banner.png",
+      "thumbnail": "thumbnail.png"
+    },
     "resources": [
       {
         "type": "github",
@@ -1102,14 +1119,21 @@
     "createdAt": "2021-07-10",
     "updatedAt": "2022-04-10",
     "isPublic": true,
-    "tags": [],
+    "tags": [
+      "Flask",
+      "Portfolio",
+      "Python"
+    ],
     "mediums": [],
     "genres": [],
     "topics": [],
     "subjects": [],
     "description": "",
     "story": "",
-    "images": {},
+    "images": {
+      "banner": "banner.png",
+      "thumbnail": "thumbnail.png"
+    },
     "resources": [
       {
         "type": "github",
@@ -1125,48 +1149,6 @@
     "collection": {},
     "workLogs": [],
     "folderName": "zsdynamics_11_306aec94-4d3c-80ff-a96a-c3c51900e249"
-  },
-  {
-    "id": "311aec94-4d3c-8124-ba15-f3ad719a31c1",
-    "title": "ZSDynamics V1.0",
-    "name": "ZSDynamics V1.0",
-    "subtitle": "Personal portfolio version 1",
-    "summary": "The first version of my portfolio came from following Corey Schafer’s Flask tutorials and trying to understand how a real web app fits together. I set up my own server, configured Nginx, and handled deployment myself—mostly because I didn’t know there were easier options. It took a lot of trial and error, but it taught me how everything actually works behind the scenes. I added some of my own SVG graphics and simple animations to make it feel personal. It wasn’t perfect, but it ran, and I learned a lot from getting it there.",
-    "domain": "Technology",
-    "category": "Web",
-    "status": "Complete",
-    "phase": "Deprecated",
-    "featured": false,
-    "createdAt": "2020-12-26",
-    "updatedAt": "2021-07-03",
-    "isPublic": true,
-    "tags": [
-      "web"
-    ],
-    "mediums": [],
-    "genres": [],
-    "topics": [],
-    "subjects": [],
-    "description": "",
-    "story": "",
-    "images": {
-      "thumbnail": "thumbnail copy.png"
-    },
-    "resources": [
-      {
-        "type": "github",
-        "label": "Repo",
-        "url": "https://github.com/ZSturman/ZSDynamics-V1.0"
-      },
-      {
-        "type": "web",
-        "label": "Visit",
-        "url": "https://zsturman.github.io/ZSDynamics-V1.0/"
-      }
-    ],
-    "collection": {},
-    "workLogs": [],
-    "folderName": "zsdynamics_v10_311aec94-4d3c-8124-ba15-f3ad719a31c1"
   },
   {
     "id": "312aec94-4d3c-817e-9295-e018716cf990",

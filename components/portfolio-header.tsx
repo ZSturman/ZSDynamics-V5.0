@@ -30,14 +30,14 @@ export function PortfolioHeader() {
       </h2>
 
       <SocialLinks />
-      <div className="mt-3">
+      {/* <div className="mt-3">
         <Link
           href="/work-logs"
           className="inline-flex text-sm text-primary hover:underline"
         >
           View Work Logs
         </Link>
-      </div>
+      </div> */}
 {/*       <PersonalTabs /> */}
     </header>
   );
