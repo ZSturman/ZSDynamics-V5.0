@@ -70,10 +70,10 @@
     "description": "",
     "story": "",
     "images": {
-      "banner": "banner.png",
-      "poster": "poster.png",
+      "icon": "TopNote AppIcon v2-watchOS-Default-1088x1088@1x.png",
       "thumbnail": "thumbnail.png",
-      "icon": "TopNote AppIcon v2-watchOS-Default-1088x1088@1x.png"
+      "banner": "banner.png",
+      "poster": "poster.png"
     },
     "resources": [
       {
@@ -118,8 +118,8 @@
     "description": "",
     "story": "",
     "images": {
-      "banner": "banner.png",
-      "thumbnail": "thumbnail.png"
+      "thumbnail": "thumbnail.png",
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -165,9 +165,9 @@
     "description": "",
     "story": "",
     "images": {
-      "banner": "banner.png",
+      "icon": "thumbnail.png",
       "thumbnail": "thumbnail.png",
-      "icon": "thumbnail.png"
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -207,9 +207,9 @@
     "description": "",
     "story": "",
     "images": {
+      "thumbnail": "E4690E5D-3901-4E26-A237-8AA0FF26EE76.png",
       "banner": "banner.png",
-      "hero": "hero.png",
-      "thumbnail": "E4690E5D-3901-4E26-A237-8AA0FF26EE76.png"
+      "hero": "hero.png"
     },
     "resources": [],
     "collection": {
@@ -261,10 +261,10 @@
     "description": "",
     "story": "",
     "images": {
-      "banner": "banner.png",
-      "poster": "poster.gif",
+      "icon": "logo.png",
       "thumbnail": "thumbnail.png",
-      "icon": "logo.png"
+      "banner": "banner.png",
+      "poster": "poster.gif"
     },
     "resources": [],
     "collection": {
@@ -364,7 +364,24 @@
             "type": "url-link",
             "summary": "In the latest version, I focused on making the site feel more refined. I experimented with parallax effects and smoother animations to understand how small design choices change the overall experience. I also created an SVG character of myself that shifts colors in light and dark mode, which made the site feel a bit more personal. At this point, the portfolio wasn’t just about showing projects—it was a way to see how my design and development skills had grown.",
             "url": "/projects/306aec94-4d3c-807e-a7ef-db0aa63a2ec7",
-            "thumbnail": "thumbnail.png"
+            "thumbnail": "thumbnail.png",
+            "resources": [
+              {
+                "type": "github",
+                "label": "Repo",
+                "url": "https://github.com/ZSturman/ZSDynamics-V4.0"
+              },
+              {
+                "type": "web",
+                "label": "Visit",
+                "url": "https://zsturman.github.io/ZSDynamics-V4.0/"
+              }
+            ],
+            "resource": {
+              "type": "github",
+              "label": "Repo",
+              "url": "https://github.com/ZSturman/ZSDynamics-V4.0"
+            }
           },
           {
             "id": "306aec94-4d3c-80d4-a8bd-d83a8832ebf8",
@@ -445,9 +462,9 @@
     "description": "",
     "story": "",
     "images": {
-      "banner": "banner.png",
+      "icon": "poster.png",
       "thumbnail": "thumbnail.png",
-      "icon": "poster.png"
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -491,8 +508,8 @@
     "description": "",
     "story": "",
     "images": {
-      "banner": "banner.png",
-      "thumbnail": "thumbnail.png"
+      "thumbnail": "thumbnail.png",
+      "banner": "banner.png"
     },
     "resources": [],
     "collection": {},
@@ -526,9 +543,9 @@
     "description": "",
     "story": "",
     "images": {
-      "banner": "Collaborative Effort with Green Ball.png",
+      "icon": "Celestial Hands Holding Heart.png",
       "thumbnail": "thumbnail.png",
-      "icon": "Celestial Hands Holding Heart.png"
+      "banner": "Collaborative Effort with Green Ball.png"
     },
     "resources": [
       {
@@ -573,9 +590,9 @@
     "description": "",
     "story": "",
     "images": {
-      "banner": "banner.png",
+      "icon": "banner.png",
       "thumbnail": "thumbnail.png",
-      "icon": "banner.png"
+      "banner": "banner.png"
     },
     "resources": [],
     "collection": {
@@ -821,11 +838,22 @@
     "description": "",
     "story": "",
     "images": {
-      "banner": "poster.png",
+      "icon": "banner.png",
       "thumbnail": "thumbnail.png",
-      "icon": "banner.png"
+      "banner": "poster.png"
     },
-    "resources": [],
+    "resources": [
+      {
+        "type": "github",
+        "label": "Repo",
+        "url": "https://github.com/ZSturman/ZSDynamics-V4.0"
+      },
+      {
+        "type": "web",
+        "label": "Visit",
+        "url": "https://zsturman.github.io/ZSDynamics-V4.0/"
+      }
+    ],
     "collection": {},
     "workLogs": [],
     "folderName": "zsdynamics_40_306aec94-4d3c-807e-a7ef-db0aa63a2ec7"
@@ -855,10 +883,10 @@
     "description": "",
     "story": "",
     "images": {
+      "thumbnail": "thumbnail.png",
       "banner": "banner.gif",
       "hero": "queueExample.png",
-      "poster": "poster.gif",
-      "thumbnail": "thumbnail.png"
+      "poster": "poster.gif"
     },
     "resources": [
       {
@@ -900,10 +928,10 @@
     "description": "",
     "story": "",
     "images": {
-      "banner": "banner.png",
-      "poster": "poster.png",
+      "icon": "thumbnail.png",
       "thumbnail": "thumbnail.png",
-      "icon": "thumbnail.png"
+      "banner": "banner.png",
+      "poster": "poster.png"
     },
     "resources": [
       {
@@ -938,9 +966,9 @@
     "description": "",
     "story": "",
     "images": {
-      "banner": "banner.png",
+      "icon": "icon.png",
       "thumbnail": "collection thumbnail.png",
-      "icon": "icon.png"
+      "banner": "banner.png"
     },
     "resources": [],
     "collection": {
@@ -1014,10 +1042,10 @@
     "description": "",
     "story": "",
     "images": {
-      "banner": "banner.png",
-      "poster": "poster.png",
+      "icon": "icon.svg",
       "thumbnail": "thumbnail.png",
-      "icon": "icon.svg"
+      "banner": "banner.png",
+      "poster": "poster.png"
     },
     "resources": [
       {
@@ -1055,10 +1083,10 @@
     "description": "",
     "story": "",
     "images": {
-      "banner": "banner.png",
-      "poster": "poster.tiff",
+      "icon": "thumbnail.tiff",
       "thumbnail": "thumbnail.tiff",
-      "icon": "thumbnail.tiff"
+      "banner": "banner.png",
+      "poster": "poster.tiff"
     },
     "resources": [],
     "collection": {},
@@ -1091,8 +1119,8 @@
     "description": "",
     "story": "",
     "images": {
-      "banner": "banner.png",
-      "thumbnail": "thumbnail.png"
+      "thumbnail": "thumbnail.png",
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -1131,8 +1159,8 @@
     "description": "",
     "story": "",
     "images": {
-      "banner": "banner.png",
-      "thumbnail": "thumbnail.png"
+      "thumbnail": "thumbnail.png",
+      "banner": "banner.png"
     },
     "resources": [
       {
