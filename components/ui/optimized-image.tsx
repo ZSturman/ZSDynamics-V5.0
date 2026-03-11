@@ -181,7 +181,8 @@ export function getImageSrc(imageVariants: ImageVariants): string {
     }
     // Try to use optimized version
     const withoutExt = imageVariants.replace(/\.[^.]+$/, '');
-    return `${withoutExt}-optimized.webp`;
+    const ext = imageVariants.match(/\.svg$/i) ? '.svg' : '.webp';
+    return `${withoutExt}-optimized${ext}`;
   }
   
   // Prefer optimized version, fallback to original

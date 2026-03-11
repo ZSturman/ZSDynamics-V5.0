@@ -173,7 +173,8 @@ function getOptimizedMediaPath(filename: unknown, folderPath: string): string {
   }
 
   if (isImageFile(resolvedFilename)) {
-    return `${folderPath}/${stem}-optimized.webp`;
+    const ext = resolvedFilename.split(".").pop()?.toLowerCase() === "svg" ? ".svg" : ".webp";
+    return `${folderPath}/${stem}-optimized${ext}`;
   }
 
   return `${folderPath}/${resolvedFilename}`;

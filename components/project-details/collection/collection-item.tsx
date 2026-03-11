@@ -15,7 +15,7 @@ import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader.js"
 import { CollectionItem, Project, Resource } from "@/types"
 import { ExternalLink, ArrowRight } from "lucide-react"
 import { CollectionFullscreen } from "./collection-item-fullscreen"
-import { cn, extractPathValue, resolveProjectAssetPath } from "@/lib/utils"
+import { cn, extractPathValue, resolveProjectAssetPath, isSvgFile } from "@/lib/utils"
 import ResourceButton from "../resource-button"
 import { useBreadcrumb } from "@/lib/breadcrumb-context"
 
@@ -585,7 +585,8 @@ function FolioViewer({ item, onRequestFullscreen, folderName, collectionName, pr
     
     // Convert to optimized version
     const withoutExt = fullPath.replace(/\.[^.]+$/, '');
-    return `${withoutExt}-optimized.webp`;
+    const ext = isSvgFile(fullPath) ? '.svg' : '.webp';
+    return `${withoutExt}-optimized${ext}`;
   };
   
   // Helper to get a static poster image from video thumbnail
@@ -704,7 +705,8 @@ function ImageViewer({ item, onRequestFullscreen, folderName, collectionName, pr
     
     // Convert to optimized version for standard image formats
     const withoutExt = path.replace(/\.[^.]+$/, '');
-    return `${withoutExt}-optimized.webp`;
+    const ext = isSvgFile(path) ? '.svg' : '.webp';
+    return `${withoutExt}-optimized${ext}`;
   };
   
   const imageSrc = getOptimizedPath(itemPath);
@@ -799,7 +801,8 @@ function VideoViewer({ item, onRequestFullscreen, folderName, collectionName, pr
     
     // Convert to optimized version
     const withoutExt = fullPath.replace(/\.[^.]+$/, '');
-    return `${withoutExt}-optimized.webp`;
+    const ext = isSvgFile(fullPath) ? '.svg' : '.webp';
+    return `${withoutExt}-optimized${ext}`;
   };
 
   // use thumbnail as poster when provided
@@ -1091,7 +1094,8 @@ function TextViewer({ item, onRequestFullscreen, folderName, collectionName, pro
     
     // Convert to optimized version
     const withoutExt = fullPath.replace(/\.[^.]+$/, '');
-    return `${withoutExt}-optimized.webp`;
+    const ext = isSvgFile(fullPath) ? '.svg' : '.webp';
+    return `${withoutExt}-optimized${ext}`;
   };
   
   const thumbnailPath = getOptimizedThumbnail();
@@ -1172,7 +1176,8 @@ function UnsupportedTypeViewer({ item, onRequestFullscreen, folderName, collecti
     
     // Convert to optimized version
     const withoutExt = fullPath.replace(/\.[^.]+$/, '');
-    return `${withoutExt}-optimized.webp`;
+    const ext = isSvgFile(fullPath) ? '.svg' : '.webp';
+    return `${withoutExt}-optimized${ext}`;
   };
   
   const thumbnailPath = getOptimizedThumbnail();

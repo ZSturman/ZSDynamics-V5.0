@@ -206,6 +206,7 @@ function findEntryForProject(projectId: string, keys: string[]) {
 
 function toOptimizedImagePath(value: string): string {
   if (!value.includes(".")) return `${value}-optimized.webp`;
+  if (value.match(/\.svg$/i)) return value.replace(/\.[^.]+$/, "-optimized.svg");
   return value.replace(/\.[^.]+$/, "-optimized.webp");
 }
 

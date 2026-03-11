@@ -81,7 +81,12 @@ function getOptimizedPath(path: string | undefined): string | undefined {
     return path.replace(/\.[^.]+$/, '-optimized.mp4');
   }
   
-  // For images, convert to optimized webp
+  // SVGs stay as SVGs (vector, no rasterization needed)
+  if (path.match(/\.svg$/i)) {
+    return path.replace(/\.[^.]+$/, '-optimized.svg');
+  }
+
+  // For raster images, convert to optimized webp
   if (path.match(/\.(jpg|jpeg|png|webp|gif|bmp|tiff|avif|heic)$/i)) {
     return path.replace(/\.[^.]+$/, '-optimized.webp');
   }
@@ -299,7 +304,8 @@ function VideoContent({ item, folderName, collectionName }: { item: CollectionIt
     
     // Convert to optimized version
     const withoutExt = fullPath.replace(/\.[^.]+$/, '');
-    return `${withoutExt}-optimized.webp`;
+    const ext = fullPath.match(/\.svg$/i) ? '.svg' : '.webp';
+    return `${withoutExt}-optimized${ext}`;
   };
 
   const poster = getOptimizedPoster();

@@ -787,6 +787,132 @@ class TestProjectsPipeline(unittest.TestCase):
             self.assertEqual(page_by_id["page-mesopotamia"]["filePath"], "23_Mesopotamia :: Indus Valley.PNG")
             self.assertEqual(page_by_id["page-earth"]["filePath"], "5_Earth Science.PNG")
 
+    def test_svg_assets_are_preserved_not_rasterized(self) -> None:
+        """SVG files should be copied as SVGs throughout the pipeline, never converted to .webp."""
+        with tempfile.TemporaryDirectory() as temp_root_str, tempfile.TemporaryDirectory() as out_str:
+            temp_root = Path(temp_root_str)
+            out_dir = Path(out_str)
+
+            assets_dir = temp_root / "Technology" / "SVG Project" / "FolioAssets"
+            assets_dir.mkdir(parents=True)
+
+            svg_content = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/></svg>'
+            (assets_dir / "icon.svg").write_text(svg_content, encoding="utf-8")
+            (assets_dir / "thumbnail.svg").write_text(svg_content, encoding="utf-8")
+            (assets_dir / "banner.png").write_bytes(b"png-data")
+
+            input_payload = {
+                "config": {"root_path": str(temp_root)},
+                "projects": [
+                    {
+                        "id": "proj-svg",
+                        "projectPageId": "proj-svg-page",
+                        "title": "SVG Project",
+                        "summary": "Has SVG assets",
+                        "domain": "Technology",
+                        "category": ["design"],
+                        "status": "Complete",
+                        "phase": "Build",
+                        "startDate": "2026-03-01",
+                        "thumbnail": {"relativePath": "Technology/SVG Project/FolioAssets/thumbnail.svg"},
+                        "collections": [
+                            {
+                                "name": "Icons",
+                                "items": [
+                                    {
+                                        "id": "item-svg",
+                                        "label": "Icon",
+                                        "type": "image",
+                                        "relativePath": "Technology/SVG Project/FolioAssets/icon.svg",
+                                    },
+                                ],
+                            }
+                        ],
+                        "resources": [],
+                    },
+                ],
+            }
+
+            input_json = temp_root / "new_projects.json"
+            input_json.write_text(json.dumps(input_payload), encoding="utf-8")
+
+            result = build_projects_from_json(
+                input_json_path=input_json,
+                temp_public_projects_root=out_dir,
+            )
+
+            proj = result["projects"][0]
+            folder = proj["folderName"]
+
+            # Thumbnail should remain .svg (not renamed to .webp)
+            self.assertEqual(proj["images"]["thumbnail"], "thumbnail.svg")
+            self.assertTrue(proj["images"]["thumbnail"].endswith(".svg"))
+            self.assertTrue((out_dir / folder / "thumbnail.svg").exists())
+
+            # Collection item should keep its .svg extension
+            collection_item = proj["collection"]["Icons"]["items"][0]
+            self.assertEqual(collection_item["filePath"], "icon.svg")
+            self.assertTrue(collection_item["filePath"].endswith(".svg"))
+
+
+class TestMediaOptimizer(unittest.TestCase):
+    """Test the media optimizer SVG handling."""
+
+    @classmethod
+    def _import_media_optimizer(cls):
+        import importlib.util
+        spec = importlib.util.spec_from_file_location(
+            "media_optimizer",
+            str(Path(__file__).resolve().parent.parent / "lib" / "media-optimizer.py"),
+        )
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        return mod
+
+    def test_optimize_svg_full_creates_svg_variants(self) -> None:
+        """optimize_svg_full should create -optimized.svg and -thumb.svg, not .webp."""
+        mod = self._import_media_optimizer()
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            output_dir = Path(tmpdir)
+            svg_content = '<svg xmlns="http://www.w3.org/2000/svg"><rect width="10" height="10"/></svg>'
+            src = output_dir / "icon.svg"
+            src.write_text(svg_content, encoding="utf-8")
+
+            results = mod.optimize_svg_full(src, output_dir)
+
+            # Should produce SVG variants, not WebP
+            self.assertEqual(results["optimized"], "icon-optimized.svg")
+            self.assertEqual(results["thumbnail"], "icon-thumb.svg")
+            self.assertEqual(results["original"], "icon.svg")
+
+            # Files should exist on disk
+            self.assertTrue((output_dir / "icon-optimized.svg").exists())
+            self.assertTrue((output_dir / "icon-thumb.svg").exists())
+
+            # Content should be preserved
+            self.assertEqual(
+                (output_dir / "icon-optimized.svg").read_text(encoding="utf-8"),
+                svg_content,
+            )
+
+    def test_optimize_image_full_dispatches_svg_to_svg_handler(self) -> None:
+        """optimize_image_full should detect .svg and use optimize_svg_full."""
+        mod = self._import_media_optimizer()
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            output_dir = Path(tmpdir)
+            svg_content = '<svg xmlns="http://www.w3.org/2000/svg"><rect width="10" height="10"/></svg>'
+            src = output_dir / "logo.svg"
+            src.write_text(svg_content, encoding="utf-8")
+
+            results = mod.optimize_image_full(src, output_dir)
+
+            self.assertEqual(results["optimized"], "logo-optimized.svg")
+            self.assertEqual(results["thumbnail"], "logo-thumb.svg")
+            self.assertNotIn(".webp", results.get("optimized", ""))
+            self.assertNotIn(".webp", results.get("thumbnail", ""))
+
 
 if __name__ == "__main__":
     unittest.main()

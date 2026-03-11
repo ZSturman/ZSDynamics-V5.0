@@ -101,6 +101,23 @@ export function isImageFile(path?: string | null): boolean {
 }
 
 /**
+ * Check if a file path is an SVG based on its extension.
+ * SVGs are vector graphics that should not be rasterized to WebP.
+ */
+export function isSvgFile(path?: string | null): boolean {
+  if (!path) return false
+  return path.split(".").pop()?.toLowerCase() === "svg"
+}
+
+/**
+ * Return the optimized image extension for a given path.
+ * SVGs stay as .svg; all other raster images become .webp.
+ */
+export function getOptimizedImageExt(path: string): string {
+  return isSvgFile(path) ? ".svg" : ".webp"
+}
+
+/**
  * Get the optimized media path for a given filename
  * Handles both images and videos, converting to optimized versions
  * @param filename - The original filename (e.g., "thumbnail.png", "video.mp4")
@@ -130,9 +147,10 @@ export function getOptimizedMediaPath(filename: string | { path?: string } | und
     return `${folderPath}/${stem}-optimized.mp4`
   }
   
-  // Images (including GIFs) get optimized to .webp
+  // SVGs stay as .svg; raster images get optimized to .webp
   if (isImageFile(resolvedFilename)) {
-    return `${folderPath}/${stem}-optimized.webp`
+    const ext = getOptimizedImageExt(resolvedFilename)
+    return `${folderPath}/${stem}-optimized${ext}`
   }
   
   // For other files, return as-is

@@ -15,7 +15,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { WorkLog } from "@/types";
-import { cn, formatDate, getOptimizedMediaPath, isImageFile, isVideoFile } from "@/lib/utils";
+import { cn, formatDate, getOptimizedMediaPath, isImageFile, isSvgFile, isVideoFile, getOptimizedImageExt } from "@/lib/utils";
 
 export type WorkLogWithProject = WorkLog & {
   projectId?: string;
@@ -401,7 +401,8 @@ function toOptimizedPath(value: string): string {
   }
 
   if (isImageFile(value)) {
-    return value.replace(/\.[^.]+$/, "-optimized.webp");
+    const ext = getOptimizedImageExt(value);
+    return value.replace(/\.[^.]+$/, `-optimized${ext}`);
   }
 
   return value;

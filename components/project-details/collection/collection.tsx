@@ -2,7 +2,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MediaDisplay } from "@/components/ui/media-display";
 import { Project, CollectionItem } from "@/types";
 import CollectionItemCard from "./collection-item";
-import { extractPathValue, formatTextWithNewlines, isImageFile, isVideoFile, resolveProjectAssetPath } from "@/lib/utils";
+import { extractPathValue, formatTextWithNewlines, isImageFile, isSvgFile, isVideoFile, resolveProjectAssetPath, getOptimizedImageExt } from "@/lib/utils";
 import { getProjectCollectionEntries } from "@/lib/project-collections";
 
 interface CollectionProps {
@@ -58,7 +58,8 @@ function toCollectionMediaPath(mediaPath: string | undefined, folderName: string
   }
 
   if (isImageFile(rawPath)) {
-    return rawPath.replace(/\.[^.]+$/, "-optimized.webp");
+    const ext = getOptimizedImageExt(rawPath);
+    return rawPath.replace(/\.[^.]+$/, `-optimized${ext}`);
   }
 
   if (isVideoFile(rawPath)) {

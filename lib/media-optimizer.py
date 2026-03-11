@@ -108,15 +108,25 @@ def optimize_svg_full(src: Path, output_dir: Optional[Path] = None) -> Dict[str,
 
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    output_path = output_dir / src.name
-    if src != output_path:
-        shutil.copy2(src, output_path)
+    stem = src.stem
+    original_path = output_dir / src.name
+    optimized_path = output_dir / f"{stem}-optimized.svg"
+    thumbnail_path = output_dir / f"{stem}-thumb.svg"
+
+    if src != original_path:
+        shutil.copy2(src, original_path)
+
+    if src != optimized_path:
+        shutil.copy2(src, optimized_path)
+
+    if src != thumbnail_path:
+        shutil.copy2(src, thumbnail_path)
 
     results = {
-        'original': output_path.name,
-        'optimized': output_path.name,
-        'thumbnail': output_path.name,
-        'useCloudStorage': should_use_cloud_storage(output_path)
+        'original': original_path.name,
+        'optimized': optimized_path.name,
+        'thumbnail': thumbnail_path.name,
+        'useCloudStorage': should_use_cloud_storage(original_path)
     }
 
     return results
@@ -808,8 +818,18 @@ if __name__ == "__main__":
         if args.delete_originals and results:
             print("\nDeleting original files...")
             deleted_count = 0
-            for rel_path in results.keys():
+            for rel_path, variants in results.items():
                 original_file = path / rel_path
+
+                # Never delete the original when it is also the canonical output asset.
+                original_name = variants.get('original')
+                optimized_name = variants.get('optimized')
+                thumbnail_name = variants.get('thumbnail')
+
+                if original_name and original_name in {optimized_name, thumbnail_name}:
+                    print(f"  Preserved canonical original: {rel_path}")
+                    continue
+
                 if original_file.exists():
                     try:
                         original_file.unlink()
