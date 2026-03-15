@@ -222,13 +222,7 @@ async function gotoHomeReady(page: Page): Promise<void> {
   const allProjectsHeading = page.getByRole("heading", { name: "All Projects" });
 
   for (let attempt = 1; attempt <= 2; attempt += 1) {
-    const projectsResponse = page.waitForResponse(
-      (response) => response.url().includes("/projects/projects.json") && response.status() === 200,
-      { timeout: 30_000 }
-    );
-
     await page.goto("/");
-    await projectsResponse;
 
     try {
       await expect(allProjectsHeading).toBeVisible({ timeout: 45_000 });
