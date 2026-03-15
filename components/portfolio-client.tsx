@@ -209,7 +209,7 @@ export function PortfolioClient({ projects }: PortfolioClientProps) {
       if (s) {
         const inTitle = p.title.toLowerCase().includes(s) || (p.subtitle || "").toLowerCase().includes(s)
         const inTags = (p.tags || []).some((t) => t.toLowerCase().includes(s))
-        const inSummary = (p.summary || "").toLowerCase().includes(s) || (p.description || "").toLowerCase().includes(s)
+        const inSummary = (p.oneLiner || "").toLowerCase().includes(s) || (p.summary || "").toLowerCase().includes(s) || (p.description || "").toLowerCase().includes(s)
         if (searchScope === "title" && !inTitle) return false
         if (searchScope === "tags" && !inTags) return false
         if (searchScope === "all" && !inTitle && !inSummary && !inTags) return false

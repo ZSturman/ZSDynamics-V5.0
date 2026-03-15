@@ -101,9 +101,9 @@ export function ProjectCard({
           {project.title}
         </h3>
     
-        {/* Summary */}
+        {/* One-liner / Summary */}
         <p className="text-[10px] md:text-xs text-muted-foreground leading-relaxed line-clamp-2 break-words flex-1">
-          {project.summary}
+          {project.oneLiner || project.summary}
         </p>
 </div>
 

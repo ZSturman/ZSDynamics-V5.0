@@ -80,6 +80,7 @@ export interface Project {
   subtitle?: string;
   isPublic?: boolean;
   summary: string;
+  oneLiner?: string;
   domain: string;
   category?: string;
   status: string;

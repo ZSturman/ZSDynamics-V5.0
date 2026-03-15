@@ -920,6 +920,8 @@ def _normalize_collection_item(
 
     if copied_thumbnail:
         out["thumbnail"] = copied_thumbnail
+    elif item_type == "video":
+        warnings.append(f"\u26a0\ufe0f Video item '{label}' in collection '{collection_name}' is missing a thumbnail")
 
     raw_item = item.get("raw") if isinstance(item.get("raw"), dict) else {}
     item_url = _normalize_url(_first_non_empty(item.get("url"), raw_item.get("property_url")))
@@ -1014,6 +1016,19 @@ def _normalize_collection(
     )
     if collection_thumbnail:
         out["images"]["thumbnail"] = collection_thumbnail
+    else:
+        warnings.append(f"\u26a0\ufe0f Collection '{collection_name}' is missing a thumbnail")
+
+    collection_hero_source = resolve_source_path(collection.get("hero"), root_path)
+    collection_hero = _copy_file_if_exists(
+        collection_hero_source,
+        collection_dest_dir,
+        copied,
+        warnings,
+        f"collection hero ({collection_name})",
+    )
+    if collection_hero:
+        out["images"]["hero"] = collection_hero
 
     items_raw = collection.get("items")
     assets_raw = collection.get("assets")
@@ -1146,6 +1161,7 @@ def _normalize_project(
         "name": title,
         "subtitle": _as_str(source.get("subtitle")) or "",
         "summary": _as_str(source.get("summary")) or "",
+        "oneLiner": _as_str(source.get("oneLiner")) or "",
         "domain": _as_str(source.get("domain")) or "Unknown Domain",
         "category": _normalize_category(source.get("category")) or "Other",
         "status": _as_str(source.get("status")) or "unknown",
@@ -1202,6 +1218,9 @@ def _normalize_project(
 
     if not project_out["images"].get("thumbnail"):
         missing_thumbnail_projects.append(project_id)
+
+    if project_out["featured"] and not project_out["images"].get("hero"):
+        warnings.append(f"\u26a0\ufe0f Featured project '{title}' ({project_id}) is missing a hero image")
 
     used_asset_fingerprints = _collect_used_asset_fingerprints(
         source,
@@ -1393,6 +1412,7 @@ def _prune_project_output(project: Dict[str, Any]) -> Dict[str, Any]:
         "name",
         "subtitle",
         "summary",
+        "oneLiner",
         "domain",
         "category",
         "status",

@@ -79,6 +79,11 @@ export function resolveProjectAssetPath(
     return `/projects/${folderName}/${collectionName}/${itemId}/${cleaned}`;
   }
 
+  // Collection-level asset (e.g. collection thumbnail) – no item context.
+  if (collectionName && !itemId) {
+    return `/projects/${folderName}/${collectionName}/${cleaned}`;
+  }
+
   return `/projects/${folderName}/${cleaned}`;
 }
 

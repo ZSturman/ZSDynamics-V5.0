@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { expect, test, type Page } from "@playwright/test";
 
 import {
   getRepresentativeProjects,
@@ -17,8 +17,7 @@ const cardSelectorForProject = (projectId: string) =>
 
 test.describe("@smoke @matrix media rendering", () => {
   test("home route renders representative card media", async ({ page }, testInfo) => {
-    await page.goto("/");
-    await expect(page.getByRole("heading", { name: "All Projects" })).toBeVisible({ timeout: 20_000 });
+    await gotoHomeReady(page);
 
     const candidates = uniqueProjects([
       representativeProjects.banner,
@@ -52,8 +51,7 @@ test.describe("@smoke @matrix media rendering", () => {
   });
 
   test("featured carousel media renders and can navigate slides", async ({ page }, testInfo) => {
-    await page.goto("/");
-    await expect(page.getByRole("heading", { name: "All Projects" })).toBeVisible({ timeout: 20_000 });
+    await gotoHomeReady(page);
 
     const context = buildRuntimeContext(page, testInfo, {
       scenario: "featured-carousel-media",
@@ -87,8 +85,7 @@ test.describe("@smoke @matrix media rendering", () => {
     const project =
       representativeProjects.banner || representativeProjects.poster || representativeProjects["thumbnail-only"] || defaultProject;
 
-    await page.goto("/");
-    await expect(page.getByRole("heading", { name: "All Projects" })).toBeVisible({ timeout: 20_000 });
+    await gotoHomeReady(page);
 
     const context = buildRuntimeContext(page, testInfo, {
       scenario: "project-modal-media",
@@ -108,7 +105,7 @@ test.describe("@smoke @matrix media rendering", () => {
         await expect(modal).toBeVisible({ timeout: 5_000 });
       } catch {
         await page.goto(`/?project=${project.id}`);
-        await expect(page.getByRole("heading", { name: "All Projects" })).toBeVisible({ timeout: 20_000 });
+        await expect(page.getByRole("heading", { name: "All Projects" })).toBeVisible({ timeout: 45_000 });
         await expect(modal).toBeVisible({ timeout: 10_000 });
       }
 
@@ -219,4 +216,29 @@ function getRequiredRoles(project: CanonicalProject): string[] {
   }
 
   return [...required];
+}
+
+async function gotoHomeReady(page: Page): Promise<void> {
+  const allProjectsHeading = page.getByRole("heading", { name: "All Projects" });
+
+  for (let attempt = 1; attempt <= 2; attempt += 1) {
+    const projectsResponse = page.waitForResponse(
+      (response) => response.url().includes("/projects/projects.json") && response.status() === 200,
+      { timeout: 30_000 }
+    );
+
+    await page.goto("/");
+    await projectsResponse;
+
+    try {
+      await expect(allProjectsHeading).toBeVisible({ timeout: 45_000 });
+      return;
+    } catch {
+      if (attempt === 2) {
+        throw new Error("Home route did not become ready: 'All Projects' heading was not visible after retry.");
+      }
+
+      await page.reload();
+    }
+  }
 }

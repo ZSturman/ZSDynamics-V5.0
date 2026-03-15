@@ -5,6 +5,7 @@
     "name": "Episodic Memory Agent",
     "subtitle": "A Sensor-Agnostic Cognitive Architecture for Event-Segmented Memory Formation",
     "summary": "An event-segmented episodic memory agent designed to simulate how an intelligent system perceives, interprets, and organizes experience over time. The architecture centers on a strict cognitive loop—resolving location, identifying entities, detecting change—and freezing those moments into structured episodes. Built with swappable modules, strict invariants, and full logging, the system prioritizes learning over hardcoded assumptions, user-defined semantics over predefined categories, and reproducible behavior over opaque heuristics.",
+    "oneLiner": "A modular cognitive agent framework that models how experience becomes memory.",
     "domain": "Technology",
     "category": "AI Model",
     "status": "Active",
@@ -44,6 +45,7 @@
     "name": "Top Note",
     "subtitle": "A widget based iOS app",
     "summary": "Top Note is a focused productivity app for people who tend to ignore reminders or feel weighed down by long to-do lists. It takes a simpler approach: one reminder, flashcard, or note at a time. You can complete it or skip it, and if you skip, it returns sooner through a spaced repetition system that keeps important things visible.\n\n\nThis design encourages accountability and steady progress. It helps build habits, strengthen memory, and keep personal ideas within reach—without the noise of endless lists.\n\n\nWhy it works\nTop Note combines two familiar ideas: single-task focus and spaced repetition. Together they keep your attention on what matters next, reinforcing memory and consistency over time.\n\n\nFeatures\n– One-at-a-time reminders that reduce distraction.\n– Skip and repeat so skipped items return sooner.\n– Spaced repetition flashcards for better recall.\n– Widget-first design that keeps the app close at hand.\n– Flexible note support for quotes, goals, or brief thoughts.\n– Simple setup inside the app; most use happens in the widget.\n\n\nBest for\n– People who often dismiss reminders.\n– Habit tracking and reinforcement.\n– Short study or review sessions.\n– Keeping a meaningful note visible through the day.\n\n\nTop Note makes productivity manageable by narrowing your focus. Instead of managing a list, you engage with one small task—and let time handle the rest.",
+    "oneLiner": "A widget-first productivity app that keeps you focused on what's next and only on what’s next.",
     "domain": "Technology",
     "category": "Application",
     "status": "Complete",
@@ -70,10 +72,11 @@
     "description": "",
     "story": "",
     "images": {
-      "icon": "TopNote AppIcon v2-watchOS-Default-1088x1088@1x.png",
-      "thumbnail": "thumbnail.png",
+      "hero": "hero.png",
       "banner": "banner.png",
-      "poster": "poster.png"
+      "icon": "TopNote AppIcon v2-watchOS-Default-1088x1088@1x.png",
+      "poster": "poster.png",
+      "thumbnail": "thumbnail.png"
     },
     "resources": [
       {
@@ -97,6 +100,7 @@
     "name": "ZSDynamics 2.0",
     "subtitle": "Built with Python and React",
     "summary": "While I was in Australia on a working holiday visa, I started noticing how often React showed up in job descriptions. I didn’t want to throw away the Python knowledge I already had, so I rebuilt my portfolio using Python on the backend and React on the frontend. It helped me connect what I knew with what I needed to learn and gave me a better sense of how a modern stack actually fits together.",
+    "oneLiner": "Full-stack rebuild with a Python backend and React frontend to modernize the stack while leveraging Python experience. Built during a working holiday in Australia with a component-based design, and a structure for showcasing data projects.",
     "domain": "Technology",
     "category": "Web",
     "status": "Complete",
@@ -118,8 +122,8 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "thumbnail.png",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "thumbnail": "thumbnail.png"
     },
     "resources": [
       {
@@ -143,13 +147,14 @@
     "name": "MediLedger",
     "subtitle": "Widget-first medication tracking built for everyday reliability.",
     "summary": "MediLedger is designed around a simple idea: most of what you need to do with your medication shouldn’t require opening an app. With interactive widgets, you can log a full or half dose, check how many pills you have left, see when your refill is coming up, and set up different widgets for different medications. The app handles both prescription and non-prescription meds, tracks strength and dosage, and keeps a full history of what you’ve taken. Everything syncs through SwiftData across iPhone, iPad, and Mac, and it works offline when it needs to. You can customize what each widget shows, set up alerts for refills, and rely on automatic calculations to keep your supply accurate without any extra effort.",
+    "oneLiner": "A medication management tool centered on interactive Home Screen widgets. Users can log doses, track supply, monitor refills, and sync across Apple devices—moving medication tracking from the app to the widget for faster, simpler daily adherence.",
     "domain": "Technology",
     "category": "Application",
     "status": "Complete",
     "phase": "Regular updates",
-    "featured": true,
+    "featured": false,
     "featuredOrder": 4,
-    "createdAt": "2025-08-06T09:00:00.000-07:00",
+    "createdAt": "2025-08-06",
     "updatedAt": null,
     "isPublic": true,
     "tags": [
@@ -165,9 +170,9 @@
     "description": "",
     "story": "",
     "images": {
+      "banner": "banner.png",
       "icon": "thumbnail.png",
-      "thumbnail": "thumbnail.png",
-      "banner": "banner.png"
+      "thumbnail": "thumbnail.png"
     },
     "resources": [
       {
@@ -186,6 +191,7 @@
     "name": "Mind Adrift",
     "subtitle": "",
     "summary": "Mind Adrift is a short-form narrative work centered on cognitive decline and disorientation, told from the inside rather than observed from a distance. It follows a person who is still present in the world—surrounded by family, routines, and familiar spaces—but increasingly unable to connect those pieces into a stable sense of reality. Time slips, relationships blur, and moments repeat or contradict one another without warning.The project is less about plot progression and more about structure and perspective. Scenes loop, reset, or fracture in ways that mirror how memory fails in real life. The goal is not to explain the condition or resolve it, but to place the audience inside that experience long enough to understand its logic and weight. It is designed for readers interested in character-driven narratives, psychological realism, and stories that prioritize internal experience over external action.",
+    "oneLiner": "Mind Adrift is a narrative project about losing continuity with your own life while still moving through it, exploring memory, identity, and the quiet confusion of trying to stay oriented when your mind no longer cooperates.",
     "domain": "Narrative",
     "category": "Short story",
     "status": "Complete",
@@ -207,9 +213,9 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "E4690E5D-3901-4E26-A237-8AA0FF26EE76.png",
+      "hero": "hero.png",
       "banner": "banner.png",
-      "hero": "hero.png"
+      "thumbnail": "E4690E5D-3901-4E26-A237-8AA0FF26EE76.png"
     },
     "resources": [],
     "collection": {
@@ -238,11 +244,12 @@
     "name": "Frontend Collection",
     "subtitle": "A collection of my previous portfolio pages",
     "summary": "Across these versions, you can see me going from basic experiments with servers and deployment to paying more attention to how things actually feel to use. What started as me trying to learn the fundamentals turned into a steady process of trying something, seeing what worked, and adjusting. Each version added a small piece—a backend tweak, a visual idea, a different layout—and the whole set basically shows how I learn by building, fixing, and trying again.",
+    "oneLiner": "This collection brings together different versions of my portfolio, each one capturing how my design sense, presentation choices, technical skill, and even career direction have shifted and sharpened over time.",
     "domain": "Technology",
     "category": "Web",
     "status": "Complete",
     "phase": "Occasional updates",
-    "featured": true,
+    "featured": false,
     "featuredOrder": 5,
     "createdAt": "2020-12-01",
     "updatedAt": "2025-12-17",
@@ -261,10 +268,10 @@
     "description": "",
     "story": "",
     "images": {
-      "icon": "logo.png",
-      "thumbnail": "thumbnail.png",
       "banner": "banner.png",
-      "poster": "poster.gif"
+      "icon": "logo.png",
+      "poster": "poster.gif",
+      "thumbnail": "thumbnail.png"
     },
     "resources": [],
     "collection": {
@@ -442,6 +449,7 @@
     "name": "ZSDynamics 1.0",
     "subtitle": "Built with Flask",
     "summary": "The first version of my portfolio came from following Corey Schafer’s Flask tutorials and trying to understand how a real web app fits together. I set up my own server, configured Nginx, and handled deployment myself—mostly because I didn’t know there were easier options. It took a lot of trial and error, but it taught me how everything actually works behind the scenes. I added some of my own SVG graphics and simple animations to make it feel personal. It wasn’t perfect, but it ran, and I learned a lot from getting it there.",
+    "oneLiner": "Flask portfolio deployed manually with Nginx on a self-hosted server. Features custom SVGs, simple animations, and hand-configured routing. Early full-stack project demonstrating web app structure, hosting, and deployment fundamentals.",
     "domain": "Technology",
     "category": "Web",
     "status": "Complete",
@@ -462,9 +470,9 @@
     "description": "",
     "story": "",
     "images": {
+      "banner": "banner.png",
       "icon": "poster.png",
-      "thumbnail": "thumbnail.png",
-      "banner": "banner.png"
+      "thumbnail": "thumbnail.png"
     },
     "resources": [
       {
@@ -488,6 +496,7 @@
     "name": "Timeline 7",
     "subtitle": "Across time, technology, and survival—what remains of humanity fights to define itself again.",
     "summary": "Timeline 7 is a sprawling science fiction novel set hundreds of years after a catastrophic global collapse. The story follows a future civilization struggling to rebuild from the ashes of war, plague, and corruption. Human survivors, fractured into evolving species and new hierarchies, rediscover power, morality, and identity amid shifting political and biological landscapes. Through multiple intersecting perspectives—a soldier, a scientist, and a sentient machine—the book explores how progress and destruction often walk hand in hand. Written for readers who enjoy world-building and layered timelines, Timeline 7 examines the cyclical nature of humanity’s rise and fall with an eye toward resilience and reinvention.",
+    "oneLiner": "Post-apocalyptic sci-fi story about humanity rebuilding after self-destruction, told through intertwined lives across generations and technologies. A personal milestone—the first completed story built from a lifelong idea.",
     "domain": "Narrative",
     "category": "Novel",
     "status": "Complete",
@@ -508,8 +517,8 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "thumbnail.png",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "thumbnail": "thumbnail.png"
     },
     "resources": [],
     "collection": {},
@@ -522,6 +531,7 @@
     "name": "Towardbetter.me - Announcement Page",
     "subtitle": "",
     "summary": "TowardBetter.me is a platform designed to help women find supportive communities around life transitions, personal growth, and difficult moments that are often navigated alone. I was brought on to build an announcement page that could clearly communicate the mission of the project while laying the technical groundwork for what would eventually become a larger, authenticated platform. The goal was to create something simple, welcoming, and trustworthy—an entry point that felt intentional rather than promotional.\nThe site was built with React and Next.js, with Firebase Authentication integrated to support future user accounts and onboarding flows. From the beginning, the focus was on clarity and structure: clean UI, predictable behavior, and a codebase that could evolve without needing to be rethought later. This project served as both a public-facing introduction and a technical foundation for what TowardBetter.me would grow into.",
+    "oneLiner": "Announcement page for TowardBetter.me built with React, Next.js, and Firebase Auth. Designed as a clear, trustworthy entry to a community-focused platform and marked my first project after returning from Australia.",
     "domain": "Technology",
     "category": "Web",
     "status": "Complete",
@@ -543,9 +553,9 @@
     "description": "",
     "story": "",
     "images": {
+      "banner": "Collaborative Effort with Green Ball.png",
       "icon": "Celestial Hands Holding Heart.png",
-      "thumbnail": "thumbnail.png",
-      "banner": "Collaborative Effort with Green Ball.png"
+      "thumbnail": "thumbnail.png"
     },
     "resources": [
       {
@@ -569,6 +579,7 @@
     "name": "History of Everything Coloring Book",
     "subtitle": "A coloring book",
     "summary": "This coloring book traces major moments in history through a series of hand-drawn illustrations. Each page focuses on a specific period or event, presenting information in a simple, visual way that can be engaged with by coloring. The drawings were made on an iPad using an Apple Pencil and then compiled into a printed format. The goal was to make the scope of history feel more manageable by breaking it into individual pages that invite slower, more focused attention. It’s meant for anyone curious about how large stretches of time and events connect, from the beginnings of life to the stories that shaped the world.",
+    "oneLiner": "Hand-drawn coloring book mapping major historical moments to make large timelines approachable one page at a time. Served as a structured way to return to drawing and research, though it was never fully completed.",
     "domain": "Artistic",
     "category": "Art",
     "status": "Abandoned",
@@ -590,9 +601,9 @@
     "description": "",
     "story": "",
     "images": {
+      "banner": "banner.png",
       "icon": "banner.png",
-      "thumbnail": "thumbnail.png",
-      "banner": "banner.png"
+      "thumbnail": "thumbnail.png"
     },
     "resources": [],
     "collection": {
@@ -816,6 +827,7 @@
     "name": "ZSDynamics 4.0",
     "subtitle": "",
     "summary": "In the latest version, I focused on making the site feel more refined. I experimented with parallax effects and smoother animations to understand how small design choices change the overall experience. I also created an SVG character of myself that shifts colors in light and dark mode, which made the site feel a bit more personal. At this point, the portfolio wasn’t just about showing projects—it was a way to see how my design and development skills had grown.",
+    "oneLiner": "A design-driven update centered on smoother motion, subtle parallax effects, and an adaptive SVG avatar. Combined earlier technical and design skills into a more polished, cohesive, and expressive version of the portfolio.",
     "domain": "Technology",
     "category": "Web",
     "status": "Complete",
@@ -838,9 +850,9 @@
     "description": "",
     "story": "",
     "images": {
+      "banner": "poster.png",
       "icon": "banner.png",
-      "thumbnail": "thumbnail.png",
-      "banner": "poster.png"
+      "thumbnail": "thumbnail.png"
     },
     "resources": [
       {
@@ -864,6 +876,7 @@
     "name": "Obsidian Toolkit",
     "subtitle": "",
     "summary": "This project is a modular toolkit designed to make working inside Obsidian more dynamic and visual. It includes a dashboard system modeled after how Next.js handles routing, turning your folder structure into a navigable home view that mirrors the way web frameworks organize content. Alongside it is QueueCards, a note queueing system that helps prioritize ideas, tasks, or references by tracking how often items are skipped. Together, they create a workspace that’s both structured and adaptable, aimed at people who like to think in systems and want their vault to feel more like a living interface than a static archive.",
+    "oneLiner": "A modular Obsidian toolkit that turns your vault into an interactive dashboard and adds a simple queue system for managing notes. It’s an experiment in blending web-style structure with personal note-taking.",
     "domain": "Technology",
     "category": "Module",
     "status": "Complete",
@@ -883,10 +896,10 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "thumbnail.png",
-      "banner": "banner.gif",
       "hero": "queueExample.png",
-      "poster": "poster.gif"
+      "banner": "banner.gif",
+      "poster": "poster.gif",
+      "thumbnail": "thumbnail.png"
     },
     "resources": [
       {
@@ -905,6 +918,7 @@
     "name": "ChewSense",
     "subtitle": "Using AirPods and motion data to help people slow down and eat more mindfully.",
     "summary": "ChewSense is an iOS app that helps people slow down while they eat and pay more attention to their habits. It uses the motion sensors in AirPods to pick up chewing—mainly through X-axis acceleration—and gives gentle alerts when someone might be eating too fast. The app records motion and optional video so it can learn a person’s eating pattern and adjust over time. The goal is simple: improve digestion, avoid overeating, and make meals feel more mindful without asking the user to track anything manually.",
+    "oneLiner": "An iOS app that uses AirPods’ motion sensors to detect chewing and help users eat more mindfully by slowing down their pace.",
     "domain": "Technology",
     "category": "Application",
     "status": "Active",
@@ -928,10 +942,10 @@
     "description": "",
     "story": "",
     "images": {
-      "icon": "thumbnail.png",
-      "thumbnail": "thumbnail.png",
       "banner": "banner.png",
-      "poster": "poster.png"
+      "icon": "thumbnail.png",
+      "poster": "poster.png",
+      "thumbnail": "thumbnail.png"
     },
     "resources": [
       {
@@ -950,6 +964,7 @@
     "name": "Animation Collection",
     "subtitle": "",
     "summary": "This collection brings together a range of animations produced across different periods, tools, and creative goals. It includes 3D models and scenes developed in Blender alongside 2D animations focused on timing, clarity, and visual communication. Some works are polished and complete, while others function more as studies—short explorations of movement, structure, or technique. Together, they show how ideas evolve when approached through different dimensions and constraints. The collection is intended for viewers interested in process as much as outcome, offering a clear look at how visual ideas are tested, refined, and sometimes left intentionally unresolved.",
+    "oneLiner": "An archive of motion experiments, and finished pieces across 2D and 3D.",
     "domain": "Artistic",
     "category": "Animation",
     "status": "Active",
@@ -958,7 +973,13 @@
     "createdAt": "2020-12-28",
     "updatedAt": "2023-03-10",
     "isPublic": true,
-    "tags": [],
+    "tags": [
+      "Art",
+      "Cartoons",
+      "Comedy",
+      "Blender",
+      "Anime"
+    ],
     "mediums": [],
     "genres": [],
     "topics": [],
@@ -966,9 +987,9 @@
     "description": "",
     "story": "",
     "images": {
+      "banner": "banner.png",
       "icon": "icon.png",
-      "thumbnail": "collection thumbnail.png",
-      "banner": "banner.png"
+      "thumbnail": "collection thumbnail.png"
     },
     "resources": [],
     "collection": {
@@ -990,6 +1011,20 @@
             "order": 1,
             "type": "video",
             "filePath": "Bass_Ackward_Lip_Sync_Test.mov"
+          },
+          {
+            "id": "320aec94-4d3c-8055-bfcb-e43151baab66",
+            "label": "Funeral",
+            "order": 2,
+            "type": "video",
+            "filePath": "Funeral.mov"
+          },
+          {
+            "id": "320aec94-4d3c-80f9-ad2c-d2a873d164ae",
+            "label": "Easter Bunny",
+            "order": 3,
+            "type": "video",
+            "filePath": "Easter Bunny.mov"
           }
         ]
       },
@@ -1017,6 +1052,7 @@
     "name": "Lost & Hound",
     "subtitle": "Find your Furry Friend",
     "summary": "Lost & Hound is a mobile application designed to make it easier to reconnect lost pets with the people looking for them. Instead of relying on flyers, chance encounters, or social media posts that quickly disappear, the app provides a centralized place to report lost pets and log sightings in real time. Users can post details, photos, and locations, browse nearby reports, and reach out directly when something looks like a match.The app currently only works in Australia, reflecting where the initial rollout and testing took place. The project was built as a full-stack React Native application with a Node backend and Firebase for data and authentication. One team extended the system further by integrating computer vision, allowing uploaded images of spotted animals to be compared against photos of missing pets. The goal was not to replace human judgment, but to reduce friction and shorten the path between seeing an animal and contacting the right person.",
+    "oneLiner": "A community-driven mobile app that helps reunite lost pets with their owners by turning scattered, offline sightings into a shared, searchable system. The live app currently operates in Australia.",
     "domain": "Technology",
     "category": "Mobile App",
     "status": "Complete",
@@ -1042,10 +1078,10 @@
     "description": "",
     "story": "",
     "images": {
-      "icon": "icon.svg",
-      "thumbnail": "thumbnail.png",
       "banner": "banner.png",
-      "poster": "poster.png"
+      "icon": "icon.svg",
+      "poster": "poster.png",
+      "thumbnail": "thumbnail.png"
     },
     "resources": [
       {
@@ -1064,6 +1100,7 @@
     "name": "Greenhorn",
     "subtitle": "A TV Pilot",
     "summary": "Greenhorn is an animated dark comedy-drama about Jeff Wyatt, a sixth grader forced to navigate grief, crime, and moral decay in the icy Alaskan town of Greenhorn. After accidentally killing a man, Jeff is blackmailed into joining a small-town gang, dragging his fractured family into a world of violence and manipulation. The series mixes grounded emotional storytelling with sharp humor, drawing tonal inspiration from Breaking Bad, South Park, and Rick and Morty. Beneath its absurdity runs a story about power, guilt, and the limits of control—how ordinary people rationalize extraordinary wrongdoing. The project is designed for adult animation audiences who appreciate shows that balance comedy with moral consequence and psychological realism.",
+    "oneLiner": "An Alaskan middle schooler accidentally kills a man and is pulled into a spiraling world of crime, power, and consequence, turning a small town into his personal battlefield.",
     "domain": "Narrative",
     "category": "Television",
     "status": "Complete",
@@ -1083,10 +1120,10 @@
     "description": "",
     "story": "",
     "images": {
-      "icon": "thumbnail.tiff",
-      "thumbnail": "thumbnail.tiff",
       "banner": "banner.png",
-      "poster": "poster.tiff"
+      "icon": "thumbnail.tiff",
+      "poster": "poster.tiff",
+      "thumbnail": "thumbnail.tiff"
     },
     "resources": [],
     "collection": {},
@@ -1099,6 +1136,7 @@
     "name": "ZSDynamics 3.0",
     "subtitle": "Built with React",
     "summary": "After I got more comfortable with React, I wanted to see how design choices and small interactions could change the experience. I built a feature that let users switch between themes and font styles. It wasn’t the most practical feature, but it taught me a lot and pushed me to pay more attention to how design decisions show up in real use. That curiosity drove most of what I built during this stage.",
+    "oneLiner": "Added interactive features such as a live theme and font selector to experiment with frontend flexibility. Focused on React state management, component communication, and styling behavior. Served as a small sandbox for improving overall frontend fluency.",
     "domain": "Technology",
     "category": "Web",
     "status": "Complete",
@@ -1119,8 +1157,8 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "thumbnail.png",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "thumbnail": "thumbnail.png"
     },
     "resources": [
       {
@@ -1139,6 +1177,7 @@
     "name": "ZSDynamics 1.1",
     "subtitle": "Built with Flask",
     "summary": "After digging deeper into data science, I wanted the portfolio to be more than a place to drop my work. So I added a simple email subscription so visitors could get updates, and I integrated Dashly for some lightweight analytics and visualization. It was a noticeable step forward for me—not just in the code, but in how I was thinking about the people visiting the site.",
+    "oneLiner": "This version turned the portfolio from a static project list into an interactive site with email subscriptions and built-in analytics to better understand user engagement.",
     "domain": "Technology",
     "category": "Web",
     "status": "Complete",
@@ -1159,8 +1198,8 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "thumbnail.png",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "thumbnail": "thumbnail.png"
     },
     "resources": [
       {
@@ -1184,6 +1223,7 @@
     "name": "3D Models Collection",
     "subtitle": "",
     "summary": "This collection brings together a range of 3D models created during my early work in Blender. Each piece was built with a specific purpose, from simple objects intended for 3D printing to assets designed for animation and game environments. The collection is not centered on a single style or outcome, but on learning how digital form works across different contexts. Earlier models focus on basic structure, lighting, and scale, while later ones begin to account for motion, function, and narrative use. Taken together, the work documents a gradual shift from experimenting with tools to understanding how design decisions support real-world and virtual applications.",
+    "oneLiner": "A personal collection of 3D models made while learning Blender, focused on understanding form, scale, and how digital objects function across different uses.",
     "domain": "Artistic",
     "category": "Other",
     "status": "Active",

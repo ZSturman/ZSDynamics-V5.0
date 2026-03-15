@@ -95,18 +95,24 @@ export function ProjectHeader({ project, hideBanner = false }: ProjectHeaderProp
             )}
           </div>
           {project.subtitle && <p className="text-pretty text-sm md:text-lg text-muted-foreground">{project.subtitle}</p>}
+          {project.oneLiner && (
+            <p className="text-pretty text-sm md:text-base text-muted-foreground/80 mt-2 italic">
+              {project.oneLiner}
+            </p>
+          )}
         </div>
       </div>
 
       <div className="overflow-hidden">
         {heroPath && (
-          <div className="mb-4 md:mb-6">
+          <div className="mb-4 md:mb-6 px-10 py-5">
             <div
               data-testid="project-header-hero"
               data-project-id={project.id}
               data-media-role="hero"
               className="relative aspect-video w-full overflow-hidden rounded-xl border border-border/70 bg-card/30"
             >
+              
               <MediaDisplay
                 src={heroPath}
                 alt={`${project.title} hero media`}

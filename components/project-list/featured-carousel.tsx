@@ -272,9 +272,9 @@ export function FeaturedCarousel({
                             )}
                           </div>
 
-                          {/* Summary */}
+                          {/* One-liner / Summary */}
                           <p className="text-sm lg:text-base text-muted-foreground leading-relaxed line-clamp-3 sm:line-clamp-4">
-                            {formatTextWithNewlines(project.summary)}
+                            {formatTextWithNewlines(project.oneLiner || project.summary)}
                           </p>
 
                           {/* Tags - Show on md and up (max 3) */}

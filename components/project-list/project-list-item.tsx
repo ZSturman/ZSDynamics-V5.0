@@ -94,7 +94,7 @@ export function ProjectListItem({ project, onClick, sortField = "updatedAt" }: P
           )}
 
           <p className="text-muted-foreground text-[10px] md:text-sm mb-1.5 md:mb-4 pt-2 line-clamp-3 whitespace-pre-wrap break-words max-w-full">
-            {formatTextWithNewlines(project.summary)}
+            {formatTextWithNewlines(project.oneLiner || project.summary)}
           </p>
           
 
