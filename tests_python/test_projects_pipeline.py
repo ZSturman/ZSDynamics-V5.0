@@ -854,6 +854,105 @@ class TestProjectsPipeline(unittest.TestCase):
             self.assertEqual(collection_item["filePath"], "icon.svg")
             self.assertTrue(collection_item["filePath"].endswith(".svg"))
 
+    def test_project_articles_normalize_to_internal_article_routes(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_root_str, tempfile.TemporaryDirectory() as out_str:
+            temp_root = Path(temp_root_str)
+            out_dir = Path(out_str)
+
+            manifest_path = temp_root / "articles.json"
+            manifest_path.write_text(
+                json.dumps(
+                    [
+                        {
+                            "slug": "first-article",
+                            "title": "First Article",
+                            "summary": "One",
+                            "publishedAt": "2026-03-10",
+                            "sourceUrl": "https://github.com/ZSturman/Articles/blob/main/articles/first-article/index.md",
+                            "href": "/articles/first-article",
+                        },
+                        {
+                            "slug": "second-article",
+                            "title": "Second Article",
+                            "summary": "Two",
+                            "publishedAt": "2026-03-09",
+                            "sourceUrl": "https://github.com/ZSturman/Articles/blob/main/articles/second-article/index.md",
+                            "href": "/articles/second-article",
+                        },
+                        {
+                            "slug": "designing-a-notion-linear-sync-engine-that-could-actually-be-trusted",
+                            "title": "Designing a Notion-Linear Sync Engine That Could Actually Be Trusted",
+                            "summary": "Three",
+                            "publishedAt": "2026-03-16",
+                            "sourceUrl": "https://github.com/ZSturman/Articles/blob/main/designing-a-notion-linear-sync-engine-that-could-actually-be-trusted/index.md",
+                            "href": "/articles/designing-a-notion-linear-sync-engine-that-could-actually-be-trusted",
+                        },
+                    ]
+                ),
+                encoding="utf-8",
+            )
+
+            payload = {
+                "config": {"root_path": str(temp_root)},
+                "projects": [
+                    {
+                        "id": "proj-articles",
+                        "title": "Article Project",
+                        "summary": "Has article links",
+                        "articles": [
+                            "/first-article",
+                            "second-article/index.md",
+                            "https://github.com/ZSturman/Articles/blob/main/articles/first-article/index.md",
+                            {
+                                "url": "https://raw.githubusercontent.com/ZSturman/Articles/main/articles/second-article/index.md"
+                            },
+                            "/articles/designing-a-notion-linear-sync-engine-that-could-actually-be-trusted",
+                            "https://github.com/ZSturman/Articles/blob/main/articles/Designing-a-Notion%E2%80%93Linear-Sync-Engine-That-Could-Actually-Be-Trusted.md",
+                            "https://github.com/ZSturman/Articles/blob/main/articles/missing-article/index.md",
+                            "https://github.com/ZSturman/Articles/blob/main/articles/first-article/index.md",
+                        ],
+                    }
+                ],
+            }
+
+            input_json = temp_root / "new_projects.json"
+            input_json.write_text(json.dumps(payload), encoding="utf-8")
+
+            result = build_projects_from_json(
+                input_json_path=input_json,
+                temp_public_projects_root=out_dir,
+                articles_manifest_path=manifest_path,
+            )
+
+            self.assertEqual(len(result["projects"]), 1)
+            project = result["projects"][0]
+            self.assertEqual(
+                project["articles"],
+                [
+                    {
+                        "title": "First Article",
+                        "slug": "first-article",
+                        "href": "/articles/first-article",
+                        "sourceUrl": "/first-article",
+                    },
+                    {
+                        "title": "Second Article",
+                        "slug": "second-article",
+                        "href": "/articles/second-article",
+                        "sourceUrl": "second-article/index.md",
+                    },
+                    {
+                        "title": "Designing a Notion-Linear Sync Engine That Could Actually Be Trusted",
+                        "slug": "designing-a-notion-linear-sync-engine-that-could-actually-be-trusted",
+                        "href": "/articles/designing-a-notion-linear-sync-engine-that-could-actually-be-trusted",
+                        "sourceUrl": "/articles/designing-a-notion-linear-sync-engine-that-could-actually-be-trusted",
+                    },
+                ],
+            )
+            self.assertTrue(
+                any("missing from manifest" in warning for warning in result["warnings"])
+            )
+
 
 class TestMediaOptimizer(unittest.TestCase):
     """Test the media optimizer SVG handling."""

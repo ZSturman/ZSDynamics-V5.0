@@ -37,6 +37,7 @@
     ],
     "collection": {},
     "workLogs": [],
+    "articles": [],
     "folderName": "episodic_memory_agent_306aec94-4d3c-8005-97ab-d4572f1ab679"
   },
   {
@@ -72,10 +73,10 @@
     "description": "",
     "story": "",
     "images": {
-      "banner": "banner.png",
+      "icon": "TopNote AppIcon v2-watchOS-Default-1088x1088@1x.png",
       "poster": "poster.png",
       "thumbnail": "thumbnail.png",
-      "icon": "TopNote AppIcon v2-watchOS-Default-1088x1088@1x.png",
+      "banner": "banner.png",
       "hero": "hero.png"
     },
     "resources": [
@@ -92,6 +93,7 @@
     ],
     "collection": {},
     "workLogs": [],
+    "articles": [],
     "folderName": "top_note_306aec94-4d3c-8008-9985-d94ba1780069"
   },
   {
@@ -122,8 +124,8 @@
     "description": "",
     "story": "",
     "images": {
-      "banner": "banner.png",
-      "thumbnail": "thumbnail.png"
+      "thumbnail": "thumbnail.png",
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -139,6 +141,7 @@
     ],
     "collection": {},
     "workLogs": [],
+    "articles": [],
     "folderName": "zsdynamics_20_306aec94-4d3c-800b-9d7d-ed0c879ab5b3"
   },
   {
@@ -170,9 +173,9 @@
     "description": "",
     "story": "",
     "images": {
-      "banner": "banner.png",
+      "icon": "thumbnail.png",
       "thumbnail": "thumbnail.png",
-      "icon": "thumbnail.png"
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -183,6 +186,7 @@
     ],
     "collection": {},
     "workLogs": [],
+    "articles": [],
     "folderName": "mediledger_306aec94-4d3c-800f-8fd6-c80ad845b5df"
   },
   {
@@ -213,8 +217,8 @@
     "description": "",
     "story": "",
     "images": {
-      "banner": "banner.png",
       "thumbnail": "E4690E5D-3901-4E26-A237-8AA0FF26EE76.png",
+      "banner": "banner.png",
       "hero": "hero.png"
     },
     "resources": [],
@@ -236,6 +240,7 @@
       }
     },
     "workLogs": [],
+    "articles": [],
     "folderName": "mind_adrift_306aec94-4d3c-801d-b601-cb6d0de3219e"
   },
   {
@@ -268,10 +273,10 @@
     "description": "",
     "story": "",
     "images": {
-      "banner": "banner.png",
+      "icon": "logo.png",
       "poster": "poster.gif",
       "thumbnail": "thumbnail.png",
-      "icon": "logo.png"
+      "banner": "banner.png"
     },
     "resources": [],
     "collection": {
@@ -441,6 +446,7 @@
       }
     },
     "workLogs": [],
+    "articles": [],
     "folderName": "frontend_collection_306aec94-4d3c-803b-a895-e775003b0f5d"
   },
   {
@@ -470,9 +476,9 @@
     "description": "",
     "story": "",
     "images": {
-      "banner": "banner.png",
+      "icon": "poster.png",
       "thumbnail": "thumbnail.png",
-      "icon": "poster.png"
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -488,6 +494,7 @@
     ],
     "collection": {},
     "workLogs": [],
+    "articles": [],
     "folderName": "zsdynamics_10_306aec94-4d3c-803d-8230-fe06337c4a51"
   },
   {
@@ -517,12 +524,13 @@
     "description": "",
     "story": "",
     "images": {
-      "banner": "banner.png",
-      "thumbnail": "thumbnail.png"
+      "thumbnail": "thumbnail.png",
+      "banner": "banner.png"
     },
     "resources": [],
     "collection": {},
     "workLogs": [],
+    "articles": [],
     "folderName": "timeline_7_306aec94-4d3c-805d-b085-e4252d4601b3"
   },
   {
@@ -553,9 +561,9 @@
     "description": "",
     "story": "",
     "images": {
-      "banner": "Collaborative Effort with Green Ball.png",
+      "icon": "Celestial Hands Holding Heart.png",
       "thumbnail": "thumbnail.png",
-      "icon": "Celestial Hands Holding Heart.png"
+      "banner": "Collaborative Effort with Green Ball.png"
     },
     "resources": [
       {
@@ -571,6 +579,7 @@
     ],
     "collection": {},
     "workLogs": [],
+    "articles": [],
     "folderName": "towardbetterme_announcement_page_306aec94-4d3c-8064-9e5a-c59f1df02bee"
   },
   {
@@ -601,9 +610,9 @@
     "description": "",
     "story": "",
     "images": {
-      "banner": "banner.png",
+      "icon": "banner.png",
       "thumbnail": "thumbnail.png",
-      "icon": "banner.png"
+      "banner": "banner.png"
     },
     "resources": [],
     "collection": {
@@ -819,6 +828,7 @@
       }
     },
     "workLogs": [],
+    "articles": [],
     "folderName": "history_of_everything_coloring_book_306aec94-4d3c-8067-909b-da087d8b0c26"
   },
   {
@@ -850,9 +860,9 @@
     "description": "",
     "story": "",
     "images": {
-      "banner": "poster.png",
+      "icon": "banner.png",
       "thumbnail": "thumbnail.png",
-      "icon": "banner.png"
+      "banner": "poster.png"
     },
     "resources": [
       {
@@ -868,6 +878,7 @@
     ],
     "collection": {},
     "workLogs": [],
+    "articles": [],
     "folderName": "zsdynamics_40_306aec94-4d3c-807e-a7ef-db0aa63a2ec7"
   },
   {
@@ -896,9 +907,9 @@
     "description": "",
     "story": "",
     "images": {
-      "banner": "banner.gif",
       "poster": "poster.gif",
       "thumbnail": "thumbnail.png",
+      "banner": "banner.gif",
       "hero": "queueExample.png"
     },
     "resources": [
@@ -910,6 +921,7 @@
     ],
     "collection": {},
     "workLogs": [],
+    "articles": [],
     "folderName": "obsidian_toolkit_306aec94-4d3c-8085-a43d-f9ac3bec06ef"
   },
   {
@@ -942,10 +954,10 @@
     "description": "",
     "story": "",
     "images": {
-      "banner": "banner.png",
+      "icon": "thumbnail.png",
       "poster": "poster.png",
       "thumbnail": "thumbnail.png",
-      "icon": "thumbnail.png"
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -956,6 +968,7 @@
     ],
     "collection": {},
     "workLogs": [],
+    "articles": [],
     "folderName": "chewsense_306aec94-4d3c-808d-9ada-f0ccca484d3b"
   },
   {
@@ -987,9 +1000,9 @@
     "description": "",
     "story": "",
     "images": {
-      "banner": "banner.png",
+      "icon": "icon.png",
       "thumbnail": "collection thumbnail.png",
-      "icon": "icon.png"
+      "banner": "banner.png"
     },
     "resources": [],
     "collection": {
@@ -1044,6 +1057,7 @@
       }
     },
     "workLogs": [],
+    "articles": [],
     "folderName": "animation_collection_306aec94-4d3c-8091-876a-f028b4c582c4"
   },
   {
@@ -1078,10 +1092,10 @@
     "description": "",
     "story": "",
     "images": {
-      "banner": "banner.png",
+      "icon": "icon.svg",
       "poster": "poster.png",
       "thumbnail": "thumbnail.png",
-      "icon": "icon.svg"
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -1092,6 +1106,7 @@
     ],
     "collection": {},
     "workLogs": [],
+    "articles": [],
     "folderName": "lost_hound_306aec94-4d3c-80a5-b00e-f67cc4ff5901"
   },
   {
@@ -1120,14 +1135,15 @@
     "description": "",
     "story": "",
     "images": {
-      "banner": "banner.png",
+      "icon": "thumbnail.tiff",
       "poster": "poster.tiff",
       "thumbnail": "thumbnail.tiff",
-      "icon": "thumbnail.tiff"
+      "banner": "banner.png"
     },
     "resources": [],
     "collection": {},
     "workLogs": [],
+    "articles": [],
     "folderName": "greenhorn_306aec94-4d3c-80b0-b478-e070bcd1d517"
   },
   {
@@ -1157,8 +1173,8 @@
     "description": "",
     "story": "",
     "images": {
-      "banner": "banner.png",
-      "thumbnail": "thumbnail.png"
+      "thumbnail": "thumbnail.png",
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -1169,6 +1185,7 @@
     ],
     "collection": {},
     "workLogs": [],
+    "articles": [],
     "folderName": "zsdynamics_30_306aec94-4d3c-80d4-a8bd-d83a8832ebf8"
   },
   {
@@ -1198,8 +1215,8 @@
     "description": "",
     "story": "",
     "images": {
-      "banner": "banner.png",
-      "thumbnail": "thumbnail.png"
+      "thumbnail": "thumbnail.png",
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -1215,6 +1232,7 @@
     ],
     "collection": {},
     "workLogs": [],
+    "articles": [],
     "folderName": "zsdynamics_11_306aec94-4d3c-80ff-a96a-c3c51900e249"
   },
   {
@@ -1245,6 +1263,72 @@
     "resources": [],
     "collection": {},
     "workLogs": [],
+    "articles": [],
     "folderName": "3d_models_collection_312aec94-4d3c-817e-9295-e018716cf990"
+  },
+  {
+    "id": "32eaec94-4d3c-80c9-b238-c8a9f0b1990e",
+    "title": "Runtime Storyboard Debugger",
+    "name": "Runtime Storyboard Debugger",
+    "subtitle": "",
+    "summary": "Runtime Storyboard Debugger is a developer tool that reveals how a system actually works by transforming execution into a sequence of meaningful, replayable frames. It helps engineers start from real entry points, follow branches and side effects, understand why decisions were made, and traverse unfamiliar architecture as a clear causal flow instead of scattered code, logs, and traces.",
+    "oneLiner": "Turn unfamiliar codebases into navigable causal stories.",
+    "domain": "Technology",
+    "category": "Application",
+    "status": "Active",
+    "phase": "Development",
+    "featured": true,
+    "featuredOrder": 6,
+    "createdAt": "2026-03-25",
+    "updatedAt": null,
+    "isPublic": true,
+    "tags": [
+      "Debugging",
+      "Developer Tools",
+      "Code Exploration",
+      "Onboarding",
+      "Visualization"
+    ],
+    "mediums": [],
+    "genres": [],
+    "topics": [],
+    "subjects": [],
+    "description": "",
+    "story": "",
+    "images": {
+      "icon": "icon.png",
+      "thumbnail": "thumbnail.png",
+      "banner": "banner.png",
+      "hero": "hero.png"
+    },
+    "resources": [
+      {
+        "type": "github",
+        "label": "Repo",
+        "url": "https://github.com/ZSturman/Runtime-Storyboard-Debugger"
+      }
+    ],
+    "collection": {},
+    "workLogs": [
+      {
+        "id": "32eaec94-4d3c-8097-8c33-f093879d5316",
+        "title": "Created new project entry for Runtime Storyboard Debugger",
+        "entry": "Created new project entry for Runtime Storyboard Debugger",
+        "url": "https://www.notion.so/Created-new-project-entry-for-Runtime-Storyboard-Debugger-32eaec944d3c80978c33f093879d5316",
+        "startTime": "2026-03-25T15:08:00.000-07:00",
+        "endTime": "2026-03-25T16:08:00.000-07:00",
+        "date": "2026-03-25T16:08:00.000-07:00",
+        "sessionType": [
+          "Planning",
+          "Organizing"
+        ],
+        "whatHappened": "Created new project entry for Runtime Storyboard Debugger and added the 'Project Starter' milestones and tasks.",
+        "problems": null,
+        "nextStep": null,
+        "durationMinutes": 60
+      }
+    ],
+    "articles": [],
+    "folderName": "runtime_storyboard_debugger_32eaec94-4d3c-80c9-b238-c8a9f0b1990e"
   }
 ]

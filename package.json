@@ -2,10 +2,13 @@
   "name": "zachary-sturman",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">=20.0.0"
+  },
   "scripts": {
-    "dev": "npm run generate-projects && npm run optimize && next dev",
+    "dev": "npm run generate-articles && npm run generate-projects && npm run optimize && next dev",
     "dev-cached": "next dev",
-    "build": "next build",
+    "build": "npm run generate-articles && npm run generate-projects && npm run optimize && next build",
     "start": "next start",
     "lint": "eslint",
     "test:media": "playwright test -c playwright.media.config.ts",
@@ -13,6 +16,7 @@
     "test:media:matrix": "playwright test -c playwright.media.config.ts --grep @matrix",
     "hooks:install": "node scripts/install-hooks.mjs",
     "hooks:pre-push": "bash .githooks/pre-push",
+    "generate-articles": "python3 lib/sync_articles.py",
     "generate-projects": "python3 lib/folio-prebuild.py --input-json /Users/zacharysturman/n8n-files/exports/new_projects.json",
     "optimize": "python3 lib/media-optimizer.py public/projects --delete-originals"
   },
@@ -27,12 +31,13 @@
     "clsx": "^2.1.1",
     "embla-carousel-autoplay": "^8.0.0",
     "embla-carousel-react": "^8.0.0",
-    "firebase-tools": "^14.22.0",
     "lucide-react": "^0.544.0",
-    "next": "15.5.9",
+    "next": "15.5.12",
     "react": "19.1.0",
     "react-dom": "19.1.0",
+    "react-markdown": "^10.1.0",
     "react-swipeable": "^7.0.2",
+    "remark-gfm": "^4.0.1",
     "tailwind-merge": "^3.3.1",
     "three": "^0.180.0"
   },
@@ -44,7 +49,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "15.5.3",
+    "eslint-config-next": "15.5.12",
     "tailwindcss": "^4",
     "tw-animate-css": "^1.3.8",
     "typescript": "^5"

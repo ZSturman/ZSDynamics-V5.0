@@ -9,6 +9,7 @@ import { useBreadcrumb } from "@/lib/breadcrumb-context";
 import { ArrowLeft } from "lucide-react";
 import ProjectDetailsFooter from "./project-details/project-details-footer";
 import { ProjectWorkLogs } from "./project-details/project-work-logs";
+import { ProjectArticles } from "./project-details/project-articles";
 import { hasProjectCollectionItems } from "@/lib/project-collections";
 
 interface ProjectDetailsProps {
@@ -64,6 +65,7 @@ export default function ProjectDetails({ project }: ProjectDetailsProps) {
       (project.story && String(project.story).trim())
   );
   const hasWorkLogs = Boolean(project.workLogs && project.workLogs.length > 0);
+  const hasArticles = Boolean(project.articles && project.articles.length > 0);
 
   return (
     <div className="min-h-screen bg-background">
@@ -89,6 +91,12 @@ export default function ProjectDetails({ project }: ProjectDetailsProps) {
             <h3 className="mb-4 text-sm font-medium text-muted-foreground">Project Details</h3>
             <ProjectMetadata project={project} />
           </section>
+
+          {hasArticles && (
+            <section className="border-t border-border pt-6">
+              <ProjectArticles project={project} />
+            </section>
+          )}
 
           {hasWorkLogs && (
             <section className="border-t border-border pt-6">

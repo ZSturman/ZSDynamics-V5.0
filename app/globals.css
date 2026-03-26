@@ -126,3 +126,80 @@
     max-width: 100vw;
   }
 }
+
+@layer components {
+  .article-markdown {
+    @apply text-base leading-8 text-foreground;
+  }
+
+  .article-markdown > * + * {
+    @apply mt-5;
+  }
+
+  .article-markdown h1,
+  .article-markdown h2,
+  .article-markdown h3,
+  .article-markdown h4 {
+    @apply mt-10 scroll-m-20 font-semibold tracking-tight text-foreground;
+  }
+
+  .article-markdown h1 {
+    @apply text-3xl;
+  }
+
+  .article-markdown h2 {
+    @apply text-2xl;
+  }
+
+  .article-markdown h3 {
+    @apply text-xl;
+  }
+
+  .article-markdown p,
+  .article-markdown li,
+  .article-markdown blockquote {
+    @apply text-base leading-8 text-foreground/90;
+  }
+
+  .article-markdown ul,
+  .article-markdown ol {
+    @apply ml-6 space-y-2;
+  }
+
+  .article-markdown ul {
+    list-style: disc;
+  }
+
+  .article-markdown ol {
+    list-style: decimal;
+  }
+
+  .article-markdown hr {
+    @apply my-8 border-border/70;
+  }
+
+  .article-markdown blockquote {
+    @apply rounded-r-2xl border-l-4 border-primary/40 bg-muted/40 px-5 py-4 italic;
+  }
+
+  .article-markdown pre {
+    @apply my-6 overflow-x-auto rounded-2xl border border-border/70 bg-muted px-4 py-4 text-sm leading-7;
+  }
+
+  .article-markdown pre code {
+    @apply bg-transparent p-0;
+  }
+
+  .article-markdown table {
+    @apply my-6 w-full border-collapse overflow-hidden rounded-2xl border border-border/70 text-left text-sm;
+  }
+
+  .article-markdown thead {
+    @apply bg-muted/60;
+  }
+
+  .article-markdown th,
+  .article-markdown td {
+    @apply border border-border/70 px-4 py-3 align-top;
+  }
+}

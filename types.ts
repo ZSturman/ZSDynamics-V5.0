@@ -8,6 +8,26 @@ export interface Resource {
   category?: string;
 }
 
+export interface ProjectArticleReference {
+  title: string;
+  slug: string;
+  href: string;
+  sourceUrl: string;
+}
+
+export interface Article {
+  slug: string;
+  title: string;
+  summary: string;
+  publishedAt?: string | null;
+  updatedAt: string;
+  tags?: string[];
+  projectIds?: string[];
+  sourceUrl: string;
+  href: string;
+  coverImage?: string;
+}
+
 export type CollectionItemType =
   | "image"
   | "video"
@@ -141,6 +161,7 @@ export interface Project {
   }>;
   assets?: CollectionItem[];
   workLogs?: WorkLog[];
+  articles?: ProjectArticleReference[];
 
   details?: [
     {

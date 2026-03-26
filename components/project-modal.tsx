@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import { useBreadcrumb } from "@/lib/breadcrumb-context";
 import ProjectDetailsFooter from "./project-details/project-details-footer";
 import { ProjectWorkLogs } from "./project-details/project-work-logs";
+import { ProjectArticles } from "./project-details/project-articles";
 import { getOptimizedMediaPath } from "@/lib/utils";
 import { MediaDisplay } from "./ui/media-display";
 import { hasProjectCollectionItems } from "@/lib/project-collections";
@@ -41,6 +42,7 @@ export function ProjectModal({ project, isOpen, onClose }: ProjectModalProps) {
   );
   const hasCollection = hasProjectCollectionItems(project);
   const hasWorkLogs = Boolean(project.workLogs && project.workLogs.length > 0);
+  const hasArticles = Boolean(project.articles && project.articles.length > 0);
   const folderName = project.folderName || project.id;
   const folderPath = `/projects/${folderName}`;
   const bannerMedia =
@@ -116,6 +118,12 @@ export function ProjectModal({ project, isOpen, onClose }: ProjectModalProps) {
               <h3 className="mb-4 text-sm font-medium text-muted-foreground">Project Details</h3>
               <ProjectMetadata project={project} />
             </section>
+
+            {hasArticles && (
+              <section className="border-t border-border pt-6">
+                <ProjectArticles project={project} />
+              </section>
+            )}
 
             {hasWorkLogs && (
               <section className="border-t border-border pt-6">

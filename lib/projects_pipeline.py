@@ -11,6 +11,7 @@ from __future__ import annotations
 import json
 import re
 import shutil
+import unicodedata
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional, Set, Tuple
@@ -34,6 +35,22 @@ UUID_RE = re.compile(r"[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{
 SCHEME_RE = re.compile(r"^[a-zA-Z][a-zA-Z0-9+.-]*://")
 BARE_DOMAIN_RE = re.compile(
     r"^(?:[A-Za-z0-9-]+\.)+[A-Za-z]{2,63}(?::\d+)?(?:/[^\s]*)?$"
+)
+ARTICLE_REPO_PATH_RE = re.compile(
+    r"^/(?P<owner>[^/]+)/(?P<repo>[^/]+)/blob/(?P<ref>[^/]+)/articles/(?P<slug>[^/]+)/index\.(?:md|markdown)$",
+    re.IGNORECASE,
+)
+ARTICLE_RAW_PATH_RE = re.compile(
+    r"^/(?P<owner>[^/]+)/(?P<repo>[^/]+)/(?P<ref>[^/]+)/articles/(?P<slug>[^/]+)/index\.(?:md|markdown)$",
+    re.IGNORECASE,
+)
+ARTICLE_REPO_PATH_FILE_RE = re.compile(
+    r"^/(?P<owner>[^/]+)/(?P<repo>[^/]+)/blob/(?P<ref>[^/]+)(?:/articles)?/(?P<filename>[^/]+)\.(?:md|markdown)$",
+    re.IGNORECASE,
+)
+ARTICLE_RAW_PATH_FILE_RE = re.compile(
+    r"^/(?P<owner>[^/]+)/(?P<repo>[^/]+)/(?P<ref>[^/]+)(?:/articles)?/(?P<filename>[^/]+)\.(?:md|markdown)$",
+    re.IGNORECASE,
 )
 
 _FILENAME_SEARCH_CACHE: Dict[Tuple[str, str], Optional[Path]] = {}
@@ -112,6 +129,16 @@ def slugify(name: str) -> str:
     s = re.sub(r"[^\w\s-]", "", s)
     s = re.sub(r"[\s-]+", "_", s).strip("_")
     return s or "untitled"
+
+
+def normalize_article_slug(value: str) -> str:
+    normalized = unicodedata.normalize("NFKD", value or "")
+    ascii_only = normalized.encode("ascii", "ignore").decode("ascii")
+    lowered = ascii_only.strip().lower().replace("_", "-")
+    lowered = re.sub(r"[^a-z0-9\s/-]", "", lowered)
+    lowered = re.sub(r"[\s/]+", "-", lowered)
+    lowered = re.sub(r"-+", "-", lowered).strip("-")
+    return lowered or "article"
 
 
 def make_project_folder_name(title: str, project_id: str) -> str:
@@ -199,6 +226,175 @@ def _normalize_url(raw_url: Any) -> Optional[str]:
     if BARE_DOMAIN_RE.match(s):
         return f"https://{s}"
     return s
+
+
+def _load_articles_manifest(articles_manifest_path: Optional[Path]) -> Dict[str, Dict[str, Any]]:
+    if not articles_manifest_path:
+        default_path = Path(__file__).parent.parent / "public" / "articles" / "articles.json"
+        articles_manifest_path = default_path
+
+    if not articles_manifest_path.exists() or not articles_manifest_path.is_file():
+        return {}
+
+    try:
+        payload = json.loads(articles_manifest_path.read_text(encoding="utf-8"))
+    except Exception:
+        return {}
+
+    if not isinstance(payload, list):
+        return {}
+
+    manifest: Dict[str, Dict[str, Any]] = {}
+    for item in payload:
+        if not isinstance(item, dict):
+            continue
+        slug = _as_str(item.get("slug"))
+        title = _as_str(item.get("title"))
+        href = _as_str(item.get("href"))
+        source_url = _as_str(item.get("sourceUrl"))
+        if not slug or not title or not href or not source_url:
+            continue
+        article = {
+            "slug": slug,
+            "title": title,
+            "href": href,
+            "sourceUrl": source_url,
+        }
+        for alias in _article_lookup_aliases(article):
+            manifest[alias] = article
+    return manifest
+
+
+def _article_lookup_aliases(article: Dict[str, Any]) -> Set[str]:
+    aliases: Set[str] = set()
+
+    slug = _as_str(article.get("slug"))
+    href = _as_str(article.get("href"))
+    source_url = _as_str(article.get("sourceUrl"))
+
+    for candidate in (slug, href, source_url):
+        alias = _extract_article_slug(candidate)
+        if alias:
+            aliases.add(alias)
+
+    if slug:
+        aliases.add(normalize_article_slug(slug))
+    if href:
+        trimmed = href.strip()
+        aliases.add(trimmed)
+        aliases.add(trimmed.lstrip("/"))
+    if source_url:
+        aliases.add(source_url.strip())
+
+    return aliases
+
+
+def _extract_article_slug(raw_value: Any) -> Optional[str]:
+    normalized = _normalize_url(raw_value) or _as_str(raw_value)
+    if not normalized:
+        return None
+
+    normalized = normalized.strip()
+
+    try:
+        parsed = urlparse(normalized)
+    except Exception:
+        parsed = None
+
+    if parsed and parsed.scheme:
+        hostname = (parsed.hostname or "").lower()
+        path = parsed.path or ""
+
+        if hostname == "github.com":
+            match = ARTICLE_REPO_PATH_RE.match(path)
+            if match:
+                return normalize_article_slug(match.group("slug"))
+            match = ARTICLE_REPO_PATH_FILE_RE.match(path)
+            if match:
+                return normalize_article_slug(match.group("filename"))
+
+        if hostname == "raw.githubusercontent.com":
+            match = ARTICLE_RAW_PATH_RE.match(path)
+            if match:
+                return normalize_article_slug(match.group("slug"))
+            match = ARTICLE_RAW_PATH_FILE_RE.match(path)
+            if match:
+                return normalize_article_slug(match.group("filename"))
+
+        path_only = path
+    else:
+        path_only = normalized
+
+    stripped = path_only.split("#", 1)[0].split("?", 1)[0].strip()
+    if not stripped:
+        return None
+
+    parts = [part for part in stripped.strip("/").split("/") if part and part != "."]
+    if not parts:
+        return None
+
+    if parts[0].lower() == "articles":
+        parts = parts[1:]
+        if not parts:
+            return None
+
+    last_part = parts[-1]
+    lower_last_part = last_part.lower()
+    if lower_last_part in {"index.md", "index.markdown"}:
+        if len(parts) >= 2:
+            return normalize_article_slug(parts[-2])
+        return None
+
+    if lower_last_part.endswith((".md", ".markdown")):
+        return normalize_article_slug(Path(last_part).stem)
+
+    return normalize_article_slug(last_part)
+
+def _normalize_project_articles(
+    source_articles: Any,
+    *,
+    articles_by_slug: Dict[str, Dict[str, Any]],
+    warnings: List[str],
+    project_id: str,
+) -> List[Dict[str, Any]]:
+    if not isinstance(source_articles, list):
+        return []
+
+    normalized_articles: List[Dict[str, Any]] = []
+    seen_slugs: Set[str] = set()
+
+    for idx, raw_article in enumerate(source_articles):
+        if isinstance(raw_article, str):
+            source_url = _normalize_url(raw_article) or _as_str(raw_article)
+        elif isinstance(raw_article, dict):
+            source_url = _normalize_url(raw_article.get("url") or raw_article.get("sourceUrl") or raw_article.get("href")) or _as_str(raw_article.get("slug"))
+        else:
+            source_url = None
+
+        slug = _extract_article_slug(source_url)
+        if not slug:
+            warnings.append(f"Dropped unresolved project article in project {project_id} at index {idx}: {source_url}")
+            continue
+
+        article = articles_by_slug.get(slug)
+        if not article:
+            warnings.append(f"Dropped project article missing from manifest in project {project_id}: {source_url}")
+            continue
+
+        if slug in seen_slugs:
+            continue
+        seen_slugs.add(slug)
+
+        normalized_articles.append(
+            {
+                "title": article["title"],
+                "slug": article["slug"],
+                "href": article["href"],
+                "sourceUrl": source_url or article["sourceUrl"],
+            }
+        )
+
+    return normalized_articles
 
 
 def _get_nested(raw_obj: Dict[str, Any], key: str) -> Any:
@@ -1119,6 +1315,7 @@ def _normalize_project(
     *,
     root_path: Path,
     public_projects_root: Path,
+    articles_by_slug: Dict[str, Dict[str, Any]],
     alias_to_project_id: Dict[str, str],
     source_projects_by_id: Dict[str, Dict[str, Any]],
     collection_member_projects_by_id: Dict[str, List[Dict[str, Any]]],
@@ -1182,6 +1379,7 @@ def _normalize_project(
         "resources": [],
         "collection": {},
         "workLogs": [],
+        "articles": [],
         "folderName": folder_name,
     }
 
@@ -1401,6 +1599,12 @@ def _normalize_project(
         deduped_work_logs.append(work_log)
 
     project_out["workLogs"] = deduped_work_logs
+    project_out["articles"] = _normalize_project_articles(
+        source.get("articles"),
+        articles_by_slug=articles_by_slug,
+        warnings=warnings,
+        project_id=project_id,
+    )
 
     return _prune_project_output(project_out)
 
@@ -1433,6 +1637,7 @@ def _prune_project_output(project: Dict[str, Any]) -> Dict[str, Any]:
         "resources",
         "collection",
         "workLogs",
+        "articles",
         "folderName",
     }
 
@@ -1525,9 +1730,11 @@ def build_projects_from_json(
     input_json_path: Path,
     temp_public_projects_root: Path,
     root_path_override: Optional[Path] = None,
+    articles_manifest_path: Optional[Path] = None,
 ) -> Dict[str, Any]:
     """Build normalized project data and copy assets into temp_public_projects_root."""
     root_path, source_projects, global_work_logs = _load_and_validate_input(input_json_path, root_path_override)
+    articles_by_slug = _load_articles_manifest(articles_manifest_path)
 
     alias_to_project_id = _build_alias_map(source_projects)
     source_projects_by_id: Dict[str, Dict[str, Any]] = {}
@@ -1569,6 +1776,7 @@ def build_projects_from_json(
             source,
             root_path=root_path,
             public_projects_root=temp_public_projects_root,
+            articles_by_slug=articles_by_slug,
             alias_to_project_id=alias_to_project_id,
             source_projects_by_id=source_projects_by_id,
             collection_member_projects_by_id=collection_member_projects_by_id,

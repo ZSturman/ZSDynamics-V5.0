@@ -30,14 +30,17 @@ export function PortfolioHeader() {
       </h2>
 
       <SocialLinks />
-      {/* <div className="mt-3">
+      <div className="mt-4 flex flex-wrap items-center justify-center gap-4 text-sm text-muted-foreground md:justify-start">
+        <Link href="/articles" className="hover:text-foreground transition-colors">
+          Articles
+        </Link>
         <Link
           href="/work-logs"
-          className="inline-flex text-sm text-primary hover:underline"
+          className="hover:text-foreground transition-colors"
         >
-          View Work Logs
+          Work Logs
         </Link>
-      </div> */}
+      </div>
 {/*       <PersonalTabs /> */}
     </header>
   );

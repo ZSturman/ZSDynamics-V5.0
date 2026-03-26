@@ -13,6 +13,7 @@ import ResourceButtons from "./resource-buttons";
 import { ProjectSidebar } from "./project-sidebar";
 import { ProjectMetadata } from "./project-metadata";
 import { ProjectWorkLogs } from "./project-work-logs";
+import { ProjectArticles } from "./project-articles";
 import ProjectDetailsMediaDisplay from "./project-details-media-display";
 import { hasProjectCollectionItems } from "@/lib/project-collections";
 
@@ -120,6 +121,7 @@ export function ProjectDetails({ project }: ProjectDetailsProps) {
   const hasCollection = hasProjectCollectionItems(project);
   const hasResources = project.resources && project.resources.length > 0;
   const hasWorkLogs = project.workLogs && project.workLogs.length > 0;
+  const hasArticles = project.articles && project.articles.length > 0;
   const useTwoColumnLayout = hasSubstantialContent(project);
 
   return (
@@ -169,6 +171,12 @@ export function ProjectDetails({ project }: ProjectDetailsProps) {
               <section>
                 <ProjectDescriptionAndStory project={project} />
               </section>
+
+              {hasArticles && (
+                <section>
+                  <ProjectArticles project={project} />
+                </section>
+              )}
 
               {hasWorkLogs && (
                 <section>
@@ -221,6 +229,12 @@ export function ProjectDetails({ project }: ProjectDetailsProps) {
             <section>
               <ProjectDescriptionAndStory project={project} />
             </section>
+
+            {hasArticles && (
+              <section>
+                <ProjectArticles project={project} />
+              </section>
+            )}
 
             {hasWorkLogs && (
               <section>
