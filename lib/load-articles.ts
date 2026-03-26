@@ -6,7 +6,7 @@ import type { Article } from "@/types";
 
 const ARTICLES_ROOT = path.join(process.cwd(), "public", "articles");
 const ARTICLES_MANIFEST = path.join(ARTICLES_ROOT, "articles.json");
-const STANDALONE_MARKDOWN_IMAGE_RE = /^\s*!\[[^\]]*\]\((?<target>[^)\s]+(?:\s+"[^"]*")?)\)\s*$/gm;
+const STANDALONE_MARKDOWN_IMAGE_RE = /^\s*!\[[^\]]*\]\(([^)\s]+(?:\s+"[^"]*")?)\)\s*$/gm;
 const COVER_HINT_RE = /(cover|hero|banner|thumbnail|poster)/i;
 const COVER_IMAGE_EXT_RE = /\.(avif|gif|jpe?g|png|svg|webp)$/i;
 
@@ -62,7 +62,7 @@ function getImageCandidateScore(target: string): number {
 export function extractArticleCover(content: string, slug: string): { coverImage?: string; content: string } {
   const candidates = Array.from(content.matchAll(STANDALONE_MARKDOWN_IMAGE_RE))
     .map((match) => {
-      const rawTarget = match.groups?.target;
+      const rawTarget = match[1];
       if (!rawTarget) return null;
 
       const markdownTarget = getMarkdownImageTarget(rawTarget);

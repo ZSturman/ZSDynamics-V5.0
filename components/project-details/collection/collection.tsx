@@ -72,32 +72,6 @@ function toCollectionMediaPath(mediaPath: string | undefined, folderName: string
   return rawPath;
 }
 
-/** Generate initials from a collection name for use as a placeholder thumbnail. */
-function getCollectionInitials(name: string): string {
-  const words = name.split(/[\s_-]+/).filter(Boolean);
-  if (words.length >= 2) {
-    return (words[0][0] + words[1][0]).toUpperCase();
-  }
-  return name.slice(0, 2).toUpperCase();
-}
-
-/** Placeholder shown when a collection has no thumbnail image. */
-function CollectionPlaceholder({ name, size = "sm" }: { name: string; size?: "sm" | "lg" }) {
-  const initials = getCollectionInitials(name);
-  if (size === "sm") {
-    return (
-      <div className="flex h-full w-full items-center justify-center rounded bg-muted text-[10px] font-semibold text-muted-foreground select-none">
-        {initials}
-      </div>
-    );
-  }
-  return (
-    <div className="flex h-full w-full items-center justify-center rounded-lg bg-muted text-2xl font-bold text-muted-foreground select-none">
-      {initials}
-    </div>
-  );
-}
-
 /** Hero/featured image shown at the top of a collection's content area with overlaid text. */
 function CollectionHeroImage({
   src,

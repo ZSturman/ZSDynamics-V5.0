@@ -15,7 +15,7 @@ export function ArticleMarkdown({ content, slug }: ArticleMarkdownProps) {
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
         components={{
-          a: ({ node: _node, href, children, ...props }) => {
+          a: ({ href, children, ...props }) => {
             const resolvedHref = resolveArticleHref(href, slug);
             if (!resolvedHref) {
               return <span {...props}>{children}</span>;
@@ -54,7 +54,7 @@ export function ArticleMarkdown({ content, slug }: ArticleMarkdownProps) {
               />
             );
           },
-          code: ({ node: _node, className, children, ...props }) => {
+          code: ({ className, children, ...props }) => {
             const isInline = !className && !String(children).includes("\n");
             if (isInline) {
               return (

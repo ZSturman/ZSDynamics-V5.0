@@ -15,7 +15,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { WorkLog } from "@/types";
-import { cn, formatDate, getOptimizedMediaPath, isImageFile, isSvgFile, isVideoFile, getOptimizedImageExt } from "@/lib/utils";
+import { cn, formatDate, getOptimizedMediaPath, isImageFile, isVideoFile, getOptimizedImageExt } from "@/lib/utils";
 
 export type WorkLogWithProject = WorkLog & {
   projectId?: string;
