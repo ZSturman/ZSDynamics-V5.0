@@ -42,7 +42,7 @@ export function ArticleMarkdown({ content, slug }: ArticleMarkdownProps) {
             );
           },
           img: ({ src, alt }) => {
-            const resolvedSrc = resolveArticleHref(src, slug);
+            const resolvedSrc = resolveArticleHref(typeof src === "string" ? src : undefined, slug);
             if (!resolvedSrc) return null;
 
             return (
