@@ -6,9 +6,11 @@
     "node": ">=20.0.0"
   },
   "scripts": {
-    "dev": "npm run generate-articles && npm run generate-projects && npm run optimize && next dev",
+    "dev": "next dev",
+    "dev:full": "npm run generate-articles && npm run generate-projects && npm run optimize && next dev",
     "dev-cached": "next dev",
-    "build": "npm run generate-articles && npm run generate-projects && npm run optimize && next build",
+    "build": "next build",
+    "build:full": "npm run generate-articles && npm run generate-projects && npm run optimize && next build",
     "start": "next start",
     "lint": "eslint",
     "test:media": "playwright test -c playwright.media.config.ts",

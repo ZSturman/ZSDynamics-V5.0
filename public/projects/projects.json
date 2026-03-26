@@ -1,5 +1,239 @@
 [
   {
+    "id": "304aec94-4d3c-8029-a1b1-ea0f92487137",
+    "title": "Notion as a Source of Truth",
+    "name": "Notion as a Source of Truth",
+    "subtitle": "",
+    "summary": "Portfolio Sync System is a project operations workflow for managing metadata, documentation, and portfolio publishing from a single structured source of truth. It began as a folder-based project system using local files and .project.json, then evolved through a custom metadata editor into a relational Notion workspace connected to work logs, tasks, milestones, and media.\n\nThe system uses formulas, required-action logic, severity scoring, and visual workflow cues inside Notion to make project readiness measurable and easier to maintain. n8n watches for qualifying project changes, compiles portfolio-ready JSON, and passes that data into a Python-based build pipeline that prepares content and media for a static portfolio site. Linear handles issue tracking, GitHub stores code and optimized assets, and Firebase Hosting serves the finished portfolio.\n\nThe result is a project operating system that reduces duplicate entry, improves documentation quality, and keeps the portfolio aligned with the real state of the work over time.",
+    "oneLiner": "An automated project and portfolio workflow built with Notion, n8n, Python, Linear, GitHub, and Firebase.",
+    "domain": "Personal",
+    "category": "Organization",
+    "status": "Active",
+    "phase": "Development",
+    "featured": false,
+    "createdAt": "2026-02-03T09:00:00.000-08:00",
+    "updatedAt": "2026-02-24",
+    "isPublic": true,
+    "tags": [
+      "Notion",
+      "Organization",
+      "Productivity",
+      "Automation",
+      "n8n",
+      "React",
+      "Python",
+      "Next.js"
+    ],
+    "mediums": [],
+    "genres": [],
+    "topics": [],
+    "subjects": [],
+    "description": "",
+    "story": "",
+    "images": {
+      "thumbnail": "thumbnail.png"
+    },
+    "resources": [],
+    "collection": {},
+    "workLogs": [
+      {
+        "id": "307aec94-4d3c-800e-81e4-e1756a399666",
+        "title": "Built Test DB design for easier ingest of projects",
+        "entry": "Built Test DB design for easier ingest of projects",
+        "url": "https://www.notion.so/Built-Test-DB-design-for-easier-ingest-of-projects-307aec944d3c800e81e4e1756a399666",
+        "startTime": "2026-03-22T09:00:00.000-07:00",
+        "endTime": "2026-03-22T11:30:00.000-07:00",
+        "date": "2026-02-14T08:36:00.000-08:00",
+        "sessionType": [
+          "Organizing",
+          "Learning",
+          "Planning",
+          "Experiment"
+        ],
+        "whatHappened": "Learned a lot about Notion but didn’t actually get as far as I’d liked.",
+        "problems": "Didn’t achieve all the stuff I wanted and feel like loops are still open.",
+        "nextStep": "Move the stuff out of the Test area and into the main Notion app.",
+        "feelGoodAboutWork": 0.7,
+        "accomplishedWhatYouWanted": 0.4,
+        "durationMinutes": 150
+      },
+      {
+        "id": "308aec94-4d3c-8038-802e-d88105de0427",
+        "title": "Focused on getting n8n automation to work with notion",
+        "entry": "Focused on getting n8n automation to work with notion",
+        "url": "https://www.notion.so/Focused-on-getting-n8n-automation-to-work-with-notion-308aec944d3c8038802ed88105de0427",
+        "startTime": "2026-03-21T17:00:00.000-07:00",
+        "endTime": "2026-03-21T21:00:00.000-07:00",
+        "date": "2026-02-15T09:36:00.000-08:00",
+        "sessionType": [
+          "Build",
+          "Planning"
+        ],
+        "whatHappened": "Worked on getting automatic SQL like tables to be be generated based on automation from n8n",
+        "problems": "Didn't get as much done as I had hoped",
+        "nextStep": "Finish automation steps and finalize tables",
+        "feelGoodAboutWork": 0.65,
+        "accomplishedWhatYouWanted": 0.45,
+        "durationMinutes": 240
+      },
+      {
+        "id": "306aec94-4d3c-807c-9a2e-d09d20b60275",
+        "title": "Organized notes and created Dashboard system",
+        "entry": "Organized notes and created Dashboard system",
+        "url": "https://www.notion.so/Organized-notes-and-created-Dashboard-system-306aec944d3c807c9a2ed09d20b60275",
+        "startTime": "2026-03-19T09:00:00.000-07:00",
+        "endTime": "2026-03-19T10:00:00.000-07:00",
+        "date": "2026-02-13",
+        "sessionType": [
+          "Organizing"
+        ],
+        "whatHappened": "• Figured out how to import .md files into Notion",
+        "problems": "Didn’t go into today with a clear enough plan",
+        "nextStep": "Sleep on it",
+        "feelGoodAboutWork": 0.75,
+        "accomplishedWhatYouWanted": 0.7,
+        "durationMinutes": 60
+      },
+      {
+        "id": "30aaec94-4d3c-8056-bfda-ed4b11e44ddc",
+        "title": "Designing the Notion–n8n Workflow System",
+        "entry": "Designing the Notion–n8n Workflow System",
+        "url": "https://www.notion.so/Designing-the-Notion-n8n-Workflow-System-30aaec944d3c8056bfdaed4b11e44ddc",
+        "startTime": "2026-03-12T06:00:00.000-07:00",
+        "endTime": "2026-03-12T09:00:00.000-07:00",
+        "date": "2026-02-17T09:13:00.000-08:00",
+        "sessionType": [
+          "Build",
+          "Organizing",
+          "Learning",
+          "Planning"
+        ],
+        "whatHappened": "I set up n8n automations connected to my Notion databases and created several templates in Notion for tasks and projects. A significant amount of time went into designing and organizing how data flows between the systems so the workflows remain structured, consistent, and easy to automate.",
+        "problems": "Found myself a little too distracted updating colors and icons when I should’ve been saving that for the very end",
+        "nextStep": "Create the basic Project template for each domain, the different types of notes templates as well as the log templates.",
+        "feelGoodAboutWork": 0.85,
+        "accomplishedWhatYouWanted": 0.85,
+        "durationMinutes": 180
+      },
+      {
+        "id": "30caec94-4d3c-800c-96ef-e94a94bad09a",
+        "title": "Created full automation and ingest system with project addition in Notion and n8n",
+        "entry": "Created full automation and ingest system with project addition in Notion and n8n",
+        "url": "https://www.notion.so/Created-full-automation-and-ingest-system-with-project-addition-in-Notion-and-n8n-30caec944d3c800c96efe94a94bad09a",
+        "startTime": "2026-03-11T06:00:00.000-07:00",
+        "endTime": "2026-03-11T11:00:00.000-07:00",
+        "date": "2026-02-18T18:54:00.000-08:00",
+        "sessionType": [
+          "Experiment",
+          "Build",
+          "Organizing",
+          "Learning"
+        ],
+        "whatHappened": "I created a full automation and ingestion system that connects project additions in Notion with workflows in n8n. When a new project is added, the system automatically captures and processes the data through n8n, organizing it and preparing it for downstream workflows and documentation. This establishes a structured pipeline for consistently ingesting and managing new project information.",
+        "problems": null,
+        "nextStep": null,
+        "feelGoodAboutWork": 0.9,
+        "accomplishedWhatYouWanted": 0.8,
+        "durationMinutes": 300
+      },
+      {
+        "id": "30aaec94-4d3c-80cd-839b-cc963a276876",
+        "title": "Building n8n Automations and a Notion Dashboard",
+        "entry": "Building n8n Automations and a Notion Dashboard",
+        "url": "https://www.notion.so/Building-n8n-Automations-and-a-Notion-Dashboard-30aaec944d3c80cd839bcc963a276876",
+        "startTime": "2026-03-10T02:00:00.000-07:00",
+        "endTime": "2026-03-10T10:00:00.000-07:00",
+        "date": "2026-02-16T19:38:00.000-08:00",
+        "sessionType": [
+          "Build"
+        ],
+        "whatHappened": "I created the full set of n8n automations and integrated them with my workspace. I also added a dashboard in Notion to monitor and manage the workflows, giving a centralized view of automation activity and project data.",
+        "problems": null,
+        "nextStep": null,
+        "feelGoodAboutWork": 0.95,
+        "accomplishedWhatYouWanted": 0.95,
+        "durationMinutes": 480
+      },
+      {
+        "id": "309aec94-4d3c-80c2-a8dd-f4d35d94fcd4",
+        "title": "Created automation for tasks and subtasks using n8n",
+        "entry": "Created automation for tasks and subtasks using n8n",
+        "url": "https://www.notion.so/Created-automation-for-tasks-and-subtasks-using-n8n-309aec944d3c80c2a8ddf4d35d94fcd4",
+        "startTime": "2026-03-08T08:00:00.000-07:00",
+        "endTime": "2026-03-08T10:00:00.000-07:00",
+        "date": "2026-02-16T08:00:00.000-08:00",
+        "sessionType": [
+          "Build"
+        ],
+        "whatHappened": "Created a workflow that checks for updates to notion’s Tasks db then syncs the data for accompanying tasks subtasks, project, milestone as well as adds a note to say what happened.",
+        "problems": "Workflow on n8n takes longer than expected to set up and logically workthrough",
+        "nextStep": "- Add workflows for task status change → work log update",
+        "feelGoodAboutWork": 0.9,
+        "accomplishedWhatYouWanted": 0.8,
+        "durationMinutes": 120
+      },
+      {
+        "id": "306aec94-4d3c-800a-87d7-ce6fc1b59ba4",
+        "title": "Added tables to notion",
+        "entry": "Added tables to notion",
+        "url": "https://www.notion.so/Added-tables-to-notion-306aec944d3c800a87d7ce6fc1b59ba4",
+        "startTime": "2026-02-28T09:00:00.000-08:00",
+        "endTime": "2026-02-28T13:00:00.000-08:00",
+        "date": "2026-02-13",
+        "sessionType": [
+          "Organizing",
+          "Learning"
+        ],
+        "whatHappened": "Learned how to use Notion",
+        "problems": null,
+        "nextStep": null,
+        "feelGoodAboutWork": 0.9,
+        "accomplishedWhatYouWanted": 0.6,
+        "durationMinutes": 240
+      },
+      {
+        "id": "314aec94-4d3c-80c6-827f-c087302ac41c",
+        "title": "Implemented full automation with n8n, Notion and linear",
+        "entry": "Implemented full automation with n8n, Notion and linear",
+        "url": "https://www.notion.so/Implemented-full-automation-with-n8n-Notion-and-linear-314aec944d3c80c6827fc087302ac41c",
+        "startTime": "2026-02-26T06:00:00.000-08:00",
+        "endTime": "2026-02-26T22:00:00.000-08:00",
+        "date": "2026-02-27T01:01:00.000-08:00",
+        "sessionType": [
+          "Organizing",
+          "Build",
+          "Learning"
+        ],
+        "whatHappened": "Used notion as source of truth for social posts.",
+        "problems": null,
+        "nextStep": "Run the work flows with edge cases",
+        "feelGoodAboutWork": 0.95,
+        "accomplishedWhatYouWanted": 0.95,
+        "durationMinutes": 960
+      },
+      {
+        "id": "310aec94-4d3c-809a-a4e0-d5a3dac0c67f",
+        "title": "Created full work flow for Notion tasks, projects and milestones",
+        "entry": "Created full work flow for Notion tasks, projects and milestones",
+        "url": "https://www.notion.so/Created-full-work-flow-for-Notion-tasks-projects-and-milestones-310aec944d3c809aa4e0d5a3dac0c67f",
+        "startTime": "2026-02-23T03:00:00.000-08:00",
+        "endTime": "2026-02-23T08:00:00.000-08:00",
+        "date": "2026-02-23T07:42:00.000-08:00",
+        "sessionType": [
+          "Build"
+        ],
+        "whatHappened": "Added formula columns to the milestones, projects, tasks and assets db, and the work log db, so that required actions to complete the db entry are sorted and conditionally colored.",
+        "problems": null,
+        "nextStep": "Take all the projects from existing portfolio and add them into the Projects db.",
+        "feelGoodAboutWork": 0.8,
+        "accomplishedWhatYouWanted": 0.9,
+        "durationMinutes": 300
+      }
+    ],
+    "articles": [],
+    "folderName": "notion_as_a_source_of_truth_304aec94-4d3c-8029-a1b1-ea0f92487137"
+  },
+  {
     "id": "306aec94-4d3c-8005-97ab-d4572f1ab679",
     "title": "Episodic Memory Agent",
     "name": "Episodic Memory Agent",
@@ -73,11 +307,11 @@
     "description": "",
     "story": "",
     "images": {
-      "icon": "TopNote AppIcon v2-watchOS-Default-1088x1088@1x.png",
-      "poster": "poster.png",
       "thumbnail": "thumbnail.png",
+      "hero": "hero.png",
+      "icon": "TopNote AppIcon v2-watchOS-Default-1088x1088@1x.png",
       "banner": "banner.png",
-      "hero": "hero.png"
+      "poster": "poster.png"
     },
     "resources": [
       {
@@ -173,8 +407,8 @@
     "description": "",
     "story": "",
     "images": {
-      "icon": "thumbnail.png",
       "thumbnail": "thumbnail.png",
+      "icon": "thumbnail.png",
       "banner": "banner.png"
     },
     "resources": [
@@ -218,8 +452,8 @@
     "story": "",
     "images": {
       "thumbnail": "E4690E5D-3901-4E26-A237-8AA0FF26EE76.png",
-      "banner": "banner.png",
-      "hero": "hero.png"
+      "hero": "hero.png",
+      "banner": "banner.png"
     },
     "resources": [],
     "collection": {
@@ -273,10 +507,10 @@
     "description": "",
     "story": "",
     "images": {
-      "icon": "logo.png",
-      "poster": "poster.gif",
       "thumbnail": "thumbnail.png",
-      "banner": "banner.png"
+      "icon": "logo.png",
+      "banner": "banner.png",
+      "poster": "poster.gif"
     },
     "resources": [],
     "collection": {
@@ -476,8 +710,8 @@
     "description": "",
     "story": "",
     "images": {
-      "icon": "poster.png",
       "thumbnail": "thumbnail.png",
+      "icon": "poster.png",
       "banner": "banner.png"
     },
     "resources": [
@@ -561,8 +795,8 @@
     "description": "",
     "story": "",
     "images": {
-      "icon": "Celestial Hands Holding Heart.png",
       "thumbnail": "thumbnail.png",
+      "icon": "Celestial Hands Holding Heart.png",
       "banner": "Collaborative Effort with Green Ball.png"
     },
     "resources": [
@@ -610,8 +844,8 @@
     "description": "",
     "story": "",
     "images": {
-      "icon": "banner.png",
       "thumbnail": "thumbnail.png",
+      "icon": "banner.png",
       "banner": "banner.png"
     },
     "resources": [],
@@ -860,8 +1094,8 @@
     "description": "",
     "story": "",
     "images": {
-      "icon": "banner.png",
       "thumbnail": "thumbnail.png",
+      "icon": "banner.png",
       "banner": "poster.png"
     },
     "resources": [
@@ -907,10 +1141,10 @@
     "description": "",
     "story": "",
     "images": {
-      "poster": "poster.gif",
       "thumbnail": "thumbnail.png",
+      "hero": "queueExample.png",
       "banner": "banner.gif",
-      "hero": "queueExample.png"
+      "poster": "poster.gif"
     },
     "resources": [
       {
@@ -954,10 +1188,10 @@
     "description": "",
     "story": "",
     "images": {
-      "icon": "thumbnail.png",
-      "poster": "poster.png",
       "thumbnail": "thumbnail.png",
-      "banner": "banner.png"
+      "icon": "thumbnail.png",
+      "banner": "banner.png",
+      "poster": "poster.png"
     },
     "resources": [
       {
@@ -1000,8 +1234,8 @@
     "description": "",
     "story": "",
     "images": {
-      "icon": "icon.png",
       "thumbnail": "collection thumbnail.png",
+      "icon": "icon.png",
       "banner": "banner.png"
     },
     "resources": [],
@@ -1092,10 +1326,10 @@
     "description": "",
     "story": "",
     "images": {
-      "icon": "icon.svg",
-      "poster": "poster.png",
       "thumbnail": "thumbnail.png",
-      "banner": "banner.png"
+      "icon": "icon.svg",
+      "banner": "banner.png",
+      "poster": "poster.png"
     },
     "resources": [
       {
@@ -1135,10 +1369,10 @@
     "description": "",
     "story": "",
     "images": {
-      "icon": "thumbnail.tiff",
-      "poster": "poster.tiff",
       "thumbnail": "thumbnail.tiff",
-      "banner": "banner.png"
+      "icon": "thumbnail.tiff",
+      "banner": "banner.png",
+      "poster": "poster.tiff"
     },
     "resources": [],
     "collection": {},
@@ -1267,6 +1501,35 @@
     "folderName": "3d_models_collection_312aec94-4d3c-817e-9295-e018716cf990"
   },
   {
+    "id": "31eaec94-4d3c-80a0-972e-f24d5ce8aca4",
+    "title": "Notion <→ Linear Automation",
+    "name": "Notion <→ Linear Automation",
+    "subtitle": "",
+    "summary": "",
+    "oneLiner": "",
+    "domain": "Technology",
+    "category": "Other",
+    "status": "Active",
+    "phase": "",
+    "featured": false,
+    "createdAt": "2026-03-11",
+    "updatedAt": null,
+    "isPublic": true,
+    "tags": [],
+    "mediums": [],
+    "genres": [],
+    "topics": [],
+    "subjects": [],
+    "description": "",
+    "story": "",
+    "images": {},
+    "resources": [],
+    "collection": {},
+    "workLogs": [],
+    "articles": [],
+    "folderName": "notion_linear_automation_31eaec94-4d3c-80a0-972e-f24d5ce8aca4"
+  },
+  {
     "id": "32eaec94-4d3c-80c9-b238-c8a9f0b1990e",
     "title": "Runtime Storyboard Debugger",
     "name": "Runtime Storyboard Debugger",
@@ -1296,10 +1559,10 @@
     "description": "",
     "story": "",
     "images": {
-      "icon": "icon.png",
       "thumbnail": "thumbnail.png",
-      "banner": "banner.png",
-      "hero": "hero.png"
+      "hero": "hero.png",
+      "icon": "icon.png",
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -1324,7 +1587,9 @@
         ],
         "whatHappened": "Created new project entry for Runtime Storyboard Debugger and added the 'Project Starter' milestones and tasks.",
         "problems": null,
-        "nextStep": null,
+        "nextStep": "Push to github",
+        "feelGoodAboutWork": 1.0,
+        "accomplishedWhatYouWanted": 1.0,
         "durationMinutes": 60
       }
     ],
