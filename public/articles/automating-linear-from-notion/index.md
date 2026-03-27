@@ -8,8 +8,6 @@ Once I started dealing with conflicting edits, relationship preservation, duplic
 
 ![hero.png](/articles/automating-linear-from-notion/images/hero.png)
 
-## Body
-
 ## **What the Service Does**
 
 At a high level, the service keeps three kinds of records synchronized between Notion and Linear:
@@ -32,7 +30,7 @@ On each run, the service:
 
 This is not a one-time import/export tool. It is designed to behave like an ongoing system.
 
-![notion_linear_update.mov](/articles/automating-linear-from-notion/images/notion_linear_update.mov)
+![notion_linear_update.mov](/articles/automating-linear-from-notion/images/notion_linear_update.mp4)
 
 ## **Why the Problem Is Harder Than It Looks**
 

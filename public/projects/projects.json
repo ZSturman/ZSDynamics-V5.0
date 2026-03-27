@@ -310,8 +310,8 @@
       "thumbnail": "thumbnail.png",
       "hero": "hero.png",
       "icon": "TopNote AppIcon v2-watchOS-Default-1088x1088@1x.png",
-      "banner": "banner.png",
-      "poster": "poster.png"
+      "poster": "poster.png",
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -509,8 +509,8 @@
     "images": {
       "thumbnail": "thumbnail.png",
       "icon": "logo.png",
-      "banner": "banner.png",
-      "poster": "poster.gif"
+      "poster": "poster.gif",
+      "banner": "banner.png"
     },
     "resources": [],
     "collection": {
@@ -1143,8 +1143,8 @@
     "images": {
       "thumbnail": "thumbnail.png",
       "hero": "queueExample.png",
-      "banner": "banner.gif",
-      "poster": "poster.gif"
+      "poster": "poster.gif",
+      "banner": "banner.gif"
     },
     "resources": [
       {
@@ -1190,8 +1190,8 @@
     "images": {
       "thumbnail": "thumbnail.png",
       "icon": "thumbnail.png",
-      "banner": "banner.png",
-      "poster": "poster.png"
+      "poster": "poster.png",
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -1328,8 +1328,8 @@
     "images": {
       "thumbnail": "thumbnail.png",
       "icon": "icon.svg",
-      "banner": "banner.png",
-      "poster": "poster.png"
+      "poster": "poster.png",
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -1371,8 +1371,8 @@
     "images": {
       "thumbnail": "thumbnail.tiff",
       "icon": "thumbnail.tiff",
-      "banner": "banner.png",
-      "poster": "poster.tiff"
+      "poster": "poster.tiff",
+      "banner": "banner.png"
     },
     "resources": [],
     "collection": {},
