@@ -1,6 +1,7 @@
 
 import { Button } from "@/components/ui/button"
 import { Download } from "lucide-react"
+import { trackResumeDownload } from "@/lib/firebase-analytics"
 import { ExperienceSection } from "../personal-tabs"
 
 interface ExperienceSectionProps {
@@ -18,7 +19,13 @@ export function ExperienceComponent({ data }: ExperienceSectionProps) {
             className="bg-transparent  dark:text-white hover:bg-white hover:text-[#0f1419]  transition-colors w-fit"
             asChild
           >
-            <a href={data.resumeUrl} download>
+            <a
+              href={data.resumeUrl}
+              download
+              onClick={() => {
+                trackResumeDownload(data.resumeUrl)
+              }}
+            >
               <Download className="mr-2 h-4 w-4" />
               Download Resume
             </a>

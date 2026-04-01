@@ -6,6 +6,8 @@ export type ProjectImages = Record<string, unknown>;
 export interface CanonicalProject {
   id: string;
   title: string;
+  slug?: string;
+  href?: string;
   folderName?: string;
   featured?: boolean;
   images?: ProjectImages;
@@ -108,6 +110,22 @@ export function getProjectFolderName(project: CanonicalProject): string {
   return typeof project.folderName === "string" && project.folderName.trim() ? project.folderName : project.id;
 }
 
+export function getProjectSlug(project: CanonicalProject): string {
+  if (typeof project.slug === "string" && project.slug.trim()) {
+    return project.slug;
+  }
+
+  return normalizeProjectSlug(project.title || project.id);
+}
+
+export function getProjectRoute(project: CanonicalProject): string {
+  if (typeof project.href === "string" && project.href.trim()) {
+    return project.href;
+  }
+
+  return `/projects/${getProjectSlug(project)}`;
+}
+
 export function getProjectImageKeys(project: CanonicalProject): string[] {
   if (!isObject(project.images)) return [];
   return Object.keys(project.images).filter((key) => {
@@ -152,6 +170,18 @@ function extractPathValue(value: unknown): string | undefined {
   }
 
   return undefined;
+}
+
+function normalizeProjectSlug(value: string): string {
+  return value
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/&/g, " and ")
+    .replace(/[^a-z0-9\s-]/g, "")
+    .trim()
+    .replace(/[\s-]+/g, "-")
+    .replace(/^-+|-+$/g, "") || "project";
 }
 
 function getOptimizedMediaPath(filename: unknown, folderPath: string): string {

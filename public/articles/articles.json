@@ -1,10 +1,32 @@
 [
   {
+    "slug": "how-i-use-notion-to-track-my-projects",
+    "title": "How I Use Notion to Ingest, Organize, and Track My Projects",
+    "summary": "This Notion system works less like a notes app and more like a guided project intake workflow. Every new project starts from a template, moves through a Required Action system that surfaces the highest-priority next step, and builds toward a structure that is ready for execution, portfolio use, and later automation.",
+    "publishedAt": null,
+    "updatedAt": "2026-04-01",
+    "series": "My Notion Pipeline",
+    "tags": [
+      "AI",
+      "API Integration",
+      "ML",
+      "Notion",
+      "Productivity"
+    ],
+    "projectIds": [
+      "304aec94-4d3c-8029-a1b1-ea0f92487137"
+    ],
+    "sourceUrl": "https://github.com/ZSturman/Articles/blob/main/articles/how-i-use-notion-to-track-my-projects/index.md",
+    "href": "/articles/how-i-use-notion-to-track-my-projects",
+    "coverImage": null
+  },
+  {
     "slug": "automating-linear-from-notion",
     "title": "Automating Linear From Notion",
     "summary": "A bidirectional sync engine that keeps Notion and Linear aligned by normalizing their data into shared models, reconciling meaningful changes, and preserving relationships and identity across systems.",
     "publishedAt": null,
     "updatedAt": "2026-03-25",
+    "series": "Notion as a Source of Truth",
     "tags": [
       "API Integration",
       "Automation",
@@ -14,7 +36,9 @@
       "State Management",
       "Systems Design"
     ],
-    "projectIds": [],
+    "projectIds": [
+      "304aec94-4d3c-8029-a1b1-ea0f92487137"
+    ],
     "sourceUrl": "https://github.com/ZSturman/Articles/blob/main/articles/automating-linear-from-notion/index.md",
     "href": "/articles/automating-linear-from-notion",
     "coverImage": null

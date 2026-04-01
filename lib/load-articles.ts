@@ -36,6 +36,7 @@ function normalizeArticle(raw: unknown): Article | null {
     summary: record.summary,
     publishedAt: typeof record.publishedAt === "string" ? record.publishedAt : undefined,
     updatedAt: record.updatedAt,
+    series: typeof record.series === "string" && record.series.trim().length > 0 ? record.series.trim() : undefined,
     tags: Array.isArray(record.tags) ? record.tags.filter((tag): tag is string => typeof tag === "string" && tag.trim().length > 0) : [],
     projectIds: Array.isArray(record.projectIds)
       ? record.projectIds.filter((projectId): projectId is string => typeof projectId === "string" && projectId.trim().length > 0)
@@ -57,6 +58,26 @@ function getImageCandidateScore(target: string): number {
   if (COVER_HINT_RE.test(target)) score += 10;
   if (target.startsWith("/")) score += 2;
   return score;
+}
+
+async function resolveArticleCover(slug: string): Promise<string | undefined> {
+  const markdownPath = path.join(ARTICLES_ROOT, slug, "index.md");
+
+  try {
+    const content = await fs.readFile(markdownPath, "utf8");
+    return extractArticleCover(content, slug).coverImage;
+  } catch {
+    return undefined;
+  }
+}
+
+async function hydrateArticleCover(article: Article): Promise<Article> {
+  if (article.coverImage) {
+    return article;
+  }
+
+  const coverImage = await resolveArticleCover(article.slug);
+  return coverImage ? { ...article, coverImage } : article;
 }
 
 export function extractArticleCover(content: string, slug: string): { coverImage?: string; content: string } {
@@ -99,9 +120,12 @@ export async function loadArticles(): Promise<Article[]> {
     const parsed = JSON.parse(raw);
     if (!Array.isArray(parsed)) return [];
 
-    return parsed
+    const normalized = parsed
       .map(normalizeArticle)
-      .filter((article): article is Article => Boolean(article))
+      .filter((article): article is Article => Boolean(article));
+    const hydrated = await Promise.all(normalized.map(hydrateArticleCover));
+
+    return hydrated
       .sort((a, b) => {
         const updatedDiff = toTimestamp(b.updatedAt ?? b.publishedAt ?? undefined) - toTimestamp(a.updatedAt ?? a.publishedAt ?? undefined);
         if (updatedDiff !== 0) return updatedDiff;

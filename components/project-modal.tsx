@@ -12,9 +12,11 @@ import { useBreadcrumb } from "@/lib/breadcrumb-context";
 import ProjectDetailsFooter from "./project-details/project-details-footer";
 import { ProjectWorkLogs } from "./project-details/project-work-logs";
 import { ProjectArticles } from "./project-details/project-articles";
+import { getProjectHref } from "@/lib/project-paths";
 import { getOptimizedMediaPath } from "@/lib/utils";
 import { MediaDisplay } from "./ui/media-display";
 import { hasProjectCollectionItems } from "@/lib/project-collections";
+import { trackProjectOpen } from "@/lib/firebase-analytics";
 
 interface ProjectModalProps {
   project: Project | null;
@@ -32,7 +34,12 @@ export function ProjectModal({ project, isOpen, onClose }: ProjectModalProps) {
     setPreviousPath("/", "Home");
     onClose();
     // Use Next.js router for proper client-side navigation
-    router.push(`/projects/${project.id}`);
+    trackProjectOpen({
+      projectSlug: project.slug || project.id,
+      projectTitle: project.title,
+      openSurface: "project_modal_cta",
+    });
+    router.push(getProjectHref(project));
   };
 
   if (!project) return null;

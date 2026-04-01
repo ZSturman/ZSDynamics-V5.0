@@ -1,12 +1,14 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import {
   WorkLogTimeline,
   WorkLogWithProject,
   WorkLogProjectOption,
 } from "@/components/work-logs/work-log-timeline";
+import { findProjectByAlias, getProjectSlug } from "@/lib/project-paths";
 
 interface WorkLogsPageClientProps {
   logs: WorkLogWithProject[];
@@ -19,14 +21,30 @@ export function WorkLogsPageClient({ logs, projects }: WorkLogsPageClientProps) 
   const searchParams = useSearchParams();
   const projectFilter = searchParams.get("project") || undefined;
 
-  const filteredProject = projectFilter
-    ? projects.find((project) => project.id === projectFilter)
-    : null;
+  const filteredProject = projectFilter ? findProjectByAlias(projects, projectFilter) : null;
+  const canonicalProjectFilter = filteredProject ? getProjectSlug(filteredProject) : undefined;
 
-  const handleProjectFilterChange = (projectId?: string) => {
+  useEffect(() => {
+    if (!projectFilter) return;
+
     const params = new URLSearchParams(searchParams.toString());
-    if (projectId) {
-      params.set("project", projectId);
+    if (!filteredProject) {
+      params.delete("project");
+    } else if (projectFilter !== canonicalProjectFilter) {
+      params.set("project", canonicalProjectFilter!);
+    } else {
+      return;
+    }
+
+    const nextQuery = params.toString();
+    const nextUrl = nextQuery ? `${pathname}?${nextQuery}` : pathname;
+    router.replace(nextUrl, { scroll: false });
+  }, [canonicalProjectFilter, filteredProject, pathname, projectFilter, router, searchParams]);
+
+  const handleProjectFilterChange = (projectSlug?: string) => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (projectSlug) {
+      params.set("project", projectSlug);
     } else {
       params.delete("project");
     }
@@ -61,7 +79,7 @@ export function WorkLogsPageClient({ logs, projects }: WorkLogsPageClientProps) 
           logs={logs}
           showControls
           projectOptions={projects}
-          initialProjectId={projectFilter}
+          initialProjectSlug={canonicalProjectFilter}
           initialViewMode="rail"
           onProjectFilterChange={handleProjectFilterChange}
           emptyText={filteredProject ? "No work logs for this project yet." : "No work logs found yet."}

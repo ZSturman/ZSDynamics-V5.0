@@ -2,6 +2,8 @@ import React from "react";
 import { Button } from "./ui/button";
 import Image from "next/image";
 
+import { trackSocialClick } from "@/lib/firebase-analytics";
+
 const SocialLinks = () => {
   const socialLinks: { label: string; url: string; icon: string }[] = [
     {
@@ -60,7 +62,13 @@ const SocialLink = ({
       variant="ghost"
       size="icon"
       className="p-0 border-0 hover:cursor-pointer "
-      onClick={() => window.open(url, "_blank", "noopener,noreferrer")}
+      onClick={() => {
+        trackSocialClick({
+          socialNetwork: label,
+          destinationUrl: url,
+        });
+        window.open(url, "_blank", "noopener,noreferrer");
+      }}
       aria-label={label}
     >
       <Image

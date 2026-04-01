@@ -1,5 +1,6 @@
 "use client";
 import { notFound, useRouter } from "next/navigation";
+import { getProjectHref } from "@/lib/project-paths";
 import { ProjectHeader } from "./project-details/project-banner";
 import { ProjectContent } from "./project-details/project-description-and-story";
 import { ProjectMetadata } from "./project-details/project-metadata";
@@ -22,7 +23,7 @@ function HomeLink({ project }: { project: Project }) {
 
   const handleBack = () => {
     // Check if previousPath is the same as current project path (circular navigation)
-    const currentPath = `/projects/${project.id}`;
+    const currentPath = getProjectHref(project);
     const isCircular = previousPath === currentPath;
     
     if (previousPath && !isCircular) {
@@ -33,14 +34,14 @@ function HomeLink({ project }: { project: Project }) {
   };
 
   // If previousPath is circular, show "Home" instead of the previous label
-  const currentPath = `/projects/${project.id}`;
+  const currentPath = getProjectHref(project);
   const isCircular = previousPath === currentPath;
   const label = (previousPath && !isCircular) ? (previousLabel || "Home") : "Home";
 
   return (
-    <div className="sticky top-0 z-10 bg-background/80 backdrop-blur-sm">
-      <div className="container  px-4 md:px-6 lg:px-8 py-4">
-        <div className="flex items-center justify-between">
+    <div className="sticky top-0 z-10 border-b border-border/70 bg-background/90 backdrop-blur-sm">
+      <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 md:px-8">
+        <div className="flex items-center">
           <button
             onClick={handleBack}
             className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"

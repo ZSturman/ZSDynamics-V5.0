@@ -171,6 +171,8 @@ class TestProjectsPipeline(unittest.TestCase):
             # Schema + normalization
             required_keys = {
                 "id",
+                "slug",
+                "href",
                 "title",
                 "name",
                 "summary",
@@ -191,6 +193,10 @@ class TestProjectsPipeline(unittest.TestCase):
             self.assertEqual(proj_a["name"], "Top Note")
             self.assertEqual(proj_a["domain"], "Unknown Domain")
             self.assertEqual(proj_a["folderName"], make_project_folder_name("Top Note", "proj-a"))
+            self.assertEqual(proj_a["slug"], "top-note")
+            self.assertEqual(proj_a["href"], "/projects/top-note")
+            self.assertEqual(proj_b["slug"], "second-project")
+            self.assertEqual(proj_b["href"], "/projects/second-project")
             self.assertEqual(proj_a["createdAt"], "2026-02-13T10:00:00.000Z")
             self.assertEqual(proj_a["updatedAt"], "2026-02-20T18:30:00.000Z")
             self.assertEqual(proj_b["createdAt"], "2025-01-01T00:00:00.000Z")
@@ -212,7 +218,7 @@ class TestProjectsPipeline(unittest.TestCase):
 
             internal = next(r for r in resources if r["label"] == "Related Project")
             self.assertEqual(internal["type"], "local-link")
-            self.assertEqual(internal["url"], "/projects/proj-b")
+            self.assertEqual(internal["url"], proj_b["href"])
 
             # Collection structure + item defaults
             self.assertIn("Assets", proj_a["collection"])
@@ -235,7 +241,7 @@ class TestProjectsPipeline(unittest.TestCase):
 
             item3 = next(i for i in collection["items"] if i["id"] == "item-3")
             self.assertEqual(item3["type"], "url-link")
-            self.assertEqual(item3["url"], "/projects/proj-b")
+            self.assertEqual(item3["url"], proj_b["href"])
 
             # Paths are rewritten to public references, not local absolute paths
             result_json = json.dumps(result1["projects"])
@@ -352,7 +358,7 @@ class TestProjectsPipeline(unittest.TestCase):
             linked_item = related_collection["items"][0]
 
             self.assertEqual(linked_item["type"], "url-link")
-            self.assertEqual(linked_item["url"], "/projects/proj-target")
+            self.assertEqual(linked_item["url"], target_project["href"])
             self.assertEqual(linked_item["thumbnail"], "target-thumb.png")
             self.assertEqual(linked_item["summary"], "Target summary from project page")
 
@@ -460,6 +466,7 @@ class TestProjectsPipeline(unittest.TestCase):
             )
 
             owner_project = next(p for p in result["projects"] if p["id"] == "proj-front")
+            project_a = next(p for p in result["projects"] if p["id"] == "proj-a")
             self.assertIn("Frontend Collection", owner_project["collection"])
 
             collection = owner_project["collection"]["Frontend Collection"]
@@ -475,7 +482,7 @@ class TestProjectsPipeline(unittest.TestCase):
                 self.assertIn("resources", item)
 
             item_a = next(item for item in items if item["id"] == "proj-a")
-            self.assertEqual(item_a["url"], "/projects/proj-a")
+            self.assertEqual(item_a["url"], project_a["href"])
             self.assertEqual(item_a["summary"], "Project A summary")
             self.assertEqual(item_a["resource"]["label"], "Project A Site")
 

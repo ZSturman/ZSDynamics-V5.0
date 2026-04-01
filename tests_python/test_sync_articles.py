@@ -203,6 +203,122 @@ class TestSyncArticles(unittest.TestCase):
             stored_manifest = json.loads((output_root / "articles.json").read_text(encoding="utf-8"))
             self.assertEqual(stored_manifest[0]["coverImage"], "/articles/cover-article/cover.png")
 
+    def test_optional_series_frontmatter_is_preserved(self) -> None:
+        with tempfile.TemporaryDirectory() as repo_root_str, tempfile.TemporaryDirectory() as output_root_str:
+            repo_root = Path(repo_root_str)
+            output_root = Path(output_root_str)
+
+            article_dir = repo_root / "articles" / "series-article"
+            article_dir.mkdir(parents=True)
+            (article_dir / "index.md").write_text(
+                "\n".join(
+                    [
+                        "---",
+                        "title: Series Article",
+                        "summary: Article that belongs to a sequence.",
+                        "updatedAt: 2026-03-26",
+                        "series: Folio Evolution",
+                        "---",
+                        "",
+                        "Body copy.",
+                    ]
+                ),
+                encoding="utf-8",
+            )
+
+            manifest = build_articles_from_directory(
+                source_repo_root=repo_root,
+                output_dir=output_root,
+                repo="ZSturman/Articles",
+                ref="main",
+            )
+
+            self.assertEqual(len(manifest), 1)
+            self.assertEqual(manifest[0]["series"], "Folio Evolution")
+
+    def test_projects_frontmatter_links_to_existing_project_ids(self) -> None:
+        with tempfile.TemporaryDirectory() as repo_root_str, tempfile.TemporaryDirectory() as output_root_str:
+            repo_root = Path(repo_root_str)
+            output_root = Path(output_root_str)
+
+            projects_manifest_path = repo_root / "projects.json"
+            projects_manifest_path.write_text(
+                json.dumps(
+                    [
+                        {
+                            "id": "304aec94-4d3c-8029-a1b1-ea0f92487137",
+                            "slug": "my-notion-pipeline",
+                            "href": "/projects/my-notion-pipeline",
+                            "title": "My Notion Pipeline",
+                        }
+                    ]
+                ),
+                encoding="utf-8",
+            )
+
+            article_dir = repo_root / "articles" / "linked-article"
+            article_dir.mkdir(parents=True)
+            (article_dir / "index.md").write_text(
+                "\n".join(
+                    [
+                        "---",
+                        "title: Linked Article",
+                        "summary: Article with project links.",
+                        "updatedAt: 2026-04-01",
+                        "projects:",
+                        '  - "My Notion Pipeline (https://www.notion.so/My-Notion-Pipeline-304aec944d3c8029a1b1ea0f92487137?pvs=21)"',
+                        "  - /projects/my-notion-pipeline",
+                        "---",
+                        "",
+                        "Body copy.",
+                    ]
+                ),
+                encoding="utf-8",
+            )
+
+            manifest = build_articles_from_directory(
+                source_repo_root=repo_root,
+                output_dir=output_root,
+                repo="ZSturman/Articles",
+                ref="main",
+                projects_manifest_path=projects_manifest_path,
+            )
+
+            self.assertEqual(len(manifest), 1)
+            self.assertEqual(manifest[0]["projectIds"], ["304aec94-4d3c-8029-a1b1-ea0f92487137"])
+
+    def test_missing_series_is_recorded_as_none(self) -> None:
+        with tempfile.TemporaryDirectory() as repo_root_str, tempfile.TemporaryDirectory() as output_root_str:
+            repo_root = Path(repo_root_str)
+            output_root = Path(output_root_str)
+
+            article_dir = repo_root / "articles" / "standalone-article"
+            article_dir.mkdir(parents=True)
+            (article_dir / "index.md").write_text(
+                "\n".join(
+                    [
+                        "---",
+                        "title: Standalone Article",
+                        "summary: Article without a series.",
+                        "updatedAt: 2026-03-26",
+                        "---",
+                        "",
+                        "Body copy.",
+                    ]
+                ),
+                encoding="utf-8",
+            )
+
+            manifest = build_articles_from_directory(
+                source_repo_root=repo_root,
+                output_dir=output_root,
+                repo="ZSturman/Articles",
+                ref="main",
+            )
+
+            self.assertEqual(len(manifest), 1)
+            self.assertIsNone(manifest[0]["series"])
+
     def test_missing_required_frontmatter_field_raises(self) -> None:
         with tempfile.TemporaryDirectory() as repo_root_str, tempfile.TemporaryDirectory() as output_root_str:
             repo_root = Path(repo_root_str)

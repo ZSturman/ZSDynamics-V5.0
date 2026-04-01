@@ -2,6 +2,7 @@
 import { useMemo, useState, useEffect } from "react";
 import { ProjectFilters } from "@/components/project-filters";
 import { ProjectList } from "@/components/project-list/project-list";
+import { getProjectSlug } from "@/lib/project-paths";
 import type { Project } from "@/types";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { FeaturedCarousel } from "./project-list/featured-carousel";
@@ -355,10 +356,18 @@ export function PortfolioClient({ projects }: PortfolioClientProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sort, viewMode])
 
+  const handleProjectSelect = (project: Project) => {
+    const params = new URLSearchParams(searchParams?.toString() || "")
+    params.set("project", getProjectSlug(project))
+    const nextQuery = params.toString()
+    const nextUrl = nextQuery ? `${pathname || "/"}?${nextQuery}` : pathname || "/"
+    router.push(nextUrl, { scroll: false })
+  }
+
   return (
     <>
       {/* Featured Carousel */}
-      <FeaturedCarousel projects={publicProjects} />
+      <FeaturedCarousel projects={publicProjects} onProjectSelect={handleProjectSelect} />
       
       {/* Project List Header */}
       <div className="mb-4">
@@ -389,6 +398,7 @@ export function PortfolioClient({ projects }: PortfolioClientProps) {
       <ProjectList 
         viewMode={viewMode} 
         projects={sortedProjects}
+        onProjectSelect={handleProjectSelect}
         sortField={
           sort === "title-asc" || sort === "title-desc" 
             ? "title" 

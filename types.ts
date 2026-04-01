@@ -13,6 +13,7 @@ export interface ProjectArticleReference {
   slug: string;
   href: string;
   sourceUrl: string;
+  coverImage?: string;
 }
 
 export interface Article {
@@ -21,6 +22,7 @@ export interface Article {
   summary: string;
   publishedAt?: string | null;
   updatedAt: string;
+  series?: string;
   tags?: string[];
   projectIds?: string[];
   sourceUrl: string;
@@ -94,6 +96,8 @@ export interface WorkLog {
 
 export interface Project {
   id: string;
+  slug: string;
+  href: string;
   folderName?: string;       // The actual folder name in public/projects/ (slug_id)
   filePath?: string;
   title: string;

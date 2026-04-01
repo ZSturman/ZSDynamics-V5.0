@@ -15,6 +15,7 @@ import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader.js"
 import { CollectionItem, Project, Resource } from "@/types"
 import { ExternalLink, ArrowRight } from "lucide-react"
 import { CollectionFullscreen } from "./collection-item-fullscreen"
+import { getProjectHref } from "@/lib/project-paths"
 import { cn, extractPathValue, resolveProjectAssetPath, isSvgFile } from "@/lib/utils"
 import ResourceButton from "../resource-button"
 import { useBreadcrumb } from "@/lib/breadcrumb-context"
@@ -286,9 +287,9 @@ export default function CollectionItemCard({ item, project, inModal, folderName,
           if (linkUrl.hostname === window.location.hostname) {
             // Set breadcrumb to current project before navigating
             if (project) {
-              setPreviousPath(`/projects/${project.id}`, project.title || 'Project');
+              setPreviousPath(getProjectHref(project), project.title || 'Project');
             }
-            router.push(linkUrl.pathname);
+            router.push(`${linkUrl.pathname}${linkUrl.search}${linkUrl.hash}`);
           } else {
             window.open(itemPath, "_blank", "noopener,noreferrer");
           }
@@ -298,7 +299,7 @@ export default function CollectionItemCard({ item, project, inModal, folderName,
       } else {
         // Set breadcrumb to current project before navigating to another project
         if (project && typeof itemPath === 'string' && itemPath.startsWith('/projects/')) {
-          setPreviousPath(`/projects/${project.id}`, project.title || 'Project');
+          setPreviousPath(getProjectHref(project), project.title || 'Project');
         }
         router.push(itemPath);
       }

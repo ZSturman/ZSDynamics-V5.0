@@ -89,7 +89,13 @@ export function ProjectHeader({ project, hideBanner = false }: ProjectHeaderProp
             {project.resources && project.resources.length > 0 && (
               <div className="flex gap-2">
                 {project.resources.slice(0, 4).map((resource, index) => (
-                  <ResourceButton key={`${resource.url}-${index}`} resource={resource} iconOnly className="h-8 w-8 border-0" />
+                  <ResourceButton
+                    key={`${resource.url}-${index}`}
+                    resource={resource}
+                    currentProject={project}
+                    iconOnly
+                    className="h-8 w-8 border-0"
+                  />
                 ))}
               </div>
             )}

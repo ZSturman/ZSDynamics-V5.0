@@ -19,6 +19,7 @@ import { cn, formatDate, getOptimizedMediaPath, isImageFile, isVideoFile, getOpt
 
 export type WorkLogWithProject = WorkLog & {
   projectId?: string;
+  projectSlug?: string;
   projectTitle?: string;
   projectHref?: string;
   projectFolderName?: string;
@@ -29,6 +30,8 @@ export type TimelineViewMode = "rail" | "horizontal" | "project-chart" | "sessio
 
 export interface WorkLogProjectOption {
   id: string;
+  slug: string;
+  href: string;
   title: string;
 }
 
@@ -37,13 +40,13 @@ interface WorkLogTimelineProps {
   emptyText?: string;
   showControls?: boolean;
   projectOptions?: WorkLogProjectOption[];
-  initialProjectId?: string;
+  initialProjectSlug?: string;
   initialSortOrder?: TimelineSortOrder;
   initialSessionType?: string;
   initialSearchQuery?: string;
   initialViewMode?: TimelineViewMode;
   defaultControlsExpanded?: boolean;
-  onProjectFilterChange?: (projectId?: string) => void;
+  onProjectFilterChange?: (projectSlug?: string) => void;
 }
 
 interface TimelineGroup {
@@ -1076,7 +1079,7 @@ export function WorkLogTimeline({
   emptyText = "No work logs available.",
   showControls = false,
   projectOptions = [],
-  initialProjectId,
+  initialProjectSlug,
   initialSortOrder = "newest",
   initialSessionType = ALL_FILTER,
   initialSearchQuery = "",
@@ -1084,7 +1087,7 @@ export function WorkLogTimeline({
   defaultControlsExpanded = false,
   onProjectFilterChange,
 }: WorkLogTimelineProps) {
-  const [projectFilter, setProjectFilter] = useState<string>(initialProjectId || ALL_FILTER);
+  const [projectFilter, setProjectFilter] = useState<string>(initialProjectSlug || ALL_FILTER);
   const [sortOrder, setSortOrder] = useState<TimelineSortOrder>(initialSortOrder);
   const [sessionTypeFilter, setSessionTypeFilter] = useState<string>(initialSessionType);
   const [searchQuery, setSearchQuery] = useState<string>(initialSearchQuery);
@@ -1092,12 +1095,12 @@ export function WorkLogTimeline({
   const [controlsExpanded, setControlsExpanded] = useState(defaultControlsExpanded);
 
   useEffect(() => {
-    setProjectFilter(initialProjectId || ALL_FILTER);
-  }, [initialProjectId]);
+    setProjectFilter(initialProjectSlug || ALL_FILTER);
+  }, [initialProjectSlug]);
 
   const projectScopedLogs = useMemo(() => {
     if (projectFilter === ALL_FILTER) return logs;
-    return logs.filter((log) => log.projectId === projectFilter);
+    return logs.filter((log) => log.projectSlug === projectFilter || log.projectId === projectFilter);
   }, [logs, projectFilter]);
 
   const availableSessionTypes = useMemo(() => {
@@ -1225,7 +1228,7 @@ export function WorkLogTimeline({
                     >
                       <option value={ALL_FILTER}>All projects</option>
                       {projectOptions.map((project) => (
-                        <option key={project.id} value={project.id}>
+                        <option key={project.id} value={project.slug}>
                           {project.title}
                         </option>
                       ))}

@@ -21,12 +21,19 @@ DEFAULT_REPO = "ZSturman/Articles"
 DEFAULT_REF = "main"
 PUBLIC_ROOT = Path(__file__).parent.parent / "public"
 TARGET_ARTICLES_DIR = PUBLIC_ROOT / "articles"
+PROJECTS_MANIFEST = PUBLIC_ROOT / "projects" / "projects.json"
 MARKDOWN_INDEX_NAMES = {"index.md", "index.markdown"}
 MARKDOWN_FILE_EXTS = {".md", ".markdown"}
 FRONTMATTER_BOUNDARY = "---"
 SCHEME_RE = re.compile(r"^[a-zA-Z][a-zA-Z0-9+.-]*:")
 MARKDOWN_LINK_RE = re.compile(r"(?P<prefix>!?\[[^\]]*\]\()(?P<target>[^)\n]+)(?P<suffix>\))")
 HTML_ATTR_RE = re.compile(r'(?P<attr>\b(?:src|href)=)(?P<quote>["\'])(?P<target>[^"\']+)(?P=quote)')
+UUID_RE = re.compile(r"[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
+COMPACT_UUID_RE = re.compile(r"\b[0-9a-fA-F]{32}\b")
+PROJECT_REFERENCE_WITH_URL_RE = re.compile(
+    r"^(?P<label>.+?)\s*\((?P<target>(?:[a-zA-Z][a-zA-Z0-9+.-]*://|/)[^()]+)\)\s*$"
+)
+MARKDOWN_REFERENCE_RE = re.compile(r"^\[(?P<label>[^\]]+)\]\((?P<target>[^)\n]+)\)$")
 
 
 class ArticleSyncError(RuntimeError):
@@ -41,6 +48,191 @@ def normalize_article_slug(value: str) -> str:
     lowered = re.sub(r"[^a-z0-9\s-]", "", lowered)
     lowered = re.sub(r"[\s-]+", "-", lowered).strip("-")
     return lowered or "article"
+
+
+def normalize_project_slug(value: str) -> str:
+    normalized = unicodedata.normalize("NFKD", value or "")
+    ascii_only = normalized.encode("ascii", "ignore").decode("ascii")
+    lowered = ascii_only.strip().lower().replace("&", " and ")
+    lowered = re.sub(r"[^a-z0-9\s-]", "", lowered)
+    lowered = re.sub(r"[\s-]+", "-", lowered).strip("-")
+    return lowered or "project"
+
+
+def _as_str(value: Any) -> Optional[str]:
+    if not isinstance(value, str):
+        return None
+    stripped = value.strip()
+    return stripped or None
+
+
+def _coerce_string_list(value: Any) -> List[str]:
+    if isinstance(value, list):
+        return [entry.strip() for entry in value if isinstance(entry, str) and entry.strip()]
+
+    single = _as_str(value)
+    return [single] if single else []
+
+
+def _extract_uuid(value: str) -> Optional[str]:
+    match = UUID_RE.search(value)
+    if match:
+        return match.group(0).lower()
+
+    compact_match = COMPACT_UUID_RE.search(value)
+    if not compact_match:
+        return None
+
+    compact = compact_match.group(0).lower()
+    return f"{compact[:8]}-{compact[8:12]}-{compact[12:16]}-{compact[16:20]}-{compact[20:]}"
+
+
+def _register_project_alias(
+    alias_to_project_id: Dict[str, str],
+    alias: Any,
+    project_id: str,
+    *,
+    normalize_slug_alias: bool = False,
+) -> None:
+    raw_alias = _as_str(alias)
+    if not raw_alias:
+        return
+
+    candidates = {raw_alias, raw_alias.lower()}
+
+    if raw_alias.startswith("/projects/"):
+        project_slug = raw_alias[len("/projects/") :].split("/", 1)[0].split("?", 1)[0].split("#", 1)[0]
+        if project_slug:
+            candidates.add(project_slug)
+            candidates.add(project_slug.lower())
+
+    extracted_uuid = _extract_uuid(raw_alias)
+    if extracted_uuid:
+        candidates.add(extracted_uuid)
+        candidates.add(extracted_uuid.replace("-", ""))
+
+    if normalize_slug_alias:
+        candidates.add(normalize_project_slug(raw_alias))
+
+    for candidate in candidates:
+        alias_to_project_id[candidate] = project_id
+
+
+def _load_project_alias_map(projects_manifest_path: Optional[Path] = None) -> Dict[str, str]:
+    manifest_path = projects_manifest_path or PROJECTS_MANIFEST
+    if not manifest_path.exists() or not manifest_path.is_file():
+        return {}
+
+    try:
+        payload = json.loads(manifest_path.read_text(encoding="utf-8"))
+    except Exception:
+        return {}
+
+    if not isinstance(payload, list):
+        return {}
+
+    alias_to_project_id: Dict[str, str] = {}
+    for project in payload:
+        if not isinstance(project, dict):
+            continue
+
+        project_id = _as_str(project.get("id"))
+        if not project_id:
+            continue
+
+        _register_project_alias(alias_to_project_id, project_id, project_id)
+
+        for alias_key in ("slug", "href", "folderName", "filePath", "projectPageId"):
+            _register_project_alias(alias_to_project_id, project.get(alias_key), project_id)
+
+        for title_key in ("title", "name"):
+            _register_project_alias(alias_to_project_id, project.get(title_key), project_id, normalize_slug_alias=True)
+
+    return alias_to_project_id
+
+
+def _append_unique_string(values: List[str], seen: set[str], candidate: Optional[str]) -> None:
+    normalized = _as_str(candidate)
+    if not normalized or normalized in seen:
+        return
+
+    seen.add(normalized)
+    values.append(normalized)
+
+
+def _extract_project_reference_candidates(raw_reference: str) -> List[str]:
+    stripped = raw_reference.strip()
+    candidates: List[str] = []
+    seen: set[str] = set()
+
+    def add(candidate: Optional[str], *, normalize_slug_alias: bool = False) -> None:
+        normalized = _as_str(candidate)
+        if not normalized:
+            return
+        if normalized not in seen:
+            seen.add(normalized)
+            candidates.append(normalized)
+        if normalize_slug_alias:
+            slug_candidate = normalize_project_slug(normalized)
+            if slug_candidate not in seen:
+                seen.add(slug_candidate)
+                candidates.append(slug_candidate)
+
+    add(stripped)
+
+    markdown_reference = MARKDOWN_REFERENCE_RE.match(stripped)
+    if markdown_reference:
+        add(getMarkdownImageTarget(markdown_reference.group("target")))
+        add(markdown_reference.group("label"), normalize_slug_alias=True)
+
+    labeled_reference = PROJECT_REFERENCE_WITH_URL_RE.match(stripped)
+    if labeled_reference:
+        add(labeled_reference.group("target"))
+        add(labeled_reference.group("label"), normalize_slug_alias=True)
+
+    if stripped.startswith("/projects/"):
+        project_slug = stripped[len("/projects/") :].split("/", 1)[0].split("?", 1)[0].split("#", 1)[0]
+        add(project_slug)
+
+    return candidates
+
+
+def _resolve_project_reference(raw_reference: str, project_alias_map: Dict[str, str]) -> Optional[str]:
+    for candidate in _extract_project_reference_candidates(raw_reference):
+        direct = project_alias_map.get(candidate) or project_alias_map.get(candidate.lower())
+        if direct:
+            return direct
+
+        extracted_uuid = _extract_uuid(candidate)
+        if extracted_uuid:
+            return project_alias_map.get(extracted_uuid) or extracted_uuid
+
+        normalized_slug = normalize_project_slug(candidate)
+        resolved_by_slug = project_alias_map.get(normalized_slug)
+        if resolved_by_slug:
+            return resolved_by_slug
+
+    return None
+
+
+def _normalize_article_project_ids(
+    raw_project_ids: Any,
+    raw_projects: Any,
+    *,
+    project_alias_map: Dict[str, str],
+) -> List[str]:
+    normalized_project_ids: List[str] = []
+    seen_project_ids: set[str] = set()
+
+    for project_id in _coerce_string_list(raw_project_ids):
+        resolved_project_id = _resolve_project_reference(project_id, project_alias_map)
+        _append_unique_string(normalized_project_ids, seen_project_ids, resolved_project_id or project_id)
+
+    for project_reference in _coerce_string_list(raw_projects):
+        resolved_project_id = _resolve_project_reference(project_reference, project_alias_map)
+        _append_unique_string(normalized_project_ids, seen_project_ids, resolved_project_id)
+
+    return normalized_project_ids
 
 
 def _is_markdown_path(path: Path) -> bool:
@@ -484,11 +676,13 @@ def _normalize_article_metadata(
     current_markdown_path: Path,
     current_asset_root: Path,
     article_paths_to_slug: Dict[Path, str],
+    project_alias_map: Dict[str, str],
 ) -> Dict[str, Any]:
     title = metadata.get("title")
     summary = metadata.get("summary")
     published_at = metadata.get("publishedAt")
     updated_at = metadata.get("updatedAt")
+    series = metadata.get("series")
     if not isinstance(title, str) or not title.strip():
         raise ArticleSyncError(f"Article '{slug}' is missing required frontmatter field: title")
     if not isinstance(summary, str) or not summary.strip():
@@ -498,8 +692,13 @@ def _normalize_article_metadata(
 
     raw_tags = metadata.get("tags")
     raw_project_ids = metadata.get("projectIds")
+    raw_projects = metadata.get("projects")
     tags: List[Any] = raw_tags if isinstance(raw_tags, list) else []
-    project_ids: List[Any] = raw_project_ids if isinstance(raw_project_ids, list) else []
+    project_ids = _normalize_article_project_ids(
+        raw_project_ids,
+        raw_projects,
+        project_alias_map=project_alias_map,
+    )
     cover_image = _normalize_cover_image(
         metadata.get("coverImage"),
         slug=slug,
@@ -514,8 +713,9 @@ def _normalize_article_metadata(
         "summary": summary.strip(),
         "publishedAt": published_at.strip() if isinstance(published_at, str) and published_at.strip() else None,
         "updatedAt": updated_at.strip(),
+        "series": series.strip() if isinstance(series, str) and series.strip() else None,
         "tags": [str(tag).strip() for tag in tags if str(tag).strip()],
-        "projectIds": [str(project_id).strip() for project_id in project_ids if str(project_id).strip()],
+        "projectIds": project_ids,
         "sourceUrl": _article_source_url(repo, ref, slug),
         "href": f"/articles/{slug}",
         "coverImage": cover_image,
@@ -528,10 +728,12 @@ def build_articles_from_directory(
     output_dir: Path,
     repo: str,
     ref: str,
+    projects_manifest_path: Optional[Path] = None,
 ) -> List[Dict[str, Any]]:
     output_dir.mkdir(parents=True, exist_ok=True)
 
     article_sources = _discover_article_sources(source_repo_root)
+    project_alias_map = _load_project_alias_map(projects_manifest_path)
     article_paths_to_slug: Dict[Path, str] = {}
     for article_source in article_sources:
         index_path = Path(article_source["index_path"]).resolve()
@@ -555,6 +757,7 @@ def build_articles_from_directory(
             current_markdown_path=source_index_path,
             current_asset_root=asset_root,
             article_paths_to_slug=article_paths_to_slug,
+            project_alias_map=project_alias_map,
         )
         rewritten_body = rewrite_article_markdown(
             body,

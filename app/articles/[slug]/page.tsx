@@ -1,10 +1,15 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowRight, ArrowUpRight, FolderOpen, Github, Newspaper } from "lucide-react";
 
+import { ArticleAnalyticsTracker } from "@/components/analytics/article-analytics-tracker";
+import { ArticleSourceLink } from "@/components/analytics/article-source-link";
 import { ArticleMarkdown } from "@/components/articles/article-markdown";
 import { loadArticleBySlug, loadArticles } from "@/lib/load-articles";
 import { loadPublicJsonRecursively } from "@/lib/load-public-json";
+import { getProjectHref } from "@/lib/project-paths";
+import { SITE_DESCRIPTION } from "@/lib/site-metadata";
 import { formatDate } from "@/lib/utils";
 import type { Project } from "@/types";
 
@@ -35,6 +40,43 @@ function toTimestamp(value?: string | null): number {
 export async function generateStaticParams(): Promise<Array<{ slug: string }>> {
   const articles = await loadArticles();
   return articles.map((article) => ({ slug: article.slug }));
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const articleResult = await loadArticleBySlug(slug);
+
+  if (!articleResult) {
+    return {
+      title: "Article not found",
+      robots: {
+        index: false,
+        follow: false,
+      },
+    };
+  }
+
+  const { article } = articleResult;
+  const description = article.summary || SITE_DESCRIPTION;
+
+  return {
+    title: article.title,
+    description,
+    alternates: {
+      canonical: article.href,
+    },
+    openGraph: {
+      title: article.title,
+      description,
+      url: article.href,
+      ...(article.coverImage ? { images: [{ url: article.coverImage, alt: article.title }] } : {}),
+    },
+    twitter: {
+      title: article.title,
+      description,
+      ...(article.coverImage ? { images: [article.coverImage] } : {}),
+    },
+  };
 }
 
 export default async function ArticlePage({ params }: { params: Promise<{ slug: string }> }) {
@@ -89,6 +131,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
     <div className="min-h-screen bg-background">
       <main className="mx-auto max-w-4xl px-4 py-8 sm:px-6 md:px-8 md:py-12">
         <div className="space-y-3 border-b border-border/70 pb-8">
+          <ArticleAnalyticsTracker slug={article.slug} title={article.title} />
           <p className="text-sm text-muted-foreground">
             <Link href="/" className="hover:text-foreground">
               Home
@@ -122,16 +165,21 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
             <p className="max-w-3xl text-base leading-7 text-muted-foreground">{article.summary}</p>
 
             <div className="flex flex-wrap items-center gap-3 pt-2">
-              <a
+              <ArticleSourceLink
+                articleSlug={article.slug}
+                articleTitle={article.title}
                 href={article.sourceUrl}
-                target="_blank"
-                rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 rounded-full bg-foreground px-4 py-2 text-sm font-medium text-background transition-opacity hover:opacity-90"
               >
                 <Github className="size-4" />
                 View Source on GitHub
                 <ArrowUpRight className="size-4" />
-              </a>
+              </ArticleSourceLink>
+              {article.series && (
+                <span className="rounded-full border border-border/70 bg-background px-3 py-1 text-xs font-medium text-foreground">
+                  Series: {article.series}
+                </span>
+              )}
               {article.tags?.map((tag) => (
                 <span
                   key={`${article.slug}-${tag}`}
@@ -147,7 +195,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                 {relatedProjects.map((project) => (
                   <Link
                     key={`${article.slug}-${project.id}`}
-                    href={`/projects/${project.id}`}
+                    href={getProjectHref(project)}
                     className="inline-flex items-center gap-1.5 rounded-full border border-border/80 bg-background px-3 py-1.5 text-xs font-medium transition-colors hover:border-primary/40 hover:text-primary"
                   >
                     <FolderOpen className="size-3.5" />
@@ -188,17 +236,29 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                       <Link
                         key={recommendedArticle.slug}
                         href={recommendedArticle.href}
-                        className="flex items-start gap-3 rounded-2xl border border-border/70 bg-background px-4 py-4 transition-colors hover:border-primary/40"
+                        className="overflow-hidden rounded-2xl border border-border/70 bg-background transition-colors hover:border-primary/40"
                       >
-                        <div className="mt-0.5 flex size-10 shrink-0 items-center justify-center rounded-xl bg-muted text-muted-foreground">
-                          <Newspaper className="size-4" />
-                        </div>
-                        <div className="min-w-0 space-y-1">
-                          <p className="font-medium leading-6 text-foreground">{recommendedArticle.title}</p>
-                          <p className="line-clamp-2 text-sm leading-6 text-muted-foreground">{recommendedArticle.summary}</p>
-                          <p className="text-xs text-muted-foreground">
-                            {formatDate(recommendedArticle.updatedAt ?? recommendedArticle.publishedAt) || recommendedArticle.updatedAt || recommendedArticle.publishedAt}
-                          </p>
+                        {recommendedArticle.coverImage && (
+                          <div className="overflow-hidden border-b border-border/70 bg-muted/40">
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img
+                              src={recommendedArticle.coverImage}
+                              alt={`Cover image for ${recommendedArticle.title}`}
+                              className="aspect-[16/8] w-full object-cover"
+                            />
+                          </div>
+                        )}
+                        <div className="flex items-start gap-3 px-4 py-4">
+                          <div className="mt-0.5 flex size-10 shrink-0 items-center justify-center rounded-xl bg-muted text-muted-foreground">
+                            <Newspaper className="size-4" />
+                          </div>
+                          <div className="min-w-0 space-y-1">
+                            <p className="font-medium leading-6 text-foreground">{recommendedArticle.title}</p>
+                            <p className="line-clamp-2 text-sm leading-6 text-muted-foreground">{recommendedArticle.summary}</p>
+                            <p className="text-xs text-muted-foreground">
+                              {formatDate(recommendedArticle.updatedAt ?? recommendedArticle.publishedAt) || recommendedArticle.updatedAt || recommendedArticle.publishedAt}
+                            </p>
+                          </div>
                         </div>
                       </Link>
                     ))}
@@ -213,7 +273,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                     {relatedProjects.map((project) => (
                       <Link
                         key={project.id}
-                        href={`/projects/${project.id}`}
+                        href={getProjectHref(project)}
                         className="flex items-start gap-3 rounded-2xl border border-border/70 bg-background px-4 py-4 transition-colors hover:border-primary/40"
                       >
                         <div className="overflow-hidden rounded-xl bg-muted">

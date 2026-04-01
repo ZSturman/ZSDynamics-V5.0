@@ -4,6 +4,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import ResourceButton from "../project-details/resource-button";
 import { useRouter } from "next/navigation";
+import { getProjectHref } from "@/lib/project-paths";
 import type { Project, Resource } from "@/types";
 
 export default function PrimaryActionButton({
@@ -27,7 +28,7 @@ export default function PrimaryActionButton({
       className={className || "justify-start gap-2 md:gap-3 h-auto p-2 md:px-4 px-3 bg-transparent w-auto max-w-full hover:cursor-pointer min-h-[44px]"}
       onClick={(e) => {
         e.stopPropagation();
-        router.push(`/projects/${project.id}`);
+        router.push(getProjectHref(project));
       }}
     >
       <Image

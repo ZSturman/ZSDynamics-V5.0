@@ -5,8 +5,9 @@ import { useEffect, useState, Suspense } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { PortfolioHeader } from "@/components/portfolio-header"
 import { PortfolioClient } from "@/components/portfolio-client"
-import { ProjectModal } from "@/components/project-modal"
 import { LoadingSpinner } from "@/components/global-ui/loading-spinner"
+import { ProjectModal } from "@/components/project-modal"
+import { findProjectByAlias } from "@/lib/project-paths"
 import type { Project } from "@/types"
 
 function PortfolioContent() {
@@ -14,7 +15,8 @@ function PortfolioContent() {
   const [loading, setLoading] = useState(true)
   const router = useRouter()
   const searchParams = useSearchParams()
-  const projectId = searchParams.get('project')
+  const projectParam = searchParams.get('project')
+  const selectedProject = !loading && projectParam ? findProjectByAlias(projects, projectParam) ?? null : null
 
   useEffect(() => {
     let mounted = true
@@ -34,15 +36,21 @@ function PortfolioContent() {
     return () => { mounted = false }
   }, [])
 
-  // Find the project for the modal
-  const modalProject = projectId ? projects.find(p => p.id === projectId) || null : null
+  useEffect(() => {
+    if (loading || !projectParam || selectedProject) return
 
-  const handleCloseModal = () => {
-    // Remove the project parameter from the URL
     const params = new URLSearchParams(searchParams.toString())
-    params.delete('project')
-    const newUrl = params.toString() ? `/?${params.toString()}` : '/'
-    router.replace(newUrl, { scroll: false })
+    params.delete("project")
+    const query = params.toString()
+
+    router.replace(query ? `/?${query}` : "/", { scroll: false })
+  }, [loading, projectParam, router, searchParams, selectedProject])
+
+  const handleCloseProjectModal = () => {
+    const params = new URLSearchParams(searchParams.toString())
+    params.delete("project")
+    const query = params.toString()
+    router.replace(query ? `/?${query}` : "/", { scroll: false })
   }
 
   return (
@@ -56,7 +64,13 @@ function PortfolioContent() {
           </div>
         ) : <PortfolioClient projects={projects} />}
       </div>
-      {!loading && <ProjectModal project={modalProject} isOpen={!!projectId && !!modalProject} onClose={handleCloseModal} />}
+      {!loading && (
+        <ProjectModal
+          project={selectedProject}
+          isOpen={Boolean(selectedProject)}
+          onClose={handleCloseProjectModal}
+        />
+      )}
     </>
   )
 }

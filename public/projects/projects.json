@@ -1,18 +1,21 @@
 [
   {
     "id": "304aec94-4d3c-8029-a1b1-ea0f92487137",
-    "title": "Notion as a Source of Truth",
-    "name": "Notion as a Source of Truth",
-    "subtitle": "",
-    "summary": "Portfolio Sync System is a project operations workflow for managing metadata, documentation, and portfolio publishing from a single structured source of truth. It began as a folder-based project system using local files and .project.json, then evolved through a custom metadata editor into a relational Notion workspace connected to work logs, tasks, milestones, and media.\n\nThe system uses formulas, required-action logic, severity scoring, and visual workflow cues inside Notion to make project readiness measurable and easier to maintain. n8n watches for qualifying project changes, compiles portfolio-ready JSON, and passes that data into a Python-based build pipeline that prepares content and media for a static portfolio site. Linear handles issue tracking, GitHub stores code and optimized assets, and Firebase Hosting serves the finished portfolio.\n\nThe result is a project operating system that reduces duplicate entry, improves documentation quality, and keeps the portfolio aligned with the real state of the work over time.",
-    "oneLiner": "An automated project and portfolio workflow built with Notion, n8n, Python, Linear, GitHub, and Firebase.",
+    "slug": "my-notion-pipeline",
+    "href": "/projects/my-notion-pipeline",
+    "title": "My Notion Pipeline",
+    "name": "My Notion Pipeline",
+    "subtitle": "Notion-powered project operations and portfolio automation",
+    "summary": "An automated project and portfolio workflow that uses Notion as the central source of truth for capturing, organizing, maintaining, and publishing work across its full lifecycle. What began as a folder-based system built on local files and .project.json evolved into a relational Notion workspace that connects project metadata, work logs, tasks, milestones, media, and documentation in one structured environment.\n\n\nInside Notion, the system uses formulas, required-action logic, severity scoring, and visual workflow signals to make project readiness measurable and easier to manage. That structure reduces duplicate entry, improves documentation quality, and keeps projects consistently maintained as they move from idea to execution to presentation.\n\n\nWhen project data reaches the right state, n8n detects qualifying changes and assembles portfolio-ready JSON, which is then sent into a Python-based build pipeline that prepares content and media for a static portfolio site. Linear supports issue tracking, GitHub stores code and optimized assets, and Firebase Hosting serves the finished site.\n\n\nThe result is a connected operating system for project operations and portfolio publishing: one that keeps documentation, execution, and presentation aligned with the real state of the work over time.",
+    "oneLiner": "A Notion-centered project operating system that turns structured project data into an always-up-to-date portfolio.",
     "domain": "Personal",
     "category": "Organization",
     "status": "Active",
     "phase": "Development",
-    "featured": false,
+    "featured": true,
+    "featuredOrder": 6,
     "createdAt": "2026-02-03T09:00:00.000-08:00",
-    "updatedAt": "2026-02-24",
+    "updatedAt": "2026-04-01",
     "isPublic": true,
     "tags": [
       "Notion",
@@ -31,7 +34,10 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "thumbnail.png"
+      "thumbnail": "thumbnail.png",
+      "banner": "banner.png",
+      "icon": "icon.png",
+      "hero": "hero.png"
     },
     "resources": [],
     "collection": {},
@@ -231,10 +237,12 @@
       }
     ],
     "articles": [],
-    "folderName": "notion_as_a_source_of_truth_304aec94-4d3c-8029-a1b1-ea0f92487137"
+    "folderName": "my_notion_pipeline_304aec94-4d3c-8029-a1b1-ea0f92487137"
   },
   {
     "id": "306aec94-4d3c-8005-97ab-d4572f1ab679",
+    "slug": "episodic-memory-agent",
+    "href": "/projects/episodic-memory-agent",
     "title": "Episodic Memory Agent",
     "name": "Episodic Memory Agent",
     "subtitle": "A Sensor-Agnostic Cognitive Architecture for Event-Segmented Memory Formation",
@@ -276,6 +284,8 @@
   },
   {
     "id": "306aec94-4d3c-8008-9985-d94ba1780069",
+    "slug": "top-note",
+    "href": "/projects/top-note",
     "title": "Top Note",
     "name": "Top Note",
     "subtitle": "A widget based iOS app",
@@ -307,11 +317,11 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "thumbnail.png",
-      "hero": "hero.png",
-      "icon": "TopNote AppIcon v2-watchOS-Default-1088x1088@1x.png",
       "poster": "poster.png",
-      "banner": "banner.png"
+      "thumbnail": "thumbnail.png",
+      "banner": "banner.png",
+      "icon": "TopNote AppIcon v2-watchOS-Default-1088x1088@1x.png",
+      "hero": "hero.png"
     },
     "resources": [
       {
@@ -332,6 +342,8 @@
   },
   {
     "id": "306aec94-4d3c-800b-9d7d-ed0c879ab5b3",
+    "slug": "zsdynamics-20",
+    "href": "/projects/zsdynamics-20",
     "title": "ZSDynamics 2.0",
     "name": "ZSDynamics 2.0",
     "subtitle": "Built with Python and React",
@@ -380,6 +392,8 @@
   },
   {
     "id": "306aec94-4d3c-800f-8fd6-c80ad845b5df",
+    "slug": "mediledger",
+    "href": "/projects/mediledger",
     "title": "MediLedger",
     "name": "MediLedger",
     "subtitle": "Widget-first medication tracking built for everyday reliability.",
@@ -408,8 +422,8 @@
     "story": "",
     "images": {
       "thumbnail": "thumbnail.png",
-      "icon": "thumbnail.png",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "icon": "thumbnail.png"
     },
     "resources": [
       {
@@ -425,6 +439,8 @@
   },
   {
     "id": "306aec94-4d3c-801d-b601-cb6d0de3219e",
+    "slug": "mind-adrift",
+    "href": "/projects/mind-adrift",
     "title": "Mind Adrift",
     "name": "Mind Adrift",
     "subtitle": "",
@@ -452,8 +468,8 @@
     "story": "",
     "images": {
       "thumbnail": "E4690E5D-3901-4E26-A237-8AA0FF26EE76.png",
-      "hero": "hero.png",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "hero": "hero.png"
     },
     "resources": [],
     "collection": {
@@ -479,6 +495,8 @@
   },
   {
     "id": "306aec94-4d3c-803b-a895-e775003b0f5d",
+    "slug": "frontend-collection",
+    "href": "/projects/frontend-collection",
     "title": "Frontend Collection",
     "name": "Frontend Collection",
     "subtitle": "A collection of my previous portfolio pages",
@@ -507,10 +525,10 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "thumbnail.png",
-      "icon": "logo.png",
       "poster": "poster.gif",
-      "banner": "banner.png"
+      "thumbnail": "thumbnail.png",
+      "banner": "banner.png",
+      "icon": "logo.png"
     },
     "resources": [],
     "collection": {
@@ -531,7 +549,7 @@
             "order": 0,
             "type": "url-link",
             "summary": "While I was in Australia on a working holiday visa, I started noticing how often React showed up in job descriptions. I didn’t want to throw away the Python knowledge I already had, so I rebuilt my portfolio using Python on the backend and React on the frontend. It helped me connect what I knew with what I needed to learn and gave me a better sense of how a modern stack actually fits together.",
-            "url": "/projects/306aec94-4d3c-800b-9d7d-ed0c879ab5b3",
+            "url": "/projects/zsdynamics-20",
             "thumbnail": "thumbnail.png",
             "resources": [
               {
@@ -557,7 +575,7 @@
             "order": 1,
             "type": "url-link",
             "summary": "The first version of my portfolio came from following Corey Schafer’s Flask tutorials and trying to understand how a real web app fits together. I set up my own server, configured Nginx, and handled deployment myself—mostly because I didn’t know there were easier options. It took a lot of trial and error, but it taught me how everything actually works behind the scenes. I added some of my own SVG graphics and simple animations to make it feel personal. It wasn’t perfect, but it ran, and I learned a lot from getting it there.",
-            "url": "/projects/306aec94-4d3c-803d-8230-fe06337c4a51",
+            "url": "/projects/zsdynamics-10",
             "thumbnail": "thumbnail.png",
             "resources": [
               {
@@ -583,7 +601,7 @@
             "order": 2,
             "type": "url-link",
             "summary": "TowardBetter.me is a platform designed to help women find supportive communities around life transitions, personal growth, and difficult moments that are often navigated alone. I was brought on to build an announcement page that could clearly communicate the mission of the project while laying the technical groundwork for what would eventually become a larger, authenticated platform. The goal was to create something simple, welcoming, and trustworthy—an entry point that felt intentional rather than promotional.\nThe site was built with React and Next.js, with Firebase Authentication integrated to support future user accounts and onboarding flows. From the beginning, the focus was on clarity and structure: clean UI, predictable behavior, and a codebase that could evolve without needing to be rethought later. This project served as both a public-facing introduction and a technical foundation for what TowardBetter.me would grow into.",
-            "url": "/projects/306aec94-4d3c-8064-9e5a-c59f1df02bee",
+            "url": "/projects/towardbetterme-announcement-page",
             "thumbnail": "thumbnail.png",
             "resources": [
               {
@@ -609,7 +627,7 @@
             "order": 3,
             "type": "url-link",
             "summary": "In the latest version, I focused on making the site feel more refined. I experimented with parallax effects and smoother animations to understand how small design choices change the overall experience. I also created an SVG character of myself that shifts colors in light and dark mode, which made the site feel a bit more personal. At this point, the portfolio wasn’t just about showing projects—it was a way to see how my design and development skills had grown.",
-            "url": "/projects/306aec94-4d3c-807e-a7ef-db0aa63a2ec7",
+            "url": "/projects/zsdynamics-40",
             "thumbnail": "thumbnail.png",
             "resources": [
               {
@@ -635,7 +653,7 @@
             "order": 4,
             "type": "url-link",
             "summary": "After I got more comfortable with React, I wanted to see how design choices and small interactions could change the experience. I built a feature that let users switch between themes and font styles. It wasn’t the most practical feature, but it taught me a lot and pushed me to pay more attention to how design decisions show up in real use. That curiosity drove most of what I built during this stage.",
-            "url": "/projects/306aec94-4d3c-80d4-a8bd-d83a8832ebf8",
+            "url": "/projects/zsdynamics-30",
             "thumbnail": "thumbnail.png",
             "resources": [
               {
@@ -656,7 +674,7 @@
             "order": 5,
             "type": "url-link",
             "summary": "After digging deeper into data science, I wanted the portfolio to be more than a place to drop my work. So I added a simple email subscription so visitors could get updates, and I integrated Dashly for some lightweight analytics and visualization. It was a noticeable step forward for me—not just in the code, but in how I was thinking about the people visiting the site.",
-            "url": "/projects/306aec94-4d3c-80ff-a96a-c3c51900e249",
+            "url": "/projects/zsdynamics-11",
             "thumbnail": "thumbnail.png",
             "resources": [
               {
@@ -685,6 +703,8 @@
   },
   {
     "id": "306aec94-4d3c-803d-8230-fe06337c4a51",
+    "slug": "zsdynamics-10",
+    "href": "/projects/zsdynamics-10",
     "title": "ZSDynamics 1.0",
     "name": "ZSDynamics 1.0",
     "subtitle": "Built with Flask",
@@ -711,8 +731,8 @@
     "story": "",
     "images": {
       "thumbnail": "thumbnail.png",
-      "icon": "poster.png",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "icon": "poster.png"
     },
     "resources": [
       {
@@ -733,6 +753,8 @@
   },
   {
     "id": "306aec94-4d3c-805d-b085-e4252d4601b3",
+    "slug": "timeline-7",
+    "href": "/projects/timeline-7",
     "title": "Timeline 7",
     "name": "Timeline 7",
     "subtitle": "Across time, technology, and survival—what remains of humanity fights to define itself again.",
@@ -769,6 +791,8 @@
   },
   {
     "id": "306aec94-4d3c-8064-9e5a-c59f1df02bee",
+    "slug": "towardbetterme-announcement-page",
+    "href": "/projects/towardbetterme-announcement-page",
     "title": "Towardbetter.me - Announcement Page",
     "name": "Towardbetter.me - Announcement Page",
     "subtitle": "",
@@ -796,8 +820,8 @@
     "story": "",
     "images": {
       "thumbnail": "thumbnail.png",
-      "icon": "Celestial Hands Holding Heart.png",
-      "banner": "Collaborative Effort with Green Ball.png"
+      "banner": "Collaborative Effort with Green Ball.png",
+      "icon": "Celestial Hands Holding Heart.png"
     },
     "resources": [
       {
@@ -818,6 +842,8 @@
   },
   {
     "id": "306aec94-4d3c-8067-909b-da087d8b0c26",
+    "slug": "history-of-everything-coloring-book",
+    "href": "/projects/history-of-everything-coloring-book",
     "title": "History of Everything Coloring Book",
     "name": "History of Everything Coloring Book",
     "subtitle": "A coloring book",
@@ -845,8 +871,8 @@
     "story": "",
     "images": {
       "thumbnail": "thumbnail.png",
-      "icon": "banner.png",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "icon": "banner.png"
     },
     "resources": [],
     "collection": {
@@ -1066,7 +1092,46 @@
     "folderName": "history_of_everything_coloring_book_306aec94-4d3c-8067-909b-da087d8b0c26"
   },
   {
+    "id": "306aec94-4d3c-806a-b191-f329f1efc1ae",
+    "slug": "drifting-priorities",
+    "href": "/projects/drifting-priorities",
+    "title": "Drifting Priorities",
+    "name": "Drifting Priorities",
+    "subtitle": "",
+    "summary": "",
+    "oneLiner": "",
+    "domain": "Technology",
+    "category": "Other",
+    "status": "Dormant",
+    "phase": "Backburner",
+    "featured": false,
+    "createdAt": null,
+    "updatedAt": null,
+    "isPublic": true,
+    "tags": [],
+    "mediums": [],
+    "genres": [],
+    "topics": [],
+    "subjects": [],
+    "description": "",
+    "story": "",
+    "images": {},
+    "resources": [
+      {
+        "type": "github",
+        "label": "Repo",
+        "url": "https://github.com/ZSturman/Drifting-Priorities"
+      }
+    ],
+    "collection": {},
+    "workLogs": [],
+    "articles": [],
+    "folderName": "drifting_priorities_306aec94-4d3c-806a-b191-f329f1efc1ae"
+  },
+  {
     "id": "306aec94-4d3c-807e-a7ef-db0aa63a2ec7",
+    "slug": "zsdynamics-40",
+    "href": "/projects/zsdynamics-40",
     "title": "ZSDynamics 4.0",
     "name": "ZSDynamics 4.0",
     "subtitle": "",
@@ -1095,8 +1160,8 @@
     "story": "",
     "images": {
       "thumbnail": "thumbnail.png",
-      "icon": "banner.png",
-      "banner": "poster.png"
+      "banner": "poster.png",
+      "icon": "banner.png"
     },
     "resources": [
       {
@@ -1117,6 +1182,8 @@
   },
   {
     "id": "306aec94-4d3c-8085-a43d-f9ac3bec06ef",
+    "slug": "obsidian-toolkit",
+    "href": "/projects/obsidian-toolkit",
     "title": "Obsidian Toolkit",
     "name": "Obsidian Toolkit",
     "subtitle": "",
@@ -1141,10 +1208,10 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "thumbnail.png",
-      "hero": "queueExample.png",
       "poster": "poster.gif",
-      "banner": "banner.gif"
+      "thumbnail": "thumbnail.png",
+      "banner": "banner.gif",
+      "hero": "queueExample.png"
     },
     "resources": [
       {
@@ -1160,6 +1227,8 @@
   },
   {
     "id": "306aec94-4d3c-808d-9ada-f0ccca484d3b",
+    "slug": "chewsense",
+    "href": "/projects/chewsense",
     "title": "ChewSense",
     "name": "ChewSense",
     "subtitle": "Using AirPods and motion data to help people slow down and eat more mindfully.",
@@ -1188,10 +1257,10 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "thumbnail.png",
-      "icon": "thumbnail.png",
       "poster": "poster.png",
-      "banner": "banner.png"
+      "thumbnail": "thumbnail.png",
+      "banner": "banner.png",
+      "icon": "thumbnail.png"
     },
     "resources": [
       {
@@ -1207,6 +1276,8 @@
   },
   {
     "id": "306aec94-4d3c-8091-876a-f028b4c582c4",
+    "slug": "animation-collection",
+    "href": "/projects/animation-collection",
     "title": "Animation Collection",
     "name": "Animation Collection",
     "subtitle": "",
@@ -1235,8 +1306,8 @@
     "story": "",
     "images": {
       "thumbnail": "collection thumbnail.png",
-      "icon": "icon.png",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "icon": "icon.png"
     },
     "resources": [],
     "collection": {
@@ -1296,6 +1367,8 @@
   },
   {
     "id": "306aec94-4d3c-80a5-b00e-f67cc4ff5901",
+    "slug": "lost-and-hound",
+    "href": "/projects/lost-and-hound",
     "title": "Lost & Hound",
     "name": "Lost & Hound",
     "subtitle": "Find your Furry Friend",
@@ -1326,10 +1399,10 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "thumbnail.png",
-      "icon": "icon.svg",
       "poster": "poster.png",
-      "banner": "banner.png"
+      "thumbnail": "thumbnail.png",
+      "banner": "banner.png",
+      "icon": "icon.svg"
     },
     "resources": [
       {
@@ -1344,7 +1417,46 @@
     "folderName": "lost_hound_306aec94-4d3c-80a5-b00e-f67cc4ff5901"
   },
   {
+    "id": "306aec94-4d3c-80a8-850e-df4dd020d452",
+    "slug": "broken-time-machine",
+    "href": "/projects/broken-time-machine",
+    "title": "Broken Time Machine",
+    "name": "Broken Time Machine",
+    "subtitle": "",
+    "summary": "Broken Time Machine is a story-driven adventure game built in Unity where players step into the role of a scientist’s assistant trying to repair a malfunctioning time machine. When an experiment goes wrong, fragments of the device scatter across different eras—from the Hadean eon to the modern age—opening unstable portals that pull ancient life and historical figures into the present. The game blends exploration, puzzle-solving, and light combat as players travel through time, retrieve lost machine parts, and face the consequences of a fractured timeline. Designed for players who enjoy narrative exploration and gradual skill-building, Broken Time Machine connects history, science, and discovery into a single continuous journey of repair and adaptation.",
+    "oneLiner": "A Unity-based adventure game where a scientist’s assistant repairs a broken time machine by traveling through Earth’s history, collecting its missing parts, and restoring order to a fractured timeline.",
+    "domain": "Technology",
+    "category": "Other",
+    "status": "Dormant",
+    "phase": "Backburner",
+    "featured": false,
+    "createdAt": null,
+    "updatedAt": null,
+    "isPublic": true,
+    "tags": [],
+    "mediums": [],
+    "genres": [],
+    "topics": [],
+    "subjects": [],
+    "description": "",
+    "story": "",
+    "images": {},
+    "resources": [
+      {
+        "type": "github",
+        "label": "Repo",
+        "url": "https://github.com/ZSturman/Broken-Time-Machine"
+      }
+    ],
+    "collection": {},
+    "workLogs": [],
+    "articles": [],
+    "folderName": "broken_time_machine_306aec94-4d3c-80a8-850e-df4dd020d452"
+  },
+  {
     "id": "306aec94-4d3c-80b0-b478-e070bcd1d517",
+    "slug": "greenhorn",
+    "href": "/projects/greenhorn",
     "title": "Greenhorn",
     "name": "Greenhorn",
     "subtitle": "A TV Pilot",
@@ -1369,10 +1481,10 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "thumbnail.tiff",
-      "icon": "thumbnail.tiff",
       "poster": "poster.tiff",
-      "banner": "banner.png"
+      "thumbnail": "thumbnail.tiff",
+      "banner": "banner.png",
+      "icon": "thumbnail.tiff"
     },
     "resources": [],
     "collection": {},
@@ -1381,7 +1493,40 @@
     "folderName": "greenhorn_306aec94-4d3c-80b0-b478-e070bcd1d517"
   },
   {
+    "id": "306aec94-4d3c-80c9-a6d4-f6362f15b981",
+    "slug": "mass-and-time",
+    "href": "/projects/mass-and-time",
+    "title": "Mass and Time",
+    "name": "Mass and Time",
+    "subtitle": "",
+    "summary": "",
+    "oneLiner": "",
+    "domain": "Expository",
+    "category": "Physics",
+    "status": "Active",
+    "phase": "Researching",
+    "featured": false,
+    "createdAt": null,
+    "updatedAt": null,
+    "isPublic": true,
+    "tags": [],
+    "mediums": [],
+    "genres": [],
+    "topics": [],
+    "subjects": [],
+    "description": "",
+    "story": "",
+    "images": {},
+    "resources": [],
+    "collection": {},
+    "workLogs": [],
+    "articles": [],
+    "folderName": "mass_and_time_306aec94-4d3c-80c9-a6d4-f6362f15b981"
+  },
+  {
     "id": "306aec94-4d3c-80d4-a8bd-d83a8832ebf8",
+    "slug": "zsdynamics-30",
+    "href": "/projects/zsdynamics-30",
     "title": "ZSDynamics 3.0",
     "name": "ZSDynamics 3.0",
     "subtitle": "Built with React",
@@ -1424,6 +1569,8 @@
   },
   {
     "id": "306aec94-4d3c-80ff-a96a-c3c51900e249",
+    "slug": "zsdynamics-11",
+    "href": "/projects/zsdynamics-11",
     "title": "ZSDynamics 1.1",
     "name": "ZSDynamics 1.1",
     "subtitle": "Built with Flask",
@@ -1470,7 +1617,60 @@
     "folderName": "zsdynamics_11_306aec94-4d3c-80ff-a96a-c3c51900e249"
   },
   {
+    "id": "30faec94-4d3c-80a8-b5b4-ea129363d308",
+    "slug": "zachary-sturmancom",
+    "href": "/projects/zachary-sturmancom",
+    "title": "zachary-sturman.com",
+    "name": "zachary-sturman.com",
+    "subtitle": "",
+    "summary": "",
+    "oneLiner": "2026 Portfolio",
+    "domain": "Technology",
+    "category": "Web",
+    "status": "Active",
+    "phase": "Live",
+    "featured": false,
+    "createdAt": "2026-01-01",
+    "updatedAt": null,
+    "isPublic": true,
+    "tags": [],
+    "mediums": [],
+    "genres": [],
+    "topics": [],
+    "subjects": [],
+    "description": "",
+    "story": "",
+    "images": {},
+    "resources": [],
+    "collection": {},
+    "workLogs": [
+      {
+        "id": "30faec94-4d3c-80de-97c6-e1194a9f8851",
+        "title": "Updating the UI and Rebuilding the Site from n8n Output",
+        "entry": "Updating the UI and Rebuilding the Site from n8n Output",
+        "url": "https://www.notion.so/Updating-the-UI-and-Rebuilding-the-Site-from-n8n-Output-30faec944d3c80de97c6e1194a9f8851",
+        "startTime": "2026-03-11T09:00:00.000-07:00",
+        "endTime": "2026-03-11T12:00:00.000-07:00",
+        "date": "2026-02-22T10:53:00.000-08:00",
+        "sessionType": [
+          "Build",
+          "Organizing"
+        ],
+        "whatHappened": "I updated the UI to take advantage of new Notion automations, enabling the interface to work directly with automated workspace data and workflows. I also used Codex to rebuild my website so it now generates from the new n8n output rather than the older .folio export pipeline. This shifts the site architecture toward an automation-driven workflow where Notion and other services feed structured data through n8n into the site.",
+        "problems": null,
+        "nextStep": null,
+        "feelGoodAboutWork": 0.95,
+        "accomplishedWhatYouWanted": 0.95,
+        "durationMinutes": 180
+      }
+    ],
+    "articles": [],
+    "folderName": "zachary_sturmancom_30faec94-4d3c-80a8-b5b4-ea129363d308"
+  },
+  {
     "id": "312aec94-4d3c-817e-9295-e018716cf990",
+    "slug": "3d-models-collection",
+    "href": "/projects/3d-models-collection",
     "title": "3D Models Collection",
     "name": "3D Models Collection",
     "subtitle": "",
@@ -1501,9 +1701,11 @@
     "folderName": "3d_models_collection_312aec94-4d3c-817e-9295-e018716cf990"
   },
   {
-    "id": "31eaec94-4d3c-80a0-972e-f24d5ce8aca4",
-    "title": "Notion <→ Linear Automation",
-    "name": "Notion <→ Linear Automation",
+    "id": "324aec94-4d3c-8068-a8a7-ed6d1d4d1790",
+    "slug": "folio",
+    "href": "/projects/folio",
+    "title": "Folio",
+    "name": "Folio",
     "subtitle": "",
     "summary": "",
     "oneLiner": "",
@@ -1512,7 +1714,7 @@
     "status": "Active",
     "phase": "",
     "featured": false,
-    "createdAt": "2026-03-11",
+    "createdAt": "2026-03-18",
     "updatedAt": null,
     "isPublic": true,
     "tags": [],
@@ -1525,12 +1727,84 @@
     "images": {},
     "resources": [],
     "collection": {},
-    "workLogs": [],
+    "workLogs": [
+      {
+        "id": "324aec94-4d3c-809d-b816-f8ac0b5e3d94",
+        "title": "Consolidating Folio Versions into a Documented Project History",
+        "entry": "Consolidating Folio Versions into a Documented Project History",
+        "url": "https://www.notion.so/Consolidating-Folio-Versions-into-a-Documented-Project-History-324aec944d3c809db816f8ac0b5e3d94",
+        "startTime": "2026-03-14T03:00:00.000-07:00",
+        "endTime": "2026-03-14T07:00:00.000-07:00",
+        "date": "2026-03-14T20:29:00.000-07:00",
+        "sessionType": [
+          "Writing"
+        ],
+        "whatHappened": "I gathered all of my Folio versions from across the years and placed them into a single organized folder structure. Using Copilot, I arranged the versions chronologically and extracted details about how each iteration was created. Those insights were then used to write an article documenting the evolution of the work along with plans for its future development.",
+        "problems": null,
+        "nextStep": "Post the documentation somewhere",
+        "feelGoodAboutWork": 1.0,
+        "accomplishedWhatYouWanted": 1.0,
+        "durationMinutes": 240
+      }
+    ],
     "articles": [],
-    "folderName": "notion_linear_automation_31eaec94-4d3c-80a0-972e-f24d5ce8aca4"
+    "folderName": "folio_324aec94-4d3c-8068-a8a7-ed6d1d4d1790"
+  },
+  {
+    "id": "324aec94-4d3c-80bf-a184-eb338e2bd6a9",
+    "slug": "telemetry",
+    "href": "/projects/telemetry",
+    "title": "Telemetry",
+    "name": "Telemetry",
+    "subtitle": "",
+    "summary": "",
+    "oneLiner": "",
+    "domain": "Technology",
+    "category": "Other",
+    "status": "Active",
+    "phase": "",
+    "featured": false,
+    "createdAt": "2026-03-18",
+    "updatedAt": null,
+    "isPublic": true,
+    "tags": [],
+    "mediums": [],
+    "genres": [],
+    "topics": [],
+    "subjects": [],
+    "description": "",
+    "story": "",
+    "images": {},
+    "resources": [],
+    "collection": {},
+    "workLogs": [
+      {
+        "id": "311aec94-4d3c-80af-a597-dc2ffc6d3d3b",
+        "title": "Added Activity Watch to n8n",
+        "entry": "Added Activity Watch to n8n",
+        "url": "https://www.notion.so/Added-Activity-Watch-to-n8n-311aec944d3c80afa597dc2ffc6d3d3b",
+        "startTime": "2026-03-12T09:00:00.000-07:00",
+        "endTime": "2026-03-12T12:00:00.000-07:00",
+        "date": "2026-02-24T09:23:00.000-08:00",
+        "sessionType": [
+          "Build",
+          "Research"
+        ],
+        "whatHappened": "I added ActivityWatch to my n8n setup to track and integrate activity data into my workflows. This allows my automation system to capture time and behavior metrics and use them as inputs for further processing and analysis.",
+        "problems": null,
+        "nextStep": null,
+        "feelGoodAboutWork": 0.6,
+        "accomplishedWhatYouWanted": 0.75,
+        "durationMinutes": 180
+      }
+    ],
+    "articles": [],
+    "folderName": "telemetry_324aec94-4d3c-80bf-a184-eb338e2bd6a9"
   },
   {
     "id": "32eaec94-4d3c-80c9-b238-c8a9f0b1990e",
+    "slug": "runtime-storyboard-debugger",
+    "href": "/projects/runtime-storyboard-debugger",
     "title": "Runtime Storyboard Debugger",
     "name": "Runtime Storyboard Debugger",
     "subtitle": "",
@@ -1540,8 +1814,7 @@
     "category": "Application",
     "status": "Active",
     "phase": "Development",
-    "featured": true,
-    "featuredOrder": 6,
+    "featured": false,
     "createdAt": "2026-03-25",
     "updatedAt": null,
     "isPublic": true,
@@ -1560,9 +1833,9 @@
     "story": "",
     "images": {
       "thumbnail": "thumbnail.png",
-      "hero": "hero.png",
+      "banner": "banner.png",
       "icon": "icon.png",
-      "banner": "banner.png"
+      "hero": "hero.png"
     },
     "resources": [
       {
@@ -1595,5 +1868,258 @@
     ],
     "articles": [],
     "folderName": "runtime_storyboard_debugger_32eaec94-4d3c-80c9-b238-c8a9f0b1990e"
+  },
+  {
+    "id": "332aec94-4d3c-8040-87a1-e4f349ef0994",
+    "slug": "math-and-happiness",
+    "href": "/projects/math-and-happiness",
+    "title": "Math and Happiness",
+    "name": "Math and Happiness",
+    "subtitle": "",
+    "summary": "",
+    "oneLiner": "",
+    "domain": "Technology",
+    "category": "Other",
+    "status": "unknown",
+    "phase": "",
+    "featured": false,
+    "createdAt": null,
+    "updatedAt": null,
+    "isPublic": true,
+    "tags": [],
+    "mediums": [],
+    "genres": [],
+    "topics": [],
+    "subjects": [],
+    "description": "",
+    "story": "",
+    "images": {},
+    "resources": [
+      {
+        "type": "github",
+        "label": "Repo",
+        "url": "https://github.com/ZSturman/Math-and-Hapiness"
+      }
+    ],
+    "collection": {},
+    "workLogs": [],
+    "articles": [],
+    "folderName": "math_and_happiness_332aec94-4d3c-8040-87a1-e4f349ef0994"
+  },
+  {
+    "id": "332aec94-4d3c-804b-8f00-ee1bb0b4d82a",
+    "slug": "transactions",
+    "href": "/projects/transactions",
+    "title": "Transactions",
+    "name": "Transactions",
+    "subtitle": "",
+    "summary": "",
+    "oneLiner": "",
+    "domain": "Technology",
+    "category": "Other",
+    "status": "unknown",
+    "phase": "",
+    "featured": false,
+    "createdAt": null,
+    "updatedAt": null,
+    "isPublic": true,
+    "tags": [],
+    "mediums": [],
+    "genres": [],
+    "topics": [],
+    "subjects": [],
+    "description": "",
+    "story": "",
+    "images": {},
+    "resources": [
+      {
+        "type": "github",
+        "label": "Repo",
+        "url": "https://github.com/ZSturman/Transactions"
+      }
+    ],
+    "collection": {},
+    "workLogs": [],
+    "articles": [],
+    "folderName": "transactions_332aec94-4d3c-804b-8f00-ee1bb0b4d82a"
+  },
+  {
+    "id": "332aec94-4d3c-807a-ba3b-d0950cd03a66",
+    "slug": "train-of-thought-agent",
+    "href": "/projects/train-of-thought-agent",
+    "title": "Train of Thought Agent",
+    "name": "Train of Thought Agent",
+    "subtitle": "",
+    "summary": "",
+    "oneLiner": "",
+    "domain": "Technology",
+    "category": "Other",
+    "status": "unknown",
+    "phase": "",
+    "featured": false,
+    "createdAt": null,
+    "updatedAt": null,
+    "isPublic": true,
+    "tags": [],
+    "mediums": [],
+    "genres": [],
+    "topics": [],
+    "subjects": [],
+    "description": "",
+    "story": "",
+    "images": {},
+    "resources": [
+      {
+        "type": "github",
+        "label": "Repo",
+        "url": "https://github.com/ZSturman/Train-of-Thought-Agent"
+      }
+    ],
+    "collection": {},
+    "workLogs": [],
+    "articles": [],
+    "folderName": "train_of_thought_agent_332aec94-4d3c-807a-ba3b-d0950cd03a66"
+  },
+  {
+    "id": "332aec94-4d3c-80ae-805d-f01e79254789",
+    "slug": "testing-traits",
+    "href": "/projects/testing-traits",
+    "title": "Testing Traits",
+    "name": "Testing Traits",
+    "subtitle": "",
+    "summary": "",
+    "oneLiner": "",
+    "domain": "Technology",
+    "category": "Other",
+    "status": "unknown",
+    "phase": "",
+    "featured": false,
+    "createdAt": null,
+    "updatedAt": null,
+    "isPublic": true,
+    "tags": [],
+    "mediums": [],
+    "genres": [],
+    "topics": [],
+    "subjects": [],
+    "description": "",
+    "story": "",
+    "images": {},
+    "resources": [
+      {
+        "type": "github",
+        "label": "Repo",
+        "url": "https://github.com/ZSturman/Testing-Traits"
+      }
+    ],
+    "collection": {},
+    "workLogs": [],
+    "articles": [],
+    "folderName": "testing_traits_332aec94-4d3c-80ae-805d-f01e79254789"
+  },
+  {
+    "id": "332aec94-4d3c-80be-a40c-ce5b6cd6ff56",
+    "slug": "bias-detecting-ai",
+    "href": "/projects/bias-detecting-ai",
+    "title": "Bias Detecting AI",
+    "name": "Bias Detecting AI",
+    "subtitle": "",
+    "summary": "",
+    "oneLiner": "",
+    "domain": "Technology",
+    "category": "Other",
+    "status": "unknown",
+    "phase": "",
+    "featured": false,
+    "createdAt": null,
+    "updatedAt": null,
+    "isPublic": true,
+    "tags": [],
+    "mediums": [],
+    "genres": [],
+    "topics": [],
+    "subjects": [],
+    "description": "",
+    "story": "",
+    "images": {},
+    "resources": [
+      {
+        "type": "github",
+        "label": "Repo",
+        "url": "https://github.com/ZSturman/Bias-Detecting-Algorithm"
+      }
+    ],
+    "collection": {},
+    "workLogs": [],
+    "articles": [],
+    "folderName": "bias_detecting_ai_332aec94-4d3c-80be-a40c-ce5b6cd6ff56"
+  },
+  {
+    "id": "332aec94-4d3c-80ea-8468-c3a18bc61258",
+    "slug": "psyche-agent",
+    "href": "/projects/psyche-agent",
+    "title": "Psyche Agent",
+    "name": "Psyche Agent",
+    "subtitle": "",
+    "summary": "",
+    "oneLiner": "",
+    "domain": "Technology",
+    "category": "Other",
+    "status": "unknown",
+    "phase": "",
+    "featured": false,
+    "createdAt": null,
+    "updatedAt": null,
+    "isPublic": true,
+    "tags": [],
+    "mediums": [],
+    "genres": [],
+    "topics": [],
+    "subjects": [],
+    "description": "",
+    "story": "",
+    "images": {},
+    "resources": [
+      {
+        "type": "github",
+        "label": "Repo",
+        "url": "https://github.com/ZSturman/Psyche-Agent"
+      }
+    ],
+    "collection": {},
+    "workLogs": [],
+    "articles": [],
+    "folderName": "psyche_agent_332aec94-4d3c-80ea-8468-c3a18bc61258"
+  },
+  {
+    "id": "333aec94-4d3c-8036-82e4-d96b64b15c6c",
+    "slug": "democracy-in-the-21st-century",
+    "href": "/projects/democracy-in-the-21st-century",
+    "title": "Democracy in the 21st Century",
+    "name": "Democracy in the 21st Century",
+    "subtitle": "",
+    "summary": "",
+    "oneLiner": "",
+    "domain": "Technology",
+    "category": "Other",
+    "status": "unknown",
+    "phase": "",
+    "featured": false,
+    "createdAt": null,
+    "updatedAt": null,
+    "isPublic": true,
+    "tags": [],
+    "mediums": [],
+    "genres": [],
+    "topics": [],
+    "subjects": [],
+    "description": "",
+    "story": "",
+    "images": {},
+    "resources": [],
+    "collection": {},
+    "workLogs": [],
+    "articles": [],
+    "folderName": "democracy_in_the_21st_century_333aec94-4d3c-8036-82e4-d96b64b15c6c"
   }
 ]

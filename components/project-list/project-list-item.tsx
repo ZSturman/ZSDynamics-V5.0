@@ -119,6 +119,7 @@ export function ProjectListItem({ project, onClick, sortField = "updatedAt" }: P
               <ResourceButton 
                 key={resource.url} 
                 resource={resource} 
+                currentProject={project}
                 iconOnly
                 className="md:h-auto md:w-auto opacity-70 hover:opacity-100 transition-opacity hover:cursor-pointer mx-1" 
               />

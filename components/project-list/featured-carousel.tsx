@@ -5,6 +5,8 @@ import { ChevronLeft, ChevronRight } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { MediaDisplay } from "@/components/ui/media-display"
+import { trackProjectOpen } from "@/lib/firebase-analytics"
+import { getProjectHref } from "@/lib/project-paths"
 import { formatDate, getOptimizedMediaPath, formatTextWithNewlines } from "@/lib/utils"
 import { STATUS_COLOR } from "@/lib/resource-map"
 import ResourceButton from "../project-details/resource-button"
@@ -17,11 +19,13 @@ import Autoplay from "embla-carousel-autoplay"
 
 interface FeaturedCarouselProps {
   projects: Project[]
+  onProjectSelect?: (project: Project) => void
   autoPlayInterval?: number // ms between slides
 }
 
 export function FeaturedCarousel({ 
   projects, 
+  onProjectSelect,
   autoPlayInterval = 6000 
 }: FeaturedCarouselProps) {
   const [selectedIndex, setSelectedIndex] = useState(0)
@@ -129,12 +133,28 @@ export function FeaturedCarousel({
                   <div 
                     className="relative rounded-xl overflow-hidden bg-card border border-border shadow-lg cursor-pointer transition-all duration-300 hover:shadow-xl mx-1"
                     onClick={() => {
+                      const projectSlug = project.slug || project.id
+
+                      if (onProjectSelect) {
+                        trackProjectOpen({
+                          projectSlug,
+                          projectTitle: project.title,
+                          openSurface: "featured_carousel",
+                        })
+                        onProjectSelect(project)
+                        return
+                      }
+
                       setPreviousPath("/", "Home")
-                      if (isMobile) {
-                        router.push(`/projects/${project.id}`)
-                      } else {
-                        router.push(`/?project=${project.id}`, { scroll: false })
-                        router.prefetch(`/projects/${project.id}`)
+                      const projectHref = getProjectHref(project)
+                      trackProjectOpen({
+                        projectSlug,
+                        projectTitle: project.title,
+                        openSurface: "featured_carousel_page_link",
+                      })
+                      router.push(projectHref, { scroll: false })
+                      if (!isMobile) {
+                        router.prefetch(projectHref)
                       }
                     }}
                   >
@@ -172,6 +192,7 @@ export function FeaturedCarousel({
                                 <ResourceButton 
                                   key={resource.url} 
                                   resource={resource} 
+                                  currentProject={project}
                                   iconOnly
                                   className="opacity-70 hover:opacity-100 transition-opacity"
                                 />
@@ -302,6 +323,7 @@ export function FeaturedCarousel({
                               <ResourceButton 
                                 key={resource.url} 
                                 resource={resource} 
+                                currentProject={project}
                                 iconOnly
                                 className="opacity-70 hover:opacity-100 transition-opacity"
                               />

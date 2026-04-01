@@ -2,36 +2,49 @@
 
 import { useEffect, Suspense } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
+import { ProjectAnalyticsTracker } from "@/components/analytics/project-analytics-tracker"
+import { getProjectHref, getProjectSlug } from "@/lib/project-paths"
 import ProjectDetails from "@/components/projects-details"
 import type { Project } from "@/types"
 
 interface ProjectDetailsClientWrapperProps {
   project: Project
+  requestedProject?: string
 }
 
-function ProjectDetailsContent({ project }: ProjectDetailsClientWrapperProps) {
+function ProjectDetailsContent({ project, requestedProject }: ProjectDetailsClientWrapperProps) {
   const router = useRouter()
   const searchParams = useSearchParams()
   
   useEffect(() => {
-    // If the URL contains the 'project' parameter (from modal navigation),
-    // remove it to prevent modal from showing on refresh/direct access
-    const hasProjectParam = searchParams.has('project')
-    if (hasProjectParam) {
-      const params = new URLSearchParams(searchParams.toString())
-      params.delete('project')
-      const newUrl = `/projects/${project.id}${params.toString() ? `?${params.toString()}` : ''}`
+    const params = new URLSearchParams(searchParams.toString())
+    const hadLegacyQuery = params.has("project")
+    if (hadLegacyQuery) {
+      params.delete("project")
+    }
+
+    const needsCanonicalPath = Boolean(requestedProject) && requestedProject !== getProjectSlug(project)
+    if (hadLegacyQuery || needsCanonicalPath) {
+      const newUrl = `${getProjectHref(project)}${params.toString() ? `?${params.toString()}` : ""}`
       router.replace(newUrl, { scroll: false })
     }
-  }, [searchParams, router, project.id])
+  }, [project, requestedProject, router, searchParams])
 
-  return <ProjectDetails project={project} />
+  return (
+    <>
+      <ProjectAnalyticsTracker
+        projectSlug={getProjectSlug(project)}
+        projectTitle={project.title}
+      />
+      <ProjectDetails project={project} />
+    </>
+  )
 }
 
-export default function ProjectDetailsClientWrapper({ project }: ProjectDetailsClientWrapperProps) {
+export default function ProjectDetailsClientWrapper({ project, requestedProject }: ProjectDetailsClientWrapperProps) {
   return (
     <Suspense fallback={<ProjectDetails project={project} />}>
-      <ProjectDetailsContent project={project} />
+      <ProjectDetailsContent project={project} requestedProject={requestedProject} />
     </Suspense>
   )
 }

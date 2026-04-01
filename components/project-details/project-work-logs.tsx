@@ -4,6 +4,8 @@ import Link from "next/link";
 import { useMemo } from "react";
 import { ExternalLink } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
+import { trackProjectResourceClick } from "@/lib/firebase-analytics";
+import { getProjectSlug } from "@/lib/project-paths";
 import { formatDate } from "@/lib/utils";
 import { Project, WorkLog } from "@/types";
 
@@ -72,7 +74,7 @@ export function ProjectWorkLogs({ project, limit }: ProjectWorkLogsProps) {
     <section className="space-y-4">
       <div className="flex items-center justify-between gap-3">
         <h3 className="text-sm font-medium text-muted-foreground">Work Logs</h3>
-        <Link href={`/work-logs?project=${project.id}`} className="text-xs text-primary hover:underline">
+        <Link href={`/work-logs?project=${getProjectSlug(project)}`} className="text-xs text-primary hover:underline">
           See all logs
         </Link>
       </div>
@@ -108,6 +110,16 @@ export function ProjectWorkLogs({ project, limit }: ProjectWorkLogsProps) {
                           target="_blank"
                           rel="noopener noreferrer"
                           className="inline-flex items-center gap-1 hover:text-foreground"
+                          onClick={() => {
+                            trackProjectResourceClick({
+                              projectSlug: getProjectSlug(project),
+                              projectTitle: project.title,
+                              resourceType: "work_log_source",
+                              resourceLabel: workLog.title || "Session source",
+                              resourceUrl: sourceUrl,
+                              isInternal: false,
+                            });
+                          }}
                         >
                           Session source
                           <ExternalLink className="h-3 w-3" />

@@ -141,8 +141,42 @@ def normalize_article_slug(value: str) -> str:
     return lowered or "article"
 
 
+def normalize_project_slug(value: str) -> str:
+    normalized = unicodedata.normalize("NFKD", value or "")
+    ascii_only = normalized.encode("ascii", "ignore").decode("ascii")
+    lowered = ascii_only.strip().lower().replace("&", " and ")
+    lowered = re.sub(r"[^a-z0-9\s-]", "", lowered)
+    lowered = re.sub(r"[\s-]+", "-", lowered).strip("-")
+    return lowered or "project"
+
+
 def make_project_folder_name(title: str, project_id: str) -> str:
     return f"{slugify(title)}_{project_id}"
+
+
+def _build_project_slug_map(projects: Iterable[Dict[str, Any]]) -> Dict[str, str]:
+    seen_counts: Dict[str, int] = {}
+    project_slug_map: Dict[str, str] = {}
+
+    for project in projects:
+        project_id = _as_str(project.get("id"))
+        if not project_id:
+            continue
+
+        title = _first_non_empty(project.get("title"), project.get("name"), project_id) or project_id
+        base_slug = normalize_project_slug(title)
+        seen_counts[base_slug] = seen_counts.get(base_slug, 0) + 1
+        count = seen_counts[base_slug]
+        project_slug_map[project_id] = base_slug if count == 1 else f"{base_slug}-{count}"
+
+    return project_slug_map
+
+
+def _build_project_href_map(project_slug_map: Dict[str, str]) -> Dict[str, str]:
+    return {
+        project_id: f"/projects/{project_slug}"
+        for project_id, project_slug in project_slug_map.items()
+    }
 
 
 def extract_external_image_hostnames(projects: List[Dict[str, Any]]) -> Set[str]:
@@ -630,8 +664,12 @@ def _resolve_internal_target(value: Any, alias_to_project_id: Dict[str, str]) ->
 
     candidate = raw
     if candidate.startswith("/projects/"):
-        project_candidate = candidate.rsplit("/", 1)[-1]
-        return alias_to_project_id.get(project_candidate)
+        remainder = candidate[len("/projects/") :]
+        project_candidate = remainder.split("/", 1)[0]
+        project_candidate = project_candidate.split("?", 1)[0].split("#", 1)[0]
+        resolved = alias_to_project_id.get(project_candidate)
+        if resolved:
+            return resolved
 
     direct = alias_to_project_id.get(candidate)
     if direct:
@@ -663,6 +701,7 @@ def _normalize_resource(
     project_folder_name: str,
     project_dest_dir: Path,
     alias_to_project_id: Dict[str, str],
+    project_href_map: Dict[str, str],
     copied: List[str],
     warnings: List[str],
     context: str,
@@ -692,7 +731,7 @@ def _normalize_resource(
         return {
             "type": "local-link",
             "label": label,
-            "url": f"/projects/{target_id}",
+            "url": project_href_map.get(target_id, f"/projects/{target_id}"),
             **({"category": normalized_category} if normalized_category else {}),
         }
 
@@ -971,6 +1010,7 @@ def _normalize_source_project_resources(
     root_path: Path,
     public_projects_root: Path,
     alias_to_project_id: Dict[str, str],
+    project_href_map: Dict[str, str],
     copied: List[str],
     warnings: List[str],
     context: str,
@@ -994,6 +1034,7 @@ def _normalize_source_project_resources(
             project_folder_name=source_project_folder_name,
             project_dest_dir=source_project_dest_dir,
             alias_to_project_id=alias_to_project_id,
+            project_href_map=project_href_map,
             copied=copied,
             warnings=warnings,
             context=context,
@@ -1028,6 +1069,7 @@ def _normalize_collection_item(
     project_dest_dir: Path,
     collection_name: str,
     alias_to_project_id: Dict[str, str],
+    project_href_map: Dict[str, str],
     source_projects_by_id: Dict[str, Dict[str, Any]],
     copied: List[str],
     warnings: List[str],
@@ -1078,6 +1120,7 @@ def _normalize_collection_item(
             project_folder_name=project_folder_name,
             project_dest_dir=project_dest_dir,
             alias_to_project_id=alias_to_project_id,
+            project_href_map=project_href_map,
             copied=copied,
             warnings=warnings,
             context=f"collection item {collection_name}/{normalized_item_id}",
@@ -1093,6 +1136,7 @@ def _normalize_collection_item(
             project_folder_name=project_folder_name,
             project_dest_dir=project_dest_dir,
             alias_to_project_id=alias_to_project_id,
+            project_href_map=project_href_map,
             copied=copied,
             warnings=warnings,
             context=f"collection item {collection_name}/{normalized_item_id}",
@@ -1130,7 +1174,7 @@ def _normalize_collection_item(
             current_project_id=current_project_id,
         )
         if target_id:
-            out["url"] = f"/projects/{target_id}"
+            out["url"] = project_href_map.get(target_id, f"/projects/{target_id}")
             out["type"] = "url-link"
         elif item_url:
             out["url"] = item_url
@@ -1155,6 +1199,7 @@ def _normalize_collection_item(
             root_path=root_path,
             public_projects_root=project_dest_dir.parent,
             alias_to_project_id=alias_to_project_id,
+            project_href_map=project_href_map,
             copied=copied,
             warnings=warnings,
             context=f"collection item {collection_name}/{normalized_item_id} via project {target_id}",
@@ -1183,6 +1228,7 @@ def _normalize_collection(
     project_folder_name: str,
     project_dest_dir: Path,
     alias_to_project_id: Dict[str, str],
+    project_href_map: Dict[str, str],
     source_projects_by_id: Dict[str, Dict[str, Any]],
     copied: List[str],
     warnings: List[str],
@@ -1248,6 +1294,7 @@ def _normalize_collection(
                 project_dest_dir=project_dest_dir,
                 collection_name=collection_name,
                 alias_to_project_id=alias_to_project_id,
+                project_href_map=project_href_map,
                 source_projects_by_id=source_projects_by_id,
                 copied=copied,
                 warnings=warnings,
@@ -1317,6 +1364,8 @@ def _normalize_project(
     public_projects_root: Path,
     articles_by_slug: Dict[str, Dict[str, Any]],
     alias_to_project_id: Dict[str, str],
+    project_slug_map: Dict[str, str],
+    project_href_map: Dict[str, str],
     source_projects_by_id: Dict[str, Dict[str, Any]],
     collection_member_projects_by_id: Dict[str, List[Dict[str, Any]]],
     source_work_logs: List[Dict[str, Any]],
@@ -1327,6 +1376,8 @@ def _normalize_project(
 ) -> Dict[str, Any]:
     project_id = _as_str(source.get("id")) or ""
     title = _first_non_empty(source.get("title"), source.get("name"), project_id) or project_id
+    project_slug = project_slug_map.get(project_id, normalize_project_slug(title))
+    project_href = project_href_map.get(project_id, f"/projects/{project_slug}")
 
     folder_name = make_project_folder_name(title, project_id)
     project_dest_dir = public_projects_root / folder_name
@@ -1354,6 +1405,8 @@ def _normalize_project(
 
     project_out: Dict[str, Any] = {
         "id": project_id,
+        "slug": project_slug,
+        "href": project_href,
         "title": title,
         "name": title,
         "subtitle": _as_str(source.get("subtitle")) or "",
@@ -1435,6 +1488,7 @@ def _normalize_project(
             project_folder_name=folder_name,
             project_dest_dir=project_dest_dir,
             alias_to_project_id=alias_to_project_id,
+            project_href_map=project_href_map,
             copied=copied,
             warnings=warnings,
             context=f"project {project_id}",
@@ -1454,6 +1508,7 @@ def _normalize_project(
             project_folder_name=folder_name,
             project_dest_dir=project_dest_dir,
             alias_to_project_id=alias_to_project_id,
+            project_href_map=project_href_map,
             source_projects_by_id=source_projects_by_id,
             copied=copied,
             warnings=warnings,
@@ -1497,6 +1552,7 @@ def _normalize_project(
                 project_dest_dir=project_dest_dir,
                 collection_name=fallback_collection_key,
                 alias_to_project_id=alias_to_project_id,
+                project_href_map=project_href_map,
                 source_projects_by_id=source_projects_by_id,
                 copied=copied,
                 warnings=warnings,
@@ -1546,6 +1602,7 @@ def _normalize_project(
             project_dest_dir=project_dest_dir,
             collection_name="assets",
             alias_to_project_id=alias_to_project_id,
+            project_href_map=project_href_map,
             source_projects_by_id=source_projects_by_id,
             copied=copied,
             warnings=warnings,
@@ -1612,6 +1669,8 @@ def _normalize_project(
 def _prune_project_output(project: Dict[str, Any]) -> Dict[str, Any]:
     whitelist = {
         "id",
+        "slug",
+        "href",
         "title",
         "name",
         "subtitle",
@@ -1703,7 +1762,11 @@ def _load_and_validate_input(
     return root_path, projects, normalized_work_logs
 
 
-def _build_alias_map(projects: Iterable[Dict[str, Any]]) -> Dict[str, str]:
+def _build_alias_map(
+    projects: Iterable[Dict[str, Any]],
+    project_slug_map: Dict[str, str],
+    project_href_map: Dict[str, str],
+) -> Dict[str, str]:
     alias_to_project_id: Dict[str, str] = {}
     for project in projects:
         project_id = _as_str(project.get("id"))
@@ -1711,6 +1774,12 @@ def _build_alias_map(projects: Iterable[Dict[str, Any]]) -> Dict[str, str]:
             continue
 
         alias_to_project_id[project_id] = project_id
+        project_slug = project_slug_map.get(project_id)
+        project_href = project_href_map.get(project_id)
+        if project_slug:
+            alias_to_project_id[project_slug] = project_id
+        if project_href:
+            alias_to_project_id[project_href] = project_id
 
         for alias_key in ("projectPageId", "filePath"):
             alias_val = _as_str(project.get(alias_key))
@@ -1736,7 +1805,9 @@ def build_projects_from_json(
     root_path, source_projects, global_work_logs = _load_and_validate_input(input_json_path, root_path_override)
     articles_by_slug = _load_articles_manifest(articles_manifest_path)
 
-    alias_to_project_id = _build_alias_map(source_projects)
+    project_slug_map = _build_project_slug_map(source_projects)
+    project_href_map = _build_project_href_map(project_slug_map)
+    alias_to_project_id = _build_alias_map(source_projects, project_slug_map, project_href_map)
     source_projects_by_id: Dict[str, Dict[str, Any]] = {}
     collection_member_projects_by_id: Dict[str, List[Dict[str, Any]]] = {}
     for source_project in source_projects:
@@ -1778,6 +1849,8 @@ def build_projects_from_json(
             public_projects_root=temp_public_projects_root,
             articles_by_slug=articles_by_slug,
             alias_to_project_id=alias_to_project_id,
+            project_slug_map=project_slug_map,
+            project_href_map=project_href_map,
             source_projects_by_id=source_projects_by_id,
             collection_member_projects_by_id=collection_member_projects_by_id,
             source_work_logs=project_work_logs,

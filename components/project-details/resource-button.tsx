@@ -1,9 +1,11 @@
 import { Resource } from "@/types";
 import { Button } from "../ui/button";
+import { getProjectHref } from "@/lib/project-paths";
 import { bestIconPath } from "@/lib/resource-map";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useBreadcrumb } from "@/lib/breadcrumb-context";
+import { trackProjectResourceClick } from "@/lib/firebase-analytics";
 
 export default function ResourceButton({
   resource,
@@ -18,7 +20,7 @@ export default function ResourceButton({
   iconOnly?: boolean;
   showLabelOnMd?: boolean;
   iconSize?: number;
-  currentProject?: { id: string; title?: string; name?: string };
+  currentProject?: { id: string; title?: string; name?: string; slug?: string; href?: string };
 }) {
 
   const router = useRouter();
@@ -32,10 +34,19 @@ export default function ResourceButton({
   
   const handleClick = (e: React.MouseEvent) => {
     e.stopPropagation();
+    trackProjectResourceClick({
+      projectSlug: currentProject?.slug || currentProject?.id,
+      projectTitle: currentProject?.title || currentProject?.name,
+      resourceType: resource.type,
+      resourceLabel: resource.label,
+      resourceUrl: resource.url,
+      isInternal: isFolio,
+    });
+
     if (isFolio) {
       // Set breadcrumb to current project before navigating to another project
       if (currentProject) {
-        setPreviousPath(`/projects/${currentProject.id}`, currentProject.title || currentProject.name || 'Project');
+        setPreviousPath(getProjectHref(currentProject), currentProject.title || currentProject.name || 'Project');
       }
       // Navigate to the local page without opening a new tab
       router.push(resource.url);

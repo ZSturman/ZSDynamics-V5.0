@@ -138,7 +138,7 @@ export function ProjectCard({
           {/* Resource icons and action button */}
           <div className="flex items-center gap-0.5">
             {project.resources && project.resources.slice(0, 2).map((resource) => (
-              <ResourceButton key={resource.url} resource={resource} iconOnly  />
+              <ResourceButton key={resource.url} resource={resource} currentProject={project} iconOnly  />
             ))}
 
           </div>
