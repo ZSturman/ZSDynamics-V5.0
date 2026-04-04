@@ -34,10 +34,10 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "thumbnail.png",
-      "banner": "banner.png",
+      "hero": "hero.png",
       "icon": "icon.png",
-      "hero": "hero.png"
+      "thumbnail": "thumbnail.png",
+      "banner": "banner.png"
     },
     "resources": [],
     "collection": {},
@@ -317,11 +317,11 @@
     "description": "",
     "story": "",
     "images": {
+      "hero": "hero.png",
       "poster": "poster.png",
-      "thumbnail": "thumbnail.png",
-      "banner": "banner.png",
       "icon": "TopNote AppIcon v2-watchOS-Default-1088x1088@1x.png",
-      "hero": "hero.png"
+      "thumbnail": "thumbnail.png",
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -421,9 +421,9 @@
     "description": "",
     "story": "",
     "images": {
+      "icon": "thumbnail.png",
       "thumbnail": "thumbnail.png",
-      "banner": "banner.png",
-      "icon": "thumbnail.png"
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -467,9 +467,9 @@
     "description": "",
     "story": "",
     "images": {
+      "hero": "hero.png",
       "thumbnail": "E4690E5D-3901-4E26-A237-8AA0FF26EE76.png",
-      "banner": "banner.png",
-      "hero": "hero.png"
+      "banner": "banner.png"
     },
     "resources": [],
     "collection": {
@@ -526,9 +526,9 @@
     "story": "",
     "images": {
       "poster": "poster.gif",
+      "icon": "logo.png",
       "thumbnail": "thumbnail.png",
-      "banner": "banner.png",
-      "icon": "logo.png"
+      "banner": "banner.png"
     },
     "resources": [],
     "collection": {
@@ -730,9 +730,9 @@
     "description": "",
     "story": "",
     "images": {
+      "icon": "poster.png",
       "thumbnail": "thumbnail.png",
-      "banner": "banner.png",
-      "icon": "poster.png"
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -819,9 +819,9 @@
     "description": "",
     "story": "",
     "images": {
+      "icon": "Celestial Hands Holding Heart.png",
       "thumbnail": "thumbnail.png",
-      "banner": "Collaborative Effort with Green Ball.png",
-      "icon": "Celestial Hands Holding Heart.png"
+      "banner": "Collaborative Effort with Green Ball.png"
     },
     "resources": [
       {
@@ -870,9 +870,9 @@
     "description": "",
     "story": "",
     "images": {
+      "icon": "banner.png",
       "thumbnail": "thumbnail.png",
-      "banner": "banner.png",
-      "icon": "banner.png"
+      "banner": "banner.png"
     },
     "resources": [],
     "collection": {
@@ -1159,9 +1159,9 @@
     "description": "",
     "story": "",
     "images": {
+      "icon": "banner.png",
       "thumbnail": "thumbnail.png",
-      "banner": "poster.png",
-      "icon": "banner.png"
+      "banner": "poster.png"
     },
     "resources": [
       {
@@ -1208,10 +1208,10 @@
     "description": "",
     "story": "",
     "images": {
+      "hero": "queueExample.png",
       "poster": "poster.gif",
       "thumbnail": "thumbnail.png",
-      "banner": "banner.gif",
-      "hero": "queueExample.png"
+      "banner": "banner.gif"
     },
     "resources": [
       {
@@ -1258,9 +1258,9 @@
     "story": "",
     "images": {
       "poster": "poster.png",
+      "icon": "thumbnail.png",
       "thumbnail": "thumbnail.png",
-      "banner": "banner.png",
-      "icon": "thumbnail.png"
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -1305,9 +1305,9 @@
     "description": "",
     "story": "",
     "images": {
+      "icon": "icon.png",
       "thumbnail": "collection thumbnail.png",
-      "banner": "banner.png",
-      "icon": "icon.png"
+      "banner": "banner.png"
     },
     "resources": [],
     "collection": {
@@ -1400,9 +1400,9 @@
     "story": "",
     "images": {
       "poster": "poster.png",
+      "icon": "icon.svg",
       "thumbnail": "thumbnail.png",
-      "banner": "banner.png",
-      "icon": "icon.svg"
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -1482,9 +1482,9 @@
     "story": "",
     "images": {
       "poster": "poster.tiff",
+      "icon": "thumbnail.tiff",
       "thumbnail": "thumbnail.tiff",
-      "banner": "banner.png",
-      "icon": "thumbnail.tiff"
+      "banner": "banner.png"
     },
     "resources": [],
     "collection": {},
@@ -1832,10 +1832,10 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "thumbnail.png",
-      "banner": "banner.png",
+      "hero": "hero.png",
       "icon": "icon.png",
-      "hero": "hero.png"
+      "thumbnail": "thumbnail.png",
+      "banner": "banner.png"
     },
     "resources": [
       {
