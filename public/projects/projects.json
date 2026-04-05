@@ -34,10 +34,10 @@
     "description": "",
     "story": "",
     "images": {
-      "icon": "icon.png",
-      "thumbnail": "thumbnail.png",
       "banner": "banner.png",
-      "hero": "hero.png"
+      "icon": "icon.png",
+      "hero": "hero.png",
+      "thumbnail": "thumbnail.png"
     },
     "resources": [],
     "collection": {},
@@ -278,7 +278,27 @@
       }
     ],
     "collection": {},
-    "workLogs": [],
+    "workLogs": [
+      {
+        "id": "339aec94-4d3c-8068-b38f-f333edb8f183",
+        "title": "Created new project entry for Episodic Memory Agent",
+        "entry": "Created new project entry for Episodic Memory Agent",
+        "url": "https://www.notion.so/Created-new-project-entry-for-Episodic-Memory-Agent-339aec944d3c8068b38ff333edb8f183",
+        "startTime": "2026-01-18",
+        "endTime": "2026-01-18T01:00:00.000-08:00",
+        "date": "2026-04-05T04:37:00.000-07:00",
+        "sessionType": [
+          "Planning",
+          "Organizing"
+        ],
+        "whatHappened": "Created new project entry for Episodic Memory Agent and added the 'Project Starter' milestones and tasks.",
+        "problems": null,
+        "nextStep": "Complete to do items",
+        "feelGoodAboutWork": 100.0,
+        "accomplishedWhatYouWanted": 100.0,
+        "durationMinutes": 60
+      }
+    ],
     "articles": [],
     "folderName": "episodic_memory_agent_306aec94-4d3c-8005-97ab-d4572f1ab679"
   },
@@ -317,11 +337,11 @@
     "description": "",
     "story": "",
     "images": {
-      "icon": "TopNote AppIcon v2-watchOS-Default-1088x1088@1x.png",
-      "thumbnail": "thumbnail.png",
       "poster": "poster.png",
       "banner": "banner.png",
-      "hero": "hero.png"
+      "icon": "TopNote AppIcon v2-watchOS-Default-1088x1088@1x.png",
+      "hero": "hero.png",
+      "thumbnail": "thumbnail.png"
     },
     "resources": [
       {
@@ -336,7 +356,27 @@
       }
     ],
     "collection": {},
-    "workLogs": [],
+    "workLogs": [
+      {
+        "id": "339aec94-4d3c-809c-bbbc-c398dd02d369",
+        "title": "Created new project entry for Top Note",
+        "entry": "Created new project entry for Top Note",
+        "url": "https://www.notion.so/Created-new-project-entry-for-Top-Note-339aec944d3c809cbbbcc398dd02d369",
+        "startTime": "2025-07-03",
+        "endTime": "2025-07-03T01:00:00.000-07:00",
+        "date": "2026-04-05T04:38:00.000-07:00",
+        "sessionType": [
+          "Planning",
+          "Organizing"
+        ],
+        "whatHappened": "Created new project entry for Top Note and added the 'Project Starter' milestones and tasks.",
+        "problems": null,
+        "nextStep": "Complete to do items",
+        "feelGoodAboutWork": 100.0,
+        "accomplishedWhatYouWanted": 100.0,
+        "durationMinutes": 60
+      }
+    ],
     "articles": [],
     "folderName": "top_note_306aec94-4d3c-8008-9985-d94ba1780069"
   },
@@ -370,8 +410,8 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "thumbnail.png",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "thumbnail": "thumbnail.png"
     },
     "resources": [
       {
@@ -386,7 +426,27 @@
       }
     ],
     "collection": {},
-    "workLogs": [],
+    "workLogs": [
+      {
+        "id": "339aec94-4d3c-803f-ab98-c3c3c2ded455",
+        "title": "Created new project entry for ZSDynamics 2.0",
+        "entry": "Created new project entry for ZSDynamics 2.0",
+        "url": "https://www.notion.so/Created-new-project-entry-for-ZSDynamics-2-0-339aec944d3c803fab98c3c3c2ded455",
+        "startTime": "2022-04-10",
+        "endTime": "2022-04-10T01:00:00.000-07:00",
+        "date": "2026-04-05T04:36:00.000-07:00",
+        "sessionType": [
+          "Planning",
+          "Organizing"
+        ],
+        "whatHappened": "Created new project entry for ZSDynamics 2.0 and added the 'Project Starter' milestones and tasks.",
+        "problems": null,
+        "nextStep": "Complete to do items",
+        "feelGoodAboutWork": 100.0,
+        "accomplishedWhatYouWanted": 100.0,
+        "durationMinutes": 60
+      }
+    ],
     "articles": [],
     "folderName": "zsdynamics_20_306aec94-4d3c-800b-9d7d-ed0c879ab5b3"
   },
@@ -421,9 +481,9 @@
     "description": "",
     "story": "",
     "images": {
+      "banner": "banner.png",
       "icon": "thumbnail.png",
-      "thumbnail": "thumbnail.png",
-      "banner": "banner.png"
+      "thumbnail": "thumbnail.png"
     },
     "resources": [
       {
@@ -433,7 +493,27 @@
       }
     ],
     "collection": {},
-    "workLogs": [],
+    "workLogs": [
+      {
+        "id": "339aec94-4d3c-8083-bc02-f2cedc4a098d",
+        "title": "Created new project entry for MediLedger",
+        "entry": "Created new project entry for MediLedger",
+        "url": "https://www.notion.so/Created-new-project-entry-for-MediLedger-339aec944d3c8083bc02f2cedc4a098d",
+        "startTime": "2025-08-06",
+        "endTime": "2025-08-06T01:00:00.000-07:00",
+        "date": "2026-04-05T04:37:00.000-07:00",
+        "sessionType": [
+          "Planning",
+          "Organizing"
+        ],
+        "whatHappened": "Created new project entry for MediLedger and added the 'Project Starter' milestones and tasks.",
+        "problems": null,
+        "nextStep": "Complete to do items",
+        "feelGoodAboutWork": 100.0,
+        "accomplishedWhatYouWanted": 100.0,
+        "durationMinutes": 60
+      }
+    ],
     "articles": [],
     "folderName": "mediledger_306aec94-4d3c-800f-8fd6-c80ad845b5df"
   },
@@ -467,9 +547,9 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "E4690E5D-3901-4E26-A237-8AA0FF26EE76.png",
       "banner": "banner.png",
-      "hero": "hero.png"
+      "hero": "hero.png",
+      "thumbnail": "E4690E5D-3901-4E26-A237-8AA0FF26EE76.png"
     },
     "resources": [],
     "collection": {
@@ -489,7 +569,27 @@
         ]
       }
     },
-    "workLogs": [],
+    "workLogs": [
+      {
+        "id": "339aec94-4d3c-804c-8243-fbc0df8b678e",
+        "title": "Created new project entry for Mind Adrift",
+        "entry": "Created new project entry for Mind Adrift",
+        "url": "https://www.notion.so/Created-new-project-entry-for-Mind-Adrift-339aec944d3c804c8243fbc0df8b678e",
+        "startTime": "2013-09-01",
+        "endTime": "2013-09-01T01:00:00.000-07:00",
+        "date": "2026-04-05T04:37:00.000-07:00",
+        "sessionType": [
+          "Planning",
+          "Organizing"
+        ],
+        "whatHappened": "Created new project entry for Mind Adrift and added the 'Project Starter' milestones and tasks.",
+        "problems": null,
+        "nextStep": "Complete to do items",
+        "feelGoodAboutWork": 100.0,
+        "accomplishedWhatYouWanted": 100.0,
+        "durationMinutes": 60
+      }
+    ],
     "articles": [],
     "folderName": "mind_adrift_306aec94-4d3c-801d-b601-cb6d0de3219e"
   },
@@ -525,10 +625,10 @@
     "description": "",
     "story": "",
     "images": {
-      "icon": "logo.png",
-      "thumbnail": "thumbnail.png",
       "poster": "poster.gif",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "icon": "logo.png",
+      "thumbnail": "thumbnail.png"
     },
     "resources": [],
     "collection": {
@@ -697,7 +797,27 @@
         ]
       }
     },
-    "workLogs": [],
+    "workLogs": [
+      {
+        "id": "339aec94-4d3c-808d-a485-f7ac5875d7d3",
+        "title": "Created new project entry for Frontend Collection",
+        "entry": "Created new project entry for Frontend Collection",
+        "url": "https://www.notion.so/Created-new-project-entry-for-Frontend-Collection-339aec944d3c808da485f7ac5875d7d3",
+        "startTime": "2020-12-01",
+        "endTime": "2020-12-01T01:00:00.000-08:00",
+        "date": "2026-04-05T04:37:00.000-07:00",
+        "sessionType": [
+          "Planning",
+          "Organizing"
+        ],
+        "whatHappened": "Created new project entry for Frontend Collection and added the 'Project Starter' milestones and tasks.",
+        "problems": null,
+        "nextStep": "Complete to do items",
+        "feelGoodAboutWork": 100.0,
+        "accomplishedWhatYouWanted": 100.0,
+        "durationMinutes": 60
+      }
+    ],
     "articles": [],
     "folderName": "frontend_collection_306aec94-4d3c-803b-a895-e775003b0f5d"
   },
@@ -730,9 +850,9 @@
     "description": "",
     "story": "",
     "images": {
+      "banner": "banner.png",
       "icon": "poster.png",
-      "thumbnail": "thumbnail.png",
-      "banner": "banner.png"
+      "thumbnail": "thumbnail.png"
     },
     "resources": [
       {
@@ -747,7 +867,27 @@
       }
     ],
     "collection": {},
-    "workLogs": [],
+    "workLogs": [
+      {
+        "id": "339aec94-4d3c-8066-921c-c4647da281a9",
+        "title": "Created new project entry for ZSDynamics 1.0",
+        "entry": "Created new project entry for ZSDynamics 1.0",
+        "url": "https://www.notion.so/Created-new-project-entry-for-ZSDynamics-1-0-339aec944d3c8066921cc4647da281a9",
+        "startTime": "2020-12-01",
+        "endTime": "2020-12-01T01:00:00.000-08:00",
+        "date": "2026-04-05T04:36:00.000-07:00",
+        "sessionType": [
+          "Planning",
+          "Organizing"
+        ],
+        "whatHappened": "Created new project entry for ZSDynamics 1.0 and added the 'Project Starter' milestones and tasks.",
+        "problems": null,
+        "nextStep": "Complete to do items",
+        "feelGoodAboutWork": 100.0,
+        "accomplishedWhatYouWanted": 100.0,
+        "durationMinutes": 60
+      }
+    ],
     "articles": [],
     "folderName": "zsdynamics_10_306aec94-4d3c-803d-8230-fe06337c4a51"
   },
@@ -780,12 +920,32 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "thumbnail.png",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "thumbnail": "thumbnail.png"
     },
     "resources": [],
     "collection": {},
-    "workLogs": [],
+    "workLogs": [
+      {
+        "id": "339aec94-4d3c-8051-9f86-e1373b244c9b",
+        "title": "Created new project entry for Timeline 7",
+        "entry": "Created new project entry for Timeline 7",
+        "url": "https://www.notion.so/Created-new-project-entry-for-Timeline-7-339aec944d3c80519f86e1373b244c9b",
+        "startTime": "2014-12-01",
+        "endTime": "2014-12-01T01:00:00.000-08:00",
+        "date": "2026-04-05T04:36:00.000-07:00",
+        "sessionType": [
+          "Planning",
+          "Organizing"
+        ],
+        "whatHappened": "Created new project entry for Timeline 7 and added the 'Project Starter' milestones and tasks.",
+        "problems": null,
+        "nextStep": "Complete to do items",
+        "feelGoodAboutWork": 100.0,
+        "accomplishedWhatYouWanted": 100.0,
+        "durationMinutes": 60
+      }
+    ],
     "articles": [],
     "folderName": "timeline_7_306aec94-4d3c-805d-b085-e4252d4601b3"
   },
@@ -819,9 +979,9 @@
     "description": "",
     "story": "",
     "images": {
+      "banner": "Collaborative Effort with Green Ball.png",
       "icon": "Celestial Hands Holding Heart.png",
-      "thumbnail": "thumbnail.png",
-      "banner": "Collaborative Effort with Green Ball.png"
+      "thumbnail": "thumbnail.png"
     },
     "resources": [
       {
@@ -836,7 +996,27 @@
       }
     ],
     "collection": {},
-    "workLogs": [],
+    "workLogs": [
+      {
+        "id": "339aec94-4d3c-8052-99c4-cbfc9727d649",
+        "title": "Created new project entry for Towardbetter.me - Announcement Page",
+        "entry": "Created new project entry for Towardbetter.me - Announcement Page",
+        "url": "https://www.notion.so/Created-new-project-entry-for-Towardbetter-me-Announcement-Page-339aec944d3c805299c4cbfc9727d649",
+        "startTime": "2024-11-29",
+        "endTime": "2024-11-29T01:00:00.000-08:00",
+        "date": "2026-04-05T04:36:00.000-07:00",
+        "sessionType": [
+          "Planning",
+          "Organizing"
+        ],
+        "whatHappened": "Created new project entry for Towardbetter.me - Announcement Page and added the 'Project Starter' milestones and tasks.",
+        "problems": null,
+        "nextStep": "Complete to do items",
+        "feelGoodAboutWork": 100.0,
+        "accomplishedWhatYouWanted": 100.0,
+        "durationMinutes": 60
+      }
+    ],
     "articles": [],
     "folderName": "towardbetterme_announcement_page_306aec94-4d3c-8064-9e5a-c59f1df02bee"
   },
@@ -870,9 +1050,9 @@
     "description": "",
     "story": "",
     "images": {
+      "banner": "banner.png",
       "icon": "banner.png",
-      "thumbnail": "thumbnail.png",
-      "banner": "banner.png"
+      "thumbnail": "thumbnail.png"
     },
     "resources": [],
     "collection": {
@@ -1087,7 +1267,27 @@
         ]
       }
     },
-    "workLogs": [],
+    "workLogs": [
+      {
+        "id": "339aec94-4d3c-801c-badd-d27ca652cf0b",
+        "title": "Created new project entry for History of Everything Coloring Book",
+        "entry": "Created new project entry for History of Everything Coloring Book",
+        "url": "https://www.notion.so/Created-new-project-entry-for-History-of-Everything-Coloring-Book-339aec944d3c801cbaddd27ca652cf0b",
+        "startTime": "2019-09-17",
+        "endTime": "2019-09-17T01:00:00.000-07:00",
+        "date": "2026-04-05T04:37:00.000-07:00",
+        "sessionType": [
+          "Planning",
+          "Organizing"
+        ],
+        "whatHappened": "Created new project entry for History of Everything Coloring Book and added the 'Project Starter' milestones and tasks.",
+        "problems": null,
+        "nextStep": "Complete to do items",
+        "feelGoodAboutWork": 100.0,
+        "accomplishedWhatYouWanted": 100.0,
+        "durationMinutes": 60
+      }
+    ],
     "articles": [],
     "folderName": "history_of_everything_coloring_book_306aec94-4d3c-8067-909b-da087d8b0c26"
   },
@@ -1098,24 +1298,35 @@
     "title": "Drifting Priorities",
     "name": "Drifting Priorities",
     "subtitle": "",
-    "summary": "",
-    "oneLiner": "",
+    "summary": "Drifting Priorities looks like a task app, but it is really a personal experiment in choosing work more honestly. It ranks tasks by combining time-based priority curves, recent avoidance, category recency, current state of mind, and dependency cost, then exposes that through both a CLI and a local web GUI. It also accepts small normalized telemetry imports and exports clean snapshots, which makes it feel more like a portable local system than a closed productivity app.\n\nThe audience seems fairly specific: people working alone or in a self-directed way, especially developers, writers, researchers, and other knowledge workers who do not trust a static list to tell the truth all day. What feels distinct here is the model, not the surface. The repo stays careful about explicit inputs, portability, and shared logic across interfaces. The part that still feels open is how tuned the scoring is in repeated real use, so I would describe it as thoughtful and usable, but still clearly in progress.",
+    "oneLiner": "A local task recommender for days that do not stay flat, where what makes sense next can shift with time, energy, recent work, and complexity.",
     "domain": "Technology",
-    "category": "Other",
+    "category": "Application",
     "status": "Dormant",
-    "phase": "Backburner",
+    "phase": "Development",
     "featured": false,
-    "createdAt": null,
-    "updatedAt": null,
+    "createdAt": "2023-02-09",
+    "updatedAt": "2026-04-03",
     "isPublic": true,
-    "tags": [],
+    "tags": [
+      "Tasks",
+      "Reminders",
+      "Telemetry",
+      "Dynamic"
+    ],
     "mediums": [],
     "genres": [],
     "topics": [],
     "subjects": [],
     "description": "",
     "story": "",
-    "images": {},
+    "images": {
+      "poster": "poster.png",
+      "banner": "banner.png",
+      "icon": "icon.png",
+      "hero": "hero.png",
+      "thumbnail": "thumbnail.png"
+    },
     "resources": [
       {
         "type": "github",
@@ -1124,7 +1335,27 @@
       }
     ],
     "collection": {},
-    "workLogs": [],
+    "workLogs": [
+      {
+        "id": "339aec94-4d3c-80a8-ac75-c03427b3dc5b",
+        "title": "Created new project entry for Drifting Priorities",
+        "entry": "Created new project entry for Drifting Priorities",
+        "url": "https://www.notion.so/Created-new-project-entry-for-Drifting-Priorities-339aec944d3c80a8ac75c03427b3dc5b",
+        "startTime": "2023-02-09",
+        "endTime": "2023-02-09T01:00:00.000-08:00",
+        "date": "2026-04-05T02:53:00.000-07:00",
+        "sessionType": [
+          "Planning",
+          "Organizing"
+        ],
+        "whatHappened": "Created new project entry for Drifting Priorities and added the 'Project Starter' milestones and tasks.",
+        "problems": null,
+        "nextStep": "Complete to do items",
+        "feelGoodAboutWork": 100.0,
+        "accomplishedWhatYouWanted": 100.0,
+        "durationMinutes": 60
+      }
+    ],
     "articles": [],
     "folderName": "drifting_priorities_306aec94-4d3c-806a-b191-f329f1efc1ae"
   },
@@ -1159,9 +1390,9 @@
     "description": "",
     "story": "",
     "images": {
+      "banner": "poster.png",
       "icon": "banner.png",
-      "thumbnail": "thumbnail.png",
-      "banner": "poster.png"
+      "thumbnail": "thumbnail.png"
     },
     "resources": [
       {
@@ -1176,7 +1407,27 @@
       }
     ],
     "collection": {},
-    "workLogs": [],
+    "workLogs": [
+      {
+        "id": "339aec94-4d3c-80ac-93bd-c49098345759",
+        "title": "Created new project entry for ZSDynamics 4.0",
+        "entry": "Created new project entry for ZSDynamics 4.0",
+        "url": "https://www.notion.so/Created-new-project-entry-for-ZSDynamics-4-0-339aec944d3c80ac93bdc49098345759",
+        "startTime": "2025-05-01",
+        "endTime": "2025-05-01T01:00:00.000-07:00",
+        "date": "2026-04-05T04:35:00.000-07:00",
+        "sessionType": [
+          "Planning",
+          "Organizing"
+        ],
+        "whatHappened": "Created new project entry for ZSDynamics 4.0 and added the 'Project Starter' milestones and tasks.",
+        "problems": null,
+        "nextStep": "Complete to do items",
+        "feelGoodAboutWork": 100.0,
+        "accomplishedWhatYouWanted": 100.0,
+        "durationMinutes": 60
+      }
+    ],
     "articles": [],
     "folderName": "zsdynamics_40_306aec94-4d3c-807e-a7ef-db0aa63a2ec7"
   },
@@ -1208,10 +1459,10 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "thumbnail.png",
       "poster": "poster.gif",
       "banner": "banner.gif",
-      "hero": "queueExample.png"
+      "hero": "queueExample.png",
+      "thumbnail": "thumbnail.png"
     },
     "resources": [
       {
@@ -1221,7 +1472,27 @@
       }
     ],
     "collection": {},
-    "workLogs": [],
+    "workLogs": [
+      {
+        "id": "339aec94-4d3c-80f4-a5fc-da6eb64781d4",
+        "title": "Created new project entry for Obsidian Toolkit",
+        "entry": "Created new project entry for Obsidian Toolkit",
+        "url": "https://www.notion.so/Created-new-project-entry-for-Obsidian-Toolkit-339aec944d3c80f4a5fcda6eb64781d4",
+        "startTime": "2024-04-01",
+        "endTime": "2024-04-01T01:00:00.000-07:00",
+        "date": "2026-04-05T04:37:00.000-07:00",
+        "sessionType": [
+          "Planning",
+          "Organizing"
+        ],
+        "whatHappened": "Created new project entry for Obsidian Toolkit and added the 'Project Starter' milestones and tasks.",
+        "problems": null,
+        "nextStep": "Complete to do items",
+        "feelGoodAboutWork": 100.0,
+        "accomplishedWhatYouWanted": 100.0,
+        "durationMinutes": 60
+      }
+    ],
     "articles": [],
     "folderName": "obsidian_toolkit_306aec94-4d3c-8085-a43d-f9ac3bec06ef"
   },
@@ -1257,10 +1528,10 @@
     "description": "",
     "story": "",
     "images": {
-      "icon": "thumbnail.png",
-      "thumbnail": "thumbnail.png",
       "poster": "poster.png",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "icon": "thumbnail.png",
+      "thumbnail": "thumbnail.png"
     },
     "resources": [
       {
@@ -1270,7 +1541,27 @@
       }
     ],
     "collection": {},
-    "workLogs": [],
+    "workLogs": [
+      {
+        "id": "339aec94-4d3c-8065-b3e0-c0457622bded",
+        "title": "Created new project entry for ChewSense",
+        "entry": "Created new project entry for ChewSense",
+        "url": "https://www.notion.so/Created-new-project-entry-for-ChewSense-339aec944d3c8065b3e0c0457622bded",
+        "startTime": "2025-10-15",
+        "endTime": "2025-10-15T01:00:00.000-07:00",
+        "date": "2026-04-05T04:38:00.000-07:00",
+        "sessionType": [
+          "Planning",
+          "Organizing"
+        ],
+        "whatHappened": "Created new project entry for ChewSense and added the 'Project Starter' milestones and tasks.",
+        "problems": null,
+        "nextStep": "Complete to do items",
+        "feelGoodAboutWork": 100.0,
+        "accomplishedWhatYouWanted": 100.0,
+        "durationMinutes": 60
+      }
+    ],
     "articles": [],
     "folderName": "chewsense_306aec94-4d3c-808d-9ada-f0ccca484d3b"
   },
@@ -1305,9 +1596,9 @@
     "description": "",
     "story": "",
     "images": {
+      "banner": "banner.png",
       "icon": "icon.png",
-      "thumbnail": "collection thumbnail.png",
-      "banner": "banner.png"
+      "thumbnail": "collection thumbnail.png"
     },
     "resources": [],
     "collection": {
@@ -1361,7 +1652,27 @@
         ]
       }
     },
-    "workLogs": [],
+    "workLogs": [
+      {
+        "id": "339aec94-4d3c-80ec-97ec-c3462692d599",
+        "title": "Created new project entry for Animation Collection",
+        "entry": "Created new project entry for Animation Collection",
+        "url": "https://www.notion.so/Created-new-project-entry-for-Animation-Collection-339aec944d3c80ec97ecc3462692d599",
+        "startTime": "2020-12-28",
+        "endTime": "2020-12-28T01:00:00.000-08:00",
+        "date": "2026-04-05T04:37:00.000-07:00",
+        "sessionType": [
+          "Planning",
+          "Organizing"
+        ],
+        "whatHappened": "Created new project entry for Animation Collection and added the 'Project Starter' milestones and tasks.",
+        "problems": null,
+        "nextStep": "Complete to do items",
+        "feelGoodAboutWork": 100.0,
+        "accomplishedWhatYouWanted": 100.0,
+        "durationMinutes": 60
+      }
+    ],
     "articles": [],
     "folderName": "animation_collection_306aec94-4d3c-8091-876a-f028b4c582c4"
   },
@@ -1399,10 +1710,10 @@
     "description": "",
     "story": "",
     "images": {
-      "icon": "icon.svg",
-      "thumbnail": "thumbnail.png",
       "poster": "poster.png",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "icon": "icon.svg",
+      "thumbnail": "thumbnail.png"
     },
     "resources": [
       {
@@ -1412,7 +1723,27 @@
       }
     ],
     "collection": {},
-    "workLogs": [],
+    "workLogs": [
+      {
+        "id": "339aec94-4d3c-80f7-aa6a-efb006a4364a",
+        "title": "Created new project entry for Lost & Hound",
+        "entry": "Created new project entry for Lost & Hound",
+        "url": "https://www.notion.so/Created-new-project-entry-for-Lost-Hound-339aec944d3c80f7aa6aefb006a4364a",
+        "startTime": "2024-06-01",
+        "endTime": "2024-06-01T01:00:00.000-07:00",
+        "date": "2026-04-05T04:37:00.000-07:00",
+        "sessionType": [
+          "Planning",
+          "Organizing"
+        ],
+        "whatHappened": "Created new project entry for Lost & Hound and added the 'Project Starter' milestones and tasks.",
+        "problems": null,
+        "nextStep": "Complete to do items",
+        "feelGoodAboutWork": 100.0,
+        "accomplishedWhatYouWanted": 100.0,
+        "durationMinutes": 60
+      }
+    ],
     "articles": [],
     "folderName": "lost_hound_306aec94-4d3c-80a5-b00e-f67cc4ff5901"
   },
@@ -1426,11 +1757,11 @@
     "summary": "Broken Time Machine is a story-driven adventure game built in Unity where players step into the role of a scientist’s assistant trying to repair a malfunctioning time machine. When an experiment goes wrong, fragments of the device scatter across different eras—from the Hadean eon to the modern age—opening unstable portals that pull ancient life and historical figures into the present. The game blends exploration, puzzle-solving, and light combat as players travel through time, retrieve lost machine parts, and face the consequences of a fractured timeline. Designed for players who enjoy narrative exploration and gradual skill-building, Broken Time Machine connects history, science, and discovery into a single continuous journey of repair and adaptation.",
     "oneLiner": "A Unity-based adventure game where a scientist’s assistant repairs a broken time machine by traveling through Earth’s history, collecting its missing parts, and restoring order to a fractured timeline.",
     "domain": "Technology",
-    "category": "Other",
+    "category": "Video Game",
     "status": "Dormant",
-    "phase": "Backburner",
+    "phase": "Development",
     "featured": false,
-    "createdAt": null,
+    "createdAt": "2021-04-04",
     "updatedAt": null,
     "isPublic": true,
     "tags": [],
@@ -1440,7 +1771,9 @@
     "subjects": [],
     "description": "",
     "story": "",
-    "images": {},
+    "images": {
+      "thumbnail": "D5A4CF89-4891-4BFE-8BC3-0317AD20CF80.png"
+    },
     "resources": [
       {
         "type": "github",
@@ -1449,7 +1782,27 @@
       }
     ],
     "collection": {},
-    "workLogs": [],
+    "workLogs": [
+      {
+        "id": "339aec94-4d3c-8094-9e6d-c17fa1333637",
+        "title": "Created new project entry for Broken Time Machine",
+        "entry": "Created new project entry for Broken Time Machine",
+        "url": "https://www.notion.so/Created-new-project-entry-for-Broken-Time-Machine-339aec944d3c80949e6dc17fa1333637",
+        "startTime": "2021-04-04",
+        "endTime": "2021-04-04T01:00:00.000-07:00",
+        "date": "2026-04-05T03:08:00.000-07:00",
+        "sessionType": [
+          "Planning",
+          "Organizing"
+        ],
+        "whatHappened": "Created new project entry for Broken Time Machine and added the 'Project Starter' milestones and tasks.",
+        "problems": null,
+        "nextStep": "Complete to do items",
+        "feelGoodAboutWork": 100.0,
+        "accomplishedWhatYouWanted": 100.0,
+        "durationMinutes": 60
+      }
+    ],
     "articles": [],
     "folderName": "broken_time_machine_306aec94-4d3c-80a8-850e-df4dd020d452"
   },
@@ -1481,14 +1834,34 @@
     "description": "",
     "story": "",
     "images": {
-      "icon": "thumbnail.tiff",
-      "thumbnail": "thumbnail.tiff",
       "poster": "poster.tiff",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "icon": "thumbnail.tiff",
+      "thumbnail": "thumbnail.tiff"
     },
     "resources": [],
     "collection": {},
-    "workLogs": [],
+    "workLogs": [
+      {
+        "id": "339aec94-4d3c-8009-a0c5-cc97cf61bc0e",
+        "title": "Created new project entry for Greenhorn",
+        "entry": "Created new project entry for Greenhorn",
+        "url": "https://www.notion.so/Created-new-project-entry-for-Greenhorn-339aec944d3c8009a0c5cc97cf61bc0e",
+        "startTime": "2017-11-21",
+        "endTime": "2017-11-21T01:00:00.000-08:00",
+        "date": "2026-04-05T04:37:00.000-07:00",
+        "sessionType": [
+          "Planning",
+          "Organizing"
+        ],
+        "whatHappened": "Created new project entry for Greenhorn and added the 'Project Starter' milestones and tasks.",
+        "problems": null,
+        "nextStep": "Complete to do items",
+        "feelGoodAboutWork": 100.0,
+        "accomplishedWhatYouWanted": 100.0,
+        "durationMinutes": 60
+      }
+    ],
     "articles": [],
     "folderName": "greenhorn_306aec94-4d3c-80b0-b478-e070bcd1d517"
   },
@@ -1499,27 +1872,59 @@
     "title": "Mass and Time",
     "name": "Mass and Time",
     "subtitle": "",
-    "summary": "",
-    "oneLiner": "",
+    "summary": "I’m treating this as a serious personal inquiry rather than a finished theory. The project turns a bold idea, that time may help generate or stabilize what we call mass, into three concrete modeling tracks: a feedback simulation, a minimal quantum stability model, and a relativistic conceptual visualization. The useful part is that the idea has to face equations, parameter choices, and saved outputs instead of staying at the level of language.\n\nThe audience is people who are comfortable with scientific reasoning and code, including technically curious readers, independent researchers, and physics-adjacent builders who value inspectable assumptions over polished certainty. What makes it distinct is the tone and structure: I keep the claim ambitious, then narrow it carefully, and I separate what is computed from what is interpretive. Some uncertainty is still central, especially around physical realism, conservation behavior, and how far these toy models can responsibly be taken.",
+    "oneLiner": "A simulation-backed physics project that tests whether temporal persistence can help explain mass, orbital stability, and gravity, while staying honest about what is model output versus interpretation.",
     "domain": "Expository",
     "category": "Physics",
     "status": "Active",
     "phase": "Researching",
     "featured": false,
-    "createdAt": null,
-    "updatedAt": null,
+    "createdAt": "2025-12-23",
+    "updatedAt": "2026-04-05",
     "isPublic": true,
-    "tags": [],
+    "tags": [
+      "Simulation",
+      "Physics",
+      "Research",
+      "Notebook",
+      "Theory",
+      "Speculative"
+    ],
     "mediums": [],
     "genres": [],
     "topics": [],
     "subjects": [],
     "description": "",
     "story": "",
-    "images": {},
+    "images": {
+      "banner": "banner.png",
+      "icon": "icon.png",
+      "hero": "hero.png",
+      "thumbnail": "thumbnail.png"
+    },
     "resources": [],
     "collection": {},
-    "workLogs": [],
+    "workLogs": [
+      {
+        "id": "339aec94-4d3c-8027-bf2b-cef7b6c5d4b1",
+        "title": "Created new project entry for Mass and Time",
+        "entry": "Created new project entry for Mass and Time",
+        "url": "https://www.notion.so/Created-new-project-entry-for-Mass-and-Time-339aec944d3c8027bf2bcef7b6c5d4b1",
+        "startTime": "2025-12-23",
+        "endTime": "2025-12-23T01:00:00.000-08:00",
+        "date": "2026-04-05T03:46:00.000-07:00",
+        "sessionType": [
+          "Planning",
+          "Organizing"
+        ],
+        "whatHappened": "Created new project entry for Mass and Time and added the 'Project Starter' milestones and tasks.",
+        "problems": null,
+        "nextStep": "Complete to do items",
+        "feelGoodAboutWork": 100.0,
+        "accomplishedWhatYouWanted": 100.0,
+        "durationMinutes": 60
+      }
+    ],
     "articles": [],
     "folderName": "mass_and_time_306aec94-4d3c-80c9-a6d4-f6362f15b981"
   },
@@ -1552,8 +1957,8 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "thumbnail.png",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "thumbnail": "thumbnail.png"
     },
     "resources": [
       {
@@ -1563,7 +1968,27 @@
       }
     ],
     "collection": {},
-    "workLogs": [],
+    "workLogs": [
+      {
+        "id": "339aec94-4d3c-8062-9519-d6538c648d25",
+        "title": "Created new project entry for ZSDynamics 3.0",
+        "entry": "Created new project entry for ZSDynamics 3.0",
+        "url": "https://www.notion.so/Created-new-project-entry-for-ZSDynamics-3-0-339aec944d3c80629519d6538c648d25",
+        "startTime": "2023-11-10",
+        "endTime": "2023-11-10T01:00:00.000-08:00",
+        "date": "2026-04-05T04:35:00.000-07:00",
+        "sessionType": [
+          "Planning",
+          "Organizing"
+        ],
+        "whatHappened": "Created new project entry for ZSDynamics 3.0 and added the 'Project Starter' milestones and tasks.",
+        "problems": null,
+        "nextStep": "Complete to do items",
+        "feelGoodAboutWork": 100.0,
+        "accomplishedWhatYouWanted": 100.0,
+        "durationMinutes": 60
+      }
+    ],
     "articles": [],
     "folderName": "zsdynamics_30_306aec94-4d3c-80d4-a8bd-d83a8832ebf8"
   },
@@ -1596,8 +2021,8 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "thumbnail.png",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "thumbnail": "thumbnail.png"
     },
     "resources": [
       {
@@ -1612,7 +2037,27 @@
       }
     ],
     "collection": {},
-    "workLogs": [],
+    "workLogs": [
+      {
+        "id": "339aec94-4d3c-802c-a489-c5461b195777",
+        "title": "Created new project entry for ZSDynamics 1.1",
+        "entry": "Created new project entry for ZSDynamics 1.1",
+        "url": "https://www.notion.so/Created-new-project-entry-for-ZSDynamics-1-1-339aec944d3c802ca489c5461b195777",
+        "startTime": "2021-07-10",
+        "endTime": "2021-07-10T01:00:00.000-07:00",
+        "date": "2026-04-05T04:36:00.000-07:00",
+        "sessionType": [
+          "Planning",
+          "Organizing"
+        ],
+        "whatHappened": "Created new project entry for ZSDynamics 1.1 and added the 'Project Starter' milestones and tasks.",
+        "problems": null,
+        "nextStep": "Complete to do items",
+        "feelGoodAboutWork": 100.0,
+        "accomplishedWhatYouWanted": 100.0,
+        "durationMinutes": 60
+      }
+    ],
     "articles": [],
     "folderName": "zsdynamics_11_306aec94-4d3c-80ff-a96a-c3c51900e249"
   },
@@ -1623,7 +2068,7 @@
     "title": "zachary-sturman.com",
     "name": "zachary-sturman.com",
     "subtitle": "",
-    "summary": "",
+    "summary": "My personal portfolio page",
     "oneLiner": "2026 Portfolio",
     "domain": "Technology",
     "category": "Web",
@@ -1633,7 +2078,10 @@
     "createdAt": "2026-01-01",
     "updatedAt": null,
     "isPublic": true,
-    "tags": [],
+    "tags": [
+      "web",
+      "Portfolio"
+    ],
     "mediums": [],
     "genres": [],
     "topics": [],
@@ -1641,7 +2089,18 @@
     "description": "",
     "story": "",
     "images": {},
-    "resources": [],
+    "resources": [
+      {
+        "type": "web",
+        "label": "Visit",
+        "url": "https://zachary-sturman.com"
+      },
+      {
+        "type": "github",
+        "label": "Repo",
+        "url": "https://github.com/ZSturman/ZSDynamics-V5.0"
+      }
+    ],
     "collection": {},
     "workLogs": [
       {
@@ -1696,7 +2155,27 @@
     },
     "resources": [],
     "collection": {},
-    "workLogs": [],
+    "workLogs": [
+      {
+        "id": "339aec94-4d3c-800e-8737-fa7c70fe859b",
+        "title": "Created new project entry for 3D Models Collection",
+        "entry": "Created new project entry for 3D Models Collection",
+        "url": "https://www.notion.so/Created-new-project-entry-for-3D-Models-Collection-339aec944d3c800e8737fa7c70fe859b",
+        "startTime": "2018-05-17",
+        "endTime": "2018-05-17T01:00:00.000-07:00",
+        "date": "2026-04-05T04:37:00.000-07:00",
+        "sessionType": [
+          "Planning",
+          "Organizing"
+        ],
+        "whatHappened": "Created new project entry for 3D Models Collection and added the 'Project Starter' milestones and tasks.",
+        "problems": null,
+        "nextStep": "Complete to do items",
+        "feelGoodAboutWork": 100.0,
+        "accomplishedWhatYouWanted": 100.0,
+        "durationMinutes": 60
+      }
+    ],
     "articles": [],
     "folderName": "3d_models_collection_312aec94-4d3c-817e-9295-e018716cf990"
   },
@@ -1708,7 +2187,7 @@
     "name": "Folio",
     "subtitle": "",
     "summary": "",
-    "oneLiner": "",
+    "oneLiner": "An archive of related but independent attempts to solve the same personal problem: how to keep projects, ideas, media, metadata, references, and portfolio material in one system without losing the shape of the work.",
     "domain": "Technology",
     "category": "Other",
     "status": "Active",
@@ -1725,7 +2204,13 @@
     "description": "",
     "story": "",
     "images": {},
-    "resources": [],
+    "resources": [
+      {
+        "type": "github",
+        "label": "Repo",
+        "url": "https://github.com/ZSturman/Folio-Studio"
+      }
+    ],
     "collection": {},
     "workLogs": [
       {
@@ -1832,10 +2317,10 @@
     "description": "",
     "story": "",
     "images": {
-      "icon": "icon.png",
-      "thumbnail": "thumbnail.png",
       "banner": "banner.png",
-      "hero": "hero.png"
+      "icon": "icon.png",
+      "hero": "hero.png",
+      "thumbnail": "thumbnail.png"
     },
     "resources": [
       {
@@ -1876,24 +2361,34 @@
     "title": "Math and Happiness",
     "name": "Math and Happiness",
     "subtitle": "",
-    "summary": "",
-    "oneLiner": "",
-    "domain": "Technology",
-    "category": "Other",
-    "status": "unknown",
-    "phase": "",
+    "summary": "This project is a personal happiness tracker, though “tracker” isn’t really the right word. It feels more like a tool for people who want to define their own life structure, decide what matters most, rate how things are going, and use weighted scoring to surface what needs care and what is already strong. The default shape leans on basic needs, safety, daily life, esteem, and self-actualization, but the real point is that the structure is editable, so the model can become personal rather than generic.\n\nThe audience seems to be reflective adults who want something more rigorous than vague wellness advice and more private than a social app. It is local, self-directed, and practical, with no accounts, no public layer, and no coaching voice. The overall character is calm, analytical, and a little intimate, grounded in self-reflection and simple math rather than performance or lifestyle branding.\n\nIt is clearly meant for personal use, habit review, and periodic reassessment over time, and it clearly values autonomy, meaning, and honest self-scoring. What feels less fixed is the final brand style, because the interface is restrained and functional, so the most plausible direction is a quiet editorial system that mixes structure, hierarchy, and measured warmth without turning into a glossy wellness brand.",
+    "oneLiner": "A tool that helps map the parts of life that matter, weight them honestly, score how things are going, and see where the math points my attention next.",
+    "domain": "Expository",
+    "category": "Application",
+    "status": "Active",
+    "phase": "Development",
     "featured": false,
-    "createdAt": null,
-    "updatedAt": null,
+    "createdAt": "2023-07-21",
+    "updatedAt": "2026-04-04",
     "isPublic": true,
-    "tags": [],
+    "tags": [
+      "Telemetry",
+      "Psychology",
+      "Happiness",
+      "Reflection"
+    ],
     "mediums": [],
     "genres": [],
     "topics": [],
     "subjects": [],
     "description": "",
     "story": "",
-    "images": {},
+    "images": {
+      "poster": "poster.png",
+      "banner": "banner.png",
+      "hero": "hero.png",
+      "thumbnail": "thumbnail.png"
+    },
     "resources": [
       {
         "type": "github",
@@ -1902,7 +2397,27 @@
       }
     ],
     "collection": {},
-    "workLogs": [],
+    "workLogs": [
+      {
+        "id": "339aec94-4d3c-80d3-9a8b-ec1e096ea00e",
+        "title": "Created new project entry for Math and Happiness",
+        "entry": "Created new project entry for Math and Happiness",
+        "url": "https://www.notion.so/Created-new-project-entry-for-Math-and-Happiness-339aec944d3c80d39a8bec1e096ea00e",
+        "startTime": "2023-07-21",
+        "endTime": "2023-07-21T01:00:00.000-07:00",
+        "date": "2026-04-05T03:04:00.000-07:00",
+        "sessionType": [
+          "Planning",
+          "Organizing"
+        ],
+        "whatHappened": "Created new project entry for Math and Happiness and added the 'Project Starter' milestones and tasks.",
+        "problems": null,
+        "nextStep": "Complete to do items",
+        "feelGoodAboutWork": 100.0,
+        "accomplishedWhatYouWanted": 100.0,
+        "durationMinutes": 60
+      }
+    ],
     "articles": [],
     "folderName": "math_and_happiness_332aec94-4d3c-8040-87a1-e4f349ef0994"
   },
@@ -1913,24 +2428,32 @@
     "title": "Transactions",
     "name": "Transactions",
     "subtitle": "",
-    "summary": "",
-    "oneLiner": "",
+    "summary": "A lightweight web app for exactly two people who need a shared running balance, not a group expense splitter and not a full personal finance tool. One person invites the other, they connect around a single balance, then they record payments or requests and the other person approves or disputes them before the total changes.\n\nWhat makes it useful is the small amount of structure around trust. It keeps the interaction simple, but it still acknowledges that shared money between two people can be ambiguous, so pending, approved, and disputed states matter. The audience seems most plausibly roommates, couples, close friends, or anyone with an ongoing two-person money relationship. I’m less certain about which of those groups is primary, because the product language stays broad on purpose, but the overall character is clear: calm, practical, personal, and intentionally narrow.",
+    "oneLiner": "A simple shared-balance tracker for two people, a place to log who paid, wait for approval, and keep the running total clear without turning it into a full budgeting app.",
     "domain": "Technology",
-    "category": "Other",
-    "status": "unknown",
-    "phase": "",
+    "category": "Utility",
+    "status": "Active",
+    "phase": "Development",
     "featured": false,
-    "createdAt": null,
-    "updatedAt": null,
+    "createdAt": "2025-05-11",
+    "updatedAt": "2026-04-03",
     "isPublic": true,
-    "tags": [],
+    "tags": [
+      "Balance tracker",
+      "Finance"
+    ],
     "mediums": [],
     "genres": [],
     "topics": [],
     "subjects": [],
     "description": "",
     "story": "",
-    "images": {},
+    "images": {
+      "banner": "banner.png",
+      "icon": "icon.png",
+      "hero": "hero.png",
+      "thumbnail": "thumbnail.png"
+    },
     "resources": [
       {
         "type": "github",
@@ -1939,7 +2462,27 @@
       }
     ],
     "collection": {},
-    "workLogs": [],
+    "workLogs": [
+      {
+        "id": "339aec94-4d3c-8091-a117-f4f88715192a",
+        "title": "Created new project entry for Transactions",
+        "entry": "Created new project entry for Transactions",
+        "url": "https://www.notion.so/Created-new-project-entry-for-Transactions-339aec944d3c8091a117f4f88715192a",
+        "startTime": "2025-05-11",
+        "endTime": "2025-05-11T01:00:00.000-07:00",
+        "date": "2026-04-05T03:39:00.000-07:00",
+        "sessionType": [
+          "Planning",
+          "Organizing"
+        ],
+        "whatHappened": "Created new project entry for Transactions and added the 'Project Starter' milestones and tasks.",
+        "problems": null,
+        "nextStep": "Complete to do items",
+        "feelGoodAboutWork": 100.0,
+        "accomplishedWhatYouWanted": 100.0,
+        "durationMinutes": 60
+      }
+    ],
     "articles": [],
     "folderName": "transactions_332aec94-4d3c-804b-8f00-ee1bb0b4d82a"
   },
@@ -1950,24 +2493,36 @@
     "title": "Train of Thought Agent",
     "name": "Train of Thought Agent",
     "subtitle": "",
-    "summary": "",
-    "oneLiner": "",
+    "summary": "I’m using this project to test whether memory and recognition should begin with location and context instead of detached labels. Right now it is a plain, inspectable learning system that can take simple observations and file-backed sensor inputs, learn names, keep aliases and nested context straight, and show its state instead of hiding it.\n\nThat makes it useful less as a finished product and more as a research tool and portfolio case study for technically curious readers, AI builders, and engineers who care about systems they can trace, correct, and inspect. What makes it distinct is the combination of restraint and ambition: it stays grounded in user or sensor evidence, it is careful not to pretend temporary sensing shortcuts are full perception, and it keeps a clear path toward a broader memory-and-attention engine.\n\nThere is still real uncertainty around the final product shape, because the long-range memory system is mostly roadmap while the current learning loop is real and working. The overall character is thoughtful, methodical, and a little provisional on purpose, more like a careful research notebook than a polished AI launch.",
+    "oneLiner": "I’m building a location-first learning agent to test whether memory becomes more useful, and more inspectable, when it begins with place, context, and correction instead of detached labels.",
     "domain": "Technology",
-    "category": "Other",
-    "status": "unknown",
-    "phase": "",
+    "category": "AI Model",
+    "status": "Active",
+    "phase": "Development",
     "featured": false,
-    "createdAt": null,
-    "updatedAt": null,
+    "createdAt": "2026-03-30",
+    "updatedAt": "2026-04-05",
     "isPublic": true,
-    "tags": [],
+    "tags": [
+      "AI",
+      "CLI",
+      "Machine Learning",
+      "Location-first",
+      "Inspectable memory",
+      "Computer Vision"
+    ],
     "mediums": [],
     "genres": [],
     "topics": [],
     "subjects": [],
     "description": "",
     "story": "",
-    "images": {},
+    "images": {
+      "banner": "banner.png",
+      "icon": "icon.png",
+      "hero": "hero.png",
+      "thumbnail": "thumbnail.png"
+    },
     "resources": [
       {
         "type": "github",
@@ -1976,7 +2531,27 @@
       }
     ],
     "collection": {},
-    "workLogs": [],
+    "workLogs": [
+      {
+        "id": "339aec94-4d3c-8088-a5e1-e2334247b0de",
+        "title": "Created new project entry for Train of Thought Agent",
+        "entry": "Created new project entry for Train of Thought Agent",
+        "url": "https://www.notion.so/Created-new-project-entry-for-Train-of-Thought-Agent-339aec944d3c8088a5e1e2334247b0de",
+        "startTime": "2026-03-30",
+        "endTime": "2026-03-30T01:00:00.000-07:00",
+        "date": "2026-04-05T02:48:00.000-07:00",
+        "sessionType": [
+          "Planning",
+          "Organizing"
+        ],
+        "whatHappened": "Created new project entry for Train of Thought Agent and added the 'Project Starter' milestones and tasks.",
+        "problems": null,
+        "nextStep": "Complete to do items",
+        "feelGoodAboutWork": 100.0,
+        "accomplishedWhatYouWanted": 100.0,
+        "durationMinutes": 60
+      }
+    ],
     "articles": [],
     "folderName": "train_of_thought_agent_332aec94-4d3c-807a-ba3b-d0950cd03a66"
   },
@@ -1987,24 +2562,36 @@
     "title": "Testing Traits",
     "name": "Testing Traits",
     "subtitle": "",
-    "summary": "",
-    "oneLiner": "",
+    "summary": "This is a browser-based cognitive assessment made of ten short games, each mapped to five traits: memory, attention, problem solving, emotional regulation, and cognitive flexibility. The experience is intentionally lightweight, people can start fast, play in any order, and get partial results without being forced into a full run.\n\nIt seems aimed at everyday users who are curious about how they perform right now, including students, creators, and professionals who want a structured self-check rather than a clinical diagnosis. The useful part is the mix of simple tasks, visible progress, and trait-level scoring that stays readable and practical, while keeping data local and private.\n\nWhat is clear is the product’s tone: focused, calm, game-like but not childish, and structured around quick completion. What is still uncertain is scientific validation depth, so I’d describe it as a reflective performance profile tool, not a medical or diagnostic instrument.",
+    "oneLiner": "A game-based cognitive check-in that lets people test memory, attention, flexibility, emotional steadiness, and problem solving in one short, approachable session.",
     "domain": "Technology",
-    "category": "Other",
-    "status": "unknown",
-    "phase": "",
+    "category": "Application",
+    "status": "Active",
+    "phase": "Development",
     "featured": false,
-    "createdAt": null,
-    "updatedAt": null,
+    "createdAt": "2022-12-28",
+    "updatedAt": "2026-03-30",
     "isPublic": true,
-    "tags": [],
+    "tags": [
+      "Cognition",
+      "Assessment",
+      "Personal",
+      "Health",
+      "Mental"
+    ],
     "mediums": [],
     "genres": [],
     "topics": [],
     "subjects": [],
     "description": "",
     "story": "",
-    "images": {},
+    "images": {
+      "poster": "poster.png",
+      "banner": "banner.png",
+      "icon": "icon.png",
+      "hero": "hero.png",
+      "thumbnail": "thumbnail.png"
+    },
     "resources": [
       {
         "type": "github",
@@ -2013,7 +2600,27 @@
       }
     ],
     "collection": {},
-    "workLogs": [],
+    "workLogs": [
+      {
+        "id": "339aec94-4d3c-80e1-9dff-c8b447537fab",
+        "title": "Created new project entry for Testing Traits",
+        "entry": "Created new project entry for Testing Traits",
+        "url": "https://www.notion.so/Created-new-project-entry-for-Testing-Traits-339aec944d3c80e19dffc8b447537fab",
+        "startTime": "2022-12-28",
+        "endTime": "2022-12-28T01:00:00.000-08:00",
+        "date": "2026-04-05T03:26:00.000-07:00",
+        "sessionType": [
+          "Planning",
+          "Organizing"
+        ],
+        "whatHappened": "Created new project entry for Testing Traits and added the 'Project Starter' milestones and tasks.",
+        "problems": null,
+        "nextStep": "Complete to do items",
+        "feelGoodAboutWork": 100.0,
+        "accomplishedWhatYouWanted": 100.0,
+        "durationMinutes": 60
+      }
+    ],
     "articles": [],
     "folderName": "testing_traits_332aec94-4d3c-80ae-805d-f01e79254789"
   },
@@ -2024,24 +2631,34 @@
     "title": "Bias Detecting AI",
     "name": "Bias Detecting AI",
     "subtitle": "",
-    "summary": "",
-    "oneLiner": "",
+    "summary": "This is a practical evaluation tool I’m using to check whether language models treat similar people differently when the only thing that changes is a demographic signal. It brings together structured bias tests, side by side model comparison, detailed result review, and prompt rewriting, so I can look at fairness as something concrete and inspectable rather than abstract.\n\nThe clearest audience is people choosing, auditing, or shaping models before those models are used in higher-stakes workflows. That could be product teams, AI governance work, research, operations, hiring teams, or admissions related review. What makes it useful is that it does not stop at scoring. It also helps me clean up prompts, reuse safer templates, and recommend models based on the kind of task I actually care about.\n\nA few things still feel open, and I think that is worth saying plainly. This reads more like a focused internal evaluation desk than a broad shared platform, and more like an early, working system than a fully polished brand experience. The character is careful, measured, plainspoken, and a little austere, which fits a product that is really about close comparison and accountable judgment.",
+    "oneLiner": "I built this to test how language models react to demographic cues in hiring, admissions, and other sensitive decisions, then compare the results and revise the prompts behind them.",
     "domain": "Technology",
-    "category": "Other",
-    "status": "unknown",
-    "phase": "",
+    "category": "Tool",
+    "status": "Active",
+    "phase": "Development",
     "featured": false,
-    "createdAt": null,
-    "updatedAt": null,
+    "createdAt": "2025-09-16",
+    "updatedAt": "2026-04-01",
     "isPublic": true,
-    "tags": [],
+    "tags": [
+      "LLM",
+      "Model comparison",
+      "Prompt review",
+      "AI",
+      "Bias auditing"
+    ],
     "mediums": [],
     "genres": [],
     "topics": [],
     "subjects": [],
     "description": "",
     "story": "",
-    "images": {},
+    "images": {
+      "banner": "banner.png",
+      "hero": "hero.png",
+      "thumbnail": "thumbnail.png"
+    },
     "resources": [
       {
         "type": "github",
@@ -2050,7 +2667,27 @@
       }
     ],
     "collection": {},
-    "workLogs": [],
+    "workLogs": [
+      {
+        "id": "339aec94-4d3c-8051-a421-f5ee1d30594a",
+        "title": "Created new project entry for Bias Detecting AI",
+        "entry": "Created new project entry for Bias Detecting AI",
+        "url": "https://www.notion.so/Created-new-project-entry-for-Bias-Detecting-AI-339aec944d3c8051a421f5ee1d30594a",
+        "startTime": "2025-09-16T16:35:00.000-07:00",
+        "endTime": "2025-09-16T17:35:00.000-07:00",
+        "date": "2026-04-04T17:35:00.000-07:00",
+        "sessionType": [
+          "Planning",
+          "Organizing"
+        ],
+        "whatHappened": "Created new project entry for Bias Detecting AI and added the 'Project Starter' milestones and tasks.",
+        "problems": null,
+        "nextStep": "Work on To Do Items",
+        "feelGoodAboutWork": 1.0,
+        "accomplishedWhatYouWanted": 1.0,
+        "durationMinutes": 60
+      }
+    ],
     "articles": [],
     "folderName": "bias_detecting_ai_332aec94-4d3c-80be-a40c-ce5b6cd6ff56"
   },
@@ -2061,24 +2698,34 @@
     "title": "Psyche Agent",
     "name": "Psyche Agent",
     "subtitle": "",
-    "summary": "",
-    "oneLiner": "",
+    "summary": "This project is a personal creation based on the idea that if profile data is incomplete, the system should still be helpful without pretending to know more than it does. The app can begin with ready-made personas, and then you can add optional assessment results or manual imports as you go, so you can start using it right away.\n\nWhat sets it apart is how it keeps measured data, placeholder scaffolding, and missing modules separate, while also keeping political and religious worldview signals in their own layer, rather than mixing them into test results. It feels like it’s designed for curious builders, thoughtful users, and anyone who wants persona-driven chat with clearer boundaries around uncertainty.\n\nI’m still seeing it as a proof of concept, so there’s some uncertainty about how it will be used in the long run and where people will get the most benefit, but the main direction is clear: less fake certainty, more explicit structure, and practical flexibility.",
+    "oneLiner": "I’m building a chat-first persona app that uses whatever profile data is actually known, keeps missing modules visible, and helps me explore different perspectives without pretending uncertain inputs are facts.",
     "domain": "Technology",
-    "category": "Other",
-    "status": "unknown",
-    "phase": "",
+    "category": "Application",
+    "status": "Active",
+    "phase": "Development",
     "featured": false,
-    "createdAt": null,
-    "updatedAt": null,
+    "createdAt": "2026-03-31",
+    "updatedAt": "2026-04-04",
     "isPublic": true,
-    "tags": [],
+    "tags": [
+      "Chat bot",
+      "Social",
+      "Psychology"
+    ],
     "mediums": [],
     "genres": [],
     "topics": [],
     "subjects": [],
     "description": "",
     "story": "",
-    "images": {},
+    "images": {
+      "poster": "poster.png",
+      "banner": "banner.png",
+      "icon": "icon.png",
+      "hero": "hero.png",
+      "thumbnail": "thumbnail.png"
+    },
     "resources": [
       {
         "type": "github",
@@ -2087,7 +2734,27 @@
       }
     ],
     "collection": {},
-    "workLogs": [],
+    "workLogs": [
+      {
+        "id": "339aec94-4d3c-807a-9dea-dc28a1d55383",
+        "title": "Created new project entry for Psyche Agent",
+        "entry": "Created new project entry for Psyche Agent",
+        "url": "https://www.notion.so/Created-new-project-entry-for-Psyche-Agent-339aec944d3c807a9deadc28a1d55383",
+        "startTime": "2026-03-31",
+        "endTime": "2026-03-31T01:00:00.000-07:00",
+        "date": "2026-04-05T04:42:00.000-07:00",
+        "sessionType": [
+          "Planning",
+          "Organizing"
+        ],
+        "whatHappened": "Created new project entry for Psyche Agent and added the 'Project Starter' milestones and tasks.",
+        "problems": null,
+        "nextStep": "Complete to do items",
+        "feelGoodAboutWork": 100.0,
+        "accomplishedWhatYouWanted": 100.0,
+        "durationMinutes": 60
+      }
+    ],
     "articles": [],
     "folderName": "psyche_agent_332aec94-4d3c-80ea-8468-c3a18bc61258"
   },
@@ -2098,28 +2765,128 @@
     "title": "Democracy in the 21st Century",
     "name": "Democracy in the 21st Century",
     "subtitle": "",
-    "summary": "",
-    "oneLiner": "",
-    "domain": "Technology",
-    "category": "Other",
-    "status": "unknown",
-    "phase": "",
+    "summary": "A working concept for a public decision platform, part civic portal and part policy explainer. People can submit proposals, gather endorsements, review budget and impact analysis, compare arguments for and against, pass a short comprehension check, and then vote. The archive and sunset model matter just as much as the vote itself, which gives the whole thing a more reflective posture than a typical petition or polling app.\n\nThe clearest audience is citizens who want government to feel less opaque, plus educators, organizers, and policy-minded groups who want a concrete model for more deliberative participation. The use cases are broad but practical: public proposals, referendum-style questions, participatory budgeting, issue browsing by category, and a questionnaire that helps people sort out what they actually think government should do. There is also a hint that the same system could be adapted for organizations, since the surrounding notes sketch a business version built on the same logic.\n\nWhat feels distinct here is the insistence on slowing participation down just enough to make it more informed. Plain-language summaries, equal visibility for both sides, visible spending, tracked outcomes, and an archive all push in that direction. Some things are still open, though. The project reads more like a proof of concept than a deployment-ready civic system, so identity checks, moderation, expert workflows, and real enforcement are still more implied than built, and the overall character stays earnest, procedural, calm, and quietly idealistic.",
+    "oneLiner": "This is a prototype for a digital democracy platform where people can propose policies, review tradeoffs, vote more deliberately, and see how public money and decisions move over time.",
+    "domain": "Expository",
+    "category": "Social Experiment",
+    "status": "Active",
+    "phase": "Development",
     "featured": false,
-    "createdAt": null,
+    "createdAt": "2024-08-27",
     "updatedAt": null,
     "isPublic": true,
-    "tags": [],
+    "tags": [
+      "Democracy",
+      "Social",
+      "Experiment",
+      "Government"
+    ],
     "mediums": [],
     "genres": [],
     "topics": [],
     "subjects": [],
     "description": "",
     "story": "",
-    "images": {},
+    "images": {
+      "poster": "poster.png",
+      "banner": "banner.png",
+      "hero": "hero.png",
+      "thumbnail": "thumbnail.png"
+    },
     "resources": [],
     "collection": {},
-    "workLogs": [],
+    "workLogs": [
+      {
+        "id": "339aec94-4d3c-80a3-b0d2-d94c15a97f7f",
+        "title": "Created new project entry for Democracy in the 21st Century",
+        "entry": "Created new project entry for Democracy in the 21st Century",
+        "url": "https://www.notion.so/Created-new-project-entry-for-Democracy-in-the-21st-Century-339aec944d3c80a3b0d2d94c15a97f7f",
+        "startTime": "2024-08-27",
+        "endTime": "2024-08-27T01:00:00.000-07:00",
+        "date": "2026-04-05T03:13:00.000-07:00",
+        "sessionType": [
+          "Planning",
+          "Organizing"
+        ],
+        "whatHappened": "Created new project entry for Democracy in the 21st Century and added the 'Project Starter' milestones and tasks.",
+        "problems": null,
+        "nextStep": "Complete to do items",
+        "feelGoodAboutWork": 100.0,
+        "accomplishedWhatYouWanted": 100.0,
+        "durationMinutes": 60
+      }
+    ],
     "articles": [],
     "folderName": "democracy_in_the_21st_century_333aec94-4d3c-8036-82e4-d96b64b15c6c"
+  },
+  {
+    "id": "339aec94-4d3c-8047-a3ea-ea94ff1e518f",
+    "slug": "media-organizer",
+    "href": "/projects/media-organizer",
+    "title": "Media Organizer",
+    "name": "Media Organizer",
+    "subtitle": "",
+    "summary": "A local-first media organizing app for macOS, built for people who still manage photo and video libraries as folders on disk instead of inside a closed catalog. You pick a folder, scan it, review conservative metadata suggestions, accept or reject rename proposals, and then apply changes with backups or XMP sidecars depending on how safe direct writeback is for that file type.\n\nWhat makes it useful is the posture more than the feature list. It is careful, reversible, and fairly modest about what it claims to know. Existing metadata is preserved, people suggestions stay anonymous unless someone names them, uncertain results stay in a review queue, and video handling falls back to sidecars rather than forcing direct container edits. The likely audience is photographers, family archivists, and small teams with messy folder-based libraries. What is less clear is the broader brand personality, because there are no explicit design assets or marketing materials in the repo, so the strongest visual cue is the product’s quiet, native, utility-first character.",
+    "oneLiner": "A native macOS app for people who keep real folders of photos and videos, and want help cleaning up metadata, filenames, and review decisions without handing the library to a cloud service.",
+    "domain": "Technology",
+    "category": "Application",
+    "status": "Active",
+    "phase": "Development",
+    "featured": false,
+    "createdAt": "2026-04-03",
+    "updatedAt": null,
+    "isPublic": true,
+    "tags": [
+      "macOS",
+      "Photos",
+      "Metadata",
+      "Organization",
+      "Digital Archive",
+      "Utility"
+    ],
+    "mediums": [],
+    "genres": [],
+    "topics": [],
+    "subjects": [],
+    "description": "",
+    "story": "",
+    "images": {
+      "poster": "poster.png",
+      "banner": "banner.png",
+      "icon": "icon.png",
+      "hero": "hero.png",
+      "thumbnail": "thumbnail.png"
+    },
+    "resources": [
+      {
+        "type": "github",
+        "label": "Repo",
+        "url": "https://github.com/ZSturman/Media-Organizer"
+      }
+    ],
+    "collection": {},
+    "workLogs": [
+      {
+        "id": "339aec94-4d3c-800c-82b4-dfe7c5f9ce11",
+        "title": "Created new project entry for Media Organizer",
+        "entry": "Created new project entry for Media Organizer",
+        "url": "https://www.notion.so/Created-new-project-entry-for-Media-Organizer-339aec944d3c800c82b4dfe7c5f9ce11",
+        "startTime": "2026-04-03",
+        "endTime": "2026-04-03T01:00:00.000-07:00",
+        "date": "2026-04-05T03:18:00.000-07:00",
+        "sessionType": [
+          "Planning",
+          "Organizing"
+        ],
+        "whatHappened": "Created new project entry for Media Organizer and added the 'Project Starter' milestones and tasks.",
+        "problems": null,
+        "nextStep": "Complete to do items",
+        "feelGoodAboutWork": 100.0,
+        "accomplishedWhatYouWanted": 100.0,
+        "durationMinutes": 60
+      }
+    ],
+    "articles": [],
+    "folderName": "media_organizer_339aec94-4d3c-8047-a3ea-ea94ff1e518f"
   }
 ]
