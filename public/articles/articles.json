@@ -1,10 +1,10 @@
 [
   {
     "slug": "building-a-location-first-learning-agent-to-explore-context-memory-and-consciousness",
-    "title": "Train of Thought - Current State (1)",
-    "summary": "Maybe recognition is grounded less in detached labels and more in place, context, and repeated reinforcement. To test that, the repo builds a small Python CLI agent that learns locations from scalar observations and sensor input, stores everything in plain runtime state, and keeps the system inspectable rather than abstract.",
+    "title": "Building a Location-First Learning Agent to Explore Context, Memory, and Consciousness",
+    "summary": "This explores the idea that recognition comes more from place, context, and repeated reinforcement than detached labels, using an inspectable Python CLI agent that learns locations from sensor observations and stores state plainly. It evolves from simple grayscale location memory into richer, modality-neutral location and concept structures, with a roadmap toward broader memory processes like activation, replay, resurfacing, and reconsolidation.",
     "publishedAt": null,
-    "updatedAt": "2026-04-03",
+    "updatedAt": "2026-04-04",
     "series": "Engineering AI for Recognition and Memory",
     "tags": [
       "AI",
@@ -28,7 +28,7 @@
   {
     "slug": "how-i-use-notion-to-track-my-projects",
     "title": "How I Use Notion to Ingest, Organize, and Track My Projects",
-    "summary": "This Notion system works less like a notes app and more like a guided project intake workflow. Every new project starts from a template, moves through a Required Action system that surfaces the highest-priority next step, and builds toward a structure that is ready for execution, portfolio use, and later automation.",
+    "summary": "This Notion setup is a guided project intake workflow rather than a simple notes system: each project starts from a template, highlights the highest-priority next step, and builds toward execution, portfolio readiness, and future automation. By checking key setup steps automatically and separating projects, tasks, assets, resources, and milestones into linked systems, it reduces friction and makes the workflow easier to manage as it scales.",
     "publishedAt": null,
     "updatedAt": "2026-04-01",
     "series": "My Notion Pipeline",

@@ -1,10 +1,4 @@
-The implemented arc moves from simple grayscale-to-location memory into richer location structure: first persistent location learning, then noisy matching, then multi-observation location models, then first-class labels with aliases and rename history, then nested and overlapping location context, then typed concept scaffolding, then exact-fingerprint sensor preview, and now modality-neutral ObservationBundle normalization. The longer roadmap extends that same foundation into ExperienceFrame, MemoryUnit, activation, competition, replay, resurfacing, and reconsolidation.
-
-What makes the project distinct is the design stance: the memory is grounded only in explicit user input or direct sensor input with provenance, the internal state stays readable, and newer layers are added only after the current layer is concrete and testable.
-
-# Building a Location-First Learning Agent to Explore Context, Memory, and Consciousness
-
-I wanted a simpler environment for testing one idea that kept bothering me: maybe recognition is less about detached labels than it is about where something is, what surrounds it, and how that context gets reinforced. That is what pushed me to build this repo. I wanted a smaller problem that still felt close to the thing I cared about. The question that kept pulling me back was whether location and context are a big part of knowing something at all, and whether they help make object recognition faster and more grounded.
+Maybe recognition is less about detached labels than it is about where something is, what surrounds it, and how that context gets reinforced. That is what pushed me to build this repo. I wanted a smaller problem that still felt close to the thing I cared about. The question that kept pulling me back was whether location and context are a big part of knowing something at all, and whether they help make object recognition faster and more grounded.
 
 That led me to build a small location-first learning agent. Right now it is a Python CLI project that learns from scalar observations and simple file-backed sensor inputs, stores what it learns in plain JSON and JSONL, and keeps the whole state inspectable. It is not a finished cognitive architecture, and it does not pretend to be one. What it gives me instead is a controlled place to test a very specific idea: maybe recognition does not start with detached labels, maybe it starts with where something is, what surrounds it, and how that context gets reinforced over time.
 
@@ -21,8 +15,11 @@ So the first version of this project was almost stubbornly small. It learned gra
 The repo has moved through a few clear phases since then:
 
 - Phase 1 bootstrapped exact-match grayscale memory with persistence and append-only logging.
+
 - Phase 2 added noisy scalar matching and confidence thresholds.
+
 - Phase 3 merged repeated observations into location models instead of treating every value as a separate record.
+
 - Phase 4, the current phase, introduces first-class labels, aliases, rename history, sensor bindings, and provenance-aware evidence records.
 
 That progression matters to me because it shows the shape of the project. I am not trying to jump straight from nothing to a full theory of mind. I am trying to build up a memory system that stays small enough to reason about while it gets more structured.
@@ -77,23 +74,32 @@ That simplicity fits the purpose of the project. I am not trying to hide the str
 
 This is where I think a lot of projects get muddy, so I want to keep it clean.
 
-Implemented now:
-
 - persistent scalar learning with confidence and span-aware matching
+
 - first-class labels with aliases and rename history
+
 - exact-file sensor binding for a temporary image-preview path
+
 - provenance-aware evidence records restricted to user or sensor sources
+
 - repo-local fixture images, scenario manifests, and validation checks
 
 Documented for later, but not implemented yet:
 
 - `ObservationBundle`
+
 - `ExperienceFrame`
+
 - `MemoryUnit`
+
 - activation competition
+
 - replay
+
 - resurfacing
+
 - reconsolidation
+
 - richer body-relative and multimodal context
 
 I have already written those future concepts into the roadmap because I want a stable direction for the project, but I do not want to collapse the distinction between "planned" and "running." Right now this is still a location-first learning system with a broader cognitive direction, not a finished memory engine.
@@ -118,13 +124,14 @@ I will post more about it after I have a better sense of what it can and cannot 
 
 ![01v2_cli_to_core_execution_map.png](/articles/building-a-location-first-learning-agent-to-explore-context-memory-and-consciousness/images/01v2_cli_to_core_execution_map.png)
 
-If you want to follow along you can find the repo here: 
+If you want to follow along you can find the repo here:
 
 - Repo:  [https://github.com/ZSturman/Train-of-Thought-Agent](https://github.com/ZSturman/Train-of-Thought-Agent)
 
-or reach out to me here:
-
 - GitHub: [github.com/zsturman](https://github.com/zsturman)
+
 - LinkedIn: [linkedin.com/in/zacharysturman](https://linkedin.com/in/zacharysturman)
+
 - Portfolio: [zachary-sturman.com](https://zachary-sturman.com/)
+
 - Email: [Zasturman@gmail.com](mailto:Zasturman@gmail.com)
