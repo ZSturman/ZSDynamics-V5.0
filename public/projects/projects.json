@@ -35,9 +35,9 @@
     "story": "",
     "images": {
       "banner": "banner.png",
-      "icon": "icon.png",
       "hero": "hero.png",
-      "thumbnail": "thumbnail.png"
+      "thumbnail": "thumbnail.png",
+      "icon": "icon.png"
     },
     "resources": [],
     "collection": {},
@@ -337,11 +337,11 @@
     "description": "",
     "story": "",
     "images": {
-      "poster": "poster.png",
       "banner": "banner.png",
-      "icon": "TopNote AppIcon v2-watchOS-Default-1088x1088@1x.png",
       "hero": "hero.png",
-      "thumbnail": "thumbnail.png"
+      "thumbnail": "thumbnail.png",
+      "poster": "poster.png",
+      "icon": "TopNote AppIcon v2-watchOS-Default-1088x1088@1x.png"
     },
     "resources": [
       {
@@ -482,8 +482,8 @@
     "story": "",
     "images": {
       "banner": "banner.png",
-      "icon": "thumbnail.png",
-      "thumbnail": "thumbnail.png"
+      "thumbnail": "thumbnail.png",
+      "icon": "thumbnail.png"
     },
     "resources": [
       {
@@ -625,10 +625,10 @@
     "description": "",
     "story": "",
     "images": {
-      "poster": "poster.gif",
       "banner": "banner.png",
-      "icon": "logo.png",
-      "thumbnail": "thumbnail.png"
+      "thumbnail": "thumbnail.png",
+      "poster": "poster.gif",
+      "icon": "logo.png"
     },
     "resources": [],
     "collection": {
@@ -851,8 +851,8 @@
     "story": "",
     "images": {
       "banner": "banner.png",
-      "icon": "poster.png",
-      "thumbnail": "thumbnail.png"
+      "thumbnail": "thumbnail.png",
+      "icon": "poster.png"
     },
     "resources": [
       {
@@ -980,8 +980,8 @@
     "story": "",
     "images": {
       "banner": "Collaborative Effort with Green Ball.png",
-      "icon": "Celestial Hands Holding Heart.png",
-      "thumbnail": "thumbnail.png"
+      "thumbnail": "thumbnail.png",
+      "icon": "Celestial Hands Holding Heart.png"
     },
     "resources": [
       {
@@ -1051,8 +1051,8 @@
     "story": "",
     "images": {
       "banner": "banner.png",
-      "icon": "banner.png",
-      "thumbnail": "thumbnail.png"
+      "thumbnail": "thumbnail.png",
+      "icon": "banner.png"
     },
     "resources": [],
     "collection": {
@@ -1321,11 +1321,11 @@
     "description": "",
     "story": "",
     "images": {
-      "poster": "poster.png",
       "banner": "banner.png",
-      "icon": "icon.png",
       "hero": "hero.png",
-      "thumbnail": "thumbnail.png"
+      "thumbnail": "thumbnail.png",
+      "poster": "poster.png",
+      "icon": "icon.png"
     },
     "resources": [
       {
@@ -1391,8 +1391,8 @@
     "story": "",
     "images": {
       "banner": "poster.png",
-      "icon": "banner.png",
-      "thumbnail": "thumbnail.png"
+      "thumbnail": "thumbnail.png",
+      "icon": "banner.png"
     },
     "resources": [
       {
@@ -1459,10 +1459,10 @@
     "description": "",
     "story": "",
     "images": {
-      "poster": "poster.gif",
       "banner": "banner.gif",
       "hero": "queueExample.png",
-      "thumbnail": "thumbnail.png"
+      "thumbnail": "thumbnail.png",
+      "poster": "poster.gif"
     },
     "resources": [
       {
@@ -1528,10 +1528,10 @@
     "description": "",
     "story": "",
     "images": {
-      "poster": "poster.png",
       "banner": "banner.png",
-      "icon": "thumbnail.png",
-      "thumbnail": "thumbnail.png"
+      "thumbnail": "thumbnail.png",
+      "poster": "poster.png",
+      "icon": "thumbnail.png"
     },
     "resources": [
       {
@@ -1597,8 +1597,8 @@
     "story": "",
     "images": {
       "banner": "banner.png",
-      "icon": "icon.png",
-      "thumbnail": "collection thumbnail.png"
+      "thumbnail": "collection thumbnail.png",
+      "icon": "icon.png"
     },
     "resources": [],
     "collection": {
@@ -1710,10 +1710,10 @@
     "description": "",
     "story": "",
     "images": {
-      "poster": "poster.png",
       "banner": "banner.png",
-      "icon": "icon.svg",
-      "thumbnail": "thumbnail.png"
+      "thumbnail": "thumbnail.png",
+      "poster": "poster.png",
+      "icon": "icon.svg"
     },
     "resources": [
       {
@@ -1834,10 +1834,10 @@
     "description": "",
     "story": "",
     "images": {
-      "poster": "poster.tiff",
       "banner": "banner.png",
-      "icon": "thumbnail.tiff",
-      "thumbnail": "thumbnail.tiff"
+      "thumbnail": "thumbnail.tiff",
+      "poster": "poster.tiff",
+      "icon": "thumbnail.tiff"
     },
     "resources": [],
     "collection": {},
@@ -1898,9 +1898,9 @@
     "story": "",
     "images": {
       "banner": "banner.png",
-      "icon": "icon.png",
       "hero": "hero.png",
-      "thumbnail": "thumbnail.png"
+      "thumbnail": "thumbnail.png",
+      "icon": "icon.png"
     },
     "resources": [],
     "collection": {},
@@ -2236,57 +2236,6 @@
     "folderName": "folio_324aec94-4d3c-8068-a8a7-ed6d1d4d1790"
   },
   {
-    "id": "324aec94-4d3c-80bf-a184-eb338e2bd6a9",
-    "slug": "telemetry",
-    "href": "/projects/telemetry",
-    "title": "Telemetry",
-    "name": "Telemetry",
-    "subtitle": "",
-    "summary": "",
-    "oneLiner": "",
-    "domain": "Technology",
-    "category": "Other",
-    "status": "Active",
-    "phase": "",
-    "featured": false,
-    "createdAt": "2026-03-18",
-    "updatedAt": null,
-    "isPublic": true,
-    "tags": [],
-    "mediums": [],
-    "genres": [],
-    "topics": [],
-    "subjects": [],
-    "description": "",
-    "story": "",
-    "images": {},
-    "resources": [],
-    "collection": {},
-    "workLogs": [
-      {
-        "id": "311aec94-4d3c-80af-a597-dc2ffc6d3d3b",
-        "title": "Added Activity Watch to n8n",
-        "entry": "Added Activity Watch to n8n",
-        "url": "https://www.notion.so/Added-Activity-Watch-to-n8n-311aec944d3c80afa597dc2ffc6d3d3b",
-        "startTime": "2026-03-12T09:00:00.000-07:00",
-        "endTime": "2026-03-12T12:00:00.000-07:00",
-        "date": "2026-02-24T09:23:00.000-08:00",
-        "sessionType": [
-          "Build",
-          "Research"
-        ],
-        "whatHappened": "I added ActivityWatch to my n8n setup to track and integrate activity data into my workflows. This allows my automation system to capture time and behavior metrics and use them as inputs for further processing and analysis.",
-        "problems": null,
-        "nextStep": null,
-        "feelGoodAboutWork": 0.6,
-        "accomplishedWhatYouWanted": 0.75,
-        "durationMinutes": 180
-      }
-    ],
-    "articles": [],
-    "folderName": "telemetry_324aec94-4d3c-80bf-a184-eb338e2bd6a9"
-  },
-  {
     "id": "32eaec94-4d3c-80c9-b238-c8a9f0b1990e",
     "slug": "runtime-storyboard-debugger",
     "href": "/projects/runtime-storyboard-debugger",
@@ -2318,9 +2267,9 @@
     "story": "",
     "images": {
       "banner": "banner.png",
-      "icon": "icon.png",
       "hero": "hero.png",
-      "thumbnail": "thumbnail.png"
+      "thumbnail": "thumbnail.png",
+      "icon": "icon.png"
     },
     "resources": [
       {
@@ -2384,10 +2333,10 @@
     "description": "",
     "story": "",
     "images": {
-      "poster": "poster.png",
       "banner": "banner.png",
       "hero": "hero.png",
-      "thumbnail": "thumbnail.png"
+      "thumbnail": "thumbnail.png",
+      "poster": "poster.png"
     },
     "resources": [
       {
@@ -2450,9 +2399,9 @@
     "story": "",
     "images": {
       "banner": "banner.png",
-      "icon": "icon.png",
       "hero": "hero.png",
-      "thumbnail": "thumbnail.png"
+      "thumbnail": "thumbnail.png",
+      "icon": "icon.png"
     },
     "resources": [
       {
@@ -2519,9 +2468,9 @@
     "story": "",
     "images": {
       "banner": "banner.png",
-      "icon": "icon.png",
       "hero": "hero.png",
-      "thumbnail": "thumbnail.png"
+      "thumbnail": "thumbnail.png",
+      "icon": "icon.png"
     },
     "resources": [
       {
@@ -2586,11 +2535,11 @@
     "description": "",
     "story": "",
     "images": {
-      "poster": "poster.png",
       "banner": "banner.png",
-      "icon": "icon.png",
       "hero": "hero.png",
-      "thumbnail": "thumbnail.png"
+      "thumbnail": "thumbnail.png",
+      "poster": "poster.png",
+      "icon": "icon.png"
     },
     "resources": [
       {
@@ -2720,11 +2669,11 @@
     "description": "",
     "story": "",
     "images": {
-      "poster": "poster.png",
       "banner": "banner.png",
-      "icon": "icon.png",
       "hero": "hero.png",
-      "thumbnail": "thumbnail.png"
+      "thumbnail": "thumbnail.png",
+      "poster": "poster.png",
+      "icon": "icon.png"
     },
     "resources": [
       {
@@ -2788,10 +2737,10 @@
     "description": "",
     "story": "",
     "images": {
-      "poster": "poster.png",
       "banner": "banner.png",
       "hero": "hero.png",
-      "thumbnail": "thumbnail.png"
+      "thumbnail": "thumbnail.png",
+      "poster": "poster.png"
     },
     "resources": [],
     "collection": {},
@@ -2851,11 +2800,11 @@
     "description": "",
     "story": "",
     "images": {
-      "poster": "poster.png",
       "banner": "banner.png",
-      "icon": "icon.png",
       "hero": "hero.png",
-      "thumbnail": "thumbnail.png"
+      "thumbnail": "thumbnail.png",
+      "poster": "poster.png",
+      "icon": "icon.png"
     },
     "resources": [
       {
