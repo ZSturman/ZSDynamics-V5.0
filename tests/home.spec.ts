@@ -51,6 +51,6 @@ test.describe("Homepage", () => {
 
     await expect(page).toHaveURL(new RegExp(`\\/?(?:.*&)?project=${getProjectSlug(defaultProject)}(?:&.*)?$`));
     await expect(page.locator('[data-testid="project-modal-content"]').first()).toBeVisible();
-    await expect(page.getByRole("button", { name: "Go to Project Page" })).toBeVisible();
+    await expect(page.getByRole("button", { name: "View Full Project" })).toBeVisible();
   });
 });

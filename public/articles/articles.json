@@ -1,5 +1,55 @@
 [
   {
+    "slug": "building-chewsense-using-motion-data-for-an-on-device-ai-health-agent",
+    "title": "Building ChewSense - Using Motion Data For An On-Device AI Health Agent",
+    "summary": "This article traces how ChewSense evolved from early experiments with raw AirPods motion signals into a structured pipeline for session collection, video-assisted labeling, feature extraction, model training, and on-device inference. The core lesson is that the hardest part of applied ML was not just training a model, but building the surrounding system needed to collect trustworthy data, preserve feature parity, and make runtime behavior believable.",
+    "publishedAt": null,
+    "updatedAt": "2026-04-07",
+    "series": "ChewSense",
+    "tags": [
+      "AirPods",
+      "Applied ML",
+      "ChewSense",
+      "Health Tech",
+      "Machine Learning",
+      "On-Device",
+      "Prototyping",
+      "Python",
+      "Swift",
+      "Time-series",
+      "Wearables",
+      "iOS"
+    ],
+    "projectIds": [
+      "306aec94-4d3c-808d-9ada-f0ccca484d3b"
+    ],
+    "sourceUrl": "https://github.com/ZSturman/Articles/blob/main/articles/building-chewsense-using-motion-data-for-an-on-device-ai-health-agent/index.md",
+    "href": "/articles/building-chewsense-using-motion-data-for-an-on-device-ai-health-agent",
+    "coverImage": null
+  },
+  {
+    "slug": "building-a-desktop-app-around-google-sheets",
+    "title": "Building a Desktop App Around Google Sheets",
+    "summary": "This project began after seeing a manufacturer manage production schedules through emailed Excel files, which exposed how much critical operational work was being held together by fragile spreadsheet workflows. It started as a desktop app built around those existing habits, but the bigger lesson was that the real challenge was not just replacing spreadsheets, it was reducing the friction of adoption. That led to a web-based version focused on easier onboarding, configuration, and reusable workflow views, with the project ultimately becoming a lesson in testing earlier and designing for usability before technical ambition.",
+    "publishedAt": null,
+    "updatedAt": "2026-04-07",
+    "series": "Using Google Sheets as an Application Database",
+    "tags": [
+      "Desktop App",
+      "Google Sheets",
+      "Manufacturing",
+      "SaaS",
+      "Spreadsheets",
+      "Systems Design",
+      "Tauri",
+      "Web App"
+    ],
+    "projectIds": [],
+    "sourceUrl": "https://github.com/ZSturman/Articles/blob/main/articles/building-a-desktop-app-around-google-sheets/index.md",
+    "href": "/articles/building-a-desktop-app-around-google-sheets",
+    "coverImage": null
+  },
+  {
     "slug": "building-a-location-first-learning-agent-to-explore-context-memory-and-consciousness",
     "title": "Building a Location-First Learning Agent to Explore Context, Memory, and Consciousness",
     "summary": "This explores the idea that recognition comes more from place, context, and repeated reinforcement than detached labels, using an inspectable Python CLI agent that learns locations from sensor observations and stores state plainly. It evolves from simple grayscale location memory into richer, modality-neutral location and concept structures, with a roadmap toward broader memory processes like activation, replay, resurfacing, and reconsolidation.",

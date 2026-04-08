@@ -2751,7 +2751,7 @@
         "problems": null,
         "nextStep": "Complete to do items",
         "feelGoodAboutWork": 100.0,
-        "accomplishedWhatYouWanted": 100.0,
+        "accomplishedWhatYouWanted": 1.0,
         "durationMinutes": 60
       }
     ],

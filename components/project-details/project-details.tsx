@@ -15,6 +15,7 @@ import { ProjectMetadata } from "./project-metadata";
 import { ProjectWorkLogs } from "./project-work-logs";
 import { ProjectArticles } from "./project-articles";
 import ProjectDetailsMediaDisplay from "./project-details-media-display";
+import { ResourceEmbed, isEmbeddableResource } from "./resource-embed";
 import { hasProjectCollectionItems } from "@/lib/project-collections";
 
 interface ProjectDetailsProps {
@@ -122,6 +123,7 @@ export function ProjectDetails({ project }: ProjectDetailsProps) {
   const hasResources = project.resources && project.resources.length > 0;
   const hasWorkLogs = project.workLogs && project.workLogs.length > 0;
   const hasArticles = project.articles && project.articles.length > 0;
+  const embeddableResource = (project.resources || []).find(isEmbeddableResource) ?? null;
   const useTwoColumnLayout = hasSubstantialContent(project);
 
   return (
@@ -160,31 +162,40 @@ export function ProjectDetails({ project }: ProjectDetailsProps) {
                 <ProjectDetailsMediaDisplay project={project} />
               </section>
 
-              {/* 3. Collections */}
+              {/* 3. Embedded preview for embeddable resources */}
+              {embeddableResource && (
+                <section>
+                  <ResourceEmbed resource={embeddableResource} projectTitle={project.title} />
+                </section>
+              )}
+
+              {/* 4. Collections */}
               {hasCollection && (
                 <section>
                   <Collection project={project} inModal={false} />
                 </section>
               )}
 
-              {/* 4. Description & Story */}
+              {/* 5. Description & Story */}
               <section>
                 <ProjectDescriptionAndStory project={project} />
               </section>
 
+              {/* 6. Articles */}
               {hasArticles && (
                 <section>
                   <ProjectArticles project={project} />
                 </section>
               )}
 
+              {/* 7. Work Logs */}
               {hasWorkLogs && (
                 <section>
                   <ProjectWorkLogs project={project} />
                 </section>
               )}
 
-              {/* Mobile-only: Show metadata at bottom on smaller screens */}
+              {/* 8. Mobile-only: Show metadata at bottom on smaller screens */}
               <div className="lg:hidden">
                 <ProjectMetadata project={project} />
               </div>
@@ -218,31 +229,40 @@ export function ProjectDetails({ project }: ProjectDetailsProps) {
               <ProjectDetailsMediaDisplay project={project} />
             </section>
 
-            {/* 3. Collections */}
+            {/* 3. Embedded preview for embeddable resources */}
+            {embeddableResource && (
+              <section>
+                <ResourceEmbed resource={embeddableResource} projectTitle={project.title} />
+              </section>
+            )}
+
+            {/* 4. Collections */}
             {hasCollection && (
               <section>
                 <Collection project={project} inModal={false} />
               </section>
             )}
 
-            {/* 4. Description & Story */}
+            {/* 5. Description & Story */}
             <section>
               <ProjectDescriptionAndStory project={project} />
             </section>
 
+            {/* 6. Articles */}
             {hasArticles && (
               <section>
                 <ProjectArticles project={project} />
               </section>
             )}
 
+            {/* 7. Work Logs */}
             {hasWorkLogs && (
               <section>
                 <ProjectWorkLogs project={project} />
               </section>
             )}
 
-            {/* 5. Metadata - Full width in single column */}
+            {/* 8. Metadata - Full width in single column */}
             <section>
               <ProjectMetadata project={project} />
             </section>

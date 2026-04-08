@@ -12,11 +12,13 @@ import { useBreadcrumb } from "@/lib/breadcrumb-context";
 import ProjectDetailsFooter from "./project-details/project-details-footer";
 import { ProjectWorkLogs } from "./project-details/project-work-logs";
 import { ProjectArticles } from "./project-details/project-articles";
+import ResourceButtons from "./project-details/resource-buttons";
 import { getProjectHref } from "@/lib/project-paths";
 import { getOptimizedMediaPath } from "@/lib/utils";
 import { MediaDisplay } from "./ui/media-display";
 import { hasProjectCollectionItems } from "@/lib/project-collections";
 import { trackProjectOpen } from "@/lib/firebase-analytics";
+import { ArrowRight } from "lucide-react";
 
 interface ProjectModalProps {
   project: Project | null;
@@ -50,6 +52,7 @@ export function ProjectModal({ project, isOpen, onClose }: ProjectModalProps) {
   const hasCollection = hasProjectCollectionItems(project);
   const hasWorkLogs = Boolean(project.workLogs && project.workLogs.length > 0);
   const hasArticles = Boolean(project.articles && project.articles.length > 0);
+  const hasResources = Boolean(project.resources && project.resources.length > 0);
   const folderName = project.folderName || project.id;
   const folderPath = `/projects/${folderName}`;
   const bannerMedia =
@@ -101,13 +104,22 @@ export function ProjectModal({ project, isOpen, onClose }: ProjectModalProps) {
           )}
 
           <div className="px-4 pt-6 pb-12 md:px-6 space-y-8">
-            <div className="flex justify-end">
-              <Button onClick={goToProjectPage} variant="outline" size="sm">
-                Go to Project Page
+            <ProjectHeader project={project} hideBanner />
+
+            {/* Resource buttons & CTA row */}
+            <div className="flex flex-wrap items-center gap-2">
+              {hasResources && (
+                <ResourceButtons project={project} showMessage={false} />
+              )}
+              <Button
+                onClick={goToProjectPage}
+                className="gap-2"
+                size="sm"
+              >
+                View Full Project
+                <ArrowRight className="size-4" />
               </Button>
             </div>
-
-            <ProjectHeader project={project} hideBanner />
 
             {hasCollection && (
               <section>
@@ -121,11 +133,6 @@ export function ProjectModal({ project, isOpen, onClose }: ProjectModalProps) {
               </section>
             )}
 
-            <section className="border-t border-border pt-6">
-              <h3 className="mb-4 text-sm font-medium text-muted-foreground">Project Details</h3>
-              <ProjectMetadata project={project} />
-            </section>
-
             {hasArticles && (
               <section className="border-t border-border pt-6">
                 <ProjectArticles project={project} />
@@ -137,6 +144,11 @@ export function ProjectModal({ project, isOpen, onClose }: ProjectModalProps) {
                 <ProjectWorkLogs project={project} />
               </section>
             )}
+
+            <section className="border-t border-border pt-6">
+              <h3 className="mb-4 text-sm font-medium text-muted-foreground">Project Details</h3>
+              <ProjectMetadata project={project} />
+            </section>
 
             <div className="pt-2">
               <ProjectDetailsFooter />
