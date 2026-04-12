@@ -1,5 +1,26 @@
 [
   {
+    "slug": "consolidating-an-offline-first-episodic-memory-system",
+    "title": "Consolidating an Offline-First Episodic Memory System",
+    "summary": "This piece traces the consolidation of several related experiments into one canonical episodic memory project, built around a single Python package, a shared artifact contract, and a dashboard and notebook workflow that inspect the same persisted runs. It argues that memory systems become more useful when they are transparent, offline-first, and structured around evidence, decision traces, and revisitable artifacts rather than hidden runtime state. Running through all of it is a broader research view, that location and whereabouts are not secondary details, but central signals in how a system interprets scenes, updates memory, and reasons about revisitation.",
+    "publishedAt": null,
+    "updatedAt": "2026-04-11",
+    "series": "Engineering AI for Recognition and Memory",
+    "tags": [
+      "Dashboard",
+      "Episodic Memory",
+      "Monty",
+      "Synthetic Memory",
+      "Thousand Brains Projects"
+    ],
+    "projectIds": [
+      "306aec94-4d3c-8005-97ab-d4572f1ab679"
+    ],
+    "sourceUrl": "https://github.com/ZSturman/Articles/blob/main/articles/consolidating-an-offline-first-episodic-memory-system/index.md",
+    "href": "/articles/consolidating-an-offline-first-episodic-memory-system",
+    "coverImage": null
+  },
+  {
     "slug": "the-art-of-turning-a-90-minute-task-into-a-2-month",
     "title": "The Art of Turning a 90-Minute Task Into a 2-Month Automation Project",
     "summary": "The article traces the evolution of four systems - Obsidian + Project Management App, OPE, RPOVault, and Folio - built to keep project metadata, files, and a public portfolio in sync without constant duplication. Each version clarified the value of structured project records, but also exposed the growing maintenance cost of owning every layer, especially around files, media, and editing workflows. The final takeaway is that integrating existing tools like Notion, n8n, GitHub Actions, and Firebase solves the real problem more effectively than continuing to maintain a complex custom application.",
