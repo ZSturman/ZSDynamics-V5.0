@@ -336,4 +336,6 @@ And bidirectional sync is far more useful than a one-way export, but it guarante
 
 Those tradeoffs were worth it. But reliability here comes from accepting complexity and placing it deliberately at the center of the system rather than pretending it is not there.
 
-If this kind of system design and reliability-focused architecture is interesting to you, you can explore more of my work at [zachary-sturman.com](http://zachary-sturman.com), or dive into the full implementation on GitHub: [**https://github.com/ZSturman/Linear-Notion-Sync](https://github.com/ZSturman/Linear-Notion-Sync).**
+If you want the broader workflow around that sync, I wrote more about how I use Notion to track my projects at [https://zachary-sturman.com/articles/how-i-use-notion-to-track-my-projects](https://zachary-sturman.com/articles/how-i-use-notion-to-track-my-projects) and how I sync my portfolio using Notion at [https://zachary-sturman.com/articles/how-i-sync-my-portfolio-using-notion](https://zachary-sturman.com/articles/how-i-sync-my-portfolio-using-notion).
+
+If this kind of system design and reliability-focused architecture is interesting to you, you can explore more of my work at [zachary-sturman.com](https://zachary-sturman.com), or dive into the full implementation on GitHub: [https://github.com/ZSturman/Linear-Notion-Sync](https://github.com/ZSturman/Linear-Notion-Sync).

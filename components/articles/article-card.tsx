@@ -58,7 +58,7 @@ export function ArticleCard({ article }: ArticleCardProps) {
           <h3 className="line-clamp-2 text-xl font-semibold leading-tight tracking-tight transition-colors group-hover:text-primary">
             {article.title}
           </h3>
-          <p className="line-clamp-4 text-sm leading-6 text-muted-foreground">{article.summary}</p>
+          <p className="line-clamp-4 text-sm leading-6 text-muted-foreground" title={article.summary}>{article.oneLiner ?? article.summary}</p>
         </div>
 
         <div className="mt-auto space-y-3">

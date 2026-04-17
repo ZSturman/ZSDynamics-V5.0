@@ -66,7 +66,7 @@ export function ArticleListItem({ article }: ArticleListItemProps) {
             <ArrowUpRight className="mt-1 size-4 shrink-0 text-muted-foreground transition-colors group-hover:text-primary" />
           </div>
 
-          <p className="mt-2 text-sm leading-7 text-muted-foreground md:text-base">{article.summary}</p>
+          <p className="mt-2 text-sm leading-7 text-muted-foreground md:text-base" title={article.summary}>{article.oneLiner ?? article.summary}</p>
 
           {(article.tags?.length || article.relatedProjects.length) && (
             <div className="mt-4 flex flex-wrap gap-2">

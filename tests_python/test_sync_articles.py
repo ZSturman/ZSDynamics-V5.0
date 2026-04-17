@@ -381,6 +381,106 @@ class TestSyncArticles(unittest.TestCase):
             self.assertIsNone(manifest[0]["publishedAt"])
             self.assertEqual(manifest[0]["updatedAt"], "2026-03-20")
 
+    def test_snake_case_cover_image_is_resolved(self) -> None:
+        with tempfile.TemporaryDirectory() as repo_root_str, tempfile.TemporaryDirectory() as output_root_str:
+            repo_root = Path(repo_root_str)
+            output_root = Path(output_root_str)
+
+            article_dir = repo_root / "articles" / "snake-cover"
+            article_dir.mkdir(parents=True)
+            (article_dir / "cover.png").write_bytes(b"cover-image")
+            (article_dir / "index.md").write_text(
+                "\n".join(
+                    [
+                        "---",
+                        "title: Snake Cover Article",
+                        "summary: Article with snake_case cover_image key.",
+                        "updatedAt: 2026-04-10",
+                        "cover_image: ./cover.png",
+                        "---",
+                        "",
+                        "Body copy.",
+                    ]
+                ),
+                encoding="utf-8",
+            )
+
+            manifest = build_articles_from_directory(
+                source_repo_root=repo_root,
+                output_dir=output_root,
+                repo="ZSturman/Articles",
+                ref="main",
+            )
+
+            self.assertEqual(len(manifest), 1)
+            self.assertEqual(manifest[0]["coverImage"], "/articles/snake-cover/cover.png")
+            self.assertTrue((output_root / "snake-cover" / "cover.png").exists())
+
+    def test_one_liner_frontmatter_is_preserved(self) -> None:
+        with tempfile.TemporaryDirectory() as repo_root_str, tempfile.TemporaryDirectory() as output_root_str:
+            repo_root = Path(repo_root_str)
+            output_root = Path(output_root_str)
+
+            article_dir = repo_root / "articles" / "liner-article"
+            article_dir.mkdir(parents=True)
+            (article_dir / "index.md").write_text(
+                "\n".join(
+                    [
+                        "---",
+                        "title: Liner Article",
+                        "summary: A longer summary for the article.",
+                        "updatedAt: 2026-04-12",
+                        "one_liner: A short catchy description.",
+                        "---",
+                        "",
+                        "Body copy.",
+                    ]
+                ),
+                encoding="utf-8",
+            )
+
+            manifest = build_articles_from_directory(
+                source_repo_root=repo_root,
+                output_dir=output_root,
+                repo="ZSturman/Articles",
+                ref="main",
+            )
+
+            self.assertEqual(len(manifest), 1)
+            self.assertEqual(manifest[0]["oneLiner"], "A short catchy description.")
+
+    def test_missing_one_liner_is_recorded_as_none(self) -> None:
+        with tempfile.TemporaryDirectory() as repo_root_str, tempfile.TemporaryDirectory() as output_root_str:
+            repo_root = Path(repo_root_str)
+            output_root = Path(output_root_str)
+
+            article_dir = repo_root / "articles" / "no-liner"
+            article_dir.mkdir(parents=True)
+            (article_dir / "index.md").write_text(
+                "\n".join(
+                    [
+                        "---",
+                        "title: No Liner Article",
+                        "summary: Just a summary.",
+                        "updatedAt: 2026-04-12",
+                        "---",
+                        "",
+                        "Body copy.",
+                    ]
+                ),
+                encoding="utf-8",
+            )
+
+            manifest = build_articles_from_directory(
+                source_repo_root=repo_root,
+                output_dir=output_root,
+                repo="ZSturman/Articles",
+                ref="main",
+            )
+
+            self.assertEqual(len(manifest), 1)
+            self.assertIsNone(manifest[0]["oneLiner"])
+
 
 if __name__ == "__main__":
     unittest.main()

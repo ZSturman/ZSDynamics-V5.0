@@ -34,6 +34,7 @@ function normalizeArticle(raw: unknown): Article | null {
     slug: record.slug,
     title: record.title,
     summary: record.summary,
+    oneLiner: typeof record.oneLiner === "string" && record.oneLiner.trim().length > 0 ? record.oneLiner.trim() : undefined,
     publishedAt: typeof record.publishedAt === "string" ? record.publishedAt : undefined,
     updatedAt: record.updatedAt,
     series: typeof record.series === "string" && record.series.trim().length > 0 ? record.series.trim() : undefined,
@@ -143,12 +144,17 @@ export async function loadArticleBySlug(slug: string): Promise<{ article: Articl
 
   const markdownPath = path.join(ARTICLES_ROOT, slug, "index.md");
   try {
-    const content = await fs.readFile(markdownPath, "utf8");
-    const extracted = extractArticleCover(content, slug);
+    const rawContent = await fs.readFile(markdownPath, "utf8");
+
+    if (article.coverImage) {
+      return { article, content: rawContent };
+    }
+
+    const extracted = extractArticleCover(rawContent, slug);
     return {
       article: {
         ...article,
-        coverImage: article.coverImage ?? extracted.coverImage,
+        coverImage: extracted.coverImage,
       },
       content: extracted.content,
     };

@@ -699,18 +699,22 @@ def _normalize_article_metadata(
         raw_projects,
         project_alias_map=project_alias_map,
     )
+    raw_cover = metadata.get("cover_image") or metadata.get("coverImage")
     cover_image = _normalize_cover_image(
-        metadata.get("coverImage"),
+        raw_cover,
         slug=slug,
         current_markdown_path=current_markdown_path,
         current_asset_root=current_asset_root,
         article_paths_to_slug=article_paths_to_slug,
     )
+    raw_one_liner = metadata.get("one_liner") or metadata.get("one liner") or metadata.get("oneLiner")
+    one_liner: Optional[str] = raw_one_liner.strip() if isinstance(raw_one_liner, str) and raw_one_liner.strip() else None
 
     return {
         "slug": slug,
         "title": title.strip(),
         "summary": summary.strip(),
+        "oneLiner": one_liner,
         "publishedAt": published_at.strip() if isinstance(published_at, str) and published_at.strip() else None,
         "updatedAt": updated_at.strip(),
         "series": series.strip() if isinstance(series, str) and series.strip() else None,
@@ -779,7 +783,7 @@ def build_articles_from_directory(
                 asset_root=asset_root,
                 dest_dir=article_output_dir,
             )
-        raw_cover_image = metadata.get("coverImage")
+        raw_cover_image = metadata.get("cover_image") or metadata.get("coverImage")
         if isinstance(raw_cover_image, str) and raw_cover_image.strip():
             _copy_relative_asset_target(
                 raw_target=raw_cover_image,

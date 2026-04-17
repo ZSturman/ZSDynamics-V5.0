@@ -3,6 +3,7 @@
     "slug": "consolidating-an-offline-first-episodic-memory-system",
     "title": "Consolidating an Offline-First Episodic Memory System",
     "summary": "This piece traces the consolidation of several related experiments into one canonical episodic memory project, built around a single Python package, a shared artifact contract, and a dashboard and notebook workflow that inspect the same persisted runs. It argues that memory systems become more useful when they are transparent, offline-first, and structured around evidence, decision traces, and revisitable artifacts rather than hidden runtime state. Running through all of it is a broader research view, that location and whereabouts are not secondary details, but central signals in how a system interprets scenes, updates memory, and reasons about revisitation.",
+    "oneLiner": "This project is becoming a single offline-first episodic memory system that brings runtime, artifacts, and inspection into one coherent architecture, with location playing a central role in how memory is formed and understood.",
     "publishedAt": null,
     "updatedAt": "2026-04-11",
     "series": "Engineering AI for Recognition and Memory",
@@ -18,12 +19,13 @@
     ],
     "sourceUrl": "https://github.com/ZSturman/Articles/blob/main/articles/consolidating-an-offline-first-episodic-memory-system/index.md",
     "href": "/articles/consolidating-an-offline-first-episodic-memory-system",
-    "coverImage": null
+    "coverImage": "/articles/consolidating-an-offline-first-episodic-memory-system/images/hero.png"
   },
   {
     "slug": "the-art-of-turning-a-90-minute-task-into-a-2-month",
     "title": "The Art of Turning a 90-Minute Task Into a 2-Month Automation Project",
     "summary": "The article traces the evolution of four systems - Obsidian + Project Management App, OPE, RPOVault, and Folio - built to keep project metadata, files, and a public portfolio in sync without constant duplication. Each version clarified the value of structured project records, but also exposed the growing maintenance cost of owning every layer, especially around files, media, and editing workflows. The final takeaway is that integrating existing tools like Notion, n8n, GitHub Actions, and Firebase solves the real problem more effectively than continuing to maintain a complex custom application.",
+    "oneLiner": "A reflection on building four generations of project-and-portfolio management tools, and why a simpler integrated workflow ultimately beat a fully custom app.",
     "publishedAt": null,
     "updatedAt": "2026-04-08",
     "series": "My Notion Pipeline",
@@ -43,12 +45,13 @@
     ],
     "sourceUrl": "https://github.com/ZSturman/Articles/blob/main/articles/the-art-of-turning-a-90-minute-task-into-a-2-month/index.md",
     "href": "/articles/the-art-of-turning-a-90-minute-task-into-a-2-month",
-    "coverImage": null
+    "coverImage": "/articles/the-art-of-turning-a-90-minute-task-into-a-2-month/images/Concept_art_with_Logo.jpeg"
   },
   {
     "slug": "how-i-sync-my-portfolio-using-notion",
     "title": "How I Sync My Portfolio Using Notion",
     "summary": "How a portfolio can be built as a publishing pipeline, with Notion as the source of truth, n8n creating a JSON handoff, Python scripts normalizing content and media, and Next.js exporting the final static site. The result is a cleaner separation between editing, transformation, and publishing, making the site more predictable and maintainable.",
+    "oneLiner": "A portfolio architecture that turns structured project data into a static site through a local publishing pipeline.",
     "publishedAt": null,
     "updatedAt": "2026-04-08",
     "series": null,
@@ -65,12 +68,13 @@
     "projectIds": [],
     "sourceUrl": "https://github.com/ZSturman/Articles/blob/main/articles/how-i-sync-my-portfolio-using-notion/index.md",
     "href": "/articles/how-i-sync-my-portfolio-using-notion",
-    "coverImage": null
+    "coverImage": "/articles/how-i-sync-my-portfolio-using-notion/images/Hero_image.png"
   },
   {
     "slug": "building-chewsense-using-motion-data-for-an-on-device-ai-health-agent",
     "title": "Building ChewSense - Using Motion Data For An On-Device AI Health Agent",
     "summary": "This article traces how ChewSense evolved from early experiments with raw AirPods motion signals into a structured pipeline for session collection, video-assisted labeling, feature extraction, model training, and on-device inference. The core lesson is that the hardest part of applied ML was not just training a model, but building the surrounding system needed to collect trustworthy data, preserve feature parity, and make runtime behavior believable.",
+    "oneLiner": "A first-person build story about turning AirPods motion data, synchronized video, and disciplined tooling into a believable on-device chewing-detection ML pipeline.",
     "publishedAt": null,
     "updatedAt": "2026-04-07",
     "series": "ChewSense",
@@ -93,12 +97,13 @@
     ],
     "sourceUrl": "https://github.com/ZSturman/Articles/blob/main/articles/building-chewsense-using-motion-data-for-an-on-device-ai-health-agent/index.md",
     "href": "/articles/building-chewsense-using-motion-data-for-an-on-device-ai-health-agent",
-    "coverImage": null
+    "coverImage": "/articles/building-chewsense-using-motion-data-for-an-on-device-ai-health-agent/images/hero.png"
   },
   {
     "slug": "building-a-desktop-app-around-google-sheets",
     "title": "Building a Desktop App Around Google Sheets",
     "summary": "This project began after seeing a manufacturer manage production schedules through emailed Excel files, which exposed how much critical operational work was being held together by fragile spreadsheet workflows. It started as a desktop app built around those existing habits, but the bigger lesson was that the real challenge was not just replacing spreadsheets, it was reducing the friction of adoption. That led to a web-based version focused on easier onboarding, configuration, and reusable workflow views, with the project ultimately becoming a lesson in testing earlier and designing for usability before technical ambition.",
+    "oneLiner": "A manufacturing scheduling project that evolved from a desktop app built around spreadsheet workflows into a web-based system focused on reducing adoption friction.",
     "publishedAt": null,
     "updatedAt": "2026-04-07",
     "series": "Using Google Sheets as an Application Database",
@@ -115,12 +120,13 @@
     "projectIds": [],
     "sourceUrl": "https://github.com/ZSturman/Articles/blob/main/articles/building-a-desktop-app-around-google-sheets/index.md",
     "href": "/articles/building-a-desktop-app-around-google-sheets",
-    "coverImage": null
+    "coverImage": "/articles/building-a-desktop-app-around-google-sheets/images/Spreadsheet_chaos_scene.png"
   },
   {
     "slug": "building-a-location-first-learning-agent-to-explore-context-memory-and-consciousness",
     "title": "Building a Location-First Learning Agent to Explore Context, Memory, and Consciousness",
     "summary": "This explores the idea that recognition comes more from place, context, and repeated reinforcement than detached labels, using an inspectable Python CLI agent that learns locations from sensor observations and stores state plainly. It evolves from simple grayscale location memory into richer, modality-neutral location and concept structures, with a roadmap toward broader memory processes like activation, replay, resurfacing, and reconsolidation.",
+    "oneLiner": "A location-first learning agent that turns user and sensor input into inspectable memory, then grows toward a broader synthetic memory-and-attention engine.",
     "publishedAt": null,
     "updatedAt": "2026-04-04",
     "series": "Engineering AI for Recognition and Memory",
@@ -141,12 +147,13 @@
     ],
     "sourceUrl": "https://github.com/ZSturman/Articles/blob/main/articles/building-a-location-first-learning-agent-to-explore-context-memory-and-consciousness/index.md",
     "href": "/articles/building-a-location-first-learning-agent-to-explore-context-memory-and-consciousness",
-    "coverImage": null
+    "coverImage": "/articles/building-a-location-first-learning-agent-to-explore-context-memory-and-consciousness/images/cover_image.png"
   },
   {
     "slug": "how-i-use-notion-to-track-my-projects",
     "title": "How I Use Notion to Ingest, Organize, and Track My Projects",
     "summary": "This Notion setup is a guided project intake workflow rather than a simple notes system: each project starts from a template, highlights the highest-priority next step, and builds toward execution, portfolio readiness, and future automation. By checking key setup steps automatically and separating projects, tasks, assets, resources, and milestones into linked systems, it reduces friction and makes the workflow easier to manage as it scales.",
+    "oneLiner": null,
     "publishedAt": null,
     "updatedAt": "2026-04-01",
     "series": "My Notion Pipeline",
@@ -162,12 +169,13 @@
     ],
     "sourceUrl": "https://github.com/ZSturman/Articles/blob/main/articles/how-i-use-notion-to-track-my-projects/index.md",
     "href": "/articles/how-i-use-notion-to-track-my-projects",
-    "coverImage": null
+    "coverImage": "/articles/how-i-use-notion-to-track-my-projects/images/cover_image.png"
   },
   {
     "slug": "automating-linear-from-notion",
     "title": "Automating Linear From Notion",
     "summary": "A bidirectional sync engine that keeps Notion and Linear aligned by normalizing their data into shared models, reconciling meaningful changes, and preserving relationships and identity across systems.",
+    "oneLiner": "A reliable sync layer that makes Notion planning and Linear execution behave like a single system.",
     "publishedAt": null,
     "updatedAt": "2026-03-25",
     "series": "Notion as a Source of Truth",
@@ -185,6 +193,6 @@
     ],
     "sourceUrl": "https://github.com/ZSturman/Articles/blob/main/articles/automating-linear-from-notion/index.md",
     "href": "/articles/automating-linear-from-notion",
-    "coverImage": null
+    "coverImage": "/articles/automating-linear-from-notion/images/Cover.png"
   }
 ]

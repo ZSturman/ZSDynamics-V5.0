@@ -20,6 +20,7 @@ export interface Article {
   slug: string;
   title: string;
   summary: string;
+  oneLiner?: string;
   publishedAt?: string | null;
   updatedAt: string;
   series?: string;
