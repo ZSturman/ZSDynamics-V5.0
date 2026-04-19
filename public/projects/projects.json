@@ -34,10 +34,10 @@
     "description": "",
     "story": "",
     "images": {
-      "hero": "hero.png",
       "thumbnail": "thumbnail.png",
-      "icon": "icon.png",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "hero": "hero.png",
+      "icon": "icon.png"
     },
     "resources": [],
     "collection": {},
@@ -337,11 +337,11 @@
     "description": "",
     "story": "",
     "images": {
-      "hero": "hero.png",
       "thumbnail": "thumbnail.png",
-      "icon": "TopNote AppIcon v2-watchOS-Default-1088x1088@1x.png",
       "poster": "poster.png",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "hero": "hero.png",
+      "icon": "TopNote AppIcon v2-watchOS-Default-1088x1088@1x.png"
     },
     "resources": [
       {
@@ -482,8 +482,8 @@
     "story": "",
     "images": {
       "thumbnail": "thumbnail.png",
-      "icon": "thumbnail.png",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "icon": "thumbnail.png"
     },
     "resources": [
       {
@@ -547,9 +547,9 @@
     "description": "",
     "story": "",
     "images": {
-      "hero": "hero.png",
       "thumbnail": "E4690E5D-3901-4E26-A237-8AA0FF26EE76.png",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "hero": "hero.png"
     },
     "resources": [],
     "collection": {
@@ -626,9 +626,9 @@
     "story": "",
     "images": {
       "thumbnail": "thumbnail.png",
-      "icon": "logo.png",
       "poster": "poster.gif",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "icon": "logo.png"
     },
     "resources": [],
     "collection": {
@@ -851,8 +851,8 @@
     "story": "",
     "images": {
       "thumbnail": "thumbnail.png",
-      "icon": "poster.png",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "icon": "poster.png"
     },
     "resources": [
       {
@@ -980,8 +980,8 @@
     "story": "",
     "images": {
       "thumbnail": "thumbnail.png",
-      "icon": "Celestial Hands Holding Heart.png",
-      "banner": "Collaborative Effort with Green Ball.png"
+      "banner": "Collaborative Effort with Green Ball.png",
+      "icon": "Celestial Hands Holding Heart.png"
     },
     "resources": [
       {
@@ -1051,8 +1051,8 @@
     "story": "",
     "images": {
       "thumbnail": "thumbnail.png",
-      "icon": "banner.png",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "icon": "banner.png"
     },
     "resources": [],
     "collection": {
@@ -1321,11 +1321,11 @@
     "description": "",
     "story": "",
     "images": {
-      "hero": "hero.png",
       "thumbnail": "thumbnail.png",
-      "icon": "icon.png",
       "poster": "poster.png",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "hero": "hero.png",
+      "icon": "icon.png"
     },
     "resources": [
       {
@@ -1391,8 +1391,8 @@
     "story": "",
     "images": {
       "thumbnail": "thumbnail.png",
-      "icon": "banner.png",
-      "banner": "poster.png"
+      "banner": "poster.png",
+      "icon": "banner.png"
     },
     "resources": [
       {
@@ -1459,10 +1459,10 @@
     "description": "",
     "story": "",
     "images": {
-      "hero": "queueExample.png",
       "thumbnail": "thumbnail.png",
       "poster": "poster.gif",
-      "banner": "banner.gif"
+      "banner": "banner.gif",
+      "hero": "queueExample.png"
     },
     "resources": [
       {
@@ -1529,9 +1529,9 @@
     "story": "",
     "images": {
       "thumbnail": "thumbnail.png",
-      "icon": "thumbnail.png",
       "poster": "poster.png",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "icon": "thumbnail.png"
     },
     "resources": [
       {
@@ -1597,8 +1597,8 @@
     "story": "",
     "images": {
       "thumbnail": "collection thumbnail.png",
-      "icon": "icon.png",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "icon": "icon.png"
     },
     "resources": [],
     "collection": {
@@ -1711,9 +1711,9 @@
     "story": "",
     "images": {
       "thumbnail": "thumbnail.png",
-      "icon": "icon.svg",
       "poster": "poster.png",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "icon": "icon.svg"
     },
     "resources": [
       {
@@ -1835,9 +1835,9 @@
     "story": "",
     "images": {
       "thumbnail": "thumbnail.tiff",
-      "icon": "thumbnail.tiff",
       "poster": "poster.tiff",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "icon": "thumbnail.tiff"
     },
     "resources": [],
     "collection": {},
@@ -1897,10 +1897,10 @@
     "description": "",
     "story": "",
     "images": {
-      "hero": "hero.png",
       "thumbnail": "thumbnail.png",
-      "icon": "icon.png",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "hero": "hero.png",
+      "icon": "icon.png"
     },
     "resources": [],
     "collection": {},
@@ -2186,24 +2186,32 @@
     "title": "Folio",
     "name": "Folio",
     "subtitle": "",
-    "summary": "",
+    "summary": "Folio Studio is the branch where the project stops trying to organize an entire filesystem first and instead treats each portfolio item as a document with its own portable package. It is still ambitious, but the ambition is finally bounded. The app is focused on authoring and maintaining .folio documents rather than being a full project-management operating system.",
     "oneLiner": "An archive of related but independent attempts to solve the same personal problem: how to keep projects, ideas, media, metadata, references, and portfolio material in one system without losing the shape of the work.",
     "domain": "Technology",
-    "category": "Other",
-    "status": "Active",
-    "phase": "",
+    "category": "Application",
+    "status": "Complete",
+    "phase": "Deprecated",
     "featured": false,
     "createdAt": "2026-03-18",
     "updatedAt": null,
     "isPublic": true,
-    "tags": [],
+    "tags": [
+      "macOS",
+      "Productivity"
+    ],
     "mediums": [],
     "genres": [],
     "topics": [],
     "subjects": [],
     "description": "",
     "story": "",
-    "images": {},
+    "images": {
+      "thumbnail": "thumbnail.png",
+      "banner": "Concept_art_with_Logo.jpeg",
+      "hero": "Ope_Hero.png",
+      "icon": "AppIcon.png"
+    },
     "resources": [
       {
         "type": "github",
@@ -2266,10 +2274,10 @@
     "description": "",
     "story": "",
     "images": {
-      "hero": "hero.png",
       "thumbnail": "thumbnail.png",
-      "icon": "icon.png",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "hero": "hero.png",
+      "icon": "icon.png"
     },
     "resources": [
       {
@@ -2333,10 +2341,10 @@
     "description": "",
     "story": "",
     "images": {
-      "hero": "hero.png",
       "thumbnail": "thumbnail.png",
       "poster": "poster.png",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "hero": "hero.png"
     },
     "resources": [
       {
@@ -2398,10 +2406,10 @@
     "description": "",
     "story": "",
     "images": {
-      "hero": "hero.png",
       "thumbnail": "thumbnail.png",
-      "icon": "icon.png",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "hero": "hero.png",
+      "icon": "icon.png"
     },
     "resources": [
       {
@@ -2467,10 +2475,10 @@
     "description": "",
     "story": "",
     "images": {
-      "hero": "hero.png",
       "thumbnail": "thumbnail.png",
-      "icon": "icon.png",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "hero": "hero.png",
+      "icon": "icon.png"
     },
     "resources": [
       {
@@ -2535,11 +2543,11 @@
     "description": "",
     "story": "",
     "images": {
-      "hero": "hero.png",
       "thumbnail": "thumbnail.png",
-      "icon": "icon.png",
       "poster": "poster.png",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "hero": "hero.png",
+      "icon": "icon.png"
     },
     "resources": [
       {
@@ -2604,9 +2612,9 @@
     "description": "",
     "story": "",
     "images": {
-      "hero": "hero.png",
       "thumbnail": "thumbnail.png",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "hero": "hero.png"
     },
     "resources": [
       {
@@ -2669,11 +2677,11 @@
     "description": "",
     "story": "",
     "images": {
-      "hero": "hero.png",
       "thumbnail": "thumbnail.png",
-      "icon": "icon.png",
       "poster": "poster.png",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "hero": "hero.png",
+      "icon": "icon.png"
     },
     "resources": [
       {
@@ -2737,10 +2745,10 @@
     "description": "",
     "story": "",
     "images": {
-      "hero": "hero.png",
       "thumbnail": "thumbnail.png",
       "poster": "poster.png",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "hero": "hero.png"
     },
     "resources": [],
     "collection": {},
@@ -2800,11 +2808,11 @@
     "description": "",
     "story": "",
     "images": {
-      "hero": "hero.png",
       "thumbnail": "thumbnail.png",
-      "icon": "icon.png",
       "poster": "poster.png",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "hero": "hero.png",
+      "icon": "icon.png"
     },
     "resources": [
       {
@@ -2837,5 +2845,82 @@
     ],
     "articles": [],
     "folderName": "media_organizer_339aec94-4d3c-8047-a3ea-ea94ff1e518f"
+  },
+  {
+    "id": "346aec94-4d3c-801e-851f-c7e727f0e186",
+    "slug": "the-wolf-project",
+    "href": "/projects/the-wolf-project",
+    "title": "The Wolf Project",
+    "name": "The Wolf Project",
+    "subtitle": "",
+    "summary": "After discovering The Wolf Project through a Dodo video, I connected with the team and began rebuilding their website to better support their needs. The new version introduces structured data, dynamic content, and scalable infrastructure using Next.js, Firebase, and Cloudinary. It’s now a usable foundation that can evolve into a more complete system for showcasing cases, managing content, and supporting contributions.",
+    "oneLiner": "A recreation of the existing Wolf Pack site with more custom features and modernization",
+    "domain": "Technology",
+    "category": "Application",
+    "status": "Active",
+    "phase": "Development",
+    "featured": true,
+    "featuredOrder": 1,
+    "createdAt": "2026-04-17",
+    "updatedAt": "2026-04-18",
+    "isPublic": true,
+    "tags": [
+      "web",
+      "Next.js",
+      "Firebase",
+      "Dogs"
+    ],
+    "mediums": [],
+    "genres": [],
+    "topics": [],
+    "subjects": [],
+    "description": "",
+    "story": "",
+    "images": {
+      "thumbnail": "Wolf-hero.webp",
+      "hero": "Screenshot_2026-04-18_at_17.29.59.png",
+      "icon": "Wolf-hero.webp"
+    },
+    "resources": [
+      {
+        "type": "github",
+        "label": "Repo",
+        "url": "https://github.com/ZSturman/The-Wolf-Pack"
+      },
+      {
+        "type": "web",
+        "label": "Original Site",
+        "url": "https://yourdogcanstay.com"
+      },
+      {
+        "type": "web",
+        "label": "Development URL",
+        "url": "https://the-wolf-pack.vercel.app"
+      }
+    ],
+    "collection": {},
+    "workLogs": [
+      {
+        "id": "346aec94-4d3c-80b5-8de8-df50825de900",
+        "title": "Created new project entry for The Wolf Pack",
+        "entry": "Created new project entry for The Wolf Pack",
+        "url": "https://www.notion.so/Created-new-project-entry-for-The-Wolf-Pack-346aec944d3c80b58de8df50825de900",
+        "startTime": "2026-04-17",
+        "endTime": "2026-04-17T01:00:00.000-07:00",
+        "date": "2026-04-18T01:51:00.000-07:00",
+        "sessionType": [
+          "Planning",
+          "Organizing"
+        ],
+        "whatHappened": "Created new project entry for The Wolf Pack and added the 'Project Starter' milestones and tasks.",
+        "problems": null,
+        "nextStep": "Complete to do items",
+        "feelGoodAboutWork": 100.0,
+        "accomplishedWhatYouWanted": 100.0,
+        "durationMinutes": 60
+      }
+    ],
+    "articles": [],
+    "folderName": "the_wolf_project_346aec94-4d3c-801e-851f-c7e727f0e186"
   }
 ]

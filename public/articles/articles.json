@@ -1,5 +1,26 @@
 [
   {
+    "slug": "the-wolf-project-reworking-a-real-world-project",
+    "title": "The Wolf Project - Reworking a Real-World Project",
+    "summary": "After discovering The Wolf Project through a Dodo video, I connected with the team and began rebuilding their website to better support their needs. The new version introduces structured data, dynamic content, and scalable infrastructure using Next.js, Firebase, and Cloudinary. It’s now a usable foundation that can evolve into a more complete system for showcasing cases, managing content, and supporting contributions.",
+    "oneLiner": "Rebuilding The Wolf Project’s site into a structured, scalable platform to better support real rescue work.",
+    "publishedAt": null,
+    "updatedAt": "2026-04-18",
+    "series": "The Wolf Project",
+    "tags": [
+      "Dogs",
+      "Firebase",
+      "Next.js",
+      "Nonprofit",
+      "Web App",
+      "Welfare"
+    ],
+    "projectIds": [],
+    "sourceUrl": "https://github.com/ZSturman/Articles/blob/main/articles/the-wolf-project-reworking-a-real-world-project/index.md",
+    "href": "/articles/the-wolf-project-reworking-a-real-world-project",
+    "coverImage": "/articles/the-wolf-project-reworking-a-real-world-project/imgaes/Wolf-hero.webp"
+  },
+  {
     "slug": "consolidating-an-offline-first-episodic-memory-system",
     "title": "Consolidating an Offline-First Episodic Memory System",
     "summary": "This piece traces the consolidation of several related experiments into one canonical episodic memory project, built around a single Python package, a shared artifact contract, and a dashboard and notebook workflow that inspect the same persisted runs. It argues that memory systems become more useful when they are transparent, offline-first, and structured around evidence, decision traces, and revisitable artifacts rather than hidden runtime state. Running through all of it is a broader research view, that location and whereabouts are not secondary details, but central signals in how a system interprets scenes, updates memory, and reasons about revisitation.",
