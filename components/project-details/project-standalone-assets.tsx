@@ -3,8 +3,6 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 import Image from "next/image";
 import { ExternalLink, Maximize2, Globe, FileText, Music, Gamepad2, Box } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { CollectionItem, Project, Resource } from "@/types";
 import { CollectionFullscreen } from "./collection/collection-item-fullscreen";
 import ResourceButton from "./resource-button";
@@ -183,14 +181,14 @@ function LinkPreview({
 }) {
   const [iframeLoaded, setIframeLoaded] = useState(false);
   const [iframeFailed, setIframeFailed] = useState(false);
-  const timerRef = useRef<ReturnType<typeof setTimeout>>();
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     if (!thumbnail && !iframeLoaded) {
       timerRef.current = setTimeout(() => setIframeFailed(true), 2500);
     }
     return () => {
-      if (timerRef.current) clearTimeout(timerRef.current);
+      if (timerRef.current !== null) clearTimeout(timerRef.current);
     };
   }, [thumbnail, iframeLoaded]);
 
@@ -245,7 +243,7 @@ function LinkPreview({
         sandbox="allow-scripts allow-same-origin"
         onLoad={() => {
           setIframeLoaded(true);
-          if (timerRef.current) clearTimeout(timerRef.current);
+          if (timerRef.current !== null) clearTimeout(timerRef.current);
         }}
       />
       <button
@@ -409,7 +407,7 @@ function StandaloneAssetItem({
         {resources.length > 0 && (
           <div className="flex flex-wrap gap-2">
             {resources.map((r, i) => (
-              <ResourceButton key={`${r.url}-${i}`} resource={r} project={project} size="sm" />
+              <ResourceButton key={`${r.url}-${i}`} resource={r} currentProject={project} />
             ))}
           </div>
         )}
