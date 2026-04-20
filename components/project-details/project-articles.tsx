@@ -44,9 +44,16 @@ export function ProjectArticles({ project }: ProjectArticlesProps) {
               </div>
             )}
 
-            <span className="min-w-0 flex-1 truncate text-sm font-medium transition-colors group-hover:text-primary">
-              {article.title}
-            </span>
+            <div className="min-w-0 flex-1">
+              <span className="block truncate text-sm font-medium transition-colors group-hover:text-primary">
+                {article.title}
+              </span>
+              {(article.summary || article.oneLiner) && (
+                <p className="mt-0.5 text-xs text-muted-foreground line-clamp-2">
+                  {article.oneLiner || article.summary}
+                </p>
+              )}
+            </div>
 
             <ArrowUpRight className="size-4 shrink-0 text-muted-foreground transition-colors group-hover:text-primary" />
           </Link>

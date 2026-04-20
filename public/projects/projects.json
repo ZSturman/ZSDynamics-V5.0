@@ -34,10 +34,10 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "thumbnail.png",
-      "banner": "banner.png",
       "icon": "icon.png",
-      "hero": "hero.png"
+      "thumbnail": "thumbnail.png",
+      "hero": "hero.png",
+      "banner": "banner.png"
     },
     "resources": [],
     "collection": {},
@@ -360,11 +360,11 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "thumbnail.png",
-      "banner": "banner.png",
       "icon": "TopNote AppIcon v2-watchOS-Default-1088x1088@1x.png",
+      "thumbnail": "thumbnail.png",
+      "hero": "hero.png",
       "poster": "poster.png",
-      "hero": "hero.png"
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -506,9 +506,9 @@
     "description": "",
     "story": "",
     "images": {
+      "icon": "thumbnail.png",
       "thumbnail": "thumbnail.png",
-      "banner": "banner.png",
-      "icon": "thumbnail.png"
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -573,8 +573,8 @@
     "story": "",
     "images": {
       "thumbnail": "E4690E5D-3901-4E26-A237-8AA0FF26EE76.png",
-      "banner": "banner.png",
-      "hero": "hero.png"
+      "hero": "hero.png",
+      "banner": "banner.png"
     },
     "resources": [],
     "collection": {
@@ -650,10 +650,10 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "thumbnail.png",
-      "banner": "banner.png",
       "icon": "logo.png",
-      "poster": "poster.gif"
+      "thumbnail": "thumbnail.png",
+      "poster": "poster.gif",
+      "banner": "banner.png"
     },
     "resources": [],
     "collection": {
@@ -882,9 +882,9 @@
     "description": "",
     "story": "",
     "images": {
+      "icon": "poster.png",
       "thumbnail": "thumbnail.png",
-      "banner": "banner.png",
-      "icon": "poster.png"
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -1012,9 +1012,9 @@
     "description": "",
     "story": "",
     "images": {
+      "icon": "Celestial Hands Holding Heart.png",
       "thumbnail": "thumbnail.png",
-      "banner": "Collaborative Effort with Green Ball.png",
-      "icon": "Celestial Hands Holding Heart.png"
+      "banner": "Collaborative Effort with Green Ball.png"
     },
     "resources": [
       {
@@ -1084,9 +1084,9 @@
     "description": "",
     "story": "",
     "images": {
+      "icon": "banner.png",
       "thumbnail": "thumbnail.png",
-      "banner": "banner.png",
-      "icon": "banner.png"
+      "banner": "banner.png"
     },
     "resources": [],
     "collection": {
@@ -1355,11 +1355,11 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "thumbnail.png",
-      "banner": "banner.png",
       "icon": "icon.png",
+      "thumbnail": "thumbnail.png",
+      "hero": "hero.png",
       "poster": "poster.png",
-      "hero": "hero.png"
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -1424,9 +1424,9 @@
     "description": "",
     "story": "",
     "images": {
+      "icon": "banner.png",
       "thumbnail": "thumbnail.png",
-      "banner": "poster.png",
-      "icon": "banner.png"
+      "banner": "poster.png"
     },
     "resources": [
       {
@@ -1495,9 +1495,9 @@
     "story": "",
     "images": {
       "thumbnail": "thumbnail.png",
-      "banner": "banner.gif",
+      "hero": "queueExample.png",
       "poster": "poster.gif",
-      "hero": "queueExample.png"
+      "banner": "banner.gif"
     },
     "resources": [
       {
@@ -1563,10 +1563,10 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "thumbnail.png",
-      "banner": "banner.png",
       "icon": "thumbnail.png",
-      "poster": "poster.png"
+      "thumbnail": "thumbnail.png",
+      "poster": "poster.png",
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -1639,9 +1639,9 @@
     "description": "",
     "story": "",
     "images": {
+      "icon": "icon.png",
       "thumbnail": "collection thumbnail.png",
-      "banner": "banner.png",
-      "icon": "icon.png"
+      "banner": "banner.png"
     },
     "resources": [],
     "collection": {
@@ -1753,10 +1753,10 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "thumbnail.png",
-      "banner": "banner.png",
       "icon": "icon.svg",
-      "poster": "poster.png"
+      "thumbnail": "thumbnail.png",
+      "poster": "poster.png",
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -1877,10 +1877,10 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "thumbnail.tiff",
-      "banner": "banner.png",
       "icon": "thumbnail.tiff",
-      "poster": "poster.tiff"
+      "thumbnail": "thumbnail.tiff",
+      "poster": "poster.tiff",
+      "banner": "banner.png"
     },
     "resources": [],
     "collection": {},
@@ -1940,10 +1940,10 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "thumbnail.png",
-      "banner": "banner.png",
       "icon": "icon.png",
-      "hero": "hero.png"
+      "thumbnail": "thumbnail.png",
+      "hero": "hero.png",
+      "banner": "banner.png"
     },
     "resources": [],
     "collection": {},
@@ -2252,10 +2252,10 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "thumbnail.png",
-      "banner": "Concept_art_with_Logo.jpeg",
       "icon": "AppIcon.png",
-      "hero": "Ope_Hero.png"
+      "thumbnail": "thumbnail.png",
+      "hero": "Ope_Hero.png",
+      "banner": "Concept_art_with_Logo.jpeg"
     },
     "resources": [
       {
@@ -2327,10 +2327,10 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "thumbnail.png",
-      "banner": "banner.png",
       "icon": "icon.png",
-      "hero": "hero.png"
+      "thumbnail": "thumbnail.png",
+      "hero": "hero.png",
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -2395,9 +2395,9 @@
     "story": "",
     "images": {
       "thumbnail": "thumbnail.png",
-      "banner": "banner.png",
+      "hero": "hero.png",
       "poster": "poster.png",
-      "hero": "hero.png"
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -2459,10 +2459,10 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "thumbnail.png",
-      "banner": "banner.png",
       "icon": "icon.png",
-      "hero": "hero.png"
+      "thumbnail": "thumbnail.png",
+      "hero": "hero.png",
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -2528,10 +2528,10 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "thumbnail.png",
-      "banner": "banner.png",
       "icon": "icon.png",
-      "hero": "hero.png"
+      "thumbnail": "thumbnail.png",
+      "hero": "hero.png",
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -2604,11 +2604,11 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "thumbnail.png",
-      "banner": "banner.png",
       "icon": "icon.png",
+      "thumbnail": "thumbnail.png",
+      "hero": "hero.png",
       "poster": "poster.png",
-      "hero": "hero.png"
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -2674,8 +2674,8 @@
     "story": "",
     "images": {
       "thumbnail": "thumbnail.png",
-      "banner": "banner.png",
-      "hero": "hero.png"
+      "hero": "hero.png",
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -2738,11 +2738,11 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "thumbnail.png",
-      "banner": "banner.png",
       "icon": "icon.png",
+      "thumbnail": "thumbnail.png",
+      "hero": "hero.png",
       "poster": "poster.png",
-      "hero": "hero.png"
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -2807,9 +2807,9 @@
     "story": "",
     "images": {
       "thumbnail": "thumbnail.png",
-      "banner": "banner.png",
+      "hero": "hero.png",
       "poster": "poster.png",
-      "hero": "hero.png"
+      "banner": "banner.png"
     },
     "resources": [],
     "collection": {},
@@ -2869,11 +2869,11 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "thumbnail.png",
-      "banner": "banner.png",
       "icon": "icon.png",
+      "thumbnail": "thumbnail.png",
+      "hero": "hero.png",
       "poster": "poster.png",
-      "hero": "hero.png"
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -2938,8 +2938,8 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "Wolf-hero.webp",
       "icon": "Wolf-hero.webp",
+      "thumbnail": "Wolf-hero.webp",
       "hero": "Screenshot_2026-04-18_at_17.29.59.png"
     },
     "resources": [
@@ -2961,16 +2961,32 @@
       }
     ],
     "collection": {
-      "URLs": {
-        "label": "URLs",
+      "Collection": {
+        "label": "Collection",
         "summary": "",
+        "images": {},
+        "items": []
+      },
+      "assets": {
+        "label": "Assets",
+        "summary": "Ungrouped project assets",
         "images": {},
         "items": [
           {
             "id": "348aec94-4d3c-800c-aaad-c539680bc5b2",
-            "label": "New Asset",
-            "order": 0,
-            "type": "image"
+            "label": "Dev Site",
+            "order": 10,
+            "type": "url-link",
+            "oneLiner": "The current implementation of The Wolf Project site",
+            "url": "https://the-wolf-project-14stqkkgr-zsturmans-projects.vercel.app"
+          },
+          {
+            "id": "348aec94-4d3c-80e3-a593-fd72a46bf93c",
+            "label": "Original Site",
+            "order": 20,
+            "type": "url-link",
+            "oneLiner": "The current implementation of The Wolf Project site",
+            "url": "https://yourdogcanstay.com"
           }
         ]
       }

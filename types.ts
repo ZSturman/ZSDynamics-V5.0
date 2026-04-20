@@ -30,6 +30,8 @@ export interface ProjectArticleReference {
   href: string;
   sourceUrl: string;
   coverImage?: string;
+  summary?: string;
+  oneLiner?: string;
 }
 
 export interface Article {
@@ -66,6 +68,7 @@ export type CollectionItem = {
   relativePath?: string;
   filePath?: string | { path?: string }; // Alternative path structure (simplified from legacy object format)
   label?: string;
+  oneLiner?: string;
   summary?: string;
   thumbnail?: string | { path?: string }; // Can be image or video
   resource?: Resource; // Single resource (legacy)

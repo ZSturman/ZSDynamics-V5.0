@@ -3,6 +3,7 @@
 import type React from "react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { PassiveChip } from "@/components/ui/passive-chip";
+import { MetadataTag, MetadataText } from "@/components/ui/metadata-text";
 import { MediaDisplay } from "@/components/ui/media-display";
 import { Project } from "@/types";
 import { STATUS_COLOR } from "@/lib/resource-map";
@@ -108,19 +109,14 @@ export function ProjectCard({
 </div>
 
         {/* Tags */}
-        <div className="flex flex-wrap gap-0.5 md:gap-1">
+        <div className="flex flex-wrap gap-x-2 gap-y-1">
           {project.tags?.slice(0, 3).map((tag) => (
-            <PassiveChip
-              key={tag}
-              className="text-[8px] md:text-[10px] py-0 px-1 md:px-1.5 truncate max-w-full"
-            >
-              {tag}
-            </PassiveChip>
+            <MetadataTag key={tag} tag={tag} size="sm" className="text-[10px] md:text-[11px]" />
           ))}
           {project.tags && project.tags.length > 3 && (
-            <PassiveChip className="text-[8px] md:text-[10px] py-0 px-1 md:px-1.5">
-              +{project.tags.length - 3}
-            </PassiveChip>
+            <MetadataText size="sm" className="text-[10px] md:text-[11px]">
+              +{project.tags.length - 3} more
+            </MetadataText>
           )}
         </div>
 

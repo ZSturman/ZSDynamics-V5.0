@@ -1,17 +1,18 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowRight, FolderOpen, Newspaper } from "lucide-react";
+import { ArrowRight, FolderOpen, Newspaper, type LucideIcon } from "lucide-react";
 
 import { ArticleAnalyticsTracker } from "@/components/analytics/article-analytics-tracker";
 import { ArticleMarkdown } from "@/components/articles/article-markdown";
 import { BreadcrumbTrail } from "@/components/ui/breadcrumb-trail";
-import { PassiveChip } from "@/components/ui/passive-chip";
+import { MetadataTag, MetadataText } from "@/components/ui/metadata-text";
 import { loadArticleBySlug, loadArticles } from "@/lib/load-articles";
 import { loadPublicJsonRecursively } from "@/lib/load-public-json";
+import { getProjectIdentityMedia } from "@/lib/project-identity";
 import { getProjectHref } from "@/lib/project-paths";
 import { SITE_DESCRIPTION } from "@/lib/site-metadata";
-import { formatDate, getOptimizedMediaPath } from "@/lib/utils";
+import { formatDate } from "@/lib/utils";
 import type { Project } from "@/types";
 
 export const dynamic = "force-static";
@@ -38,13 +39,100 @@ function toTimestamp(value?: string | null): number {
   return Number.isNaN(parsed) ? 0 : parsed;
 }
 
-function getProjectThumbnail(project: Project): string | null {
-  if (!project.images?.thumbnail) {
-    return null;
-  }
+function getSeriesHref(series: string): string {
+  const searchParams = new URLSearchParams({ q: `series:${series}` });
+  return `/articles?${searchParams.toString()}`;
+}
 
-  const folderName = project.folderName || project.id;
-  return getOptimizedMediaPath(project.images.thumbnail, `/projects/${folderName}`);
+function getProjectCardMedia(project: Project) {
+  return getProjectIdentityMedia(project);
+}
+
+function CompactMediaSlot({
+  src,
+  alt,
+  fallbackIcon: FallbackIcon,
+}: {
+  src?: string | null;
+  alt: string;
+  fallbackIcon: LucideIcon;
+}) {
+  return (
+    <div
+      data-testid="compact-content-card-media"
+      className="relative size-20 shrink-0 overflow-hidden rounded-2xl border border-border/60 bg-muted/40 sm:size-24"
+    >
+      {src ? (
+        <>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={src} alt={alt} className="h-full w-full object-contain p-2" />
+        </>
+      ) : (
+        <div className="flex h-full w-full items-center justify-center text-muted-foreground">
+          <FallbackIcon className="size-5" />
+        </div>
+      )}
+    </div>
+  );
+}
+
+function ArticleRecommendationCard({
+  title,
+  href,
+  summary,
+  dateLabel,
+  coverImage,
+}: {
+  title: string;
+  href: string;
+  summary: string;
+  dateLabel: string;
+  coverImage?: string;
+}) {
+  return (
+    <Link
+      href={href}
+      data-testid="recommended-article-card"
+      className="group flex items-start gap-4 rounded-[1.5rem] border border-border/70 bg-background px-4 py-4 transition-colors hover:border-primary/40"
+    >
+      <CompactMediaSlot
+        src={coverImage}
+        alt={`Cover image for ${title}`}
+        fallbackIcon={Newspaper}
+      />
+      <div className="min-w-0 flex-1 space-y-1.5">
+        <p className="text-[11px] font-medium uppercase tracking-[0.16em] text-muted-foreground">Article</p>
+        <p className="font-medium leading-6 text-foreground transition-colors group-hover:text-primary">{title}</p>
+        <p className="line-clamp-2 text-sm leading-6 text-muted-foreground">{summary}</p>
+        <p className="text-xs text-muted-foreground">{dateLabel}</p>
+      </div>
+    </Link>
+  );
+}
+
+function ConnectedProjectCard({ project }: { project: Project }) {
+  const projectCardMedia = getProjectCardMedia(project);
+
+  return (
+    <Link
+      href={getProjectHref(project)}
+      data-testid="article-connected-project-card"
+      className="group flex items-start gap-4 rounded-[1.5rem] border border-border/70 bg-card/45 px-4 py-4 transition-colors hover:border-primary/40 hover:bg-card"
+    >
+      <CompactMediaSlot
+        src={projectCardMedia.projectVisualSrc}
+        alt={`${project.title} project visual`}
+        fallbackIcon={FolderOpen}
+      />
+      <div className="min-w-0 flex-1 space-y-1.5">
+        <p className="text-[11px] font-medium uppercase tracking-[0.16em] text-muted-foreground">Project</p>
+        <p className="font-medium leading-6 text-foreground transition-colors group-hover:text-primary">
+          {project.title}
+        </p>
+        <p className="line-clamp-2 text-sm leading-6 text-muted-foreground">{project.oneLiner || project.summary}</p>
+      </div>
+    </Link>
+  );
 }
 
 export async function generateStaticParams(): Promise<Array<{ slug: string }>> {
@@ -135,7 +223,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
     .slice(0, 4)
     .map(({ article: recommendedArticle }) => recommendedArticle);
 
-  const hasFooterContent = recommendedArticles.length > 0 || relatedProjects.length > 0;
+  const hasPostMetadata = Boolean(article.series || article.tags?.length || relatedProjects.length > 0);
   const publishedLabel = formatDate(article.publishedAt ?? article.updatedAt) || article.publishedAt || article.updatedAt;
   const updatedLabel =
     article.updatedAt && article.publishedAt && article.updatedAt !== article.publishedAt
@@ -178,71 +266,69 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                 <h1 className="text-3xl font-semibold tracking-tight md:text-5xl">{article.title}</h1>
                 <p className="text-base leading-8 text-muted-foreground md:text-lg">{article.summary}</p>
               </div>
+            </div>
+          </div>
 
+          <div className="mx-auto max-w-4xl pt-2">
+            <ArticleMarkdown content={content} slug={article.slug} linkPreviews={article.linkPreviews} />
+          </div>
+
+          {hasPostMetadata && (
+            <section
+              data-testid="article-post-metadata"
+              className="mx-auto max-w-4xl space-y-6 border-t border-border/70 pt-8"
+            >
               {(article.series || article.tags?.length) && (
-                <div className="flex flex-wrap items-center gap-2 pt-1">
-                  {article.series && <PassiveChip tone="strong">Series: {article.series}</PassiveChip>}
-                  {article.tags?.map((tag) => (
-                    <PassiveChip key={`${article.slug}-${tag}`}>{tag}</PassiveChip>
-                  ))}
+                <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                  {article.series ? (
+                    <div className="space-y-2">
+                      <p className="text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground">Series</p>
+                      <MetadataText
+                        href={getSeriesHref(article.series)}
+                        tone="interactive"
+                        className="underline decoration-border/70 underline-offset-4"
+                        data-testid="article-series-link"
+                      >
+                        Series: {article.series}
+                      </MetadataText>
+                    </div>
+                  ) : (
+                    <div />
+                  )}
+
+                  {article.tags?.length ? (
+                    <div className="space-y-2 sm:text-right">
+                      <p className="text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground">Tags</p>
+                      <div
+                        data-testid="article-tag-list"
+                        className="flex flex-wrap gap-x-3 gap-y-1 sm:justify-end"
+                      >
+                        {article.tags.map((tag) => (
+                          <MetadataTag key={`${article.slug}-${tag}`} tag={tag} size="sm" />
+                        ))}
+                      </div>
+                    </div>
+                  ) : null}
                 </div>
               )}
 
               {relatedProjects.length > 0 && (
-                <div className="pt-2">
-                  <p className="mb-3 text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground">
+                <div className="space-y-4">
+                  <p className="text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground">
                     Projects connected to this article
                   </p>
-                  <div className="grid gap-3 sm:grid-cols-2">
-                    {relatedProjects.map((project) => {
-                      const projectThumbnail = getProjectThumbnail(project);
-
-                      return (
-                        <Link
-                          key={`${article.slug}-${project.id}`}
-                          href={getProjectHref(project)}
-                          className="flex items-start gap-3 rounded-2xl border border-border/70 bg-card/50 px-4 py-4 transition-colors hover:border-primary/40 hover:bg-card"
-                        >
-                          <div className="overflow-hidden rounded-xl border border-border/60 bg-muted/40">
-                            {projectThumbnail ? (
-                              <>
-                                {/* eslint-disable-next-line @next/next/no-img-element */}
-                                <img
-                                  src={projectThumbnail}
-                                  alt={project.title}
-                                  className="h-20 w-28 object-cover"
-                                />
-                              </>
-                            ) : (
-                              <div className="flex h-20 w-28 items-center justify-center text-muted-foreground">
-                                <FolderOpen className="size-5" />
-                              </div>
-                            )}
-                          </div>
-                          <div className="min-w-0 space-y-1">
-                            <p className="text-[11px] font-medium uppercase tracking-[0.16em] text-muted-foreground">
-                              Project
-                            </p>
-                            <p className="font-medium leading-6 text-foreground">{project.title}</p>
-                            <p className="line-clamp-2 text-sm leading-6 text-muted-foreground">
-                              {project.oneLiner || project.summary}
-                            </p>
-                          </div>
-                        </Link>
-                      );
-                    })}
+                  <div className="grid gap-4 lg:grid-cols-2">
+                    {relatedProjects.map((project) => (
+                      <ConnectedProjectCard key={project.id} project={project} />
+                    ))}
                   </div>
                 </div>
               )}
-            </div>
-          </div>
-
-          <div className="max-w-4xl pt-2">
-            <ArticleMarkdown content={content} slug={article.slug} linkPreviews={article.linkPreviews} />
-          </div>
+            </section>
+          )}
         </div>
 
-        {hasFooterContent && (
+        {recommendedArticles.length > 0 && (
           <section className="mt-16 rounded-[2rem] border border-border/70 bg-card/35 p-6 sm:p-8">
             <div className="flex flex-wrap items-end justify-between gap-4 border-b border-border/70 pb-5">
               <div>
@@ -258,95 +344,27 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
               </Link>
             </div>
 
-            <div className="mt-6 grid gap-6 lg:grid-cols-2">
-              {recommendedArticles.length > 0 && (
-                <div className="space-y-4">
-                  <h3 className="text-sm font-medium uppercase tracking-[0.16em] text-muted-foreground">Related and recent articles</h3>
-                  <div className="space-y-3">
-                    {recommendedArticles.map((recommendedArticle) => (
-                      <Link
-                        key={recommendedArticle.slug}
-                        href={recommendedArticle.href}
-                        className="flex items-start gap-3 rounded-2xl border border-border/70 bg-background px-4 py-4 transition-colors hover:border-primary/40"
-                      >
-                        <div className="overflow-hidden rounded-xl border border-border/60 bg-muted/40">
-                          {recommendedArticle.coverImage ? (
-                            <>
-                              {/* eslint-disable-next-line @next/next/no-img-element */}
-                              <img
-                                src={recommendedArticle.coverImage}
-                                alt={`Cover image for ${recommendedArticle.title}`}
-                                className="h-20 w-28 object-cover"
-                              />
-                            </>
-                          ) : (
-                            <div className="flex h-20 w-28 items-center justify-center text-muted-foreground">
-                              <Newspaper className="size-5" />
-                            </div>
-                          )}
-                        </div>
-                        <div className="min-w-0 space-y-1">
-                          <p className="text-[11px] font-medium uppercase tracking-[0.16em] text-muted-foreground">
-                            Article
-                          </p>
-                          <p className="font-medium leading-6 text-foreground">{recommendedArticle.title}</p>
-                          <p className="line-clamp-2 text-sm leading-6 text-muted-foreground">
-                            {recommendedArticle.oneLiner ?? recommendedArticle.summary}
-                          </p>
-                          <p className="text-xs text-muted-foreground">
-                            {formatDate(recommendedArticle.updatedAt ?? recommendedArticle.publishedAt) || recommendedArticle.updatedAt || recommendedArticle.publishedAt}
-                          </p>
-                        </div>
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {relatedProjects.length > 0 && (
-                <div className="space-y-4">
-                  <h3 className="text-sm font-medium uppercase tracking-[0.16em] text-muted-foreground">Projects connected to this article</h3>
-                  <div className="space-y-3">
-                    {relatedProjects.map((project) => {
-                      const projectThumbnail = getProjectThumbnail(project);
-
-                      return (
-                        <Link
-                          key={project.id}
-                          href={getProjectHref(project)}
-                          className="flex items-start gap-3 rounded-2xl border border-border/70 bg-background px-4 py-4 transition-colors hover:border-primary/40"
-                        >
-                          <div className="overflow-hidden rounded-xl border border-border/60 bg-muted/40">
-                            {projectThumbnail ? (
-                              <>
-                                {/* eslint-disable-next-line @next/next/no-img-element */}
-                                <img
-                                  src={projectThumbnail}
-                                  alt={project.title}
-                                  className="h-20 w-28 object-cover"
-                                />
-                              </>
-                            ) : (
-                              <div className="flex h-20 w-28 items-center justify-center text-muted-foreground">
-                                <FolderOpen className="size-5" />
-                              </div>
-                            )}
-                          </div>
-                          <div className="min-w-0 space-y-1">
-                            <p className="text-[11px] font-medium uppercase tracking-[0.16em] text-muted-foreground">
-                              Project
-                            </p>
-                            <p className="font-medium leading-6 text-foreground">{project.title}</p>
-                            <p className="line-clamp-2 text-sm leading-6 text-muted-foreground">
-                              {project.oneLiner || project.summary}
-                            </p>
-                          </div>
-                        </Link>
-                      );
-                    })}
-                  </div>
-                </div>
-              )}
+            <div className="mt-6 space-y-4">
+              <h3 className="text-sm font-medium uppercase tracking-[0.16em] text-muted-foreground">
+                Related and recent articles
+              </h3>
+              <div className="grid gap-4 lg:grid-cols-2">
+                {recommendedArticles.map((recommendedArticle) => (
+                  <ArticleRecommendationCard
+                    key={recommendedArticle.slug}
+                    href={recommendedArticle.href}
+                    title={recommendedArticle.title}
+                    summary={recommendedArticle.oneLiner ?? recommendedArticle.summary}
+                    coverImage={recommendedArticle.coverImage}
+                    dateLabel={
+                      formatDate(recommendedArticle.updatedAt ?? recommendedArticle.publishedAt) ||
+                      recommendedArticle.updatedAt ||
+                      recommendedArticle.publishedAt ||
+                      "Undated"
+                    }
+                  />
+                ))}
+              </div>
             </div>
           </section>
         )}

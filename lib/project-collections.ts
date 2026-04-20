@@ -50,12 +50,21 @@ function normalizeCollectionArray(value: unknown): ProjectCollectionEntry[] {
     .filter((entry): entry is ProjectCollectionEntry => Boolean(entry));
 }
 
-export function getProjectCollectionEntries(project: Project): ProjectCollectionEntry[] {
+/** Keys that identify the synthetic "assets" collection created by the pipeline. */
+function isAssetsKey(key: string): boolean {
+  return key === "assets" || key.startsWith("assets-");
+}
+
+export function getProjectCollectionEntries(
+  project: Project,
+  options?: { excludeAssets?: boolean },
+): ProjectCollectionEntry[] {
   const out: ProjectCollectionEntry[] = [];
   const seen = new Set<string>();
 
   const pushEntry = (key: string, data: CollectionMapValue) => {
     if (!key || seen.has(key)) return;
+    if (options?.excludeAssets && isAssetsKey(key)) return;
     seen.add(key);
     out.push({ key, data });
   };
@@ -79,8 +88,32 @@ export function getProjectCollectionEntries(project: Project): ProjectCollection
   return out;
 }
 
-export function hasProjectCollectionItems(project: Project): boolean {
-  return getProjectCollectionEntries(project).some(({ data }) => {
+function extractItems(data: CollectionMapValue): CollectionItem[] {
+  if (Array.isArray(data)) return data;
+  if (!data || typeof data !== "object") return [];
+  const record = data as { items?: unknown; assets?: unknown };
+  if (Array.isArray(record.items)) return record.items as CollectionItem[];
+  if (Array.isArray(record.assets)) return record.assets as CollectionItem[];
+  return [];
+}
+
+/** Returns standalone project assets (not in a named collection), sorted by order. */
+export function getStandaloneProjectAssets(project: Project): CollectionItem[] {
+  const entries = getProjectCollectionEntries(project);
+  const items: CollectionItem[] = [];
+  for (const { key, data } of entries) {
+    if (isAssetsKey(key)) {
+      items.push(...extractItems(data));
+    }
+  }
+  return items.sort((a, b) => (a.order ?? Infinity) - (b.order ?? Infinity));
+}
+
+export function hasProjectCollectionItems(
+  project: Project,
+  options?: { excludeAssets?: boolean },
+): boolean {
+  return getProjectCollectionEntries(project, options).some(({ data }) => {
     if (Array.isArray(data)) return data.length > 0;
 
     if (!data || typeof data !== "object") return false;
@@ -89,4 +122,8 @@ export function hasProjectCollectionItems(project: Project): boolean {
     if (Array.isArray(record.assets) && record.assets.length > 0) return true;
     return false;
   });
+}
+
+export function hasStandaloneProjectAssets(project: Project): boolean {
+  return getStandaloneProjectAssets(project).length > 0;
 }

@@ -8,6 +8,7 @@ import { ProjectContent } from "./project-details/project-description-and-story"
 
 import { ProjectMetadata } from "./project-details/project-metadata";
 import { Collection } from "./project-details/collection/collection";
+import { ProjectStandaloneAssets } from "./project-details/project-standalone-assets";
 import { Button } from "./ui/button";
 import { useRouter } from "next/navigation";
 import { useBreadcrumb } from "@/lib/breadcrumb-context";
@@ -18,7 +19,7 @@ import ResourceButtons from "./project-details/resource-buttons";
 import { getProjectHref } from "@/lib/project-paths";
 import { cn, getOptimizedMediaPath } from "@/lib/utils";
 import { MediaDisplay } from "./ui/media-display";
-import { hasProjectCollectionItems } from "@/lib/project-collections";
+import { hasProjectCollectionItems, hasStandaloneProjectAssets } from "@/lib/project-collections";
 import { trackProjectOpen } from "@/lib/firebase-analytics";
 import { ArrowUpRight } from "lucide-react";
 
@@ -51,10 +52,11 @@ export function ProjectModal({ project, isOpen, onClose }: ProjectModalProps) {
     (project.description && String(project.description).trim()) ||
       (project.story && String(project.story).trim())
   );
-  const hasCollection = hasProjectCollectionItems(project);
+  const hasCollection = hasProjectCollectionItems(project, { excludeAssets: true });
   const hasWorkLogs = Boolean(project.workLogs && project.workLogs.length > 0);
   const hasArticles = Boolean(project.articles && project.articles.length > 0);
   const hasResources = Boolean(project.resources && project.resources.length > 0);
+  const hasAssets = hasStandaloneProjectAssets(project);
   const folderName = project.folderName || project.id;
   const folderPath = `/projects/${folderName}`;
   const bannerMedia =
@@ -86,7 +88,31 @@ export function ProjectModal({ project, isOpen, onClose }: ProjectModalProps) {
     });
   }
 
-  sections.push({
+  if (hasAssets) {
+    sections.push({
+      key: "assets",
+      content: <ProjectStandaloneAssets project={project} inModal />,
+    });
+  }
+
+  // Footer sections — ordered: articles, work logs, details
+  const footerSections: Array<{ key: string; content: ReactNode }> = [];
+
+  if (hasArticles) {
+    footerSections.push({
+      key: "articles",
+      content: <ProjectArticles project={project} />,
+    });
+  }
+
+  if (hasWorkLogs) {
+    footerSections.push({
+      key: "work-logs",
+      content: <ProjectWorkLogs project={project} />,
+    });
+  }
+
+  footerSections.push({
     key: "details",
     content: (
       <>
@@ -95,20 +121,6 @@ export function ProjectModal({ project, isOpen, onClose }: ProjectModalProps) {
       </>
     ),
   });
-
-  if (hasArticles) {
-    sections.push({
-      key: "articles",
-      content: <ProjectArticles project={project} />,
-    });
-  }
-
-  if (hasWorkLogs) {
-    sections.push({
-      key: "work-logs",
-      content: <ProjectWorkLogs project={project} />,
-    });
-  }
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -171,14 +183,25 @@ export function ProjectModal({ project, isOpen, onClose }: ProjectModalProps) {
                 <section
                   key={section.key}
                   className={cn(
-                    index === 0 ? "" : "border-t border-border pt-6",
-                    index < sections.length - 1 ? "pb-6" : ""
+                    index > 0 && "pt-6",
+                    index < sections.length - 1 && "pb-6",
                   )}
                 >
                   {section.content}
                 </section>
               ))}
             </div>
+
+            {/* Footer: articles → work logs → details */}
+            {footerSections.length > 0 && (
+              <div className="space-y-6">
+                {footerSections.map((section) => (
+                  <section key={section.key}>
+                    {section.content}
+                  </section>
+                ))}
+              </div>
+            )}
 
             <div className="pt-2">
               <ProjectDetailsFooter />

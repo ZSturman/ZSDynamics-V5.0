@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { ArrowUpRight, FolderOpen, Newspaper } from "lucide-react";
 
-import { PassiveChip } from "@/components/ui/passive-chip";
+import { MetadataTag, MetadataText } from "@/components/ui/metadata-text";
 import { formatDate } from "@/lib/utils";
 import type { ArticleListEntry } from "./article-list-types";
 
@@ -22,6 +22,11 @@ function getUpdatedDate(article: ArticleListEntry): string | null {
   }
 
   return formatDate(article.updatedAt) || article.updatedAt;
+}
+
+function getSeriesHref(series: string): string {
+  const params = new URLSearchParams({ q: `series:${series}` });
+  return `/articles?${params.toString()}`;
 }
 
 export function ArticleListItem({ article }: ArticleListItemProps) {
@@ -57,9 +62,14 @@ export function ArticleListItem({ article }: ArticleListItemProps) {
             <span>{getPrimaryDate(article)}</span>
             {updatedDate && <span>Updated {updatedDate}</span>}
             {article.series && (
-              <PassiveChip tone="strong" className="normal-case tracking-normal text-xs">
+              <MetadataText
+                href={getSeriesHref(article.series)}
+                tone="interactive"
+                size="sm"
+                className="relative z-20 normal-case tracking-normal underline decoration-border/70 underline-offset-4"
+              >
                 Series: {article.series}
-              </PassiveChip>
+              </MetadataText>
             )}
           </div>
 
@@ -73,11 +83,9 @@ export function ArticleListItem({ article }: ArticleListItemProps) {
           <p className="mt-2 text-sm leading-7 text-muted-foreground md:text-base" title={article.summary}>{article.oneLiner ?? article.summary}</p>
 
           {(article.tags?.length || article.relatedProjects.length) && (
-            <div className="mt-4 flex flex-wrap gap-2">
+            <div className="mt-4 flex flex-wrap gap-x-3 gap-y-2">
               {(article.tags || []).map((tag) => (
-                <PassiveChip key={`${article.slug}-${tag}`}>
-                  {tag}
-                </PassiveChip>
+                <MetadataTag key={`${article.slug}-${tag}`} tag={tag} size="sm" />
               ))}
               {article.relatedProjects.map((project) => (
                 <Link

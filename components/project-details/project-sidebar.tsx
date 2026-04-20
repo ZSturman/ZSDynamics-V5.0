@@ -1,4 +1,5 @@
 import { Badge } from "@/components/ui/badge";
+import { MetadataTag } from "@/components/ui/metadata-text";
 import { formatDate } from "@/lib/utils";
 import { Project } from "@/types";
 import { Calendar, AlertCircle, Clock, Archive } from "lucide-react";
@@ -153,11 +154,9 @@ export function ProjectSidebar({ project }: ProjectSidebarProps) {
             {project.tags && project.tags.length > 0 && (
               <div>
                 <p className="text-xs text-muted-foreground mb-1.5">Tags</p>
-                <div className="flex flex-wrap gap-1">
+                <div className="flex flex-wrap gap-x-2 gap-y-1">
                   {project.tags.map((tag) => (
-                    <Badge key={tag} variant="outline" className="text-xs pointer-events-none cursor-default bg-muted/20">
-                      {tag}
-                    </Badge>
+                    <MetadataTag key={tag} tag={tag} size="sm" className="text-xs" />
                   ))}
                 </div>
               </div>

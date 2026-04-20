@@ -2,9 +2,7 @@
 
 import Link from "next/link";
 import { useMemo } from "react";
-import { ExternalLink } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
-import { trackProjectResourceClick } from "@/lib/firebase-analytics";
 import { getProjectSlug } from "@/lib/project-paths";
 import { formatDate } from "@/lib/utils";
 import { Project, WorkLog } from "@/types";
@@ -85,7 +83,6 @@ export function ProjectWorkLogs({ project, limit }: ProjectWorkLogsProps) {
           const isLast = idx === projectLogs.length - 1;
           const summary = workLog.whatHappened || workLog.entry || "";
           const durationLabel = formatDuration(getDurationMinutes(workLog));
-          const sourceUrl = workLog.url;
 
           return (
             <div key={key} className="relative pl-8">
@@ -101,30 +98,9 @@ export function ProjectWorkLogs({ project, limit }: ProjectWorkLogsProps) {
 
                   {summary && <p className="whitespace-pre-wrap text-sm text-muted-foreground">{summary}</p>}
 
-                  {(durationLabel || sourceUrl) && (
+                  {durationLabel && (
                     <div className="flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
-                      {durationLabel && <span>Duration: {durationLabel}</span>}
-                      {sourceUrl && (
-                        <a
-                          href={sourceUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1 hover:text-foreground"
-                          onClick={() => {
-                            trackProjectResourceClick({
-                              projectSlug: getProjectSlug(project),
-                              projectTitle: project.title,
-                              resourceType: "work_log_source",
-                              resourceLabel: workLog.title || "Session source",
-                              resourceUrl: sourceUrl,
-                              isInternal: false,
-                            });
-                          }}
-                        >
-                          Session source
-                          <ExternalLink className="h-3 w-3" />
-                        </a>
-                      )}
+                      <span>Duration: {durationLabel}</span>
                     </div>
                   )}
                 </CardContent>

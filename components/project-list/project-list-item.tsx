@@ -1,6 +1,7 @@
 "use client";
 
 import { PassiveChip } from "@/components/ui/passive-chip";
+import { MetadataTag, MetadataText } from "@/components/ui/metadata-text";
 // Button is unused here; PrimaryActionButton provides the action button
 import { Card } from "@/components/ui/card";
 import type { Project } from "@/types";
@@ -99,16 +100,14 @@ export function ProjectListItem({ project, onClick, sortField = "updatedAt" }: P
           
 
           <div className="flex flex-col gap-1.5 md:flex-row md:items-center md:justify-between md:gap-2 max-w-full">
-            <div ref={tagsContainerRef} className="hidden md:flex flex-wrap gap-1 max-w-full overflow-hidden">
+            <div ref={tagsContainerRef} className="hidden md:flex flex-wrap gap-x-2 gap-y-1 max-w-full overflow-hidden">
               {(project.tags || []).slice(0, 4).map((tag: string) => (
-                <PassiveChip key={tag} className="text-[10px] md:text-xs truncate">
-                  {tag}
-                </PassiveChip>
+                <MetadataTag key={tag} tag={tag} size="sm" className="text-[10px] md:text-xs" />
               ))}
               {project.tags && project.tags.length > 4 && (
-                <PassiveChip className="text-[10px] md:text-xs">
-                  +{project.tags.length - 4}
-                </PassiveChip>
+                <MetadataText size="sm" className="text-[10px] md:text-xs">
+                  +{project.tags.length - 4} more
+                </MetadataText>
               )}
             </div>
           </div>

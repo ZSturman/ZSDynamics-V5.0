@@ -79,6 +79,8 @@ def determine_collection_item_type(raw_type: Optional[str], path_val: Optional[s
 
         if t == "url":
             return "url-link"
+        if t in ("link", "local-link"):
+            return "url-link"
         if t == "folio":
             return "folio"
 
@@ -1132,12 +1134,14 @@ def _infer_project_image_roles(asset_like: Dict[str, Any]) -> List[str]:
 
 def _normalize_item_type(item: Dict[str, Any]) -> str:
     raw_type = _as_str(item.get("type"))
+    raw_obj = item.get("raw") if isinstance(item.get("raw"), dict) else {}
     path_val = _first_non_empty(
         item.get("relativePath"),
         item.get("filePath"),
         item.get("path"),
         item.get("filename"),
         item.get("url"),
+        raw_obj.get("property_url"),
     )
     return determine_collection_item_type(raw_type, path_val)
 
@@ -1402,7 +1406,10 @@ def _normalize_collection_item(
         normalized_item_id = slugify(f"item-{order_index}")
 
     label = _first_non_empty(item.get("label"), item.get("name"), normalized_item_id) or normalized_item_id
+    raw_item = item.get("raw") if isinstance(item.get("raw"), dict) else {}
     order_value = item.get("order")
+    if not isinstance(order_value, (int, float)):
+        order_value = raw_item.get("property_project_order")
     if isinstance(order_value, (int, float)):
         order = int(order_value)
     else:
@@ -1475,6 +1482,10 @@ def _normalize_collection_item(
     if summary:
         out["summary"] = summary
 
+    one_liner = _as_str(item.get("oneLiner")) or _as_str(raw_item.get("property_one_liner"))
+    if one_liner:
+        out["oneLiner"] = one_liner
+
     if copied_file_name:
         out["filePath"] = copied_file_name
 
@@ -1483,7 +1494,6 @@ def _normalize_collection_item(
     elif item_type == "video":
         warnings.append(f"\u26a0\ufe0f Video item '{label}' in collection '{collection_name}' is missing a thumbnail")
 
-    raw_item = item.get("raw") if isinstance(item.get("raw"), dict) else {}
     item_url = _normalize_url(_first_non_empty(item.get("url"), raw_item.get("property_url")))
     target_id = None
     if item_type in {"url-link", "folio"}:

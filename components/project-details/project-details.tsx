@@ -14,9 +14,10 @@ import { ProjectSidebar } from "./project-sidebar";
 import { ProjectMetadata } from "./project-metadata";
 import { ProjectWorkLogs } from "./project-work-logs";
 import { ProjectArticles } from "./project-articles";
+import { ProjectStandaloneAssets } from "./project-standalone-assets";
 import ProjectDetailsMediaDisplay from "./project-details-media-display";
 import { ResourceEmbed, isEmbeddableResource } from "./resource-embed";
-import { hasProjectCollectionItems } from "@/lib/project-collections";
+import { hasProjectCollectionItems, hasStandaloneProjectAssets } from "@/lib/project-collections";
 
 interface ProjectDetailsProps {
   project: Project;
@@ -87,7 +88,7 @@ function MobileStatusBadge({ project }: { project: Project }) {
 
 /** Check if project has substantial content to warrant two-column layout */
 function hasSubstantialContent(project: Project): boolean {
-  const hasCollection = hasProjectCollectionItems(project);
+  const hasCollection = hasProjectCollectionItems(project, { excludeAssets: true });
   const hasDescription = project.description && project.description.trim().length > 0;
   const hasStory = project.story && project.story.trim().length > 0;
   const hasResources = project.resources && project.resources.length > 0;
@@ -119,10 +120,11 @@ export function ProjectDetails({ project }: ProjectDetailsProps) {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const hasCollection = hasProjectCollectionItems(project);
+  const hasCollection = hasProjectCollectionItems(project, { excludeAssets: true });
   const hasResources = project.resources && project.resources.length > 0;
   const hasWorkLogs = project.workLogs && project.workLogs.length > 0;
   const hasArticles = project.articles && project.articles.length > 0;
+  const hasAssets = hasStandaloneProjectAssets(project);
   const embeddableResource = (project.resources || []).find(isEmbeddableResource) ?? null;
   const useTwoColumnLayout = hasSubstantialContent(project);
 
@@ -181,24 +183,42 @@ export function ProjectDetails({ project }: ProjectDetailsProps) {
                 <ProjectDescriptionAndStory project={project} />
               </section>
 
-              {/* 6. Articles */}
-              {hasArticles && (
+              {/* 6. Standalone project assets */}
+              {hasAssets && (
                 <section>
-                  <ProjectArticles project={project} />
+                  <ProjectStandaloneAssets project={project} />
                 </section>
               )}
 
-              {/* 7. Work Logs */}
-              {hasWorkLogs && (
+              {/* 7. Footer area — dashboard on lg+, stacked on mobile */}
+              {(hasArticles || hasWorkLogs) && (
                 <section>
-                  <ProjectWorkLogs project={project} />
+                  {/* Desktop: side-by-side dashboard layout */}
+                  <div className="hidden lg:grid lg:grid-cols-[1fr_280px] lg:gap-8">
+                    <div className="space-y-8">
+                      {hasArticles && <ProjectArticles project={project} />}
+                      {hasWorkLogs && <ProjectWorkLogs project={project} />}
+                    </div>
+                    <div>
+                      <ProjectMetadata project={project} />
+                    </div>
+                  </div>
+
+                  {/* Mobile: stacked — articles, work logs, then metadata */}
+                  <div className="lg:hidden space-y-6">
+                    {hasArticles && <ProjectArticles project={project} />}
+                    {hasWorkLogs && <ProjectWorkLogs project={project} />}
+                    <ProjectMetadata project={project} />
+                  </div>
                 </section>
               )}
 
-              {/* 8. Mobile-only: Show metadata at bottom on smaller screens */}
-              <div className="lg:hidden">
-                <ProjectMetadata project={project} />
-              </div>
+              {/* If no articles or work logs, still show metadata on mobile */}
+              {!hasArticles && !hasWorkLogs && (
+                <div className="lg:hidden">
+                  <ProjectMetadata project={project} />
+                </div>
+              )}
             </div>
 
             {/* Sidebar Column - Sticky on desktop */}
@@ -248,21 +268,24 @@ export function ProjectDetails({ project }: ProjectDetailsProps) {
               <ProjectDescriptionAndStory project={project} />
             </section>
 
-            {/* 6. Articles */}
+            {/* 6. Standalone project assets */}
+            {hasAssets && (
+              <section>
+                <ProjectStandaloneAssets project={project} />
+              </section>
+            )}
+
+            {/* 7. Footer: articles → work logs → metadata */}
             {hasArticles && (
               <section>
                 <ProjectArticles project={project} />
               </section>
             )}
-
-            {/* 7. Work Logs */}
             {hasWorkLogs && (
               <section>
                 <ProjectWorkLogs project={project} />
               </section>
             )}
-
-            {/* 8. Metadata - Full width in single column */}
             <section>
               <ProjectMetadata project={project} />
             </section>

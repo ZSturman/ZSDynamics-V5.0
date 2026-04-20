@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { ArrowUpRight, FolderOpen, Newspaper } from "lucide-react";
 
-import { PassiveChip } from "@/components/ui/passive-chip";
+import { MetadataTag, MetadataText } from "@/components/ui/metadata-text";
 import { formatDate } from "@/lib/utils";
 import type { ArticleListEntry } from "./article-list-types";
 
@@ -14,6 +14,11 @@ interface ArticleCardProps {
 function getPrimaryDate(article: ArticleListEntry): string {
   const primaryDate = article.publishedAt ?? article.updatedAt;
   return formatDate(primaryDate) || primaryDate || "Undated";
+}
+
+function getSeriesHref(series: string): string {
+  const params = new URLSearchParams({ q: `series:${series}` });
+  return `/articles?${params.toString()}`;
 }
 
 export function ArticleCard({ article }: ArticleCardProps) {
@@ -45,7 +50,16 @@ export function ArticleCard({ article }: ArticleCardProps) {
         <div className="pointer-events-none absolute bottom-4 left-4 right-4 flex items-end justify-between gap-3">
           <div className="min-w-0 space-y-1">
             <p className="text-[11px] uppercase tracking-[0.16em] text-white/80">{getPrimaryDate(article)}</p>
-            {article.series && <p className="line-clamp-1 text-sm font-medium text-white">{article.series}</p>}
+            {article.series && (
+              <MetadataText
+                href={getSeriesHref(article.series)}
+                tone="interactive"
+                size="sm"
+                className="pointer-events-auto line-clamp-1 text-white/92 underline decoration-white/25 underline-offset-4 hover:text-white"
+              >
+                Series: {article.series}
+              </MetadataText>
+            )}
           </div>
           <div className="rounded-full bg-background/90 p-2 text-foreground shadow-sm ring-1 ring-border/50">
             <ArrowUpRight className="size-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
@@ -62,13 +76,13 @@ export function ArticleCard({ article }: ArticleCardProps) {
         </div>
 
         <div className="mt-auto space-y-3">
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-x-3 gap-y-1">
             {(article.tags || []).slice(0, 3).map((tag) => (
-              <PassiveChip key={`${article.slug}-${tag}`}>
-                {tag}
-              </PassiveChip>
+              <MetadataTag key={`${article.slug}-${tag}`} tag={tag} size="sm" />
             ))}
-            {article.tags && article.tags.length > 3 && <PassiveChip>+{article.tags.length - 3}</PassiveChip>}
+            {article.tags && article.tags.length > 3 && (
+              <MetadataText size="sm">+{article.tags.length - 3} more</MetadataText>
+            )}
           </div>
 
           {article.relatedProjects.length > 0 && (
@@ -83,7 +97,9 @@ export function ArticleCard({ article }: ArticleCardProps) {
                   {project.title}
                 </Link>
               ))}
-              {article.relatedProjects.length > 2 && <PassiveChip>+{article.relatedProjects.length - 2} projects</PassiveChip>}
+              {article.relatedProjects.length > 2 && (
+                <MetadataText size="sm">+{article.relatedProjects.length - 2} projects</MetadataText>
+              )}
             </div>
           )}
         </div>

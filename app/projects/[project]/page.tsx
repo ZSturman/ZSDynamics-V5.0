@@ -31,6 +31,8 @@ function toProjectArticleReference(article: Article): ProjectArticleReference {
     href: article.href,
     sourceUrl: article.sourceUrl,
     ...(article.coverImage ? { coverImage: article.coverImage } : {}),
+    ...(article.summary ? { summary: article.summary } : {}),
+    ...(article.oneLiner ? { oneLiner: article.oneLiner } : {}),
   }
 }
 

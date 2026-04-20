@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback, useRef } from "react"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { PassiveChip } from "@/components/ui/passive-chip"
+import { MetadataTag } from "@/components/ui/metadata-text"
 import { MediaDisplay } from "@/components/ui/media-display"
 import { trackProjectOpen } from "@/lib/firebase-analytics"
 import { getProjectHref } from "@/lib/project-paths"
@@ -225,9 +226,7 @@ export function FeaturedCarousel({
                             {/* Tags - Show up to 2 tags */}
                             <div className="flex items-center gap-2">
                               {project.tags?.slice(0, 2).map((tag) => (
-                                <PassiveChip key={tag} tone="strong" className="text-xs">
-                                  {tag}
-                                </PassiveChip>
+                                <MetadataTag key={tag} tag={tag} size="sm" className="text-xs text-muted-foreground/90" />
                               ))}
                               </div>
                           </div>
@@ -301,9 +300,7 @@ export function FeaturedCarousel({
                           {/* Tags - Show on md and up (max 3) */}
                           <div className="flex flex-wrap gap-2">
                             {project.tags?.slice(0, 3).map((tag) => (
-                              <PassiveChip key={tag} className="text-xs">
-                                {tag}
-                              </PassiveChip>
+                              <MetadataTag key={tag} tag={tag} size="sm" className="text-xs" />
                             ))}
                           </div>
                         </div>

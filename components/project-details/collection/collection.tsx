@@ -187,7 +187,7 @@ function CollectionItemGrid({
 }
 
 export function Collection({ project, inModal }: CollectionProps) {
-  const collectionEntries = getProjectCollectionEntries(project);
+  const collectionEntries = getProjectCollectionEntries(project, { excludeAssets: true });
   if (collectionEntries.length === 0) {
     return null;
   }

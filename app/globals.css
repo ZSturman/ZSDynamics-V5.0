@@ -129,11 +129,16 @@
 
 @layer components {
   .article-markdown {
-    @apply text-base leading-8 text-foreground;
+    @apply mx-auto max-w-4xl text-base leading-8 text-foreground;
   }
 
   .article-markdown > * + * {
     @apply mt-5;
+  }
+
+  .article-markdown-embed-wrapper,
+  .article-markdown-image-wrapper {
+    @apply my-8;
   }
 
   .article-markdown h1,

@@ -1,12 +1,34 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useDeferredValue, useEffect, useMemo, useState, type ReactNode } from "react";
 import Link from "next/link";
-import { ChevronDown, ChevronUp, ExternalLink, Search } from "lucide-react";
+import {
+  ArrowRight,
+  CalendarDays,
+  CalendarRange,
+  ChevronDown,
+  ChevronUp,
+  Clock3,
+  ExternalLink,
+  FileText,
+  Filter,
+  FlaskConical,
+  FolderKanban,
+  FolderOpen,
+  GraduationCap,
+  Hammer,
+  LayoutList,
+  PencilLine,
+  Search,
+  Sparkles,
+  Target,
+  TriangleAlert,
+  type LucideIcon,
+  Waypoints,
+} from "lucide-react";
+
+import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
-import { MediaDisplay } from "@/components/ui/media-display";
 import {
   Dialog,
   DialogContent,
@@ -14,38 +36,47 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { WorkLog } from "@/types";
-import { cn, formatDate, getOptimizedMediaPath, isImageFile, isVideoFile, getOptimizedImageExt } from "@/lib/utils";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Input } from "@/components/ui/input";
+import { MediaDisplay } from "@/components/ui/media-display";
+import { PassiveChip } from "@/components/ui/passive-chip";
+import { ProjectIdentity } from "@/components/ui/project-identity";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { cn, formatDate, getOptimizedImageExt, getOptimizedMediaPath, isImageFile, isVideoFile } from "@/lib/utils";
+import {
+  getWorkLogDurationMinutes,
+  getWorkLogStart,
+  getWorkLogSummary,
+  getWorkLogTimestamp,
+  getWorkLogTitle,
+  toTimestamp,
+  type WorkLogOverviewSummary,
+  type WorkLogProjectOption,
+  type WorkLogProjectSummary,
+  type WorkLogSessionSummary,
+  type WorkLogWithProject,
+} from "@/lib/work-logs";
 
-export type WorkLogWithProject = WorkLog & {
-  projectId?: string;
-  projectSlug?: string;
-  projectTitle?: string;
-  projectHref?: string;
-  projectFolderName?: string;
-};
+type DashboardTab = "overview" | "activity" | "projects";
+type ActivityLayout = "list" | "timeline";
+type TimelineSortOrder = "newest" | "oldest";
 
-export type TimelineSortOrder = "newest" | "oldest";
-export type TimelineViewMode = "rail" | "horizontal" | "project-chart" | "session-chart" | "duration-chart";
-
-export interface WorkLogProjectOption {
-  id: string;
-  slug: string;
-  href: string;
-  title: string;
-}
-
-interface WorkLogTimelineProps {
+interface WorkLogsDashboardProps {
   logs: WorkLogWithProject[];
+  projectOptions: WorkLogProjectOption[];
+  projectSummaries: WorkLogProjectSummary[];
+  overviewSummary: WorkLogOverviewSummary;
+  sessionSummaries: WorkLogSessionSummary[];
   emptyText?: string;
-  showControls?: boolean;
-  projectOptions?: WorkLogProjectOption[];
   initialProjectSlug?: string;
-  initialSortOrder?: TimelineSortOrder;
-  initialSessionType?: string;
-  initialSearchQuery?: string;
-  initialViewMode?: TimelineViewMode;
-  defaultControlsExpanded?: boolean;
   onProjectFilterChange?: (projectSlug?: string) => void;
 }
 
@@ -64,79 +95,49 @@ interface WorkLogAssetDisplay {
   mediaType: "image" | "video" | "file";
 }
 
-interface WeeklyBucket {
-  key: string;
-  label: string;
-  shortLabel: string;
-  logCount: number;
-  durationMinutes: number;
-  projectCounts: Record<string, number>;
-  sessionCounts: Record<string, number>;
-}
-
 const ALL_FILTER = "all";
-const UNTYPED_SESSION = "Unspecified";
 
-const PROJECT_PALETTE = [
-  "#0f766e",
-  "#1d4ed8",
-  "#b45309",
-  "#7c3aed",
-  "#be123c",
-  "#0369a1",
-  "#4d7c0f",
-  "#7c2d12",
-  "#4338ca",
-  "#c026d3",
-];
-
-const SESSION_PALETTE = [
-  "#0891b2",
-  "#ca8a04",
-  "#16a34a",
-  "#7c3aed",
-  "#dc2626",
-  "#2563eb",
-  "#0d9488",
-  "#a16207",
-  "#65a30d",
-  "#9333ea",
-];
-
-function toTimestamp(value?: string): number {
-  if (!value) return 0;
-  const parsed = Date.parse(value);
-  return Number.isNaN(parsed) ? 0 : parsed;
+function formatDuration(minutes?: number): string | null {
+  if (!minutes || minutes <= 0) return null;
+  if (minutes < 60) return `${minutes}m`;
+  const hours = Math.floor(minutes / 60);
+  const remainder = minutes % 60;
+  return remainder > 0 ? `${hours}h ${remainder}m` : `${hours}h`;
 }
 
-function getSessionStart(log: WorkLogWithProject): string | undefined {
-  return log.startTime || log.sessionStart || log.date;
+function formatShortDate(value?: string): string {
+  if (!value) return "No date";
+  return formatDate(value, { month: "short", day: "numeric" }) || "No date";
 }
 
-function getSessionEnd(log: WorkLogWithProject): string | undefined {
-  return log.endTime || log.sessionEnd || getSessionStart(log) || log.date;
+function formatLongDate(value?: string): string {
+  if (!value) return "No date";
+  return formatDate(value, { month: "long", day: "numeric", year: "numeric" }) || "No date";
 }
 
-function getLogTimestamp(log: WorkLogWithProject): number {
-  return toTimestamp(getSessionStart(log));
+function formatDateRange(start?: string, end?: string): string {
+  if (!start && !end) return "No date range";
+  if (!start || !end) return formatLongDate(start || end);
+
+  const startLabel = formatDate(start, { month: "short", day: "numeric", year: "numeric" });
+  const endLabel = formatDate(end, { month: "short", day: "numeric", year: "numeric" });
+  if (!startLabel || !endLabel) return "No date range";
+  return `${startLabel} - ${endLabel}`;
 }
 
 function formatSessionRange(log: WorkLogWithProject): string {
-  const start = getSessionStart(log);
-  const end = getSessionEnd(log);
+  const start = getWorkLogStart(log);
+  const end = log.endTime || log.sessionEnd || start;
 
   if (!start && !end) return "Session time not set";
-  if (!start && end) {
-    const endLabel = formatDate(end, { month: "short", day: "numeric", year: "numeric" });
-    return endLabel ? `Ends ${endLabel}` : "Session time not set";
-  }
+  if (!start && end) return `Ends ${formatLongDate(end)}`;
   if (!start) return "Session time not set";
 
   const startTs = toTimestamp(start);
   const endTs = toTimestamp(end);
-
   const startDay = formatDate(start, { month: "short", day: "numeric", year: "numeric" });
   const startClock = formatDate(start, { hour: "numeric", minute: "2-digit" });
+
   if (!end || !startTs || !endTs || endTs <= startTs) {
     if (startDay && startClock) return `${startDay} · ${startClock}`;
     return startDay || "Session time not set";
@@ -154,209 +155,10 @@ function formatSessionRange(log: WorkLogWithProject): string {
   return `${startPart} - ${endPart}`;
 }
 
-function formatShortDate(value?: string): string {
-  if (!value) return "No date";
-  return formatDate(value, { month: "short", day: "numeric" }) || "No date";
-}
-
-function getSessionDurationMinutes(log: WorkLogWithProject): number {
-  if (typeof log.durationMinutes === "number" && log.durationMinutes > 0) {
-    return log.durationMinutes;
-  }
-
-  const startTs = toTimestamp(getSessionStart(log));
-  const endTs = toTimestamp(getSessionEnd(log));
-  if (!startTs || !endTs || endTs <= startTs) return 0;
-  return Math.round((endTs - startTs) / 60000);
-}
-
-function formatDuration(minutes?: number): string | null {
-  if (!minutes || minutes <= 0) return null;
-  if (minutes < 60) return `${minutes}m`;
-  const hours = Math.floor(minutes / 60);
-  const remainder = minutes % 60;
-  return remainder > 0 ? `${hours}h ${remainder}m` : `${hours}h`;
-}
-
-function isAbsoluteUrl(value: string): boolean {
-  return value.startsWith("http://") || value.startsWith("https://");
-}
-
 function maybeString(value: unknown): string | undefined {
   if (typeof value !== "string") return undefined;
   const trimmed = value.trim();
   return trimmed.length > 0 ? trimmed : undefined;
-}
-
-function toAlphaColor(hex: string, alpha: number): string {
-  const raw = hex.replace("#", "");
-  if (raw.length !== 6) return hex;
-  const r = Number.parseInt(raw.slice(0, 2), 16);
-  const g = Number.parseInt(raw.slice(2, 4), 16);
-  const b = Number.parseInt(raw.slice(4, 6), 16);
-  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
-}
-
-function hashString(value: string): number {
-  let hash = 0;
-  for (let idx = 0; idx < value.length; idx += 1) {
-    hash = (hash << 5) - hash + value.charCodeAt(idx);
-    hash |= 0;
-  }
-  return Math.abs(hash);
-}
-
-function buildColorMap(keys: string[], palette: string[]): Map<string, string> {
-  const uniqueSorted = Array.from(new Set(keys.filter(Boolean))).sort((a, b) => a.localeCompare(b));
-  const used = new Set<number>();
-  const colorMap = new Map<string, string>();
-
-  uniqueSorted.forEach((key, idx) => {
-    let paletteIndex = hashString(key) % palette.length;
-    if (used.has(paletteIndex)) {
-      paletteIndex = idx % palette.length;
-    }
-    used.add(paletteIndex);
-    colorMap.set(key, palette[paletteIndex]);
-  });
-
-  return colorMap;
-}
-
-function normalizeFileNameForType(value: string): string {
-  const [withoutHash] = value.split("#");
-  const [withoutQuery] = withoutHash.split("?");
-  return withoutQuery;
-}
-
-function isPdfFile(path?: string | null): boolean {
-  if (!path) return false;
-  return normalizeFileNameForType(path).toLowerCase().endsWith(".pdf");
-}
-
-function createSearchText(log: WorkLogWithProject): string {
-  const assetTerms: string[] = [];
-
-  for (const asset of log.assets || []) {
-    if (!asset) continue;
-    if (typeof asset === "string") {
-      assetTerms.push(asset);
-      continue;
-    }
-    if (typeof asset !== "object") continue;
-
-    const record = asset as Record<string, unknown>;
-    assetTerms.push(
-      maybeString(record.label) || "",
-      maybeString(record.name) || "",
-      maybeString(record.url) || "",
-      maybeString(record.path) || "",
-      maybeString(record.relativePath) || ""
-    );
-  }
-
-  for (const resource of log.resources || []) {
-    if (!resource) continue;
-    assetTerms.push(resource.label || "", resource.url || "", resource.type || "");
-  }
-
-  return [
-    log.title,
-    log.entry,
-    log.whatHappened,
-    log.problems,
-    log.nextStep,
-    log.projectTitle,
-    log.assetUrl,
-    ...(log.sessionType || []),
-    ...assetTerms,
-  ]
-    .filter(Boolean)
-    .join("\n")
-    .toLowerCase();
-}
-
-function truncateText(value: string | undefined, maxLength: number): string {
-  if (!value) return "";
-  if (value.length <= maxLength) return value;
-  return `${value.slice(0, maxLength).trimEnd()}...`;
-}
-
-function groupLogsByMonth(logs: WorkLogWithProject[]): TimelineGroup[] {
-  const groups: TimelineGroup[] = [];
-
-  for (const log of logs) {
-    const value = getSessionStart(log) || log.date;
-    const key = value ? formatDate(value, "YYYY-MM") || "undated" : "undated";
-    const label = value ? formatDate(value, { month: "long", year: "numeric" }) || "Undated" : "Undated";
-    const current = groups[groups.length - 1];
-
-    if (!current || current.key !== key) {
-      groups.push({ key, label, logs: [log] });
-      continue;
-    }
-
-    current.logs.push(log);
-  }
-
-  return groups;
-}
-
-function getWeekBucketKey(dateValue?: string): string {
-  const ts = toTimestamp(dateValue);
-  if (!ts) return "undated";
-
-  const date = new Date(ts);
-  date.setHours(0, 0, 0, 0);
-  const day = (date.getDay() + 6) % 7;
-  date.setDate(date.getDate() - day);
-  return date.toISOString().slice(0, 10);
-}
-
-function buildWeeklyBuckets(logs: WorkLogWithProject[]): WeeklyBucket[] {
-  const bucketMap = new Map<string, WeeklyBucket>();
-
-  for (const log of logs) {
-    const bucketKey = getWeekBucketKey(getSessionStart(log));
-    const bucketLabel =
-      bucketKey === "undated"
-        ? "Undated"
-        : `${formatDate(bucketKey, { month: "short", day: "numeric" }) || bucketKey} week`;
-    const shortLabel =
-      bucketKey === "undated" ? "n/a" : formatDate(bucketKey, { month: "short", day: "numeric" }) || bucketKey;
-
-    const bucket =
-      bucketMap.get(bucketKey) ||
-      {
-        key: bucketKey,
-        label: bucketLabel,
-        shortLabel,
-        logCount: 0,
-        durationMinutes: 0,
-        projectCounts: {},
-        sessionCounts: {},
-      };
-
-    bucket.logCount += 1;
-    bucket.durationMinutes += getSessionDurationMinutes(log);
-
-    const projectKey = log.projectTitle || "Unknown project";
-    bucket.projectCounts[projectKey] = (bucket.projectCounts[projectKey] || 0) + 1;
-
-    const sessionTypes = log.sessionType && log.sessionType.length > 0 ? log.sessionType : [UNTYPED_SESSION];
-    const uniqueSessionTypes = Array.from(new Set(sessionTypes));
-    for (const sessionType of uniqueSessionTypes) {
-      bucket.sessionCounts[sessionType] = (bucket.sessionCounts[sessionType] || 0) + 1;
-    }
-
-    bucketMap.set(bucketKey, bucket);
-  }
-
-  return Array.from(bucketMap.values()).sort((a, b) => {
-    if (a.key === "undated") return 1;
-    if (b.key === "undated") return -1;
-    return a.key.localeCompare(b.key);
-  });
 }
 
 function asRecord(value: unknown): Record<string, unknown> | null {
@@ -368,6 +170,31 @@ function getStringFromUnknown(value: unknown): string | undefined {
   const record = asRecord(value);
   if (!record) return undefined;
   return maybeString(record.path) || maybeString(record.url) || maybeString(record.href);
+}
+
+function isAbsoluteUrl(value: string): boolean {
+  return value.startsWith("http://") || value.startsWith("https://");
+}
+
+function isPdfFile(path?: string | null): boolean {
+  if (!path) return false;
+  return path.split("?")[0]?.split("#")[0]?.toLowerCase().endsWith(".pdf") || false;
+}
+
+function toOptimizedPath(value: string): string {
+  if (!value || isAbsoluteUrl(value)) return value;
+  if (value.includes("-optimized") || value.includes("-thumb") || value.includes("-placeholder")) return value;
+
+  if (isVideoFile(value)) {
+    return value.replace(/\.[^.]+$/, "-optimized.mp4");
+  }
+
+  if (isImageFile(value)) {
+    const ext = getOptimizedImageExt(value);
+    return value.replace(/\.[^.]+$/, `-optimized${ext}`);
+  }
+
+  return value;
 }
 
 function buildAssetPathCandidates(pathValue: string, projectFolderName?: string): string[] {
@@ -395,29 +222,12 @@ function buildAssetPathCandidates(pathValue: string, projectFolderName?: string)
   return Array.from(new Set([optimized, original]));
 }
 
-function toOptimizedPath(value: string): string {
-  if (!value || isAbsoluteUrl(value)) return value;
-  if (value.includes("-optimized") || value.includes("-thumb") || value.includes("-placeholder")) return value;
-
-  if (isVideoFile(value)) {
-    return value.replace(/\.[^.]+$/, "-optimized.mp4");
-  }
-
-  if (isImageFile(value)) {
-    const ext = getOptimizedImageExt(value);
-    return value.replace(/\.[^.]+$/, `-optimized${ext}`);
-  }
-
-  return value;
-}
-
 function resolveWorkLogAssets(log: WorkLogWithProject): WorkLogAssetDisplay[] {
   const assets: WorkLogAssetDisplay[] = [];
   const seen = new Set<string>();
 
   const pushAsset = (asset: WorkLogAssetDisplay | null) => {
-    if (!asset) return;
-    if (seen.has(asset.href)) return;
+    if (!asset || seen.has(asset.href)) return;
     seen.add(asset.href);
     assets.push(asset);
   };
@@ -442,18 +252,11 @@ function resolveWorkLogAssets(log: WorkLogWithProject): WorkLogAssetDisplay[] {
 
     const primaryCandidates = primaryPath ? buildAssetPathCandidates(primaryPath, log.projectFolderName) : [];
     const thumbnailCandidates = thumbnailPath ? buildAssetPathCandidates(thumbnailPath, log.projectFolderName) : [];
-
     const href = primaryCandidates[primaryCandidates.length - 1] || thumbnailCandidates[thumbnailCandidates.length - 1];
     if (!href) continue;
 
     const previewCandidates = Array.from(new Set([...thumbnailCandidates, ...primaryCandidates])).filter(Boolean);
     const candidateForType = previewCandidates[0] || href;
-
-    const mediaType: WorkLogAssetDisplay["mediaType"] = isVideoFile(candidateForType)
-      ? "video"
-      : isImageFile(candidateForType)
-        ? "image"
-        : "file";
 
     pushAsset({
       key: `${log.id}-${label}-${href}`,
@@ -461,11 +264,11 @@ function resolveWorkLogAssets(log: WorkLogWithProject): WorkLogAssetDisplay[] {
       href,
       source: "asset",
       previewCandidates,
-      mediaType,
+      mediaType: isVideoFile(candidateForType) ? "video" : isImageFile(candidateForType) ? "image" : "file",
     });
   }
 
-  if (log.resource && log.resource.url) {
+  if (log.resource?.url) {
     pushAsset({
       key: `${log.id}-resource-singular-${log.resource.url}`,
       label: log.resource.label || "Resource",
@@ -491,16 +294,16 @@ function resolveWorkLogAssets(log: WorkLogWithProject): WorkLogAssetDisplay[] {
   if (log.assetUrl) {
     const candidates = buildAssetPathCandidates(log.assetUrl, log.projectFolderName);
     const href = candidates[candidates.length - 1];
-    if (href) {
-      pushAsset({
-        key: `${log.id}-asset-url-${href}`,
-        label: "Asset URL",
-        href,
-        source: "asset-url",
-        previewCandidates: candidates,
-        mediaType: isVideoFile(href) ? "video" : isImageFile(href) ? "image" : "file",
-      });
-    }
+    if (!href) return assets;
+
+    pushAsset({
+      key: `${log.id}-asset-url-${href}`,
+      label: "Asset URL",
+      href,
+      source: "asset-url",
+      previewCandidates: candidates,
+      mediaType: isVideoFile(href) ? "video" : isImageFile(href) ? "image" : "file",
+    });
   }
 
   return assets;
@@ -554,12 +357,95 @@ function useResolvedAssetSrc(candidates: string[]): string | null {
   return resolved;
 }
 
+function createSearchText(log: WorkLogWithProject): string {
+  const assetTerms: string[] = [];
+
+  for (const asset of log.assets || []) {
+    if (!asset) continue;
+    if (typeof asset === "string") {
+      assetTerms.push(asset);
+      continue;
+    }
+    if (typeof asset !== "object") continue;
+
+    const record = asset as Record<string, unknown>;
+    assetTerms.push(
+      maybeString(record.label) || "",
+      maybeString(record.name) || "",
+      maybeString(record.url) || "",
+      maybeString(record.path) || "",
+      maybeString(record.relativePath) || ""
+    );
+  }
+
+  for (const resource of log.resources || []) {
+    if (!resource) continue;
+    assetTerms.push(resource.label || "", resource.url || "", resource.type || "");
+  }
+
+  return [
+    log.title,
+    log.entry,
+    log.whatHappened,
+    log.problems,
+    log.nextStep,
+    log.projectTitle,
+    log.assetUrl,
+    ...(log.sessionType || []),
+    ...assetTerms,
+  ]
+    .filter(Boolean)
+    .join("\n")
+    .toLowerCase();
+}
+
+function groupLogsByMonth(logs: WorkLogWithProject[]): TimelineGroup[] {
+  const groups: TimelineGroup[] = [];
+
+  for (const log of logs) {
+    const value = getWorkLogStart(log) || log.date;
+    const key = value ? formatDate(value, "YYYY-MM") || "undated" : "undated";
+    const label = value ? formatDate(value, { month: "long", year: "numeric" }) || "Undated" : "Undated";
+    const current = groups[groups.length - 1];
+
+    if (!current || current.key !== key) {
+      groups.push({ key, label, logs: [log] });
+      continue;
+    }
+
+    current.logs.push(log);
+  }
+
+  return groups;
+}
+
+function getSessionTypeMeta(sessionType?: string): { icon: LucideIcon; label: string } {
+  const normalized = (sessionType || "").trim().toLowerCase();
+
+  switch (normalized) {
+    case "organizing":
+      return { icon: FolderKanban, label: sessionType || "Organizing" };
+    case "planning":
+      return { icon: Target, label: sessionType || "Planning" };
+    case "build":
+      return { icon: Hammer, label: sessionType || "Build" };
+    case "learning":
+      return { icon: GraduationCap, label: sessionType || "Learning" };
+    case "experiment":
+      return { icon: FlaskConical, label: sessionType || "Experiment" };
+    case "writing":
+      return { icon: PencilLine, label: sessionType || "Writing" };
+    default:
+      return { icon: Sparkles, label: sessionType || "Session" };
+  }
+}
+
 function AssetPreview({ candidates, alt }: { candidates: string[]; alt: string }) {
   const src = useResolvedAssetSrc(candidates);
   if (!src) return null;
 
   return (
-    <div className="relative aspect-video w-full overflow-hidden rounded-md border border-border/70 bg-muted/20">
+    <div className="relative aspect-video w-full overflow-hidden rounded-xl border border-border/70 bg-muted/20">
       <MediaDisplay src={src} alt={alt} fill className="object-cover" loop={false} autoPlay={false} />
     </div>
   );
@@ -588,7 +474,7 @@ function WorkLogAssetDialog({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-6xl p-0" showCloseButton>
-        {asset && (
+        {asset ? (
           <>
             <DialogHeader className="border-b px-4 py-3 md:px-6 md:py-4">
               <DialogTitle className="pr-12 text-base md:text-lg">{asset.label}</DialogTitle>
@@ -608,12 +494,12 @@ function WorkLogAssetDialog({
 
             <div className="max-h-[80vh] overflow-auto p-4 md:p-6">
               {isImage ? (
-                <div className="relative h-[68vh] w-full overflow-hidden rounded-md border border-border/70 bg-muted/10">
+                <div className="relative h-[68vh] w-full overflow-hidden rounded-xl border border-border/70 bg-muted/10">
                   <MediaDisplay src={activeSrc} alt={asset.label} fill className="object-contain" loop={false} autoPlay={false} />
                 </div>
               ) : isVideo ? (
-                <div className="w-full rounded-md border border-border/70 bg-black/80 p-2">
-                  <video src={activeSrc} controls className="max-h-[70vh] w-full rounded-md" playsInline>
+                <div className="w-full rounded-xl border border-border/70 bg-black/80 p-2">
+                  <video src={activeSrc} controls className="max-h-[70vh] w-full rounded-lg" playsInline>
                     Your browser does not support this video.
                   </video>
                 </div>
@@ -621,16 +507,16 @@ function WorkLogAssetDialog({
                 <iframe
                   src={activeSrc}
                   title={asset.label}
-                  className="h-[70vh] w-full rounded-md border border-border/70 bg-background"
+                  className="h-[70vh] w-full rounded-xl border border-border/70 bg-background"
                 />
               ) : (
-                <div className="rounded-md border border-border/70 bg-muted/10 p-6 text-sm text-muted-foreground">
+                <div className="rounded-xl border border-border/70 bg-muted/10 p-6 text-sm text-muted-foreground">
                   Inline preview is not available for this asset. Use <span className="font-medium">Open original</span>.
                 </div>
               )}
             </div>
           </>
-        )}
+        ) : null}
       </DialogContent>
     </Dialog>
   );
@@ -642,20 +528,20 @@ function WorkLogAssetGallery({ log }: { log: WorkLogWithProject }) {
 
   if (assets.length === 0) return null;
 
-  const visibleAssets = assets.slice(0, 6);
+  const visibleAssets = assets.slice(0, 4);
 
   return (
     <>
-      <div className="space-y-2">
+      <div className="space-y-3">
         <div className="flex items-center justify-between gap-2">
-          <p className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">Assets</p>
+          <p className="text-[11px] font-medium uppercase tracking-[0.16em] text-muted-foreground">Assets</p>
           <span className="text-[10px] text-muted-foreground">
             {visibleAssets.length}
             {assets.length > visibleAssets.length ? ` of ${assets.length}` : ""}
           </span>
         </div>
 
-        <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+        <div className="grid gap-2 sm:grid-cols-2">
           {visibleAssets.map((asset) => {
             const isMedia = asset.mediaType === "image" || asset.mediaType === "video";
 
@@ -664,21 +550,21 @@ function WorkLogAssetGallery({ log }: { log: WorkLogWithProject }) {
                 key={asset.key}
                 type="button"
                 onClick={() => setSelectedAsset(asset)}
-                className="group rounded-md border border-border/70 bg-background p-2 text-left transition-colors hover:border-primary/50"
+                className="group rounded-2xl border border-border/70 bg-background p-2.5 text-left transition-colors hover:border-primary/40"
               >
                 {isMedia && asset.previewCandidates.length > 0 ? (
                   <AssetPreview candidates={asset.previewCandidates} alt={asset.label} />
                 ) : (
-                  <div className="flex h-14 items-center rounded-md border border-dashed border-border/80 px-3 text-xs text-muted-foreground">
+                  <div className="flex h-16 items-center justify-center rounded-xl border border-dashed border-border/80 px-3 text-xs text-muted-foreground">
                     Open preview
                   </div>
                 )}
 
                 <div className="mt-2 flex items-start justify-between gap-2">
-                  <p className="line-clamp-2 text-[11px] font-medium text-foreground/90">{asset.label}</p>
-                  <ExternalLink className="mt-0.5 h-3.5 w-3.5 shrink-0 text-muted-foreground group-hover:text-primary" />
+                  <p className="line-clamp-2 text-xs font-medium text-foreground">{asset.label}</p>
+                  <ExternalLink className="mt-0.5 h-3.5 w-3.5 shrink-0 text-muted-foreground transition-colors group-hover:text-primary" />
                 </div>
-                <p className="mt-1 text-[10px] uppercase tracking-wide text-muted-foreground">{asset.source}</p>
+                <p className="mt-1 text-[10px] uppercase tracking-[0.16em] text-muted-foreground">{asset.source}</p>
               </button>
             );
           })}
@@ -690,380 +576,625 @@ function WorkLogAssetGallery({ log }: { log: WorkLogWithProject }) {
   );
 }
 
-function SessionBadge({ label, color }: { label: string; color: string }) {
-  const style = {
-    borderColor: toAlphaColor(color, 0.45),
-    backgroundColor: toAlphaColor(color, 0.13),
-    color,
-  };
-
-  return (
-    <Badge variant="outline" style={style} className="pointer-events-none cursor-default text-[10px]">
-      {label}
-    </Badge>
-  );
-}
-
-function ProjectLegend({ colorMap }: { colorMap: Map<string, string> }) {
-  const entries = Array.from(colorMap.entries());
-  if (entries.length === 0) return null;
-
-  return (
-    <div className="flex flex-wrap gap-2">
-      {entries.map(([label, color]) => (
-        <div
-          key={label}
-          className="inline-flex items-center gap-1.5 rounded-md border border-border/70 bg-background px-2 py-1 text-[11px] text-muted-foreground"
-        >
-          <span className="h-2 w-2 rounded-full" style={{ backgroundColor: color }} />
-          <span className="max-w-[150px] truncate">{label}</span>
-        </div>
-      ))}
-    </div>
-  );
-}
-
-function ChartBars({
-  buckets,
-  countsKey,
-  colorMap,
-  title,
+function SummaryMetricCard({
+  icon: Icon,
+  label,
+  value,
+  secondary,
 }: {
-  buckets: WeeklyBucket[];
-  countsKey: "projectCounts" | "sessionCounts";
-  colorMap: Map<string, string>;
-  title: string;
+  icon: LucideIcon;
+  label: string;
+  value: string;
+  secondary: string;
 }) {
-  if (buckets.length === 0) return null;
+  return (
+    <Card className="border-border/70 bg-card/65 shadow-sm">
+      <CardContent className="space-y-3 p-4">
+        <div className="inline-flex items-center gap-2 rounded-full border border-border/70 bg-background px-2.5 py-1 text-[11px] font-medium uppercase tracking-[0.16em] text-muted-foreground">
+          <Icon className="size-3.5" />
+          {label}
+        </div>
+        <div className="space-y-1">
+          <p className="text-lg font-semibold tracking-tight text-foreground md:text-xl">{value}</p>
+          <p className="text-sm leading-6 text-muted-foreground">{secondary}</p>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
 
-  const maxCount = Math.max(...buckets.map((bucket) => bucket.logCount), 1);
+function MetaChip({
+  icon: Icon,
+  label,
+  tone = "default",
+  className,
+}: {
+  icon: LucideIcon;
+  label: string;
+  tone?: "default" | "strong";
+  className?: string;
+}) {
+  return (
+    <PassiveChip tone={tone} className={cn("gap-1.5 text-[11px] leading-none", className)}>
+      <Icon className="size-3.5" />
+      {label}
+    </PassiveChip>
+  );
+}
+
+function SectionCard({
+  title,
+  description,
+  children,
+  action,
+}: {
+  title: string;
+  description?: string;
+  children: ReactNode;
+  action?: ReactNode;
+}) {
+  return (
+    <Card className="border-border/70 bg-card/55 shadow-sm">
+      <CardContent className="space-y-4 p-4 md:p-5">
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div className="space-y-1">
+            <h3 className="text-sm font-semibold tracking-tight text-foreground md:text-base">{title}</h3>
+            {description ? <p className="text-sm leading-6 text-muted-foreground">{description}</p> : null}
+          </div>
+          {action}
+        </div>
+        {children}
+      </CardContent>
+    </Card>
+  );
+}
+
+function SessionTypePill({ sessionType, count }: { sessionType: string; count?: number }) {
+  const { icon: Icon, label } = getSessionTypeMeta(sessionType);
 
   return (
-    <Card className="border-border/70 shadow-sm">
-      <CardContent className="space-y-4 p-3 md:p-4">
-        <div className="flex items-center justify-between gap-2">
-          <h4 className="text-sm font-semibold">{title}</h4>
-          <span className="text-xs text-muted-foreground">Weekly buckets</span>
-        </div>
+    <PassiveChip className="gap-1.5 text-[11px] leading-none">
+      <Icon className="size-3.5" />
+      <span>{label}</span>
+      {typeof count === "number" ? <span className="text-muted-foreground">· {count}</span> : null}
+    </PassiveChip>
+  );
+}
 
-        <div className="overflow-x-auto pb-1">
-          <div className="flex min-w-max items-end gap-3 rounded-md border border-border/60 bg-muted/10 p-3">
-            {buckets.map((bucket, idx) => {
-              const countMap = bucket[countsKey];
-              const segments = Object.entries(countMap).sort((a, b) => b[1] - a[1]);
-              const barHeight = Math.max(Math.round((bucket.logCount / maxCount) * 100), 8);
+function ProjectFilterMenu({
+  projectOptions,
+  selectedProject,
+  onSelect,
+}: {
+  projectOptions: WorkLogProjectOption[];
+  selectedProject?: WorkLogProjectOption;
+  onSelect: (projectSlug?: string) => void;
+}) {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="outline" className="h-auto min-h-10 rounded-full px-3 py-2 shadow-sm">
+          <span className="min-w-0 flex-1">
+            {selectedProject ? (
+              <ProjectIdentity
+                title={selectedProject.title}
+                iconSrc={selectedProject.projectIconSrc}
+                thumbnailSrc={selectedProject.projectThumbnailSrc}
+                size="sm"
+                truncate
+              />
+            ) : (
+              <span className="inline-flex items-center gap-2 text-sm font-medium">
+                <FolderOpen className="size-4 text-muted-foreground" />
+                All projects
+              </span>
+            )}
+          </span>
+          <ChevronDown className="size-4 text-muted-foreground" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="w-[320px]">
+        <DropdownMenuLabel>Project scope</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuRadioGroup
+          value={selectedProject?.slug || ALL_FILTER}
+          onValueChange={(value) => onSelect(value === ALL_FILTER ? undefined : value)}
+        >
+          <DropdownMenuRadioItem value={ALL_FILTER}>
+            <span className="inline-flex items-center gap-2">
+              <FolderOpen className="size-4 text-muted-foreground" />
+              All projects
+            </span>
+          </DropdownMenuRadioItem>
 
-              const titleText = [
-                `${bucket.label}`,
-                `${bucket.logCount} log${bucket.logCount === 1 ? "" : "s"}`,
-                ...segments.map(([label, count]) => `${label}: ${count}`),
-              ].join("\n");
+          {projectOptions.map((project) => (
+            <DropdownMenuRadioItem key={project.id} value={project.slug}>
+              <ProjectIdentity
+                title={project.title}
+                iconSrc={project.projectIconSrc}
+                thumbnailSrc={project.projectThumbnailSrc}
+                size="sm"
+                truncate
+              />
+            </DropdownMenuRadioItem>
+          ))}
+        </DropdownMenuRadioGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
 
-              return (
-                <div key={bucket.key} className="flex w-[42px] flex-col items-center gap-2" title={titleText}>
-                  <div className="relative h-44 w-full overflow-hidden rounded-md border border-border/70 bg-background/80">
-                    <div className="absolute inset-x-0 bottom-0 flex flex-col-reverse" style={{ height: `${barHeight}%` }}>
-                      {segments.map(([label, count]) => {
-                        const color = colorMap.get(label) || "#64748b";
-                        return <span key={`${bucket.key}-${label}`} style={{ flex: count, backgroundColor: color }} />;
-                      })}
-                    </div>
+function OverviewTab({
+  summary,
+  projectSummaries,
+  sessionSummaries,
+  selectedProjectTitle,
+}: {
+  summary: WorkLogOverviewSummary;
+  projectSummaries: WorkLogProjectSummary[];
+  sessionSummaries: WorkLogSessionSummary[];
+  selectedProjectTitle?: string;
+}) {
+  const topProjects = useMemo(
+    () =>
+      [...projectSummaries]
+        .filter((project) => project.logCount > 0)
+        .sort((left, right) => right.logCount - left.logCount || toTimestamp(right.latestSessionStart) - toTimestamp(left.latestSessionStart))
+        .slice(0, 5),
+    [projectSummaries]
+  );
+
+  const cadenceLines = selectedProjectTitle
+    ? [
+        `${summary.totalLogs} recorded session${summary.totalLogs === 1 ? "" : "s"} for ${selectedProjectTitle}.`,
+        summary.mostRecentSessionStart
+          ? `Most recent work landed on ${formatLongDate(summary.mostRecentSessionStart)}.`
+          : "No recent session date is available.",
+      ]
+    : [
+        `${summary.totalLogs} recorded session${summary.totalLogs === 1 ? "" : "s"} across ${summary.totalProjects} project${
+          summary.totalProjects === 1 ? "" : "s"
+        }.`,
+        summary.logsLast30Days > 0
+          ? `${summary.logsLast30Days} session${summary.logsLast30Days === 1 ? "" : "s"} landed in the last 30 days across ${
+              summary.activeProjectsLast30Days
+            } project${summary.activeProjectsLast30Days === 1 ? "" : "s"}.`
+          : "No sessions landed in the last 30 days.",
+      ];
+
+  return (
+    <div className="space-y-5">
+      <div className="grid gap-3 md:grid-cols-3">
+        <SummaryMetricCard
+          icon={CalendarDays}
+          label="Most recent session"
+          value={formatLongDate(summary.mostRecentSessionStart)}
+          secondary={
+            summary.totalLogs > 0
+              ? `${summary.totalLogs} session${summary.totalLogs === 1 ? "" : "s"} recorded`
+              : "No sessions recorded yet"
+          }
+        />
+        <SummaryMetricCard
+          icon={CalendarRange}
+          label="Tracking window"
+          value={formatDateRange(summary.earliestSessionStart, summary.latestSessionStart)}
+          secondary={
+            summary.totalProjects > 0
+              ? `${summary.totalProjects} project${summary.totalProjects === 1 ? "" : "s"} represented`
+              : "No projects tracked yet"
+          }
+        />
+        <SummaryMetricCard
+          icon={Clock3}
+          label="Tracked time"
+          value={formatDuration(summary.totalDurationMinutes) || "0m"}
+          secondary={
+            summary.totalDurationMinutes > 0
+              ? "Calculated from session duration when available"
+              : "Duration will appear as sessions capture start and end times"
+          }
+        />
+      </div>
+
+      <div className="grid gap-4 xl:grid-cols-[1.1fr_0.9fr]">
+        <SectionCard
+          title={selectedProjectTitle ? "Project focus" : "Top active projects"}
+          description={
+            selectedProjectTitle
+              ? "The selected project stays visible here as the primary work stream."
+              : "Projects with the heaviest activity, kept readable instead of charted."
+          }
+        >
+          {topProjects.length > 0 ? (
+            <div className="space-y-3">
+              {topProjects.map((project) => (
+                <div
+                  key={project.id}
+                  className="flex flex-col gap-3 rounded-2xl border border-border/70 bg-background/80 p-3 sm:flex-row sm:items-center sm:justify-between"
+                >
+                  <ProjectIdentity
+                    title={project.title}
+                    href={project.href}
+                    iconSrc={project.projectIconSrc}
+                    thumbnailSrc={project.projectThumbnailSrc}
+                    truncate
+                    size="sm"
+                    variant="chip"
+                    className="max-w-full"
+                  />
+
+                  <div className="flex flex-wrap gap-2">
+                    <MetaChip icon={CalendarDays} label={formatShortDate(project.latestSessionStart)} />
+                    <MetaChip icon={Clock3} label={formatDuration(project.totalDurationMinutes) || "0m"} />
+                    <MetaChip
+                      icon={FileText}
+                      label={`${project.logCount} log${project.logCount === 1 ? "" : "s"}`}
+                    />
                   </div>
-
-                  <span className="text-[10px] text-muted-foreground">{idx % 2 === 0 ? bucket.shortLabel : ""}</span>
                 </div>
-              );
-            })}
-          </div>
-        </div>
-      </CardContent>
-    </Card>
-  );
-}
+              ))}
+            </div>
+          ) : (
+            <p className="text-sm text-muted-foreground">No project activity has been recorded yet.</p>
+          )}
+        </SectionCard>
 
-function DurationTrendChart({ buckets }: { buckets: WeeklyBucket[] }) {
-  if (buckets.length === 0) return null;
-
-  const chartHeight = 240;
-  const chartWidth = Math.max(480, buckets.length * 84);
-  const padding = { top: 18, right: 16, bottom: 36, left: 32 };
-  const innerWidth = chartWidth - padding.left - padding.right;
-  const innerHeight = chartHeight - padding.top - padding.bottom;
-
-  const maxDuration = Math.max(...buckets.map((bucket) => bucket.durationMinutes), 1);
-
-  const points = buckets.map((bucket, idx) => {
-    const x =
-      buckets.length <= 1
-        ? padding.left + innerWidth / 2
-        : padding.left + (idx / (buckets.length - 1)) * innerWidth;
-
-    const ratio = bucket.durationMinutes / maxDuration;
-    const y = padding.top + (1 - ratio) * innerHeight;
-    return { bucket, x, y };
-  });
-
-  const linePath = points
-    .map((point, idx) => `${idx === 0 ? "M" : "L"} ${point.x.toFixed(2)} ${point.y.toFixed(2)}`)
-    .join(" ");
-
-  const first = points[0];
-  const last = points[points.length - 1];
-  const baselineY = padding.top + innerHeight;
-  const areaPath = `${linePath} L ${last.x.toFixed(2)} ${baselineY.toFixed(2)} L ${first.x.toFixed(2)} ${baselineY.toFixed(2)} Z`;
-
-  const totalDuration = buckets.reduce((sum, bucket) => sum + bucket.durationMinutes, 0);
-  const averageDuration = Math.round(totalDuration / buckets.length);
-
-  return (
-    <Card className="border-border/70 shadow-sm">
-      <CardContent className="space-y-4 p-3 md:p-4">
-        <div className="flex flex-wrap items-start justify-between gap-2">
-          <div>
-            <h4 className="text-sm font-semibold">Session Duration Over Time</h4>
-            <p className="text-xs text-muted-foreground">Weekly total duration by session start/end</p>
-          </div>
-          <div className="text-right text-xs text-muted-foreground">
-            <p>Total: {formatDuration(totalDuration) || "0m"}</p>
-            <p>Avg / week: {formatDuration(averageDuration) || "0m"}</p>
-          </div>
-        </div>
-
-        <div className="overflow-x-auto pb-1">
-          <svg width={chartWidth} height={chartHeight} className="rounded-md border border-border/60 bg-muted/10">
-            {[0, 0.25, 0.5, 0.75, 1].map((ratio) => {
-              const y = padding.top + ratio * innerHeight;
-              return (
-                <line
-                  key={ratio}
-                  x1={padding.left}
-                  y1={y}
-                  x2={chartWidth - padding.right}
-                  y2={y}
-                  stroke="currentColor"
-                  opacity={0.12}
+        <SectionCard
+          title="Session mix"
+          description="Session types stay icon-led so the dashboard does not depend on color to explain itself."
+        >
+          {sessionSummaries.length > 0 ? (
+            <div className="flex flex-wrap gap-2">
+              {sessionSummaries.map((sessionSummary) => (
+                <SessionTypePill
+                  key={sessionSummary.sessionType}
+                  sessionType={sessionSummary.sessionType}
+                  count={sessionSummary.count}
                 />
-              );
-            })}
+              ))}
+            </div>
+          ) : (
+            <p className="text-sm text-muted-foreground">No session types have been recorded yet.</p>
+          )}
+        </SectionCard>
+      </div>
 
-            <path d={areaPath} fill="rgba(37, 99, 235, 0.18)" />
-            <path d={linePath} fill="none" stroke="#2563eb" strokeWidth={2.5} strokeLinecap="round" />
-
-            {points.map((point) => (
-              <g key={point.bucket.key}>
-                <circle cx={point.x} cy={point.y} r={4} fill="#2563eb" />
-                <text x={point.x} y={chartHeight - 14} textAnchor="middle" fontSize="10" fill="currentColor" opacity={0.75}>
-                  {point.bucket.shortLabel}
-                </text>
-              </g>
-            ))}
-
-            <text x={8} y={padding.top + 8} fontSize="10" fill="currentColor" opacity={0.8}>
-              {formatDuration(maxDuration) || "0m"}
-            </text>
-            <text x={8} y={baselineY} fontSize="10" fill="currentColor" opacity={0.8}>
-              0m
-            </text>
-          </svg>
+      <SectionCard
+        title="Cadence"
+        description="A plain-language readout of how the work log timeline is moving."
+      >
+        <div className="space-y-2 text-sm leading-7 text-muted-foreground">
+          {cadenceLines.map((line) => (
+            <p key={line}>{line}</p>
+          ))}
+          {summary.earliestSessionStart && summary.latestSessionStart ? (
+            <p>The current window runs from {formatLongDate(summary.earliestSessionStart)} to {formatLongDate(summary.latestSessionStart)}.</p>
+          ) : null}
         </div>
-      </CardContent>
-    </Card>
-  );
-}
-
-function DataSummary({ logs }: { logs: WorkLogWithProject[] }) {
-  const totalDuration = useMemo(() => logs.reduce((sum, log) => sum + getSessionDurationMinutes(log), 0), [logs]);
-
-  const uniqueProjects = useMemo(() => new Set(logs.map((log) => log.projectTitle || "Unknown project")).size, [logs]);
-
-  const uniqueSessions = useMemo(() => {
-    const set = new Set<string>();
-    for (const log of logs) {
-      if (!log.sessionType || log.sessionType.length === 0) {
-        set.add(UNTYPED_SESSION);
-      } else {
-        for (const sessionType of log.sessionType) {
-          if (sessionType) set.add(sessionType);
-        }
-      }
-    }
-    return set.size;
-  }, [logs]);
-
-  return (
-    <div className="grid gap-2 sm:grid-cols-3">
-      <Card className="border-border/70">
-        <CardContent className="p-3">
-          <p className="text-[11px] uppercase tracking-wide text-muted-foreground">Logs</p>
-          <p className="text-xl font-semibold">{logs.length}</p>
-        </CardContent>
-      </Card>
-
-      <Card className="border-border/70">
-        <CardContent className="p-3">
-          <p className="text-[11px] uppercase tracking-wide text-muted-foreground">Projects</p>
-          <p className="text-xl font-semibold">{uniqueProjects}</p>
-        </CardContent>
-      </Card>
-
-      <Card className="border-border/70">
-        <CardContent className="p-3">
-          <p className="text-[11px] uppercase tracking-wide text-muted-foreground">Session Time</p>
-          <p className="text-xl font-semibold">{formatDuration(totalDuration) || "0m"}</p>
-          <p className="text-[11px] text-muted-foreground">{uniqueSessions} session types tracked</p>
-        </CardContent>
-      </Card>
+      </SectionCard>
     </div>
   );
 }
 
-function RailEntry({
+function ActivityFilters({
+  controlsExpanded,
+  onToggleControls,
+  layout,
+  onLayoutChange,
+  sortOrder,
+  onSortOrderChange,
+  searchQuery,
+  onSearchQueryChange,
+  sessionFilter,
+  onSessionFilterChange,
+  sessionSummaries,
+  filteredCount,
+  totalCount,
+  onReset,
+  hasActiveFilters,
+}: {
+  controlsExpanded: boolean;
+  onToggleControls: () => void;
+  layout: ActivityLayout;
+  onLayoutChange: (layout: ActivityLayout) => void;
+  sortOrder: TimelineSortOrder;
+  onSortOrderChange: (sortOrder: TimelineSortOrder) => void;
+  searchQuery: string;
+  onSearchQueryChange: (value: string) => void;
+  sessionFilter: string;
+  onSessionFilterChange: (value: string) => void;
+  sessionSummaries: WorkLogSessionSummary[];
+  filteredCount: number;
+  totalCount: number;
+  onReset: () => void;
+  hasActiveFilters: boolean;
+}) {
+  return (
+    <Card className="border-border/70 bg-card/55 shadow-sm">
+      <CardContent className="space-y-4 p-4">
+        <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+          <div className="space-y-1">
+            <div className="flex flex-wrap items-center gap-2">
+              <p className="text-sm font-semibold tracking-tight text-foreground">Activity</p>
+              <p className="text-xs text-muted-foreground">
+                {filteredCount} of {totalCount} session{totalCount === 1 ? "" : "s"}
+              </p>
+            </div>
+            <p className="text-sm text-muted-foreground">Compact, date-first rows with details hidden until you need them.</p>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-2">
+            <div className="inline-flex rounded-full border border-border/70 bg-background p-1">
+              <Button
+                type="button"
+                size="sm"
+                variant={layout === "list" ? "secondary" : "ghost"}
+                aria-label="Switch to list view"
+                className="rounded-full"
+                onClick={() => onLayoutChange("list")}
+              >
+                <LayoutList className="size-4" />
+                List
+              </Button>
+              <Button
+                type="button"
+                size="sm"
+                variant={layout === "timeline" ? "secondary" : "ghost"}
+                aria-label="Switch to timeline view"
+                className="rounded-full"
+                onClick={() => onLayoutChange("timeline")}
+              >
+                <Waypoints className="size-4" />
+                Timeline
+              </Button>
+            </div>
+
+            <Button type="button" size="sm" variant="outline" className="rounded-full" onClick={onToggleControls}>
+              <Filter className="size-4" />
+              Filters
+              {controlsExpanded ? <ChevronUp className="size-4" /> : <ChevronDown className="size-4" />}
+            </Button>
+          </div>
+        </div>
+
+        {controlsExpanded ? (
+          <div className="grid gap-4 rounded-2xl border border-border/70 bg-background/75 p-4">
+            <div className="grid gap-3 lg:grid-cols-[minmax(0,1fr)_auto_auto]">
+              <label className="space-y-2">
+                <span className="text-[11px] font-medium uppercase tracking-[0.16em] text-muted-foreground">Search work logs</span>
+                <div className="relative">
+                  <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+                  <Input
+                    aria-label="Search work logs"
+                    value={searchQuery}
+                    onChange={(event) => onSearchQueryChange(event.target.value)}
+                    placeholder="Search titles, notes, next steps, or assets..."
+                    className="h-10 rounded-full pl-9"
+                  />
+                </div>
+              </label>
+
+              <div className="space-y-2">
+                <span className="text-[11px] font-medium uppercase tracking-[0.16em] text-muted-foreground">Sort</span>
+                <div className="flex flex-wrap gap-2">
+                  <Button
+                    type="button"
+                    size="sm"
+                    variant={sortOrder === "newest" ? "secondary" : "outline"}
+                    className="rounded-full"
+                    onClick={() => onSortOrderChange("newest")}
+                  >
+                    Newest
+                  </Button>
+                  <Button
+                    type="button"
+                    size="sm"
+                    variant={sortOrder === "oldest" ? "secondary" : "outline"}
+                    className="rounded-full"
+                    onClick={() => onSortOrderChange("oldest")}
+                  >
+                    Oldest
+                  </Button>
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <span className="text-[11px] font-medium uppercase tracking-[0.16em] text-muted-foreground">State</span>
+                <div className="flex flex-wrap gap-2">
+                  <Button
+                    type="button"
+                    size="sm"
+                    variant={hasActiveFilters ? "outline" : "ghost"}
+                    className="rounded-full"
+                    onClick={onReset}
+                  >
+                    Reset
+                  </Button>
+                </div>
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <span className="text-[11px] font-medium uppercase tracking-[0.16em] text-muted-foreground">Session types</span>
+              <div className="flex flex-wrap gap-2">
+                <Button
+                  type="button"
+                  size="sm"
+                  variant={sessionFilter === ALL_FILTER ? "secondary" : "outline"}
+                  className="rounded-full"
+                  onClick={() => onSessionFilterChange(ALL_FILTER)}
+                >
+                  All sessions
+                </Button>
+                {sessionSummaries.map((summary) => {
+                  const { icon: Icon, label } = getSessionTypeMeta(summary.sessionType);
+                  return (
+                    <Button
+                      key={summary.sessionType}
+                      type="button"
+                      size="sm"
+                      variant={sessionFilter === summary.sessionType ? "secondary" : "outline"}
+                      className="rounded-full"
+                      onClick={() => onSessionFilterChange(summary.sessionType)}
+                    >
+                      <Icon className="size-4" />
+                      {label}
+                    </Button>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        ) : null}
+      </CardContent>
+    </Card>
+  );
+}
+
+function WorkLogRow({
   log,
-  timelineKey,
-  projectColor,
-  sessionColorMap,
+  compact = false,
 }: {
   log: WorkLogWithProject;
-  timelineKey: string;
-  projectColor: string;
-  sessionColorMap: Map<string, string>;
+  compact?: boolean;
 }) {
-  const duration = formatDuration(getSessionDurationMinutes(log));
-  const sourceUrl = log.url;
+  const [expanded, setExpanded] = useState(false);
+  const durationLabel = formatDuration(getWorkLogDurationMinutes(log));
+  const summary = getWorkLogSummary(log);
 
   return (
-    <Card className="border-border/70 shadow-sm">
-      <CardContent className="space-y-3 p-3 md:p-4">
-        <div className="flex items-start justify-between gap-3">
-          <div className="space-y-1">
-            <div className="inline-flex items-center gap-2">
-              <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: projectColor }} />
-              <h4 className="text-sm font-semibold leading-snug">{log.title || log.entry || "Work log"}</h4>
+    <Card className="border-border/70 bg-card/55 shadow-sm">
+      <CardContent className={cn("p-4", compact && "p-3.5")}>
+        <div className="flex flex-col gap-4 xl:flex-row xl:items-start xl:justify-between">
+          <div className="flex min-w-0 gap-3">
+            <div className="shrink-0 rounded-2xl border border-border/70 bg-background/85 px-3 py-2 text-center">
+              <p className="text-[11px] uppercase tracking-[0.16em] text-muted-foreground">
+                {formatDate(getWorkLogStart(log), { month: "short" }) || "Date"}
+              </p>
+              <p className="text-2xl font-semibold tracking-tight text-foreground">
+                {formatDate(getWorkLogStart(log), { day: "numeric" }) || "--"}
+              </p>
+              <p className="text-[11px] text-muted-foreground">{formatDate(getWorkLogStart(log), { year: "numeric" }) || ""}</p>
             </div>
-            <p className="text-xs text-muted-foreground">{formatSessionRange(log)}</p>
-          </div>
-          {duration && (
-            <Badge variant="outline" className="pointer-events-none cursor-default bg-muted/20 text-[11px]">
-              {duration}
-            </Badge>
-          )}
-        </div>
 
-        <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-          {log.projectHref && log.projectTitle && (
-            <Link href={log.projectHref} className="inline-flex text-xs text-primary hover:underline">
-              {log.projectTitle}
-            </Link>
-          )}
-          {sourceUrl && (
-            <a
-              href={sourceUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground"
+            <div className="min-w-0 space-y-3">
+              <div className="flex flex-wrap items-center gap-2">
+                {log.projectTitle ? (
+                  <ProjectIdentity
+                    title={log.projectTitle}
+                    href={log.projectHref}
+                    iconSrc={log.projectIconSrc}
+                    thumbnailSrc={log.projectThumbnailSrc}
+                    size="sm"
+                    truncate
+                    variant="chip"
+                    className="max-w-full"
+                  />
+                ) : null}
+                {durationLabel ? <MetaChip icon={Clock3} label={durationLabel} /> : null}
+              </div>
+
+              <div className="space-y-1">
+                <h3 className={cn("text-base font-semibold tracking-tight text-foreground", compact && "text-sm")}>
+                  {getWorkLogTitle(log)}
+                </h3>
+                <p className="text-sm leading-6 text-muted-foreground">{formatSessionRange(log)}</p>
+              </div>
+
+              {summary ? (
+                <p className={cn("text-sm leading-6 text-muted-foreground", !expanded && "line-clamp-2")}>{summary}</p>
+              ) : null}
+
+              {log.sessionType && log.sessionType.length > 0 ? (
+                <div className="flex flex-wrap gap-2">
+                  {log.sessionType.map((sessionType) => (
+                    <SessionTypePill key={`${log.id}-${sessionType}`} sessionType={sessionType} />
+                  ))}
+                </div>
+              ) : null}
+            </div>
+          </div>
+
+          <div className="flex shrink-0 items-start justify-end gap-2">
+            <Button
+              type="button"
+              size="sm"
+              variant={expanded ? "secondary" : "outline"}
+              className="rounded-full"
+              onClick={() => setExpanded((current) => !current)}
             >
-              Session source
-              <ExternalLink className="h-3 w-3" />
-            </a>
-          )}
+              {expanded ? "Hide details" : "Details"}
+            </Button>
+          </div>
         </div>
 
-        {(log.whatHappened || log.entry) && (
-          <p className="whitespace-pre-wrap text-sm text-muted-foreground">{log.whatHappened || log.entry}</p>
-        )}
+        {expanded ? (
+          <div className="mt-4 space-y-4 border-t border-border/70 pt-4">
+            <div className="grid gap-2 sm:grid-cols-2 xl:grid-cols-4">
+              <MetaChip icon={CalendarDays} label={formatLongDate(getWorkLogStart(log))} tone="strong" />
+              {durationLabel ? <MetaChip icon={Clock3} label={durationLabel} tone="strong" /> : null}
+            </div>
 
-        {(log.problems || log.nextStep) && (
-          <div className="space-y-1.5">
-            {log.problems && (
-              <p className="whitespace-pre-wrap text-xs text-amber-700 dark:text-amber-300">Problem: {log.problems}</p>
-            )}
-            {log.nextStep && (
-              <p className="whitespace-pre-wrap text-xs text-emerald-700 dark:text-emerald-300">Next: {log.nextStep}</p>
-            )}
+            <div className="grid gap-4 lg:grid-cols-2">
+              {summary ? (
+                <div className="space-y-2 rounded-2xl border border-border/70 bg-background/75 p-4">
+                  <div className="flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.16em] text-muted-foreground">
+                    <FileText className="size-3.5" />
+                    Notes
+                  </div>
+                  <p className="whitespace-pre-wrap text-sm leading-6 text-muted-foreground">{summary}</p>
+                </div>
+              ) : null}
+
+              {log.problems ? (
+                <div className="space-y-2 rounded-2xl border border-border/70 bg-background/75 p-4">
+                  <div className="flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.16em] text-muted-foreground">
+                    <TriangleAlert className="size-3.5" />
+                    Problems
+                  </div>
+                  <p className="whitespace-pre-wrap text-sm leading-6 text-muted-foreground">{log.problems}</p>
+                </div>
+              ) : null}
+
+              {log.nextStep ? (
+                <div className="space-y-2 rounded-2xl border border-border/70 bg-background/75 p-4 lg:col-span-2">
+                  <div className="flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.16em] text-muted-foreground">
+                    <ArrowRight className="size-3.5" />
+                    Next step
+                  </div>
+                  <p className="whitespace-pre-wrap text-sm leading-6 text-muted-foreground">{log.nextStep}</p>
+                </div>
+              ) : null}
+            </div>
+
+            <WorkLogAssetGallery log={log} />
           </div>
-        )}
-
-        {log.sessionType && log.sessionType.length > 0 && (
-          <div className="flex flex-wrap gap-1 pt-1">
-            {log.sessionType.map((sessionType) => {
-              const color = sessionColorMap.get(sessionType) || "#475569";
-              return <SessionBadge key={`${timelineKey}-${sessionType}`} label={sessionType} color={color} />;
-            })}
-          </div>
-        )}
-
-        <WorkLogAssetGallery log={log} />
+        ) : null}
       </CardContent>
     </Card>
   );
 }
 
-function HorizontalTimeline({
-  logs,
-  projectColorMap,
-  sessionColorMap,
-}: {
-  logs: WorkLogWithProject[];
-  projectColorMap: Map<string, string>;
-  sessionColorMap: Map<string, string>;
-}) {
+function ActivityTimeline({ logs }: { logs: WorkLogWithProject[] }) {
   if (logs.length === 0) return null;
 
   return (
-    <div className="overflow-x-auto pb-2">
-      <div className="relative min-w-max px-4 pb-14 pt-2">
-        <div className="absolute bottom-7 left-4 right-4 h-px bg-border" />
+    <div data-testid="work-log-activity-timeline" className="overflow-x-auto pb-2">
+      <div className="relative min-w-max px-2 pb-16 pt-1">
+        <div className="absolute bottom-8 left-2 right-2 h-px bg-border" />
         <div className="flex items-end gap-4">
           {logs.map((log, idx) => {
-            const key = `${log.id || "work-log"}-${log.projectId || "project"}-${idx}`;
-            const duration = formatDuration(getSessionDurationMinutes(log));
-            const summary = truncateText(log.whatHappened || log.entry, 120);
-            const dateLabel = formatShortDate(getSessionStart(log) || log.date);
-            const projectName = log.projectTitle || "Unknown project";
-            const projectColor = projectColorMap.get(projectName) || "#64748b";
+            const key = `${log.id || "work-log"}-${idx}`;
+            const durationLabel = formatDuration(getWorkLogDurationMinutes(log));
 
             return (
-              <div key={key} className="relative w-[280px] shrink-0 pb-12">
-                <Card className="border-border/70 shadow-sm" style={{ borderLeftWidth: 4, borderLeftColor: projectColor }}>
-                  <CardContent className="space-y-2 p-3">
-                    <div className="flex items-start justify-between gap-2">
-                      <h4 className="text-sm font-semibold leading-snug">
-                        {truncateText(log.title || log.entry || "Work log", 70)}
-                      </h4>
-                      {duration && (
-                        <Badge variant="outline" className="pointer-events-none cursor-default bg-muted/20 text-[10px]">
-                          {duration}
-                        </Badge>
-                      )}
-                    </div>
-
-                    <p className="text-xs text-muted-foreground">{formatSessionRange(log)}</p>
-
-                    {summary && <p className="whitespace-pre-wrap text-xs text-muted-foreground">{summary}</p>}
-
-                    {log.sessionType && log.sessionType.length > 0 && (
-                      <div className="flex flex-wrap gap-1 pt-1">
-                        {log.sessionType.slice(0, 3).map((sessionType) => {
-                          const color = sessionColorMap.get(sessionType) || "#475569";
-                          return <SessionBadge key={`${key}-${sessionType}`} label={sessionType} color={color} />;
-                        })}
-                      </div>
-                    )}
-
-                    {log.projectHref && log.projectTitle && (
-                      <Link href={log.projectHref} className="inline-flex text-xs text-primary hover:underline">
-                        {log.projectTitle}
-                      </Link>
-                    )}
-                  </CardContent>
-                </Card>
-
-                <span
-                  className="absolute bottom-[1.45rem] left-1/2 h-3 w-3 -translate-x-1/2 rounded-full border border-primary/50"
-                  style={{ backgroundColor: projectColor }}
-                />
+              <div key={key} className="relative w-[320px] shrink-0 pb-12">
+                <WorkLogRow log={log} compact />
+                <span className="absolute bottom-[1.65rem] left-1/2 h-3 w-3 -translate-x-1/2 rounded-full border border-primary/40 bg-background" />
                 <span className="absolute bottom-0 left-1/2 -translate-x-1/2 whitespace-nowrap text-[11px] text-muted-foreground">
-                  {dateLabel}
+                  {formatShortDate(getWorkLogStart(log) || log.date)}
+                  {durationLabel ? ` · ${durationLabel}` : ""}
                 </span>
               </div>
             );
@@ -1074,280 +1205,353 @@ function HorizontalTimeline({
   );
 }
 
-export function WorkLogTimeline({
+function ProjectsTab({
+  projectSummaries,
+  logsByProject,
+  onFocusProject,
+}: {
+  projectSummaries: WorkLogProjectSummary[];
+  logsByProject: Map<string, WorkLogWithProject[]>;
+  onFocusProject: (projectSlug: string) => void;
+}) {
+  return (
+    <div className="space-y-4">
+      {projectSummaries.map((project) => (
+        <ProjectSummaryRow
+          key={project.id}
+          project={project}
+          recentLogs={logsByProject.get(project.slug) || []}
+          onFocusProject={onFocusProject}
+        />
+      ))}
+    </div>
+  );
+}
+
+function ProjectSummaryRow({
+  project,
+  recentLogs,
+  onFocusProject,
+}: {
+  project: WorkLogProjectSummary;
+  recentLogs: WorkLogWithProject[];
+  onFocusProject: (projectSlug: string) => void;
+}) {
+  const [expanded, setExpanded] = useState(false);
+
+  return (
+    <Card className="border-border/70 bg-card/55 shadow-sm">
+      <CardContent className="space-y-4 p-4">
+        <div className="flex flex-col gap-4 xl:flex-row xl:items-start xl:justify-between">
+          <div className="min-w-0 flex-1 space-y-3">
+            <ProjectIdentity
+              title={project.title}
+              href={project.href}
+              iconSrc={project.projectIconSrc}
+              thumbnailSrc={project.projectThumbnailSrc}
+              size="md"
+              truncate
+            />
+
+            <div className="flex flex-wrap gap-2">
+              <MetaChip icon={CalendarDays} label={`Last session ${formatShortDate(project.latestSessionStart)}`} />
+              <MetaChip icon={Clock3} label={formatDuration(project.totalDurationMinutes) || "0m"} />
+              <MetaChip icon={FileText} label={`${project.logCount} log${project.logCount === 1 ? "" : "s"}`} />
+            </div>
+
+            <div className="space-y-1">
+              <p className="text-sm font-medium text-foreground">{project.latestLogTitle || "No session title yet"}</p>
+              {project.latestLogSummary ? (
+                <p className="line-clamp-2 text-sm leading-6 text-muted-foreground">{project.latestLogSummary}</p>
+              ) : null}
+            </div>
+          </div>
+
+          <div className="flex flex-wrap gap-2">
+            <Button type="button" size="sm" variant="secondary" className="rounded-full" onClick={() => onFocusProject(project.slug)}>
+              Focus in activity
+            </Button>
+            <Button
+              type="button"
+              size="sm"
+              variant={expanded ? "secondary" : "outline"}
+              className="rounded-full"
+              onClick={() => setExpanded((current) => !current)}
+            >
+              {expanded ? "Hide recent logs" : "Recent logs"}
+            </Button>
+            <Button asChild size="sm" variant="outline" className="rounded-full">
+              <Link href={project.href}>Open project</Link>
+            </Button>
+          </div>
+        </div>
+
+        {expanded ? (
+          <div className="space-y-3 border-t border-border/70 pt-4">
+            {(recentLogs.length > 0 ? recentLogs.slice(0, 3) : []).map((log) => (
+              <div key={`${project.id}-${log.id || getWorkLogTitle(log)}`} className="rounded-2xl border border-border/70 bg-background/80 p-3">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <p className="text-sm font-medium text-foreground">{getWorkLogTitle(log)}</p>
+                  <div className="flex flex-wrap gap-2">
+                    <MetaChip icon={CalendarDays} label={formatShortDate(getWorkLogStart(log) || log.date)} />
+                    {formatDuration(getWorkLogDurationMinutes(log)) ? (
+                      <MetaChip icon={Clock3} label={formatDuration(getWorkLogDurationMinutes(log)) || "0m"} />
+                    ) : null}
+                  </div>
+                </div>
+                {getWorkLogSummary(log) ? (
+                  <p className="mt-2 line-clamp-2 text-sm leading-6 text-muted-foreground">{getWorkLogSummary(log)}</p>
+                ) : null}
+              </div>
+            ))}
+          </div>
+        ) : null}
+      </CardContent>
+    </Card>
+  );
+}
+
+export function WorkLogsDashboard({
   logs,
+  projectOptions,
+  projectSummaries,
+  overviewSummary,
+  sessionSummaries,
   emptyText = "No work logs available.",
-  showControls = false,
-  projectOptions = [],
   initialProjectSlug,
-  initialSortOrder = "newest",
-  initialSessionType = ALL_FILTER,
-  initialSearchQuery = "",
-  initialViewMode = "rail",
-  defaultControlsExpanded = false,
   onProjectFilterChange,
-}: WorkLogTimelineProps) {
+}: WorkLogsDashboardProps) {
+  const [activeTab, setActiveTab] = useState<DashboardTab>("overview");
   const [projectFilter, setProjectFilter] = useState<string>(initialProjectSlug || ALL_FILTER);
-  const [sortOrder, setSortOrder] = useState<TimelineSortOrder>(initialSortOrder);
-  const [sessionTypeFilter, setSessionTypeFilter] = useState<string>(initialSessionType);
-  const [searchQuery, setSearchQuery] = useState<string>(initialSearchQuery);
-  const [viewMode, setViewMode] = useState<TimelineViewMode>(initialViewMode);
-  const [controlsExpanded, setControlsExpanded] = useState(defaultControlsExpanded);
+  const [layout, setLayout] = useState<ActivityLayout>("list");
+  const [sortOrder, setSortOrder] = useState<TimelineSortOrder>("newest");
+  const [sessionFilter, setSessionFilter] = useState<string>(ALL_FILTER);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [controlsExpanded, setControlsExpanded] = useState(false);
+  const deferredSearchQuery = useDeferredValue(searchQuery);
 
   useEffect(() => {
     setProjectFilter(initialProjectSlug || ALL_FILTER);
   }, [initialProjectSlug]);
 
-  const projectScopedLogs = useMemo(() => {
+  const selectedProject = useMemo(
+    () => projectOptions.find((project) => project.slug === projectFilter || project.id === projectFilter),
+    [projectFilter, projectOptions]
+  );
+
+  const scopedLogs = useMemo(() => {
     if (projectFilter === ALL_FILTER) return logs;
     return logs.filter((log) => log.projectSlug === projectFilter || log.projectId === projectFilter);
   }, [logs, projectFilter]);
 
-  const availableSessionTypes = useMemo(() => {
-    const unique = new Set<string>();
-    for (const log of projectScopedLogs) {
-      for (const sessionType of log.sessionType || []) {
-        if (sessionType) unique.add(sessionType);
-      }
-    }
-    return Array.from(unique).sort((a, b) => a.localeCompare(b));
-  }, [projectScopedLogs]);
+  const selectedProjectSummary = useMemo(
+    () => projectSummaries.find((project) => project.slug === projectFilter || project.id === projectFilter),
+    [projectFilter, projectSummaries]
+  );
+
+  const visibleSessionSummaries = selectedProjectSummary ? selectedProjectSummary.sessionSummaries : sessionSummaries;
 
   useEffect(() => {
-    if (sessionTypeFilter !== ALL_FILTER && !availableSessionTypes.includes(sessionTypeFilter)) {
-      setSessionTypeFilter(ALL_FILTER);
+    if (sessionFilter !== ALL_FILTER && !visibleSessionSummaries.some((summary) => summary.sessionType === sessionFilter)) {
+      setSessionFilter(ALL_FILTER);
     }
-  }, [availableSessionTypes, sessionTypeFilter]);
+  }, [sessionFilter, visibleSessionSummaries]);
 
-  const filteredLogs = useMemo(() => {
-    const normalizedSearch = searchQuery.trim().toLowerCase();
+  const filteredActivityLogs = useMemo(() => {
+    const normalizedSearch = deferredSearchQuery.trim().toLowerCase();
 
-    const next = projectScopedLogs.filter((log) => {
-      const matchesSessionType =
-        sessionTypeFilter === ALL_FILTER ||
-        Boolean((log.sessionType || []).find((sessionType) => sessionType === sessionTypeFilter));
-      if (!matchesSessionType) return false;
+    const next = scopedLogs.filter((log) => {
+      const matchesSession =
+        sessionFilter === ALL_FILTER ||
+        Boolean((log.sessionType || []).find((sessionType) => sessionType === sessionFilter));
+      if (!matchesSession) return false;
 
       if (!normalizedSearch) return true;
       return createSearchText(log).includes(normalizedSearch);
     });
 
-    next.sort((a, b) =>
-      sortOrder === "newest" ? getLogTimestamp(b) - getLogTimestamp(a) : getLogTimestamp(a) - getLogTimestamp(b)
+    next.sort((left, right) =>
+      sortOrder === "newest" ? getWorkLogTimestamp(right) - getWorkLogTimestamp(left) : getWorkLogTimestamp(left) - getWorkLogTimestamp(right)
     );
 
     return next;
-  }, [projectScopedLogs, searchQuery, sessionTypeFilter, sortOrder]);
+  }, [deferredSearchQuery, scopedLogs, sessionFilter, sortOrder]);
 
-  const groupedLogs = useMemo(() => groupLogsByMonth(filteredLogs), [filteredLogs]);
-  const weeklyBuckets = useMemo(() => buildWeeklyBuckets(filteredLogs), [filteredLogs]);
+  const logsByProject = useMemo(() => {
+    const map = new Map<string, WorkLogWithProject[]>();
 
-  const hasProjectFilter = showControls && projectOptions.length > 0;
-  const hasActiveFilters =
-    projectFilter !== ALL_FILTER ||
-    sessionTypeFilter !== ALL_FILTER ||
-    searchQuery.trim().length > 0 ||
-    sortOrder !== initialSortOrder;
-
-  const projectColorMap = useMemo(() => {
-    const keys = filteredLogs.map((log) => log.projectTitle || "Unknown project");
-    return buildColorMap(keys, PROJECT_PALETTE);
-  }, [filteredLogs]);
-
-  const sessionColorMap = useMemo(() => {
-    const sessionKeys: string[] = [];
-    for (const log of filteredLogs) {
-      if (!log.sessionType || log.sessionType.length === 0) {
-        sessionKeys.push(UNTYPED_SESSION);
-      } else {
-        sessionKeys.push(...log.sessionType);
-      }
+    for (const log of logs) {
+      const key = log.projectSlug || log.projectId;
+      if (!key) continue;
+      const current = map.get(key) || [];
+      current.push(log);
+      map.set(key, current);
     }
-    return buildColorMap(sessionKeys, SESSION_PALETTE);
-  }, [filteredLogs]);
 
-  const legendColorMap =
-    viewMode === "session-chart" ? sessionColorMap : viewMode === "duration-chart" ? new Map<string, string>() : projectColorMap;
+    for (const [key, items] of map.entries()) {
+      map.set(key, [...items].sort((left, right) => getWorkLogTimestamp(right) - getWorkLogTimestamp(left)));
+    }
+
+    return map;
+  }, [logs]);
+
+  const groupedLogs = useMemo(() => groupLogsByMonth(filteredActivityLogs), [filteredActivityLogs]);
+
+  const filteredProjectSummaries = useMemo(() => {
+    if (projectFilter === ALL_FILTER) return projectSummaries.filter((project) => project.logCount > 0);
+    return projectSummaries.filter((project) => project.slug === projectFilter || project.id === projectFilter);
+  }, [projectFilter, projectSummaries]);
+
+  const scopedOverview = selectedProjectSummary
+    ? {
+        totalLogs: selectedProjectSummary.logCount,
+        totalProjects: selectedProjectSummary.logCount > 0 ? 1 : 0,
+        totalDurationMinutes: selectedProjectSummary.totalDurationMinutes,
+        mostRecentSessionStart: selectedProjectSummary.latestSessionStart,
+        earliestSessionStart: selectedProjectSummary.earliestSessionStart,
+        latestSessionStart: selectedProjectSummary.latestSessionStart,
+        logsLast30Days: 0,
+        activeProjectsLast30Days: 1,
+      }
+    : overviewSummary;
+
+  const hasActiveActivityFilters =
+    sessionFilter !== ALL_FILTER || deferredSearchQuery.trim().length > 0 || sortOrder !== "newest";
+
+  const handleProjectScopeChange = (projectSlug?: string) => {
+    const nextValue = projectSlug || ALL_FILTER;
+    setProjectFilter(nextValue);
+    onProjectFilterChange?.(projectSlug);
+  };
+
+  const resetActivityFilters = () => {
+    setSortOrder("newest");
+    setSessionFilter(ALL_FILTER);
+    setSearchQuery("");
+  };
+
+  const handleFocusProject = (projectSlug: string) => {
+    handleProjectScopeChange(projectSlug);
+    setActiveTab("activity");
+  };
+
+  if (logs.length === 0) {
+    return (
+      <Card className="border-border/70 bg-card/55 shadow-sm">
+        <CardContent className="p-6 text-sm text-muted-foreground">{emptyText}</CardContent>
+      </Card>
+    );
+  }
 
   return (
-    <div className="space-y-4">
-      {showControls && (
-        <Card className="border-border/70">
-          <CardContent className="space-y-2 p-3">
-            <div className="flex flex-wrap items-center justify-between gap-2">
-              <div className="inline-flex flex-wrap rounded-md border border-border bg-muted/30 p-0.5">
-                {[
-                  { id: "rail", label: "Rail" },
-                  { id: "horizontal", label: "Horizontal" },
-                  { id: "project-chart", label: "Project Chart" },
-                  { id: "session-chart", label: "Session Chart" },
-                  { id: "duration-chart", label: "Duration Chart" },
-                ].map((view) => (
-                  <button
-                    key={view.id}
-                    type="button"
-                    onClick={() => setViewMode(view.id as TimelineViewMode)}
-                    className={cn(
-                      "rounded-sm px-2.5 py-1 text-xs transition-colors",
-                      viewMode === view.id ? "bg-background text-foreground shadow-sm" : "text-muted-foreground"
-                    )}
-                  >
-                    {view.label}
-                  </button>
-                ))}
-              </div>
+    <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as DashboardTab)} className="space-y-4">
+      <div className="flex flex-col gap-3 rounded-[2rem] border border-border/70 bg-card/55 p-4 shadow-sm md:p-5">
+        <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+          <TabsList className="h-auto rounded-full border border-border/70 bg-background/85 p-1">
+            <TabsTrigger value="overview" className="rounded-full px-4 py-2">Overview</TabsTrigger>
+            <TabsTrigger value="activity" className="rounded-full px-4 py-2">Activity</TabsTrigger>
+            <TabsTrigger value="projects" className="rounded-full px-4 py-2">Projects</TabsTrigger>
+          </TabsList>
 
-              <div className="flex items-center gap-2">
-                <span className="text-xs text-muted-foreground">
-                  {filteredLogs.length}/{logs.length} logs
-                </span>
-                <button
-                  type="button"
-                  onClick={() => setControlsExpanded((prev) => !prev)}
-                  className="inline-flex items-center gap-1 rounded-md border border-border px-2 py-1 text-xs text-muted-foreground hover:text-foreground"
-                >
-                  Filters{hasActiveFilters ? " *" : ""}
-                  {controlsExpanded ? <ChevronUp className="h-3.5 w-3.5" /> : <ChevronDown className="h-3.5 w-3.5" />}
-                </button>
-              </div>
-            </div>
+          <ProjectFilterMenu
+            projectOptions={projectOptions}
+            selectedProject={selectedProject}
+            onSelect={handleProjectScopeChange}
+          />
+        </div>
 
-            {controlsExpanded && (
-              <div className="grid gap-2 md:grid-cols-2 lg:grid-cols-4">
-                {hasProjectFilter && (
-                  <label className="space-y-1">
-                    <span className="text-[11px] font-medium text-muted-foreground">Project</span>
-                    <select
-                      value={projectFilter}
-                      onChange={(event) => {
-                        const nextValue = event.target.value;
-                        setProjectFilter(nextValue);
-                        onProjectFilterChange?.(nextValue === ALL_FILTER ? undefined : nextValue);
-                      }}
-                      className="h-8 w-full rounded-md border border-input bg-background px-2 text-xs"
-                    >
-                      <option value={ALL_FILTER}>All projects</option>
-                      {projectOptions.map((project) => (
-                        <option key={project.id} value={project.slug}>
-                          {project.title}
-                        </option>
-                      ))}
-                    </select>
-                  </label>
-                )}
+        <div className="flex flex-wrap gap-2">
+          <MetaChip
+            icon={CalendarDays}
+            label={`Most recent ${formatShortDate(scopedOverview.mostRecentSessionStart)}`}
+          />
+          <MetaChip
+            icon={Clock3}
+            label={formatDuration(scopedOverview.totalDurationMinutes) || "0m"}
+          />
+          <MetaChip
+            icon={FileText}
+            label={`${scopedOverview.totalLogs} log${scopedOverview.totalLogs === 1 ? "" : "s"}`}
+          />
+        </div>
+      </div>
 
-                <label className="space-y-1">
-                  <span className="text-[11px] font-medium text-muted-foreground">Sort</span>
-                  <select
-                    value={sortOrder}
-                    onChange={(event) => setSortOrder(event.target.value as TimelineSortOrder)}
-                    className="h-8 w-full rounded-md border border-input bg-background px-2 text-xs"
-                  >
-                    <option value="newest">Newest first</option>
-                    <option value="oldest">Oldest first</option>
-                  </select>
-                </label>
+      <TabsContent value="overview">
+        {scopedLogs.length === 0 ? (
+          <Card className="border-border/70 bg-card/55 shadow-sm">
+            <CardContent className="p-6 text-sm text-muted-foreground">{emptyText}</CardContent>
+          </Card>
+        ) : (
+          <OverviewTab
+            summary={scopedOverview}
+            projectSummaries={filteredProjectSummaries}
+            sessionSummaries={visibleSessionSummaries}
+            selectedProjectTitle={selectedProjectSummary?.title}
+          />
+        )}
+      </TabsContent>
 
-                <label className="space-y-1">
-                  <span className="text-[11px] font-medium text-muted-foreground">Session</span>
-                  <select
-                    value={sessionTypeFilter}
-                    onChange={(event) => setSessionTypeFilter(event.target.value)}
-                    className="h-8 w-full rounded-md border border-input bg-background px-2 text-xs"
-                  >
-                    <option value={ALL_FILTER}>All sessions</option>
-                    {availableSessionTypes.map((sessionType) => (
-                      <option key={sessionType} value={sessionType}>
-                        {sessionType}
-                      </option>
-                    ))}
-                  </select>
-                </label>
+      <TabsContent value="activity" className="space-y-4">
+        <ActivityFilters
+          controlsExpanded={controlsExpanded}
+          onToggleControls={() => setControlsExpanded((current) => !current)}
+          layout={layout}
+          onLayoutChange={setLayout}
+          sortOrder={sortOrder}
+          onSortOrderChange={setSortOrder}
+          searchQuery={searchQuery}
+          onSearchQueryChange={setSearchQuery}
+          sessionFilter={sessionFilter}
+          onSessionFilterChange={setSessionFilter}
+          sessionSummaries={visibleSessionSummaries}
+          filteredCount={filteredActivityLogs.length}
+          totalCount={scopedLogs.length}
+          onReset={resetActivityFilters}
+          hasActiveFilters={hasActiveActivityFilters}
+        />
 
-                <label className="space-y-1">
-                  <span className="text-[11px] font-medium text-muted-foreground">Search</span>
-                  <div className="relative">
-                    <Search className="pointer-events-none absolute left-2 top-2 h-3.5 w-3.5 text-muted-foreground" />
-                    <Input
-                      value={searchQuery}
-                      onChange={(event) => setSearchQuery(event.target.value)}
-                      placeholder="Search notes or assets..."
-                      className="h-8 pl-7 text-xs"
-                    />
-                  </div>
-                </label>
-              </div>
-            )}
-          </CardContent>
-        </Card>
-      )}
+        {filteredActivityLogs.length === 0 ? (
+          <Card className="border-border/70 bg-card/55 shadow-sm">
+            <CardContent className="p-6 text-sm text-muted-foreground">
+              {hasActiveActivityFilters ? "No sessions match these filters." : emptyText}
+            </CardContent>
+          </Card>
+        ) : layout === "timeline" ? (
+          <ActivityTimeline logs={filteredActivityLogs} />
+        ) : (
+          <div data-testid="work-log-activity-list" className="space-y-6">
+            {groupedLogs.map((group) => (
+              <section key={group.key} className="space-y-3">
+                <div className="flex items-center gap-3">
+                  <h3 className="text-sm font-semibold tracking-wide text-foreground/90">{group.label}</h3>
+                  <span className="h-px flex-1 bg-border" />
+                  <span className="text-xs text-muted-foreground">{group.logs.length}</span>
+                </div>
 
-      {filteredLogs.length === 0 ? (
-        <p className="text-sm text-muted-foreground">{emptyText}</p>
-      ) : (
-        <>
-          <DataSummary logs={filteredLogs} />
+                <div className="space-y-3">
+                  {group.logs.map((log, idx) => (
+                    <WorkLogRow key={`${log.id || "work-log"}-${idx}`} log={log} />
+                  ))}
+                </div>
+              </section>
+            ))}
+          </div>
+        )}
+      </TabsContent>
 
-          {legendColorMap.size > 0 && <ProjectLegend colorMap={legendColorMap} />}
-
-          {viewMode === "horizontal" ? (
-            <HorizontalTimeline logs={filteredLogs} projectColorMap={projectColorMap} sessionColorMap={sessionColorMap} />
-          ) : viewMode === "project-chart" ? (
-            <ChartBars
-              buckets={weeklyBuckets}
-              countsKey="projectCounts"
-              colorMap={projectColorMap}
-              title="Project Activity Over Time"
-            />
-          ) : viewMode === "session-chart" ? (
-            <ChartBars
-              buckets={weeklyBuckets}
-              countsKey="sessionCounts"
-              colorMap={sessionColorMap}
-              title="Session Type Activity Over Time"
-            />
-          ) : viewMode === "duration-chart" ? (
-            <DurationTrendChart buckets={weeklyBuckets} />
-          ) : (
-            <div className="space-y-6">
-              {groupedLogs.map((group) => (
-                <section key={group.key} className="space-y-3">
-                  <div className="flex items-center gap-3">
-                    <h3 className="text-sm font-semibold tracking-wide text-foreground/90">{group.label}</h3>
-                    <span className="h-px flex-1 bg-border" />
-                    <span className="text-xs text-muted-foreground">{group.logs.length}</span>
-                  </div>
-
-                  <div className="space-y-4">
-                    {group.logs.map((log, idx) => {
-                      const key = `${log.id || "work-log"}-${log.projectId || "project"}-${idx}`;
-                      const isLast = idx === group.logs.length - 1;
-                      const projectName = log.projectTitle || "Unknown project";
-                      const projectColor = projectColorMap.get(projectName) || "#64748b";
-
-                      return (
-                        <div key={key} className="relative pl-8">
-                          <span
-                            className="absolute left-[0.55rem] top-2.5 h-3 w-3 rounded-full border border-primary/40"
-                            style={{ backgroundColor: projectColor }}
-                          />
-                          {!isLast && <span className="absolute bottom-[-1.1rem] left-[0.88rem] top-6 w-px bg-border/80" />}
-                          <RailEntry
-                            log={log}
-                            timelineKey={key}
-                            projectColor={projectColor}
-                            sessionColorMap={sessionColorMap}
-                          />
-                        </div>
-                      );
-                    })}
-                  </div>
-                </section>
-              ))}
-            </div>
-          )}
-        </>
-      )}
-    </div>
+      <TabsContent value="projects">
+        {filteredProjectSummaries.length === 0 ? (
+          <Card className="border-border/70 bg-card/55 shadow-sm">
+            <CardContent className="p-6 text-sm text-muted-foreground">{emptyText}</CardContent>
+          </Card>
+        ) : (
+          <ProjectsTab
+            projectSummaries={filteredProjectSummaries}
+            logsByProject={logsByProject}
+            onFocusProject={handleFocusProject}
+          />
+        )}
+      </TabsContent>
+    </Tabs>
   );
 }

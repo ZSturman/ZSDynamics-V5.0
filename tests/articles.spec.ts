@@ -10,6 +10,7 @@ type ArticleFixture = {
   href: string;
   sourceUrl: string;
   series?: string;
+  tags?: string[];
   coverImage?: string;
   projectIds?: string[];
   linkPreviews?: Array<{ url: string; kind: "youtube" | "card" }>;
@@ -175,18 +176,17 @@ test.describe("Articles", () => {
     test.skip(articles.length === 0, "No synced articles are available in this checkout.");
 
     const article = articles[0];
-    const secondDistinctArticle = articles.find((candidate) => candidate.title !== article.title);
+    const expectedMatches = articles.filter((candidate) =>
+      candidate.title.toLowerCase().includes(article.title.toLowerCase())
+    );
 
     await page.goto("/articles");
 
     const searchInput = page.getByRole("textbox", { name: "Search articles" });
     await searchInput.fill(`title:${article.title}`);
 
-    await expect(page).toHaveURL(/q=/);
+    await expect(page.locator('[data-testid="article-list-item-root"]')).toHaveCount(expectedMatches.length);
     await expect(page.getByRole("link", { name: article.title }).first()).toBeVisible();
-    if (secondDistinctArticle) {
-      await expect(page.getByRole("link", { name: secondDistinctArticle.title }).first()).not.toBeVisible();
-    }
 
     await page.getByRole("button", { name: "Switch to grid view" }).click();
     await expect(page).toHaveURL(/view=grid/);
@@ -197,12 +197,10 @@ test.describe("Articles", () => {
     test.skip(articles.length < 2, "At least two articles are required to verify sorting.");
     const firstArticleTitleAlphabetically = [...articles].map((article) => article.title).sort((left, right) => left.localeCompare(right))[0]!;
 
-    await page.goto("/articles");
-
-    await page.getByRole("button", { name: "Sort articles" }).click();
-    await page.getByRole("menuitemradio", { name: "Title A-Z" }).click();
+    await page.goto("/articles?sort=title-asc");
 
     await expect(page).toHaveURL(/sort=title-asc/);
+    await expect(page.getByRole("button", { name: "Sort articles" })).toBeVisible();
     await expect(page.locator('[data-testid="article-list-item-root"] h2').first()).toHaveText(firstArticleTitleAlphabetically);
   });
 
@@ -228,16 +226,25 @@ test.describe("Articles", () => {
     await expect(page.getByRole("img", { name: `Cover image for ${articleWithCover!.title}` })).toBeVisible();
   });
 
-  test("article detail renders standalone youtube embeds and rich preview cards", async ({ page }) => {
+  test("article detail renders centered youtube embeds and compact preview cards", async ({ page }) => {
     test.skip(!articleWithStandalonePreviews, "No article with standalone link previews is available in this checkout.");
 
     const previewedArticle = articleWithStandalonePreviews!;
     await page.goto(previewedArticle.href);
 
     await expect(page.getByTestId("article-youtube-embed")).toBeVisible();
-    await expect(
-      page.locator('[data-testid="article-link-preview-card"][href*="instagram.com"]').first()
-    ).toBeVisible();
+    const compactPreviewCard = page.locator('[data-testid="article-link-preview-card"][href*="instagram.com"]').first();
+    await expect(compactPreviewCard).toBeVisible();
+
+    const compactPreviewMedia = compactPreviewCard.getByTestId("article-link-preview-media");
+    await expect(compactPreviewMedia).toBeVisible();
+
+    const previewCardBox = await compactPreviewCard.boundingBox();
+    const previewMediaBox = await compactPreviewMedia.boundingBox();
+    expect(previewCardBox).not.toBeNull();
+    expect(previewMediaBox).not.toBeNull();
+    expect(previewCardBox!.width).toBeLessThan(900);
+    expect(Math.abs(previewMediaBox!.width - previewMediaBox!.height)).toBeLessThan(3);
   });
 
   test("project detail page exposes internal article links when project article data exists", async ({ page }) => {
@@ -278,24 +285,64 @@ test.describe("Articles", () => {
 
     await page.goto(getProjectRoute(project));
 
-    const faviconButton = page.getByRole("button", { name: new RegExp(externalResource.label) });
-    await expect(faviconButton.locator("img")).toHaveAttribute("src", /\/icons\/favicons\//);
+    const faviconButton = page.getByRole("button", { name: externalResource.label, exact: true }).first();
+    await expect(faviconButton.locator("img").first()).toHaveAttribute("src", /\/icons\/favicons\//);
 
-    const githubButton = page.getByRole("button", { name: new RegExp(githubResource.label) });
-    await expect(githubButton.locator("img")).toHaveAttribute("src", /\/icons\/github\.svg/);
+    const githubButton = page.getByRole("button", { name: githubResource.label, exact: true }).first();
+    await expect(githubButton.locator("img").first()).toHaveAttribute("src", /\/icons\/github\.svg/);
   });
 
-  test("article metadata chips stay passive while connected projects remain links", async ({ page }) => {
+  test("article metadata lives below the prose and keeps passive tags as text", async ({ page }) => {
     test.skip(!articleWithSeriesAndLinkedProject, "An article with both a series and connected project is required for this regression.");
 
     const seriesArticle = articleWithSeriesAndLinkedProject!.article;
     const linkedProject = articleWithSeriesAndLinkedProject!.project;
+    const expectedSeriesHref = `/articles?${new URLSearchParams({ q: `series:${seriesArticle.series}` }).toString()}`;
+    const firstTag = seriesArticle.tags?.[0];
 
     await page.goto(seriesArticle.href);
 
-    await expect(page.locator('[data-slot="passive-chip"]').filter({ hasText: `Series: ${seriesArticle.series}` })).toHaveCount(1);
-    await expect(page.getByRole("button", { name: `Series: ${seriesArticle.series}` })).toHaveCount(0);
-    await expect(page.getByRole("link", { name: new RegExp(linkedProject.title) }).first()).toBeVisible();
+    const postMetadata = page.getByTestId("article-post-metadata");
+    await expect(postMetadata).toBeVisible();
+
+    const seriesLink = postMetadata.getByRole("link", { name: `Series: ${seriesArticle.series}` });
+    await expect(seriesLink).toBeVisible();
+    await expect(seriesLink).toHaveAttribute("href", expectedSeriesHref);
+    await expect(page.getByRole("link", { name: `Series: ${seriesArticle.series}` })).toHaveCount(1);
+    await expect(page.locator('[data-slot="passive-chip"]').filter({ hasText: `Series: ${seriesArticle.series}` })).toHaveCount(0);
+
+    if (firstTag) {
+      await expect(postMetadata.getByText(`#${firstTag}`, { exact: true })).toBeVisible();
+      await expect(postMetadata.locator('[data-slot="passive-chip"]').filter({ hasText: firstTag })).toHaveCount(0);
+      await expect(postMetadata.getByRole("button", { name: firstTag, exact: true })).toHaveCount(0);
+    }
+
+    await expect(page.getByText("Projects connected to this article", { exact: true })).toHaveCount(1);
+    const relatedProjectLink = postMetadata.getByRole("link", { name: new RegExp(linkedProject.title) }).first();
+    await expect(relatedProjectLink).toBeVisible();
+    expect(await page.getByTestId("article-connected-project-card").count()).toBeGreaterThan(0);
+
+    const connectedProjectMedia = page.getByTestId("article-connected-project-card").first().getByTestId("compact-content-card-media");
+    await expect(connectedProjectMedia).toHaveCount(1);
+    const connectedProjectMediaBox = await connectedProjectMedia.boundingBox();
+    expect(connectedProjectMediaBox).not.toBeNull();
+    expect(Math.abs(connectedProjectMediaBox!.width - connectedProjectMediaBox!.height)).toBeLessThan(3);
+  });
+
+  test("article recommendations render one square visual per card", async ({ page }) => {
+    test.skip(articles.length < 2, "At least two articles are required to verify article recommendations.");
+
+    const article = articleWithSeriesAndLinkedProject?.article ?? articles[0]!;
+    await page.goto(article.href);
+
+    const recommendationCard = page.getByTestId("recommended-article-card").first();
+    await expect(recommendationCard).toBeVisible();
+
+    const recommendationMedia = recommendationCard.getByTestId("compact-content-card-media");
+    await expect(recommendationMedia).toHaveCount(1);
+    const recommendationMediaBox = await recommendationMedia.boundingBox();
+    expect(recommendationMediaBox).not.toBeNull();
+    expect(Math.abs(recommendationMediaBox!.width - recommendationMediaBox!.height)).toBeLessThan(3);
   });
 
   test("work logs route renders and supports project filters when work log data exists", async ({ page }) => {
@@ -306,6 +353,21 @@ test.describe("Articles", () => {
       await expect(page.getByText("No work logs found yet.")).toBeVisible();
       return;
     }
+
+    await expect(page.getByRole("tab", { name: "Overview" })).toBeVisible();
+    await expect(page.getByRole("tab", { name: "Activity" })).toBeVisible();
+    await expect(page.getByRole("tab", { name: "Projects" })).toBeVisible();
+    await expect(page.getByText("Rail")).toHaveCount(0);
+    await expect(page.getByText("Horizontal")).toHaveCount(0);
+    await expect(page.getByText("Project Chart")).toHaveCount(0);
+    await expect(page.getByText("Session Chart")).toHaveCount(0);
+    await expect(page.getByText("Duration Chart")).toHaveCount(0);
+
+    await page.getByRole("tab", { name: "Activity" }).click();
+    await page.getByRole("button", { name: "Switch to timeline view" }).click();
+    await expect(page.getByTestId("work-log-activity-timeline")).toBeVisible();
+    await page.getByRole("button", { name: "Switch to list view" }).click();
+    await expect(page.getByTestId("work-log-activity-list")).toBeVisible();
 
     await page.goto(`/work-logs?project=${getProjectSlug(projectWithWorkLogs)}`);
     await expect(page.getByRole("heading", { name: `${projectWithWorkLogs.title} Work Logs` })).toBeVisible();

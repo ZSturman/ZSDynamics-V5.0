@@ -9,10 +9,11 @@ import { ProjectContent } from "./project-details/project-description-and-story"
 import { ProjectMetadata } from "./project-details/project-metadata";
 import { Project } from "@/types";
 import { Collection } from "./project-details/collection/collection";
+import { ProjectStandaloneAssets } from "./project-details/project-standalone-assets";
 import ProjectDetailsFooter from "./project-details/project-details-footer";
 import { ProjectWorkLogs } from "./project-details/project-work-logs";
 import { ProjectArticles } from "./project-details/project-articles";
-import { hasProjectCollectionItems } from "@/lib/project-collections";
+import { hasProjectCollectionItems, hasStandaloneProjectAssets } from "@/lib/project-collections";
 import { BreadcrumbTrail } from "@/components/ui/breadcrumb-trail";
 
 interface ProjectDetailsProps {
@@ -24,13 +25,14 @@ export default function ProjectDetails({ project }: ProjectDetailsProps) {
     notFound();
   }
 
-  const hasCollection = hasProjectCollectionItems(project);
+  const hasCollection = hasProjectCollectionItems(project, { excludeAssets: true });
   const hasContent = Boolean(
     (project.description && String(project.description).trim()) ||
       (project.story && String(project.story).trim())
   );
   const hasWorkLogs = Boolean(project.workLogs && project.workLogs.length > 0);
   const hasArticles = Boolean(project.articles && project.articles.length > 0);
+  const hasAssets = hasStandaloneProjectAssets(project);
   const sections: Array<{ key: string; content: ReactNode }> = [];
 
   if (hasContent) {
@@ -47,7 +49,31 @@ export default function ProjectDetails({ project }: ProjectDetailsProps) {
     });
   }
 
-  sections.push({
+  if (hasAssets) {
+    sections.push({
+      key: "assets",
+      content: <ProjectStandaloneAssets project={project} />,
+    });
+  }
+
+  // Footer sections — ordered: articles, work logs, then details
+  const footerSections: Array<{ key: string; content: ReactNode }> = [];
+
+  if (hasArticles) {
+    footerSections.push({
+      key: "articles",
+      content: <ProjectArticles project={project} />,
+    });
+  }
+
+  if (hasWorkLogs) {
+    footerSections.push({
+      key: "work-logs",
+      content: <ProjectWorkLogs project={project} />,
+    });
+  }
+
+  footerSections.push({
     key: "details",
     content: (
       <>
@@ -56,20 +82,6 @@ export default function ProjectDetails({ project }: ProjectDetailsProps) {
       </>
     ),
   });
-
-  if (hasArticles) {
-    sections.push({
-      key: "articles",
-      content: <ProjectArticles project={project} />,
-    });
-  }
-
-  if (hasWorkLogs) {
-    sections.push({
-      key: "work-logs",
-      content: <ProjectWorkLogs project={project} />,
-    });
-  }
 
   return (
     <div className="min-h-screen bg-background">
@@ -91,10 +103,19 @@ export default function ProjectDetails({ project }: ProjectDetailsProps) {
             <section
               key={section.key}
               className={cn(
-                index === 0 ? "" : "border-t border-border pt-8 md:pt-10",
-                index < sections.length - 1 ? "pb-8 md:pb-10" : ""
+                index > 0 && "pt-8 md:pt-10",
+                index < sections.length - 1 && "pb-8 md:pb-10",
               )}
             >
+              {section.content}
+            </section>
+          ))}
+        </div>
+
+        {/* Footer: articles → work logs → details */}
+        <div className="mt-8 md:mt-12 space-y-6 md:space-y-8">
+          {footerSections.map((section) => (
+            <section key={section.key}>
               {section.content}
             </section>
           ))}
