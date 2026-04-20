@@ -3,10 +3,27 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 sys.path.insert(0, str((Path(__file__).resolve().parent.parent / "lib")))
 
 from sync_articles import ArticleSyncError, build_articles_from_directory  # noqa: E402
+
+
+class FakeUrlopenResponse:
+    def __init__(self, body: bytes, *, url: str, content_type: str = "text/html; charset=utf-8") -> None:
+        self._body = body
+        self.url = url
+        self.headers = {"Content-Type": content_type}
+
+    def read(self) -> bytes:
+        return self._body
+
+    def __enter__(self) -> "FakeUrlopenResponse":
+        return self
+
+    def __exit__(self, exc_type, exc, tb) -> None:
+        return None
 
 
 class TestSyncArticles(unittest.TestCase):
@@ -286,6 +303,123 @@ class TestSyncArticles(unittest.TestCase):
 
             self.assertEqual(len(manifest), 1)
             self.assertEqual(manifest[0]["projectIds"], ["304aec94-4d3c-8029-a1b1-ea0f92487137"])
+
+    def test_series_fallback_links_article_to_matching_project(self) -> None:
+        with tempfile.TemporaryDirectory() as repo_root_str, tempfile.TemporaryDirectory() as output_root_str:
+            repo_root = Path(repo_root_str)
+            output_root = Path(output_root_str)
+
+            projects_manifest_path = repo_root / "projects.json"
+            projects_manifest_path.write_text(
+                json.dumps(
+                    [
+                        {
+                            "id": "346aec94-4d3c-801e-851f-c7e727f0e186",
+                            "slug": "the-wolf-project",
+                            "href": "/projects/the-wolf-project",
+                            "title": "The Wolf Project",
+                        }
+                    ]
+                ),
+                encoding="utf-8",
+            )
+
+            article_dir = repo_root / "articles" / "wolf-article"
+            article_dir.mkdir(parents=True)
+            (article_dir / "index.md").write_text(
+                "\n".join(
+                    [
+                        "---",
+                        "title: The Wolf Project - Reworking a Real-World Project",
+                        "summary: Article linked by series.",
+                        "updatedAt: 2026-04-18",
+                        "series: The Wolf Project",
+                        "---",
+                        "",
+                        "Body copy.",
+                    ]
+                ),
+                encoding="utf-8",
+            )
+
+            manifest = build_articles_from_directory(
+                source_repo_root=repo_root,
+                output_dir=output_root,
+                repo="ZSturman/Articles",
+                ref="main",
+                projects_manifest_path=projects_manifest_path,
+            )
+
+            self.assertEqual(len(manifest), 1)
+            self.assertEqual(manifest[0]["projectIds"], ["346aec94-4d3c-801e-851f-c7e727f0e186"])
+
+    def test_standalone_external_links_generate_previews_but_inline_links_do_not(self) -> None:
+        with tempfile.TemporaryDirectory() as repo_root_str, tempfile.TemporaryDirectory() as output_root_str:
+            repo_root = Path(repo_root_str)
+            output_root = Path(output_root_str)
+
+            article_dir = repo_root / "articles" / "preview-article"
+            article_dir.mkdir(parents=True)
+            (article_dir / "index.md").write_text(
+                "\n".join(
+                    [
+                        "---",
+                        "title: Preview Article",
+                        "summary: Article with standalone previews.",
+                        "updatedAt: 2026-04-19",
+                        "---",
+                        "",
+                        "Inline link [https://example.com/docs](https://example.com/docs) should stay plain.",
+                        "",
+                        "[https://www.youtube.com/watch?v=NMf8mlxO4sk](https://www.youtube.com/watch?v=NMf8mlxO4sk)",
+                        "",
+                        "[https://www.instagram.com/_wolf_project/](https://www.instagram.com/_wolf_project/)",
+                    ]
+                ),
+                encoding="utf-8",
+            )
+
+            def fake_urlopen(request, timeout=15):  # type: ignore[no-untyped-def]
+                url = request.full_url if hasattr(request, "full_url") else str(request)
+                if "youtube.com/watch" in url:
+                    return FakeUrlopenResponse(
+                        (
+                            "<html><head><title>Husky With Zero Chance Of Survival</title>"
+                            "<meta property='og:description' content='The Dodo story'>"
+                            "<meta property='og:site_name' content='YouTube'></head></html>"
+                        ).encode("utf-8"),
+                        url=url,
+                    )
+                if "instagram.com/_wolf_project" in url:
+                    return FakeUrlopenResponse(
+                        (
+                            "<html><head><meta property='og:title' content='The Wolf Project'>"
+                            "<meta property='og:description' content='8,849 followers'>"
+                            "<meta property='og:site_name' content='Instagram'>"
+                            "<meta property='og:image' content='https://cdn.example.com/wolf.jpg'></head></html>"
+                        ).encode("utf-8"),
+                        url=url,
+                    )
+                raise AssertionError(f"Unexpected preview fetch: {url}")
+
+            with patch("sync_articles.urlopen", side_effect=fake_urlopen):
+                manifest = build_articles_from_directory(
+                    source_repo_root=repo_root,
+                    output_dir=output_root,
+                    repo="ZSturman/Articles",
+                    ref="main",
+                )
+
+            self.assertEqual(len(manifest), 1)
+            link_previews = manifest[0]["linkPreviews"]
+            self.assertEqual([preview["url"] for preview in link_previews], [
+                "https://www.youtube.com/watch?v=NMf8mlxO4sk",
+                "https://www.instagram.com/_wolf_project/",
+            ])
+            self.assertEqual(link_previews[0]["kind"], "youtube")
+            self.assertEqual(link_previews[1]["kind"], "card")
+            self.assertEqual(link_previews[1]["siteName"], "Instagram")
+            self.assertNotIn("https://example.com/docs", {preview["url"] for preview in link_previews})
 
     def test_missing_series_is_recorded_as_none(self) -> None:
         with tempfile.TemporaryDirectory() as repo_root_str, tempfile.TemporaryDirectory() as output_root_str:

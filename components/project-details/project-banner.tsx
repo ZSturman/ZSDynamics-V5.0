@@ -1,3 +1,5 @@
+import type { ReactNode } from "react";
+
 import { Project } from "@/types";
 import { formatTextWithNewlines, getOptimizedMediaPath } from "@/lib/utils";
 import ResourceButton from "./resource-button";
@@ -7,9 +9,18 @@ import { MediaDisplay } from "@/components/ui/media-display";
 interface ProjectHeaderProps {
   project: Project;
   hideBanner?: boolean;
+  showResourceRow?: boolean;
+  resourceRow?: ReactNode;
+  headerActions?: ReactNode;
 }
 
-export function ProjectHeader({ project, hideBanner = false }: ProjectHeaderProps) {
+export function ProjectHeader({
+  project,
+  hideBanner = false,
+  showResourceRow = true,
+  resourceRow,
+  headerActions,
+}: ProjectHeaderProps) {
   const folderName = project.folderName || project.id;
   const folderPath = `/projects/${folderName}`;
 
@@ -63,7 +74,7 @@ export function ProjectHeader({ project, hideBanner = false }: ProjectHeaderProp
         </div>
       )}
 
-      <div className="flex items-start justify-between gap-2 md:gap-4">
+      <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between md:gap-4">
         <div className="flex-1 space-y-1 md:space-y-2">
           <div className="flex items-center gap-2 md:gap-3 flex-wrap">
             {iconPath && (
@@ -94,7 +105,7 @@ export function ProjectHeader({ project, hideBanner = false }: ProjectHeaderProp
                     resource={resource}
                     currentProject={project}
                     iconOnly
-                    className="h-8 w-8 border-0"
+                    className="h-8 w-8"
                   />
                 ))}
               </div>
@@ -107,6 +118,12 @@ export function ProjectHeader({ project, hideBanner = false }: ProjectHeaderProp
             </p>
           )}
         </div>
+
+        {headerActions ? (
+          <div className="w-full md:w-auto md:shrink-0 md:pl-4 md:pr-12">
+            {headerActions}
+          </div>
+        ) : null}
       </div>
 
       <div className="overflow-hidden">
@@ -157,9 +174,9 @@ export function ProjectHeader({ project, hideBanner = false }: ProjectHeaderProp
         </p>
       </div>
 
-      {project.resources && project.resources.length > 0 && (
-        <div>
-          <ResourceButtons project={project} />
+      {(resourceRow || (showResourceRow && project.resources && project.resources.length > 0)) && (
+        <div data-testid="project-header-resource-row" data-project-id={project.id}>
+          {resourceRow ?? <ResourceButtons project={project} />}
         </div>
       )}
     </header>

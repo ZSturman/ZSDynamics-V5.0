@@ -36,8 +36,8 @@
     "images": {
       "thumbnail": "thumbnail.png",
       "banner": "banner.png",
-      "hero": "hero.png",
-      "icon": "icon.png"
+      "icon": "icon.png",
+      "hero": "hero.png"
     },
     "resources": [],
     "collection": {},
@@ -236,7 +236,22 @@
         "durationMinutes": 300
       }
     ],
-    "articles": [],
+    "articles": [
+      {
+        "title": "How I Use Notion to Ingest, Organize, and Track My Projects",
+        "slug": "how-i-use-notion-to-track-my-projects",
+        "href": "/articles/how-i-use-notion-to-track-my-projects",
+        "sourceUrl": "https://github.com/ZSturman/Articles/blob/main/articles/how-i-use-notion-to-track-my-projects/index.md",
+        "coverImage": "/articles/how-i-use-notion-to-track-my-projects/images/cover_image.png"
+      },
+      {
+        "title": "Automating Linear From Notion",
+        "slug": "automating-linear-from-notion",
+        "href": "/articles/automating-linear-from-notion",
+        "sourceUrl": "https://github.com/ZSturman/Articles/blob/main/articles/automating-linear-from-notion/index.md",
+        "coverImage": "/articles/automating-linear-from-notion/images/Cover.png"
+      }
+    ],
     "folderName": "my_notion_pipeline_304aec94-4d3c-8029-a1b1-ea0f92487137"
   },
   {
@@ -299,7 +314,15 @@
         "durationMinutes": 60
       }
     ],
-    "articles": [],
+    "articles": [
+      {
+        "title": "Consolidating an Offline-First Episodic Memory System",
+        "slug": "consolidating-an-offline-first-episodic-memory-system",
+        "href": "/articles/consolidating-an-offline-first-episodic-memory-system",
+        "sourceUrl": "https://github.com/ZSturman/Articles/blob/main/articles/consolidating-an-offline-first-episodic-memory-system/index.md",
+        "coverImage": "/articles/consolidating-an-offline-first-episodic-memory-system/images/hero.png"
+      }
+    ],
     "folderName": "episodic_memory_agent_306aec94-4d3c-8005-97ab-d4572f1ab679"
   },
   {
@@ -338,10 +361,10 @@
     "story": "",
     "images": {
       "thumbnail": "thumbnail.png",
-      "poster": "poster.png",
       "banner": "banner.png",
-      "hero": "hero.png",
-      "icon": "TopNote AppIcon v2-watchOS-Default-1088x1088@1x.png"
+      "icon": "TopNote AppIcon v2-watchOS-Default-1088x1088@1x.png",
+      "poster": "poster.png",
+      "hero": "hero.png"
     },
     "resources": [
       {
@@ -352,7 +375,8 @@
       {
         "type": "apple",
         "label": "App Store",
-        "url": "https://apps.apple.com/us/app/top-note/id6742725271"
+        "url": "https://apps.apple.com/us/app/top-note/id6742725271",
+        "iconUrl": "/icons/favicons/apps.apple.com.png"
       }
     ],
     "collection": {},
@@ -417,7 +441,8 @@
       {
         "type": "web",
         "label": "Visit",
-        "url": "https://zsturman.github.io/ZSDynamics-V2.0/"
+        "url": "https://zsturman.github.io/ZSDynamics-V2.0/",
+        "iconUrl": "/icons/favicons/zsturman.github.io.png"
       },
       {
         "type": "github",
@@ -626,9 +651,9 @@
     "story": "",
     "images": {
       "thumbnail": "thumbnail.png",
-      "poster": "poster.gif",
       "banner": "banner.png",
-      "icon": "logo.png"
+      "icon": "logo.png",
+      "poster": "poster.gif"
     },
     "resources": [],
     "collection": {
@@ -655,7 +680,8 @@
               {
                 "type": "web",
                 "label": "Visit",
-                "url": "https://zsturman.github.io/ZSDynamics-V2.0/"
+                "url": "https://zsturman.github.io/ZSDynamics-V2.0/",
+                "iconUrl": "/icons/favicons/zsturman.github.io.png"
               },
               {
                 "type": "github",
@@ -666,7 +692,8 @@
             "resource": {
               "type": "web",
               "label": "Visit",
-              "url": "https://zsturman.github.io/ZSDynamics-V2.0/"
+              "url": "https://zsturman.github.io/ZSDynamics-V2.0/",
+              "iconUrl": "/icons/favicons/zsturman.github.io.png"
             }
           },
           {
@@ -681,7 +708,8 @@
               {
                 "type": "web",
                 "label": "Visit",
-                "url": "https://zsturman.github.io/ZSDynamics-V1.0/"
+                "url": "https://zsturman.github.io/ZSDynamics-V1.0/",
+                "iconUrl": "/icons/favicons/zsturman.github.io.png"
               },
               {
                 "type": "github",
@@ -692,7 +720,8 @@
             "resource": {
               "type": "web",
               "label": "Visit",
-              "url": "https://zsturman.github.io/ZSDynamics-V1.0/"
+              "url": "https://zsturman.github.io/ZSDynamics-V1.0/",
+              "iconUrl": "/icons/favicons/zsturman.github.io.png"
             }
           },
           {
@@ -712,7 +741,8 @@
               {
                 "type": "web",
                 "label": "Visit",
-                "url": "https://zsturman.github.io/TowardBetter-Announcement-Page/"
+                "url": "https://zsturman.github.io/TowardBetter-Announcement-Page/",
+                "iconUrl": "/icons/favicons/zsturman.github.io.png"
               }
             ],
             "resource": {
@@ -738,7 +768,8 @@
               {
                 "type": "web",
                 "label": "Visit",
-                "url": "https://zsturman.github.io/ZSDynamics-V4.0/"
+                "url": "https://zsturman.github.io/ZSDynamics-V4.0/",
+                "iconUrl": "/icons/favicons/zsturman.github.io.png"
               }
             ],
             "resource": {
@@ -785,7 +816,8 @@
               {
                 "type": "web",
                 "label": "Visit",
-                "url": "https://zsturman.github.io/ZSDynamics-V1.1/"
+                "url": "https://zsturman.github.io/ZSDynamics-V1.1/",
+                "iconUrl": "/icons/favicons/zsturman.github.io.png"
               }
             ],
             "resource": {
@@ -858,7 +890,8 @@
       {
         "type": "web",
         "label": "Visit",
-        "url": "https://zsturman.github.io/ZSDynamics-V1.0/"
+        "url": "https://zsturman.github.io/ZSDynamics-V1.0/",
+        "iconUrl": "/icons/favicons/zsturman.github.io.png"
       },
       {
         "type": "github",
@@ -992,7 +1025,8 @@
       {
         "type": "web",
         "label": "Visit",
-        "url": "https://zsturman.github.io/TowardBetter-Announcement-Page/"
+        "url": "https://zsturman.github.io/TowardBetter-Announcement-Page/",
+        "iconUrl": "/icons/favicons/zsturman.github.io.png"
       }
     ],
     "collection": {},
@@ -1322,10 +1356,10 @@
     "story": "",
     "images": {
       "thumbnail": "thumbnail.png",
-      "poster": "poster.png",
       "banner": "banner.png",
-      "hero": "hero.png",
-      "icon": "icon.png"
+      "icon": "icon.png",
+      "poster": "poster.png",
+      "hero": "hero.png"
     },
     "resources": [
       {
@@ -1403,7 +1437,8 @@
       {
         "type": "web",
         "label": "Visit",
-        "url": "https://zsturman.github.io/ZSDynamics-V4.0/"
+        "url": "https://zsturman.github.io/ZSDynamics-V4.0/",
+        "iconUrl": "/icons/favicons/zsturman.github.io.png"
       }
     ],
     "collection": {},
@@ -1460,8 +1495,8 @@
     "story": "",
     "images": {
       "thumbnail": "thumbnail.png",
-      "poster": "poster.gif",
       "banner": "banner.gif",
+      "poster": "poster.gif",
       "hero": "queueExample.png"
     },
     "resources": [
@@ -1529,9 +1564,9 @@
     "story": "",
     "images": {
       "thumbnail": "thumbnail.png",
-      "poster": "poster.png",
       "banner": "banner.png",
-      "icon": "thumbnail.png"
+      "icon": "thumbnail.png",
+      "poster": "poster.png"
     },
     "resources": [
       {
@@ -1562,7 +1597,15 @@
         "durationMinutes": 60
       }
     ],
-    "articles": [],
+    "articles": [
+      {
+        "title": "Building ChewSense - Using Motion Data For An On-Device AI Health Agent",
+        "slug": "building-chewsense-using-motion-data-for-an-on-device-ai-health-agent",
+        "href": "/articles/building-chewsense-using-motion-data-for-an-on-device-ai-health-agent",
+        "sourceUrl": "https://github.com/ZSturman/Articles/blob/main/articles/building-chewsense-using-motion-data-for-an-on-device-ai-health-agent/index.md",
+        "coverImage": "/articles/building-chewsense-using-motion-data-for-an-on-device-ai-health-agent/images/hero.png"
+      }
+    ],
     "folderName": "chewsense_306aec94-4d3c-808d-9ada-f0ccca484d3b"
   },
   {
@@ -1711,9 +1754,9 @@
     "story": "",
     "images": {
       "thumbnail": "thumbnail.png",
-      "poster": "poster.png",
       "banner": "banner.png",
-      "icon": "icon.svg"
+      "icon": "icon.svg",
+      "poster": "poster.png"
     },
     "resources": [
       {
@@ -1835,9 +1878,9 @@
     "story": "",
     "images": {
       "thumbnail": "thumbnail.tiff",
-      "poster": "poster.tiff",
       "banner": "banner.png",
-      "icon": "thumbnail.tiff"
+      "icon": "thumbnail.tiff",
+      "poster": "poster.tiff"
     },
     "resources": [],
     "collection": {},
@@ -1899,8 +1942,8 @@
     "images": {
       "thumbnail": "thumbnail.png",
       "banner": "banner.png",
-      "hero": "hero.png",
-      "icon": "icon.png"
+      "icon": "icon.png",
+      "hero": "hero.png"
     },
     "resources": [],
     "collection": {},
@@ -2033,7 +2076,8 @@
       {
         "type": "web",
         "label": "Visit",
-        "url": "https://zsturman.github.io/ZSDynamics-V1.1/"
+        "url": "https://zsturman.github.io/ZSDynamics-V1.1/",
+        "iconUrl": "/icons/favicons/zsturman.github.io.png"
       }
     ],
     "collection": {},
@@ -2093,7 +2137,8 @@
       {
         "type": "web",
         "label": "Visit",
-        "url": "https://zachary-sturman.com"
+        "url": "https://zachary-sturman.com",
+        "iconUrl": "/icons/favicons/zachary-sturman.com.ico"
       },
       {
         "type": "github",
@@ -2209,8 +2254,8 @@
     "images": {
       "thumbnail": "thumbnail.png",
       "banner": "Concept_art_with_Logo.jpeg",
-      "hero": "Ope_Hero.png",
-      "icon": "AppIcon.png"
+      "icon": "AppIcon.png",
+      "hero": "Ope_Hero.png"
     },
     "resources": [
       {
@@ -2240,7 +2285,15 @@
         "durationMinutes": 240
       }
     ],
-    "articles": [],
+    "articles": [
+      {
+        "title": "The Art of Turning a 90-Minute Task Into a 2-Month Automation Project",
+        "slug": "the-art-of-turning-a-90-minute-task-into-a-2-month",
+        "href": "/articles/the-art-of-turning-a-90-minute-task-into-a-2-month",
+        "sourceUrl": "https://github.com/ZSturman/Articles/blob/main/articles/the-art-of-turning-a-90-minute-task-into-a-2-month/index.md",
+        "coverImage": "/articles/the-art-of-turning-a-90-minute-task-into-a-2-month/images/Concept_art_with_Logo.jpeg"
+      }
+    ],
     "folderName": "folio_324aec94-4d3c-8068-a8a7-ed6d1d4d1790"
   },
   {
@@ -2276,8 +2329,8 @@
     "images": {
       "thumbnail": "thumbnail.png",
       "banner": "banner.png",
-      "hero": "hero.png",
-      "icon": "icon.png"
+      "icon": "icon.png",
+      "hero": "hero.png"
     },
     "resources": [
       {
@@ -2342,8 +2395,8 @@
     "story": "",
     "images": {
       "thumbnail": "thumbnail.png",
-      "poster": "poster.png",
       "banner": "banner.png",
+      "poster": "poster.png",
       "hero": "hero.png"
     },
     "resources": [
@@ -2408,8 +2461,8 @@
     "images": {
       "thumbnail": "thumbnail.png",
       "banner": "banner.png",
-      "hero": "hero.png",
-      "icon": "icon.png"
+      "icon": "icon.png",
+      "hero": "hero.png"
     },
     "resources": [
       {
@@ -2477,8 +2530,8 @@
     "images": {
       "thumbnail": "thumbnail.png",
       "banner": "banner.png",
-      "hero": "hero.png",
-      "icon": "icon.png"
+      "icon": "icon.png",
+      "hero": "hero.png"
     },
     "resources": [
       {
@@ -2509,7 +2562,15 @@
         "durationMinutes": 60
       }
     ],
-    "articles": [],
+    "articles": [
+      {
+        "title": "Building a Location-First Learning Agent to Explore Context, Memory, and Consciousness",
+        "slug": "building-a-location-first-learning-agent-to-explore-context-memory-and-consciousness",
+        "href": "/articles/building-a-location-first-learning-agent-to-explore-context-memory-and-consciousness",
+        "sourceUrl": "https://github.com/ZSturman/Articles/blob/main/articles/building-a-location-first-learning-agent-to-explore-context-memory-and-consciousness/index.md",
+        "coverImage": "/articles/building-a-location-first-learning-agent-to-explore-context-memory-and-consciousness/images/cover_image.png"
+      }
+    ],
     "folderName": "train_of_thought_agent_332aec94-4d3c-807a-ba3b-d0950cd03a66"
   },
   {
@@ -2544,10 +2605,10 @@
     "story": "",
     "images": {
       "thumbnail": "thumbnail.png",
-      "poster": "poster.png",
       "banner": "banner.png",
-      "hero": "hero.png",
-      "icon": "icon.png"
+      "icon": "icon.png",
+      "poster": "poster.png",
+      "hero": "hero.png"
     },
     "resources": [
       {
@@ -2678,10 +2739,10 @@
     "story": "",
     "images": {
       "thumbnail": "thumbnail.png",
-      "poster": "poster.png",
       "banner": "banner.png",
-      "hero": "hero.png",
-      "icon": "icon.png"
+      "icon": "icon.png",
+      "poster": "poster.png",
+      "hero": "hero.png"
     },
     "resources": [
       {
@@ -2746,8 +2807,8 @@
     "story": "",
     "images": {
       "thumbnail": "thumbnail.png",
-      "poster": "poster.png",
       "banner": "banner.png",
+      "poster": "poster.png",
       "hero": "hero.png"
     },
     "resources": [],
@@ -2809,10 +2870,10 @@
     "story": "",
     "images": {
       "thumbnail": "thumbnail.png",
-      "poster": "poster.png",
       "banner": "banner.png",
-      "hero": "hero.png",
-      "icon": "icon.png"
+      "icon": "icon.png",
+      "poster": "poster.png",
+      "hero": "hero.png"
     },
     "resources": [
       {
@@ -2878,8 +2939,8 @@
     "story": "",
     "images": {
       "thumbnail": "Wolf-hero.webp",
-      "hero": "Screenshot_2026-04-18_at_17.29.59.png",
-      "icon": "Wolf-hero.webp"
+      "icon": "Wolf-hero.webp",
+      "hero": "Screenshot_2026-04-18_at_17.29.59.png"
     },
     "resources": [
       {
@@ -2895,10 +2956,25 @@
       {
         "type": "web",
         "label": "Development URL",
-        "url": "https://the-wolf-pack.vercel.app"
+        "url": "https://the-wolf-pack.vercel.app",
+        "iconUrl": "/icons/favicons/the-wolf-pack.vercel.app.ico"
       }
     ],
-    "collection": {},
+    "collection": {
+      "URLs": {
+        "label": "URLs",
+        "summary": "",
+        "images": {},
+        "items": [
+          {
+            "id": "348aec94-4d3c-800c-aaad-c539680bc5b2",
+            "label": "New Asset",
+            "order": 0,
+            "type": "image"
+          }
+        ]
+      }
+    },
     "workLogs": [
       {
         "id": "346aec94-4d3c-80b5-8de8-df50825de900",
@@ -2920,7 +2996,15 @@
         "durationMinutes": 60
       }
     ],
-    "articles": [],
+    "articles": [
+      {
+        "title": "The Wolf Project - Reworking a Real-World Project",
+        "slug": "the-wolf-project-reworking-a-real-world-project",
+        "href": "/articles/the-wolf-project-reworking-a-real-world-project",
+        "sourceUrl": "https://github.com/ZSturman/Articles/blob/main/articles/the-wolf-project-reworking-a-real-world-project/index.md",
+        "coverImage": "/articles/the-wolf-project-reworking-a-real-world-project/imgaes/Wolf-hero.webp"
+      }
+    ],
     "folderName": "the_wolf_project_346aec94-4d3c-801e-851f-c7e727f0e186"
   }
 ]

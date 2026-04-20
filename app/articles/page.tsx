@@ -1,6 +1,5 @@
-import Link from "next/link";
-
 import { ArticlesClient } from "@/components/articles/articles-client";
+import { BreadcrumbTrail } from "@/components/ui/breadcrumb-trail";
 import type { ArticleListEntry } from "@/components/articles/article-list-types";
 import { loadArticles } from "@/lib/load-articles";
 import { loadPublicJsonRecursively } from "@/lib/load-public-json";
@@ -32,12 +31,7 @@ export default async function ArticlesPage() {
     <div className="min-h-screen bg-background">
       <main className="mx-auto max-w-6xl px-4 py-8 sm:px-6 md:px-8 md:py-12">
         <div className="space-y-2">
-          <p className="text-sm text-muted-foreground">
-            <Link href="/" className="hover:text-foreground">
-              Home
-            </Link>
-            {" / "}Articles
-          </p>
+          <BreadcrumbTrail items={[{ label: "Home", href: "/" }, { label: "Articles" }]} />
           <h1 className="text-3xl font-semibold tracking-tight md:text-4xl">Articles</h1>
           <p className="max-w-2xl text-sm text-muted-foreground md:text-base">
             Long-form writing pulled directly from the dedicated articles repository and published here as part of the portfolio.

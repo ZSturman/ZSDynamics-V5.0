@@ -1,16 +1,17 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowRight, ArrowUpRight, FolderOpen, Github, Newspaper } from "lucide-react";
+import { ArrowRight, FolderOpen, Newspaper } from "lucide-react";
 
 import { ArticleAnalyticsTracker } from "@/components/analytics/article-analytics-tracker";
-import { ArticleSourceLink } from "@/components/analytics/article-source-link";
 import { ArticleMarkdown } from "@/components/articles/article-markdown";
+import { BreadcrumbTrail } from "@/components/ui/breadcrumb-trail";
+import { PassiveChip } from "@/components/ui/passive-chip";
 import { loadArticleBySlug, loadArticles } from "@/lib/load-articles";
 import { loadPublicJsonRecursively } from "@/lib/load-public-json";
 import { getProjectHref } from "@/lib/project-paths";
 import { SITE_DESCRIPTION } from "@/lib/site-metadata";
-import { formatDate } from "@/lib/utils";
+import { formatDate, getOptimizedMediaPath } from "@/lib/utils";
 import type { Project } from "@/types";
 
 export const dynamic = "force-static";
@@ -35,6 +36,15 @@ function toTimestamp(value?: string | null): number {
   if (!value) return 0;
   const parsed = Date.parse(value);
   return Number.isNaN(parsed) ? 0 : parsed;
+}
+
+function getProjectThumbnail(project: Project): string | null {
+  if (!project.images?.thumbnail) {
+    return null;
+  }
+
+  const folderName = project.folderName || project.id;
+  return getOptimizedMediaPath(project.images.thumbnail, `/projects/${folderName}`);
 }
 
 export async function generateStaticParams(): Promise<Array<{ slug: string }>> {
@@ -126,23 +136,27 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
     .map(({ article: recommendedArticle }) => recommendedArticle);
 
   const hasFooterContent = recommendedArticles.length > 0 || relatedProjects.length > 0;
+  const publishedLabel = formatDate(article.publishedAt ?? article.updatedAt) || article.publishedAt || article.updatedAt;
+  const updatedLabel =
+    article.updatedAt && article.publishedAt && article.updatedAt !== article.publishedAt
+      ? formatDate(article.updatedAt) || article.updatedAt
+      : null;
 
   return (
     <div className="min-h-screen bg-background">
-      <main className="mx-auto max-w-4xl px-4 py-8 sm:px-6 md:px-8 md:py-12">
-        <div className="space-y-3 border-b border-border/70 pb-8">
-          <ArticleAnalyticsTracker slug={article.slug} title={article.title} />
-          <p className="text-sm text-muted-foreground">
-            <Link href="/" className="hover:text-foreground">
-              Home
-            </Link>
-            {" / "}
-            <Link href="/articles" className="hover:text-foreground">
-              Articles
-            </Link>
-          </p>
+      <main className="mx-auto max-w-6xl px-4 py-8 sm:px-6 md:px-8 md:py-12">
+        <ArticleAnalyticsTracker slug={article.slug} title={article.title} />
 
-          <div className="space-y-4">
+        <div className="space-y-8">
+          <BreadcrumbTrail
+            items={[
+              { label: "Home", href: "/" },
+              { label: "Articles", href: "/articles" },
+              { label: article.title },
+            ]}
+          />
+
+          <div className="space-y-6 border-b border-border/70 pb-8 md:pb-10">
             {article.coverImage && (
               <div className="overflow-hidden rounded-[2rem] border border-border/70 bg-muted/40 shadow-sm">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -154,65 +168,82 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
               </div>
             )}
 
-            <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
-              <span>{formatDate(article.publishedAt ?? article.updatedAt) || article.publishedAt || article.updatedAt}</span>
-              {article.updatedAt && article.publishedAt && article.updatedAt !== article.publishedAt && (
-                <span>Updated {formatDate(article.updatedAt) || article.updatedAt}</span>
-              )}
-            </div>
-
-            <h1 className="text-3xl font-semibold tracking-tight md:text-5xl">{article.title}</h1>
-            <p className="max-w-3xl text-base leading-7 text-muted-foreground">{article.summary}</p>
-
-            <div className="flex flex-wrap items-center gap-3 pt-2">
-              <ArticleSourceLink
-                articleSlug={article.slug}
-                articleTitle={article.title}
-                href={article.sourceUrl}
-                className="inline-flex items-center gap-2 rounded-full bg-foreground px-4 py-2 text-sm font-medium text-background transition-opacity hover:opacity-90"
-              >
-                <Github className="size-4" />
-                View Source on GitHub
-                <ArrowUpRight className="size-4" />
-              </ArticleSourceLink>
-              {article.series && (
-                <span className="rounded-full border border-border/70 bg-background px-3 py-1 text-xs font-medium text-foreground">
-                  Series: {article.series}
-                </span>
-              )}
-              {article.tags?.map((tag) => (
-                <span
-                  key={`${article.slug}-${tag}`}
-                  className="rounded-full bg-muted px-3 py-1 text-xs font-medium text-muted-foreground"
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-
-            {relatedProjects.length > 0 && (
-              <div className="flex flex-wrap gap-2 pt-2">
-                {relatedProjects.map((project) => (
-                  <Link
-                    key={`${article.slug}-${project.id}`}
-                    href={getProjectHref(project)}
-                    className="inline-flex items-center gap-1.5 rounded-full border border-border/80 bg-background px-3 py-1.5 text-xs font-medium transition-colors hover:border-primary/40 hover:text-primary"
-                  >
-                    <FolderOpen className="size-3.5" />
-                    {project.title}
-                  </Link>
-                ))}
+            <div className="space-y-4">
+              <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
+                <span>{publishedLabel}</span>
+                {updatedLabel && <span>Updated {updatedLabel}</span>}
               </div>
-            )}
+
+              <div className="max-w-4xl space-y-4">
+                <h1 className="text-3xl font-semibold tracking-tight md:text-5xl">{article.title}</h1>
+                <p className="text-base leading-8 text-muted-foreground md:text-lg">{article.summary}</p>
+              </div>
+
+              {(article.series || article.tags?.length) && (
+                <div className="flex flex-wrap items-center gap-2 pt-1">
+                  {article.series && <PassiveChip tone="strong">Series: {article.series}</PassiveChip>}
+                  {article.tags?.map((tag) => (
+                    <PassiveChip key={`${article.slug}-${tag}`}>{tag}</PassiveChip>
+                  ))}
+                </div>
+              )}
+
+              {relatedProjects.length > 0 && (
+                <div className="pt-2">
+                  <p className="mb-3 text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground">
+                    Projects connected to this article
+                  </p>
+                  <div className="grid gap-3 sm:grid-cols-2">
+                    {relatedProjects.map((project) => {
+                      const projectThumbnail = getProjectThumbnail(project);
+
+                      return (
+                        <Link
+                          key={`${article.slug}-${project.id}`}
+                          href={getProjectHref(project)}
+                          className="flex items-start gap-3 rounded-2xl border border-border/70 bg-card/50 px-4 py-4 transition-colors hover:border-primary/40 hover:bg-card"
+                        >
+                          <div className="overflow-hidden rounded-xl border border-border/60 bg-muted/40">
+                            {projectThumbnail ? (
+                              <>
+                                {/* eslint-disable-next-line @next/next/no-img-element */}
+                                <img
+                                  src={projectThumbnail}
+                                  alt={project.title}
+                                  className="h-20 w-28 object-cover"
+                                />
+                              </>
+                            ) : (
+                              <div className="flex h-20 w-28 items-center justify-center text-muted-foreground">
+                                <FolderOpen className="size-5" />
+                              </div>
+                            )}
+                          </div>
+                          <div className="min-w-0 space-y-1">
+                            <p className="text-[11px] font-medium uppercase tracking-[0.16em] text-muted-foreground">
+                              Project
+                            </p>
+                            <p className="font-medium leading-6 text-foreground">{project.title}</p>
+                            <p className="line-clamp-2 text-sm leading-6 text-muted-foreground">
+                              {project.oneLiner || project.summary}
+                            </p>
+                          </div>
+                        </Link>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className="max-w-4xl pt-2">
+            <ArticleMarkdown content={content} slug={article.slug} linkPreviews={article.linkPreviews} />
           </div>
         </div>
 
-        <div className="pt-8">
-          <ArticleMarkdown content={content} slug={article.slug} />
-        </div>
-
         {hasFooterContent && (
-          <section className="mt-16 rounded-[2rem] border border-border/70 bg-muted/30 p-6 sm:p-8">
+          <section className="mt-16 rounded-[2rem] border border-border/70 bg-card/35 p-6 sm:p-8">
             <div className="flex flex-wrap items-end justify-between gap-4 border-b border-border/70 pb-5">
               <div>
                 <p className="text-sm font-medium text-muted-foreground">Keep reading</p>
@@ -227,7 +258,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
               </Link>
             </div>
 
-            <div className="mt-6 grid gap-8 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)]">
+            <div className="mt-6 grid gap-6 lg:grid-cols-2">
               {recommendedArticles.length > 0 && (
                 <div className="space-y-4">
                   <h3 className="text-sm font-medium uppercase tracking-[0.16em] text-muted-foreground">Related and recent articles</h3>
@@ -236,29 +267,35 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                       <Link
                         key={recommendedArticle.slug}
                         href={recommendedArticle.href}
-                        className="overflow-hidden rounded-2xl border border-border/70 bg-background transition-colors hover:border-primary/40"
+                        className="flex items-start gap-3 rounded-2xl border border-border/70 bg-background px-4 py-4 transition-colors hover:border-primary/40"
                       >
-                        {recommendedArticle.coverImage && (
-                          <div className="overflow-hidden border-b border-border/70 bg-muted/40">
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img
-                              src={recommendedArticle.coverImage}
-                              alt={`Cover image for ${recommendedArticle.title}`}
-                              className="aspect-[16/8] w-full object-cover"
-                            />
-                          </div>
-                        )}
-                        <div className="flex items-start gap-3 px-4 py-4">
-                          <div className="mt-0.5 flex size-10 shrink-0 items-center justify-center rounded-xl bg-muted text-muted-foreground">
-                            <Newspaper className="size-4" />
-                          </div>
-                          <div className="min-w-0 space-y-1">
-                            <p className="font-medium leading-6 text-foreground">{recommendedArticle.title}</p>
-                            <p className="line-clamp-2 text-sm leading-6 text-muted-foreground">{recommendedArticle.summary}</p>
-                            <p className="text-xs text-muted-foreground">
-                              {formatDate(recommendedArticle.updatedAt ?? recommendedArticle.publishedAt) || recommendedArticle.updatedAt || recommendedArticle.publishedAt}
-                            </p>
-                          </div>
+                        <div className="overflow-hidden rounded-xl border border-border/60 bg-muted/40">
+                          {recommendedArticle.coverImage ? (
+                            <>
+                              {/* eslint-disable-next-line @next/next/no-img-element */}
+                              <img
+                                src={recommendedArticle.coverImage}
+                                alt={`Cover image for ${recommendedArticle.title}`}
+                                className="h-20 w-28 object-cover"
+                              />
+                            </>
+                          ) : (
+                            <div className="flex h-20 w-28 items-center justify-center text-muted-foreground">
+                              <Newspaper className="size-5" />
+                            </div>
+                          )}
+                        </div>
+                        <div className="min-w-0 space-y-1">
+                          <p className="text-[11px] font-medium uppercase tracking-[0.16em] text-muted-foreground">
+                            Article
+                          </p>
+                          <p className="font-medium leading-6 text-foreground">{recommendedArticle.title}</p>
+                          <p className="line-clamp-2 text-sm leading-6 text-muted-foreground">
+                            {recommendedArticle.oneLiner ?? recommendedArticle.summary}
+                          </p>
+                          <p className="text-xs text-muted-foreground">
+                            {formatDate(recommendedArticle.updatedAt ?? recommendedArticle.publishedAt) || recommendedArticle.updatedAt || recommendedArticle.publishedAt}
+                          </p>
                         </div>
                       </Link>
                     ))}
@@ -270,32 +307,43 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                 <div className="space-y-4">
                   <h3 className="text-sm font-medium uppercase tracking-[0.16em] text-muted-foreground">Projects connected to this article</h3>
                   <div className="space-y-3">
-                    {relatedProjects.map((project) => (
-                      <Link
-                        key={project.id}
-                        href={getProjectHref(project)}
-                        className="flex items-start gap-3 rounded-2xl border border-border/70 bg-background px-4 py-4 transition-colors hover:border-primary/40"
-                      >
-                        <div className="overflow-hidden rounded-xl bg-muted">
-                          {project.images?.thumbnail ? (
-                            // eslint-disable-next-line @next/next/no-img-element
-                            <img
-                              src={project.images.thumbnail}
-                              alt={project.title}
-                              className="size-12 object-cover"
-                            />
-                          ) : (
-                            <div className="flex size-12 items-center justify-center text-muted-foreground">
-                              <FolderOpen className="size-4" />
-                            </div>
-                          )}
-                        </div>
-                        <div className="min-w-0 space-y-1">
-                          <p className="font-medium leading-6 text-foreground">{project.title}</p>
-                          <p className="line-clamp-2 text-sm leading-6 text-muted-foreground">{project.summary}</p>
-                        </div>
-                      </Link>
-                    ))}
+                    {relatedProjects.map((project) => {
+                      const projectThumbnail = getProjectThumbnail(project);
+
+                      return (
+                        <Link
+                          key={project.id}
+                          href={getProjectHref(project)}
+                          className="flex items-start gap-3 rounded-2xl border border-border/70 bg-background px-4 py-4 transition-colors hover:border-primary/40"
+                        >
+                          <div className="overflow-hidden rounded-xl border border-border/60 bg-muted/40">
+                            {projectThumbnail ? (
+                              <>
+                                {/* eslint-disable-next-line @next/next/no-img-element */}
+                                <img
+                                  src={projectThumbnail}
+                                  alt={project.title}
+                                  className="h-20 w-28 object-cover"
+                                />
+                              </>
+                            ) : (
+                              <div className="flex h-20 w-28 items-center justify-center text-muted-foreground">
+                                <FolderOpen className="size-5" />
+                              </div>
+                            )}
+                          </div>
+                          <div className="min-w-0 space-y-1">
+                            <p className="text-[11px] font-medium uppercase tracking-[0.16em] text-muted-foreground">
+                              Project
+                            </p>
+                            <p className="font-medium leading-6 text-foreground">{project.title}</p>
+                            <p className="line-clamp-2 text-sm leading-6 text-muted-foreground">
+                              {project.oneLiner || project.summary}
+                            </p>
+                          </div>
+                        </Link>
+                      );
+                    })}
                   </div>
                 </div>
               )}

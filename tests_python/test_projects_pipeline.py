@@ -3,7 +3,9 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
+from urllib.error import URLError
 from urllib.parse import quote
+from unittest.mock import patch
 
 # Allow `from projects_pipeline import ...`
 sys.path.insert(0, str((Path(__file__).resolve().parent.parent / "lib")))
@@ -15,7 +17,30 @@ from projects_pipeline import (  # noqa: E402
 )
 
 
+class FakeUrlopenResponse:
+    def __init__(self, body: bytes, *, url: str, content_type: str) -> None:
+        self._body = body
+        self.url = url
+        self.headers = {"Content-Type": content_type}
+
+    def read(self) -> bytes:
+        return self._body
+
+    def __enter__(self) -> "FakeUrlopenResponse":
+        return self
+
+    def __exit__(self, exc_type, exc, tb) -> None:
+        return None
+
+
 class TestProjectsPipeline(unittest.TestCase):
+    def setUp(self) -> None:
+        self.urlopen_patcher = patch("projects_pipeline.urlopen", side_effect=URLError("offline"))
+        self.urlopen_patcher.start()
+
+    def tearDown(self) -> None:
+        self.urlopen_patcher.stop()
+
     def test_determine_collection_item_type(self) -> None:
         cases = [
             ("File", "clip.mov", "video"),
@@ -958,6 +983,207 @@ class TestProjectsPipeline(unittest.TestCase):
             )
             self.assertTrue(
                 any("missing from manifest" in warning for warning in result["warnings"])
+            )
+
+    def test_article_manifest_reverse_links_projects_without_explicit_articles(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_root_str, tempfile.TemporaryDirectory() as out_str:
+            temp_root = Path(temp_root_str)
+            out_dir = Path(out_str)
+
+            manifest_path = temp_root / "articles.json"
+            manifest_path.write_text(
+                json.dumps(
+                    [
+                        {
+                            "slug": "wolf-article",
+                            "title": "The Wolf Project Article",
+                            "summary": "Linked from article manifest projectIds",
+                            "sourceUrl": "https://github.com/ZSturman/Articles/blob/main/articles/wolf-article/index.md",
+                            "href": "/articles/wolf-article",
+                            "coverImage": "/articles/wolf-article/cover.png",
+                            "projectIds": ["proj-wolf"],
+                        }
+                    ]
+                ),
+                encoding="utf-8",
+            )
+
+            payload = {
+                "config": {"root_path": str(temp_root)},
+                "projects": [
+                    {
+                        "id": "proj-wolf",
+                        "title": "The Wolf Project",
+                        "summary": "Project summary",
+                        "resources": [],
+                    }
+                ],
+            }
+
+            input_json = temp_root / "new_projects.json"
+            input_json.write_text(json.dumps(payload), encoding="utf-8")
+
+            result = build_projects_from_json(
+                input_json_path=input_json,
+                temp_public_projects_root=out_dir,
+                articles_manifest_path=manifest_path,
+            )
+
+            self.assertEqual(len(result["projects"]), 1)
+            project = result["projects"][0]
+            self.assertEqual(
+                project["articles"],
+                [
+                    {
+                        "title": "The Wolf Project Article",
+                        "slug": "wolf-article",
+                        "href": "/articles/wolf-article",
+                        "sourceUrl": "https://github.com/ZSturman/Articles/blob/main/articles/wolf-article/index.md",
+                        "coverImage": "/articles/wolf-article/cover.png",
+                    }
+                ],
+            )
+
+    def test_reverse_article_links_dedupe_against_explicit_project_articles(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_root_str, tempfile.TemporaryDirectory() as out_str:
+            temp_root = Path(temp_root_str)
+            out_dir = Path(out_str)
+
+            manifest_path = temp_root / "articles.json"
+            manifest_path.write_text(
+                json.dumps(
+                    [
+                        {
+                            "slug": "first-article",
+                            "title": "First Article",
+                            "summary": "One",
+                            "sourceUrl": "https://github.com/ZSturman/Articles/blob/main/articles/first-article/index.md",
+                            "href": "/articles/first-article",
+                            "coverImage": "/articles/first-article/cover.png",
+                            "projectIds": ["proj-dedupe"],
+                        }
+                    ]
+                ),
+                encoding="utf-8",
+            )
+
+            payload = {
+                "config": {"root_path": str(temp_root)},
+                "projects": [
+                    {
+                        "id": "proj-dedupe",
+                        "title": "Deduped Project",
+                        "summary": "Project summary",
+                        "articles": ["/first-article"],
+                        "resources": [],
+                    }
+                ],
+            }
+
+            input_json = temp_root / "new_projects.json"
+            input_json.write_text(json.dumps(payload), encoding="utf-8")
+
+            result = build_projects_from_json(
+                input_json_path=input_json,
+                temp_public_projects_root=out_dir,
+                articles_manifest_path=manifest_path,
+            )
+
+            project = result["projects"][0]
+            self.assertEqual(len(project["articles"]), 1)
+            self.assertEqual(project["articles"][0]["slug"], "first-article")
+            self.assertEqual(project["articles"][0]["sourceUrl"], "/first-article")
+            self.assertEqual(project["articles"][0]["coverImage"], "/articles/first-article/cover.png")
+
+    def test_external_resource_favicons_are_cached_for_non_github_urls(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_root_str, tempfile.TemporaryDirectory() as out_str:
+            temp_root = Path(temp_root_str)
+            out_dir = Path(out_str)
+
+            payload = {
+                "config": {"root_path": str(temp_root)},
+                "projects": [
+                    {
+                        "id": "proj-favicon",
+                        "title": "Favicon Project",
+                        "summary": "Resource icon coverage",
+                        "resources": [
+                            {"label": "Website", "type": "website", "url": "https://example.com/docs"},
+                            {"label": "Repo", "type": "github", "url": "https://github.com/ZSturman/example"},
+                        ],
+                    }
+                ],
+            }
+
+            input_json = temp_root / "new_projects.json"
+            input_json.write_text(json.dumps(payload), encoding="utf-8")
+
+            def fake_urlopen(request, timeout=15):  # type: ignore[no-untyped-def]
+                url = request.full_url if hasattr(request, "full_url") else str(request)
+                if url == "https://example.com/docs":
+                    return FakeUrlopenResponse(
+                        b"<html><head><link rel='icon' href='/favicon-32x32.png'></head></html>",
+                        url=url,
+                        content_type="text/html; charset=utf-8",
+                    )
+                if url == "https://example.com/favicon-32x32.png":
+                    return FakeUrlopenResponse(
+                        b"png-bytes",
+                        url=url,
+                        content_type="image/png",
+                    )
+                raise AssertionError(f"Unexpected favicon fetch: {url}")
+
+            self.urlopen_patcher.stop()
+            try:
+                with patch("projects_pipeline.urlopen", side_effect=fake_urlopen):
+                    result = build_projects_from_json(
+                        input_json_path=input_json,
+                        temp_public_projects_root=out_dir,
+                    )
+            finally:
+                self.urlopen_patcher.start()
+
+            resources = result["projects"][0]["resources"]
+            website = next(resource for resource in resources if resource["label"] == "Website")
+            github = next(resource for resource in resources if resource["label"] == "Repo")
+
+            self.assertEqual(website["iconUrl"], "/icons/favicons/example.com.png")
+            self.assertNotIn("iconUrl", github)
+            self.assertTrue((out_dir.parent / "icons" / "favicons" / "example.com.png").exists())
+
+    def test_favicon_fetch_failures_do_not_block_project_build(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_root_str, tempfile.TemporaryDirectory() as out_str:
+            temp_root = Path(temp_root_str)
+            out_dir = Path(out_str)
+
+            payload = {
+                "config": {"root_path": str(temp_root)},
+                "projects": [
+                    {
+                        "id": "proj-favicon-failure",
+                        "title": "Favicon Failure",
+                        "summary": "Should still build",
+                        "resources": [
+                            {"label": "Website", "type": "website", "url": "https://offline.example.com"},
+                        ],
+                    }
+                ],
+            }
+
+            input_json = temp_root / "new_projects.json"
+            input_json.write_text(json.dumps(payload), encoding="utf-8")
+
+            result = build_projects_from_json(
+                input_json_path=input_json,
+                temp_public_projects_root=out_dir,
+            )
+
+            self.assertEqual(len(result["projects"]), 1)
+            resource = result["projects"][0]["resources"][0]
+            self.assertNotIn("iconUrl", resource)
+            self.assertTrue(
+                any("favicon" in warning.lower() for warning in result["warnings"])
             )
 
 

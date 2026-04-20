@@ -15,10 +15,57 @@
       "Web App",
       "Welfare"
     ],
-    "projectIds": [],
+    "projectIds": [
+      "346aec94-4d3c-801e-851f-c7e727f0e186"
+    ],
     "sourceUrl": "https://github.com/ZSturman/Articles/blob/main/articles/the-wolf-project-reworking-a-real-world-project/index.md",
     "href": "/articles/the-wolf-project-reworking-a-real-world-project",
-    "coverImage": "/articles/the-wolf-project-reworking-a-real-world-project/imgaes/Wolf-hero.webp"
+    "coverImage": "/articles/the-wolf-project-reworking-a-real-world-project/imgaes/Wolf-hero.webp",
+    "linkPreviews": [
+      {
+        "url": "https://www.youtube.com/watch?v=NMf8mlxO4sk",
+        "kind": "youtube",
+        "provider": "youtube",
+        "title": "Husky With Zero Chance Of Survival Showed Everyone He’s Wasn't Giving Up | The Dodo",
+        "siteName": "YouTube",
+        "hostname": "youtube.com",
+        "displayUrl": "youtube.com/watch",
+        "embedUrl": "https://www.youtube-nocookie.com/embed/NMf8mlxO4sk",
+        "image": "https://i.ytimg.com/vi/NMf8mlxO4sk/maxresdefault.jpg",
+        "description": "The way he never stopped telling his rescuer to keep going 🩵Dodo producer Keren followed Megan of SGT Canines through Wolf’s incredible journey — as he kept..."
+      },
+      {
+        "url": "https://www.instagram.com/_wolf_project/",
+        "kind": "card",
+        "provider": "instagram",
+        "title": "The Wolf Project (@_wolf_project) • Instagram photos and videos",
+        "siteName": "Instagram",
+        "hostname": "www.instagram.com",
+        "displayUrl": "instagram.com/_wolf_project",
+        "description": "8,772 Followers, 50 Following, 38 Posts - See Instagram photos and videos from The Wolf Project (@_wolf_project)",
+        "image": "https://scontent-sea5-1.cdninstagram.com/v/t51.82787-19/669995688_17855811255634945_8055336562483547172_n.jpg?stp=dst-jpg_s100x100_tt6&_nc_cat=105&ccb=7-5&_nc_sid=bf7eb4&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy4xMDgwLkMzIn0%3D&_nc_ohc=6OsZQ1lg4SgQ7kNvwHsDPhr&_nc_oc=Adpq5sY1Rqwo_KSUoF7B8bpetn2Wcff_UzNuC6UZbe1BIA295PtTdlhtwXNXQ0gXXTI&_nc_zt=24&_nc_ht=scontent-sea5-1.cdninstagram.com&_nc_gid=PX6ahYSDTZICanmMjYy6ZQ&_nc_ss=7a289&oh=00_Af0_rDFGa351igIWsnOjqfRRR7mMrkExvzO2gVXE4OJr1g&oe=69EB6D31"
+      },
+      {
+        "url": "https://the-wolf-project-14stqkkgr-zsturmans-projects.vercel.app/",
+        "kind": "card",
+        "provider": "the-wolf-project-14stqkkgr-zsturmans-projects.vercel.app",
+        "title": "the-wolf-project-14stqkkgr-zsturmans-projects.vercel.app",
+        "siteName": "The-Wolf-Project-14Stqkkgr-Zsturmans-Projects Vercel App",
+        "hostname": "the-wolf-project-14stqkkgr-zsturmans-projects.vercel.app",
+        "displayUrl": "the-wolf-project-14stqkkgr-zsturmans-projects.vercel.app"
+      },
+      {
+        "url": "https://yourdogcanstay.com/",
+        "kind": "card",
+        "provider": "yourdogcanstay.com",
+        "title": "The WOLF PROJECT",
+        "siteName": "YOUR DOG CAN STAY",
+        "hostname": "yourdogcanstay.com",
+        "displayUrl": "yourdogcanstay.com",
+        "description": "Access to Care Lifeline for families whose dog requires lifesaving medical care, but the upfront costs stand in the way.",
+        "image": "http://yourdogcanstay.com/cdn/shop/files/3AC01483-E6E2-4011-833D-F6C8714C4FDC_dfbfda84-9ef0-49a6-be7e-7f1fa826400c.png?height=628&pad_color=ffffff&v=1776093581&width=1200"
+      }
+    ]
   },
   {
     "slug": "consolidating-an-offline-first-episodic-memory-system",
@@ -89,7 +136,20 @@
     "projectIds": [],
     "sourceUrl": "https://github.com/ZSturman/Articles/blob/main/articles/how-i-sync-my-portfolio-using-notion/index.md",
     "href": "/articles/how-i-sync-my-portfolio-using-notion",
-    "coverImage": "/articles/how-i-sync-my-portfolio-using-notion/images/Hero_image.png"
+    "coverImage": "/articles/how-i-sync-my-portfolio-using-notion/images/Hero_image.png",
+    "linkPreviews": [
+      {
+        "url": "https://zachary-sturman.com/articles/how-i-use-notion-to-track-my-projects",
+        "kind": "card",
+        "provider": "zachary-sturman.com",
+        "title": "How I Use Notion to Ingest, Organize, and Track My Projects",
+        "siteName": "Zachary Sturman",
+        "hostname": "zachary-sturman.com",
+        "displayUrl": "zachary-sturman.com/articles/how-i-use-notion-to-track-my-projects",
+        "description": "This Notion setup is a guided project intake workflow rather than a simple notes system: each project starts from a template, highlights the highest-priority next step, and builds toward execution, portfolio readiness, and future automation. By checking key setup steps automatically and separating projects, tasks, assets, resources, and milestones into linked systems, it reduces friction and makes the workflow easier to manage as it scales.",
+        "image": "https://zachary-sturman.com/articles/how-i-use-notion-to-track-my-projects/images/cover_image.png"
+      }
+    ]
   },
   {
     "slug": "building-chewsense-using-motion-data-for-an-on-device-ai-health-agent",
@@ -190,7 +250,20 @@
     ],
     "sourceUrl": "https://github.com/ZSturman/Articles/blob/main/articles/how-i-use-notion-to-track-my-projects/index.md",
     "href": "/articles/how-i-use-notion-to-track-my-projects",
-    "coverImage": "/articles/how-i-use-notion-to-track-my-projects/images/cover_image.png"
+    "coverImage": "/articles/how-i-use-notion-to-track-my-projects/images/cover_image.png",
+    "linkPreviews": [
+      {
+        "url": "https://zachary-sturman.com/articles/how-i-sync-my-portfolio-using-notion",
+        "kind": "card",
+        "provider": "zachary-sturman.com",
+        "title": "How I Sync My Portfolio Using Notion",
+        "siteName": "Zachary Sturman",
+        "hostname": "zachary-sturman.com",
+        "displayUrl": "zachary-sturman.com/articles/how-i-sync-my-portfolio-using-notion",
+        "description": "How a portfolio can be built as a publishing pipeline, with Notion as the source of truth, n8n creating a JSON handoff, Python scripts normalizing content and media, and Next.js exporting the final static site. The result is a cleaner separation between editing, transformation, and publishing, making the site more predictable and maintainable.",
+        "image": "https://zachary-sturman.com/articles/how-i-sync-my-portfolio-using-notion/images/Hero_image.png"
+      }
+    ]
   },
   {
     "slug": "automating-linear-from-notion",

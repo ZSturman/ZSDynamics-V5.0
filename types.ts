@@ -6,6 +6,22 @@ export interface Resource {
   label: string;
   url: string;
   category?: string;
+  iconUrl?: string;
+}
+
+export type ArticleLinkPreviewKind = "youtube" | "card";
+
+export interface ArticleLinkPreview {
+  url: string;
+  kind: ArticleLinkPreviewKind;
+  provider?: string;
+  title?: string;
+  description?: string;
+  siteName?: string;
+  image?: string;
+  embedUrl?: string;
+  hostname?: string;
+  displayUrl?: string;
 }
 
 export interface ProjectArticleReference {
@@ -29,6 +45,7 @@ export interface Article {
   sourceUrl: string;
   href: string;
   coverImage?: string;
+  linkPreviews?: ArticleLinkPreview[];
 }
 
 export type CollectionItemType =

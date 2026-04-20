@@ -1,4 +1,4 @@
-import { Badge } from "@/components/ui/badge";
+import { PassiveChip } from "@/components/ui/passive-chip";
 import { Project } from "@/types";
 import React from "react";
 
@@ -10,9 +10,9 @@ export default  function ProjectMediums({ project }: { project: Project }) {
     <div className="space-y-2 md:space-y-3">
       <div className="flex flex-wrap gap-1 md:gap-2">
         {mediums.map((m) => (
-          <Badge key={String(m)} variant="outline" className="text-[10px] md:text-xs pointer-events-none cursor-default bg-muted/20">
+          <PassiveChip key={String(m)} className="text-[10px] md:text-xs">
             {m}
-          </Badge>
+          </PassiveChip>
         ))}
       </div>
     </div>

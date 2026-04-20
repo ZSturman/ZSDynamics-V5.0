@@ -2,8 +2,8 @@
 
 import { useState, useEffect, useCallback, useRef } from "react"
 import { ChevronLeft, ChevronRight } from "lucide-react"
-import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import { PassiveChip } from "@/components/ui/passive-chip"
 import { MediaDisplay } from "@/components/ui/media-display"
 import { trackProjectOpen } from "@/lib/firebase-analytics"
 import { getProjectHref } from "@/lib/project-paths"
@@ -194,7 +194,7 @@ export function FeaturedCarousel({
                                   resource={resource} 
                                   currentProject={project}
                                   iconOnly
-                                  className="opacity-70 hover:opacity-100 transition-opacity"
+                                  className="h-8 w-8"
                                 />
                               ))}
                         
@@ -225,9 +225,9 @@ export function FeaturedCarousel({
                             {/* Tags - Show up to 2 tags */}
                             <div className="flex items-center gap-2">
                               {project.tags?.slice(0, 2).map((tag) => (
-                                <Badge key={tag} variant="outline" className="text-xs pointer-events-none cursor-default bg-background/40">
+                                <PassiveChip key={tag} tone="strong" className="text-xs">
                                   {tag}
-                                </Badge>
+                                </PassiveChip>
                               ))}
                               </div>
                           </div>
@@ -261,14 +261,14 @@ export function FeaturedCarousel({
                         {/* Status badge */}
                         {showStatusBadge && (
                           <div className="absolute top-4 left-4">
-                            <Badge
-                              variant="secondary"
+                            <PassiveChip
+                              tone="overlay"
                               className={`${
                                 STATUS_COLOR[project.status as keyof typeof STATUS_COLOR]
-                              } font-medium text-xs px-3 py-1 pointer-events-none cursor-default`}
+                              } font-medium text-xs px-3 py-1`}
                             >
                               {statusValue.charAt(0).toUpperCase() + statusValue.slice(1)}
-                            </Badge>
+                            </PassiveChip>
                           </div>
                         )}
 
@@ -301,9 +301,9 @@ export function FeaturedCarousel({
                           {/* Tags - Show on md and up (max 3) */}
                           <div className="flex flex-wrap gap-2">
                             {project.tags?.slice(0, 3).map((tag) => (
-                              <Badge key={tag} variant="outline" className="text-xs">
+                              <PassiveChip key={tag} className="text-xs">
                                 {tag}
-                              </Badge>
+                              </PassiveChip>
                             ))}
                           </div>
                         </div>
@@ -325,7 +325,7 @@ export function FeaturedCarousel({
                                 resource={resource} 
                                 currentProject={project}
                                 iconOnly
-                                className="opacity-70 hover:opacity-100 transition-opacity"
+                                className="h-9 w-9"
                               />
                             ))}
                           </div>

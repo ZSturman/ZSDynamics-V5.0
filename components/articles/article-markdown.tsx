@@ -1,20 +1,157 @@
 import Link from "next/link";
+import { Children, isValidElement, type ReactNode } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
 import { resolveArticleHref } from "@/lib/article-paths";
+import type { ArticleLinkPreview } from "@/types";
 
 interface ArticleMarkdownProps {
   content: string;
   slug: string;
+  linkPreviews?: ArticleLinkPreview[];
 }
 
-export function ArticleMarkdown({ content, slug }: ArticleMarkdownProps) {
+function getPreviewForParagraph(
+  children: ReactNode,
+  previewsByUrl: Map<string, ArticleLinkPreview>
+): ArticleLinkPreview | null {
+  const nodes = Children.toArray(children).filter((child) => !(typeof child === "string" && child.trim().length === 0));
+  if (nodes.length !== 1) {
+    return null;
+  }
+
+  const node = nodes[0];
+  if (!isValidElement(node)) {
+    return null;
+  }
+
+  const nodeProps = node.props as { href?: unknown; "data-preview-url"?: unknown };
+
+  const previewUrl =
+    typeof nodeProps["data-preview-url"] === "string"
+      ? nodeProps["data-preview-url"]
+      : typeof nodeProps.href === "string"
+        ? nodeProps.href
+        : null;
+
+  return previewUrl ? previewsByUrl.get(previewUrl) ?? null : null;
+}
+
+function ArticleLinkPreviewCard({ preview }: { preview: ArticleLinkPreview }) {
+  const title = preview.title || preview.siteName || preview.displayUrl || preview.url;
+  const siteName = preview.siteName || preview.provider || preview.hostname || "Link";
+  const displayUrl = preview.displayUrl || preview.hostname || preview.url;
+
+  return (
+    <a
+      data-testid="article-link-preview-card"
+      href={preview.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="group block overflow-hidden rounded-[1.75rem] border border-border/70 bg-card shadow-sm transition-colors hover:border-primary/40"
+    >
+      {preview.image ? (
+        <div className="overflow-hidden border-b border-border/70 bg-muted/40">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={preview.image}
+            alt={title}
+            className="aspect-[16/9] w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
+          />
+        </div>
+      ) : null}
+
+      <div className="space-y-3 p-5">
+        <div className="flex flex-wrap items-center gap-2 text-[11px] font-medium uppercase tracking-[0.16em] text-muted-foreground">
+          <span>{siteName}</span>
+          <span className="h-1 w-1 rounded-full bg-border/80" />
+          <span className="truncate">{displayUrl}</span>
+        </div>
+
+        <div className="space-y-2">
+          <h3 className="text-lg font-semibold leading-7 text-foreground transition-colors group-hover:text-primary">
+            {title}
+          </h3>
+          {preview.description ? (
+            <p className="line-clamp-3 text-sm leading-6 text-muted-foreground">{preview.description}</p>
+          ) : null}
+        </div>
+      </div>
+    </a>
+  );
+}
+
+function YouTubePreview({ preview }: { preview: ArticleLinkPreview }) {
+  const title = preview.title || "YouTube video";
+
+  return (
+    <div
+      data-testid="article-youtube-embed"
+      className="overflow-hidden rounded-[1.75rem] border border-border/70 bg-card shadow-sm"
+    >
+      <div className="aspect-video bg-black">
+        {preview.embedUrl ? (
+          <iframe
+            src={preview.embedUrl}
+            title={title}
+            className="h-full w-full border-0"
+            loading="lazy"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowFullScreen
+          />
+        ) : preview.image ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={preview.image} alt={title} className="h-full w-full object-cover" />
+        ) : (
+          <div className="flex h-full items-center justify-center text-sm text-white/80">{title}</div>
+        )}
+      </div>
+
+      <a
+        href={preview.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-start gap-3 px-5 py-4 transition-colors hover:bg-accent/40"
+      >
+        <div className="min-w-0 space-y-1">
+          <p className="text-[11px] font-medium uppercase tracking-[0.16em] text-muted-foreground">
+            {preview.siteName || "YouTube"}
+          </p>
+          <p className="text-base font-semibold leading-6 text-foreground">{title}</p>
+          {preview.description ? (
+            <p className="line-clamp-2 text-sm leading-6 text-muted-foreground">{preview.description}</p>
+          ) : null}
+        </div>
+      </a>
+    </div>
+  );
+}
+
+function ArticleStandaloneLinkPreview({ preview }: { preview: ArticleLinkPreview }) {
+  if (preview.kind === "youtube") {
+    return <YouTubePreview preview={preview} />;
+  }
+
+  return <ArticleLinkPreviewCard preview={preview} />;
+}
+
+export function ArticleMarkdown({ content, slug, linkPreviews = [] }: ArticleMarkdownProps) {
+  const previewsByUrl = new Map(linkPreviews.map((preview) => [preview.url, preview]));
+
   return (
     <div className="article-markdown">
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
         components={{
+          p: ({ children }) => {
+            const preview = getPreviewForParagraph(children, previewsByUrl);
+            if (preview) {
+              return <ArticleStandaloneLinkPreview preview={preview} />;
+            }
+
+            return <p>{children}</p>;
+          },
           a: ({ href, children, ...props }) => {
             const resolvedHref = resolveArticleHref(href, slug);
             if (!resolvedHref) {
@@ -23,7 +160,11 @@ export function ArticleMarkdown({ content, slug }: ArticleMarkdownProps) {
 
             if (resolvedHref.startsWith("/")) {
               return (
-                <Link href={resolvedHref} className="font-medium text-primary underline underline-offset-4">
+                <Link
+                  href={resolvedHref}
+                  className="font-medium text-primary underline underline-offset-4"
+                  data-preview-url={resolvedHref}
+                >
                   {children}
                 </Link>
               );
@@ -36,6 +177,7 @@ export function ArticleMarkdown({ content, slug }: ArticleMarkdownProps) {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="font-medium text-primary underline underline-offset-4"
+                data-preview-url={resolvedHref}
               >
                 {children}
               </a>

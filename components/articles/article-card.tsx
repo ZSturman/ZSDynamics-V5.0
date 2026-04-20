@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { ArrowUpRight, FolderOpen, Newspaper } from "lucide-react";
 
-import { Badge } from "@/components/ui/badge";
+import { PassiveChip } from "@/components/ui/passive-chip";
 import { formatDate } from "@/lib/utils";
 import type { ArticleListEntry } from "./article-list-types";
 
@@ -64,11 +64,11 @@ export function ArticleCard({ article }: ArticleCardProps) {
         <div className="mt-auto space-y-3">
           <div className="flex flex-wrap gap-2">
             {(article.tags || []).slice(0, 3).map((tag) => (
-              <Badge key={`${article.slug}-${tag}`} variant="outline" className="bg-muted/30">
+              <PassiveChip key={`${article.slug}-${tag}`}>
                 {tag}
-              </Badge>
+              </PassiveChip>
             ))}
-            {article.tags && article.tags.length > 3 && <Badge variant="outline" className="bg-muted/30">+{article.tags.length - 3}</Badge>}
+            {article.tags && article.tags.length > 3 && <PassiveChip>+{article.tags.length - 3}</PassiveChip>}
           </div>
 
           {article.relatedProjects.length > 0 && (
@@ -83,7 +83,7 @@ export function ArticleCard({ article }: ArticleCardProps) {
                   {project.title}
                 </Link>
               ))}
-              {article.relatedProjects.length > 2 && <Badge variant="outline" className="bg-muted/30">+{article.relatedProjects.length - 2} projects</Badge>}
+              {article.relatedProjects.length > 2 && <PassiveChip>+{article.relatedProjects.length - 2} projects</PassiveChip>}
             </div>
           )}
         </div>

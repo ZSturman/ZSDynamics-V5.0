@@ -10,7 +10,11 @@ test.describe("Project Details Page", () => {
     await page.goto(getProjectRoute(defaultProject));
 
     await expect(page.getByRole("heading", { name: defaultProject.title })).toBeVisible();
-    await expect(page.getByRole("button", { name: "Home" })).toBeVisible();
+    const breadcrumb = page.getByRole("navigation", { name: "Breadcrumb" });
+    await expect(breadcrumb.getByRole("link", { name: "Home" })).toBeVisible();
+    await expect(breadcrumb.getByRole("link", { name: "Projects" })).toBeVisible();
+    await expect(breadcrumb.getByText(defaultProject.title, { exact: true })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Home" })).toHaveCount(0);
   });
 
   test("should normalize a legacy UUID route to the canonical slug route", async ({ page }) => {
@@ -24,6 +28,8 @@ test.describe("Project Details Page", () => {
     await page.goto("/projects/invalid-id");
 
     await expect(page.getByText("Project not found.")).toBeVisible();
-    await expect(page.getByRole("link", { name: /←/ })).toBeVisible();
+    const breadcrumb = page.getByRole("navigation", { name: "Breadcrumb" });
+    await expect(breadcrumb.getByRole("link", { name: "Home" })).toBeVisible();
+    await expect(breadcrumb.getByText("Projects", { exact: true })).toBeVisible();
   });
 });

@@ -370,7 +370,7 @@ export function PortfolioClient({ projects }: PortfolioClientProps) {
       <FeaturedCarousel projects={publicProjects} onProjectSelect={handleProjectSelect} />
       
       {/* Project List Header */}
-      <div className="mb-4">
+      <div id="projects" className="mb-4 scroll-mt-24">
         <h2 className="text-lg md:text-xl font-semibold text-foreground mb-4">
           All Projects
         </h2>

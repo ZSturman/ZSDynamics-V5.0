@@ -1,10 +1,10 @@
 import type { Metadata } from "next"
-import Link from "next/link"
 import { loadArticles } from "@/lib/load-articles"
 import { loadPublicJsonRecursively } from "@/lib/load-public-json"
 import { findProjectByAlias, getProjectHref, getProjectSlug } from "@/lib/project-paths"
 import { getOptimizedMediaPath } from "@/lib/utils"
 import ProjectDetailsClientWrapper from "@/components/project-details-client-wrapper"
+import { BreadcrumbTrail } from "@/components/ui/breadcrumb-trail"
 import type { Article, Project, ProjectArticleReference } from "@/types"
 
 function getProjectDescription(project: Project): string {
@@ -154,12 +154,15 @@ export default async function ProjectPage({ params }: { params: Promise<{ projec
       return (
         <div className="min-h-screen bg-background">
           <div className="container mx-auto px-4 py-8 max-w-7xl">
-            <div className="mb-6">
-              <Link href="/" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground">
-                ← Home
-              </Link>
+            <div className="space-y-6">
+              <BreadcrumbTrail
+                items={[
+                  { label: "Home", href: "/" },
+                  { label: "Projects", href: "/#projects" },
+                ]}
+              />
+              <div className="text-center text-muted-foreground">Project not found.</div>
             </div>
-            <div className="text-center text-muted-foreground">Project not found.</div>
           </div>
         </div>
       )
@@ -175,12 +178,15 @@ export default async function ProjectPage({ params }: { params: Promise<{ projec
     return (
       <div className="min-h-screen bg-background">
         <div className="container mx-auto px-4 py-8 max-w-7xl">
-          <div className="mb-6">
-            <Link href="/" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground">
-              ← Home
-            </Link>
+          <div className="space-y-6">
+            <BreadcrumbTrail
+              items={[
+                { label: "Home", href: "/" },
+                { label: "Projects", href: "/#projects" },
+              ]}
+            />
+            <div className="text-center text-muted-foreground">Error loading project.</div>
           </div>
-          <div className="text-center text-muted-foreground">Error loading project.</div>
         </div>
       </div>
     )

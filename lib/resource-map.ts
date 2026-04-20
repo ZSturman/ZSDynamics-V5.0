@@ -84,6 +84,8 @@ const ICON_MAP: Record<ResourceType | string, string> = {
   "app:androidplaystore": "google",
   "apple": "apple",
   "google": "google",
+  "youtube": "youtube",
+  "vimeo": "vimeo",
   // mediums (legacy, for compatibility)
   code: "code",
   science: "science",
@@ -117,6 +119,14 @@ export function bestIconPath(resourceType?: ResourceType | string, medium?: stri
   if (resource) {
     const url = (resource as { url?: string; path?: string }).url || (resource as { url?: string; path?: string }).path || "";
     const urlLower = url.toLowerCase();
+
+    if (urlLower.includes("github.com")) {
+      return iconPath("github")!;
+    }
+
+    if (typeof resource.iconUrl === "string" && resource.iconUrl.trim().length > 0) {
+      return resource.iconUrl.trim();
+    }
     
     // Check for video platforms
     if (urlLower.includes("youtube.com") || urlLower.includes("youtu.be")) {
@@ -129,9 +139,6 @@ export function bestIconPath(resourceType?: ResourceType | string, medium?: stri
     }
     
     // Check for code repositories
-    if (urlLower.includes("github.com")) {
-      return iconPath("github")!;
-    }
     if (urlLower.includes("gitlab.com")) {
       return iconPath("gitlab")!;
     }

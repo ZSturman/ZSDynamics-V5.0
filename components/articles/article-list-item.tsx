@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { ArrowUpRight, FolderOpen, Newspaper } from "lucide-react";
 
-import { Badge } from "@/components/ui/badge";
+import { PassiveChip } from "@/components/ui/passive-chip";
 import { formatDate } from "@/lib/utils";
 import type { ArticleListEntry } from "./article-list-types";
 
@@ -56,7 +56,11 @@ export function ArticleListItem({ article }: ArticleListItemProps) {
           <div className="flex flex-wrap items-center gap-2 text-xs uppercase tracking-[0.14em] text-muted-foreground">
             <span>{getPrimaryDate(article)}</span>
             {updatedDate && <span>Updated {updatedDate}</span>}
-            {article.series && <Badge variant="secondary" className="normal-case tracking-normal">Series: {article.series}</Badge>}
+            {article.series && (
+              <PassiveChip tone="strong" className="normal-case tracking-normal text-xs">
+                Series: {article.series}
+              </PassiveChip>
+            )}
           </div>
 
           <div className="mt-3 flex items-start justify-between gap-4">
@@ -71,9 +75,9 @@ export function ArticleListItem({ article }: ArticleListItemProps) {
           {(article.tags?.length || article.relatedProjects.length) && (
             <div className="mt-4 flex flex-wrap gap-2">
               {(article.tags || []).map((tag) => (
-                <Badge key={`${article.slug}-${tag}`} variant="outline" className="bg-muted/30">
+                <PassiveChip key={`${article.slug}-${tag}`}>
                   {tag}
-                </Badge>
+                </PassiveChip>
               ))}
               {article.relatedProjects.map((project) => (
                 <Link

@@ -2,7 +2,7 @@
 
 import type React from "react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { PassiveChip } from "@/components/ui/passive-chip";
 import { MediaDisplay } from "@/components/ui/media-display";
 import { Project } from "@/types";
 import { STATUS_COLOR } from "@/lib/resource-map";
@@ -63,15 +63,15 @@ export function ProjectCard({
 
             {showStatusBadge && (
               <div className="absolute top-1.5 md:top-2 left-1.5 md:left-2">
-                <Badge
-                  variant="secondary"
+                <PassiveChip
+                  tone="strong"
                   className={`${
                     STATUS_COLOR[project.status as keyof typeof STATUS_COLOR]
-                  } font-medium text-[10px] md:text-xs py-0 px-1.5 md:px-2 pointer-events-none cursor-default`}
+                  } font-medium text-[10px] md:text-xs py-0 px-1.5 md:px-2`}
                 >
                   {(project.status || "").charAt(0).toUpperCase() +
                     (project.status || "").slice(1)}
-                </Badge>
+                </PassiveChip>
               </div>
             )}
 
@@ -110,18 +110,17 @@ export function ProjectCard({
         {/* Tags */}
         <div className="flex flex-wrap gap-0.5 md:gap-1">
           {project.tags?.slice(0, 3).map((tag) => (
-            <Badge
+            <PassiveChip
               key={tag}
-              variant="outline"
-              className="text-[8px] md:text-[10px] py-0 px-1 md:px-1.5 truncate max-w-full pointer-events-none cursor-default bg-muted/30"
+              className="text-[8px] md:text-[10px] py-0 px-1 md:px-1.5 truncate max-w-full"
             >
               {tag}
-            </Badge>
+            </PassiveChip>
           ))}
           {project.tags && project.tags.length > 3 && (
-            <Badge variant="outline" className="text-[8px] md:text-[10px] py-0 px-1 md:px-1.5 pointer-events-none cursor-default bg-muted/30">
+            <PassiveChip className="text-[8px] md:text-[10px] py-0 px-1 md:px-1.5">
               +{project.tags.length - 3}
-            </Badge>
+            </PassiveChip>
           )}
         </div>
 
@@ -138,7 +137,7 @@ export function ProjectCard({
           {/* Resource icons and action button */}
           <div className="flex items-center gap-0.5">
             {project.resources && project.resources.slice(0, 2).map((resource) => (
-              <ResourceButton key={resource.url} resource={resource} currentProject={project} iconOnly  />
+              <ResourceButton key={resource.url} resource={resource} currentProject={project} iconOnly />
             ))}
 
           </div>

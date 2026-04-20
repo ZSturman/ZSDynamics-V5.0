@@ -1,4 +1,6 @@
 "use client";
+import type { ReactNode } from "react";
+
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Project } from "@/types";
 import { ProjectHeader } from "./project-details/project-banner";
@@ -14,11 +16,11 @@ import { ProjectWorkLogs } from "./project-details/project-work-logs";
 import { ProjectArticles } from "./project-details/project-articles";
 import ResourceButtons from "./project-details/resource-buttons";
 import { getProjectHref } from "@/lib/project-paths";
-import { getOptimizedMediaPath } from "@/lib/utils";
+import { cn, getOptimizedMediaPath } from "@/lib/utils";
 import { MediaDisplay } from "./ui/media-display";
 import { hasProjectCollectionItems } from "@/lib/project-collections";
 import { trackProjectOpen } from "@/lib/firebase-analytics";
-import { ArrowRight } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 
 interface ProjectModalProps {
   project: Project | null;
@@ -68,6 +70,45 @@ export function ProjectModal({ project, isOpen, onClose }: ProjectModalProps) {
     : project.images?.poster
     ? project.imageSettings?.poster
     : project.imageSettings?.thumbnail;
+  const sections: Array<{ key: string; content: ReactNode }> = [];
+
+  if (hasContent) {
+    sections.push({
+      key: "content",
+      content: <ProjectContent project={project} />,
+    });
+  }
+
+  if (hasCollection) {
+    sections.push({
+      key: "collection",
+      content: <Collection project={project} inModal={true} />,
+    });
+  }
+
+  sections.push({
+    key: "details",
+    content: (
+      <>
+        <h3 className="mb-4 text-sm font-medium text-muted-foreground">Project Details</h3>
+        <ProjectMetadata project={project} />
+      </>
+    ),
+  });
+
+  if (hasArticles) {
+    sections.push({
+      key: "articles",
+      content: <ProjectArticles project={project} />,
+    });
+  }
+
+  if (hasWorkLogs) {
+    sections.push({
+      key: "work-logs",
+      content: <ProjectWorkLogs project={project} />,
+    });
+  }
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -104,51 +145,40 @@ export function ProjectModal({ project, isOpen, onClose }: ProjectModalProps) {
           )}
 
           <div className="px-4 pt-6 pb-12 md:px-6 space-y-8">
-            <ProjectHeader project={project} hideBanner />
+            <ProjectHeader
+              project={project}
+              hideBanner
+              showResourceRow={false}
+              resourceRow={
+                hasResources ? (
+                  <div data-testid="project-modal-resources">
+                    <ResourceButtons project={project} showMessage={false} />
+                  </div>
+                ) : undefined
+              }
+              headerActions={
+                <div className="flex justify-end">
+                  <Button onClick={goToProjectPage} className="w-full gap-2 md:w-auto" size="sm">
+                    Open Full Project Page
+                    <ArrowUpRight className="size-4" />
+                  </Button>
+                </div>
+              }
+            />
 
-            {/* Resource buttons & CTA row */}
-            <div className="flex flex-wrap items-center gap-2">
-              {hasResources && (
-                <ResourceButtons project={project} showMessage={false} />
-              )}
-              <Button
-                onClick={goToProjectPage}
-                className="gap-2"
-                size="sm"
-              >
-                View Full Project
-                <ArrowRight className="size-4" />
-              </Button>
+            <div>
+              {sections.map((section, index) => (
+                <section
+                  key={section.key}
+                  className={cn(
+                    index === 0 ? "" : "border-t border-border pt-6",
+                    index < sections.length - 1 ? "pb-6" : ""
+                  )}
+                >
+                  {section.content}
+                </section>
+              ))}
             </div>
-
-            {hasCollection && (
-              <section>
-                <Collection project={project} inModal={true} />
-              </section>
-            )}
-
-            {hasContent && (
-              <section>
-                <ProjectContent project={project} />
-              </section>
-            )}
-
-            {hasArticles && (
-              <section className="border-t border-border pt-6">
-                <ProjectArticles project={project} />
-              </section>
-            )}
-
-            {hasWorkLogs && (
-              <section className="border-t border-border pt-6">
-                <ProjectWorkLogs project={project} />
-              </section>
-            )}
-
-            <section className="border-t border-border pt-6">
-              <h3 className="mb-4 text-sm font-medium text-muted-foreground">Project Details</h3>
-              <ProjectMetadata project={project} />
-            </section>
 
             <div className="pt-2">
               <ProjectDetailsFooter />

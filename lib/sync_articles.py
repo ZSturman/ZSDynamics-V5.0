@@ -11,11 +11,12 @@ import shutil
 import tarfile
 import tempfile
 import unicodedata
+from html import unescape
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional, Tuple
 from urllib.error import URLError
-from urllib.parse import quote, unquote, urlparse
-from urllib.request import urlopen
+from urllib.parse import parse_qs, quote, unquote, urljoin, urlparse
+from urllib.request import Request, urlopen
 
 DEFAULT_REPO = "ZSturman/Articles"
 DEFAULT_REF = "main"
@@ -30,10 +31,17 @@ MARKDOWN_LINK_RE = re.compile(r"(?P<prefix>!?\[[^\]]*\]\()(?P<target>[^)\n]+)(?P
 HTML_ATTR_RE = re.compile(r'(?P<attr>\b(?:src|href)=)(?P<quote>["\'])(?P<target>[^"\']+)(?P=quote)')
 UUID_RE = re.compile(r"[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
 COMPACT_UUID_RE = re.compile(r"\b[0-9a-fA-F]{32}\b")
+STANDALONE_EXTERNAL_LINK_RE = re.compile(r"(?m)^\s*\[[^\]]+\]\((?P<target>https?://[^)\s]+)\)\s*$")
+HTML_TAG_ATTR_RE = re.compile(r"(?P<name>[\w:-]+)\s*=\s*(?P<quote>[\"'])(?P<value>.*?)(?P=quote)", re.DOTALL)
+HTML_META_TAG_RE = re.compile(r"<meta\b(?P<attrs>[^>]+)>", re.IGNORECASE)
+HTML_LINK_TAG_RE = re.compile(r"<link\b(?P<attrs>[^>]+)>", re.IGNORECASE)
+HTML_TITLE_RE = re.compile(r"<title[^>]*>(?P<title>.*?)</title>", re.IGNORECASE | re.DOTALL)
 PROJECT_REFERENCE_WITH_URL_RE = re.compile(
     r"^(?P<label>.+?)\s*\((?P<target>(?:[a-zA-Z][a-zA-Z0-9+.-]*://|/)[^()]+)\)\s*$"
 )
 MARKDOWN_REFERENCE_RE = re.compile(r"^\[(?P<label>[^\]]+)\]\((?P<target>[^)\n]+)\)$")
+YOUTUBE_HOSTS = {"youtube.com", "www.youtube.com", "m.youtube.com", "youtu.be"}
+INSTAGRAM_HOSTS = {"instagram.com", "www.instagram.com"}
 
 
 class ArticleSyncError(RuntimeError):
@@ -316,6 +324,13 @@ def _strip_quotes(value: str) -> str:
     return trimmed
 
 
+def getMarkdownImageTarget(raw_target: str) -> str:
+    trimmed = raw_target.strip()
+    title_match = re.search(r'\s+"', trimmed)
+    title_index = title_match.start() if title_match else -1
+    return trimmed if title_index == -1 else trimmed[:title_index].strip()
+
+
 def _parse_inline_list(value: str) -> List[str]:
     inner = value.strip()[1:-1].strip()
     if not inner:
@@ -406,6 +421,211 @@ def split_frontmatter(text: str) -> Tuple[Dict[str, Any], str]:
     frontmatter = "\n".join(lines[1:closing_index])
     body = "\n".join(lines[closing_index + 1 :]).lstrip("\n")
     return parse_frontmatter_block(frontmatter), body
+
+
+def _clean_html_text(value: Optional[str]) -> Optional[str]:
+    if not isinstance(value, str):
+        return None
+
+    collapsed = re.sub(r"\s+", " ", unescape(value)).strip()
+    return collapsed or None
+
+
+def _parse_html_tag_attributes(attr_block: str) -> Dict[str, str]:
+    attrs: Dict[str, str] = {}
+    for match in HTML_TAG_ATTR_RE.finditer(attr_block):
+        value = _clean_html_text(match.group("value"))
+        if value is None:
+            continue
+        attrs[match.group("name").lower()] = value
+    return attrs
+
+
+def _fetch_html_document(url: str) -> Tuple[Optional[str], str]:
+    request = Request(
+        url,
+        headers={
+            "User-Agent": "Mozilla/5.0 (compatible; portfolio-prebuild/1.0)",
+            "Accept": "text/html,application/xhtml+xml",
+        },
+    )
+
+    with urlopen(request, timeout=15) as response:
+        final_url = getattr(response, "url", url) or url
+        raw_body = response.read()
+        content_type = ""
+        headers = getattr(response, "headers", None)
+        if headers is not None:
+            try:
+                content_type = headers.get("Content-Type", "")
+            except Exception:
+                content_type = ""
+
+    charset_match = re.search(r"charset=([^\s;]+)", content_type, re.IGNORECASE)
+    encoding = charset_match.group(1).strip('"\'') if charset_match else "utf-8"
+    try:
+        return raw_body.decode(encoding, errors="replace"), final_url
+    except LookupError:
+        return raw_body.decode("utf-8", errors="replace"), final_url
+
+
+def _extract_remote_html_metadata(url: str, warnings: List[str]) -> Dict[str, str]:
+    try:
+        html, final_url = _fetch_html_document(url)
+    except Exception as exc:
+        warnings.append(f"Unable to fetch article preview metadata for {url}: {exc}")
+        return {}
+
+    if not html:
+        return {}
+
+    meta_values: Dict[str, str] = {}
+    for match in HTML_META_TAG_RE.finditer(html):
+        attrs = _parse_html_tag_attributes(match.group("attrs"))
+        key = (attrs.get("property") or attrs.get("name") or "").lower()
+        content = attrs.get("content")
+        if key and content and key not in meta_values:
+            meta_values[key] = content
+
+    title_match = HTML_TITLE_RE.search(html)
+    image = meta_values.get("og:image") or meta_values.get("twitter:image")
+    if image:
+        image = urljoin(final_url, image)
+
+    metadata: Dict[str, str] = {}
+    title = meta_values.get("og:title") or meta_values.get("twitter:title") or _clean_html_text(title_match.group("title") if title_match else None)
+    description = meta_values.get("og:description") or meta_values.get("twitter:description") or meta_values.get("description")
+    site_name = meta_values.get("og:site_name") or meta_values.get("application-name")
+
+    if title:
+        metadata["title"] = title
+    if description:
+        metadata["description"] = description
+    if site_name:
+        metadata["siteName"] = site_name
+    if image:
+        metadata["image"] = image
+
+    return metadata
+
+
+def _extract_youtube_video_id(url: str) -> Optional[str]:
+    parsed = urlparse(url)
+    hostname = (parsed.hostname or "").lower()
+    path_parts = [part for part in parsed.path.split("/") if part]
+
+    if hostname == "youtu.be" and path_parts:
+        return path_parts[0]
+
+    if hostname not in YOUTUBE_HOSTS:
+        return None
+
+    if parsed.path == "/watch":
+        return next(iter(parse_qs(parsed.query).get("v", [])), None)
+
+    for prefix in ("/embed/", "/shorts/", "/live/"):
+        if parsed.path.startswith(prefix):
+            candidate = parsed.path[len(prefix) :].split("/", 1)[0]
+            return candidate or None
+
+    return None
+
+
+def _normalize_preview_display_url(url: str) -> str:
+    parsed = urlparse(url)
+    hostname = (parsed.hostname or parsed.netloc or url).lower()
+    if hostname.startswith("www."):
+        hostname = hostname[4:]
+    path = parsed.path.rstrip("/")
+    if not path:
+        return hostname
+    return f"{hostname}{path}"
+
+
+def _build_generic_link_preview(url: str, warnings: List[str]) -> Dict[str, Any]:
+    parsed = urlparse(url)
+    hostname = (parsed.hostname or "").lower()
+    metadata = _extract_remote_html_metadata(url, warnings)
+    display_url = _normalize_preview_display_url(url)
+
+    site_name = metadata.get("siteName")
+    title = metadata.get("title")
+    description = metadata.get("description")
+    image = metadata.get("image")
+    provider = hostname or "link"
+
+    if hostname.startswith("www."):
+        provider = hostname[4:]
+
+    if hostname in INSTAGRAM_HOSTS:
+        provider = "instagram"
+        site_name = site_name or "Instagram"
+        handle = next((part for part in parsed.path.split("/") if part), None)
+        title = title or (f"@{handle}" if handle else "Instagram")
+        description = description or ("Instagram profile preview" if handle else "Instagram link")
+    else:
+        title = title or site_name or display_url
+        site_name = site_name or provider.replace(".", " ").title()
+
+    preview: Dict[str, Any] = {
+        "url": url,
+        "kind": "card",
+        "provider": provider,
+        "title": title,
+        "siteName": site_name,
+        "hostname": hostname,
+        "displayUrl": display_url,
+    }
+    if description:
+        preview["description"] = description
+    if image:
+        preview["image"] = image
+    return preview
+
+
+def _build_article_link_preview(url: str, warnings: List[str]) -> Dict[str, Any]:
+    youtube_video_id = _extract_youtube_video_id(url)
+    if youtube_video_id:
+        metadata = _extract_remote_html_metadata(url, warnings)
+        preview: Dict[str, Any] = {
+            "url": url,
+            "kind": "youtube",
+            "provider": "youtube",
+            "title": metadata.get("title") or "Watch on YouTube",
+            "siteName": metadata.get("siteName") or "YouTube",
+            "hostname": "youtube.com",
+            "displayUrl": _normalize_preview_display_url(url),
+            "embedUrl": f"https://www.youtube-nocookie.com/embed/{youtube_video_id}",
+            "image": metadata.get("image") or f"https://i.ytimg.com/vi/{youtube_video_id}/hqdefault.jpg",
+        }
+        if metadata.get("description"):
+            preview["description"] = metadata["description"]
+        return preview
+
+    return _build_generic_link_preview(url, warnings)
+
+
+def _collect_standalone_external_links(markdown: str) -> List[str]:
+    urls: List[str] = []
+    seen: set[str] = set()
+
+    for match in STANDALONE_EXTERNAL_LINK_RE.finditer(markdown):
+        candidate = _as_str(match.group("target"))
+        if not candidate or candidate in seen:
+            continue
+
+        parsed = urlparse(candidate)
+        if parsed.scheme not in {"http", "https"} or not parsed.netloc:
+            continue
+
+        seen.add(candidate)
+        urls.append(candidate)
+
+    return urls
+
+
+def _build_article_link_previews(markdown: str, warnings: List[str]) -> List[Dict[str, Any]]:
+    return [_build_article_link_preview(url, warnings) for url in _collect_standalone_external_links(markdown)]
 
 
 def _extract_fragment(target: str) -> Tuple[str, str]:
@@ -709,6 +929,13 @@ def _normalize_article_metadata(
     )
     raw_one_liner = metadata.get("one_liner") or metadata.get("one liner") or metadata.get("oneLiner")
     one_liner: Optional[str] = raw_one_liner.strip() if isinstance(raw_one_liner, str) and raw_one_liner.strip() else None
+    normalized_series = series.strip() if isinstance(series, str) and series.strip() else None
+
+    if not project_ids:
+        fallback_seen = set(project_ids)
+        for candidate in (normalized_series, title.strip()):
+            resolved_project_id = _resolve_project_reference(candidate or "", project_alias_map)
+            _append_unique_string(project_ids, fallback_seen, resolved_project_id)
 
     return {
         "slug": slug,
@@ -717,7 +944,7 @@ def _normalize_article_metadata(
         "oneLiner": one_liner,
         "publishedAt": published_at.strip() if isinstance(published_at, str) and published_at.strip() else None,
         "updatedAt": updated_at.strip(),
-        "series": series.strip() if isinstance(series, str) and series.strip() else None,
+        "series": normalized_series,
         "tags": [str(tag).strip() for tag in tags if str(tag).strip()],
         "projectIds": project_ids,
         "sourceUrl": _article_source_url(repo, ref, slug),
@@ -738,6 +965,7 @@ def build_articles_from_directory(
 
     article_sources = _discover_article_sources(source_repo_root)
     project_alias_map = _load_project_alias_map(projects_manifest_path)
+    warnings: List[str] = []
     article_paths_to_slug: Dict[Path, str] = {}
     for article_source in article_sources:
         index_path = Path(article_source["index_path"]).resolve()
@@ -770,6 +998,9 @@ def build_articles_from_directory(
             current_asset_root=asset_root,
             article_paths_to_slug=article_paths_to_slug,
         )
+        link_previews = _build_article_link_previews(rewritten_body, warnings)
+        if link_previews:
+            normalized_metadata["linkPreviews"] = link_previews
 
         article_output_dir = output_dir / slug
         article_output_dir.mkdir(parents=True, exist_ok=True)
@@ -801,6 +1032,8 @@ def build_articles_from_directory(
         reverse=True,
     )
     (output_dir / "articles.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    for warning in warnings:
+        print(f"⚠️ {warning}")
     return manifest
 
 

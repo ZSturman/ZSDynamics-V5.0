@@ -2,7 +2,7 @@ import * as fs from "node:fs/promises";
 import * as path from "node:path";
 
 import { resolveArticleHref } from "@/lib/article-paths";
-import type { Article } from "@/types";
+import type { Article, ArticleLinkPreview } from "@/types";
 
 const ARTICLES_ROOT = path.join(process.cwd(), "public", "articles");
 const ARTICLES_MANIFEST = path.join(ARTICLES_ROOT, "articles.json");
@@ -45,7 +45,39 @@ function normalizeArticle(raw: unknown): Article | null {
     sourceUrl: record.sourceUrl,
     href: record.href,
     coverImage: typeof record.coverImage === "string" && record.coverImage.trim().length > 0 ? record.coverImage : undefined,
+    linkPreviews: Array.isArray(record.linkPreviews) ? normalizeLinkPreviews(record.linkPreviews) : [],
   };
+}
+
+function normalizeLinkPreviews(rawPreviews: unknown[]): ArticleLinkPreview[] {
+  return rawPreviews.flatMap((rawPreview) => {
+    if (!rawPreview || typeof rawPreview !== "object" || Array.isArray(rawPreview)) {
+      return [];
+    }
+
+    const preview = rawPreview as Record<string, unknown>;
+    if (
+      typeof preview.url !== "string" ||
+      (preview.kind !== "youtube" && preview.kind !== "card")
+    ) {
+      return [];
+    }
+
+    const normalizedPreview: ArticleLinkPreview = {
+      url: preview.url,
+      kind: preview.kind,
+      provider: typeof preview.provider === "string" ? preview.provider : undefined,
+      title: typeof preview.title === "string" ? preview.title : undefined,
+      description: typeof preview.description === "string" ? preview.description : undefined,
+      siteName: typeof preview.siteName === "string" ? preview.siteName : undefined,
+      image: typeof preview.image === "string" ? preview.image : undefined,
+      embedUrl: typeof preview.embedUrl === "string" ? preview.embedUrl : undefined,
+      hostname: typeof preview.hostname === "string" ? preview.hostname : undefined,
+      displayUrl: typeof preview.displayUrl === "string" ? preview.displayUrl : undefined,
+    };
+
+    return [normalizedPreview];
+  });
 }
 
 function getMarkdownImageTarget(rawTarget: string): string {

@@ -13,9 +13,12 @@ import re
 import shutil
 import unicodedata
 from datetime import datetime
+from html import unescape
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional, Set, Tuple
-from urllib.parse import unquote, urlparse
+from urllib.error import URLError
+from urllib.parse import unquote, urljoin, urlparse
+from urllib.request import Request, urlopen
 
 IMAGE_EXTS = {".png", ".jpg", ".jpeg", ".gif", ".webp", ".bmp", ".tiff"}
 IMAGE_EXTS_FULL = IMAGE_EXTS | {".svg", ".heic", ".avif"}
@@ -30,6 +33,19 @@ INTERNAL_LINK_PREFIX = "local-link:"
 DOWNLOAD_RESOURCE_TYPES = {"local-download"}
 DOWNLOAD_RESOURCE_CATEGORIES = {"download"}
 PREVIEW_IMAGE_ROLES = {"thumbnail", "banner", "hero", "poster", "posterPortrait", "posterLandscape", "icon"}
+HTML_TAG_ATTR_RE = re.compile(r"(?P<name>[\w:-]+)\s*=\s*(?P<quote>[\"'])(?P<value>.*?)(?P=quote)", re.DOTALL)
+HTML_LINK_TAG_RE = re.compile(r"<link\b(?P<attrs>[^>]+)>", re.IGNORECASE)
+FAVICON_EXT_BY_CONTENT_TYPE = {
+    "image/x-icon": ".ico",
+    "image/vnd.microsoft.icon": ".ico",
+    "image/png": ".png",
+    "image/svg+xml": ".svg",
+    "image/jpeg": ".jpg",
+    "image/jpg": ".jpg",
+    "image/gif": ".gif",
+    "image/webp": ".webp",
+}
+GITHUB_HOSTS = {"github.com", "www.github.com"}
 
 UUID_RE = re.compile(r"[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
 SCHEME_RE = re.compile(r"^[a-zA-Z][a-zA-Z0-9+.-]*://")
@@ -148,6 +164,36 @@ def normalize_project_slug(value: str) -> str:
     lowered = re.sub(r"[^a-z0-9\s-]", "", lowered)
     lowered = re.sub(r"[\s-]+", "-", lowered).strip("-")
     return lowered or "project"
+
+
+def _register_project_alias(
+    alias_to_project_id: Dict[str, str],
+    alias: Any,
+    project_id: str,
+    *,
+    normalize_slug_alias: bool = False,
+) -> None:
+    raw_alias = _as_str(alias)
+    if not raw_alias:
+        return
+
+    candidates = {raw_alias, raw_alias.lower()}
+    if normalize_slug_alias:
+        candidates.add(normalize_project_slug(raw_alias))
+
+    if raw_alias.startswith("/projects/"):
+        project_slug = raw_alias[len("/projects/") :].split("/", 1)[0].split("?", 1)[0].split("#", 1)[0]
+        if project_slug:
+            candidates.add(project_slug)
+            candidates.add(project_slug.lower())
+
+    extracted_uuid = _extract_uuid(raw_alias)
+    if extracted_uuid:
+        candidates.add(extracted_uuid)
+        candidates.add(extracted_uuid.replace("-", ""))
+
+    for candidate in candidates:
+        alias_to_project_id[candidate] = project_id
 
 
 def make_project_folder_name(title: str, project_id: str) -> str:
@@ -293,9 +339,12 @@ def _load_articles_manifest(articles_manifest_path: Optional[Path]) -> Dict[str,
             "title": title,
             "href": href,
             "sourceUrl": source_url,
+            "projectIds": _normalize_relation_ids(item.get("projectIds")),
         }
-        for alias in _article_lookup_aliases(article):
-            manifest[alias] = article
+        cover_image = _as_str(item.get("coverImage"))
+        if cover_image:
+            article["coverImage"] = cover_image
+        manifest[slug] = article
     return manifest
 
 
@@ -425,10 +474,58 @@ def _normalize_project_articles(
                 "slug": article["slug"],
                 "href": article["href"],
                 "sourceUrl": source_url or article["sourceUrl"],
+                **({"coverImage": article["coverImage"]} if _as_str(article.get("coverImage")) else {}),
             }
         )
 
     return normalized_articles
+
+
+def _merge_project_articles(*article_groups: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    merged_articles: List[Dict[str, Any]] = []
+    seen_slugs: Set[str] = set()
+
+    for group in article_groups:
+        for article in group:
+            if not isinstance(article, dict):
+                continue
+            slug = _as_str(article.get("slug"))
+            if not slug or slug in seen_slugs:
+                continue
+            seen_slugs.add(slug)
+            merged_articles.append(article)
+
+    return merged_articles
+
+
+def _build_reverse_project_articles(
+    articles_by_slug: Dict[str, Dict[str, Any]],
+    *,
+    alias_to_project_id: Dict[str, str],
+) -> Dict[str, List[Dict[str, Any]]]:
+    reverse_articles: Dict[str, List[Dict[str, Any]]] = {}
+
+    for article in articles_by_slug.values():
+        project_ids = _normalize_relation_ids(article.get("projectIds"))
+        if not project_ids:
+            continue
+
+        for raw_project_id in project_ids:
+            resolved_project_id = _resolve_internal_target(raw_project_id, alias_to_project_id)
+            if not resolved_project_id:
+                continue
+
+            reverse_articles.setdefault(resolved_project_id, []).append(
+                {
+                    "title": article["title"],
+                    "slug": article["slug"],
+                    "href": article["href"],
+                    "sourceUrl": article["sourceUrl"],
+                    **({"coverImage": article["coverImage"]} if _as_str(article.get("coverImage")) else {}),
+                }
+            )
+
+    return reverse_articles
 
 
 def _get_nested(raw_obj: Dict[str, Any], key: str) -> Any:
@@ -671,7 +768,7 @@ def _resolve_internal_target(value: Any, alias_to_project_id: Dict[str, str]) ->
         if resolved:
             return resolved
 
-    direct = alias_to_project_id.get(candidate)
+    direct = alias_to_project_id.get(candidate) or alias_to_project_id.get(candidate.lower())
     if direct:
         return direct
 
@@ -680,6 +777,11 @@ def _resolve_internal_target(value: Any, alias_to_project_id: Dict[str, str]) ->
         resolved = alias_to_project_id.get(from_uuid)
         if resolved:
             return resolved
+
+    normalized_slug = normalize_project_slug(candidate)
+    resolved_by_slug = alias_to_project_id.get(normalized_slug)
+    if resolved_by_slug:
+        return resolved_by_slug
 
     return None
 
@@ -692,6 +794,224 @@ def _resource_looks_like_download(resource: Dict[str, Any]) -> bool:
     if resource_type in DOWNLOAD_RESOURCE_TYPES:
         return True
     return False
+
+
+def _clean_html_text(value: Optional[str]) -> Optional[str]:
+    if not isinstance(value, str):
+        return None
+
+    collapsed = re.sub(r"\s+", " ", unescape(value)).strip()
+    return collapsed or None
+
+
+def _parse_html_tag_attributes(attr_block: str) -> Dict[str, str]:
+    attrs: Dict[str, str] = {}
+    for match in HTML_TAG_ATTR_RE.finditer(attr_block):
+        value = _clean_html_text(match.group("value"))
+        if value is None:
+            continue
+        attrs[match.group("name").lower()] = value
+    return attrs
+
+
+def _sanitize_hostname_for_filename(hostname: str) -> str:
+    return re.sub(r"[^a-z0-9.-]+", "-", hostname.lower()).strip("-") or "site"
+
+
+def _cached_favicon_public_url(cache_root: Path, hostname: str) -> Optional[str]:
+    safe_hostname = _sanitize_hostname_for_filename(hostname)
+    existing = sorted(cache_root.glob(f"{safe_hostname}.*"))
+    if not existing:
+        return None
+    return f"/icons/favicons/{existing[0].name}"
+
+
+def _guess_favicon_extension(icon_url: str, content_type: str) -> str:
+    normalized_content_type = (content_type or "").split(";", 1)[0].strip().lower()
+    if normalized_content_type in FAVICON_EXT_BY_CONTENT_TYPE:
+        return FAVICON_EXT_BY_CONTENT_TYPE[normalized_content_type]
+
+    parsed = urlparse(icon_url)
+    suffix = Path(unquote(parsed.path)).suffix.lower()
+    if suffix in {".ico", ".png", ".svg", ".jpg", ".jpeg", ".gif", ".webp"}:
+        return ".jpg" if suffix == ".jpeg" else suffix
+
+    return ".ico"
+
+
+def _fetch_url_bytes(url: str, *, accept: str) -> Tuple[bytes, str, str]:
+    request = Request(
+        url,
+        headers={
+            "User-Agent": "Mozilla/5.0 (compatible; portfolio-prebuild/1.0)",
+            "Accept": accept,
+        },
+    )
+
+    with urlopen(request, timeout=15) as response:
+        body = response.read()
+        final_url = getattr(response, "url", url) or url
+        content_type = ""
+        headers = getattr(response, "headers", None)
+        if headers is not None:
+            try:
+                content_type = headers.get("Content-Type", "")
+            except Exception:
+                content_type = ""
+
+    return body, final_url, content_type
+
+
+def _extract_icon_urls_from_html(html: str, base_url: str) -> List[str]:
+    icon_urls: List[str] = []
+    seen: Set[str] = set()
+
+    for match in HTML_LINK_TAG_RE.finditer(html):
+        attrs = _parse_html_tag_attributes(match.group("attrs"))
+        rel = (attrs.get("rel") or "").lower()
+        href = attrs.get("href")
+        if not href or "icon" not in rel:
+            continue
+
+        resolved_url = urljoin(base_url, href)
+        if resolved_url in seen:
+            continue
+        seen.add(resolved_url)
+        icon_urls.append(resolved_url)
+
+    return icon_urls
+
+
+def _resolve_favicon_public_url(url: str, cache_root: Path, warnings: List[str]) -> Optional[str]:
+    parsed = urlparse(url)
+    hostname = (parsed.hostname or "").lower()
+    if not hostname or hostname in GITHUB_HOSTS:
+        return None
+
+    cached_public_url = _cached_favicon_public_url(cache_root, hostname)
+    if cached_public_url:
+        return cached_public_url
+
+    icon_candidates: List[str] = []
+    seen_candidates: Set[str] = set()
+
+    def add_candidate(candidate: Optional[str]) -> None:
+        if not candidate or candidate in seen_candidates:
+            return
+        seen_candidates.add(candidate)
+        icon_candidates.append(candidate)
+
+    try:
+        html_body, final_url, _content_type = _fetch_url_bytes(
+            url,
+            accept="text/html,application/xhtml+xml,*/*;q=0.8",
+        )
+        decoded_html = html_body.decode("utf-8", errors="replace")
+        for candidate in _extract_icon_urls_from_html(decoded_html, final_url):
+            add_candidate(candidate)
+        scheme = urlparse(final_url).scheme or parsed.scheme or "https"
+    except Exception as exc:
+        warnings.append(f"Unable to inspect favicon metadata for {url}: {exc}")
+        scheme = parsed.scheme or "https"
+
+    add_candidate(f"{scheme}://{hostname}/favicon.ico")
+    if scheme != "https":
+        add_candidate(f"https://{hostname}/favicon.ico")
+
+    for icon_url in icon_candidates:
+        try:
+            icon_bytes, resolved_icon_url, content_type = _fetch_url_bytes(icon_url, accept="image/*,*/*;q=0.8")
+        except Exception:
+            continue
+
+        if not icon_bytes:
+            continue
+
+        ext = _guess_favicon_extension(resolved_icon_url, content_type)
+        safe_hostname = _sanitize_hostname_for_filename(hostname)
+        cache_root.mkdir(parents=True, exist_ok=True)
+
+        for existing_file in cache_root.glob(f"{safe_hostname}.*"):
+            try:
+                existing_file.unlink()
+            except Exception:
+                pass
+
+        destination = cache_root / f"{safe_hostname}{ext}"
+        destination.write_bytes(icon_bytes)
+        return f"/icons/favicons/{destination.name}"
+
+    warnings.append(f"Unable to fetch favicon for {hostname}")
+    return None
+
+
+def _iter_project_resource_dicts(project: Dict[str, Any]) -> Iterable[Dict[str, Any]]:
+    for resource in project.get("resources") or []:
+        if isinstance(resource, dict):
+            yield resource
+
+    collections = project.get("collection")
+    if isinstance(collections, dict):
+        for collection in collections.values():
+            if isinstance(collection, dict):
+                items = collection.get("items")
+            elif isinstance(collection, list):
+                items = collection
+            else:
+                items = None
+
+            if not isinstance(items, list):
+                continue
+
+            for item in items:
+                if not isinstance(item, dict):
+                    continue
+                singular_resource = item.get("resource")
+                if isinstance(singular_resource, dict):
+                    yield singular_resource
+                for resource in item.get("resources") or []:
+                    if isinstance(resource, dict):
+                        yield resource
+
+    for work_log in project.get("workLogs") or []:
+        if not isinstance(work_log, dict):
+            continue
+        singular_resource = work_log.get("resource")
+        if isinstance(singular_resource, dict):
+            yield singular_resource
+        for resource in work_log.get("resources") or []:
+            if isinstance(resource, dict):
+                yield resource
+
+
+def _enrich_project_resource_icons(
+    projects: List[Dict[str, Any]],
+    *,
+    cache_root: Path,
+    warnings: List[str],
+) -> None:
+    resolved_icon_by_host: Dict[str, Optional[str]] = {}
+
+    for project in projects:
+        if not isinstance(project, dict):
+            continue
+
+        for resource in _iter_project_resource_dicts(project):
+            normalized_url = _normalize_url(resource.get("url"))
+            if not normalized_url:
+                continue
+
+            parsed = urlparse(normalized_url)
+            hostname = (parsed.hostname or "").lower()
+            if parsed.scheme not in {"http", "https"} or not hostname or hostname in GITHUB_HOSTS:
+                continue
+
+            if hostname not in resolved_icon_by_host:
+                resolved_icon_by_host[hostname] = _resolve_favicon_public_url(normalized_url, cache_root, warnings)
+
+            icon_url = resolved_icon_by_host.get(hostname)
+            if icon_url:
+                resource["iconUrl"] = icon_url
 
 
 def _normalize_resource(
@@ -1363,6 +1683,7 @@ def _normalize_project(
     root_path: Path,
     public_projects_root: Path,
     articles_by_slug: Dict[str, Dict[str, Any]],
+    reverse_project_articles_by_id: Dict[str, List[Dict[str, Any]]],
     alias_to_project_id: Dict[str, str],
     project_slug_map: Dict[str, str],
     project_href_map: Dict[str, str],
@@ -1656,12 +1977,14 @@ def _normalize_project(
         deduped_work_logs.append(work_log)
 
     project_out["workLogs"] = deduped_work_logs
-    project_out["articles"] = _normalize_project_articles(
+    explicit_articles = _normalize_project_articles(
         source.get("articles"),
         articles_by_slug=articles_by_slug,
         warnings=warnings,
         project_id=project_id,
     )
+    reverse_articles = reverse_project_articles_by_id.get(project_id, [])
+    project_out["articles"] = _merge_project_articles(explicit_articles, reverse_articles)
 
     return _prune_project_output(project_out)
 
@@ -1773,23 +2096,19 @@ def _build_alias_map(
         if not project_id:
             continue
 
-        alias_to_project_id[project_id] = project_id
+        _register_project_alias(alias_to_project_id, project_id, project_id)
         project_slug = project_slug_map.get(project_id)
         project_href = project_href_map.get(project_id)
         if project_slug:
-            alias_to_project_id[project_slug] = project_id
+            _register_project_alias(alias_to_project_id, project_slug, project_id)
         if project_href:
-            alias_to_project_id[project_href] = project_id
+            _register_project_alias(alias_to_project_id, project_href, project_id)
 
         for alias_key in ("projectPageId", "filePath"):
-            alias_val = _as_str(project.get(alias_key))
-            if alias_val:
-                alias_to_project_id[alias_val] = project_id
+            _register_project_alias(alias_to_project_id, project.get(alias_key), project_id)
 
-            if alias_val:
-                alias_uuid = _extract_uuid(alias_val)
-                if alias_uuid:
-                    alias_to_project_id[alias_uuid] = project_id
+        for alias_key in ("title", "name"):
+            _register_project_alias(alias_to_project_id, project.get(alias_key), project_id, normalize_slug_alias=True)
 
     return alias_to_project_id
 
@@ -1808,6 +2127,10 @@ def build_projects_from_json(
     project_slug_map = _build_project_slug_map(source_projects)
     project_href_map = _build_project_href_map(project_slug_map)
     alias_to_project_id = _build_alias_map(source_projects, project_slug_map, project_href_map)
+    reverse_project_articles_by_id = _build_reverse_project_articles(
+        articles_by_slug,
+        alias_to_project_id=alias_to_project_id,
+    )
     source_projects_by_id: Dict[str, Dict[str, Any]] = {}
     collection_member_projects_by_id: Dict[str, List[Dict[str, Any]]] = {}
     for source_project in source_projects:
@@ -1848,6 +2171,7 @@ def build_projects_from_json(
             root_path=root_path,
             public_projects_root=temp_public_projects_root,
             articles_by_slug=articles_by_slug,
+            reverse_project_articles_by_id=reverse_project_articles_by_id,
             alias_to_project_id=alias_to_project_id,
             project_slug_map=project_slug_map,
             project_href_map=project_href_map,
@@ -1860,6 +2184,12 @@ def build_projects_from_json(
             missing_summary_projects=missing_summary_projects,
         )
         normalized_projects.append(project_out)
+
+    _enrich_project_resource_icons(
+        normalized_projects,
+        cache_root=temp_public_projects_root.parent / "icons" / "favicons",
+        warnings=warnings,
+    )
 
     external_hostnames = extract_external_image_hostnames(normalized_projects)
 

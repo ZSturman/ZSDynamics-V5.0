@@ -1,4 +1,4 @@
-import { Badge } from "@/components/ui/badge";
+import { PassiveChip } from "@/components/ui/passive-chip";
 import { formatDate } from "@/lib/utils";
 import { Project } from "@/types";
 import { Calendar, AlertCircle, Clock, Archive } from "lucide-react";
@@ -20,27 +20,6 @@ export function ProjectMetadata({ project, compact = false }: ProjectMetadataPro
     return status.replace(/_/g, " ");
   };
 
-  const getStatusVariant = (status: string): "default" | "secondary" | "destructive" | "outline" => {
-    switch (status.toLowerCase()) {
-      case "done":
-      case "complete":
-      case "completed":
-      case "published":
-        return "default";
-      case "active":
-      case "in_progress":
-      case "in progress":
-        return "secondary";
-      case "archived":
-      case "deprecated":
-        return "destructive";
-      case "idea":
-        return "outline";
-      default:
-        return "secondary";
-    }
-  };
-
   return (
     <div className="rounded-lg border border-border bg-card p-4 md:p-6">
       <div className="space-y-6">
@@ -50,12 +29,9 @@ export function ProjectMetadata({ project, compact = false }: ProjectMetadataPro
             {/* Status Badge with Follow-up */}
             {project.status && (
               <div className="flex items-center justify-between flex-wrap gap-2">
-                <Badge
-                  variant={getStatusVariant(project.status)}
-                  className="text-sm px-3 py-1 pointer-events-none cursor-default"
-                >
+                <PassiveChip tone="strong" className="text-sm px-3 py-1">
                   {getStatusLabel(project.status, project.phase)}
-                </Badge>
+                </PassiveChip>
                 {project.requiresFollowUp && (
                   <div className="flex items-center gap-1.5 rounded-md bg-amber-50 px-2 py-1 dark:bg-amber-950/20">
                     <AlertCircle className="h-3.5 w-3.5 text-amber-600 dark:text-amber-400" />
@@ -108,18 +84,18 @@ export function ProjectMetadata({ project, compact = false }: ProjectMetadataPro
             {project.category && (
               <div>
                 <p className="text-xs text-muted-foreground mb-1.5">Category</p>
-                <Badge variant="secondary" className="text-xs pointer-events-none cursor-default">
+                <PassiveChip tone="strong" className="text-xs">
                   {project.category}
-                </Badge>
+                </PassiveChip>
               </div>
             )}
 
             {project.domain && (
               <div>
                 <p className="text-xs text-muted-foreground mb-1.5">Domain</p>
-                <Badge variant="outline" className="text-xs pointer-events-none cursor-default bg-muted/20">
+                <PassiveChip className="text-xs">
                   {project.domain}
-                </Badge>
+                </PassiveChip>
               </div>
             )}
           </div>
@@ -131,9 +107,9 @@ export function ProjectMetadata({ project, compact = false }: ProjectMetadataPro
             <p className="text-xs text-muted-foreground mb-1.5">Genres</p>
             <div className="flex flex-wrap gap-1">
               {project.genres.map((genre) => (
-                <Badge key={genre} variant="outline" className="text-xs pointer-events-none cursor-default bg-muted/20">
+                <PassiveChip key={genre} className="text-xs">
                   {genre}
-                </Badge>
+                </PassiveChip>
               ))}
             </div>
           </div>
@@ -144,9 +120,9 @@ export function ProjectMetadata({ project, compact = false }: ProjectMetadataPro
             <p className="text-xs text-muted-foreground mb-1.5">Mediums</p>
             <div className="flex flex-wrap gap-1">
               {project.mediums.map((medium) => (
-                <Badge key={medium} variant="secondary" className="text-xs pointer-events-none cursor-default">
+                <PassiveChip key={medium} tone="strong" className="text-xs">
                   {medium}
-                </Badge>
+                </PassiveChip>
               ))}
             </div>
           </div>
@@ -157,9 +133,9 @@ export function ProjectMetadata({ project, compact = false }: ProjectMetadataPro
             <p className="text-xs text-muted-foreground mb-1.5">Tags</p>
             <div className="flex flex-wrap gap-1">
               {project.tags.map((tag) => (
-                <Badge key={tag} variant="outline" className="text-xs pointer-events-none cursor-default bg-muted/20">
+                <PassiveChip key={tag} className="text-xs">
                   {tag}
-                </Badge>
+                </PassiveChip>
               ))}
             </div>
           </div>

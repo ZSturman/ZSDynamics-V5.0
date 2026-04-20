@@ -6,6 +6,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useBreadcrumb } from "@/lib/breadcrumb-context";
 import { trackProjectResourceClick } from "@/lib/firebase-analytics";
+import { cn } from "@/lib/utils";
 
 export default function ResourceButton({
   resource,
@@ -26,10 +27,11 @@ export default function ResourceButton({
   const router = useRouter();
   const { setPreviousPath } = useBreadcrumb();
 
-    // Check if this is a folio resource (local project link)
+  // Check if this is a folio resource (local project link)
   const isFolio = resource.type === "folio" || resource.type === "Folio" || (typeof resource.url === "string" && resource.url.startsWith("/projects/") && resource.category !== "download");
 
-  const icon = bestIconPath(isFolio ? "folio" : resource.type);
+  const icon = bestIconPath(isFolio ? "folio" : resource.type, undefined, resource);
+  const shouldInvertIcon = icon.startsWith("/icons/") && !icon.startsWith("/icons/favicons/");
   
   
   const handleClick = (e: React.MouseEvent) => {
@@ -59,14 +61,18 @@ export default function ResourceButton({
   if (iconOnly) {
     return (
       <Button
-        variant="ghost"
+        variant="outline"
         size="icon"
-        className={className || "h-10 w-10 shrink-0"}
+        className={cn(
+          "h-9 w-9 shrink-0 rounded-full border-border/70 bg-background/85 text-foreground shadow-sm transition-colors hover:border-primary/40 hover:bg-accent/50",
+          className
+        )}
         onClick={handleClick}
         title={resource.label}
+        aria-label={resource.label}
       >
         <Image
-          className="dark:invert"
+          className={shouldInvertIcon ? "dark:invert" : undefined}
           src={icon}
           alt={resource.type}
           width={iconSize}
@@ -86,7 +92,7 @@ export default function ResourceButton({
         title={resource.label}
       >
         <Image
-          className="dark:invert shrink-0"
+          className={cn(shouldInvertIcon && "dark:invert", "shrink-0")}
           src={icon}
           alt={resource.type}
           width={iconSize}
@@ -106,7 +112,7 @@ export default function ResourceButton({
       onClick={handleClick}
     >
       <Image
-        className="dark:invert shrink-0"
+        className={cn(shouldInvertIcon && "dark:invert", "shrink-0")}
         src={icon}
         alt={resource.type}
         width={iconSize}
