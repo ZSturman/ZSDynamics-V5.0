@@ -170,7 +170,12 @@ export function ProjectModal({ project, isOpen, onClose }: ProjectModalProps) {
               }
               headerActions={
                 <div className="flex justify-end">
-                  <Button onClick={goToProjectPage} className="w-full gap-2 md:w-auto" size="sm">
+                  <Button
+                    data-testid="project-modal-open-project-button"
+                    onClick={goToProjectPage}
+                    className="w-full gap-2 md:w-auto"
+                    size="sm"
+                  >
                     Open Full Project Page
                     <ArrowUpRight className="size-4" />
                   </Button>

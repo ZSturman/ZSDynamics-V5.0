@@ -115,7 +115,7 @@ test.describe("@smoke @matrix media rendering", () => {
         await expect(banner.locator("img, video").first()).toBeVisible();
       }
 
-      await expect(modal.getByRole("button", { name: "View Full Project" })).toBeVisible();
+      await expect(modal.getByTestId("project-modal-open-project-button")).toBeVisible();
     } catch (error) {
       await attachMediaContext(testInfo, "media-context", context);
       throw error;
