@@ -1,6 +1,6 @@
 import type { Metadata } from "next"
 import { loadArticles } from "@/lib/load-articles"
-import { loadPublicJsonRecursively } from "@/lib/load-public-json"
+import { loadProjectsManifest } from "@/lib/load-projects"
 import { findProjectByAlias, getProjectHref, getProjectSlug } from "@/lib/project-paths"
 import { getOptimizedMediaPath } from "@/lib/utils"
 import ProjectDetailsClientWrapper from "@/components/project-details-client-wrapper"
@@ -93,7 +93,7 @@ function hydrateProjectArticles(project: Project, articles: Article[]): Project 
 }
 
 export async function generateStaticParams(): Promise<Array<{ project: string }>> {
-  const projects = await loadPublicJsonRecursively<Project>("projects")
+  const projects = await loadProjectsManifest()
   const params = new Set<string>()
 
   for (const project of projects) {
@@ -106,7 +106,7 @@ export async function generateStaticParams(): Promise<Array<{ project: string }>
 
 export async function generateMetadata({ params }: { params: Promise<{ project: string }> }): Promise<Metadata> {
   const { project } = await params
-  const projects = await loadPublicJsonRecursively<Project>("projects")
+  const projects = await loadProjectsManifest()
   const resolvedProject = findProjectByAlias(projects, project)
 
   if (!resolvedProject) {
@@ -147,7 +147,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ projec
 
   try {
     const [projects, articles] = await Promise.all([
-      loadPublicJsonRecursively<Project>("projects"),
+      loadProjectsManifest(),
       loadArticles(),
     ])
     const resolvedProject = findProjectByAlias(projects, project)

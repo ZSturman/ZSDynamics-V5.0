@@ -162,7 +162,12 @@ export function FeaturedCarousel({
                     {/* Mobile: Full background image with overlay text */}
                     <div className="sm:hidden relative min-h-[280px]">
                       {/* Background Image */}
-                      <div data-testid="featured-carousel-media" data-project-id={project.id} data-media-role="banner">
+                      <div
+                        data-testid="featured-carousel-media"
+                        data-project-id={project.id}
+                        data-media-role="banner"
+                        className="absolute inset-0"
+                      >
                         <MediaDisplay
                           src={bannerPath}
                           alt={`${project.title} banner`}
@@ -242,7 +247,12 @@ export function FeaturedCarousel({
                     <div className="hidden sm:flex flex-row min-h-[320px] lg:min-h-[380px]">
                       {/* Left: Image/Banner */}
                       <div className="relative w-2/5 md:w-1/2 lg:w-3/5">
-                        <div data-testid="featured-carousel-media" data-project-id={project.id} data-media-role="banner">
+                        <div
+                          data-testid="featured-carousel-media"
+                          data-project-id={project.id}
+                          data-media-role="banner"
+                          className="absolute inset-0"
+                        >
                           <MediaDisplay
                             src={bannerPath}
                             alt={`${project.title} banner`}

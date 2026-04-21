@@ -75,16 +75,6 @@ export function getProjectCollectionEntries(
   const collectionArray = normalizeCollectionArray(project.collections);
   collectionArray.forEach(({ key, data }) => pushEntry(key, data));
 
-  if (Array.isArray(project.assets) && project.assets.length > 0) {
-    const key = seen.has("assets") ? `assets-${project.assets.length}` : "assets";
-    pushEntry(key, {
-      label: "Assets",
-      summary: "Ungrouped project assets",
-      images: {},
-      items: project.assets,
-    });
-  }
-
   return out;
 }
 
@@ -99,6 +89,10 @@ function extractItems(data: CollectionMapValue): CollectionItem[] {
 
 /** Returns standalone project assets (not in a named collection), sorted by order. */
 export function getStandaloneProjectAssets(project: Project): CollectionItem[] {
+  if (Array.isArray(project.assets) && project.assets.length > 0) {
+    return [...project.assets].sort((a, b) => (a.order ?? Infinity) - (b.order ?? Infinity));
+  }
+
   const entries = getProjectCollectionEntries(project);
   const items: CollectionItem[] = [];
   for (const { key, data } of entries) {

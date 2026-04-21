@@ -9,11 +9,12 @@ export default defineConfig({
   reporter: 'list',
   use: {
     headless: true,
-    baseURL: 'http://localhost:3000',
+    baseURL: 'http://127.0.0.1:3001',
   },
   webServer: {
-    command: 'npm run dev',
-    port: 3000,
-    reuseExistingServer: !process.env.CI,
+    command: 'npm run dev -- --hostname 127.0.0.1 --port 3001',
+    port: 3001,
+    reuseExistingServer: false,
+    timeout: 120000,
   },
 });

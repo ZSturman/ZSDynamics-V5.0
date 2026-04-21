@@ -2,29 +2,42 @@
 import { useMemo, useState, useEffect } from "react";
 import { ProjectFilters } from "@/components/project-filters";
 import { ProjectList } from "@/components/project-list/project-list";
-import { getProjectSlug } from "@/lib/project-paths";
+import { getProjectHref } from "@/lib/project-paths";
 import type { Project } from "@/types";
-import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { FeaturedCarousel } from "./project-list/featured-carousel";
 
 interface PortfolioClientProps {
   projects: Project[];
+  onProjectSelect?: (project: Project) => void;
 }
 
-export function PortfolioClient({ projects }: PortfolioClientProps) {
-  const router = useRouter()
-  const searchParams = useSearchParams()
-  const pathname = usePathname()
+function readWindowSearchEntries(): Record<string, string> {
+  if (typeof window === "undefined") {
+    return {};
+  }
 
+  return Object.fromEntries(new URLSearchParams(window.location.search).entries());
+}
+
+function replaceHomeUrl(params: URLSearchParams): void {
+  if (typeof window === "undefined") {
+    return;
+  }
+
+  const pathname = window.location.pathname || "/";
+  const query = params.toString();
+  const nextUrl = query ? `${pathname}?${query}` : pathname;
+  window.history.replaceState(window.history.state, "", nextUrl);
+}
+
+export function PortfolioClient({ projects, onProjectSelect }: PortfolioClientProps) {
   const [viewMode, setViewMode] = useState<"grid" | "list">("list");
 
   // Initialize from URL params once on mount
   useEffect(() => {
     // If there are any filter/query params present, prefer them.
     // Otherwise restore previously-saved filters from sessionStorage (fallback to localStorage for older data).
-    const spEntries: Record<string, string> = searchParams
-      ? Object.fromEntries(Array.from(searchParams.entries()))
-      : {}
+    const spEntries = readWindowSearchEntries()
     const hasFilterParams = [
       "q",
       "medium",
@@ -45,7 +58,7 @@ export function PortfolioClient({ projects }: PortfolioClientProps) {
       const urlMediums = sp.mediums ? sp.mediums.split(",").filter(Boolean) : ["all"]
       const urlStatus = sp.status ? sp.status.split(",").filter(Boolean) : ["all"]
       const urlTags = sp.tags ? sp.tags.split(",").filter(Boolean) : []
-      const urlSearchScope = (sp.searchScope as "all" | "title" | "tags") || "any"
+      const urlSearchScope = (sp.searchScope as "all" | "title" | "tags") || "all"
       const urlSort = (typeof sp.sort === "string" ? sp.sort : "newest") as "newest" | "oldest" | "title-asc" | "title-desc"
       const urlView = (typeof sp.view === "string" ? sp.view : "list") as "grid" | "list"
       setFilters({ search: urlSearch, medium: urlDomain, status: urlStatus, tags: urlTags })
@@ -76,7 +89,6 @@ export function PortfolioClient({ projects }: PortfolioClientProps) {
     }
     // mark that initial restore has completed so subsequent sync effects may run
     setInitialized(true)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   // active filters state (filters.medium represents selected DOMAINs for compatibility)
@@ -156,10 +168,9 @@ export function PortfolioClient({ projects }: PortfolioClientProps) {
     if (viewMode !== "list") params.set("view", viewMode)
     
     try {
-      const url = params.toString() ? `?${params.toString()}` : pathname || "/"
-      if (initialized && (!pathname || pathname === "/")) router.replace(url, { scroll: false })
+      if (initialized) replaceHomeUrl(params)
     } catch {
-      // router.replace may throw in certain environments; ignore and rely on sessionStorage
+      // Ignore history update failures and rely on sessionStorage.
     }
   };
 
@@ -319,49 +330,49 @@ export function PortfolioClient({ projects }: PortfolioClientProps) {
 
     // also update URL if on main list - only add non-default params
     try {
-      if (!pathname || pathname === "/") {
-        const params = new URLSearchParams()
-        
-        // Preserve existing filter params
-        if (filters.search) params.set("q", filters.search)
-        
-        const mediumValue = (filters.medium || ["all"]).filter(Boolean)
-        if (mediumValue.length > 0 && !(mediumValue.length === 1 && mediumValue[0] === "all")) {
-          params.set("medium", mediumValue.join(","))
-        }
-        
-        const mediumsValue = (explicitMediums || ["all"]).filter(Boolean)
-        if (mediumsValue.length > 0 && !(mediumsValue.length === 1 && mediumsValue[0] === "all")) {
-          params.set("mediums", mediumsValue.join(","))
-        }
-        
-        const statusValue = (filters.status || ["all"]).filter(Boolean)
-        if (statusValue.length > 0 && !(statusValue.length === 1 && statusValue[0] === "all")) {
-          params.set("status", statusValue.join(","))
-        }
-        
-        const tagsValue = (filters.tags || []).filter(Boolean)
-        if (tagsValue.length > 0) params.set("tags", tagsValue.join(","))
-        
-        if (searchScope !== "all") params.set("searchScope", searchScope)
-        if (sort !== "newest") params.set("sort", sort)
-        if (viewMode !== "list") params.set("view", viewMode)
-        
-        const url = params.toString() ? `?${params.toString()}` : pathname || "/"
-        router.replace(url, { scroll: false })
+      const params = new URLSearchParams()
+      
+      // Preserve existing filter params
+      if (filters.search) params.set("q", filters.search)
+      
+      const mediumValue = (filters.medium || ["all"]).filter(Boolean)
+      if (mediumValue.length > 0 && !(mediumValue.length === 1 && mediumValue[0] === "all")) {
+        params.set("medium", mediumValue.join(","))
       }
+      
+      const mediumsValue = (explicitMediums || ["all"]).filter(Boolean)
+      if (mediumsValue.length > 0 && !(mediumsValue.length === 1 && mediumsValue[0] === "all")) {
+        params.set("mediums", mediumsValue.join(","))
+      }
+      
+      const statusValue = (filters.status || ["all"]).filter(Boolean)
+      if (statusValue.length > 0 && !(statusValue.length === 1 && statusValue[0] === "all")) {
+        params.set("status", statusValue.join(","))
+      }
+      
+      const tagsValue = (filters.tags || []).filter(Boolean)
+      if (tagsValue.length > 0) params.set("tags", tagsValue.join(","))
+      
+      if (searchScope !== "all") params.set("searchScope", searchScope)
+      if (sort !== "newest") params.set("sort", sort)
+      if (viewMode !== "list") params.set("view", viewMode)
+      
+      replaceHomeUrl(params)
     } catch {
-      // ignore router errors
+      // ignore history errors
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sort, viewMode])
 
   const handleProjectSelect = (project: Project) => {
-    const params = new URLSearchParams(searchParams?.toString() || "")
-    params.set("project", getProjectSlug(project))
-    const nextQuery = params.toString()
-    const nextUrl = nextQuery ? `${pathname || "/"}?${nextQuery}` : pathname || "/"
-    router.push(nextUrl, { scroll: false })
+    if (onProjectSelect) {
+      onProjectSelect(project)
+      return
+    }
+
+    if (typeof window !== "undefined") {
+      window.location.assign(getProjectHref(project))
+    }
   }
 
   return (

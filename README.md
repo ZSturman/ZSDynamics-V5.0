@@ -17,3 +17,15 @@ The site includes a client-only Firebase Analytics integration for GA4/Firebase 
 5. Paste the returned values into `.env.local` and set `NEXT_PUBLIC_FIREBASE_ANALYTICS_ENABLED=true`.
 
 This setup is intended to stay on Firebase/GA4's no-cost path and does not require BigQuery export, Cloud Functions, or other paid services.
+
+## Prebuild URL Previews
+
+`npm run generate-projects` now captures backup screenshots for embeddable external project links during prebuild. Those screenshots are used on project pages when an iframe cannot be embedded.
+
+If Playwright browsers are not installed yet, run:
+
+```bash
+npx playwright install chromium
+```
+
+If screenshot capture fails for a given URL, the prebuild still completes and falls back to a metadata-based preview card instead.

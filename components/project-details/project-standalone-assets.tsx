@@ -1,12 +1,12 @@
 "use client";
 
 import { useState, useCallback, useRef, useEffect } from "react";
-import Image from "next/image";
-import { ExternalLink, Maximize2, Globe, FileText, Music, Gamepad2, Box } from "lucide-react";
-import { CollectionItem, Project, Resource } from "@/types";
+import { Maximize2, Globe, FileText, Music, Gamepad2, Box } from "lucide-react";
+import { CollectionItem, Project, Resource, type LinkPreviewCard } from "@/types";
 import { CollectionFullscreen } from "./collection/collection-item-fullscreen";
 import ResourceButton from "./resource-button";
 import { getStandaloneProjectAssets } from "@/lib/project-collections";
+import { LinkPreviewSurface } from "./link-preview-surface";
 import {
   cn,
   extractPathValue,
@@ -15,6 +15,7 @@ import {
   isImageFile,
   isSvgFile,
   getOptimizedMediaPath,
+  getRenderableProjectPreviewPath,
 } from "@/lib/utils";
 import { MediaDisplay } from "@/components/ui/media-display";
 
@@ -174,86 +175,26 @@ function LinkPreview({
   url,
   thumbnail,
   label,
+  summary,
+  preview,
 }: {
   url: string;
   thumbnail?: string;
   label: string;
+  summary?: string;
+  preview?: LinkPreviewCard;
 }) {
-  const [iframeLoaded, setIframeLoaded] = useState(false);
-  const [iframeFailed, setIframeFailed] = useState(false);
-  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  useEffect(() => {
-    if (!thumbnail && !iframeLoaded) {
-      timerRef.current = setTimeout(() => setIframeFailed(true), 2500);
-    }
-    return () => {
-      if (timerRef.current !== null) clearTimeout(timerRef.current);
-    };
-  }, [thumbnail, iframeLoaded]);
-
-  const handleOpen = () => {
-    window.open(url, "_blank", "noopener,noreferrer");
-  };
-
-  // Has thumbnail → show as clickable card
-  if (thumbnail) {
-    return (
-      <button
-        onClick={handleOpen}
-        className="group relative w-full overflow-hidden rounded-lg border border-border/60 bg-muted/10 transition-all hover:border-primary/40 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-      >
-        <div className="relative aspect-video w-full">
-          <Image src={thumbnail} alt={label} fill className="object-cover transition-transform group-hover:scale-[1.02]" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
-          <div className="absolute bottom-3 right-3 flex items-center gap-1.5 rounded-full bg-background/90 px-3 py-1.5 text-xs font-medium shadow-sm opacity-0 transition-opacity group-hover:opacity-100">
-            <ExternalLink className="size-3" />
-            Visit
-          </div>
-        </div>
-      </button>
-    );
-  }
-
-  // No thumbnail → try iframe, fallback to card
-  if (iframeFailed) {
-    return (
-      <button
-        onClick={handleOpen}
-        className="group flex w-full items-center gap-3 rounded-lg border border-border/60 bg-muted/20 p-4 transition-all hover:border-primary/40 hover:bg-accent/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-      >
-        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-primary/10">
-          <Globe className="size-5 text-primary" />
-        </div>
-        <div className="min-w-0 flex-1 text-left">
-          <p className="truncate text-sm font-medium">{label}</p>
-          <p className="truncate text-xs text-muted-foreground">{url}</p>
-        </div>
-        <ExternalLink className="size-4 shrink-0 text-muted-foreground transition-colors group-hover:text-primary" />
-      </button>
-    );
-  }
+  const previewThumbnail = getRenderableProjectPreviewPath(thumbnail);
 
   return (
-    <div className="relative w-full overflow-hidden rounded-lg border border-border/60">
-      <iframe
-        src={url}
-        title={label}
-        className="aspect-video w-full"
-        sandbox="allow-scripts allow-same-origin"
-        onLoad={() => {
-          setIframeLoaded(true);
-          if (timerRef.current !== null) clearTimeout(timerRef.current);
-        }}
-      />
-      <button
-        onClick={handleOpen}
-        className="absolute bottom-2 right-2 flex items-center gap-1.5 rounded-full bg-background/90 px-3 py-1.5 text-xs font-medium shadow-sm transition-opacity hover:bg-background"
-      >
-        <ExternalLink className="size-3" />
-        Open site
-      </button>
-    </div>
+    <LinkPreviewSurface
+      url={url}
+      thumbnail={previewThumbnail}
+      label={label}
+      summary={summary}
+      preview={preview}
+      openLabel="Open site"
+    />
   );
 }
 
@@ -303,7 +244,15 @@ function AssetMedia({
     case "url-link":
     case "local-link":
     case "folio":
-      return <LinkPreview url={path!} thumbnail={thumb} label={label} />;
+      return (
+        <LinkPreview
+          url={path!}
+          thumbnail={thumb}
+          label={label}
+          summary={item.summary || item.oneLiner}
+          preview={item.linkPreview}
+        />
+      );
     default:
       if (thumb) return <ImageMedia src={thumb} alt={label} />;
       return null;
@@ -445,14 +394,23 @@ export function ProjectStandaloneAssets({ project, inModal }: ProjectStandaloneA
   const folderName = project.folderName || project.id;
 
   return (
-    <section className="space-y-8">
+    <section
+      data-testid="project-standalone-assets"
+      data-project-id={project.id}
+      className="space-y-8"
+    >
       <div className="space-y-1">
         <h3 className="text-sm font-medium text-muted-foreground">Project Assets</h3>
       </div>
 
       <div className="divide-y divide-border/50">
         {items.map((item, idx) => (
-          <div key={item.id || idx} className={cn(idx > 0 && "pt-8", idx < items.length - 1 && "pb-8")}>
+          <div
+            key={item.id || idx}
+            data-testid="project-standalone-asset"
+            data-asset-id={item.id}
+            className={cn(idx > 0 && "pt-8", idx < items.length - 1 && "pb-8")}
+          >
             <StandaloneAssetItem
               item={item}
               project={project}

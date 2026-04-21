@@ -9,8 +9,10 @@ normalizes data to the UI contract, copies referenced assets into a pre-build
 from __future__ import annotations
 
 import json
+import hashlib
 import re
 import shutil
+import subprocess
 import unicodedata
 from datetime import datetime
 from html import unescape
@@ -33,8 +35,12 @@ INTERNAL_LINK_PREFIX = "local-link:"
 DOWNLOAD_RESOURCE_TYPES = {"local-download"}
 DOWNLOAD_RESOURCE_CATEGORIES = {"download"}
 PREVIEW_IMAGE_ROLES = {"thumbnail", "banner", "hero", "poster", "posterPortrait", "posterLandscape", "icon"}
+EMBEDDABLE_RESOURCE_TYPES = {"website", "web", "blog", "folio"}
+LINK_PREVIEW_ITEM_TYPES = {"url-link", "folio"}
 HTML_TAG_ATTR_RE = re.compile(r"(?P<name>[\w:-]+)\s*=\s*(?P<quote>[\"'])(?P<value>.*?)(?P=quote)", re.DOTALL)
+HTML_META_TAG_RE = re.compile(r"<meta\b(?P<attrs>[^>]+)>", re.IGNORECASE)
 HTML_LINK_TAG_RE = re.compile(r"<link\b(?P<attrs>[^>]+)>", re.IGNORECASE)
+HTML_TITLE_RE = re.compile(r"<title[^>]*>(?P<title>.*?)</title>", re.IGNORECASE | re.DOTALL)
 FAVICON_EXT_BY_CONTENT_TYPE = {
     "image/x-icon": ".ico",
     "image/vnd.microsoft.icon": ".ico",
@@ -68,6 +74,8 @@ ARTICLE_RAW_PATH_FILE_RE = re.compile(
     r"^/(?P<owner>[^/]+)/(?P<repo>[^/]+)/(?P<ref>[^/]+)(?:/articles)?/(?P<filename>[^/]+)\.(?:md|markdown)$",
     re.IGNORECASE,
 )
+LINK_PREVIEW_CAPTURE_SCRIPT = Path(__file__).parent.parent / "scripts" / "capture-url-preview.mjs"
+LINK_PREVIEW_CAPTURE_TIMEOUT_MS = 12000
 
 _FILENAME_SEARCH_CACHE: Dict[Tuple[str, str], Optional[Path]] = {}
 
@@ -820,6 +828,17 @@ def _sanitize_hostname_for_filename(hostname: str) -> str:
     return re.sub(r"[^a-z0-9.-]+", "-", hostname.lower()).strip("-") or "site"
 
 
+def _normalize_preview_display_url(url: str) -> str:
+    parsed = urlparse(url)
+    hostname = (parsed.hostname or parsed.netloc or url).lower()
+    if hostname.startswith("www."):
+        hostname = hostname[4:]
+    path = parsed.path.rstrip("/")
+    if not path:
+        return hostname
+    return f"{hostname}{path}"
+
+
 def _cached_favicon_public_url(cache_root: Path, hostname: str) -> Optional[str]:
     safe_hostname = _sanitize_hostname_for_filename(hostname)
     existing = sorted(cache_root.glob(f"{safe_hostname}.*"))
@@ -862,6 +881,179 @@ def _fetch_url_bytes(url: str, *, accept: str) -> Tuple[bytes, str, str]:
                 content_type = ""
 
     return body, final_url, content_type
+
+
+def _extract_remote_html_metadata(url: str, warnings: List[str]) -> Dict[str, str]:
+    try:
+        html_body, final_url, content_type = _fetch_url_bytes(
+            url,
+            accept="text/html,application/xhtml+xml,*/*;q=0.8",
+        )
+    except Exception as exc:
+        warnings.append(f"Unable to fetch project preview metadata for {url}: {exc}")
+        return {}
+
+    if not html_body:
+        return {}
+
+    charset_match = re.search(r"charset=([^\s;]+)", content_type, re.IGNORECASE)
+    encoding = charset_match.group(1).strip('"\'') if charset_match else "utf-8"
+    try:
+        html = html_body.decode(encoding, errors="replace")
+    except LookupError:
+        html = html_body.decode("utf-8", errors="replace")
+
+    meta_values: Dict[str, str] = {}
+    for match in HTML_META_TAG_RE.finditer(html):
+        attrs = _parse_html_tag_attributes(match.group("attrs"))
+        key = (attrs.get("property") or attrs.get("name") or "").lower()
+        content = attrs.get("content")
+        if key and content and key not in meta_values:
+            meta_values[key] = content
+
+    title_match = HTML_TITLE_RE.search(html)
+    image = meta_values.get("og:image") or meta_values.get("twitter:image")
+    if image:
+        image = urljoin(final_url, image)
+
+    metadata: Dict[str, str] = {}
+    title = meta_values.get("og:title") or meta_values.get("twitter:title") or _clean_html_text(title_match.group("title") if title_match else None)
+    description = meta_values.get("og:description") or meta_values.get("twitter:description") or meta_values.get("description")
+    site_name = meta_values.get("og:site_name") or meta_values.get("application-name")
+
+    if title:
+        metadata["title"] = title
+    if description:
+        metadata["description"] = description
+    if site_name:
+        metadata["siteName"] = site_name
+    if image:
+        metadata["image"] = image
+
+    return metadata
+
+
+def _build_generic_link_preview(url: str, warnings: List[str]) -> Dict[str, Any]:
+    parsed = urlparse(url)
+    hostname = (parsed.hostname or "").lower()
+    metadata = _extract_remote_html_metadata(url, warnings)
+    display_url = _normalize_preview_display_url(url)
+
+    provider = hostname or "link"
+    if provider.startswith("www."):
+        provider = provider[4:]
+
+    preview: Dict[str, Any] = {
+        "provider": provider,
+        "title": metadata.get("title") or metadata.get("siteName") or display_url,
+        "siteName": metadata.get("siteName") or provider.replace(".", " ").title(),
+        "hostname": hostname,
+        "displayUrl": display_url,
+    }
+    if metadata.get("description"):
+        preview["description"] = metadata["description"]
+    if metadata.get("image"):
+        preview["image"] = metadata["image"]
+        preview["imageSource"] = "metadata"
+
+    return preview
+
+
+def _capture_link_preview_screenshot(url: str, output_path: Path, warnings: List[str]) -> Optional[Path]:
+    if not LINK_PREVIEW_CAPTURE_SCRIPT.exists():
+        warnings.append(f"Preview capture script is missing: {LINK_PREVIEW_CAPTURE_SCRIPT}")
+        return None
+
+    try:
+        result = subprocess.run(
+            [
+                "node",
+                str(LINK_PREVIEW_CAPTURE_SCRIPT),
+                "--url",
+                url,
+                "--output",
+                str(output_path),
+                "--timeout-ms",
+                str(LINK_PREVIEW_CAPTURE_TIMEOUT_MS),
+            ],
+            check=False,
+            capture_output=True,
+            text=True,
+        )
+    except FileNotFoundError as exc:
+        warnings.append(f"Unable to run Node for preview capture on {url}: {exc}")
+        return None
+    except Exception as exc:
+        warnings.append(f"Preview capture crashed for {url}: {exc}")
+        return None
+
+    if result.returncode != 0:
+        message = (result.stderr or result.stdout or "preview capture failed").strip()
+        warnings.append(f"Unable to capture preview screenshot for {url}: {message}")
+        try:
+            if output_path.exists():
+                output_path.unlink()
+        except Exception:
+            pass
+        return None
+
+    if not output_path.exists() or not output_path.is_file():
+        warnings.append(f"Preview capture produced no screenshot for {url}")
+        return None
+
+    return output_path
+
+
+class ProjectLinkPreviewResolver:
+    def __init__(
+        self,
+        *,
+        project_folder_name: str,
+        project_dest_dir: Path,
+        warnings: List[str],
+    ) -> None:
+        self.project_folder_name = project_folder_name
+        self.project_dest_dir = project_dest_dir
+        self.warnings = warnings
+        self._preview_by_url: Dict[str, Dict[str, Any]] = {}
+        self._capture_attempted: Set[str] = set()
+
+    def resolve(self, url: str, *, allow_capture: bool = True) -> Optional[Dict[str, Any]]:
+        normalized_url = _normalize_url(url)
+        if not normalized_url:
+            return None
+
+        parsed = urlparse(normalized_url)
+        hostname = (parsed.hostname or "").lower()
+        if parsed.scheme not in {"http", "https"} or not hostname:
+            return None
+
+        preview = self._preview_by_url.get(normalized_url)
+        if preview is None:
+            preview = _build_generic_link_preview(normalized_url, self.warnings)
+            self._preview_by_url[normalized_url] = preview
+
+        if allow_capture and normalized_url not in self._capture_attempted:
+            self._capture_attempted.add(normalized_url)
+            safe_hostname = _sanitize_hostname_for_filename(hostname)
+            url_hash = hashlib.sha1(normalized_url.encode("utf-8")).hexdigest()[:12]
+            preview_dir = self.project_dest_dir / "previews"
+            preview_dir.mkdir(parents=True, exist_ok=True)
+            output_path = preview_dir / f"{safe_hostname}-{url_hash}.png"
+
+            if output_path.exists() and output_path.is_file():
+                preview["image"] = f"/projects/{self.project_folder_name}/previews/{output_path.name}"
+                preview["imageSource"] = "capture"
+            else:
+                captured_path = _capture_link_preview_screenshot(normalized_url, output_path, self.warnings)
+                if captured_path:
+                    preview["image"] = f"/projects/{self.project_folder_name}/previews/{captured_path.name}"
+                    preview["imageSource"] = "capture"
+
+        if preview.get("image") and preview.get("imageSource") != "capture":
+            preview["imageSource"] = "metadata"
+
+        return dict(preview)
 
 
 def _extract_icon_urls_from_html(html: str, base_url: str) -> List[str]:
@@ -952,6 +1144,16 @@ def _iter_project_resource_dicts(project: Dict[str, Any]) -> Iterable[Dict[str, 
         if isinstance(resource, dict):
             yield resource
 
+    for item in project.get("assets") or []:
+        if not isinstance(item, dict):
+            continue
+        singular_resource = item.get("resource")
+        if isinstance(singular_resource, dict):
+            yield singular_resource
+        for resource in item.get("resources") or []:
+            if isinstance(resource, dict):
+                yield resource
+
     collections = project.get("collection")
     if isinstance(collections, dict):
         for collection in collections.values():
@@ -1024,6 +1226,7 @@ def _normalize_resource(
     project_dest_dir: Path,
     alias_to_project_id: Dict[str, str],
     project_href_map: Dict[str, str],
+    link_preview_resolver: Optional[ProjectLinkPreviewResolver],
     copied: List[str],
     warnings: List[str],
     context: str,
@@ -1088,6 +1291,11 @@ def _normalize_resource(
     }
     if normalized_category:
         out["category"] = normalized_category
+
+    if link_preview_resolver and normalized_type.lower() in EMBEDDABLE_RESOURCE_TYPES:
+        preview = link_preview_resolver.resolve(normalized_url, allow_capture=True)
+        if preview:
+            out["linkPreview"] = preview
 
     return out
 
@@ -1348,6 +1556,11 @@ def _normalize_source_project_resources(
     source_project_title = _first_non_empty(source_project.get("title"), source_project.get("name"), source_project_id) or source_project_id
     source_project_folder_name = make_project_folder_name(source_project_title, source_project_id)
     source_project_dest_dir = public_projects_root / source_project_folder_name
+    link_preview_resolver = ProjectLinkPreviewResolver(
+        project_folder_name=source_project_folder_name,
+        project_dest_dir=source_project_dest_dir,
+        warnings=warnings,
+    )
 
     for resource in source_resources:
         if not isinstance(resource, dict):
@@ -1359,6 +1572,7 @@ def _normalize_source_project_resources(
             project_dest_dir=source_project_dest_dir,
             alias_to_project_id=alias_to_project_id,
             project_href_map=project_href_map,
+            link_preview_resolver=link_preview_resolver,
             copied=copied,
             warnings=warnings,
             context=context,
@@ -1395,6 +1609,7 @@ def _normalize_collection_item(
     alias_to_project_id: Dict[str, str],
     project_href_map: Dict[str, str],
     source_projects_by_id: Dict[str, Dict[str, Any]],
+    link_preview_resolver: ProjectLinkPreviewResolver,
     copied: List[str],
     warnings: List[str],
     order_index: int,
@@ -1448,6 +1663,7 @@ def _normalize_collection_item(
             project_dest_dir=project_dest_dir,
             alias_to_project_id=alias_to_project_id,
             project_href_map=project_href_map,
+            link_preview_resolver=link_preview_resolver,
             copied=copied,
             warnings=warnings,
             context=f"collection item {collection_name}/{normalized_item_id}",
@@ -1464,6 +1680,7 @@ def _normalize_collection_item(
             project_dest_dir=project_dest_dir,
             alias_to_project_id=alias_to_project_id,
             project_href_map=project_href_map,
+            link_preview_resolver=link_preview_resolver,
             copied=copied,
             warnings=warnings,
             context=f"collection item {collection_name}/{normalized_item_id}",
@@ -1478,7 +1695,7 @@ def _normalize_collection_item(
         "type": item_type,
     }
 
-    summary = _as_str(item.get("summary"))
+    summary = _as_str(item.get("summary")) or _as_str(raw_item.get("property_summary"))
     if summary:
         out["summary"] = summary
 
@@ -1523,6 +1740,13 @@ def _normalize_collection_item(
         if fallback_thumbnail:
             out["thumbnail"] = fallback_thumbnail
 
+    if item_type in LINK_PREVIEW_ITEM_TYPES and item_url and not target_id:
+        preview = link_preview_resolver.resolve(item_url, allow_capture=not bool(copied_thumbnail))
+        if preview:
+            out["linkPreview"] = preview
+            if not copied_thumbnail and preview.get("image") and preview.get("imageSource") == "capture":
+                out["thumbnail"] = preview["image"]
+
     if source_target_project:
         inherited_resources = _normalize_source_project_resources(
             source_target_project,
@@ -1560,6 +1784,7 @@ def _normalize_collection(
     alias_to_project_id: Dict[str, str],
     project_href_map: Dict[str, str],
     source_projects_by_id: Dict[str, Dict[str, Any]],
+    link_preview_resolver: ProjectLinkPreviewResolver,
     copied: List[str],
     warnings: List[str],
 ) -> Tuple[str, Dict[str, Any]]:
@@ -1626,6 +1851,7 @@ def _normalize_collection(
                 alias_to_project_id=alias_to_project_id,
                 project_href_map=project_href_map,
                 source_projects_by_id=source_projects_by_id,
+                link_preview_resolver=link_preview_resolver,
                 copied=copied,
                 warnings=warnings,
                 order_index=idx,
@@ -1713,6 +1939,11 @@ def _normalize_project(
     folder_name = make_project_folder_name(title, project_id)
     project_dest_dir = public_projects_root / folder_name
     project_dest_dir.mkdir(parents=True, exist_ok=True)
+    link_preview_resolver = ProjectLinkPreviewResolver(
+        project_folder_name=folder_name,
+        project_dest_dir=project_dest_dir,
+        warnings=warnings,
+    )
 
     raw_obj = source.get("raw") if isinstance(source.get("raw"), dict) else {}
     project_date_range_raw = source.get("projectDateRangeRaw")
@@ -1761,6 +1992,7 @@ def _normalize_project(
         "story": _as_str(source.get("story")) or "",
         "images": {},
         "resources": [],
+        "assets": [],
         "collection": {},
         "workLogs": [],
         "articles": [],
@@ -1820,6 +2052,7 @@ def _normalize_project(
             project_dest_dir=project_dest_dir,
             alias_to_project_id=alias_to_project_id,
             project_href_map=project_href_map,
+            link_preview_resolver=link_preview_resolver,
             copied=copied,
             warnings=warnings,
             context=f"project {project_id}",
@@ -1841,6 +2074,7 @@ def _normalize_project(
             alias_to_project_id=alias_to_project_id,
             project_href_map=project_href_map,
             source_projects_by_id=source_projects_by_id,
+            link_preview_resolver=link_preview_resolver,
             copied=copied,
             warnings=warnings,
         )
@@ -1885,6 +2119,7 @@ def _normalize_project(
                 alias_to_project_id=alias_to_project_id,
                 project_href_map=project_href_map,
                 source_projects_by_id=source_projects_by_id,
+                link_preview_resolver=link_preview_resolver,
                 copied=copied,
                 warnings=warnings,
                 order_index=len(fallback_items),
@@ -1935,6 +2170,7 @@ def _normalize_project(
             alias_to_project_id=alias_to_project_id,
             project_href_map=project_href_map,
             source_projects_by_id=source_projects_by_id,
+            link_preview_resolver=link_preview_resolver,
             copied=copied,
             warnings=warnings,
             order_index=idx,
@@ -1951,18 +2187,7 @@ def _normalize_project(
             assets_collection_items.append(normalized_asset_item)
 
     if assets_collection_items:
-        assets_collection_key = "assets"
-        suffix = 2
-        while assets_collection_key in project_out["collection"]:
-            assets_collection_key = f"assets-{suffix}"
-            suffix += 1
-
-        project_out["collection"][assets_collection_key] = {
-            "label": "Assets",
-            "summary": "Ungrouped project assets",
-            "images": {},
-            "items": assets_collection_items,
-        }
+        project_out["assets"] = assets_collection_items
 
     fallback_work_log_time = created_at or updated_at
     normalized_work_logs: List[Dict[str, Any]] = []
@@ -2027,6 +2252,7 @@ def _prune_project_output(project: Dict[str, Any]) -> Dict[str, Any]:
         "story",
         "images",
         "resources",
+        "assets",
         "collection",
         "workLogs",
         "articles",

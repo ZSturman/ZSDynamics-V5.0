@@ -1,5 +1,18 @@
 export type ResourceType = string;
 
+export type LinkPreviewImageSource = "capture" | "metadata";
+
+export interface LinkPreviewCard {
+  provider?: string;
+  title?: string;
+  description?: string;
+  siteName?: string;
+  image?: string;
+  imageSource?: LinkPreviewImageSource;
+  hostname?: string;
+  displayUrl?: string;
+}
+
 export interface Resource {
   id?: string;
   type: ResourceType;
@@ -7,6 +20,7 @@ export interface Resource {
   url: string;
   category?: string;
   iconUrl?: string;
+  linkPreview?: LinkPreviewCard;
 }
 
 export type ArticleLinkPreviewKind = "youtube" | "card";
@@ -74,6 +88,7 @@ export type CollectionItem = {
   resource?: Resource; // Single resource (legacy)
   resources?: Resource[]; // Multiple resources
   url?: string;
+  linkPreview?: LinkPreviewCard;
   type: CollectionItemType;
   loop?: boolean; // Whether video/animation should loop
   autoPlay?: boolean; // Whether video should autoplay (defaults to true for thumbnails/banners/posters)

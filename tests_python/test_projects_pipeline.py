@@ -1,3 +1,4 @@
+import hashlib
 import json
 import sys
 import tempfile
@@ -296,6 +297,249 @@ class TestProjectsPipeline(unittest.TestCase):
                     input_json_path=input_json,
                     temp_public_projects_root=out_dir,
                 )
+
+    def test_external_project_links_generate_capture_backups(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_root_str, tempfile.TemporaryDirectory() as out_str:
+            temp_root = Path(temp_root_str)
+            out_dir = Path(out_str)
+
+            input_payload = {
+                "config": {"root_path": str(temp_root)},
+                "projects": [
+                    {
+                        "id": "proj-preview",
+                        "title": "Preview Project",
+                        "summary": "Preview coverage",
+                        "resources": [
+                            {
+                                "label": "Live Site",
+                                "type": "website",
+                                "url": "https://example.com/app",
+                            }
+                        ],
+                        "assets": [
+                            {
+                                "id": "asset-preview",
+                                "label": "Standalone Site",
+                                "type": "URL",
+                                "url": "https://example.com/app",
+                            }
+                        ],
+                    }
+                ],
+            }
+
+            input_json = temp_root / "new_projects.json"
+            input_json.write_text(json.dumps(input_payload), encoding="utf-8")
+
+            def fake_capture(url: str, output_path: Path, warnings):  # type: ignore[no-untyped-def]
+                output_path.parent.mkdir(parents=True, exist_ok=True)
+                output_path.write_bytes(b"png")
+                return output_path
+
+            with patch(
+                "projects_pipeline._build_generic_link_preview",
+                return_value={
+                    "provider": "example.com",
+                    "title": "Example App",
+                    "siteName": "Example",
+                    "hostname": "example.com",
+                    "displayUrl": "example.com/app",
+                },
+            ), patch("projects_pipeline._capture_link_preview_screenshot", side_effect=fake_capture):
+                result = build_projects_from_json(
+                    input_json_path=input_json,
+                    temp_public_projects_root=out_dir,
+                )
+
+            project = result["projects"][0]
+            resource = project["resources"][0]
+            asset = project["assets"][0]
+
+            self.assertEqual(resource["linkPreview"]["imageSource"], "capture")
+            self.assertTrue(resource["linkPreview"]["image"].startswith(f"/projects/{project['folderName']}/previews/"))
+            self.assertEqual(asset["thumbnail"], resource["linkPreview"]["image"])
+            self.assertEqual(asset["linkPreview"]["imageSource"], "capture")
+
+            preview_name = Path(resource["linkPreview"]["image"]).name
+            self.assertTrue((out_dir / project["folderName"] / "previews" / preview_name).exists())
+
+    def test_external_project_links_fall_back_to_metadata_cards_when_capture_fails(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_root_str, tempfile.TemporaryDirectory() as out_str:
+            temp_root = Path(temp_root_str)
+            out_dir = Path(out_str)
+
+            input_payload = {
+                "config": {"root_path": str(temp_root)},
+                "projects": [
+                    {
+                        "id": "proj-preview-fallback",
+                        "title": "Preview Fallback Project",
+                        "summary": "Fallback coverage",
+                        "resources": [
+                            {
+                                "label": "Live Site",
+                                "type": "website",
+                                "url": "https://example.com/app",
+                            }
+                        ],
+                        "assets": [
+                            {
+                                "id": "asset-preview-fallback",
+                                "label": "Standalone Site",
+                                "type": "URL",
+                                "url": "https://example.com/app",
+                            }
+                        ],
+                    }
+                ],
+            }
+
+            input_json = temp_root / "new_projects.json"
+            input_json.write_text(json.dumps(input_payload), encoding="utf-8")
+
+            with patch(
+                "projects_pipeline._build_generic_link_preview",
+                return_value={
+                    "provider": "example.com",
+                    "title": "Example App",
+                    "description": "Metadata-only fallback",
+                    "siteName": "Example",
+                    "hostname": "example.com",
+                    "displayUrl": "example.com/app",
+                    "image": "https://cdn.example.com/example.png",
+                    "imageSource": "metadata",
+                },
+            ), patch("projects_pipeline._capture_link_preview_screenshot", return_value=None):
+                result = build_projects_from_json(
+                    input_json_path=input_json,
+                    temp_public_projects_root=out_dir,
+                )
+
+            project = result["projects"][0]
+            resource = project["resources"][0]
+            asset = project["assets"][0]
+
+            self.assertNotIn("thumbnail", asset)
+            self.assertEqual(resource["linkPreview"]["imageSource"], "metadata")
+            self.assertEqual(asset["linkPreview"]["imageSource"], "metadata")
+            self.assertEqual(asset["linkPreview"]["image"], "https://cdn.example.com/example.png")
+
+    def test_external_project_links_do_not_reuse_preview_captures_from_different_urls(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_root_str, tempfile.TemporaryDirectory() as out_str:
+            temp_root = Path(temp_root_str)
+            out_dir = Path(out_str)
+
+            exact_url = "https://the-wolf-project-14stqkkgr-zsturmans-projects.vercel.app"
+            unrelated_url = "https://the-wolf-pack.vercel.app"
+            project_id = "proj-preview-exact"
+            project_title = "Exact Preview Match Project"
+            project_folder_name = make_project_folder_name(project_title, project_id)
+            preview_dir = out_dir / project_folder_name / "previews"
+            preview_dir.mkdir(parents=True, exist_ok=True)
+
+            unrelated_hash = hashlib.sha1(unrelated_url.encode("utf-8")).hexdigest()[:12]
+            unrelated_preview = preview_dir / f"the-wolf-pack.vercel.app-{unrelated_hash}.png"
+            unrelated_preview.write_bytes(b"png")
+
+            input_payload = {
+                "config": {"root_path": str(temp_root)},
+                "projects": [
+                    {
+                        "id": project_id,
+                        "title": project_title,
+                        "summary": "Exact preview coverage",
+                        "assets": [
+                            {
+                                "id": "asset-preview-exact",
+                                "label": "Dev Site",
+                                "type": "URL",
+                                "url": exact_url,
+                            }
+                        ],
+                    }
+                ],
+            }
+
+            input_json = temp_root / "new_projects.json"
+            input_json.write_text(json.dumps(input_payload), encoding="utf-8")
+
+            with patch(
+                "projects_pipeline._build_generic_link_preview",
+                return_value={
+                    "provider": "the-wolf-project-14stqkkgr-zsturmans-projects.vercel.app",
+                    "title": "Dev Site",
+                    "siteName": "Wolf Project Dev Site",
+                    "hostname": "the-wolf-project-14stqkkgr-zsturmans-projects.vercel.app",
+                    "displayUrl": "the-wolf-project-14stqkkgr-zsturmans-projects.vercel.app",
+                },
+            ), patch("projects_pipeline._capture_link_preview_screenshot", return_value=None):
+                result = build_projects_from_json(
+                    input_json_path=input_json,
+                    temp_public_projects_root=out_dir,
+                )
+
+            project = result["projects"][0]
+            asset = project["assets"][0]
+
+            self.assertEqual(project["folderName"], project_folder_name)
+            self.assertTrue(unrelated_preview.exists())
+            self.assertNotIn("thumbnail", asset)
+            self.assertNotIn("image", asset["linkPreview"])
+            self.assertNotIn("imageSource", asset["linkPreview"])
+
+    def test_only_embeddable_project_links_generate_previews(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_root_str, tempfile.TemporaryDirectory() as out_str:
+            temp_root = Path(temp_root_str)
+            out_dir = Path(out_str)
+
+            input_payload = {
+                "config": {"root_path": str(temp_root)},
+                "projects": [
+                    {
+                        "id": "proj-preview-skip",
+                        "title": "Preview Skip Project",
+                        "summary": "Skip coverage",
+                        "resources": [
+                            {
+                                "label": "Repo",
+                                "type": "repo",
+                                "url": "https://github.com/ZSturman/example",
+                            }
+                        ],
+                        "assets": [
+                            {
+                                "id": "asset-local",
+                                "label": "Internal Link",
+                                "type": "URL",
+                                "projectId": "proj-preview-skip-related",
+                            }
+                        ],
+                    },
+                    {
+                        "id": "proj-preview-skip-related",
+                        "title": "Related Preview Project",
+                        "summary": "Related coverage",
+                    },
+                ],
+            }
+
+            input_json = temp_root / "new_projects.json"
+            input_json.write_text(json.dumps(input_payload), encoding="utf-8")
+
+            with patch("projects_pipeline._build_generic_link_preview") as build_preview, patch(
+                "projects_pipeline._capture_link_preview_screenshot"
+            ) as capture_preview:
+                result = build_projects_from_json(
+                    input_json_path=input_json,
+                    temp_public_projects_root=out_dir,
+                )
+
+            project = next(project for project in result["projects"] if project["id"] == "proj-preview-skip")
+            self.assertNotIn("linkPreview", project["resources"][0])
+            self.assertNotIn("linkPreview", project["assets"][0])
+            build_preview.assert_not_called()
+            capture_preview.assert_not_called()
 
     def test_collection_item_project_link_inherits_target_thumbnail_and_resources(self) -> None:
         with tempfile.TemporaryDirectory() as temp_root_str, tempfile.TemporaryDirectory() as out_str:
@@ -631,6 +875,17 @@ class TestProjectsPipeline(unittest.TestCase):
                                 "label": "Unique Asset",
                                 "type": "image",
                                 "relativePath": "Technology/Demo/FolioAssets/unique.png",
+                                "oneLiner": "Standalone asset one-liner",
+                                "resources": [
+                                    {
+                                        "label": "Asset Site",
+                                        "type": "website",
+                                        "url": "https://example.com/asset-unique",
+                                    }
+                                ],
+                                "raw": {
+                                    "property_summary": "Standalone asset summary from raw data",
+                                },
                             },
                         ],
                     }
@@ -660,10 +915,16 @@ class TestProjectsPipeline(unittest.TestCase):
             showcase_ids = {item["id"] for item in showcase["items"]}
             self.assertIn("asset-explicit", showcase_ids)
 
-            # Auto-generated assets should only contain genuinely unused items.
-            generated_assets = project["collection"]["assets"]["items"]
+            # Auto-generated assets now live at the top level and keep per-item metadata.
+            self.assertNotIn("assets", project["collection"])
+            generated_assets = project["assets"]
             generated_asset_ids = {item["id"] for item in generated_assets}
             self.assertEqual(generated_asset_ids, {"asset-unique"})
+            generated_asset = generated_assets[0]
+            self.assertEqual(generated_asset["summary"], "Standalone asset summary from raw data")
+            self.assertEqual(generated_asset["oneLiner"], "Standalone asset one-liner")
+            self.assertEqual(generated_asset["resource"]["label"], "Asset Site")
+            self.assertEqual(generated_asset["resources"][0]["url"], "https://example.com/asset-unique")
 
     def test_project_dates_only_use_started_and_last_update_columns(self) -> None:
         with tempfile.TemporaryDirectory() as temp_root_str, tempfile.TemporaryDirectory() as out_str:

@@ -13,12 +13,13 @@ import { OrbitControls, useGLTF, useAnimations } from "@react-three/drei"
 import * as THREE from "three"
 import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader.js"
 import { CollectionItem, Project, Resource } from "@/types"
-import { ExternalLink, ArrowRight } from "lucide-react"
+import { ArrowRight } from "lucide-react"
 import { CollectionFullscreen } from "./collection-item-fullscreen"
 import { getProjectHref } from "@/lib/project-paths"
-import { cn, extractPathValue, resolveProjectAssetPath, isSvgFile } from "@/lib/utils"
+import { cn, extractPathValue, resolveProjectAssetPath, isSvgFile, getRenderableProjectPreviewPath } from "@/lib/utils"
 import ResourceButton from "../resource-button"
 import { useBreadcrumb } from "@/lib/breadcrumb-context"
+import { LinkPreviewSurface } from "../link-preview-surface"
 
 // Helper function to extract thumbnail path from various formats (string or object)
 function getThumbnailPath(item: CollectionItem): string | undefined {
@@ -357,11 +358,7 @@ export default function CollectionItemCard({ item, project, inModal, folderName,
   )
 }
 
-function UrlLinkViewer({ item, onRequestFullscreen, folderName, collectionName, project }: ExtendedCollectionItemViewerProps) {
-  // embed state: null = loading, true = allowed, false = blocked
-  const [embedAllowed, setEmbedAllowed] = useState<boolean | null>(null)
-  const timeoutRef = useRef<number | null>(null)
-  
+function UrlLinkViewer({ item, folderName, collectionName }: ExtendedCollectionItemViewerProps) {
   const rawPath = getItemPath(item, folderName, collectionName);
   // Prefer optimized video file when available, fall back to original
   const getOptimizedVideoPath = (path: string | undefined): string | undefined => {
@@ -407,27 +404,6 @@ function UrlLinkViewer({ item, onRequestFullscreen, folderName, collectionName, 
   const thumbnailPath = getOptimizedThumbnail();
   const videoPosterPath = getVideoPosterPath();
 
-  // Determine if the link is external or same-host
-  const isSameHost = (url: string): boolean => {
-    try {
-      const linkUrl = new URL(url, window.location.href)
-      return linkUrl.hostname === window.location.hostname
-    } catch {
-      return false
-    }
-  }
-
-  const handleOpen = () => {
-    if (itemPath) {
-      // Only open in new tab if it's an external link
-      if (isSameHost(itemPath)) {
-        window.location.href = itemPath
-      } else {
-        window.open(itemPath, "_blank", "noopener,noreferrer")
-      }
-    }
-  }
-
   // Helper to determine if thumbnail is a video
   const isVideoThumbnail = (thumbnail?: string): boolean => {
     if (!thumbnail) return false
@@ -437,131 +413,21 @@ function UrlLinkViewer({ item, onRequestFullscreen, folderName, collectionName, 
 
   const hasThumbnail = !!getThumbnailPath(item)
   const thumbnailIsVideo = isVideoThumbnail(getThumbnailPath(item))
-  
-  // Prefer a static thumbnail for link cards to avoid autoplaying previews in the grid.
-  const shouldAutoPlayVideoThumbnail = false;
+  const previewThumbnail =
+    hasThumbnail && thumbnailIsVideo
+      ? videoPosterPath || thumbnailPath
+      : thumbnailPath
 
-  useEffect(() => {
-    // Only set up embed timeout if we don't have a thumbnail
-    if (!hasThumbnail) {
-      // start a timeout to assume embedding is blocked if iframe doesn't fire onLoad
-      // some sites block embedding (X-Frame-Options/CSP) and iframe may never load.
-      timeoutRef.current = window.setTimeout(() => {
-        setEmbedAllowed(false)
-      }, 2000)
-    }
-
-    return () => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current)
-      }
-    }
-  }, [itemPath, hasThumbnail])
-
-  const onIframeLoad = () => {
-    // iframe loaded successfully, mark embed allowed and clear timeout
-    setEmbedAllowed(true)
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current)
-      timeoutRef.current = null
-    }
-  }
-
-  // Render thumbnail if available
-  if (hasThumbnail) {
-    return (
-      <CollectionItemWrapper 
-        item={item} 
-        onRequestFullscreen={onRequestFullscreen}
-        project={project}
-      >
-        <div className="relative aspect-video bg-muted overflow-hidden cursor-pointer" onClick={(e) => { e.stopPropagation(); handleOpen(); }}>
-          {thumbnailIsVideo ? (
-            shouldAutoPlayVideoThumbnail ? (
-              <video
-                src={thumbnailPath}
-                className="w-full h-full object-cover"
-                autoPlay
-                loop={item.loop !== false}
-                muted
-                playsInline
-              />
-            ) : (
-              // On mobile, show static poster instead of autoplaying video thumbnail
-              videoPosterPath ? (
-                <Image
-                  src={videoPosterPath}
-                  alt={item.label || "Link preview"}
-                  fill
-                  className="object-cover"
-                />
-              ) : (
-                <video
-                  src={thumbnailPath}
-                  className="w-full h-full object-cover"
-                  muted
-                  playsInline
-                  poster={videoPosterPath}
-                />
-              )
-            )
-          ) : (
-            <Image
-              src={thumbnailPath || "/placeholder.svg"}
-              alt={item.label || "Link preview"}
-              fill
-              className="object-cover"
-            />
-          )}
-          
-          {/* Overlay to indicate it's a link */}
-          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center pointer-events-none">
-            <div className="opacity-0 group-hover:opacity-100 transition-opacity">
-              <div className="bg-background/90 rounded-full p-4">
-                <ExternalLink className="h-6 w-6" />
-              </div>
-            </div>
-          </div>
-        </div>
-      </CollectionItemWrapper>
-    )
-  }
-
-  // Fallback to iframe embed when no thumbnail
   return (
     <Card className="p-4">
-      <div className="relative group">
-        <div className="w-full aspect-video bg-muted rounded-lg overflow-hidden">
-          {embedAllowed === false ? (
-            // fallback when embedding is blocked
-            <div className="w-full h-full flex items-center justify-center p-6">
-              <div className="text-center">
-                <p className="text-sm text-muted-foreground mb-3">Preview not available for this site.</p>
-                <div className="flex items-center justify-center gap-2">
-                  <Button size="sm" variant="outline" onClick={handleOpen}>
-                    Open link
-                  </Button>
-                </div>
-              </div>
-            </div>
-          ) : (
-            // show iframe while loading or when allowed
-            <iframe
-              src={itemPath}
-              title={item.label || itemPath}
-              className="w-full h-full border-0"
-              sandbox="allow-scripts allow-same-origin"
-              onLoad={onIframeLoad}
-            />
-          )}
-        </div>
-
-        <div className="absolute top-2 right-2">
-          <Button size="icon" variant="secondary" onClick={handleOpen}>
-            <ExternalLink className="h-4 w-4" />
-          </Button>
-        </div>
-      </div>
+      <LinkPreviewSurface
+        url={itemPath || ""}
+        label={item.label || itemPath || "Link preview"}
+        summary={item.summary || item.oneLiner}
+        thumbnail={getRenderableProjectPreviewPath(previewThumbnail)}
+        preview={item.linkPreview}
+        openLabel="Open link"
+      />
 
       <div className="flex items-center justify-between mt-2">
         {item.label && <p className="text-sm text-muted-foreground">{item.label}</p>}

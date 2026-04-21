@@ -2,6 +2,8 @@ import { expect, test } from "@playwright/test";
 
 import {
   enumerateProjectMediaEntries,
+  getProjectRoute,
+  getProjectSlug,
   getRepresentativeProjects,
   loadCanonicalProjects,
   pickDefaultProject,
@@ -11,11 +13,16 @@ import {
   buildRuntimeContext,
   trackMediaRuntimeIssues,
 } from "./helpers/media-diagnostics";
+import { gotoHomeReady, gotoProjectReady } from "../helpers/route-readiness";
 
 const canonicalProjects = loadCanonicalProjects();
 const mediaEntries = enumerateProjectMediaEntries(canonicalProjects);
 const representativeProjects = getRepresentativeProjects(canonicalProjects);
 const defaultProject = pickDefaultProject(canonicalProjects);
+const standaloneUrlAssetProject = findProjectWithStandaloneUrlAsset(canonicalProjects);
+const captureBackedStandaloneUrlAssetProject = findProjectWithStandaloneUrlAsset(canonicalProjects, {
+  requireCapturePreview: true,
+});
 
 test.describe("@smoke @matrix media resilience", () => {
   test.beforeEach(async ({}, testInfo) => {
@@ -25,37 +32,27 @@ test.describe("@smoke @matrix media resilience", () => {
     );
   });
 
-  test("home remains usable when projects.json contains a broken thumbnail", async ({ page }, testInfo) => {
+  test("home remains usable when a card thumbnail request fails", async ({ page }, testInfo) => {
     const project = representativeProjects["thumbnail-only"] || defaultProject;
-    const brokenRelativePath = "missing-media-asset-for-resilience-check.png";
+    const entry = findEntryForProject(project.id, ["thumbnail"]);
+    test.skip(!entry, "No thumbnail media entry found for home resilience check.");
 
-    await page.route("**/projects/projects.json", async (route) => {
-      const mutated = canonicalProjects.map((item) => ({ ...item }));
-      const target = mutated.find((item) => item.id === project.id);
-      if (target) {
-        target.images = {
-          ...(target.images || {}),
-          thumbnail: brokenRelativePath,
-        };
-      }
-
+    await page.route((url) => mediaRequestMatches(url.toString(), entry!.resolvedUrl), async (route) => {
       await route.fulfill({
-        status: 200,
-        contentType: "application/json",
-        body: JSON.stringify(mutated),
+        status: 404,
+        contentType: "text/plain",
+        body: "forced-home-thumbnail-failure",
       });
     });
 
     const tracker = trackMediaRuntimeIssues(page);
-    const folderName = typeof project.folderName === "string" && project.folderName.trim() ? project.folderName : project.id;
-    const expectedBrokenUrl = `/projects/${folderName}/${toOptimizedImagePath(brokenRelativePath)}`;
     const context = buildRuntimeContext(page, testInfo, {
-      scenario: "resilience-broken-thumbnail-from-projects-json",
+      scenario: "resilience-broken-home-thumbnail-request",
       route: "/",
       projectId: project.id,
       projectTitle: project.title,
       mediaKey: "thumbnail",
-      resolvedUrl: expectedBrokenUrl,
+      resolvedUrl: entry!.resolvedUrl,
       environment: process.env.NODE_ENV || "test",
     });
 
@@ -69,14 +66,19 @@ test.describe("@smoke @matrix media resilience", () => {
         .first();
       await card.scrollIntoViewIfNeeded();
       await expect(card).toBeVisible();
+      await expect(
+        card
+          .locator('[data-testid="project-card-media"], [data-testid="project-list-item-media"]')
+          .first()
+          .locator('[data-media-fallback="true"], [data-media-placeholder="true"]')
+          .first()
+      ).toBeVisible();
 
       await page.waitForTimeout(1000);
-      const probe = await page.request.get(expectedBrokenUrl);
       const hasFailure =
-        probe.status() >= 400 ||
-        tracker.failedResponses.some((failure) => failure.url.includes(expectedBrokenUrl)) ||
-        tracker.failedRequests.some((failure) => failure.url.includes(expectedBrokenUrl));
-      expect(hasFailure, "broken thumbnail should surface as a media request failure").toBeTruthy();
+        tracker.failedResponses.some((failure) => mediaRequestMatches(failure.url, entry!.resolvedUrl)) ||
+        tracker.failedRequests.some((failure) => mediaRequestMatches(failure.url, entry!.resolvedUrl));
+      expect(hasFailure, "forced broken thumbnail should surface as a media request failure").toBeTruthy();
     } catch (error) {
       await attachMediaContext(testInfo, "media-context", {
         ...context,
@@ -119,6 +121,14 @@ test.describe("@smoke @matrix media resilience", () => {
       await gotoProjectReady(page, project.id, project.title);
 
       await page.waitForTimeout(500);
+      await expect(
+        page
+          .locator(
+            `[data-project-id="${project.id}"][data-media-role="${entry!.mediaKey}"] [data-media-fallback="true"], ` +
+              `[data-project-id="${project.id}"][data-media-role="${entry!.mediaKey}"] [data-media-placeholder="true"]`
+          )
+          .first()
+      ).toBeVisible();
       expect(
         tracker.failedResponses.some((failure) => failure.status === 500 && mediaRequestMatches(failure.url, entry!.resolvedUrl)) ||
           tracker.failedRequests.some((failure) => mediaRequestMatches(failure.url, entry!.resolvedUrl)),
@@ -172,7 +182,178 @@ test.describe("@smoke @matrix media resilience", () => {
         )
         .first();
       await expect(media).toBeVisible();
-      expect(tracker.pageErrors, "delayed media should not trigger page errors").toHaveLength(0);
+      const unexpectedPageErrors = tracker.pageErrors.filter(
+        (pageError) => !isExpectedForcedMediaPageError(pageError.message)
+      );
+      expect(unexpectedPageErrors, "delayed media should not trigger unexpected page errors").toHaveLength(0);
+    } catch (error) {
+      await attachMediaContext(testInfo, "media-context", {
+        ...context,
+        failedResponses: tracker.failedResponses,
+        failedRequests: tracker.failedRequests,
+        consoleErrors: tracker.consoleErrors,
+        pageErrors: tracker.pageErrors,
+      });
+      throw error;
+    } finally {
+      tracker.stop();
+    }
+  });
+
+  test("standalone URL asset falls back gracefully on the project detail route", async ({ page }, testInfo) => {
+    test.skip(!standaloneUrlAssetProject, "No standalone URL asset found in canonical projects.");
+
+    const { project, asset } = standaloneUrlAssetProject!;
+    const expectedState = getExpectedStandaloneAssetState(asset);
+    await page.route((url) => standaloneAssetUrlMatches(url.toString(), asset.url), async (route) => {
+      await route.fulfill(buildBlockedIframeResponse(503));
+    });
+
+    const tracker = trackMediaRuntimeIssues(page);
+    const context = buildRuntimeContext(page, testInfo, {
+      scenario: "standalone-url-asset-fallback-project-route",
+      route: getProjectRoute(project),
+      projectId: project.id,
+      projectTitle: project.title,
+      mediaKey: asset.id,
+      resolvedUrl: asset.url,
+      environment: process.env.NODE_ENV || "test",
+    });
+
+    try {
+      await gotoProjectReady(page, project.id, project.title, getProjectRoute(project));
+
+      const assetCard = page
+        .locator(
+          `[data-testid="project-standalone-assets"][data-project-id="${project.id}"] ` +
+            `[data-testid="project-standalone-asset"][data-asset-id="${asset.id}"]`
+        )
+        .first();
+      await expect(assetCard).toBeVisible();
+      await expect(assetCard.locator(`[data-link-preview-state="${expectedState}"]`).first()).toBeVisible();
+    } catch (error) {
+      await attachMediaContext(testInfo, "media-context", {
+        ...context,
+        failedResponses: tracker.failedResponses,
+        failedRequests: tracker.failedRequests,
+        consoleErrors: tracker.consoleErrors,
+        pageErrors: tracker.pageErrors,
+      });
+      throw error;
+    } finally {
+      tracker.stop();
+    }
+  });
+
+  test("capture-backed standalone URL previews skip iframe requests and use optimized preview assets", async ({ page }, testInfo) => {
+    test.skip(!captureBackedStandaloneUrlAssetProject, "No capture-backed standalone URL asset found in canonical projects.");
+
+    const { project, asset } = captureBackedStandaloneUrlAssetProject!;
+    let capturedRequestCount = 0;
+
+    await page.route((url) => standaloneAssetUrlMatches(url.toString(), asset.url), async (route) => {
+      capturedRequestCount += 1;
+      await route.abort("failed");
+    });
+
+    const tracker = trackMediaRuntimeIssues(page);
+    const context = buildRuntimeContext(page, testInfo, {
+      scenario: "standalone-url-asset-capture-preview",
+      route: getProjectRoute(project),
+      projectId: project.id,
+      projectTitle: project.title,
+      mediaKey: asset.id,
+      resolvedUrl: asset.url,
+      environment: process.env.NODE_ENV || "test",
+    });
+
+    try {
+      await gotoProjectReady(page, project.id, project.title, getProjectRoute(project));
+
+      const assetCard = page
+        .locator(
+          `[data-testid="project-standalone-assets"][data-project-id="${project.id}"] ` +
+            `[data-testid="project-standalone-asset"][data-asset-id="${asset.id}"]`
+        )
+        .first();
+      await expect(assetCard).toBeVisible();
+      await expect(assetCard.locator('[data-link-preview-state="thumbnail"]').first()).toBeVisible();
+
+      const previewImage = assetCard.locator('[data-link-preview-state="thumbnail"] img').last();
+      await expect(previewImage).toBeVisible();
+      const imageSrc = decodeURIComponent((await previewImage.getAttribute("src")) || "");
+      expect(
+        imageSrc,
+        "capture-backed preview should render the normalized optimized asset path"
+      ).toContain("-optimized.webp");
+
+      await page.waitForTimeout(500);
+      expect(capturedRequestCount, "capture-backed previews should skip iframe network requests").toBe(0);
+    } catch (error) {
+      await attachMediaContext(testInfo, "media-context", {
+        ...context,
+        failedResponses: tracker.failedResponses,
+        failedRequests: tracker.failedRequests,
+        consoleErrors: tracker.consoleErrors,
+        pageErrors: tracker.pageErrors,
+      });
+      throw error;
+    } finally {
+      tracker.stop();
+    }
+  });
+
+  test("standalone URL asset falls back gracefully inside the project modal", async ({ page }, testInfo) => {
+    test.skip(testInfo.project.name.includes("mobile"), "Modal validation is desktop-specific.");
+    test.skip(!standaloneUrlAssetProject, "No standalone URL asset found in canonical projects.");
+
+    const { project, asset } = standaloneUrlAssetProject!;
+    const expectedState = getExpectedStandaloneAssetState(asset);
+    const tracker = trackMediaRuntimeIssues(page);
+    const context = buildRuntimeContext(page, testInfo, {
+      scenario: "standalone-url-asset-fallback-modal",
+      route: `/?project=${getProjectSlug(project)}`,
+      projectId: project.id,
+      projectTitle: project.title,
+      mediaKey: asset.id,
+      resolvedUrl: asset.url,
+      environment: process.env.NODE_ENV || "test",
+    });
+
+    try {
+      await gotoHomeReady(page);
+      await page.route((url) => standaloneAssetUrlMatches(url.toString(), asset.url), async (route) => {
+        await route.fulfill(buildBlockedIframeResponse(503));
+      });
+
+      const card = page
+        .locator(
+          `[data-testid="project-card-root"][data-project-id="${project.id}"], [data-testid="project-list-item-root"][data-project-id="${project.id}"]`
+        )
+        .first();
+      await card.scrollIntoViewIfNeeded();
+      await card.click({ position: { x: 40, y: 40 } });
+
+      const modal = page.locator('[data-testid="project-modal-content"]').first();
+      try {
+        await expect(page).toHaveURL(new RegExp(`\\/?(?:.*&)?project=${getProjectSlug(project)}(?:&.*)?$`));
+        await expect(modal).toBeVisible({ timeout: 5_000 });
+      } catch {
+        await page.goto(`/?project=${project.id}`);
+        await expect(page.getByRole("heading", { name: "All Projects" })).toBeVisible({ timeout: 45_000 });
+        await expect(modal).toBeVisible({ timeout: 10_000 });
+      }
+
+      const assetCard = modal
+        .locator(`[data-testid="project-standalone-asset"][data-asset-id="${asset.id}"]`)
+        .first();
+      await expect(assetCard).toBeVisible();
+      await expect(assetCard.locator("[data-link-preview-state]").first()).toBeVisible();
+      if (expectedState === "fallback") {
+        await expect(assetCard.getByRole("button", { name: /open (site|link|page)/i }).first()).toBeVisible();
+      } else {
+        await expect(assetCard.getByRole("button").first()).toBeVisible();
+      }
     } catch (error) {
       await attachMediaContext(testInfo, "media-context", {
         ...context,
@@ -196,16 +377,6 @@ function findEntryForProject(projectId: string, keys: string[]) {
   return undefined;
 }
 
-function toOptimizedImagePath(value: string): string {
-  if (!value.includes(".")) return `${value}-optimized.webp`;
-  if (value.match(/\.svg$/i)) return value.replace(/\.[^.]+$/, "-optimized.svg");
-  return value.replace(/\.[^.]+$/, "-optimized.webp");
-}
-
-function escapeForRegex(value: string): string {
-  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-}
-
 function isExpectedForcedMediaPageError(message: string): boolean {
   const normalized = message.toLowerCase();
   return (
@@ -214,45 +385,105 @@ function isExpectedForcedMediaPageError(message: string): boolean {
   );
 }
 
-async function gotoHomeReady(page: import("@playwright/test").Page): Promise<void> {
-  const allProjectsHeading = page.getByRole("heading", { name: "All Projects" });
-
-  for (let attempt = 1; attempt <= 2; attempt += 1) {
-    await page.goto("/");
-
-    try {
-      await expect(allProjectsHeading).toBeVisible({ timeout: 45_000 });
-      return;
-    } catch {
-      if (attempt === 2) {
-        throw new Error("Home route did not become ready: 'All Projects' heading was not visible after retry.");
-      }
-
-      await page.reload();
-    }
-  }
-}
-
-async function gotoProjectReady(page: import("@playwright/test").Page, projectId: string, projectTitle: string): Promise<void> {
-  const route = `/projects/${projectId}`;
-  const heading = page.getByRole("heading", { name: projectTitle }).first();
-
-  for (let attempt = 1; attempt <= 2; attempt += 1) {
-    await page.goto(route);
-
-    try {
-      await expect(heading).toBeVisible({ timeout: 15_000 });
-      return;
-    } catch {
-      if (attempt === 2) {
-        throw new Error(`Project route did not become ready for '${projectTitle}' after retry.`);
-      }
-
-      await page.reload();
-    }
-  }
-}
-
 function mediaRequestMatches(requestUrl: string, assetUrl: string): boolean {
-  return requestUrl.includes(assetUrl) || requestUrl.includes(encodeURIComponent(assetUrl));
+  const normalizedRequestUrl = normalizeUrlForMatch(requestUrl);
+  const normalizedAssetUrl = normalizeUrlForMatch(assetUrl);
+  return normalizedRequestUrl.includes(normalizedAssetUrl);
+}
+
+function normalizeUrlForMatch(value: string): string {
+  try {
+    const parsed = new URL(value, "http://127.0.0.1");
+    return decodeURIComponent(`${parsed.pathname}${parsed.search}`);
+  } catch {
+    return decodeURIComponent(value);
+  }
+}
+
+function standaloneAssetUrlMatches(requestUrl: string, assetUrl: string): boolean {
+  try {
+    const request = new URL(requestUrl);
+    const asset = new URL(assetUrl, "http://127.0.0.1");
+    return (
+      request.origin === asset.origin &&
+      normalizePathWithSearch(request.pathname, request.search) === normalizePathWithSearch(asset.pathname, asset.search)
+    );
+  } catch {
+    return normalizeUrlForMatch(requestUrl) === normalizeUrlForMatch(assetUrl);
+  }
+}
+
+function normalizePathWithSearch(pathname: string, search: string): string {
+  const normalizedPath = pathname !== "/" ? pathname.replace(/\/+$/, "") : pathname;
+  return `${normalizedPath}${search}`;
+}
+
+function buildBlockedIframeResponse(status: number) {
+  return {
+    status,
+    contentType: "text/html; charset=utf-8",
+    headers: {
+      "X-Frame-Options": "DENY",
+    },
+    body: "<html><head><title>Denied</title></head><body></body></html>",
+  };
+}
+
+type StandaloneUrlAsset = {
+  id: string;
+  url: string;
+  thumbnail?: string;
+  linkPreview?: { imageSource?: string };
+};
+
+type StandaloneUrlAssetProject = {
+  project: typeof canonicalProjects[number];
+  asset: StandaloneUrlAsset;
+};
+
+function findProjectWithStandaloneUrlAsset(
+  projects: Array<Record<string, unknown>>,
+  options: { preferNoCapturePreview?: boolean; requireCapturePreview?: boolean } = {}
+): StandaloneUrlAssetProject | undefined {
+  const candidates: StandaloneUrlAssetProject[] = [];
+
+  for (const project of projects) {
+    const assets = Array.isArray(project.assets) ? (project.assets as Array<Record<string, unknown>>) : [];
+    const matchingAssets = assets.filter((item) => {
+      if (!item || typeof item !== "object") return false;
+      const type = typeof item.type === "string" ? item.type : "";
+      const url = typeof item.url === "string" ? item.url : "";
+      return (type === "url-link" || type === "local-link" || type === "folio") && Boolean(url);
+    });
+
+    for (const asset of matchingAssets) {
+      candidates.push({
+        project: project as typeof canonicalProjects[number],
+        asset: asset as StandaloneUrlAsset,
+      });
+    }
+  }
+
+  if (options.requireCapturePreview) {
+    return candidates.find(({ asset }) => hasCaptureBackedPreview(asset));
+  }
+
+  if (options.preferNoCapturePreview) {
+    return candidates.find(({ asset }) => !hasCaptureBackedPreview(asset)) || candidates[0];
+  }
+
+  return candidates[0];
+}
+
+function hasCaptureBackedPreview(asset: { thumbnail?: string; linkPreview?: { imageSource?: string } }): boolean {
+  const hasThumbnail = typeof asset.thumbnail === "string" && asset.thumbnail.trim().length > 0;
+  return hasThumbnail || asset.linkPreview?.imageSource === "capture";
+}
+
+function getExpectedStandaloneAssetState(asset: { thumbnail?: string; linkPreview?: { imageSource?: string } }): "thumbnail" | "fallback" {
+  if (hasCaptureBackedPreview(asset)) {
+    return "thumbnail";
+  }
+
+  return "fallback";
 }

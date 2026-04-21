@@ -1,6 +1,7 @@
-import { expect, test, type Page } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 
 import { getProjectSlug, loadCanonicalProjects, pickDefaultProject } from "./media/helpers/project-media-fixtures";
+import { gotoHomeReady } from "./helpers/route-readiness";
 
 const canonicalProjects = loadCanonicalProjects();
 const defaultProject = pickDefaultProject(canonicalProjects);
@@ -14,25 +15,6 @@ const projectWithResourcesAndTags = canonicalProjects.find(
     Array.isArray(project.tags) &&
     project.tags.length > 0
 );
-
-async function gotoHomeReady(page: Page): Promise<void> {
-  const allProjectsHeading = page.getByRole("heading", { name: "All Projects" });
-
-  for (let attempt = 1; attempt <= 2; attempt += 1) {
-    await page.goto("/");
-
-    try {
-      await expect(allProjectsHeading).toBeVisible({ timeout: 45_000 });
-      return;
-    } catch {
-      if (attempt === 2) {
-        throw new Error("Home route did not become ready: 'All Projects' heading was not visible after retry.");
-      }
-
-      await page.reload();
-    }
-  }
-}
 
 test.describe("Homepage", () => {
   test.beforeEach(async ({ page }) => {
@@ -91,7 +73,11 @@ test.describe("Homepage", () => {
       )
       .first();
 
-    await expect(card.locator('[data-slot="passive-chip"]').filter({ hasText: firstTag })).toHaveCount(1);
+    await expect(
+      card
+        .locator('[data-slot="passive-chip"], [data-slot="metadata-tag"]')
+        .filter({ hasText: firstTag })
+    ).toHaveCount(1);
     await expect(card.getByRole("button", { name: firstTag })).toHaveCount(0);
     await expect(card.getByRole("link", { name: firstTag })).toHaveCount(0);
 

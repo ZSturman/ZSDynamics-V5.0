@@ -122,6 +122,33 @@ export function getOptimizedImageExt(path: string): string {
   return isSvgFile(path) ? ".svg" : ".webp"
 }
 
+export function getRenderableProjectPreviewPath(path?: string | null): string | undefined {
+  if (!path) return undefined
+
+  if (path.startsWith("http://") || path.startsWith("https://")) {
+    return path
+  }
+
+  if (path.includes("-optimized") || path.includes("-thumb") || path.includes("-placeholder")) {
+    return path
+  }
+
+  if (!path.startsWith("/projects/")) {
+    return path
+  }
+
+  if (isVideoFile(path)) {
+    return path.replace(/\.[^.]+$/, "-optimized.mp4")
+  }
+
+  if (isImageFile(path)) {
+    const ext = getOptimizedImageExt(path)
+    return path.replace(/\.[^.]+$/, `-optimized${ext}`)
+  }
+
+  return path
+}
+
 /**
  * Get the optimized media path for a given filename
  * Handles both images and videos, converting to optimized versions

@@ -34,12 +34,13 @@
     "description": "",
     "story": "",
     "images": {
-      "icon": "icon.png",
-      "thumbnail": "thumbnail.png",
       "hero": "hero.png",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "thumbnail": "thumbnail.png",
+      "icon": "icon.png"
     },
     "resources": [],
+    "assets": [],
     "collection": {},
     "workLogs": [
       {
@@ -292,6 +293,7 @@
         "url": "https://github.com/ZSturman/Episodic-Memory-Agent"
       }
     ],
+    "assets": [],
     "collection": {},
     "workLogs": [
       {
@@ -360,11 +362,11 @@
     "description": "",
     "story": "",
     "images": {
-      "icon": "TopNote AppIcon v2-watchOS-Default-1088x1088@1x.png",
-      "thumbnail": "thumbnail.png",
-      "hero": "hero.png",
       "poster": "poster.png",
-      "banner": "banner.png"
+      "hero": "hero.png",
+      "banner": "banner.png",
+      "thumbnail": "thumbnail.png",
+      "icon": "TopNote AppIcon v2-watchOS-Default-1088x1088@1x.png"
     },
     "resources": [
       {
@@ -379,6 +381,7 @@
         "iconUrl": "/icons/favicons/apps.apple.com.png"
       }
     ],
+    "assets": [],
     "collection": {},
     "workLogs": [
       {
@@ -434,14 +437,24 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "thumbnail.png",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "thumbnail": "thumbnail.png"
     },
     "resources": [
       {
         "type": "web",
         "label": "Visit",
         "url": "https://zsturman.github.io/ZSDynamics-V2.0/",
+        "linkPreview": {
+          "provider": "zsturman.github.io",
+          "title": "Zachary Sturman Portfolio",
+          "siteName": "Zsturman Github Io",
+          "hostname": "zsturman.github.io",
+          "displayUrl": "zsturman.github.io/ZSDynamics-V2.0",
+          "description": "Explore Zachary Sturman's Software Engineering portfolio.",
+          "image": "/projects/zsdynamics_20_306aec94-4d3c-800b-9d7d-ed0c879ab5b3/previews/zsturman.github.io-f992a52961cf.png",
+          "imageSource": "capture"
+        },
         "iconUrl": "/icons/favicons/zsturman.github.io.png"
       },
       {
@@ -450,6 +463,7 @@
         "url": "https://github.com/ZSturman/ZSDynamics-V2.0"
       }
     ],
+    "assets": [],
     "collection": {},
     "workLogs": [
       {
@@ -506,9 +520,9 @@
     "description": "",
     "story": "",
     "images": {
-      "icon": "thumbnail.png",
+      "banner": "banner.png",
       "thumbnail": "thumbnail.png",
-      "banner": "banner.png"
+      "icon": "thumbnail.png"
     },
     "resources": [
       {
@@ -517,6 +531,7 @@
         "url": "https://github.com/ZSturman/MediLedger"
       }
     ],
+    "assets": [],
     "collection": {},
     "workLogs": [
       {
@@ -572,28 +587,22 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "E4690E5D-3901-4E26-A237-8AA0FF26EE76.png",
       "hero": "hero.png",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "thumbnail": "E4690E5D-3901-4E26-A237-8AA0FF26EE76.png"
     },
     "resources": [],
-    "collection": {
-      "assets": {
-        "label": "Assets",
-        "summary": "Ungrouped project assets",
-        "images": {},
-        "items": [
-          {
-            "id": "30eaec94-4d3c-80da-85b0-e17e2b55025f",
-            "label": "mind adrift",
-            "order": 1,
-            "type": "text",
-            "filePath": "Mind Adrift.pdf",
-            "thumbnail": "thumbnail.tiff"
-          }
-        ]
+    "assets": [
+      {
+        "id": "30eaec94-4d3c-80da-85b0-e17e2b55025f",
+        "label": "mind adrift",
+        "order": 1,
+        "type": "text",
+        "filePath": "Mind Adrift.pdf",
+        "thumbnail": "thumbnail.tiff"
       }
-    },
+    ],
+    "collection": {},
     "workLogs": [
       {
         "id": "339aec94-4d3c-804c-8243-fbc0df8b678e",
@@ -650,12 +659,13 @@
     "description": "",
     "story": "",
     "images": {
-      "icon": "logo.png",
-      "thumbnail": "thumbnail.png",
       "poster": "poster.gif",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "thumbnail": "thumbnail.png",
+      "icon": "logo.png"
     },
     "resources": [],
+    "assets": [],
     "collection": {
       "Projects": {
         "label": "Projects",
@@ -681,6 +691,16 @@
                 "type": "web",
                 "label": "Visit",
                 "url": "https://zsturman.github.io/ZSDynamics-V2.0/",
+                "linkPreview": {
+                  "provider": "zsturman.github.io",
+                  "title": "Zachary Sturman Portfolio",
+                  "siteName": "Zsturman Github Io",
+                  "hostname": "zsturman.github.io",
+                  "displayUrl": "zsturman.github.io/ZSDynamics-V2.0",
+                  "description": "Explore Zachary Sturman's Software Engineering portfolio.",
+                  "image": "/projects/zsdynamics_20_306aec94-4d3c-800b-9d7d-ed0c879ab5b3/previews/zsturman.github.io-f992a52961cf.png",
+                  "imageSource": "capture"
+                },
                 "iconUrl": "/icons/favicons/zsturman.github.io.png"
               },
               {
@@ -693,6 +713,16 @@
               "type": "web",
               "label": "Visit",
               "url": "https://zsturman.github.io/ZSDynamics-V2.0/",
+              "linkPreview": {
+                "provider": "zsturman.github.io",
+                "title": "Zachary Sturman Portfolio",
+                "siteName": "Zsturman Github Io",
+                "hostname": "zsturman.github.io",
+                "displayUrl": "zsturman.github.io/ZSDynamics-V2.0",
+                "description": "Explore Zachary Sturman's Software Engineering portfolio.",
+                "image": "/projects/zsdynamics_20_306aec94-4d3c-800b-9d7d-ed0c879ab5b3/previews/zsturman.github.io-f992a52961cf.png",
+                "imageSource": "capture"
+              },
               "iconUrl": "/icons/favicons/zsturman.github.io.png"
             }
           },
@@ -709,6 +739,16 @@
                 "type": "web",
                 "label": "Visit",
                 "url": "https://zsturman.github.io/ZSDynamics-V1.0/",
+                "linkPreview": {
+                  "provider": "zsturman.github.io",
+                  "title": "Zachary Sturman Portfolio",
+                  "siteName": "Zsturman Github Io",
+                  "hostname": "zsturman.github.io",
+                  "displayUrl": "zsturman.github.io/ZSDynamics-V1.0",
+                  "description": "Explore my data science portfolio, showcasing projects in machine learning, data visualization, and analytics. Learn how I leverage data-driven insights to solve real-world problems.",
+                  "image": "/projects/zsdynamics_10_306aec94-4d3c-803d-8230-fe06337c4a51/previews/zsturman.github.io-a017dada2068.png",
+                  "imageSource": "capture"
+                },
                 "iconUrl": "/icons/favicons/zsturman.github.io.png"
               },
               {
@@ -721,6 +761,16 @@
               "type": "web",
               "label": "Visit",
               "url": "https://zsturman.github.io/ZSDynamics-V1.0/",
+              "linkPreview": {
+                "provider": "zsturman.github.io",
+                "title": "Zachary Sturman Portfolio",
+                "siteName": "Zsturman Github Io",
+                "hostname": "zsturman.github.io",
+                "displayUrl": "zsturman.github.io/ZSDynamics-V1.0",
+                "description": "Explore my data science portfolio, showcasing projects in machine learning, data visualization, and analytics. Learn how I leverage data-driven insights to solve real-world problems.",
+                "image": "/projects/zsdynamics_10_306aec94-4d3c-803d-8230-fe06337c4a51/previews/zsturman.github.io-a017dada2068.png",
+                "imageSource": "capture"
+              },
               "iconUrl": "/icons/favicons/zsturman.github.io.png"
             }
           },
@@ -742,6 +792,16 @@
                 "type": "web",
                 "label": "Visit",
                 "url": "https://zsturman.github.io/TowardBetter-Announcement-Page/",
+                "linkPreview": {
+                  "provider": "zsturman.github.io",
+                  "title": "Sam - First Look",
+                  "siteName": "Zsturman Github Io",
+                  "hostname": "zsturman.github.io",
+                  "displayUrl": "zsturman.github.io/TowardBetter-Announcement-Page",
+                  "description": "Women Deserve Better",
+                  "image": "/projects/towardbetterme_announcement_page_306aec94-4d3c-8064-9e5a-c59f1df02bee/previews/zsturman.github.io-9abb1d1ecb48.png",
+                  "imageSource": "capture"
+                },
                 "iconUrl": "/icons/favicons/zsturman.github.io.png"
               }
             ],
@@ -769,6 +829,16 @@
                 "type": "web",
                 "label": "Visit",
                 "url": "https://zsturman.github.io/ZSDynamics-V4.0/",
+                "linkPreview": {
+                  "provider": "zsturman.github.io",
+                  "title": "Zachary Sturman | Full-Stack Developer | Python | React | Rust | TypeScript",
+                  "siteName": "Zsturman Github Io",
+                  "hostname": "zsturman.github.io",
+                  "displayUrl": "zsturman.github.io/ZSDynamics-V4.0",
+                  "description": "Cross-Platform Development | Responsive and Mobile-First User Interfaces | Scalable Backend Architectures with Robust APIs | Real-Time Data Processing",
+                  "image": "/projects/zsdynamics_40_306aec94-4d3c-807e-a7ef-db0aa63a2ec7/previews/zsturman.github.io-bde3e5bc6f2e.png",
+                  "imageSource": "capture"
+                },
                 "iconUrl": "/icons/favicons/zsturman.github.io.png"
               }
             ],
@@ -817,6 +887,15 @@
                 "type": "web",
                 "label": "Visit",
                 "url": "https://zsturman.github.io/ZSDynamics-V1.1/",
+                "linkPreview": {
+                  "provider": "zsturman.github.io",
+                  "title": "Zachary Sturman Home",
+                  "siteName": "Zsturman Github Io",
+                  "hostname": "zsturman.github.io",
+                  "displayUrl": "zsturman.github.io/ZSDynamics-V1.1",
+                  "image": "/projects/zsdynamics_11_306aec94-4d3c-80ff-a96a-c3c51900e249/previews/zsturman.github.io-ee7e4a65aa78.png",
+                  "imageSource": "capture"
+                },
                 "iconUrl": "/icons/favicons/zsturman.github.io.png"
               }
             ],
@@ -882,15 +961,25 @@
     "description": "",
     "story": "",
     "images": {
-      "icon": "poster.png",
+      "banner": "banner.png",
       "thumbnail": "thumbnail.png",
-      "banner": "banner.png"
+      "icon": "poster.png"
     },
     "resources": [
       {
         "type": "web",
         "label": "Visit",
         "url": "https://zsturman.github.io/ZSDynamics-V1.0/",
+        "linkPreview": {
+          "provider": "zsturman.github.io",
+          "title": "Zachary Sturman Portfolio",
+          "siteName": "Zsturman Github Io",
+          "hostname": "zsturman.github.io",
+          "displayUrl": "zsturman.github.io/ZSDynamics-V1.0",
+          "description": "Explore my data science portfolio, showcasing projects in machine learning, data visualization, and analytics. Learn how I leverage data-driven insights to solve real-world problems.",
+          "image": "/projects/zsdynamics_10_306aec94-4d3c-803d-8230-fe06337c4a51/previews/zsturman.github.io-a017dada2068.png",
+          "imageSource": "capture"
+        },
         "iconUrl": "/icons/favicons/zsturman.github.io.png"
       },
       {
@@ -899,6 +988,7 @@
         "url": "https://github.com/ZSturman/ZSDynamics-V1.0"
       }
     ],
+    "assets": [],
     "collection": {},
     "workLogs": [
       {
@@ -953,10 +1043,11 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "thumbnail.png",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "thumbnail": "thumbnail.png"
     },
     "resources": [],
+    "assets": [],
     "collection": {},
     "workLogs": [
       {
@@ -1012,9 +1103,9 @@
     "description": "",
     "story": "",
     "images": {
-      "icon": "Celestial Hands Holding Heart.png",
+      "banner": "Collaborative Effort with Green Ball.png",
       "thumbnail": "thumbnail.png",
-      "banner": "Collaborative Effort with Green Ball.png"
+      "icon": "Celestial Hands Holding Heart.png"
     },
     "resources": [
       {
@@ -1026,9 +1117,20 @@
         "type": "web",
         "label": "Visit",
         "url": "https://zsturman.github.io/TowardBetter-Announcement-Page/",
+        "linkPreview": {
+          "provider": "zsturman.github.io",
+          "title": "Sam - First Look",
+          "siteName": "Zsturman Github Io",
+          "hostname": "zsturman.github.io",
+          "displayUrl": "zsturman.github.io/TowardBetter-Announcement-Page",
+          "description": "Women Deserve Better",
+          "image": "/projects/towardbetterme_announcement_page_306aec94-4d3c-8064-9e5a-c59f1df02bee/previews/zsturman.github.io-9abb1d1ecb48.png",
+          "imageSource": "capture"
+        },
         "iconUrl": "/icons/favicons/zsturman.github.io.png"
       }
     ],
+    "assets": [],
     "collection": {},
     "workLogs": [
       {
@@ -1084,11 +1186,12 @@
     "description": "",
     "story": "",
     "images": {
-      "icon": "banner.png",
+      "banner": "banner.png",
       "thumbnail": "thumbnail.png",
-      "banner": "banner.png"
+      "icon": "banner.png"
     },
     "resources": [],
+    "assets": [],
     "collection": {
       "Pages": {
         "label": "Pages",
@@ -1355,11 +1458,11 @@
     "description": "",
     "story": "",
     "images": {
-      "icon": "icon.png",
-      "thumbnail": "thumbnail.png",
-      "hero": "hero.png",
       "poster": "poster.png",
-      "banner": "banner.png"
+      "hero": "hero.png",
+      "banner": "banner.png",
+      "thumbnail": "thumbnail.png",
+      "icon": "icon.png"
     },
     "resources": [
       {
@@ -1368,6 +1471,7 @@
         "url": "https://github.com/ZSturman/Drifting-Priorities"
       }
     ],
+    "assets": [],
     "collection": {},
     "workLogs": [
       {
@@ -1424,9 +1528,9 @@
     "description": "",
     "story": "",
     "images": {
-      "icon": "banner.png",
+      "banner": "poster.png",
       "thumbnail": "thumbnail.png",
-      "banner": "poster.png"
+      "icon": "banner.png"
     },
     "resources": [
       {
@@ -1438,9 +1542,20 @@
         "type": "web",
         "label": "Visit",
         "url": "https://zsturman.github.io/ZSDynamics-V4.0/",
+        "linkPreview": {
+          "provider": "zsturman.github.io",
+          "title": "Zachary Sturman | Full-Stack Developer | Python | React | Rust | TypeScript",
+          "siteName": "Zsturman Github Io",
+          "hostname": "zsturman.github.io",
+          "displayUrl": "zsturman.github.io/ZSDynamics-V4.0",
+          "description": "Cross-Platform Development | Responsive and Mobile-First User Interfaces | Scalable Backend Architectures with Robust APIs | Real-Time Data Processing",
+          "image": "/projects/zsdynamics_40_306aec94-4d3c-807e-a7ef-db0aa63a2ec7/previews/zsturman.github.io-bde3e5bc6f2e.png",
+          "imageSource": "capture"
+        },
         "iconUrl": "/icons/favicons/zsturman.github.io.png"
       }
     ],
+    "assets": [],
     "collection": {},
     "workLogs": [
       {
@@ -1494,10 +1609,10 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "thumbnail.png",
-      "hero": "queueExample.png",
       "poster": "poster.gif",
-      "banner": "banner.gif"
+      "hero": "queueExample.png",
+      "banner": "banner.gif",
+      "thumbnail": "thumbnail.png"
     },
     "resources": [
       {
@@ -1506,6 +1621,7 @@
         "url": "https://github.com/ZSturman/The-2nd-Best-Obsidian-Collection"
       }
     ],
+    "assets": [],
     "collection": {},
     "workLogs": [
       {
@@ -1563,10 +1679,10 @@
     "description": "",
     "story": "",
     "images": {
-      "icon": "thumbnail.png",
-      "thumbnail": "thumbnail.png",
       "poster": "poster.png",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "thumbnail": "thumbnail.png",
+      "icon": "thumbnail.png"
     },
     "resources": [
       {
@@ -1575,6 +1691,7 @@
         "url": "https://github.com/ZSturman/ChewSense---Data-Collection-and-Labeling"
       }
     ],
+    "assets": [],
     "collection": {},
     "workLogs": [
       {
@@ -1639,11 +1756,12 @@
     "description": "",
     "story": "",
     "images": {
-      "icon": "icon.png",
+      "banner": "banner.png",
       "thumbnail": "collection thumbnail.png",
-      "banner": "banner.png"
+      "icon": "icon.png"
     },
     "resources": [],
+    "assets": [],
     "collection": {
       "2D": {
         "label": "2D",
@@ -1753,10 +1871,10 @@
     "description": "",
     "story": "",
     "images": {
-      "icon": "icon.svg",
-      "thumbnail": "thumbnail.png",
       "poster": "poster.png",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "thumbnail": "thumbnail.png",
+      "icon": "icon.svg"
     },
     "resources": [
       {
@@ -1765,6 +1883,7 @@
         "url": "https://github.com/ZSturman/Lost-Hound"
       }
     ],
+    "assets": [],
     "collection": {},
     "workLogs": [
       {
@@ -1824,6 +1943,7 @@
         "url": "https://github.com/ZSturman/Broken-Time-Machine"
       }
     ],
+    "assets": [],
     "collection": {},
     "workLogs": [
       {
@@ -1877,12 +1997,13 @@
     "description": "",
     "story": "",
     "images": {
-      "icon": "thumbnail.tiff",
-      "thumbnail": "thumbnail.tiff",
       "poster": "poster.tiff",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "thumbnail": "thumbnail.tiff",
+      "icon": "thumbnail.tiff"
     },
     "resources": [],
+    "assets": [],
     "collection": {},
     "workLogs": [
       {
@@ -1940,12 +2061,13 @@
     "description": "",
     "story": "",
     "images": {
-      "icon": "icon.png",
-      "thumbnail": "thumbnail.png",
       "hero": "hero.png",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "thumbnail": "thumbnail.png",
+      "icon": "icon.png"
     },
     "resources": [],
+    "assets": [],
     "collection": {},
     "workLogs": [
       {
@@ -2000,8 +2122,8 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "thumbnail.png",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "thumbnail": "thumbnail.png"
     },
     "resources": [
       {
@@ -2010,6 +2132,7 @@
         "url": "https://github.com/ZSturman/ZSDynamics-V3.0"
       }
     ],
+    "assets": [],
     "collection": {},
     "workLogs": [
       {
@@ -2064,8 +2187,8 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "thumbnail.png",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "thumbnail": "thumbnail.png"
     },
     "resources": [
       {
@@ -2077,9 +2200,19 @@
         "type": "web",
         "label": "Visit",
         "url": "https://zsturman.github.io/ZSDynamics-V1.1/",
+        "linkPreview": {
+          "provider": "zsturman.github.io",
+          "title": "Zachary Sturman Home",
+          "siteName": "Zsturman Github Io",
+          "hostname": "zsturman.github.io",
+          "displayUrl": "zsturman.github.io/ZSDynamics-V1.1",
+          "image": "/projects/zsdynamics_11_306aec94-4d3c-80ff-a96a-c3c51900e249/previews/zsturman.github.io-ee7e4a65aa78.png",
+          "imageSource": "capture"
+        },
         "iconUrl": "/icons/favicons/zsturman.github.io.png"
       }
     ],
+    "assets": [],
     "collection": {},
     "workLogs": [
       {
@@ -2138,6 +2271,16 @@
         "type": "web",
         "label": "Visit",
         "url": "https://zachary-sturman.com",
+        "linkPreview": {
+          "provider": "zachary-sturman.com",
+          "title": "Zachary Sturman",
+          "siteName": "Zachary Sturman",
+          "hostname": "zachary-sturman.com",
+          "displayUrl": "zachary-sturman.com",
+          "description": "Zachary Sturman. I think a lot about how design influences trust, and how AI can support human judgment instead of replacing it.",
+          "image": "/projects/zachary_sturmancom_30faec94-4d3c-80a8-b5b4-ea129363d308/previews/zachary-sturman.com-348a6519fc0b.png",
+          "imageSource": "capture"
+        },
         "iconUrl": "/icons/favicons/zachary-sturman.com.ico"
       },
       {
@@ -2146,6 +2289,7 @@
         "url": "https://github.com/ZSturman/ZSDynamics-V5.0"
       }
     ],
+    "assets": [],
     "collection": {},
     "workLogs": [
       {
@@ -2199,6 +2343,7 @@
       "thumbnail": "thumbnail.png"
     },
     "resources": [],
+    "assets": [],
     "collection": {},
     "workLogs": [
       {
@@ -2252,10 +2397,10 @@
     "description": "",
     "story": "",
     "images": {
-      "icon": "AppIcon.png",
-      "thumbnail": "thumbnail.png",
       "hero": "Ope_Hero.png",
-      "banner": "Concept_art_with_Logo.jpeg"
+      "banner": "Concept_art_with_Logo.jpeg",
+      "thumbnail": "thumbnail.png",
+      "icon": "AppIcon.png"
     },
     "resources": [
       {
@@ -2264,6 +2409,7 @@
         "url": "https://github.com/ZSturman/Folio-Studio"
       }
     ],
+    "assets": [],
     "collection": {},
     "workLogs": [
       {
@@ -2327,10 +2473,10 @@
     "description": "",
     "story": "",
     "images": {
-      "icon": "icon.png",
-      "thumbnail": "thumbnail.png",
       "hero": "hero.png",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "thumbnail": "thumbnail.png",
+      "icon": "icon.png"
     },
     "resources": [
       {
@@ -2339,6 +2485,7 @@
         "url": "https://github.com/ZSturman/Runtime-Storyboard-Debugger"
       }
     ],
+    "assets": [],
     "collection": {},
     "workLogs": [
       {
@@ -2394,10 +2541,10 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "thumbnail.png",
-      "hero": "hero.png",
       "poster": "poster.png",
-      "banner": "banner.png"
+      "hero": "hero.png",
+      "banner": "banner.png",
+      "thumbnail": "thumbnail.png"
     },
     "resources": [
       {
@@ -2406,6 +2553,7 @@
         "url": "https://github.com/ZSturman/Math-and-Hapiness"
       }
     ],
+    "assets": [],
     "collection": {},
     "workLogs": [
       {
@@ -2459,10 +2607,10 @@
     "description": "",
     "story": "",
     "images": {
-      "icon": "icon.png",
-      "thumbnail": "thumbnail.png",
       "hero": "hero.png",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "thumbnail": "thumbnail.png",
+      "icon": "icon.png"
     },
     "resources": [
       {
@@ -2471,6 +2619,7 @@
         "url": "https://github.com/ZSturman/Transactions"
       }
     ],
+    "assets": [],
     "collection": {},
     "workLogs": [
       {
@@ -2528,10 +2677,10 @@
     "description": "",
     "story": "",
     "images": {
-      "icon": "icon.png",
-      "thumbnail": "thumbnail.png",
       "hero": "hero.png",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "thumbnail": "thumbnail.png",
+      "icon": "icon.png"
     },
     "resources": [
       {
@@ -2540,6 +2689,7 @@
         "url": "https://github.com/ZSturman/Train-of-Thought-Agent"
       }
     ],
+    "assets": [],
     "collection": {},
     "workLogs": [
       {
@@ -2604,11 +2754,11 @@
     "description": "",
     "story": "",
     "images": {
-      "icon": "icon.png",
-      "thumbnail": "thumbnail.png",
-      "hero": "hero.png",
       "poster": "poster.png",
-      "banner": "banner.png"
+      "hero": "hero.png",
+      "banner": "banner.png",
+      "thumbnail": "thumbnail.png",
+      "icon": "icon.png"
     },
     "resources": [
       {
@@ -2617,6 +2767,7 @@
         "url": "https://github.com/ZSturman/Testing-Traits"
       }
     ],
+    "assets": [],
     "collection": {},
     "workLogs": [
       {
@@ -2673,9 +2824,9 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "thumbnail.png",
       "hero": "hero.png",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "thumbnail": "thumbnail.png"
     },
     "resources": [
       {
@@ -2684,6 +2835,7 @@
         "url": "https://github.com/ZSturman/Bias-Detecting-Algorithm"
       }
     ],
+    "assets": [],
     "collection": {},
     "workLogs": [
       {
@@ -2738,11 +2890,11 @@
     "description": "",
     "story": "",
     "images": {
-      "icon": "icon.png",
-      "thumbnail": "thumbnail.png",
-      "hero": "hero.png",
       "poster": "poster.png",
-      "banner": "banner.png"
+      "hero": "hero.png",
+      "banner": "banner.png",
+      "thumbnail": "thumbnail.png",
+      "icon": "icon.png"
     },
     "resources": [
       {
@@ -2751,6 +2903,7 @@
         "url": "https://github.com/ZSturman/Psyche-Agent"
       }
     ],
+    "assets": [],
     "collection": {},
     "workLogs": [
       {
@@ -2806,12 +2959,13 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "thumbnail.png",
-      "hero": "hero.png",
       "poster": "poster.png",
-      "banner": "banner.png"
+      "hero": "hero.png",
+      "banner": "banner.png",
+      "thumbnail": "thumbnail.png"
     },
     "resources": [],
+    "assets": [],
     "collection": {},
     "workLogs": [
       {
@@ -2869,11 +3023,11 @@
     "description": "",
     "story": "",
     "images": {
-      "icon": "icon.png",
-      "thumbnail": "thumbnail.png",
-      "hero": "hero.png",
       "poster": "poster.png",
-      "banner": "banner.png"
+      "hero": "hero.png",
+      "banner": "banner.png",
+      "thumbnail": "thumbnail.png",
+      "icon": "icon.png"
     },
     "resources": [
       {
@@ -2882,6 +3036,7 @@
         "url": "https://github.com/ZSturman/Media-Organizer"
       }
     ],
+    "assets": [],
     "collection": {},
     "workLogs": [
       {
@@ -2938,9 +3093,9 @@
     "description": "",
     "story": "",
     "images": {
-      "icon": "Wolf-hero.webp",
+      "hero": "Screenshot_2026-04-18_at_17.29.59.png",
       "thumbnail": "Wolf-hero.webp",
-      "hero": "Screenshot_2026-04-18_at_17.29.59.png"
+      "icon": "Wolf-hero.webp"
     },
     "resources": [
       {
@@ -2951,13 +3106,71 @@
       {
         "type": "web",
         "label": "Original Site",
-        "url": "https://yourdogcanstay.com"
+        "url": "https://yourdogcanstay.com",
+        "linkPreview": {
+          "provider": "yourdogcanstay.com",
+          "title": "The WOLF PROJECT",
+          "siteName": "YOUR DOG CAN STAY",
+          "hostname": "yourdogcanstay.com",
+          "displayUrl": "yourdogcanstay.com",
+          "description": "Access to Care Lifeline for families whose dog requires lifesaving medical care, but the upfront costs stand in the way.",
+          "image": "/projects/the_wolf_project_346aec94-4d3c-801e-851f-c7e727f0e186/previews/yourdogcanstay.com-98da4ec0bcac.png",
+          "imageSource": "capture"
+        }
       },
       {
         "type": "web",
         "label": "Development URL",
         "url": "https://the-wolf-pack.vercel.app",
+        "linkPreview": {
+          "provider": "the-wolf-pack.vercel.app",
+          "title": "The Wolf Project | Your Dog Can Stay",
+          "siteName": "The-Wolf-Pack Vercel App",
+          "hostname": "the-wolf-pack.vercel.app",
+          "displayUrl": "the-wolf-pack.vercel.app",
+          "description": "When treatment exists but access to care doesn't, The Wolf Project exists to help families keep dogs where they belong - at home.",
+          "image": "/projects/the_wolf_project_346aec94-4d3c-801e-851f-c7e727f0e186/previews/the-wolf-pack.vercel.app-23526c25a9c2.png",
+          "imageSource": "capture"
+        },
         "iconUrl": "/icons/favicons/the-wolf-pack.vercel.app.ico"
+      }
+    ],
+    "assets": [
+      {
+        "id": "348aec94-4d3c-800c-aaad-c539680bc5b2",
+        "label": "Dev Site",
+        "order": 10,
+        "type": "url-link",
+        "summary": "The rebuilt version shifts the site into something closer to a system rather than just a set of pages. Instead of static content, the core pieces like cases, posts, and shared site data are structured and stored in Firestore, which means they can be updated and reflected immediately. That changes how the site can be used, since it is no longer tied to manual edits or local files.\n\nIt is still early, but the direction is clearer. Cases can be treated as real entities, images are handled through Cloudinary instead of being bundled into the project, and there is enough seeded data to make the site usable without setup. There are still gaps, especially around polish and some of the workflows, but the foundation is in place. It is now something that can be built on, rather than something that needs to be worked around.",
+        "oneLiner": "A clear, story-driven site that explains the mission and builds awareness, but relies on mostly static content that makes it harder to support ongoing, structured work.",
+        "url": "https://the-wolf-project-14stqkkgr-zsturmans-projects.vercel.app",
+        "linkPreview": {
+          "provider": "the-wolf-project-14stqkkgr-zsturmans-projects.vercel.app",
+          "title": "the-wolf-project-14stqkkgr-zsturmans-projects.vercel.app",
+          "siteName": "The-Wolf-Project-14Stqkkgr-Zsturmans-Projects Vercel App",
+          "hostname": "the-wolf-project-14stqkkgr-zsturmans-projects.vercel.app",
+          "displayUrl": "the-wolf-project-14stqkkgr-zsturmans-projects.vercel.app"
+        }
+      },
+      {
+        "id": "348aec94-4d3c-80e3-a593-fd72a46bf93c",
+        "label": "Original Site",
+        "order": 20,
+        "type": "url-link",
+        "summary": "The original site does what it needs to do in a fairly direct way. It explains the mission, shares the stories behind the dogs, and gives people a way to understand what the organization is about. That part works, and it is clear why it was enough for a while. The focus is on communication rather than structure, which makes sense for something that grew out of real work rather than a planned system.\n\nWhere it starts to fall short is in how the content is organized and extended over time. Most of what is there is static, so adding things like individual case tracking, specific funding goals, or ongoing updates becomes harder than it should be. There is no real system underneath it to support those layers. It works as a place to land and learn, but not as something that can actively support the day to day needs of the project as it grows.",
+        "oneLiner": "A shift toward a structured, data-driven platform where cases, content, and updates are managed dynamically, making it a more usable foundation for real operations as it grows.",
+        "url": "https://yourdogcanstay.com",
+        "linkPreview": {
+          "provider": "yourdogcanstay.com",
+          "title": "The WOLF PROJECT",
+          "siteName": "YOUR DOG CAN STAY",
+          "hostname": "yourdogcanstay.com",
+          "displayUrl": "yourdogcanstay.com",
+          "description": "Access to Care Lifeline for families whose dog requires lifesaving medical care, but the upfront costs stand in the way.",
+          "image": "/projects/the_wolf_project_346aec94-4d3c-801e-851f-c7e727f0e186/previews/yourdogcanstay.com-98da4ec0bcac.png",
+          "imageSource": "capture"
+        },
+        "thumbnail": "/projects/the_wolf_project_346aec94-4d3c-801e-851f-c7e727f0e186/previews/yourdogcanstay.com-98da4ec0bcac.png"
       }
     ],
     "collection": {
@@ -2966,29 +3179,6 @@
         "summary": "",
         "images": {},
         "items": []
-      },
-      "assets": {
-        "label": "Assets",
-        "summary": "Ungrouped project assets",
-        "images": {},
-        "items": [
-          {
-            "id": "348aec94-4d3c-800c-aaad-c539680bc5b2",
-            "label": "Dev Site",
-            "order": 10,
-            "type": "url-link",
-            "oneLiner": "The current implementation of The Wolf Project site",
-            "url": "https://the-wolf-project-14stqkkgr-zsturmans-projects.vercel.app"
-          },
-          {
-            "id": "348aec94-4d3c-80e3-a593-fd72a46bf93c",
-            "label": "Original Site",
-            "order": 20,
-            "type": "url-link",
-            "oneLiner": "The current implementation of The Wolf Project site",
-            "url": "https://yourdogcanstay.com"
-          }
-        ]
       }
     },
     "workLogs": [

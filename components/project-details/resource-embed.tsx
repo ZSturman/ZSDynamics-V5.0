@@ -1,9 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { ExternalLink, Maximize2, Minimize2, AlertCircle } from "lucide-react";
+import { ExternalLink, Maximize2, Minimize2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { Resource } from "@/types";
+import { LinkPreviewSurface } from "./link-preview-surface";
 
 interface ResourceEmbedProps {
   resource: Resource;
@@ -28,24 +29,14 @@ export function isEmbeddableResource(resource: Resource): boolean {
 
 export function ResourceEmbed({ resource, projectTitle }: ResourceEmbedProps) {
   const [expanded, setExpanded] = useState(false);
-  const [loadError, setLoadError] = useState(false);
 
   const handleOpen = () => {
+    if (resource.url.startsWith("/")) {
+      window.location.assign(resource.url);
+      return;
+    }
     window.open(resource.url, "_blank", "noopener,noreferrer");
   };
-
-  if (loadError) {
-    return (
-      <div className="rounded-lg border border-border bg-muted/20 p-6 text-center space-y-3">
-        <AlertCircle className="size-5 mx-auto text-muted-foreground" />
-        <p className="text-sm text-muted-foreground">Preview unavailable for this resource.</p>
-        <Button variant="outline" size="sm" className="gap-2" onClick={handleOpen}>
-          Open {resource.label}
-          <ExternalLink className="size-3.5" />
-        </Button>
-      </div>
-    );
-  }
 
   return (
     <div className="space-y-2">
@@ -74,20 +65,19 @@ export function ResourceEmbed({ resource, projectTitle }: ResourceEmbedProps) {
           </Button>
         </div>
       </div>
-      <div
-        className={`relative overflow-hidden rounded-lg border border-border bg-white transition-all duration-300 ${
-          expanded ? "h-[80vh]" : "h-64 md:h-80"
-        }`}
-      >
-        <iframe
-          src={resource.url}
-          title={`${projectTitle || resource.label} preview`}
-          className="h-full w-full border-0"
-          sandbox="allow-scripts allow-same-origin allow-popups"
-          loading="lazy"
-          onError={() => setLoadError(true)}
-        />
-      </div>
+      <LinkPreviewSurface
+        url={resource.url}
+        label={resource.label}
+        title={resource.linkPreview?.title || `${projectTitle || resource.label} preview`}
+        summary={resource.linkPreview?.description}
+        preview={resource.linkPreview}
+        surfaceClassName={`transition-all duration-300 ${expanded ? "h-[80vh]" : "h-64 md:h-80"}`}
+        previewClassName="h-full w-full"
+        iframeClassName="h-full w-full border-0"
+        iframeSandbox="allow-scripts allow-same-origin allow-popups"
+        openLabel={resource.url.startsWith("/") ? "Open page" : `Open ${resource.label}`}
+        onOpen={handleOpen}
+      />
     </div>
   );
 }

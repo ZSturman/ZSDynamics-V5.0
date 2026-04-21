@@ -14,6 +14,7 @@ import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader.js"
 import { CollectionItem, Resource } from "@/types"
 import Image from "next/image"
 import { resolveProjectAssetPath } from "@/lib/utils"
+import { LinkPreviewSurface } from "../link-preview-surface"
 
 // Helper function to get the item path from various possible formats
 function getItemPath(item: CollectionItem, folderName?: string, collectionName?: string): string | undefined {
@@ -155,79 +156,17 @@ function ImageContent({ path }: { path: string }) {
 }
 
 function UrlLinkContent({ path, item }: { path: string; item: CollectionItem }) {
-  const [embedAllowed, setEmbedAllowed] = useState<boolean | null>(null)
-  const timeoutRef = useRef<number | null>(null)
-
-  // Helper to determine if the link is external or same-host
-  const isSameHost = (url: string): boolean => {
-    try {
-      const linkUrl = new URL(url, window.location.href)
-      return linkUrl.hostname === window.location.hostname
-    } catch {
-      return false
-    }
-  }
-
-  const handleOpen = () => {
-    if (path) {
-      // Only open in new tab if it's an external link
-      if (isSameHost(path)) {
-        window.location.href = path
-      } else {
-        window.open(path, "_blank", "noopener,noreferrer")
-      }
-    }
-  }
-
-  useEffect(() => {
-    // Start a timeout to assume embedding is blocked if iframe doesn't fire onLoad
-    // Some sites block embedding (X-Frame-Options/CSP) and iframe may never load
-    timeoutRef.current = window.setTimeout(() => {
-      setEmbedAllowed(false)
-    }, 2000)
-
-    return () => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current)
-      }
-    }
-  }, [path])
-
-  const onIframeLoad = () => {
-    // iframe loaded successfully, mark embed allowed and clear timeout
-    setEmbedAllowed(true)
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current)
-      timeoutRef.current = null
-    }
-  }
-
   return (
     <div className="w-full max-w-6xl">
-      <div className="w-full aspect-video bg-muted rounded-lg overflow-hidden">
-        {embedAllowed === false ? (
-          // Fallback when embedding is blocked
-          <div className="w-full h-full flex items-center justify-center p-6">
-            <div className="text-center space-y-4">
-              <p className="text-sm text-muted-foreground">
-                This content cannot be embedded. Click below to open it in a new tab.
-              </p>
-              <Button size="sm" variant="default" onClick={handleOpen}>
-                Open Link
-              </Button>
-            </div>
-          </div>
-        ) : (
-          // Show iframe while loading or when allowed
-          <iframe
-            src={path}
-            title={item.label || path}
-            className="w-full h-full border-0"
-            sandbox="allow-scripts allow-same-origin"
-            onLoad={onIframeLoad}
-          />
-        )}
-      </div>
+      <LinkPreviewSurface
+        url={path}
+        label={item.label || path}
+        summary={item.summary || item.oneLiner}
+        title={item.label || path}
+        preview={item.linkPreview}
+        previewClassName="aspect-video w-full"
+        openLabel="Open link"
+      />
     </div>
   )
 }

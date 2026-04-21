@@ -1,16 +1,19 @@
-import { expect, test, type Page } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 
 import {
+  getProjectRoute,
   getRepresentativeProjects,
   loadCanonicalProjects,
   pickDefaultProject,
   type CanonicalProject,
 } from "./helpers/project-media-fixtures";
 import { attachMediaContext, buildRuntimeContext } from "./helpers/media-diagnostics";
+import { gotoHomeReady, gotoProjectReady } from "../helpers/route-readiness";
 
 const projects = loadCanonicalProjects();
 const representativeProjects = getRepresentativeProjects(projects);
 const defaultProject = pickDefaultProject(projects);
+const standaloneUrlAssetProject = findProjectWithStandaloneUrlAsset(projects);
 
 const cardSelectorForProject = (projectId: string) =>
   `[data-testid="project-card-root"][data-project-id="${projectId}"], [data-testid="project-list-item-root"][data-project-id="${projectId}"]`;
@@ -133,10 +136,7 @@ test.describe("@smoke @matrix media rendering", () => {
 
     for (const project of candidates) {
       const route = `/projects/${project.id}`;
-      await page.goto(route);
-
-      const heading = page.getByRole("heading", { name: project.title }).first();
-      await expect(heading).toBeVisible();
+      await gotoProjectReady(page, project.id, project.title);
 
       const requiredRoles = getRequiredRoles(project);
       for (const mediaKey of requiredRoles) {
@@ -168,7 +168,7 @@ test.describe("@smoke @matrix media rendering", () => {
     test.skip(!project, "No project without images found in canonical dataset.");
 
     const route = `/projects/${project!.id}`;
-    await page.goto(route);
+    await gotoProjectReady(page, project!.id, project!.title);
 
     const context = buildRuntimeContext(page, testInfo, {
       scenario: "project-no-image-route",
@@ -183,6 +183,38 @@ test.describe("@smoke @matrix media rendering", () => {
 
       const renderedMedia = page.locator(`[data-project-id="${project!.id}"][data-media-role] img, [data-project-id="${project!.id}"][data-media-role] video`);
       await expect(renderedMedia).toHaveCount(0);
+    } catch (error) {
+      await attachMediaContext(testInfo, "media-context", context);
+      throw error;
+    }
+  });
+
+  test("project detail route renders standalone URL asset preview state", async ({ page }, testInfo) => {
+    test.skip(!standaloneUrlAssetProject, "No standalone URL asset found in canonical dataset.");
+
+    const { project, asset } = standaloneUrlAssetProject!;
+    const route = getProjectRoute(project);
+    await gotoProjectReady(page, project.id, project.title, route);
+
+    const context = buildRuntimeContext(page, testInfo, {
+      scenario: "project-standalone-url-asset-preview",
+      route,
+      projectId: project.id,
+      projectTitle: project.title,
+      mediaKey: asset.id,
+      environment: process.env.NODE_ENV || "test",
+    });
+
+    try {
+      const assetCard = page
+        .locator(
+          `[data-testid="project-standalone-assets"][data-project-id="${project.id}"] ` +
+            `[data-testid="project-standalone-asset"][data-asset-id="${asset.id}"]`
+        )
+        .first();
+
+      await expect(assetCard).toBeVisible();
+      await expect(assetCard.locator("[data-link-preview-state]").first()).toBeVisible();
     } catch (error) {
       await attachMediaContext(testInfo, "media-context", context);
       throw error;
@@ -218,21 +250,23 @@ function getRequiredRoles(project: CanonicalProject): string[] {
   return [...required];
 }
 
-async function gotoHomeReady(page: Page): Promise<void> {
-  const allProjectsHeading = page.getByRole("heading", { name: "All Projects" });
+function findProjectWithStandaloneUrlAsset(projects: CanonicalProject[]) {
+  for (const project of projects) {
+    const assets = Array.isArray(project.assets) ? (project.assets as Array<Record<string, unknown>>) : [];
+    const asset = assets.find((item) => {
+      if (!item || typeof item !== "object") return false;
+      const type = typeof item.type === "string" ? item.type : "";
+      const url = typeof item.url === "string" ? item.url : "";
+      return (type === "url-link" || type === "local-link" || type === "folio") && Boolean(url);
+    });
 
-  for (let attempt = 1; attempt <= 2; attempt += 1) {
-    await page.goto("/");
-
-    try {
-      await expect(allProjectsHeading).toBeVisible({ timeout: 45_000 });
-      return;
-    } catch {
-      if (attempt === 2) {
-        throw new Error("Home route did not become ready: 'All Projects' heading was not visible after retry.");
-      }
-
-      await page.reload();
+    if (asset) {
+      return {
+        project,
+        asset: asset as { id: string },
+      };
     }
   }
+
+  return undefined;
 }
