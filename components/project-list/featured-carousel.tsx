@@ -57,6 +57,7 @@ export function FeaturedCarousel({
   const autoplayPlugin = useRef(
     Autoplay({ delay: autoPlayInterval, stopOnInteraction: false })
   )
+  const pendingScrollIndexRef = useRef<number | null>(null)
   
   const [emblaRef, emblaApi] = useEmblaCarousel(
     { loop: true, align: 'start' },
@@ -80,6 +81,10 @@ export function FeaturedCarousel({
   useEffect(() => {
     if (!emblaApi) return
     onSelect()
+    if (pendingScrollIndexRef.current !== null) {
+      emblaApi.scrollTo(pendingScrollIndexRef.current)
+      pendingScrollIndexRef.current = null
+    }
     emblaApi.on('select', onSelect)
     emblaApi.on('reInit', onSelect)
     return () => {
@@ -89,15 +94,25 @@ export function FeaturedCarousel({
   }, [emblaApi, onSelect])
 
   const scrollPrev = useCallback(() => {
-    if (emblaApi) emblaApi.scrollPrev()
+    autoplayPlugin.current.reset()
+    if (!emblaApi) return
+    emblaApi.scrollPrev()
   }, [emblaApi])
 
   const scrollNext = useCallback(() => {
-    if (emblaApi) emblaApi.scrollNext()
+    autoplayPlugin.current.reset()
+    if (!emblaApi) return
+    emblaApi.scrollNext()
   }, [emblaApi])
 
   const scrollTo = useCallback((index: number) => {
-    if (emblaApi) emblaApi.scrollTo(index)
+    setSelectedIndex(index)
+    autoplayPlugin.current.reset()
+    if (!emblaApi) {
+      pendingScrollIndexRef.current = index
+      return
+    }
+    emblaApi.scrollTo(index)
   }, [emblaApi])
 
   if (featuredProjects.length === 0) {
