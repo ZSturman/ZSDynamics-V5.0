@@ -1,3 +1,6 @@
+"use client";
+
+import { useEffect, useMemo, useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MediaDisplay } from "@/components/ui/media-display";
 import { Project, CollectionItem } from "@/types";
@@ -20,6 +23,14 @@ interface CollectionMeta {
   thumbnail?: string;
   hero?: string;
   items: CollectionItem[];
+}
+
+function findCollectionKeyForItem(collections: CollectionMeta[], itemId: string | null): string | null {
+  if (!itemId) {
+    return null;
+  }
+
+  return collections.find((collection) => collection.items.some((item) => item.id === itemId))?.key ?? null;
 }
 
 function getCollectionMeta(
@@ -188,14 +199,33 @@ function CollectionItemGrid({
 
 export function Collection({ project, inModal }: CollectionProps) {
   const collectionEntries = getProjectCollectionEntries(project, { excludeAssets: true });
-  if (collectionEntries.length === 0) {
-    return null;
-  }
-
   const folderName = project.folderName || project.id;
   const collections = collectionEntries
     .map(({ key, data }) => getCollectionMeta(key, data as CollectionShape, folderName))
     .filter((collection) => collection.items.length > 0);
+  const [requestedCollectionItemId, setRequestedCollectionItemId] = useState<string | null>(null);
+  const requestedCollectionKey = useMemo(
+    () => findCollectionKeyForItem(collections, requestedCollectionItemId),
+    [collections, requestedCollectionItemId]
+  );
+  const [selectedCollectionKey, setSelectedCollectionKey] = useState(
+    () => requestedCollectionKey || collections[0]?.key || ""
+  );
+
+  useEffect(() => {
+    setRequestedCollectionItemId(new URLSearchParams(window.location.search).get("collectionItem"));
+  }, []);
+
+  useEffect(() => {
+    if (requestedCollectionKey && requestedCollectionKey !== selectedCollectionKey) {
+      setSelectedCollectionKey(requestedCollectionKey);
+      return;
+    }
+
+    if (!collections.some((collection) => collection.key === selectedCollectionKey)) {
+      setSelectedCollectionKey(collections[0]?.key || "");
+    }
+  }, [collections, requestedCollectionKey, selectedCollectionKey]);
 
   if (collections.length === 0) {
     return null;
@@ -221,7 +251,7 @@ export function Collection({ project, inModal }: CollectionProps) {
 
   // Multiple collections: tabs with thumbnail previews in tab triggers
   return (
-    <Tabs defaultValue={collections[0].key} className="w-full">
+    <Tabs value={selectedCollectionKey} onValueChange={setSelectedCollectionKey} className="w-full">
       <TabsList className="h-auto w-full justify-start gap-1 overflow-x-auto rounded-lg bg-muted/50 p-1">
         {collections.map((collection) => (
           <TabsTrigger

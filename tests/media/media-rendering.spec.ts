@@ -121,8 +121,7 @@ test.describe("@smoke @matrix media rendering", () => {
       try {
         await expect(modal).toBeVisible({ timeout: 5_000 });
       } catch {
-        await page.goto(`/?project=${project.id}`);
-        await expect(page.getByRole("heading", { name: "All Projects" })).toBeVisible({ timeout: 45_000 });
+        await gotoHomeReady(page, `/?project=${project.id}`);
         await expect(modal).toBeVisible({ timeout: 10_000 });
       }
 
@@ -453,10 +452,14 @@ function getHeaderPreviewQueryValue(project: CanonicalProject): string {
 }
 
 async function ensureDotSelected(dot: Locator) {
-  try {
-    await expect(dot).toHaveAttribute("data-selected", "true", { timeout: 1_500 });
-  } catch {
-    await dot.dispatchEvent("click");
-    await expect(dot).toHaveAttribute("data-selected", "true");
+  for (let attempt = 1; attempt <= 3; attempt += 1) {
+    try {
+      await expect(dot).toHaveAttribute("data-selected", "true", { timeout: 1_500 });
+      return;
+    } catch {
+      await dot.click({ force: true });
+    }
   }
+
+  await expect(dot).toHaveAttribute("data-selected", "true");
 }

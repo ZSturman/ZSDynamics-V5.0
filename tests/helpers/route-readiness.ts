@@ -125,12 +125,15 @@ async function gotoRouteReady(page: Page, options: RouteReadyOptions): Promise<v
   }
 }
 
-export async function gotoHomeReady(page: Page): Promise<void> {
+export async function gotoHomeReady(page: Page, route = "/"): Promise<void> {
   await gotoRouteReady(page, {
-    route: "/",
+    route,
     readinessDescription: "Home route did not become ready after retry.",
     ready: async () => {
-      await expect(page.getByRole("heading", { name: "All Projects" })).toBeVisible({ timeout: 45_000 });
+      await expect(page.locator("#projects h2")).toBeVisible({ timeout: 45_000 });
+      await expect(
+        page.locator('[data-testid="project-card-root"], [data-testid="project-list-item-root"]').first()
+      ).toBeVisible({ timeout: 45_000 });
       await expect(page.getByText("Loading projects…")).toHaveCount(0);
     },
   });

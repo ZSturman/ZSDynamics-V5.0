@@ -80,10 +80,13 @@ export function FeaturedCarousel({
 
   useEffect(() => {
     if (!emblaApi) return
-    onSelect()
     if (pendingScrollIndexRef.current !== null) {
-      emblaApi.scrollTo(pendingScrollIndexRef.current)
+      const pendingScrollIndex = pendingScrollIndexRef.current
       pendingScrollIndexRef.current = null
+      emblaApi.scrollTo(pendingScrollIndex)
+      setSelectedIndex(pendingScrollIndex)
+    } else {
+      onSelect()
     }
     emblaApi.on('select', onSelect)
     emblaApi.on('reInit', onSelect)

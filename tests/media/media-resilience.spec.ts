@@ -402,8 +402,7 @@ test.describe("@smoke @matrix media resilience", () => {
         await expect(page).toHaveURL(new RegExp(`\\/?(?:.*&)?project=${getProjectSlug(project)}(?:&.*)?$`));
         await expect(modal).toBeVisible({ timeout: 5_000 });
       } catch {
-        await page.goto(`/?project=${project.id}`);
-        await expect(page.getByRole("heading", { name: "All Projects" })).toBeVisible({ timeout: 45_000 });
+        await gotoHomeReady(page, `/?project=${project.id}`);
         await expect(modal).toBeVisible({ timeout: 10_000 });
       }
 
