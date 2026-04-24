@@ -35,8 +35,8 @@
     "story": "",
     "images": {
       "thumbnail": "thumbnail.png",
-      "banner": "banner.png",
       "hero": "hero.png",
+      "banner": "banner.png",
       "icon": "icon.png"
     },
     "resources": [],
@@ -367,9 +367,9 @@
     "story": "",
     "images": {
       "thumbnail": "thumbnail.png",
-      "banner": "banner.png",
-      "hero": "hero.png",
       "poster": "poster.png",
+      "hero": "hero.png",
+      "banner": "banner.png",
       "icon": "TopNote AppIcon v2-watchOS-Default-1088x1088@1x.png"
     },
     "resources": [
@@ -600,8 +600,8 @@
     "story": "",
     "images": {
       "thumbnail": "E4690E5D-3901-4E26-A237-8AA0FF26EE76.png",
-      "banner": "banner.png",
-      "hero": "hero.png"
+      "hero": "hero.png",
+      "banner": "banner.png"
     },
     "resources": [],
     "assets": [
@@ -672,8 +672,8 @@
     "story": "",
     "images": {
       "thumbnail": "thumbnail.png",
-      "banner": "banner.png",
       "poster": "poster.gif",
+      "banner": "banner.png",
       "icon": "logo.png"
     },
     "resources": [],
@@ -1475,9 +1475,9 @@
     "story": "",
     "images": {
       "thumbnail": "thumbnail.png",
-      "banner": "banner.png",
-      "hero": "hero.png",
       "poster": "poster.png",
+      "hero": "hero.png",
+      "banner": "banner.png",
       "icon": "icon.png"
     },
     "resources": [
@@ -1634,9 +1634,9 @@
     "story": "",
     "images": {
       "thumbnail": "thumbnail.png",
-      "banner": "banner.gif",
+      "poster": "poster.gif",
       "hero": "queueExample.png",
-      "poster": "poster.gif"
+      "banner": "banner.gif"
     },
     "resources": [
       {
@@ -1708,8 +1708,8 @@
     "story": "",
     "images": {
       "thumbnail": "thumbnail.png",
-      "banner": "banner.png",
       "poster": "poster.png",
+      "banner": "banner.png",
       "icon": "thumbnail.png"
     },
     "resources": [
@@ -1949,8 +1949,8 @@
     "story": "",
     "images": {
       "thumbnail": "thumbnail.png",
-      "banner": "banner.png",
       "poster": "poster.png",
+      "banner": "banner.png",
       "icon": "icon.svg"
     },
     "resources": [
@@ -2083,8 +2083,8 @@
     "story": "",
     "images": {
       "thumbnail": "thumbnail.tiff",
-      "banner": "banner.png",
       "poster": "poster.tiff",
+      "banner": "banner.png",
       "icon": "thumbnail.tiff"
     },
     "resources": [],
@@ -2147,12 +2147,82 @@
     "story": "",
     "images": {
       "thumbnail": "thumbnail.png",
-      "banner": "banner.png",
       "hero": "hero.png",
+      "banner": "banner.png",
       "icon": "icon.png"
     },
-    "resources": [],
-    "assets": [],
+    "resources": [
+      {
+        "type": "github",
+        "label": "Repo",
+        "url": "https://github.com/ZSturman/Time-and-Mass"
+      }
+    ],
+    "assets": [
+      {
+        "id": "34caec94-4d3c-8008-ad65-f20246bab840",
+        "label": "Photon–Black Hole Duality Map",
+        "order": 6,
+        "type": "image",
+        "summary": "This image presents the photon–black hole duality simulation, which compares horizon behavior, lightlike motion, and a broader polarity diagram in a single figure. The default configuration models a 10-solar-mass black hole, corresponding to a Schwarzschild radius of 29.538 km. Conceptually, the visualization frames photons and black holes as opposite endpoints: photon-like behavior as an extreme associated with lightlike motion, and black-hole-like behavior as an extreme associated with horizon-level spatial confinement. This is one of the most portfolio-friendly visuals because it translates a complex theoretical idea into a clear geometric spectrum.",
+        "oneLiner": "A polarity diagram comparing lightlike motion and black-hole horizon behavior as opposite geometric limits.",
+        "filePath": "photon_bh_duality.png"
+      },
+      {
+        "id": "34caec94-4d3c-8046-86c5-debf8dddd72a",
+        "label": "Simulation Overview: Time, Mass, and Geometric Extremes",
+        "order": 1,
+        "type": "image",
+        "summary": "This overview contact sheet presents the full simulation batch as a unified visual system. It brings together three experimental models that explore different aspects of the Time and Mass framework: how mass presence might evolve under locally varying clock rates, how temporal perturbations may affect orbital stability, and how photons and black holes can be interpreted as opposite geometric limits. The image functions as a high-level map of the project, giving viewers an immediate sense of the visual language, simulation outputs, and conceptual scope before they enter the individual experiments.",
+        "oneLiner": "A visual summary of the project’s three simulation tracks: mass-time emergence, temporal orbital stability, and photon–black hole duality.",
+        "filePath": "overview_contact_sheet.png"
+      },
+      {
+        "id": "34caec94-4d3c-80c1-b656-de0b5d296e3e",
+        "label": "Orbital Temporal Stability and Resonance",
+        "order": 5,
+        "type": "image",
+        "summary": "This image visualizes the orbital temporal stability experiment, which tests how a simple orbital system responds to temporal perturbation. Because QuTiP was not installed in the simulation environment, the run used a manual NumPy RK4 solver. The default perturbed run produced variance of 0.1231 with a maximum deviation of 0.6535, compared with a cleaner control run that reached a lower maximum deviation of 0.5115. The simulation sweep peaked near ω = 0.1000, suggesting a resonance region worth further investigation. In the portfolio, this image helps show that the project is not only conceptual but also tests the stability implications of temporal variation.",
+        "oneLiner": "A minimal orbital model testing whether temporal perturbations produce instability or resonance bands.",
+        "filePath": "orbital_stability.png"
+      },
+      {
+        "id": "34caec94-4d3c-80c2-bc16-df3e88897555",
+        "label": "Mass-Time Emergence: Baseline Field Evolution",
+        "order": 2,
+        "type": "image",
+        "summary": "This image shows the final state of a baseline mass-time simulation. The model evolves an initial mass distribution against a clock field whose local rate changes over time, allowing the simulation to test whether slowed local time can reshape mass presence and generate a gravitational response. In this run, total mass increased from 1.0000 to 1.6140 while producing a maximum gravitational potential magnitude of 0.1836. As a portfolio visual, this image represents the project’s core hypothesis: that mass and gravitational behavior can be explored as emergent effects of temporal structure rather than treated only as static spatial quantities.",
+        "oneLiner": "A baseline simulation showing how mass presence evolves within a locally distorted clock field.",
+        "filePath": "final_state.png"
+      },
+      {
+        "id": "34caec94-4d3c-80d0-aa11-fe6da9f3b4d9",
+        "label": "Horizon Zoom: Extreme Gravitational Time Ratio",
+        "order": 7,
+        "type": "image",
+        "summary": "This horizon zoom focuses on the region near the black hole’s Schwarzschild radius, where gravitational time effects become more extreme. Tightening the radial window around the horizon reduced the minimum gravitational time ratio from 0.0995 to 0.0316, emphasizing how rapidly temporal behavior changes near this boundary. This image works well as a technical companion to the broader photon–black hole duality map. It gives viewers a more focused look at the extreme end of the model, where spatial confinement, horizon behavior, and temporal distortion become most visually pronounced.",
+        "oneLiner": "A close-up of the black-hole horizon region showing intensified gravitational time distortion.",
+        "filePath": "photon_bh_duality2.png"
+      },
+      {
+        "id": "34caec94-4d3c-80e3-bac3-dd4fa93c2f4b",
+        "label": "Animated Mass-Time Emergence",
+        "order": 3,
+        "type": "image",
+        "summary": "This animation shows the time evolution of the mass-time emergence model. Instead of presenting a single final state, it reveals how the field changes step by step as mass presence interacts with a locally varying clock structure. The animation is useful as the main visual anchor for the project because it gives viewers an intuitive sense of emergence, feedback, and field evolution. It communicates the idea that mass is not merely placed into a fixed background, but may be modeled as something that changes alongside local temporal conditions.",
+        "oneLiner": "An animation of mass presence evolving dynamically in response to local changes in clock rate.",
+        "filePath": "animation.gif"
+      },
+      {
+        "id": "34caec94-4d3c-80f1-ac12-ee78e6070e75",
+        "label": "High-Alpha Clock Distortion Test",
+        "order": 4,
+        "type": "image",
+        "summary": "This image shows the final state of the mass-time emergence model under a stronger alpha setting. Increasing alpha to 0.5 deepened the slowest local clock rate from 0.7955 in the baseline run to 0.0001, creating a much more extreme temporal distortion. This comparison is useful because it shows how sensitive the model is to temporal coupling strength. In the portfolio narrative, this image can serve as a “parameter stress test,” demonstrating that the simulation is not just a static visualization but a tunable model whose behavior changes substantially under different assumptions.",
+        "oneLiner": "A stress test showing how stronger temporal coupling dramatically slows the local clock field.",
+        "filePath": "final_state2.png"
+      }
+    ],
     "collection": {},
     "workLogs": [
       {
@@ -2176,7 +2246,11 @@
       }
     ],
     "articles": [],
-    "folderName": "mass_and_time_306aec94-4d3c-80c9-a6d4-f6362f15b981"
+    "folderName": "mass_and_time_306aec94-4d3c-80c9-a6d4-f6362f15b981",
+    "readme": {
+      "content": "# Time and Mass: A Time-Centric Ontology of Mass, Gravity, and Spacetime\n\n> *Space is where mass is. Time is why mass is. Gravity is how mass is felt.*\n\n## Overview\n\nThis project explores a speculative but structured physics hypothesis: **time is the fundamental substrate from which mass emerges**. Mass is not a static property but a persistent resonance of quantum-field excitations sustained through continuous temporal evolution. Gravity, in turn, is the wave-like propagation of that persistence through spacetime.\n\nThe hypothesis inverts the standard GR causal arrow: instead of \"mass warps time,\" it proposes \"time generates mass.\"\n\n## Core Ideas (7 Pillars)\n\n| # | Pillar | Key Claim |\n|---|--------|-----------|\n| 1 | [Time Generates Mass](https://github.com/ZSturman/Time-and-Mass/blob/main/theory/01_time_generates_mass.md) | Mass emerges from persistent quantum excitations evolving through time |\n| 2 | [Mass Flux Density](https://github.com/ZSturman/Time-and-Mass/blob/main/theory/02_mass_flux_density.md) | (kg/s)/m captures gravitational character better than static mass |\n| 3 | [Relativistic Mass Distribution](https://github.com/ZSturman/Time-and-Mass/blob/main/theory/03_relativistic_mass_distribution.md) | At relativistic speeds, mass becomes spatially non-localized |\n| 4 | [Gravity = Wave, Mass = Particle](https://github.com/ZSturman/Time-and-Mass/blob/main/theory/04_gravity_wave_mass_particle.md) | Wave-particle duality extends to gravity-mass relationship |\n| 5 | [Temporal Resonance Orbitals](https://github.com/ZSturman/Time-and-Mass/blob/main/theory/05_temporal_resonance_orbitals.md) | Electron orbitals are stable because temporal interference averages to zero |\n| 6 | [Photon–Black Hole Duality](https://github.com/ZSturman/Time-and-Mass/blob/main/theory/06_photon_blackhole_duality.md) | Photons (pure time) and black holes (pure space) are extremes of a polarity spectrum |\n| 7 | [Strong Force as Temporal Gradient](https://github.com/ZSturman/Time-and-Mass/blob/main/theory/07_strong_force_temporal_gradient.md) | Nuclear binding from short-range temporal coherence equilibration |\n\nFull synthesis: [theory/00_core_hypothesis.md](https://github.com/ZSturman/Time-and-Mass/blob/main/theory/00_core_hypothesis.md)\n\n## Simulations\n\nThree numerical simulations test aspects of this hypothesis. Each has adjustable parameters via YAML config files, a Python CLI script, and a Jupyter notebook.\n\n### Quick Start\n\n```bash\ncd simulations\npip install -r requirements.txt\n\n# Run any simulation:\npython mass_time_emergence/simulation.py\npython orbital_temporal_stability/simulation.py\npython photon_blackhole_duality/visualization.py\n\n# Or generate a full headless batch with saved artifacts:\npython run_batch.py\n\n# Or use Jupyter notebooks for interactive exploration:\njupyter notebook\n```\n\n### Available Simulations\n\n| Simulation | Tests Pillars | Description |\n|---|---|---|\n| [Mass-Time Emergence](https://github.com/ZSturman/Time-and-Mass/blob/main/simulations/mass_time_emergence/) | 1, 2 | 1D model of mass density evolving from time flow with gravitational coupling |\n| [Orbital Temporal Stability](https://github.com/ZSturman/Time-and-Mass/blob/main/simulations/orbital_temporal_stability/) | 5 | QuTiP two-level atom: does temporal perturbation destabilize orbitals? |\n| [Photon–BH Duality](https://github.com/ZSturman/Time-and-Mass/blob/main/simulations/photon_blackhole_duality/) | 6 | Schwarzschild metric visualization showing space-time polarity spectrum |\n\nAll parameters are adjustable in each simulation's `config.yaml`.\n\n## Directory Structure\n\n```\nTime and Mass/\n├── README.md                    ← You are here\n├── PLAN.md                      ← Implementation plan (phases, status)\n├── theory/                      ← 8 curated theory documents\n├── simulations/\n│   ├── requirements.txt\n│   ├── shared/config_loader.py  ← Shared YAML config utility\n│   ├── mass_time_emergence/     ← Simulation 1\n│   ├── orbital_temporal_stability/  ← Simulation 2\n│   └── photon_blackhole_duality/    ← Simulation 3\n├── analysis/                    ← Future: real data pipelines\n├── notes/\n│   ├── journal/                 ← Dated entries (2025_07_01, etc.)\n│   └── thought_experiments/     ← Idea sketches (rain analogy, gravity, etc.)\n├── references/\n│   ├── chatgpt_discussions/     ← AI-assisted exploration transcripts\n│   ├── literature_to_review.md  ← Books, papers, datasets to study\n│   ├── proposed_experiments.md  ← Testable experiments (at-home + funded)\n│   └── Mass in a timeless universe.pdf\n├── images/                      ← Diagrams and screenshots\n└── archive/                     ← Original files (preserved verbatim)\n```\n\n## Future Work (Phase 4+)\n\n- Relativistic mass delocalization simulation\n- 2D gravity wave propagation\n- CERN Open Data analysis (muon momentum distributions)\n- Atomic clock / GPS data correlation\n- LIGO gravitational wave analysis\n- Machine learning pattern detection\n\nSee [PLAN.md](https://github.com/ZSturman/Time-and-Mass/blob/main/PLAN.md) for the full roadmap.",
+      "sourceUrl": "https://github.com/ZSturman/Time-and-Mass/blob/main/README.md"
+    }
   },
   {
     "id": "306aec94-4d3c-80d4-a8bd-d83a8832ebf8",
@@ -2370,7 +2444,7 @@
           "siteName": "Zachary Sturman",
           "hostname": "zachary-sturman.com",
           "displayUrl": "zachary-sturman.com",
-          "description": "Zachary Sturman. I think a lot about how design influences trust, and how AI can support human judgment instead of replacing it.",
+          "description": "I think a lot about how design influences trust, and how AI can support human judgment instead of replacing it.",
           "image": "/projects/zachary_sturmancom_30faec94-4d3c-80a8-b5b4-ea129363d308/previews/zachary-sturman.com-348a6519fc0b.png",
           "imageSource": "capture"
         },
@@ -2422,7 +2496,7 @@
     "summary": "This collection brings together a range of 3D models created during my early work in Blender. Each piece was built with a specific purpose, from simple objects intended for 3D printing to assets designed for animation and game environments. The collection is not centered on a single style or outcome, but on learning how digital form works across different contexts. Earlier models focus on basic structure, lighting, and scale, while later ones begin to account for motion, function, and narrative use. Taken together, the work documents a gradual shift from experimenting with tools to understanding how design decisions support real-world and virtual applications.",
     "oneLiner": "A personal collection of 3D models made while learning Blender, focused on understanding form, scale, and how digital objects function across different uses.",
     "domain": "Artistic",
-    "category": "Other",
+    "category": "Animation",
     "status": "Active",
     "phase": "Occasional updates",
     "featured": false,
@@ -2495,8 +2569,8 @@
     "story": "",
     "images": {
       "thumbnail": "thumbnail.png",
-      "banner": "Concept_art_with_Logo.jpeg",
       "hero": "Ope_Hero.png",
+      "banner": "Concept_art_with_Logo.jpeg",
       "icon": "AppIcon.png"
     },
     "resources": [
@@ -2575,8 +2649,8 @@
     "story": "",
     "images": {
       "thumbnail": "thumbnail.png",
-      "banner": "banner.png",
       "hero": "hero.png",
+      "banner": "banner.png",
       "icon": "icon.png"
     },
     "resources": [
@@ -2647,9 +2721,9 @@
     "story": "",
     "images": {
       "thumbnail": "thumbnail.png",
-      "banner": "banner.png",
+      "poster": "poster.png",
       "hero": "hero.png",
-      "poster": "poster.png"
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -2717,8 +2791,8 @@
     "story": "",
     "images": {
       "thumbnail": "thumbnail.png",
-      "banner": "banner.png",
       "hero": "hero.png",
+      "banner": "banner.png",
       "icon": "icon.png"
     },
     "resources": [
@@ -2791,8 +2865,8 @@
     "story": "",
     "images": {
       "thumbnail": "thumbnail.png",
-      "banner": "banner.png",
       "hero": "hero.png",
+      "banner": "banner.png",
       "icon": "icon.png"
     },
     "resources": [
@@ -2872,9 +2946,9 @@
     "story": "",
     "images": {
       "thumbnail": "thumbnail.png",
-      "banner": "banner.png",
-      "hero": "hero.png",
       "poster": "poster.png",
+      "hero": "hero.png",
+      "banner": "banner.png",
       "icon": "icon.png"
     },
     "resources": [
@@ -2946,8 +3020,8 @@
     "story": "",
     "images": {
       "thumbnail": "thumbnail.png",
-      "banner": "banner.png",
-      "hero": "hero.png"
+      "hero": "hero.png",
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -3016,9 +3090,9 @@
     "story": "",
     "images": {
       "thumbnail": "thumbnail.png",
-      "banner": "banner.png",
-      "hero": "hero.png",
       "poster": "poster.png",
+      "hero": "hero.png",
+      "banner": "banner.png",
       "icon": "icon.png"
     },
     "resources": [
@@ -3089,9 +3163,9 @@
     "story": "",
     "images": {
       "thumbnail": "thumbnail.png",
-      "banner": "banner.png",
+      "poster": "poster.png",
       "hero": "hero.png",
-      "poster": "poster.png"
+      "banner": "banner.png"
     },
     "resources": [],
     "assets": [],
@@ -3153,9 +3227,9 @@
     "story": "",
     "images": {
       "thumbnail": "thumbnail.png",
-      "banner": "banner.png",
-      "hero": "hero.png",
       "poster": "poster.png",
+      "hero": "hero.png",
+      "banner": "banner.png",
       "icon": "icon.png"
     },
     "resources": [
@@ -3335,7 +3409,15 @@
         "durationMinutes": 60
       }
     ],
-    "articles": [],
+    "articles": [
+      {
+        "title": "The Wolf Project - Reworking a Real-World Project",
+        "slug": "the-wolf-project-reworking-a-real-world-project",
+        "href": "/articles/the-wolf-project-reworking-a-real-world-project",
+        "sourceUrl": "https://github.com/ZSturman/Articles/blob/main/articles/the-wolf-project-reworking-a-real-world-project/index.md",
+        "coverImage": "/articles/the-wolf-project-reworking-a-real-world-project/imgaes/Wolf-hero.webp"
+      }
+    ],
     "folderName": "the_wolf_project_346aec94-4d3c-801e-851f-c7e727f0e186",
     "readme": {
       "content": "# The Wolf Project\n\nThe Wolf Project site is a Next.js + Firebase marketing and content platform for an access-to-care initiative under SGT Canines. The site explains the mission, publishes stories and case updates, tracks fundraising progress, and includes a custom admin panel for non-technical content editing.\n\n## What The Site Does\n\nThe public site currently covers these jobs:\n\n- Explains the mission behind The Wolf Project and Wolf's founding story.\n- Publishes informational pages about access to care, trust, transparency, and how the lifeline works.\n- Displays case pages with fundraising goals, progress, and status updates.\n- Displays blog posts and an RSS feed at `/feed.xml`.\n- Collects email signups through the `/api/subscribe` endpoint.\n- Promotes merchandise and donation pathways.\n- Provides a custom admin panel at `/admin` for content management.\n\n## Stack\n\n- Next.js 16 App Router\n- React 19\n- TypeScript\n- Tailwind CSS 4\n- Firebase Auth + Firestore for content persistence\n- Cloudinary for image uploads\n- Markdoc for long-form case and blog content\n\n## Content Model\n\nAll content is stored in Firestore with the following collections:\n\n### Collections\n\n- `cases/{slug}` — Dog cases with fundraising goals, status, updates, and stories\n- `posts/{slug}` — Blog posts with Markdoc body content\n\n### Singletons (`singletons/{key}`)\n\n- `donationProgress` — Fundraising goal and amount raised\n- `applicationConfig` — Application open/closed state and messaging\n- `siteSettings` — Phase label, operational state, fund allocation\n- `homeContent` — Homepage hero, mission, CTA copy\n- `storyContent` — Our Story page sections and statistics\n- `processContent` — How It Works page steps and conditions\n- `trustContent` — Trust, impact, and transparency copy\n- `donationContent` — Donate and Join the Pack page messaging\n- `shopContent` — Shop page and product storytelling copy\n\nThe runtime adapter in `lib/site-content.ts` reads Firestore first and falls back to `data/site-content.ts` defaults if a singleton entry is missing.\n\n### Still code-managed\n\n- Navigation and footer links\n- Social links\n- Some merch/product metadata and outbound product URLs\n- Support option cards\n- Asset registry data in `data/assets.ts`\n\n## Admin Panel\n\nThe admin panel at `/admin` provides a full content management interface:\n\n- **Dashboard** — Overview of cases, posts, and singletons with a \"Reset Demo Data\" button\n- **Cases** — List, create, edit, and delete dog cases\n- **Blog Posts** — List, create, edit, and delete blog posts\n- **Site Settings** — Edit all 9 singletons through structured forms\n\nAuthentication uses Firebase Auth (email/password). All mutations are protected by token verification.\n\n## Demo Banner\n\nA dismissible demo banner appears at the top of the site linking to the admin panel. It can be dismissed via the close button and uses localStorage to remember the dismissal.\n\n## Seed Data\n\nThe seed system at `POST /api/seed` (auth-protected) resets all Firestore content to demo data. This can also be triggered from the admin dashboard's \"Reset Demo Data\" button.\n\nSeeded cases: Wolf (completed), Luna (active), Juniper (in-treatment), Scout (funded), Remy (memorial).\n\nSeeded posts: 5 editorial posts covering emergency care, case updates, and community stories.\n\nSeeded singletons: donationProgress, applicationConfig, siteSettings.\n\n## Local Setup\n\n1. Install dependencies.\n\n```bash\npnpm install\n```\n\n2. Create a local env file.\n\n```bash\ncp .env.example .env.local\n```\n\n3. Start the app.\n\n```bash\npnpm dev\n```\n\n4. Open the site at `http://localhost:3000`.\n\n5. Open the admin panel at `http://localhost:3000/admin`.\n\n## Environment Variables\n\nThe checked-in template is `.env.example`.\n\n### Firebase (required)\n\n- `NEXT_PUBLIC_FIREBASE_API_KEY` — Firebase client API key\n- `NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN` — Firebase auth domain\n- `NEXT_PUBLIC_FIREBASE_PROJECT_ID` — Firebase project ID\n- `NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET` — Firebase storage bucket\n- `NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID` — Firebase messaging sender ID\n- `NEXT_PUBLIC_FIREBASE_APP_ID` — Firebase app ID\n- `FIREBASE_PROJECT_ID` — Firebase project ID (server)\n- `FIREBASE_CLIENT_EMAIL` — Service account email\n- `FIREBASE_PRIVATE_KEY` — Service account private key\n\n### Cloudinary (required for image uploads)\n\n- `CLOUDINARY_CLOUD_NAME` — Cloudinary cloud name\n- `CLOUDINARY_API_KEY` — Cloudinary API key\n- `CLOUDINARY_API_SECRET` — Cloudinary API secret\n\n### Site\n\n- `NEXT_PUBLIC_SITE_URL` — Used for metadata and RSS feed URLs\n- `KIT_API_KEY` — Optional. Enables newsletter signup proxy to Kit\n- `KIT_FORM_ID` — Optional. The Kit form that receives subscriptions\n\nIf the Kit variables are omitted, the subscribe endpoint returns success and logs the submitted email server-side.\n\n## Editing Workflow\n\n1. Sign in at `/admin/login` with your Firebase Auth credentials.\n2. Create, edit, or delete cases and blog posts from the admin panel.\n3. Edit site settings, donation progress, and other singletons from the Settings tab.\n4. Upload images via Cloudinary integration.\n5. Changes are persisted immediately to Firestore and reflected on the public site.\n\n## Repo Map\n\n- `app/` — Route files, API endpoints, and admin panel\n- `app/admin/` — Admin panel pages (login, dashboard, CRUD editors, settings)\n- `app/api/` — API routes for cases, posts, singletons, upload, seed, subscribe\n- `components/` — Reusable UI components\n- `components/admin/` — Admin-specific components (form-field, save-button, etc.)\n- `content/` — Legacy content files (kept for reference, not used at runtime)\n- `data/` — Code-managed defaults and assets\n- `lib/db/` — Firebase/Firestore data access layer\n- `lib/auth/` — Auth context and token verification\n- `lib/site-content.ts` — Server-side content adapter\n- `lib/site-url.ts` — Canonical site URL helper\n- `public/assets/` — Local media\n- `types/` — Shared TypeScript types\n\n## Production Requirements\n\nBefore shipping to production, verify all of the following:\n\n1. Set `NEXT_PUBLIC_SITE_URL` to the canonical production domain.\n2. Decide whether email signup should be live.\n3. If email signup should be live, set `KIT_API_KEY` and `KIT_FORM_ID`.\n4. Confirm the public domain used for metadata, RSS, and social sharing is correct.\n5. Review every seeded dummy case, post, and singleton entry and replace or remove anything not meant for public launch.\n6. Confirm remote merch images from `yourdogcanstay.com` still resolve and are permitted by `next.config.ts`.\n7. Confirm redirects still reflect the intended information architecture:\n\t `/join-the-pack -> /donate`\n\t `/impact -> /transparency`\n8. Smoke test these routes before release:\n\t `/`\n\t `/our-story`\n\t `/how-it-works`\n\t `/our-promise`\n\t `/transparency`\n\t `/cases`\n\t `/blog`\n\t `/donate`\n\t `/shop`\n\t `/apply`\n\t `/feed.xml`\n\t `/admin`\n9. Verify all required static assets are present in `public/assets` and that externally hosted images are still available.\n\n## Known Limitations And TODOs\n\n- Donation progress `source: api` is not implemented yet. The schema exposes the setting, but the frontend still uses a placeholder/manual workflow.\n- `components/donation-progress-bar.tsx` still has the API fetch TODO for live donation sync.\n- Some site data is still intentionally code-managed rather than editable in the GUI.\n- The current demo content is operationally useful for testing, but it should be reviewed carefully before a public launch.\n\n## Recommended Release Process\n\n1. Edit content in the admin panel at `/admin`.\n2. Review changes on a local branch or staging deployment.\n3. Run lint and a production build.\n4. Have a human review copy, links, donation destinations, and legal/tax language.\n5. Merge and deploy.\n\n## Commands\n\n```bash\npnpm dev\npnpm lint\npnpm build\npnpm start\n```",

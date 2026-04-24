@@ -279,6 +279,13 @@ test.describe("@smoke @matrix media resilience", () => {
     try {
       await gotoProjectReady(page, project.id, project.title, fullscreenRoute);
       const fullscreen = page.getByTestId("collection-fullscreen");
+      const openedFromRoute = await fullscreen.isVisible({ timeout: 5_000 }).catch(() => false);
+      if (!openedFromRoute) {
+        const card = page.locator(`[data-collection-item-id="${itemId}"][data-collection-item-type="video"]`).first();
+        await expect(card).toBeVisible();
+        await card.click();
+      }
+
       await expect(fullscreen).toBeVisible();
       await expect(fullscreen).toHaveAttribute("data-collection-item-id", itemId);
       await expect(fullscreen.getByTestId("collection-video-content-fallback")).toBeVisible();

@@ -30,13 +30,15 @@ function ProjectDetailsContent({ project, requestedProject }: ProjectDetailsClie
     }
   }, [project, requestedProject, router, searchParams])
 
+  const requestedCollectionItemId = searchParams.get("collectionItem") ?? undefined
+
   return (
     <>
       <ProjectAnalyticsTracker
         projectSlug={getProjectSlug(project)}
         projectTitle={project.title}
       />
-      <ProjectDetails project={project} />
+      <ProjectDetails project={project} requestedCollectionItemId={requestedCollectionItemId} />
     </>
   )
 }

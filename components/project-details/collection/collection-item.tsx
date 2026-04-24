@@ -118,6 +118,7 @@ interface ExtendedCollectionItemCardProps extends CollectionItemViewerProps {
   collectionName?: string
   allItems?: CollectionItem[]
   currentIndex?: number
+  openFromQuery?: boolean
 }
 
 interface ExtendedCollectionItemViewerProps extends CollectionItemViewerProps {
@@ -211,7 +212,16 @@ function CollectionItemWrapper({ item, onRequestFullscreen, children, className,
   )
 }
 
-export default function CollectionItemCard({ item, project, inModal, folderName, collectionName, allItems, currentIndex }: ExtendedCollectionItemCardProps) {
+export default function CollectionItemCard({
+  item,
+  project,
+  inModal,
+  folderName,
+  collectionName,
+  allItems,
+  currentIndex,
+  openFromQuery = true,
+}: ExtendedCollectionItemCardProps) {
   const [isFullscreen, setIsFullscreen] = useState(false)
   const [currentItemIndex, setCurrentItemIndex] = useState(currentIndex ?? 0)
   const router = useRouter()
@@ -238,6 +248,10 @@ export default function CollectionItemCard({ item, project, inModal, folderName,
     || (item.type === "url-link" && typeof itemPath === "string" && itemPath.startsWith("/projects/"))
 
   useEffect(() => {
+    if (!openFromQuery) {
+      return
+    }
+
     if (isProjectPageItem) {
       return
     }
@@ -246,7 +260,7 @@ export default function CollectionItemCard({ item, project, inModal, folderName,
     if (params.get("collectionItem") === item.id) {
       setIsFullscreen(true)
     }
-  }, [isProjectPageItem, item.id])
+  }, [isProjectPageItem, item.id, openFromQuery])
 
   // Navigation handler
   const handleNavigate = (index: number) => {

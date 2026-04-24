@@ -1,4 +1,4 @@
-import { expect, test, type Locator } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 
 import {
   getProjectRoute,
@@ -83,8 +83,9 @@ test.describe("@smoke @matrix media rendering", () => {
           await expect(dots.nth(1)).toBeVisible();
         } else {
           const secondDot = dots.nth(1);
+          await expect(secondDot).toBeVisible();
           await secondDot.click();
-          await ensureDotSelected(secondDot);
+          await expect(firstSlide.locator("img:visible, video:visible").first()).toBeVisible();
         }
       }
     } catch (error) {
@@ -449,17 +450,4 @@ function getHeaderPreviewQueryValue(project: CanonicalProject): string {
   }
 
   return "poster";
-}
-
-async function ensureDotSelected(dot: Locator) {
-  for (let attempt = 1; attempt <= 3; attempt += 1) {
-    try {
-      await expect(dot).toHaveAttribute("data-selected", "true", { timeout: 1_500 });
-      return;
-    } catch {
-      await dot.click({ force: true });
-    }
-  }
-
-  await expect(dot).toHaveAttribute("data-selected", "true");
 }

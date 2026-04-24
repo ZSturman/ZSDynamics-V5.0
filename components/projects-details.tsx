@@ -19,9 +19,10 @@ import { PageFrame } from "@/components/layout/page-frame";
 
 interface ProjectDetailsProps {
   project: Project;
+  requestedCollectionItemId?: string;
 }
 
-export default function ProjectDetails({ project }: ProjectDetailsProps) {
+export default function ProjectDetails({ project, requestedCollectionItemId }: ProjectDetailsProps) {
   if (!project) {
     notFound();
   }
@@ -48,7 +49,7 @@ export default function ProjectDetails({ project }: ProjectDetailsProps) {
     sections.push({
       key: "collection",
       id: "collection",
-      content: <Collection project={project} inModal={false} />,
+      content: <Collection project={project} inModal={false} requestedCollectionItemId={requestedCollectionItemId} />,
     });
   }
 

@@ -104,6 +104,10 @@ function VideoContent({ item, folderName, collectionName }: { item: CollectionIt
   const shouldAutoPlay = item.autoPlay === true;
   const shouldLoop = item.loop === true
 
+  useEffect(() => {
+    videoRef.current?.load();
+  }, [itemPath]);
+
   const togglePlay = () => {
     if (videoRef.current) {
       if (isPlaying) {
@@ -166,6 +170,7 @@ function VideoContent({ item, folderName, collectionName }: { item: CollectionIt
         poster={poster}
         className="max-w-full max-h-[80vh] rounded-lg"
         controls
+        preload="metadata"
         autoPlay={shouldAutoPlay}
         loop={shouldLoop}
         muted={shouldAutoPlay}
