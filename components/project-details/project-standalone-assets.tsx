@@ -10,68 +10,18 @@ import { getStandaloneProjectAssets } from "@/lib/project-collections";
 import { LinkPreviewSurface } from "./link-preview-surface";
 import {
   cn,
-  extractPathValue,
-  resolveProjectAssetPath,
-  isVideoFile,
-  isImageFile,
-  isSvgFile,
-  getOptimizedMediaPath,
   getRenderableProjectPreviewPath,
 } from "@/lib/utils";
+import {
+  getCollectionItemOptimizedPath,
+  getCollectionItemPosterPath,
+  getCollectionItemResolvedPath,
+} from "@/lib/collection-item-media";
 import { MediaDisplay } from "@/components/ui/media-display";
 import { getProjectAssetSectionId } from "@/lib/project-section-anchors";
 import { ExpandableCardContent } from "./expandable-card-content";
 
 const ASSET_SUMMARY_COLLAPSE_THRESHOLD = 520;
-
-// ─── Path helpers ───────────────────────────────────────────────
-
-function getItemPath(
-  item: CollectionItem,
-  folderName?: string,
-  collectionName?: string,
-): string | undefined {
-  const opts = { folderName, collectionName, itemId: item.id };
-
-  if (item.path) {
-    const r = resolveProjectAssetPath(item.path, opts);
-    if (r) return r;
-  }
-  if (item.filePath) {
-    const r = resolveProjectAssetPath(item.filePath, opts);
-    if (r) return r;
-  }
-  if (item.relativePath) {
-    const r = resolveProjectAssetPath(item.relativePath, opts);
-    if (r) return r;
-  }
-
-  // url-link / folio types – try url field or resources
-  if (item.type === "url-link" || item.type === "local-link" || item.type === "folio") {
-    if (item.url) return item.url;
-    if (item.resource?.url) return item.resource.url;
-    if (item.resources?.[0]?.url) return item.resources[0].url;
-  }
-
-  // thumbnail fallback
-  const thumb = extractPathValue(item.thumbnail);
-  if (thumb) {
-    const r = resolveProjectAssetPath(thumb, opts);
-    if (r) return r;
-  }
-
-  return undefined;
-}
-
-function getThumbnailPath(
-  item: CollectionItem,
-  folderName?: string,
-  collectionName?: string,
-): string | undefined {
-  const raw = extractPathValue(item.thumbnail);
-  if (!raw) return undefined;
-  return resolveProjectAssetPath(raw, { folderName, collectionName, itemId: item.id }) || raw;
-}
 
 function getItemResources(item: CollectionItem): Resource[] {
   const out: Resource[] = [];
@@ -225,31 +175,26 @@ function AssetMedia({
   folderName: string;
 }) {
   const collectionName = "assets";
-  const path = getItemPath(item, folderName, collectionName);
-  const thumb = getThumbnailPath(item, folderName, collectionName);
+  const pathOptions = { folderName, collectionName };
+  const path = getCollectionItemResolvedPath(item, pathOptions);
+  const optimizedPath = getCollectionItemOptimizedPath(item, pathOptions);
+  const thumb = getCollectionItemPosterPath(item, pathOptions);
   const label = item.label || item.id;
+  const mediaPath = optimizedPath || path;
 
-  if (!path && !thumb) return null;
-
-  const optimized = path
-    ? isImageFile(path) && !isSvgFile(path)
-      ? getOptimizedMediaPath(path, `/projects/${folderName}`)
-      : isVideoFile(path)
-        ? path.replace(/\.[^.]+$/, "-optimized.mp4")
-        : path
-    : undefined;
+  if (!mediaPath && !thumb) return null;
 
   switch (item.type) {
     case "image":
-      return <ImageMedia src={optimized || path!} alt={label} />;
+      return mediaPath ? <ImageMedia src={mediaPath} alt={label} /> : null;
     case "video":
-      return <VideoMedia src={optimized || path!} poster={thumb} alt={label} />;
+      return mediaPath ? <VideoMedia src={mediaPath} poster={thumb} alt={label} /> : null;
     case "audio":
-      return <AudioMedia src={path!} alt={label} />;
+      return mediaPath ? <AudioMedia src={mediaPath} alt={label} /> : null;
     case "text":
-      return <TextMedia src={path!} alt={label} />;
+      return mediaPath ? <TextMedia src={mediaPath} alt={label} /> : null;
     case "game":
-      return <GameMedia src={path!} alt={label} />;
+      return mediaPath ? <GameMedia src={mediaPath} alt={label} /> : null;
     case "3d-model":
       // 3d-model renders via fullscreen only for now — show thumbnail preview
       if (thumb) return <ImageMedia src={thumb} alt={label} />;
@@ -261,15 +206,15 @@ function AssetMedia({
     case "url-link":
     case "local-link":
     case "folio":
-      return (
+      return mediaPath ? (
         <LinkPreview
-          url={path!}
+          url={mediaPath}
           thumbnail={thumb}
           label={label}
           summary={item.summary || item.oneLiner}
           preview={item.linkPreview}
         />
-      );
+      ) : null;
     default:
       if (thumb) return <ImageMedia src={thumb} alt={label} />;
       return null;

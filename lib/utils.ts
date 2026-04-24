@@ -165,10 +165,10 @@ export function getOptimizedMediaPath(filename: string | { path?: string } | und
     return resolvedFilename
   }
 
-  // If already absolute (e.g. "/projects/..."), return as-is. This guards
-  // against double-prefixing when JSON already stores rooted web paths.
+  // Rooted project media paths still need to point at generated optimized
+  // variants after the optimizer deletes the original source files.
   if (resolvedFilename.startsWith("/")) {
-    return resolvedFilename
+    return getRenderableProjectPreviewPath(resolvedFilename) || resolvedFilename
   }
   
   const stem = resolvedFilename.substring(0, resolvedFilename.lastIndexOf('.')) || resolvedFilename
