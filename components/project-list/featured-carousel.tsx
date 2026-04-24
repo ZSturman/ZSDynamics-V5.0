@@ -9,14 +9,14 @@ import { MediaDisplay } from "@/components/ui/media-display"
 import { trackProjectOpen } from "@/lib/firebase-analytics"
 import { getProjectHref } from "@/lib/project-paths"
 import { formatDate, getOptimizedMediaPath, formatTextWithNewlines } from "@/lib/utils"
-import { STATUS_COLOR } from "@/lib/resource-map"
-import ResourceButton from "../project-details/resource-button"
+import { getProjectStatusLabel, getProjectStatusToneClass } from "@/lib/project-discovery"
 import ProjectMediums from "../project-details/project-mediums"
 import { useRouter } from "next/navigation"
 import { useBreadcrumb } from "@/lib/breadcrumb-context"
 import type { Project } from "@/types"
 import useEmblaCarousel from "embla-carousel-react"
 import Autoplay from "embla-carousel-autoplay"
+import { ProjectResourceIconStrip } from "./project-resource-icon-strip"
 
 interface FeaturedCarouselProps {
   projects: Project[]
@@ -129,15 +129,13 @@ export function FeaturedCarousel({
               const folderName = project.folderName || project.id
               const folderPath = `/projects/${folderName}`
               
-              const bannerPath = getOptimizedMediaPath(
-                project.images?.banner || project.images?.poster || project.images?.thumbnail, 
-                folderPath
-              )
-              const bannerSettings = project.imageSettings?.banner || project.imageSettings?.poster
+              const heroMedia = project.images?.hero || project.images?.thumbnail
+              const heroPath = getOptimizedMediaPath(heroMedia, folderPath)
+              const heroSettings = project.images?.hero ? project.imageSettings?.hero : project.imageSettings?.thumbnail
               const updatedLabel = formatDate(project.updatedAt)
 
               const statusValue = project.status || ""
-              const showStatusBadge = statusValue && statusValue.trim() !== "" && statusValue.toLowerCase() !== "done"
+              const showStatusBadge = statusValue && statusValue.trim() !== ""
 
               return (
                 <div
@@ -180,18 +178,18 @@ export function FeaturedCarousel({
                       <div
                         data-testid="featured-carousel-media"
                         data-project-id={project.id}
-                        data-media-role="banner"
+                        data-media-role={project.images?.hero ? "hero" : "thumbnail"}
                         className="absolute inset-0"
                       >
                         <MediaDisplay
-                          src={bannerPath}
-                          alt={`${project.title} banner`}
+                          src={heroPath}
+                          alt={`${project.title} featured media`}
                           fill
                           className="object-cover"
                           sizes="100vw"
                           priority
-                          loop={bannerSettings?.loop ?? true}
-                          autoPlay={bannerSettings?.autoPlay ?? false}
+                          loop={heroSettings?.loop ?? true}
+                          autoPlay={heroSettings?.autoPlay ?? false}
                         />
                       </div>
                       
@@ -201,26 +199,12 @@ export function FeaturedCarousel({
                       {/* Overlayed Content */}
                       <div className="relative h-full min-h-[280px] p-4 flex flex-col justify-end">
                         <div className="space-y-2">
+
                           {/* Title and Subtitle */}
                           <div>
-                            <div className="flex flex-row items-center">
-
                             <h3 className="text-lg font-bold text-foreground line-clamp-2">
                               {project.title}
                             </h3>
-                                                        
-                              {project.resources?.slice(0, 1).map((resource) => (
-                                <ResourceButton 
-                                  key={resource.url} 
-                                  resource={resource} 
-                                  currentProject={project}
-                                  iconOnly
-                                  className="h-8 w-8"
-                                />
-                              ))}
-                        
-
-                            </div>
                             {project.subtitle && (
                               <p className="text-sm text-muted-foreground line-clamp-1">
                                 {project.subtitle}
@@ -232,25 +216,31 @@ export function FeaturedCarousel({
 
 
 
+{/* Footer */}
+<div className="flex items-end justify-between gap-3 mt-2 pt-2 border-t border-border/50">
+  <div className="min-w-0">
+    {updatedLabel ? (
+      <span className="text-xs text-muted-foreground">
+        Last Updated {updatedLabel}
+      </span>
+    ) : null}
+    
+    {/* Tags - Show up to 2 tags */}
+    <div className="flex flex-wrap items-center gap-2 mt-1">
+      {project.tags?.slice(0, 2).map((tag) => (
+        <MetadataTag key={tag} tag={tag} size="sm" className="text-xs text-muted-foreground/90" />
+      ))}
+    </div>
+  </div>
 
-                          {/* Footer */}
-                          <div className="flex items-center justify-between mt-2 pt-2 border-t border-border/50">
-                            {updatedLabel ? (
-                              <span className="text-xs text-muted-foreground">
-                                Last Updated {updatedLabel}
-                              </span>
-                            ) : (
-                              <span />
-                            )}
-                            
-                            {/* Tags - Show up to 2 tags */}
-                            <div className="flex items-center gap-2">
-                              {project.tags?.slice(0, 2).map((tag) => (
-                                <MetadataTag key={tag} tag={tag} size="sm" className="text-xs text-muted-foreground/90" />
-                              ))}
-                              </div>
-                          </div>
-
+  <ProjectResourceIconStrip
+    project={project}
+    maxItems={2}
+    testId="featured-carousel-resource-icons"
+    className="ml-auto justify-end"
+    buttonClassName="h-8 w-8 bg-background/85"
+  />
+</div>
 
 
 
@@ -265,18 +255,18 @@ export function FeaturedCarousel({
                         <div
                           data-testid="featured-carousel-media"
                           data-project-id={project.id}
-                          data-media-role="banner"
+                          data-media-role={project.images?.hero ? "hero" : "thumbnail"}
                           className="absolute inset-0"
                         >
                           <MediaDisplay
-                            src={bannerPath}
-                            alt={`${project.title} banner`}
+                            src={heroPath}
+                            alt={`${project.title} featured media`}
                             fill
                             className="object-cover transition-transform duration-500"
                             sizes="(min-width: 1024px) 60vw, (min-width: 768px) 50vw, 40vw"
                             priority
-                            loop={bannerSettings?.loop ?? true}
-                            autoPlay={bannerSettings?.autoPlay ?? false}
+                            loop={heroSettings?.loop ?? true}
+                            autoPlay={heroSettings?.autoPlay ?? false}
                           />
                         </div>
                         {/* Gradient overlay for text readability */}
@@ -287,11 +277,9 @@ export function FeaturedCarousel({
                           <div className="absolute top-4 left-4">
                             <PassiveChip
                               tone="overlay"
-                              className={`${
-                                STATUS_COLOR[project.status as keyof typeof STATUS_COLOR]
-                              } font-medium text-xs px-3 py-1`}
+                              className={`${getProjectStatusToneClass(project.status)} font-medium text-xs px-3 py-1`}
                             >
-                              {statusValue.charAt(0).toUpperCase() + statusValue.slice(1)}
+                              {getProjectStatusLabel(project.status)}
                             </PassiveChip>
                           </div>
                         )}
@@ -305,6 +293,8 @@ export function FeaturedCarousel({
                       {/* Right: Content */}
                       <div className="w-3/5 md:w-1/2 lg:w-2/5 p-5 lg:p-8 flex flex-col justify-between">
                         <div className="space-y-3 lg:space-y-4">
+
+
                           {/* Title and Subtitle */}
                           <div>
                             <h3 className="text-xl lg:text-3xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors line-clamp-2">
@@ -330,28 +320,24 @@ export function FeaturedCarousel({
                           </div>
                         </div>
 
-                        {/* Footer - Show on md and up */}
-                        <div className="flex items-center justify-between mt-4 pt-4 border-t border-border/50">
-                          {updatedLabel ? (
-                            <span className="text-xs text-muted-foreground">
-                              Last Updated {updatedLabel}
-                            </span>
-                          ) : (
-                            <span />
-                          )}
-                          
-                          <div className="flex items-center gap-2">
-                            {project.resources?.slice(0, 3).map((resource) => (
-                              <ResourceButton 
-                                key={resource.url} 
-                                resource={resource} 
-                                currentProject={project}
-                                iconOnly
-                                className="h-9 w-9"
-                              />
-                            ))}
-                          </div>
-                        </div>
+{/* Footer - Show on md and up */}
+<div className="flex items-end justify-between gap-3 mt-4 pt-4 border-t border-border/50">
+  {updatedLabel ? (
+    <span className="text-xs text-muted-foreground">
+      Last Updated {updatedLabel}
+    </span>
+  ) : (
+    <span />
+  )}
+
+  <ProjectResourceIconStrip
+    project={project}
+    maxItems={3}
+    testId="featured-carousel-resource-icons"
+    className="ml-auto justify-end"
+    buttonClassName="h-9 w-9"
+  />
+</div>
                       </div>
                     </div>
                   </div>

@@ -1,40 +1,23 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
+
+import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { getProjectSlug } from "@/lib/project-paths";
-import { formatDate } from "@/lib/utils";
-import { Project, WorkLog } from "@/types";
+import {
+  formatWorkLogSessionRange,
+  getWorkLogDurationMinutes,
+  getWorkLogSummary,
+  getWorkLogTimestamp,
+  getWorkLogTitle,
+} from "@/lib/work-logs";
+import { Project } from "@/types";
 
 interface ProjectWorkLogsProps {
   project: Project;
   limit?: number;
-}
-
-function toTimestamp(value?: string): number {
-  if (!value) return 0;
-  const parsed = Date.parse(value);
-  return Number.isNaN(parsed) ? 0 : parsed;
-}
-
-function getStartTime(workLog: WorkLog): string | undefined {
-  return workLog.startTime || workLog.sessionStart || workLog.date;
-}
-
-function getEndTime(workLog: WorkLog): string | undefined {
-  return workLog.endTime || workLog.sessionEnd || getStartTime(workLog);
-}
-
-function getDurationMinutes(workLog: WorkLog): number {
-  if (typeof workLog.durationMinutes === "number" && workLog.durationMinutes > 0) {
-    return workLog.durationMinutes;
-  }
-
-  const start = toTimestamp(getStartTime(workLog));
-  const end = toTimestamp(getEndTime(workLog));
-  if (!start || !end || end <= start) return 0;
-  return Math.round((end - start) / 60000);
 }
 
 function formatDuration(minutes: number): string | null {
@@ -45,70 +28,88 @@ function formatDuration(minutes: number): string | null {
   return remainder > 0 ? `${hours}h ${remainder}m` : `${hours}h`;
 }
 
-function formatSessionDate(workLog: WorkLog): string {
-  const start = getStartTime(workLog);
-  if (!start) return "Date not set";
-  const day = formatDate(start, { month: "short", day: "numeric", year: "numeric" }) || "Date not set";
-  const time = formatDate(start, { hour: "numeric", minute: "2-digit" });
-  return time ? `${day} · ${time}` : day;
-}
-
 export function ProjectWorkLogs({ project, limit }: ProjectWorkLogsProps) {
+  const [isExpanded, setIsExpanded] = useState(false);
   const workLogs = (project.workLogs || []).filter((workLog) => Boolean(workLog.title || workLog.entry));
 
-  const projectLogs = useMemo(
-    () =>
-      [...workLogs]
-        .sort((a, b) => toTimestamp(getStartTime(b)) - toTimestamp(getStartTime(a)))
-        .slice(0, typeof limit === "number" ? limit : workLogs.length),
-    [limit, workLogs]
+  const sortedLogs = useMemo(
+    () => [...workLogs].sort((a, b) => getWorkLogTimestamp(b) - getWorkLogTimestamp(a)),
+    [workLogs]
   );
 
-  if (workLogs.length === 0) {
+  const hasOverflow = typeof limit === "number" && limit > 0 && sortedLogs.length > limit;
+  const visibleLogs =
+    hasOverflow && !isExpanded
+      ? sortedLogs.slice(0, limit)
+      : sortedLogs;
+
+  if (sortedLogs.length === 0) {
     return null;
   }
 
   return (
-    <section className="space-y-4">
+    <section data-testid="project-work-logs" className="space-y-4 md:space-y-5">
       <div className="flex items-center justify-between gap-3">
-        <h3 className="text-sm font-medium text-muted-foreground">Work Logs</h3>
-        <Link href={`/work-logs?project=${getProjectSlug(project)}`} className="text-xs text-primary hover:underline">
+        <h3 className="text-base font-semibold tracking-tight text-foreground">Work Logs</h3>
+        <Link
+          href={`/work-logs?project=${getProjectSlug(project)}`}
+          className="text-xs font-medium text-primary hover:underline"
+        >
           See all logs
         </Link>
       </div>
 
-      <div className="space-y-4">
-        {projectLogs.map((workLog, idx) => {
+      <div data-testid="project-work-logs-list" className="space-y-3">
+        {visibleLogs.map((workLog, idx) => {
           const key = workLog.id || `${project.id}-work-log-${idx}`;
-          const isLast = idx === projectLogs.length - 1;
-          const summary = workLog.whatHappened || workLog.entry || "";
-          const durationLabel = formatDuration(getDurationMinutes(workLog));
+          const summary = getWorkLogSummary(workLog);
+          const durationLabel = formatDuration(getWorkLogDurationMinutes(workLog));
 
           return (
-            <div key={key} className="relative pl-8">
-              <span className="absolute left-[0.55rem] top-2.5 h-3 w-3 rounded-full border border-primary/50 bg-primary/70" />
-              {!isLast && <span className="absolute bottom-[-1rem] left-[0.88rem] top-6 w-px bg-border/80" />}
+            <Card
+              key={key}
+              data-testid="project-work-log-card"
+              className="border-border/60 bg-card/50 shadow-sm"
+            >
+              <CardContent className="space-y-4 p-4 md:p-5">
+                <div className="flex flex-wrap items-start justify-between gap-3">
+                  <h4 className="max-w-2xl text-base font-semibold leading-snug text-foreground">
+                    {getWorkLogTitle(workLog)}
+                  </h4>
+                  <span className="text-xs text-muted-foreground md:text-sm">
+                    {formatWorkLogSessionRange(workLog)}
+                  </span>
+                </div>
 
-              <Card className="border-border/70 shadow-sm">
-                <CardContent className="space-y-3 p-3 md:p-4">
-                  <div className="flex flex-wrap items-start justify-between gap-2">
-                    <h4 className="text-sm font-semibold leading-snug">{workLog.title || workLog.entry || "Work log"}</h4>
-                    <span className="text-xs text-muted-foreground">{formatSessionDate(workLog)}</span>
+                {summary && (
+                  <p className="whitespace-pre-wrap text-sm leading-relaxed text-muted-foreground md:text-[15px]">
+                    {summary}
+                  </p>
+                )}
+
+                {durationLabel && (
+                  <div className="flex flex-wrap items-center gap-3 text-xs font-medium text-muted-foreground">
+                    <span>Duration: {durationLabel}</span>
                   </div>
-
-                  {summary && <p className="whitespace-pre-wrap text-sm text-muted-foreground">{summary}</p>}
-
-                  {durationLabel && (
-                    <div className="flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
-                      <span>Duration: {durationLabel}</span>
-                    </div>
-                  )}
-                </CardContent>
-              </Card>
-            </div>
+                )}
+              </CardContent>
+            </Card>
           );
         })}
       </div>
+
+      {hasOverflow ? (
+        <Button
+          type="button"
+          variant="ghost"
+          size="sm"
+          data-testid="project-work-logs-view-more"
+          className="h-auto px-0 py-1 text-sm font-medium text-primary hover:bg-transparent hover:text-primary/80"
+          onClick={() => setIsExpanded((current) => !current)}
+        >
+          {isExpanded ? "Show fewer logs" : `View ${sortedLogs.length - visibleLogs.length} more logs`}
+        </Button>
+      ) : null}
     </section>
   );
 }

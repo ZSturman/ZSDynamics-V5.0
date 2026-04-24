@@ -2,7 +2,7 @@ import { PassiveChip } from "@/components/ui/passive-chip";
 import { MetadataTag } from "@/components/ui/metadata-text";
 import { formatDate } from "@/lib/utils";
 import { Project } from "@/types";
-import { Calendar, AlertCircle, Clock, Archive } from "lucide-react";
+import { AlertCircle, Calendar } from "lucide-react";
 
 interface ProjectMetadataProps {
   project: Project;
@@ -22,7 +22,10 @@ export function ProjectMetadata({ project, compact = false }: ProjectMetadataPro
   };
 
   return (
-    <div className="rounded-lg border border-border bg-card p-4 md:p-6">
+    <div
+      data-testid="project-metadata"
+      className="rounded-2xl border border-border/60 bg-card/60 p-5 md:p-6"
+    >
       <div className="space-y-6">
         {/* Status and Dates Section - Hidden in compact mode */}
         {!compact && (
@@ -30,7 +33,10 @@ export function ProjectMetadata({ project, compact = false }: ProjectMetadataPro
             {/* Status Badge with Follow-up */}
             {project.status && (
               <div className="flex items-center justify-between flex-wrap gap-2">
-                <PassiveChip tone="strong" className="text-sm px-3 py-1">
+                <PassiveChip
+                  tone="strong"
+                  className="border-transparent bg-secondary/75 px-3 py-1 text-sm text-foreground"
+                >
                   {getStatusLabel(project.status, project.phase)}
                 </PassiveChip>
                 {project.requiresFollowUp && (
@@ -45,10 +51,10 @@ export function ProjectMetadata({ project, compact = false }: ProjectMetadataPro
             )}
 
             {/* Dates in a grid */}
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid gap-4 sm:grid-cols-2">
               {project.createdAt && (
                 <div className="flex items-center gap-2">
-                  <Clock className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+                  <Calendar className="h-4 w-4 text-muted-foreground flex-shrink-0" />
                   <div className="flex flex-col">
                     <span className="text-xs text-muted-foreground">Started</span>
                     <span className="text-sm text-foreground">
@@ -60,11 +66,7 @@ export function ProjectMetadata({ project, compact = false }: ProjectMetadataPro
 
               {project.updatedAt && (
                 <div className="flex items-center gap-2">
-                  {isArchived ? (
-                    <Archive className="h-4 w-4 text-muted-foreground flex-shrink-0" />
-                  ) : (
-                    <Calendar className="h-4 w-4 text-muted-foreground flex-shrink-0" />
-                  )}
+                  <Calendar className="h-4 w-4 text-muted-foreground flex-shrink-0" />
                   <div className="flex flex-col">
                     <span className="text-xs text-muted-foreground">
                       {isArchived ? "Archived" : "Last Updated"}
@@ -76,29 +78,6 @@ export function ProjectMetadata({ project, compact = false }: ProjectMetadataPro
                 </div>
               )}
             </div>
-          </div>
-        )}
-
-        {/* Category and Domain Grid */}
-        {(project.category || project.domain) && (
-          <div className="grid grid-cols-2 gap-4">
-            {project.category && (
-              <div>
-                <p className="text-xs text-muted-foreground mb-1.5">Category</p>
-                <PassiveChip tone="strong" className="text-xs">
-                  {project.category}
-                </PassiveChip>
-              </div>
-            )}
-
-            {project.domain && (
-              <div>
-                <p className="text-xs text-muted-foreground mb-1.5">Domain</p>
-                <PassiveChip className="text-xs">
-                  {project.domain}
-                </PassiveChip>
-              </div>
-            )}
           </div>
         )}
 

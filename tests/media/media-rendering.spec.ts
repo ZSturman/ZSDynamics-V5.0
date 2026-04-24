@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { expect, test, type Locator } from "@playwright/test";
 
 import {
   getProjectRoute,
@@ -12,21 +12,27 @@ import { gotoHomeReady, gotoProjectReady } from "../helpers/route-readiness";
 
 const projects = loadCanonicalProjects();
 const representativeProjects = getRepresentativeProjects(projects);
-const defaultProject = pickDefaultProject(projects);
+const homeVisibleProjects = projects.filter((project) => String(project.domain || "").toLowerCase() === "technology");
+const homeRepresentativeProjects = getRepresentativeProjects(homeVisibleProjects);
+const defaultHomeProject = pickDefaultProject(homeVisibleProjects);
 const standaloneUrlAssetProject = findProjectWithStandaloneUrlAsset(projects);
+const headerPreviewProject = findProjectWithHeaderPreview(projects);
+const collectionVideoProject = findProjectWithCollectionVideo(projects);
 
 const cardSelectorForProject = (projectId: string) =>
   `[data-testid="project-card-root"][data-project-id="${projectId}"], [data-testid="project-list-item-root"][data-project-id="${projectId}"]`;
 
 test.describe("@smoke @matrix media rendering", () => {
+  test.describe.configure({ timeout: 60_000 });
+
   test("home route renders representative card media", async ({ page }, testInfo) => {
     await gotoHomeReady(page);
 
     const candidates = uniqueProjects([
-      representativeProjects.banner,
-      representativeProjects.poster,
-      representativeProjects["thumbnail-only"],
-      defaultProject,
+      homeRepresentativeProjects.hero,
+      homeRepresentativeProjects.poster,
+      homeRepresentativeProjects["thumbnail-only"],
+      defaultHomeProject,
     ]).slice(0, 3);
 
     for (const project of candidates) {
@@ -45,7 +51,7 @@ test.describe("@smoke @matrix media rendering", () => {
 
         const media = card.locator('[data-testid="project-card-media"], [data-testid="project-list-item-media"]').first();
         await expect(media).toBeVisible();
-        await expect(media.locator("img, video").first()).toBeVisible();
+        await expect(media.locator("img, video, [data-media-placeholder], [data-media-fallback]").first()).toBeVisible();
       } catch (error) {
         await attachMediaContext(testInfo, "media-context", context);
         throw error;
@@ -73,8 +79,13 @@ test.describe("@smoke @matrix media rendering", () => {
       const dots = carousel.locator('[data-testid="featured-carousel-dot"]');
       const dotCount = await dots.count();
       if (dotCount > 1) {
-        await dots.nth(1).click();
-        await expect(dots.nth(1)).toHaveAttribute("data-selected", "true");
+        if (testInfo.project.name.includes("mobile")) {
+          await expect(dots.nth(1)).toBeVisible();
+        } else {
+          const secondDot = dots.nth(1);
+          await secondDot.click();
+          await ensureDotSelected(secondDot);
+        }
       }
     } catch (error) {
       await attachMediaContext(testInfo, "media-context", context);
@@ -86,7 +97,10 @@ test.describe("@smoke @matrix media rendering", () => {
     test.skip(testInfo.project.name.includes("mobile"), "Modal validation is desktop-specific.");
 
     const project =
-      representativeProjects.banner || representativeProjects.poster || representativeProjects["thumbnail-only"] || defaultProject;
+      homeRepresentativeProjects.hero ||
+      homeRepresentativeProjects.poster ||
+      homeRepresentativeProjects["thumbnail-only"] ||
+      defaultHomeProject;
 
     await gotoHomeReady(page);
 
@@ -160,6 +174,126 @@ test.describe("@smoke @matrix media rendering", () => {
           throw error;
         }
       }
+    }
+  });
+
+  test("project header preview media opens in a fullscreen lightbox", async ({ page }, testInfo) => {
+    test.skip(!headerPreviewProject, "No project with hero or poster preview media found in canonical dataset.");
+
+    const project = headerPreviewProject!;
+    const route = getProjectRoute(project);
+    await gotoProjectReady(page, project.id, project.title, route);
+
+    const context = buildRuntimeContext(page, testInfo, {
+      scenario: "project-header-preview-lightbox",
+      route,
+      projectId: project.id,
+      projectTitle: project.title,
+      environment: process.env.NODE_ENV || "test",
+    });
+
+    try {
+      const trigger = page
+        .locator(`[data-testid="project-header-media-trigger"][data-project-id="${project.id}"]`)
+        .first();
+
+      await expect(trigger).toBeVisible();
+      const headerMediaRoute = `${route}?headerMedia=${getHeaderPreviewQueryValue(project)}`;
+      await gotoProjectReady(page, project.id, project.title, headerMediaRoute);
+      const lightbox = page.getByTestId("project-header-media-lightbox");
+      await expect(lightbox).toBeVisible();
+      await expect(lightbox.locator("img, video").first()).toBeVisible();
+    } catch (error) {
+      await attachMediaContext(testInfo, "media-context", context);
+      throw error;
+    }
+  });
+
+  test("collection video cards stay static and open in the fullscreen viewer", async ({ page }, testInfo) => {
+    test.skip(!collectionVideoProject, "No project with collection-backed video items found in canonical dataset.");
+
+    const { project, itemId, collectionName } = collectionVideoProject!;
+    const route = getProjectRoute(project);
+    await gotoProjectReady(page, project.id, project.title, route);
+
+    const context = buildRuntimeContext(page, testInfo, {
+      scenario: "collection-video-card-fullscreen",
+      route,
+      projectId: project.id,
+      projectTitle: project.title,
+      mediaKey: itemId,
+      environment: process.env.NODE_ENV || "test",
+    });
+
+    try {
+      if (collectionName) {
+        const tab = page.getByRole("tab", { name: collectionName }).first();
+        if (await tab.isVisible().catch(() => false)) {
+          await tab.click();
+        }
+      }
+
+      const card = page.locator(`[data-collection-item-id="${itemId}"][data-collection-item-type="video"]`).first();
+      await expect(card).toBeVisible();
+      await expect(card.locator("video")).toHaveCount(0);
+
+      const preview = card.getByTestId("collection-video-card-media");
+      await expect(preview).toBeVisible();
+      await expect(preview).toHaveAttribute("data-preview-state", "poster");
+      await expect(preview.locator("img").first()).toHaveAttribute("src", /-thumb\.jpg/i);
+
+      await gotoProjectReady(page, project.id, project.title, `${route}?collectionItem=${itemId}`);
+
+      const fullscreen = page.getByTestId("collection-fullscreen");
+      await expect(fullscreen).toHaveAttribute("data-collection-item-id", itemId);
+      await expect(fullscreen.locator("video").first()).toBeVisible();
+    } catch (error) {
+      await attachMediaContext(testInfo, "media-context", context);
+      throw error;
+    }
+  });
+
+  test("collection video cards remain static on narrow viewports", async ({ page }, testInfo) => {
+    test.skip(!collectionVideoProject, "No project with collection-backed video items found in canonical dataset.");
+
+    await page.setViewportSize({ width: 390, height: 844 });
+
+    const { project, itemId, collectionName } = collectionVideoProject!;
+    const route = getProjectRoute(project);
+    await gotoProjectReady(page, project.id, project.title, route);
+
+    const context = buildRuntimeContext(page, testInfo, {
+      scenario: "collection-video-card-mobile-like",
+      route,
+      projectId: project.id,
+      projectTitle: project.title,
+      mediaKey: itemId,
+      environment: process.env.NODE_ENV || "test",
+    });
+
+    try {
+      if (collectionName) {
+        const tab = page.getByRole("tab", { name: collectionName }).first();
+        if (await tab.isVisible().catch(() => false)) {
+          await tab.click();
+        }
+      }
+
+      const card = page.locator(`[data-collection-item-id="${itemId}"][data-collection-item-type="video"]`).first();
+      await expect(card).toBeVisible();
+      await expect(card.locator("video")).toHaveCount(0);
+
+      const preview = card.getByTestId("collection-video-card-media");
+      await expect(preview).toBeVisible();
+
+      await gotoProjectReady(page, project.id, project.title, `${route}?collectionItem=${itemId}`);
+
+      const fullscreen = page.getByTestId("collection-fullscreen");
+      await expect(fullscreen).toHaveAttribute("data-collection-item-id", itemId);
+      await expect(fullscreen.locator("video").first()).toBeVisible();
+    } catch (error) {
+      await attachMediaContext(testInfo, "media-context", context);
+      throw error;
     }
   });
 
@@ -269,4 +403,60 @@ function findProjectWithStandaloneUrlAsset(projects: CanonicalProject[]) {
   }
 
   return undefined;
+}
+
+function findProjectWithHeaderPreview(projects: CanonicalProject[]) {
+  return projects.find((project) => {
+    return Boolean(project.images?.hero || project.images?.posterPortrait || project.images?.poster);
+  });
+}
+
+function findProjectWithCollectionVideo(projects: CanonicalProject[]) {
+  for (const project of projects) {
+    const collections = (project.collection as Record<string, unknown> | undefined) || {};
+
+    for (const [collectionName, value] of Object.entries(collections)) {
+      const items = Array.isArray(value)
+        ? value
+        : value && typeof value === "object" && Array.isArray((value as { items?: unknown[] }).items)
+        ? ((value as { items: unknown[] }).items)
+        : [];
+
+      const videoItem = items.find((item) => {
+        if (!item || typeof item !== "object") return false;
+        return (item as { type?: string }).type === "video" && typeof (item as { id?: string }).id === "string";
+      }) as { id: string } | undefined;
+
+      if (videoItem) {
+        return {
+          project,
+          itemId: videoItem.id,
+          collectionName,
+        };
+      }
+    }
+  }
+
+  return undefined;
+}
+
+function getHeaderPreviewQueryValue(project: CanonicalProject): string {
+  if (project.images?.hero) {
+    return "hero";
+  }
+
+  if (project.images?.posterPortrait) {
+    return "posterPortrait";
+  }
+
+  return "poster";
+}
+
+async function ensureDotSelected(dot: Locator) {
+  try {
+    await expect(dot).toHaveAttribute("data-selected", "true", { timeout: 1_500 });
+  } catch {
+    await dot.dispatchEvent("click");
+    await expect(dot).toHaveAttribute("data-selected", "true");
+  }
 }

@@ -44,9 +44,6 @@ export function ArticleCard({ article }: ArticleCardProps) {
         )}
 
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background/85 via-background/10 to-transparent" />
-        <div className="pointer-events-none absolute left-4 top-4 inline-flex items-center rounded-full border border-white/40 bg-black/25 px-2.5 py-1 text-[11px] font-medium uppercase tracking-[0.16em] text-white/90 backdrop-blur-sm">
-          Article
-        </div>
         <div className="pointer-events-none absolute bottom-4 left-4 right-4 flex items-end justify-between gap-3">
           <div className="min-w-0 space-y-1">
             <p className="text-[11px] uppercase tracking-[0.16em] text-white/80">{getPrimaryDate(article)}</p>

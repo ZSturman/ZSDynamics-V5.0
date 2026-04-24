@@ -22,7 +22,7 @@ import os
 import sys
 import subprocess
 from pathlib import Path
-from typing import Optional, Tuple, Dict, List
+from typing import Any, Optional, Tuple, Dict, List
 import json
 import shutil
 
@@ -51,6 +51,10 @@ VIDEO_QUALITY = {
     "max_dimension": 1920,  # Max width or height
     "max_bitrate": "2M",    # Maximum bitrate
 }
+VIDEO_PREVIEW_FRAME_COUNT = 6
+VIDEO_PREVIEW_INTERVAL_MS = 650
+VIDEO_PREVIEW_START_RATIO = 0.12
+VIDEO_PREVIEW_END_RATIO = 0.88
 
 PLACEHOLDER_SIZE = 20    # Size of blur placeholder (very small)
 
@@ -77,6 +81,20 @@ def check_obj2gltf() -> bool:
     try:
         subprocess.run(
             ["obj2gltf", "--version"],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            check=False
+        )
+        return True
+    except FileNotFoundError:
+        return False
+
+
+def check_ffprobe() -> bool:
+    """Check if ffprobe is available in the system."""
+    try:
+        subprocess.run(
+            ["ffprobe", "-version"],
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             check=False
@@ -511,7 +529,100 @@ def generate_video_thumbnail(src: Path, dest: Path, time_offset: str = "00:00:01
         return None
 
 
-def optimize_video_full(src: Path, output_dir: Optional[Path] = None) -> Dict[str, str]:
+def get_video_duration_seconds(src: Path) -> Optional[float]:
+    """Return video duration in seconds when ffprobe is available."""
+    if not check_ffprobe():
+        return None
+
+    try:
+        result = subprocess.run(
+            [
+                "ffprobe",
+                "-v",
+                "error",
+                "-show_entries",
+                "format=duration",
+                "-of",
+                "default=noprint_wrappers=1:nokey=1",
+                str(src),
+            ],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            check=False,
+        )
+    except Exception:
+        return None
+
+    if result.returncode != 0:
+        return None
+
+    try:
+        return float(result.stdout.decode().strip())
+    except Exception:
+        return None
+
+
+def format_ffmpeg_timestamp(seconds: float) -> str:
+    """Format seconds as an ffmpeg-compatible timestamp."""
+    total_ms = max(0, int(round(seconds * 1000)))
+    hours, remainder = divmod(total_ms, 3_600_000)
+    minutes, remainder = divmod(remainder, 60_000)
+    whole_seconds, milliseconds = divmod(remainder, 1000)
+    return f"{hours:02d}:{minutes:02d}:{whole_seconds:02d}.{milliseconds:03d}"
+
+
+def generate_video_preview_frames(
+    src: Path,
+    output_dir: Path,
+    *,
+    count: int = VIDEO_PREVIEW_FRAME_COUNT,
+) -> Tuple[List[Path], Optional[str]]:
+    """
+    Generate a deterministic sequence of preview frames for a video.
+
+    Returns:
+        A tuple of generated frame paths and an optional issue summary.
+    """
+    if count < 2:
+        return [], "preview frame count must be at least 2"
+
+    if not check_ffmpeg():
+        return [], "ffmpeg not found"
+
+    duration = get_video_duration_seconds(src)
+    if duration and duration > 0:
+        start_seconds = min(max(duration * VIDEO_PREVIEW_START_RATIO, 0.25), max(duration - 0.1, 0.25))
+        end_seconds = max(start_seconds, duration * VIDEO_PREVIEW_END_RATIO)
+        if count == 1:
+            offsets = [start_seconds]
+        else:
+            step = (end_seconds - start_seconds) / max(count - 1, 1)
+            offsets = [start_seconds + (step * index) for index in range(count)]
+    else:
+        offsets = [0.5 + (index * 1.1) for index in range(count)]
+
+    generated: List[Path] = []
+    failed_offsets: List[str] = []
+    stem = src.stem
+
+    for index, offset in enumerate(offsets, start=1):
+        destination = output_dir / f"{stem}-preview-{index:02d}.jpg"
+        if generate_video_thumbnail(src, destination, time_offset=format_ffmpeg_timestamp(offset)):
+            generated.append(destination)
+        else:
+            failed_offsets.append(format_ffmpeg_timestamp(offset))
+
+    if len(generated) >= 2:
+        if failed_offsets:
+            return generated, f"{len(failed_offsets)} preview frames failed at {', '.join(failed_offsets)}"
+        return generated, None
+
+    if failed_offsets:
+        return generated, f"preview frame extraction failed at {', '.join(failed_offsets)}"
+    return generated, "preview frame extraction failed"
+
+
+def optimize_video_full(src: Path, output_dir: Optional[Path] = None) -> Dict[str, Any]:
     """
     Generate all optimized variants of a video.
     
@@ -540,10 +651,12 @@ def optimize_video_full(src: Path, output_dir: Optional[Path] = None) -> Dict[st
     output_dir.mkdir(parents=True, exist_ok=True)
     stem = src.stem
     
-    results = {
+    results: Dict[str, Any] = {
         'original': src.name,
         'useCloudStorage': should_use_cloud_storage(src)
     }
+    issues: List[str] = []
+    fallbacks: List[str] = []
     
     # Generate optimized video
     optimized_path = output_dir / f"{stem}-optimized.mp4"
@@ -552,6 +665,9 @@ def optimize_video_full(src: Path, output_dir: Optional[Path] = None) -> Dict[st
         # Update cloud storage check for optimized version
         if optimized_path.exists():
             results['useCloudStorage'] = should_use_cloud_storage(optimized_path)
+    else:
+        issues.append("optimized video generation failed")
+        fallbacks.append("the UI will use the original video file when it is still readable")
     
     # Generate thumbnail
     thumb_path = output_dir / f"{stem}-thumb.jpg"
@@ -562,6 +678,24 @@ def optimize_video_full(src: Path, output_dir: Optional[Path] = None) -> Dict[st
         placeholder_path = output_dir / f"{stem}-placeholder.jpg"
         if generate_blur_placeholder(thumb_path, placeholder_path):
             results['placeholder'] = placeholder_path.name
+    else:
+        issues.append("thumbnail generation failed")
+        fallbacks.append("the UI will fall back to a play-icon placeholder for poster surfaces")
+
+    preview_frames, preview_issue = generate_video_preview_frames(src, output_dir)
+    if len(preview_frames) >= 2:
+        results['previewFrames'] = [frame.name for frame in preview_frames]
+        results['previewIntervalMs'] = VIDEO_PREVIEW_INTERVAL_MS
+    else:
+        if preview_issue:
+            issues.append(preview_issue)
+        else:
+            issues.append("preview frame generation failed")
+        fallbacks.append("collection video cards will stay on a static poster instead of cycling hover previews")
+
+    if issues:
+        results['issues'] = issues
+        results['fallbacks'] = list(dict.fromkeys(fallbacks))
     
     return results
 
@@ -687,9 +821,9 @@ def optimize_3d_model_full(src: Path, output_dir: Optional[Path] = None) -> Dict
 def batch_optimize_directory(
     directory: Path,
     image_exts: set = {'.jpg', '.jpeg', '.png', '.webp', '.gif', '.tiff', '.tif', '.bmp', '.ico', '.heic', '.heif', '.svg'},
-    video_exts: set = {'.mp4', '.mov', '.webm'},
+    video_exts: set = {'.mp4', '.mov', '.webm', '.avi', '.mkv', '.ogv', '.wmv', '.mpg', '.mpeg', '.flv'},
     model_exts: set = {'.obj', '.gltf'}
-) -> Dict[str, Dict[str, str]]:
+) -> Dict[str, Dict[str, Any]]:
     """
     Optimize all media files in a directory.
     
@@ -702,7 +836,7 @@ def batch_optimize_directory(
     Returns:
         Dictionary mapping original filenames to their variant info
     """
-    results = {}
+    results: Dict[str, Dict[str, Any]] = {}
     
     # First, scan recursively to find all media files
     print(f"Scanning {directory} for media files...")
@@ -717,7 +851,7 @@ def batch_optimize_directory(
         ext = file.suffix.lower()
         
         # Skip already optimized files
-        if any(suffix in file.stem for suffix in ['-optimized', '-thumb', '-placeholder']):
+        if any(suffix in file.stem for suffix in ['-optimized', '-thumb', '-placeholder', '-preview-']):
             continue
         
         # Skip GLB files (already optimized)
@@ -753,6 +887,48 @@ def batch_optimize_directory(
         results[str(file.relative_to(directory))] = optimize_3d_model_full(file)
     
     return results
+
+
+def print_video_optimization_summary(results: Dict[str, Dict[str, Any]]) -> None:
+    """Print a clear end-of-run summary for video issues and runtime fallbacks."""
+    video_results = {
+        rel_path: variants
+        for rel_path, variants in results.items()
+        if Path(rel_path).suffix.lower() in {'.mp4', '.mov', '.webm', '.avi', '.mkv', '.ogv', '.wmv', '.mpg', '.mpeg'}
+    }
+
+    if not video_results:
+        return
+
+    preview_frame_total = sum(
+        len(variants.get('previewFrames', []))
+        for variants in video_results.values()
+        if isinstance(variants.get('previewFrames'), list)
+    )
+    issue_entries = [
+        (rel_path, variants)
+        for rel_path, variants in video_results.items()
+        if variants.get('issues')
+    ]
+
+    print("\n🎞️ Video optimization summary:")
+    print(f"  - videos processed: {len(video_results)}")
+    print(f"  - preview frames generated: {preview_frame_total}")
+
+    if not issue_entries:
+        print("  - failures: 0")
+        return
+
+    print("  - failures:")
+    for rel_path, variants in issue_entries:
+        issues = variants.get('issues') or []
+        fallbacks = variants.get('fallbacks') or []
+        issue_text = "; ".join(str(issue) for issue in issues)
+        fallback_text = "; ".join(str(fallback) for fallback in fallbacks) if fallbacks else "no runtime fallback recorded"
+        print(f"    • {rel_path}: {issue_text}")
+        print(f"      fallback used: {fallback_text}")
+
+    print("  - how to fix: verify ffmpeg/ffprobe are installed, make sure the source video opens locally, then rerun `npm run optimize`.")
 
 
 if __name__ == "__main__":
@@ -796,7 +972,7 @@ if __name__ == "__main__":
         ext = path.suffix.lower()
         if ext in {'.jpg', '.jpeg', '.png', '.webp', '.gif', '.tiff', '.tif', '.bmp', '.ico', '.heic', '.heif', '.svg'}:
             result = optimize_image_full(path, output_dir)
-        elif ext in {'.mp4', '.mov', '.webm', '.avi'}:
+        elif ext in {'.mp4', '.mov', '.webm', '.avi', '.mkv', '.ogv', '.wmv', '.mpg', '.mpeg', '.flv'}:
             result = optimize_video_full(path, output_dir)
         elif ext in {'.obj', '.gltf'}:
             result = optimize_3d_model_full(path, output_dir)
@@ -810,6 +986,8 @@ if __name__ == "__main__":
             print(f"✓ Optimized {path.name}")
             for variant, filename in result.items():
                 print(f"  - {variant}: {filename}")
+            if ext in {'.mp4', '.mov', '.webm', '.avi'}:
+                print_video_optimization_summary({path.name: result})
     
     elif path.is_dir():
         results = batch_optimize_directory(path)
@@ -846,3 +1024,4 @@ if __name__ == "__main__":
             cloud_count = sum(1 for r in results.values() if r.get('useCloudStorage'))
             if cloud_count:
                 print(f"  - {cloud_count} files recommended for cloud storage (>{CLOUD_STORAGE_THRESHOLD_MB}MB)")
+            print_video_optimization_summary(results)

@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { PortfolioHeader } from "@/components/portfolio-header";
 import { PortfolioClient } from "@/components/portfolio-client";
 import { ProjectModal } from "@/components/project-modal";
+import { PageFrame } from "@/components/layout/page-frame";
 import { findProjectByAlias, getProjectSlug } from "@/lib/project-paths";
 import type { Project } from "@/types";
 
@@ -70,10 +71,10 @@ export function PortfolioPageClient({ projects }: PortfolioPageClientProps) {
 
   return (
     <>
-      <div className="container mx-auto px-3 md:px-4 py-6 md:py-8 max-w-7xl overflow-x-hidden">
+      <PageFrame data-testid="site-page-frame" className="overflow-x-hidden py-6 md:py-8">
         <PortfolioHeader />
         <PortfolioClient projects={projects} onProjectSelect={handleProjectSelect} />
-      </div>
+      </PageFrame>
       <ProjectModal
         project={selectedProject}
         isOpen={Boolean(selectedProject)}

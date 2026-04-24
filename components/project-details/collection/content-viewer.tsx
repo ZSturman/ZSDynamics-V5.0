@@ -11,95 +11,14 @@ import { Canvas } from "@react-three/fiber"
 import { OrbitControls, useGLTF, useAnimations } from "@react-three/drei"
 import * as THREE from "three"
 import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader.js"
-import { CollectionItem, Resource } from "@/types"
+import { CollectionItem } from "@/types"
 import Image from "next/image"
-import { resolveProjectAssetPath } from "@/lib/utils"
+import {
+  getCollectionItemOptimizedPath,
+  getCollectionItemPosterPath,
+  getCollectionItemResolvedPath,
+} from "@/lib/collection-item-media"
 import { LinkPreviewSurface } from "../link-preview-surface"
-
-// Helper function to get the item path from various possible formats
-function getItemPath(item: CollectionItem, folderName?: string, collectionName?: string): string | undefined {
-  const pathOptions = { folderName, collectionName, itemId: item.id };
-  
-  // First check for direct path
-  if (item.path) {
-    const resolvedPath = resolveProjectAssetPath(item.path, pathOptions);
-    if (resolvedPath) return resolvedPath;
-  }
-  
-  if (item.relativePath) {
-    const resolvedPath = resolveProjectAssetPath(item.relativePath, pathOptions);
-    if (resolvedPath) return resolvedPath;
-  }
-
-  // Then check for filePath
-  if (item.filePath) {
-    const resolvedPath = resolveProjectAssetPath(item.filePath, pathOptions);
-    if (resolvedPath) return resolvedPath;
-  }
-  // If this is a URL/link item, prefer any explicit URL found in the item
-  const recordItem = item as unknown as Record<string, unknown>
-  const maybeUrl = recordItem["url"]
-  if (typeof maybeUrl === "string" && (item.type === 'url-link' || item.type === 'local-link' || item.type === 'folio')) return maybeUrl
-  const maybeHref = recordItem["href"]
-  if (typeof maybeHref === "string" && (item.type === 'url-link' || item.type === 'local-link' || item.type === 'folio')) return maybeHref
-
-  // Check resources (resource/resources)
-  const resource = (item as unknown as { resource?: Resource }).resource
-  if (resource && typeof resource.url === 'string' && (item.type === 'url-link' || item.type === 'local-link' || item.type === 'folio')) {
-    return resource.url
-  }
-  const resourcesArr = (item as unknown as { resources?: Resource[] }).resources
-  if (resourcesArr && Array.isArray(resourcesArr) && (item.type === 'url-link' || item.type === 'local-link' || item.type === 'folio')) {
-    const found = resourcesArr.find(r => typeof r.url === 'string')
-    if (found) return found.url
-  }
-
-  // Check thumbnail as fallback
-  if (item.thumbnail) {
-    const resolvedPath = resolveProjectAssetPath(item.thumbnail, pathOptions);
-    if (resolvedPath) return resolvedPath;
-  }
-  
-  return undefined;
-}
-
-// Helper to get optimized path for local files
-function getOptimizedPath(path: string | undefined): string | undefined {
-  if (!path || typeof path !== 'string') return undefined;
-  
-  // If it's an external URL, return as-is
-  if (path.startsWith('http://') || path.startsWith('https://')) {
-    return path;
-  }
-  
-  // If already optimized, return as-is
-  if (path.includes('-optimized') || path.includes('-thumb') || path.includes('-placeholder')) {
-    return path;
-  }
-  
-  // For videos, try optimized version
-  if (path.match(/\.(mp4|mov|webm|avi)$/i)) {
-    return path.replace(/\.[^.]+$/, '-optimized.mp4');
-  }
-  
-  // SVGs stay as SVGs (vector, no rasterization needed)
-  if (path.match(/\.svg$/i)) {
-    return path.replace(/\.[^.]+$/, '-optimized.svg');
-  }
-
-  // For raster images, convert to optimized webp
-  if (path.match(/\.(jpg|jpeg|png|webp|gif|bmp|tiff|avif|heic)$/i)) {
-    return path.replace(/\.[^.]+$/, '-optimized.webp');
-  }
-  
-  // For 3D models, convert to GLB (optimized format)
-  if (path.match(/\.(obj|gltf)$/i)) {
-    return path.replace(/\.[^.]+$/, '.glb');
-  }
-  
-  // For other files (audio, etc.), return as-is
-  return path;
-}
 
 interface ContentViewerProps {
   item: CollectionItem
@@ -108,8 +27,9 @@ interface ContentViewerProps {
 }
 
 export function ContentViewer({ item, folderName, collectionName }: ContentViewerProps) {
-  const rawPath = getItemPath(item, folderName, collectionName);
-  const itemPath = getOptimizedPath(rawPath);
+  const pathOptions = { folderName, collectionName };
+  const rawPath = getCollectionItemResolvedPath(item, pathOptions);
+  const itemPath = getCollectionItemOptimizedPath(item, pathOptions);
   
   // Check if the path is a PDF
   const isPDF = rawPath?.toLowerCase().endsWith('.pdf');
@@ -175,19 +95,13 @@ function VideoContent({ item, folderName, collectionName }: { item: CollectionIt
   const videoRef = useRef<HTMLVideoElement>(null)
   const [isPlaying, setIsPlaying] = useState(false)
   const [isMuted, setIsMuted] = useState(false)
-  const [isMobile, setIsMobile] = useState(false)
-  const [userInitiatedPlay, setUserInitiatedPlay] = useState(false)
+  const [hasVideoError, setHasVideoError] = useState(false)
   
-  const rawPath = getItemPath(item, folderName, collectionName);
-  const itemPath = getOptimizedPath(rawPath) || rawPath;
+  const pathOptions = { folderName, collectionName };
+  const rawPath = getCollectionItemResolvedPath(item, pathOptions);
+  const itemPath = getCollectionItemOptimizedPath(item, pathOptions) || rawPath;
 
-  // Detect mobile on mount
-  useEffect(() => {
-    setIsMobile(window.innerWidth < 768);
-  }, []);
-
-  // On mobile, never autoplay. On desktop, respect item settings (default false unless explicit true)
-  const shouldAutoPlay = isMobile ? false : (item.autoPlay === true);
+  const shouldAutoPlay = item.autoPlay === true;
   const shouldLoop = item.loop === true
 
   const togglePlay = () => {
@@ -195,7 +109,6 @@ function VideoContent({ item, folderName, collectionName }: { item: CollectionIt
       if (isPlaying) {
         videoRef.current.pause()
       } else {
-        setUserInitiatedPlay(true)
         videoRef.current.play()
       }
       setIsPlaying(!isPlaying)
@@ -209,75 +122,37 @@ function VideoContent({ item, folderName, collectionName }: { item: CollectionIt
     }
   }
 
-  // Helper to get optimized thumbnail path for poster
-  const getOptimizedPoster = (): string | undefined => {
-    const thumbnailPath = typeof item.thumbnail === 'string' ? item.thumbnail : 
-      (typeof item.thumbnail === 'object' && item.thumbnail && 'path' in item.thumbnail) 
-        ? (item.thumbnail as { path?: string }).path 
-        : undefined;
-    
-    if (!thumbnailPath || thumbnailPath === '') return undefined;
-    
-    // If it's an external URL, return as-is
-    if (thumbnailPath.startsWith('http://') || thumbnailPath.startsWith('https://')) {
-      return thumbnailPath;
-    }
-    
-    // Build the full path with collection structure
-    const buildFullPath = (relativePath: string): string => {
-      if (!folderName) return relativePath;
-      
-      if (item.id && collectionName) {
-        return `/projects/${folderName}/${collectionName}/${item.id}/${relativePath}`;
-      }
-      
-      return `/projects/${folderName}/${relativePath}`;
-    };
-    
-    const fullPath = buildFullPath(thumbnailPath);
-    
-    // If already optimized, use as-is
-    if (fullPath.includes('-optimized') || fullPath.includes('-thumb')) {
-      return fullPath;
-    }
-    
-    // Convert to optimized version
-    const withoutExt = fullPath.replace(/\.[^.]+$/, '');
-    const ext = fullPath.match(/\.svg$/i) ? '.svg' : '.webp';
-    return `${withoutExt}-optimized${ext}`;
-  };
+  const poster = getCollectionItemPosterPath(item, pathOptions);
 
-  const poster = getOptimizedPoster();
-
-  // On mobile, show a thumbnail/poster with play button overlay until user taps play
-  if (isMobile && !userInitiatedPlay) {
+  if (!itemPath || hasVideoError) {
     return (
-      <div className="relative group max-w-full">
-        <div 
-          className="relative max-w-full max-h-[80vh] rounded-lg overflow-hidden cursor-pointer bg-muted"
-          style={{ minHeight: '200px', minWidth: '300px' }}
-          onClick={() => setUserInitiatedPlay(true)}
-        >
+      <div
+        data-testid="collection-video-content-fallback"
+        data-fallback-source={poster ? "poster" : "placeholder"}
+        className="w-full max-w-5xl space-y-4"
+      >
+        <div className="relative aspect-video overflow-hidden rounded-[1.5rem] border border-border/70 bg-card/40">
           {poster ? (
             <Image
               src={poster}
-              alt={item.label || "Video thumbnail"}
+              alt={item.label || "Video fallback preview"}
               fill
               className="object-contain"
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
+              sizes="(max-width: 768px) 100vw, 80vw"
             />
           ) : (
-            <div className="w-full h-full flex items-center justify-center" style={{ minHeight: '200px' }}>
+            <div data-media-fallback="true" className="flex h-full w-full items-center justify-center bg-muted/50">
               <Play className="h-12 w-12 text-muted-foreground" />
             </div>
           )}
-          
-          {/* Play button overlay */}
-          <div className="absolute inset-0 flex items-center justify-center bg-black/20">
-            <div className="bg-background/90 rounded-full p-6 shadow-lg">
-              <Play className="h-12 w-12" />
-            </div>
-          </div>
+        </div>
+
+        <div className="max-w-2xl space-y-1">
+          <p className="text-sm font-medium text-foreground">Video preview unavailable</p>
+          <p className="text-sm leading-6 text-muted-foreground">
+            Showing the best available still instead. Re-run media optimization or replace the source video if this
+            item should be playable here.
+          </p>
         </div>
       </div>
     )
@@ -291,12 +166,13 @@ function VideoContent({ item, folderName, collectionName }: { item: CollectionIt
         poster={poster}
         className="max-w-full max-h-[80vh] rounded-lg"
         controls
-        autoPlay={shouldAutoPlay || userInitiatedPlay}
+        autoPlay={shouldAutoPlay}
         loop={shouldLoop}
-        muted={shouldAutoPlay && !userInitiatedPlay}
+        muted={shouldAutoPlay}
         playsInline // Critical for iOS - prevents fullscreen takeover
         onPlay={() => setIsPlaying(true)}
         onPause={() => setIsPlaying(false)}
+        onError={() => setHasVideoError(true)}
       >
         Your browser does not support the video tag.
       </video>
@@ -318,8 +194,8 @@ function ModelContent({ item, folderName, collectionName }: { item: CollectionIt
   const [isPlaying, setIsPlaying] = useState(shouldAutoPlay)
   const [hasAnimations, setHasAnimations] = useState(false)
   
-  const rawPath = getItemPath(item, folderName, collectionName);
-  const itemPath = getOptimizedPath(rawPath);
+  const pathOptions = { folderName, collectionName };
+  const itemPath = getCollectionItemOptimizedPath(item, pathOptions);
 
   return (
     <div className="w-full max-w-4xl aspect-square relative border-2 border-white">

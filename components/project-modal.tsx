@@ -12,7 +12,6 @@ import { ProjectStandaloneAssets } from "./project-details/project-standalone-as
 import { Button } from "./ui/button";
 import { useRouter } from "next/navigation";
 import { useBreadcrumb } from "@/lib/breadcrumb-context";
-import ProjectDetailsFooter from "./project-details/project-details-footer";
 import { ProjectWorkLogs } from "./project-details/project-work-logs";
 import { ProjectArticles } from "./project-details/project-articles";
 import ResourceButtons from "./project-details/resource-buttons";
@@ -77,7 +76,7 @@ export function ProjectModal({ project, isOpen, onClose }: ProjectModalProps) {
   if (hasContent) {
     sections.push({
       key: "content",
-      content: <ProjectContent project={project} />,
+      content: <ProjectContent project={project} showReadme={false} />,
     });
   }
 
@@ -95,32 +94,21 @@ export function ProjectModal({ project, isOpen, onClose }: ProjectModalProps) {
     });
   }
 
-  // Footer sections — ordered: articles, work logs, details
-  const footerSections: Array<{ key: string; content: ReactNode }> = [];
+  const supportingSections: Array<{ key: string; content: ReactNode }> = [];
 
   if (hasArticles) {
-    footerSections.push({
+    supportingSections.push({
       key: "articles",
       content: <ProjectArticles project={project} />,
     });
   }
 
   if (hasWorkLogs) {
-    footerSections.push({
+    supportingSections.push({
       key: "work-logs",
-      content: <ProjectWorkLogs project={project} />,
+      content: <ProjectWorkLogs project={project} limit={4} />,
     });
   }
-
-  footerSections.push({
-    key: "details",
-    content: (
-      <>
-        <h3 className="mb-4 text-sm font-medium text-muted-foreground">Project Details</h3>
-        <ProjectMetadata project={project} />
-      </>
-    ),
-  });
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -197,19 +185,28 @@ export function ProjectModal({ project, isOpen, onClose }: ProjectModalProps) {
               ))}
             </div>
 
-            {/* Footer: articles → work logs → details */}
-            {footerSections.length > 0 && (
-              <div className="space-y-6">
-                {footerSections.map((section) => (
-                  <section key={section.key}>
-                    {section.content}
-                  </section>
-                ))}
-              </div>
-            )}
+            <div>
+              {supportingSections.length > 0 ? (
+                <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_18rem]">
+                  <div className="space-y-6">
+                    {supportingSections.map((section) => (
+                      <section key={section.key}>
+                        {section.content}
+                      </section>
+                    ))}
+                  </div>
 
-            <div className="pt-2">
-              <ProjectDetailsFooter />
+                  <aside className="space-y-4">
+                    <h3 className="text-base font-semibold tracking-tight text-foreground">Project Details</h3>
+                    <ProjectMetadata project={project} />
+                  </aside>
+                </div>
+              ) : (
+                <section className="max-w-md space-y-4">
+                  <h3 className="text-base font-semibold tracking-tight text-foreground">Project Details</h3>
+                  <ProjectMetadata project={project} />
+                </section>
+              )}
             </div>
           </div>
         </div>

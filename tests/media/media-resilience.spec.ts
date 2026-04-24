@@ -23,6 +23,7 @@ const standaloneUrlAssetProject = findProjectWithStandaloneUrlAsset(canonicalPro
 const captureBackedStandaloneUrlAssetProject = findProjectWithStandaloneUrlAsset(canonicalProjects, {
   requireCapturePreview: true,
 });
+const collectionVideoProject = findProjectWithCollectionVideo(canonicalProjects);
 
 test.describe("@smoke @matrix media resilience", () => {
   test.beforeEach(async ({}, testInfo) => {
@@ -245,6 +246,68 @@ test.describe("@smoke @matrix media resilience", () => {
     }
   });
 
+  test("collection fullscreen viewer falls back cleanly when the video asset is unreadable", async ({ page }, testInfo) => {
+    test.skip(!collectionVideoProject, "No collection-backed video item found in canonical projects.");
+    test.skip(
+      testInfo.project.name.includes("mobile"),
+      "Fullscreen fallback fault injection is covered on Chromium desktop for determinism."
+    );
+
+    const { project, item, itemId, videoUrl } = collectionVideoProject!;
+    test.skip(!videoUrl, "Collection video item does not expose a predictable source path.");
+
+    await page.route((url) => mediaRequestMatches(url.toString(), videoUrl), async (route) => {
+      await route.fulfill({
+        status: 404,
+        contentType: "text/plain",
+        body: "forced-collection-video-failure",
+      });
+    });
+
+    const tracker = trackMediaRuntimeIssues(page);
+    const fullscreenRoute = `${getProjectRoute(project)}?collectionItem=${itemId}`;
+    const context = buildRuntimeContext(page, testInfo, {
+      scenario: "collection-video-fullscreen-fallback",
+      route: fullscreenRoute,
+      projectId: project.id,
+      projectTitle: project.title,
+      mediaKey: itemId,
+      resolvedUrl: videoUrl,
+      environment: process.env.NODE_ENV || "test",
+    });
+
+    try {
+      await gotoProjectReady(page, project.id, project.title, fullscreenRoute);
+      const fullscreen = page.getByTestId("collection-fullscreen");
+      await expect(fullscreen).toBeVisible();
+      await expect(fullscreen).toHaveAttribute("data-collection-item-id", itemId);
+      await expect(fullscreen.getByTestId("collection-video-content-fallback")).toBeVisible();
+      await expect(fullscreen.locator("video")).toHaveCount(0);
+
+      const hasFailure =
+        tracker.failedResponses.some((failure) => mediaRequestMatches(failure.url, videoUrl)) ||
+        tracker.failedRequests.some((failure) => mediaRequestMatches(failure.url, videoUrl));
+      expect(hasFailure, "forced collection video failure should be visible in diagnostics").toBeTruthy();
+
+      const fallbackSource = await fullscreen
+        .getByTestId("collection-video-content-fallback")
+        .getAttribute("data-fallback-source");
+      expect(["poster", "placeholder"]).toContain(fallbackSource);
+      expect(item, "collection item should remain available for fallback rendering").toBeTruthy();
+    } catch (error) {
+      await attachMediaContext(testInfo, "media-context", {
+        ...context,
+        failedResponses: tracker.failedResponses,
+        failedRequests: tracker.failedRequests,
+        consoleErrors: tracker.consoleErrors,
+        pageErrors: tracker.pageErrors,
+      });
+      throw error;
+    } finally {
+      tracker.stop();
+    }
+  });
+
   test("capture-backed standalone URL previews skip iframe requests and use optimized preview assets", async ({ page }, testInfo) => {
     test.skip(!captureBackedStandaloneUrlAssetProject, "No capture-backed standalone URL asset found in canonical projects.");
 
@@ -385,6 +448,7 @@ function isExpectedForcedMediaPageError(message: string): boolean {
   );
 }
 
+
 function mediaRequestMatches(requestUrl: string, assetUrl: string): boolean {
   const normalizedRequestUrl = normalizeUrlForMatch(requestUrl);
   const normalizedAssetUrl = normalizeUrlForMatch(assetUrl);
@@ -416,6 +480,87 @@ function standaloneAssetUrlMatches(requestUrl: string, assetUrl: string): boolea
 function normalizePathWithSearch(pathname: string, search: string): string {
   const normalizedPath = pathname !== "/" ? pathname.replace(/\/+$/, "") : pathname;
   return `${normalizedPath}${search}`;
+}
+
+function findProjectWithCollectionVideo(projects: Array<Record<string, unknown>>) {
+  for (const project of projects) {
+    const collections =
+      project.collection && typeof project.collection === "object"
+        ? (project.collection as Record<string, unknown>)
+        : {};
+    const folderName =
+      typeof project.folderName === "string" && project.folderName.trim()
+        ? project.folderName
+        : typeof project.id === "string"
+        ? project.id
+        : undefined;
+
+    if (!folderName || typeof project.id !== "string" || typeof project.title !== "string") {
+      continue;
+    }
+
+    for (const [collectionName, value] of Object.entries(collections)) {
+      const items = Array.isArray(value)
+        ? value
+        : value && typeof value === "object" && Array.isArray((value as { items?: unknown[] }).items)
+        ? (value as { items: unknown[] }).items
+        : [];
+
+      for (const item of items) {
+        if (!item || typeof item !== "object") continue;
+        const normalizedItem = item as {
+          id?: unknown;
+          type?: unknown;
+          filePath?: unknown;
+          path?: unknown;
+          relativePath?: unknown;
+        };
+
+        if (normalizedItem.type !== "video" || typeof normalizedItem.id !== "string") {
+          continue;
+        }
+
+        const sourcePath = extractPathValue(normalizedItem.filePath)
+          ?? extractPathValue(normalizedItem.path)
+          ?? extractPathValue(normalizedItem.relativePath);
+        const videoUrl = sourcePath
+          ? sourcePath.startsWith("/")
+            ? sourcePath.replace(/\.[^.]+$/, "-optimized.mp4")
+            : `/projects/${folderName}/${collectionName}/${normalizedItem.id}/${sourcePath.replace(/\.[^.]+$/, "-optimized.mp4")}`
+          : null;
+
+        return {
+          project: project as {
+            id: string;
+            title: string;
+            slug?: string;
+            href?: string;
+            folderName?: string;
+          },
+          item,
+          itemId: normalizedItem.id,
+          collectionName,
+          videoUrl,
+        };
+      }
+    }
+  }
+
+  return undefined;
+}
+
+function extractPathValue(value: unknown): string | undefined {
+  if (typeof value === "string") {
+    const trimmed = value.trim();
+    return trimmed || undefined;
+  }
+
+  if (!value || typeof value !== "object") {
+    return undefined;
+  }
+
+  const candidate = (value as { path?: unknown }).path;
+  return typeof candidate === "string" && candidate.trim() ? candidate.trim() : undefined;
 }
 
 function buildBlockedIframeResponse(status: number) {

@@ -6,10 +6,10 @@ import { PassiveChip } from "@/components/ui/passive-chip";
 import { MetadataTag, MetadataText } from "@/components/ui/metadata-text";
 import { MediaDisplay } from "@/components/ui/media-display";
 import { Project } from "@/types";
-import { STATUS_COLOR } from "@/lib/resource-map";
+import { getProjectStatusLabel, getProjectStatusToneClass } from "@/lib/project-discovery";
 import ProjectMediums from "../project-details/project-mediums";
 import { formatDate, getOptimizedMediaPath } from "@/lib/utils";
-import ResourceButton from "../project-details/resource-button";
+import { ProjectResourceIconStrip } from "./project-resource-icon-strip";
 
 interface ProjectCardProps {
   project: Project;
@@ -31,7 +31,7 @@ export function ProjectCard({
 
   // Get status value and check if it should be displayed
   const statusValue = project.status || "";
-  const showStatusBadge = statusValue && statusValue.trim() !== "" && statusValue.toLowerCase() !== "done";
+  const showStatusBadge = statusValue && statusValue.trim() !== "";
 
   return (
     <Card
@@ -66,12 +66,9 @@ export function ProjectCard({
               <div className="absolute top-1.5 md:top-2 left-1.5 md:left-2">
                 <PassiveChip
                   tone="strong"
-                  className={`${
-                    STATUS_COLOR[project.status as keyof typeof STATUS_COLOR]
-                  } font-medium text-[10px] md:text-xs py-0 px-1.5 md:px-2`}
+                  className={`${getProjectStatusToneClass(project.status)} font-medium text-[10px] md:text-xs py-0 px-1.5 md:px-2`}
                 >
-                  {(project.status || "").charAt(0).toUpperCase() +
-                    (project.status || "").slice(1)}
+                  {getProjectStatusLabel(project.status)}
                 </PassiveChip>
               </div>
             )}
@@ -96,17 +93,16 @@ export function ProjectCard({
 
       <CardContent className="p-2  space-y-1.5 md:space-y-2 flex-1 flex flex-col max-w-full">
      
-<div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4">
+          <h3 className="font-semibold text-xs md:text-sm text-card-foreground leading-tight group-hover:text-primary transition-colors break-words">
+            {project.title}
+          </h3>
 
-        <h3 className="font-semibold text-xs md:text-sm text-card-foreground leading-tight group-hover:text-primary transition-colors break-words">
-          {project.title}
-        </h3>
-    
-        {/* One-liner / Summary */}
-        <p className="text-[10px] md:text-xs text-muted-foreground leading-relaxed line-clamp-2 break-words flex-1">
-          {project.oneLiner || project.summary}
-        </p>
-</div>
+          {/* One-liner / Summary */}
+          <p className="text-[10px] md:text-xs text-muted-foreground leading-relaxed line-clamp-2 break-words flex-1">
+            {project.oneLiner || project.summary}
+          </p>
+        </div>
 
         {/* Tags */}
         <div className="flex flex-wrap gap-x-2 gap-y-1">
@@ -120,8 +116,8 @@ export function ProjectCard({
           )}
         </div>
 
-        {/* Footer with date and action */}
-        <div className="flex items-center justify-between gap-1 pt-1">
+        {/* Footer with date and resources */}
+        <div className="mt-auto flex items-end justify-between gap-2 pt-1">
           {updatedLabel ? (
             <span className="text-[9px] md:text-[10px] text-muted-foreground truncate">
               {updatedLabel}
@@ -129,14 +125,14 @@ export function ProjectCard({
           ) : (
             <span />
           )}
-          
-          {/* Resource icons and action button */}
-          <div className="flex items-center gap-0.5">
-            {project.resources && project.resources.slice(0, 2).map((resource) => (
-              <ResourceButton key={resource.url} resource={resource} currentProject={project} iconOnly />
-            ))}
 
-          </div>
+          <ProjectResourceIconStrip
+            project={project}
+            maxItems={2}
+            testId="project-card-resource-icons"
+            className="ml-auto justify-end"
+            buttonClassName="h-8 w-8"
+          />
         </div>
       </CardContent>
     </Card>

@@ -2,7 +2,6 @@
 
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import SocialLinks from "./social-links";
 // import PersonalTabs from "./personal-tabs";
 
 const ThemeToggle = dynamic(() =>
@@ -29,8 +28,7 @@ export function PortfolioHeader() {
         {title}
       </h2>
 
-      <SocialLinks />
-      <div className="mt-4 flex flex-wrap items-center justify-center gap-4 text-sm text-muted-foreground md:justify-start">
+      <div className="mt-2 flex flex-wrap items-center justify-center gap-4 text-sm text-muted-foreground md:justify-start">
         <Link href="/articles" className="hover:text-foreground transition-colors">
           Articles
         </Link>

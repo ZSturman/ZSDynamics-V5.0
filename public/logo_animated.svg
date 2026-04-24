@@ -1,0 +1,218 @@
+<svg width="1832" height="1832" viewBox="0 0 1832 1832" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <g id="logo_orbital_v4" clip-path="url(#clip0_4_3)">
+
+    <!-- Soft particle field -->
+    <g id="particles" opacity="0.75">
+      <circle cx="512" cy="492" r="7" fill="#2F8DB2"/>
+      <circle cx="604" cy="430" r="4" fill="#46C8D6"/>
+      <circle cx="711" cy="382" r="5" fill="#1F6D93"/>
+      <circle cx="845" cy="340" r="8" fill="#46C8D6"/>
+      <circle cx="1074" cy="354" r="5" fill="#2F8DB2"/>
+      <circle cx="1222" cy="418" r="9" fill="#46C8D6"/>
+      <circle cx="1375" cy="548" r="5" fill="#1F6D93"/>
+
+      <circle cx="390" cy="864" r="8" fill="#46C8D6"/>
+      <circle cx="455" cy="1048" r="5" fill="#2F8DB2"/>
+      <circle cx="560" cy="1266" r="6" fill="#46C8D6"/>
+      <circle cx="712" cy="1408" r="4" fill="#1F6D93"/>
+      <circle cx="998" cy="1455" r="7" fill="#2F8DB2"/>
+      <circle cx="1245" cy="1368" r="5" fill="#46C8D6"/>
+      <circle cx="1452" cy="1044" r="6" fill="#2F8DB2"/>
+      <circle cx="1510" cy="914" r="8" fill="#46C8D6"/>
+    </g>
+
+    <!-- Background outer wedges -->
+    <g id="outer-wedges">
+      <g>
+        <animateTransform
+          attributeName="transform"
+          type="rotate"
+          from="0 916 916"
+          to="360 916 916"
+          dur="70s"
+          repeatCount="indefinite"
+        />
+
+        <!-- left teal wedge -->
+        <path
+          d="M118 916
+             A798 798 0 0 0 324 1431
+             L530 1240
+             A518 518 0 0 1 398 916
+             Z"
+          fill="url(#leftWedgeGradient)"
+        />
+
+        <!-- upper-right mint wedge -->
+        <path
+          d="M1290 304
+             A718 718 0 0 1 1710 916
+             L1435 916
+             A444 444 0 0 0 1186 522
+             Z"
+          fill="url(#mintWedgeGradient)"
+        />
+      </g>
+    </g>
+
+    <!-- Main orbital guide rings -->
+    <g id="guide-rings">
+      <circle cx="916" cy="916" r="555" stroke="#1C5F83" stroke-width="5" opacity="0.9"/>
+      <circle cx="916" cy="916" r="515" stroke="#54D9E2" stroke-width="3" opacity="0.65"/>
+      <circle cx="916" cy="916" r="430" stroke="#1C5F83" stroke-width="6" opacity="0.75"/>
+      <circle cx="916" cy="916" r="350" stroke="#1C5F83" stroke-width="4" opacity="0.45"/>
+
+      <!-- Subtle inner guide only; no filled center disk -->
+      <circle cx="916" cy="916" r="285" stroke="#1C5F83" stroke-width="3" opacity="0.28"/>
+    </g>
+
+    <!-- Rotating pale arc system -->
+    <g id="inner-orbit-arcs">
+      <g>
+        <animateTransform
+          attributeName="transform"
+          type="rotate"
+          from="0 916 916"
+          to="360 916 916"
+          dur="26s"
+          repeatCount="indefinite"
+        />
+
+        <circle
+          cx="916"
+          cy="916"
+          r="486"
+          fill="none"
+          stroke="#D4FFFF"
+          stroke-width="92"
+          stroke-linecap="round"
+          stroke-dasharray="1080 2100"
+          opacity="0.95"
+        />
+
+        <circle
+          cx="916"
+          cy="916"
+          r="486"
+          fill="none"
+          stroke="#A9CFFF"
+          stroke-width="46"
+          stroke-linecap="round"
+          stroke-dasharray="780 2400"
+          opacity="0.95"
+        />
+      </g>
+    </g>
+
+    <!-- Thin decorative orbit arcs -->
+    <g id="decorative-arcs">
+      <g>
+        <animateTransform
+          attributeName="transform"
+          type="rotate"
+          from="0 916 916"
+          to="-360 916 916"
+          dur="38s"
+          repeatCount="indefinite"
+        />
+
+        <circle
+          cx="916"
+          cy="916"
+          r="570"
+          fill="none"
+          stroke="#1D668D"
+          stroke-width="6"
+          stroke-linecap="round"
+          stroke-dasharray="520 140 240 1600"
+          opacity="0.85"
+        />
+
+        <circle
+          cx="916"
+          cy="916"
+          r="455"
+          fill="none"
+          stroke="#42CFD7"
+          stroke-width="5"
+          stroke-linecap="round"
+          stroke-dasharray="320 180 180 1900"
+          opacity="0.75"
+        />
+      </g>
+    </g>
+
+    <!-- Small orbit nodes -->
+    <g id="orbit-nodes">
+      <g>
+        <animateTransform
+          attributeName="transform"
+          type="rotate"
+          from="0 916 916"
+          to="360 916 916"
+          dur="32s"
+          repeatCount="indefinite"
+        />
+
+        <circle cx="916" cy="360" r="15" fill="#CFFFFF" stroke="#2496B5" stroke-width="3"/>
+        <circle cx="394" cy="725" r="13" fill="#CFFFFF" stroke="#2496B5" stroke-width="3"/>
+        <circle cx="1384" cy="1218" r="12" fill="#CFFFFF" stroke="#2496B5" stroke-width="3"/>
+        <circle cx="630" cy="1390" r="8" fill="#48D4DC"/>
+      </g>
+    </g>
+
+    <!-- Foreground dark blue wedge -->
+    <g id="foreground-wedge">
+      <g>
+        <animateTransform
+          attributeName="transform"
+          type="rotate"
+          from="0 916 916"
+          to="360 916 916"
+          dur="90s"
+          repeatCount="indefinite"
+        />
+
+        <path
+          d="M916 916
+             L1532 1198
+             A680 680 0 0 1 1060 1598
+             Z"
+          fill="url(#frontWedgeGradient)"
+        />
+
+        <path
+          d="M916 916
+             L1192 1548
+             L1532 1198
+             Z"
+          fill="#003F7E"
+          opacity="0.28"
+        />
+      </g>
+    </g>
+
+  </g>
+
+  <defs>
+    <linearGradient id="leftWedgeGradient" x1="118" y1="916" x2="530" y2="1431" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#006B7A"/>
+      <stop offset="1" stop-color="#003F55"/>
+    </linearGradient>
+
+    <linearGradient id="mintWedgeGradient" x1="1290" y1="304" x2="1710" y2="916" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#19D8C0"/>
+      <stop offset="1" stop-color="#00B9A6"/>
+    </linearGradient>
+
+    <linearGradient id="frontWedgeGradient" x1="916" y1="916" x2="1532" y2="1198" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#00759D"/>
+      <stop offset="0.55" stop-color="#005B97"/>
+      <stop offset="1" stop-color="#00447E"/>
+    </linearGradient>
+
+    <clipPath id="clip0_4_3">
+      <rect width="1832" height="1832" fill="white"/>
+    </clipPath>
+  </defs>
+</svg>

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useTransition } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { PageFrame } from "@/components/layout/page-frame";
 import { Button } from "@/components/ui/button";
 import { WorkLogsDashboard } from "@/components/work-logs/work-log-timeline";
 import { findProjectByAlias, getProjectSlug } from "@/lib/project-paths";
@@ -73,7 +74,7 @@ export function WorkLogsPageClient({
 
   return (
     <div className="min-h-screen bg-background">
-      <main className="mx-auto max-w-6xl px-4 py-8 sm:px-6 md:px-8 md:py-12">
+      <PageFrame as="main" data-testid="site-page-frame" className="py-8 md:py-12">
         <div className="space-y-6">
           <section className="rounded-[2rem] border border-border/70 bg-card/45 p-5 shadow-sm sm:p-6">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
@@ -114,7 +115,7 @@ export function WorkLogsPageClient({
             emptyText={filteredProject ? "No work logs for this project yet." : "No work logs found yet."}
           />
         </div>
-      </main>
+      </PageFrame>
     </div>
   );
 }

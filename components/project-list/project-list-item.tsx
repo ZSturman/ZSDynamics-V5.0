@@ -8,9 +8,9 @@ import type { Project } from "@/types";
 
 import { MediaDisplay } from "@/components/ui/media-display";
 import { formatDate, getOptimizedMediaPath, formatTextWithNewlines } from "@/lib/utils";
-import ResourceButton from "../project-details/resource-button";
 import { useRef } from "react";
 import { displayDateLabel } from "@/lib/site-content-display";
+import { ProjectResourceIconStrip } from "./project-resource-icon-strip";
 
 export interface ProjectListItemProps {
   project: Project;
@@ -28,9 +28,6 @@ export function ProjectListItem({ project, onClick, sortField = "updatedAt" }: P
     const mediums = Array.isArray(project.mediums) ? project.mediums : [];
   
   const tagsContainerRef = useRef<HTMLDivElement>(null);
-  const resourcesContainerRef = useRef<HTMLDivElement>(null);
-  
-  
   // Determine which date to display and label
   const displayDate = sortField === "createdAt" ? project.createdAt : project.updatedAt;
   const formattedDisplayDate = formatDate(displayDate, { month: "short", year: "numeric" });
@@ -44,7 +41,7 @@ export function ProjectListItem({ project, onClick, sortField = "updatedAt" }: P
       className="p-2 md:px-6 md:pb-4 md:pt-3 hover:shadow-md transition-all duration-200 cursor-pointer group mb-2 max-w-full overflow-hidden"
       onClick={onClick}
     >
-      <div className="flex flex-row-reverse md:flex-row gap-2 md:gap-6 max-w-full">
+      <div className="flex flex-row-reverse md:flex-row gap-2 md:gap-6 max-w-full min-h-24 md:min-h-32 lg:min-h-48">
         {/* Thumbnail - Right on mobile, Left on desktop */}
         <div className="flex-shrink-0 ">
           <div
@@ -64,7 +61,8 @@ export function ProjectListItem({ project, onClick, sortField = "updatedAt" }: P
           </div>
         </div>
         {/* Content */}
-        <div className="flex-1 min-w-0 max-w-full overflow-hidden relative">
+        <div className="flex flex-1 min-w-0 max-w-full overflow-hidden relative flex-col">
+
           <div className="flex flex-row items-center justify-between gap-1 md:gap-4 mb-1 md:mb-3 me-1.5 max-w-full">
             <div className="flex flex-row items-start gap-0.5 md:gap-1 min-w-0 flex-1">
               <h3 className="text-xs md:text-lg font-semibold text-foreground group-hover:text-primary transition-colors break-words max-w-[calc(100%-4rem)] flex items-center">
@@ -94,12 +92,12 @@ export function ProjectListItem({ project, onClick, sortField = "updatedAt" }: P
             </div>
           )}
 
-          <p className="text-muted-foreground text-[10px] md:text-sm mb-1.5 md:mb-4 pt-2 line-clamp-3 whitespace-pre-wrap break-words max-w-full">
+          <p className="text-muted-foreground text-[10px] md:text-sm pt-2 line-clamp-3 whitespace-pre-wrap break-words max-w-full">
             {formatTextWithNewlines(project.oneLiner || project.summary)}
           </p>
           
 
-          <div className="flex flex-col gap-1.5 md:flex-row md:items-center md:justify-between md:gap-2 max-w-full">
+          <div className="mt-auto flex flex-col gap-1.5 pt-2 md:flex-row md:items-end md:justify-between md:gap-2 max-w-full">
             <div ref={tagsContainerRef} className="hidden md:flex flex-wrap gap-x-2 gap-y-1 max-w-full overflow-hidden">
               {(project.tags || []).slice(0, 4).map((tag: string) => (
                 <MetadataTag key={tag} tag={tag} size="sm" className="text-[10px] md:text-xs" />
@@ -110,20 +108,16 @@ export function ProjectListItem({ project, onClick, sortField = "updatedAt" }: P
                 </MetadataText>
               )}
             </div>
+
+            <ProjectResourceIconStrip
+              project={project}
+              maxItems={3}
+              testId="project-list-item-resource-icons"
+              className="ml-auto justify-end"
+              buttonClassName="h-8 w-8"
+            />
           </div>
 
-          {/* Resource icons positioned at bottom-right of the content area */}
-          <div ref={resourcesContainerRef} className="hidden absolute bottom-2 right-2 md:flex items-center gap-1 md:gap-2">
-            {project.resources && project.resources.map((resource) => (
-              <ResourceButton 
-                key={resource.url} 
-                resource={resource} 
-                currentProject={project}
-                iconOnly
-                className="md:h-8 md:w-8 mx-1" 
-              />
-            ))}
-          </div>
         </div>
       </div>
     </Card>

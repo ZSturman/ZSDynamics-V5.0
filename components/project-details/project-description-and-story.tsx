@@ -1,10 +1,16 @@
 "use client";
 
 import React from "react";
+import { ArrowUpRight } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { Project } from "@/types";
+import { ArticleMarkdown } from "@/components/articles/article-markdown";
 import { formatTextWithNewlines } from "@/lib/utils";
+import { ExpandableCardContent } from "./expandable-card-content";
+
+const README_COLLAPSE_THRESHOLD = 2200;
 
 interface Props {
   project: Project;
@@ -90,22 +96,32 @@ export default function ProjectDescriptionAndStory({ project }: Props) {
 
 interface ProjectContentProps {
   project: Project;
+  showReadme?: boolean;
 }
 
-export function ProjectContent({ project }: ProjectContentProps) {
+export function ProjectContent({ project, showReadme = true }: ProjectContentProps) {
   const description =
     (project.description && String(project.description).trim()) || "";
   const story = (project.story && String(project.story).trim()) || "";
+  const readmeContent =
+    showReadme && project.readme?.content
+      ? String(project.readme.content).trim()
+      : "";
+  const readmeSourceUrl =
+    showReadme && typeof project.readme?.sourceUrl === "string"
+      ? project.readme.sourceUrl
+      : undefined;
 
   const hasDescription = description.length > 0;
   const hasStory = story.length > 0;
+  const hasReadme = readmeContent.length > 0;
 
-  if (!hasDescription && !hasStory) return null;
+  if (!hasDescription && !hasStory && !hasReadme) return null;
 
   return (
-    <article className="prose prose-gray dark:prose-invert max-w-none">
+    <article className="space-y-8">
       {hasDescription && (
-        <section className="mb-8">
+        <section id="description" className="scroll-mt-24">
           <h2 className="text-2xl md:text-3xl font-bold mb-4 text-foreground">Description</h2>
           <div className="text-base md:text-lg leading-relaxed text-foreground/90 whitespace-pre-wrap">
             {formatTextWithNewlines(description)}
@@ -114,10 +130,46 @@ export function ProjectContent({ project }: ProjectContentProps) {
       )}
 
       {hasStory && (
-        <section className="mb-8">
+        <section id="story" className="scroll-mt-24">
           <h2 className="text-2xl md:text-3xl font-bold mb-4 text-foreground">Story</h2>
           <div className="text-base md:text-lg leading-relaxed text-foreground/90 whitespace-pre-wrap border-l-4 border-primary/20 pl-6">
             {formatTextWithNewlines(story)}
+          </div>
+        </section>
+      )}
+
+      {hasReadme && (
+        <section id="readme" data-testid="project-readme" className="scroll-mt-24">
+          <div className="rounded-2xl border border-border/50 bg-card/40 p-5 shadow-sm md:p-6">
+            {readmeSourceUrl ? (
+              <div className="mb-4 flex justify-end">
+                <Button asChild variant="outline" size="sm">
+                  <a
+                    data-testid="project-readme-source"
+                    href={readmeSourceUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    View Source
+                    <ArrowUpRight className="size-3.5" />
+                  </a>
+                </Button>
+              </div>
+            ) : null}
+
+            <ExpandableCardContent
+              contentLength={readmeContent.length}
+              threshold={README_COLLAPSE_THRESHOLD}
+              collapsedHeightClassName="max-h-[34rem]"
+              collapsedHeightPx={544}
+              minCollapsedOverflowPx={160}
+              testId="project-readme-expandable"
+            >
+              <ArticleMarkdown
+                content={readmeContent}
+                slug={`${project.slug || project.id}-readme`}
+              />
+            </ExpandableCardContent>
           </div>
         </section>
       )}

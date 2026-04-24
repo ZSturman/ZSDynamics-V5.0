@@ -146,8 +146,9 @@ test.describe("Articles", () => {
   test("home header exposes articles and work logs navigation", async ({ page }) => {
     await page.goto("/");
 
-    await expect(page.getByRole("link", { name: "Articles" })).toBeVisible();
-    await expect(page.getByRole("link", { name: "Work Logs" })).toBeVisible();
+    const header = page.locator("header").first();
+    await expect(header.getByRole("link", { name: "Articles" })).toBeVisible();
+    await expect(header.getByRole("link", { name: "Work Logs" })).toBeVisible();
   });
 
   test("articles index renders with either content or empty state", async ({ page }) => {
@@ -226,6 +227,16 @@ test.describe("Articles", () => {
     await expect(page.getByRole("img", { name: `Cover image for ${articleWithCover!.title}` })).toBeVisible();
   });
 
+  test("article index cards do not render redundant article context badges", async ({ page }) => {
+    test.skip(articles.length === 0, "No synced articles are available in this checkout.");
+
+    await page.goto("/articles?view=grid");
+
+    const articleCard = page.locator('[data-testid="article-card-root"]').first();
+    await expect(articleCard).toBeVisible();
+    await expect(articleCard.getByText("Article", { exact: true })).toHaveCount(0);
+  });
+
   test("article detail renders centered youtube embeds and compact preview cards", async ({ page }) => {
     test.skip(!articleWithStandalonePreviews, "No article with standalone link previews is available in this checkout.");
 
@@ -285,10 +296,13 @@ test.describe("Articles", () => {
 
     await page.goto(getProjectRoute(project));
 
-    const faviconButton = page.getByRole("button", { name: externalResource.label, exact: true }).first();
+    const resourceRow = page.getByTestId("project-header-resource-row");
+    const faviconButton = resourceRow.getByRole("button", { name: new RegExp(externalResource.label, "i") }).first();
+    await expect(faviconButton).toBeVisible();
     await expect(faviconButton.locator("img").first()).toHaveAttribute("src", /\/icons\/favicons\//);
 
-    const githubButton = page.getByRole("button", { name: githubResource.label, exact: true }).first();
+    const githubButton = resourceRow.getByRole("button", { name: new RegExp(githubResource.label, "i") }).first();
+    await expect(githubButton).toBeVisible();
     await expect(githubButton.locator("img").first()).toHaveAttribute("src", /\/icons\/github\.svg/);
   });
 
@@ -317,7 +331,18 @@ test.describe("Articles", () => {
       await expect(postMetadata.getByRole("button", { name: firstTag, exact: true })).toHaveCount(0);
     }
 
-    await expect(page.getByText("Projects connected to this article", { exact: true })).toHaveCount(1);
+    const headerBlock = page.getByTestId("article-header-block");
+    await expect(headerBlock).toBeVisible();
+    const headerBox = await headerBlock.boundingBox();
+    const metadataBox = await postMetadata.boundingBox();
+    expect(headerBox).not.toBeNull();
+    expect(metadataBox).not.toBeNull();
+    expect(Math.abs(headerBox!.x - metadataBox!.x)).toBeLessThan(3);
+    expect(Math.abs(headerBox!.width - metadataBox!.width)).toBeLessThan(3);
+
+    await expect(postMetadata.getByText("Series", { exact: true })).toHaveCount(0);
+    await expect(postMetadata.getByText("Tags", { exact: true })).toHaveCount(0);
+    await expect(page.getByText("Projects connected to this article", { exact: true })).toHaveCount(0);
     const relatedProjectLink = postMetadata.getByRole("link", { name: new RegExp(linkedProject.title) }).first();
     await expect(relatedProjectLink).toBeVisible();
     expect(await page.getByTestId("article-connected-project-card").count()).toBeGreaterThan(0);

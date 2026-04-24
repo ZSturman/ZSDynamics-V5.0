@@ -4,6 +4,7 @@ import "./globals.css";
 import dynamic from "next/dynamic";
 import { Suspense } from "react";
 import { AnalyticsBootstrap } from "@/components/analytics/analytics-bootstrap";
+import { SiteFooter } from "@/components/site-footer";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_OG_IMAGE, SITE_URL } from "@/lib/site-metadata";
 import { INITIAL_THEME_SCRIPT } from "@/lib/theme";
 import { BreadcrumbProvider } from "@/lib/breadcrumb-context";
@@ -88,14 +89,17 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: INITIAL_THEME_SCRIPT }} />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} min-h-screen bg-background text-foreground antialiased`}
       >
         <BreadcrumbProvider>
           <Suspense fallback={null}>
             <AnalyticsBootstrap />
           </Suspense>
-          <Banner />
-          {children}
+          <div className="flex min-h-screen flex-col">
+            <Banner />
+            <div className="flex-1">{children}</div>
+            <SiteFooter />
+          </div>
         </BreadcrumbProvider>
       </body>
     </html>

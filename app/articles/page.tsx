@@ -1,4 +1,5 @@
 import { ArticlesClient } from "@/components/articles/articles-client";
+import { PageFrame } from "@/components/layout/page-frame";
 import { BreadcrumbTrail } from "@/components/ui/breadcrumb-trail";
 import type { ArticleListEntry } from "@/components/articles/article-list-types";
 import { loadArticles } from "@/lib/load-articles";
@@ -29,7 +30,7 @@ export default async function ArticlesPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <main className="mx-auto max-w-6xl px-4 py-8 sm:px-6 md:px-8 md:py-12">
+      <PageFrame as="main" data-testid="site-page-frame" className="py-8 md:py-12">
         <div className="space-y-2">
           <BreadcrumbTrail items={[{ label: "Home", href: "/" }, { label: "Articles" }]} />
           <h1 className="text-3xl font-semibold tracking-tight md:text-4xl">Articles</h1>
@@ -45,7 +46,7 @@ export default async function ArticlesPage() {
         ) : (
           <ArticlesClient articles={articleEntries} />
         )}
-      </main>
+      </PageFrame>
     </div>
   );
 }

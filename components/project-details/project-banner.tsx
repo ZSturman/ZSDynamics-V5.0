@@ -1,10 +1,13 @@
-import type { ReactNode } from "react";
+"use client";
 
-import { Project } from "@/types";
-import { formatTextWithNewlines, getOptimizedMediaPath } from "@/lib/utils";
-import ResourceButton from "./resource-button";
-import ResourceButtons from "./resource-buttons";
+import { useEffect, useState, type ReactNode } from "react";
+import { Maximize2 } from "lucide-react";
+
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { MediaDisplay } from "@/components/ui/media-display";
+import { cn, formatTextWithNewlines, getOptimizedMediaPath, isVideoFile } from "@/lib/utils";
+import { Project } from "@/types";
+import ResourceButtons from "./resource-buttons";
 
 interface ProjectHeaderProps {
   project: Project;
@@ -14,6 +17,86 @@ interface ProjectHeaderProps {
   headerActions?: ReactNode;
 }
 
+interface HeaderLightboxMedia {
+  src: string;
+  alt: string;
+  label: string;
+  autoPlay: boolean;
+  loop: boolean;
+}
+
+interface HeaderMediaTileProps {
+  project: Project;
+  mediaRole: string;
+  testId: string;
+  src: string;
+  alt: string;
+  autoPlay: boolean;
+  loop: boolean;
+  className: string;
+  mediaClassName: string;
+  objectFit?: "contain" | "cover";
+  onOpen: (media: HeaderLightboxMedia) => void;
+}
+
+function HeaderMediaTile({
+  project,
+  mediaRole,
+  testId,
+  src,
+  alt,
+  autoPlay,
+  loop,
+  className,
+  mediaClassName,
+  objectFit = "cover",
+  onOpen,
+}: HeaderMediaTileProps) {
+  return (
+    <button
+      type="button"
+      data-testid="project-header-media-trigger"
+      data-project-id={project.id}
+      data-media-role={mediaRole}
+      className="group block w-full rounded-2xl text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+      onClick={() =>
+        onOpen({
+          src,
+          alt,
+          label: mediaRole === "hero" ? "Hero media" : "Poster preview",
+          autoPlay,
+          loop,
+        })
+      }
+    >
+      <div
+        data-testid={testId}
+        data-project-id={project.id}
+        data-media-role={mediaRole}
+        className={cn(
+          "relative overflow-hidden rounded-2xl border border-border/60 bg-card/30 shadow-sm transition-all duration-200 group-hover:border-primary/35 group-hover:shadow-md",
+          className
+        )}
+      >
+        <MediaDisplay
+          src={src}
+          alt={alt}
+          fill
+          className={mediaClassName}
+          objectFit={objectFit}
+          autoPlay={autoPlay}
+          loop={loop}
+        />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background/12 via-transparent to-transparent" />
+        <div className="pointer-events-none absolute right-3 top-3 flex items-center gap-1 rounded-full bg-background/85 px-2.5 py-1 text-xs font-medium text-foreground opacity-0 shadow-sm backdrop-blur-sm transition-opacity group-hover:opacity-100">
+          <Maximize2 className="size-3" />
+          Fullscreen
+        </div>
+      </div>
+    </button>
+  );
+}
+
 export function ProjectHeader({
   project,
   hideBanner = false,
@@ -21,6 +104,7 @@ export function ProjectHeader({
   resourceRow,
   headerActions,
 }: ProjectHeaderProps) {
+  const [activeMedia, setActiveMedia] = useState<HeaderLightboxMedia | null>(null);
   const folderName = project.folderName || project.id;
   const folderPath = `/projects/${folderName}`;
 
@@ -45,6 +129,7 @@ export function ProjectHeader({
     : project.images?.poster
     ? getOptimizedMediaPath(project.images.poster, folderPath)
     : null;
+  const posterAccentRole = project.images?.posterPortrait ? "posterPortrait" : "poster";
   const posterAccentSettings = project.images?.posterPortrait
     ? project.imageSettings?.posterPortrait || project.imageSettings?.poster
     : project.imageSettings?.poster;
@@ -52,133 +137,217 @@ export function ProjectHeader({
     ? getOptimizedMediaPath(project.images.hero, folderPath)
     : null;
   const heroSettings = project.imageSettings?.hero;
+  const resourceRowContent =
+    resourceRow ?? (showResourceRow && project.resources && project.resources.length > 0 ? <ResourceButtons project={project} /> : null);
+
+  useEffect(() => {
+    const requestedHeaderMedia = new URLSearchParams(window.location.search).get("headerMedia");
+
+    if (requestedHeaderMedia === "hero" && heroPath) {
+      setActiveMedia({
+        src: heroPath,
+        alt: `${project.title} hero media`,
+        label: "Hero media",
+        autoPlay: heroSettings?.autoPlay ?? false,
+        loop: heroSettings?.loop ?? true,
+      });
+      return;
+    }
+
+    if (
+      requestedHeaderMedia === posterAccentRole &&
+      posterAccentPath
+    ) {
+      setActiveMedia({
+        src: posterAccentPath,
+        alt: `${project.title} poster`,
+        label: "Poster preview",
+        autoPlay: posterAccentSettings?.autoPlay ?? false,
+        loop: posterAccentSettings?.loop ?? true,
+      });
+    }
+  }, [
+    heroPath,
+    heroSettings?.autoPlay,
+    heroSettings?.loop,
+    posterAccentPath,
+    posterAccentRole,
+    posterAccentSettings?.autoPlay,
+    posterAccentSettings?.loop,
+    project.title,
+  ]);
 
   return (
-    <header data-testid="project-header" data-project-id={project.id} className="space-y-3 md:space-y-6 border-b border-border pb-4 md:pb-8">
-      {!hideBanner && srcBanner && (
-        <div
-          data-testid="project-header-banner"
-          data-project-id={project.id}
-          data-media-role={project.images?.banner ? "banner" : project.images?.posterLandscape ? "posterLandscape" : project.images?.poster ? "poster" : "thumbnail"}
-          className="relative -mx-3 md:-mx-6 -mt-3 md:-mt-6 mb-3 md:mb-6 h-32 md:h-48 lg:h-64 overflow-hidden rounded-t-lg"
-        >
-          <MediaDisplay
-            src={srcBanner}
-            alt={`${project.title} banner`}
-            fill
-            className="h-full w-full object-cover opacity-40"
-            autoPlay={headerMediaSettings?.autoPlay ?? false}
-            loop={headerMediaSettings?.loop ?? true}
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent to-background" />
-        </div>
-      )}
-
-      <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between md:gap-4">
-        <div className="flex-1 space-y-1 md:space-y-2">
-          <div className="flex items-center gap-2 md:gap-3 flex-wrap">
-            {iconPath && (
-              <div
-                data-testid="project-header-icon"
-                data-project-id={project.id}
-                data-media-role={project.images?.icon ? "icon" : "thumbnail"}
-                className="relative h-10 w-10 md:h-12 md:w-12 overflow-hidden rounded-xl border border-border/70 bg-card"
-              >
-                <MediaDisplay
-                  src={iconPath}
-                  alt={`${project.title} icon`}
-                  fill
-                  className="object-cover"
-                  autoPlay={iconSettings?.autoPlay ?? false}
-                  loop={iconSettings?.loop ?? true}
-                />
-              </div>
-            )}
-            <h1 className="text-balance font-sans text-2xl md:text-4xl lg:text-5xl font-bold tracking-tight text-foreground">
-              {project.title}
-            </h1>
-            {project.resources && project.resources.length > 0 && (
-              <div className="flex gap-2">
-                {project.resources.slice(0, 4).map((resource, index) => (
-                  <ResourceButton
-                    key={`${resource.url}-${index}`}
-                    resource={resource}
-                    currentProject={project}
-                    iconOnly
-                    className="h-8 w-8"
-                  />
-                ))}
-              </div>
-            )}
+    <>
+      <header
+        data-testid="project-header"
+        data-project-id={project.id}
+        className="space-y-5 border-b border-border pb-6 md:space-y-7 md:pb-8"
+      >
+        {!hideBanner && srcBanner && (
+          <div
+            data-testid="project-header-banner"
+            data-project-id={project.id}
+            data-media-role={
+              project.images?.banner
+                ? "banner"
+                : project.images?.posterLandscape
+                ? "posterLandscape"
+                : project.images?.poster
+                ? "poster"
+                : "thumbnail"
+            }
+            className="relative -mx-3 -mt-3 mb-4 h-32 overflow-hidden rounded-t-lg md:-mx-6 md:-mt-6 md:mb-6 md:h-48 lg:h-64"
+          >
+            <MediaDisplay
+              src={srcBanner}
+              alt={`${project.title} banner`}
+              fill
+              className="h-full w-full object-cover opacity-40"
+              autoPlay={headerMediaSettings?.autoPlay ?? false}
+              loop={headerMediaSettings?.loop ?? true}
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent to-background" />
           </div>
-          {project.subtitle && <p className="text-pretty text-sm md:text-lg text-muted-foreground">{project.subtitle}</p>}
-          {project.oneLiner && (
-            <p className="text-pretty text-sm md:text-base text-muted-foreground/80 mt-2 italic">
-              {project.oneLiner}
-            </p>
-          )}
+        )}
+
+        <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between lg:gap-6">
+          <div className="flex-1 space-y-3">
+            <div data-testid="project-header-title-row" className="flex items-start gap-3 md:gap-4">
+              {iconPath && (
+                <div
+                  data-testid="project-header-icon"
+                  data-project-id={project.id}
+                  data-media-role={project.images?.icon ? "icon" : "thumbnail"}
+                  className="relative mt-1 h-11 w-11 shrink-0 overflow-hidden rounded-xl border border-border/70 bg-card md:h-12 md:w-12"
+                >
+                  <MediaDisplay
+                    src={iconPath}
+                    alt={`${project.title} icon`}
+                    fill
+                    className="object-cover"
+                    autoPlay={iconSettings?.autoPlay ?? false}
+                    loop={iconSettings?.loop ?? true}
+                  />
+                </div>
+              )}
+
+              <div className="min-w-0 space-y-1.5">
+                <h1 className="text-balance font-sans text-2xl font-bold tracking-tight text-foreground md:text-4xl lg:text-5xl">
+                  {project.title}
+                </h1>
+                {project.subtitle ? (
+                  <p className="text-pretty text-sm text-muted-foreground md:text-lg">{project.subtitle}</p>
+                ) : null}
+              </div>
+            </div>
+
+            {project.oneLiner ? (
+              <p className="max-w-3xl text-pretty text-sm italic text-muted-foreground/85 md:text-base">
+                {project.oneLiner}
+              </p>
+            ) : null}
+          </div>
+
+          {headerActions ? (
+            <div className="w-full lg:w-auto lg:max-w-sm lg:shrink-0 lg:pl-4">{headerActions}</div>
+          ) : null}
         </div>
 
-        {headerActions ? (
-          <div className="w-full md:w-auto md:shrink-0 md:pl-4 md:pr-12">
-            {headerActions}
+        {resourceRowContent ? (
+          <div data-testid="project-header-resource-row" data-project-id={project.id} className="max-w-4xl">
+            {resourceRowContent}
           </div>
         ) : null}
-      </div>
 
-      <div className="overflow-hidden">
-        {heroPath && (
-          <div className="mb-4 md:mb-6 px-10 py-5">
-            <div
-              data-testid="project-header-hero"
-              data-project-id={project.id}
-              data-media-role="hero"
-              className="relative aspect-video w-full overflow-hidden rounded-xl border border-border/70 bg-card/30"
-            >
-              
-              <MediaDisplay
+        <div
+          className={cn(
+            "grid gap-5 md:gap-6",
+            posterAccentPath ? "xl:grid-cols-[minmax(0,1fr)_12rem]" : undefined
+          )}
+        >
+          <div className="space-y-5 md:space-y-6">
+            {heroPath ? (
+              <HeaderMediaTile
+                project={project}
+                mediaRole="hero"
+                testId="project-header-hero"
                 src={heroPath}
                 alt={`${project.title} hero media`}
-                fill
-                className="object-cover"
                 autoPlay={heroSettings?.autoPlay ?? false}
                 loop={heroSettings?.loop ?? true}
+                className="aspect-video w-full"
+                mediaClassName="object-cover"
+                onOpen={setActiveMedia}
               />
-            </div>
-          </div>
-        )}
+            ) : null}
 
-        {posterAccentPath && (
-          <div className="float-none sm:float-right sm:ml-4 sm:mb-2 w-[8.5rem] md:w-[10rem] lg:w-[11rem]">
-            <div
-              data-testid="project-header-poster-accent"
-              data-project-id={project.id}
-              data-media-role={project.images?.posterPortrait ? "posterPortrait" : "poster"}
-              className="relative aspect-[3/4] w-full overflow-hidden rounded-lg border border-border/70 bg-card/30"
-            >
-              <MediaDisplay
+            <p className="w-full whitespace-pre-wrap text-pretty text-sm leading-relaxed text-muted-foreground md:text-base">
+              {formatTextWithNewlines(project.summary)}
+            </p>
+          </div>
+
+          {posterAccentPath ? (
+            <div className="w-full max-w-[13rem] xl:justify-self-end">
+              <HeaderMediaTile
+                project={project}
+                mediaRole={posterAccentRole}
+                testId="project-header-poster-accent"
                 src={posterAccentPath}
                 alt={`${project.title} poster`}
-                fill
-                className="object-contain"
-                objectFit="contain"
                 autoPlay={posterAccentSettings?.autoPlay ?? false}
                 loop={posterAccentSettings?.loop ?? true}
+                className="aspect-[3/4] w-full"
+                mediaClassName="object-contain"
+                objectFit="contain"
+                onOpen={setActiveMedia}
               />
             </div>
-          </div>
-        )}
-
-        <p className="text-pretty text-sm md:text-base leading-relaxed text-muted-foreground whitespace-pre-wrap">
-          {formatTextWithNewlines(project.summary)}
-        </p>
-      </div>
-
-      {(resourceRow || (showResourceRow && project.resources && project.resources.length > 0)) && (
-        <div data-testid="project-header-resource-row" data-project-id={project.id}>
-          {resourceRow ?? <ResourceButtons project={project} />}
+          ) : null}
         </div>
-      )}
-    </header>
+      </header>
+
+      <Dialog open={Boolean(activeMedia)} onOpenChange={(open) => (!open ? setActiveMedia(null) : undefined)}>
+        <DialogContent
+          data-testid="project-header-media-lightbox"
+          className="max-h-[92vh] max-w-[min(96vw,1200px)] overflow-hidden border-border/60 bg-background/98 p-0"
+        >
+          <DialogTitle className="sr-only">{activeMedia?.alt || `${project.title} media preview`}</DialogTitle>
+          {activeMedia ? (
+            <>
+              <div className="border-b border-border/60 px-5 py-3">
+                <p className="text-sm font-medium text-foreground">{project.title}</p>
+                <p className="text-xs text-muted-foreground">{activeMedia.label}</p>
+              </div>
+              <div className="flex h-[min(78vh,900px)] items-center justify-center bg-black/80 p-4 md:p-6">
+                {isVideoFile(activeMedia.src) ? (
+                  <video
+                    src={activeMedia.src}
+                    controls
+                    autoPlay={activeMedia.autoPlay}
+                    loop={activeMedia.loop}
+                    playsInline
+                    className="max-h-full w-full rounded-lg object-contain"
+                    aria-label={activeMedia.alt}
+                  />
+                ) : (
+                  <div className="relative h-full w-full">
+                    <MediaDisplay
+                      src={activeMedia.src}
+                      alt={activeMedia.alt}
+                      fill
+                      className="object-contain"
+                      objectFit="contain"
+                      autoPlay={activeMedia.autoPlay}
+                      loop={activeMedia.loop}
+                    />
+                  </div>
+                )}
+              </div>
+            </>
+          ) : null}
+        </DialogContent>
+      </Dialog>
+    </>
   );
 }

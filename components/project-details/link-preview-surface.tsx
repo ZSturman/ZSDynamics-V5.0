@@ -282,14 +282,12 @@ export function LinkPreviewSurface({
         data-link-preview-state="fallback"
         data-link-preview-kind={isInternal ? "internal" : "external"}
         className={cn(
-          "flex w-full flex-col justify-between gap-4 overflow-hidden rounded-lg border border-border/60 bg-gradient-to-br from-card via-card to-muted/40 p-5",
-          previewClassName,
-          surfaceClassName,
+          "flex w-full flex-col justify-between gap-3 overflow-hidden rounded-lg border border-border/60 bg-gradient-to-br from-card via-card to-muted/40 p-4",
           fallbackClassName,
         )}
       >
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
-          <div className="relative h-24 w-full shrink-0 overflow-hidden rounded-2xl border border-border/60 bg-muted/30 sm:h-24 sm:w-24">
+          <div className="relative h-20 w-full shrink-0 overflow-hidden rounded-2xl border border-border/60 bg-muted/30 sm:h-20 sm:w-20">
             {resolvedPreviewImage ? (
               <MediaDisplay
                 src={resolvedPreviewImage}
@@ -317,7 +315,7 @@ export function LinkPreviewSurface({
             </div>
 
             {resolvedPreviewDescription ? (
-              <p className="line-clamp-4 text-sm leading-relaxed text-muted-foreground">
+              <p className="line-clamp-3 text-sm leading-relaxed text-muted-foreground">
                 {resolvedPreviewDescription}
               </p>
             ) : (

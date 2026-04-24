@@ -127,6 +127,12 @@
   }
 }
 
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
 @layer components {
   .article-markdown {
     @apply mx-auto max-w-4xl text-base leading-8 text-foreground;

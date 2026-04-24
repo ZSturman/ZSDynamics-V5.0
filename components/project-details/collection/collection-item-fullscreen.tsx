@@ -8,29 +8,13 @@ import { Badge } from "@/components/ui/badge";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import {
+  getCollectionItemResources,
+  getCollectionItemTextContent,
+} from "@/lib/collection-item-media";
 import ResourceButton from "../resource-button";
-import { CollectionItem, Project, Resource } from "@/types";
+import { CollectionItem, Project } from "@/types";
 import { ContentViewer } from "./content-viewer";
-
-// Helper function to get resources as array (handles both singular resource and resources array)
-function getItemResources(item: CollectionItem): Resource[] {
-  const resources: Resource[] = [];
-  
-  // Add resources array if exists
-  if (item.resources && Array.isArray(item.resources)) {
-    resources.push(...item.resources);
-  }
-  
-  // Add singular resource if exists
-  if (item.resource) {
-    resources.push(item.resource);
-  }
-  
-  // Filter out resources with empty url or label
-  return resources.filter(resource => {
-    return resource.url && resource.url !== '' && resource.label && resource.label !== '';
-  });
-}
 
 interface CollectionFullscreenProps {
   item: CollectionItem;
@@ -42,6 +26,52 @@ interface CollectionFullscreenProps {
   folderName?: string;
   collectionName?: string;
   onNavigate?: (index: number) => void;
+}
+
+function CollectionItemDetails({
+  item,
+  project,
+}: {
+  item: CollectionItem;
+  project: Project;
+}) {
+  const { oneLiner, summary } = getCollectionItemTextContent(item);
+  const resources = getCollectionItemResources(item);
+
+  if (!item.label && !oneLiner && !summary && resources.length === 0) {
+    return null;
+  }
+
+  return (
+    <div data-testid="collection-fullscreen-details" className="space-y-6">
+      {item.label ? <h2 className="text-lg font-semibold">{item.label}</h2> : null}
+
+      {oneLiner ? (
+        <p className="text-sm font-medium leading-6 text-foreground/90">{oneLiner}</p>
+      ) : null}
+
+      {summary ? (
+        <p className="text-sm leading-relaxed text-muted-foreground">{summary}</p>
+      ) : null}
+
+      {resources.length > 0 ? (
+        <div className="space-y-3">
+          {resources.map((resource, idx) => (
+            <ResourceButton key={`${resource.url}-${idx}`} resource={resource} currentProject={project} />
+          ))}
+        </div>
+      ) : null}
+
+      {resources.length > 0 ? (
+        <div className="space-y-2 border-t pt-4">
+          <div className="flex justify-between text-sm">
+            <span className="text-muted-foreground">Resources</span>
+            <span className="font-medium">{resources.length}</span>
+          </div>
+        </div>
+      ) : null}
+    </div>
+  );
 }
 
 export function CollectionFullscreen({
@@ -57,8 +87,6 @@ export function CollectionFullscreen({
 }: CollectionFullscreenProps) {
   const [showSidebar, setShowSidebar] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  
-  const resources = getItemResources(item);
 
   // Detect mobile screen size
   useEffect(() => {
@@ -145,7 +173,12 @@ export function CollectionFullscreen({
     : "fixed inset-0 z-50 bg-background flex flex-col";
 
   return (
-    <div className={containerClass}>
+    <div
+      className={containerClass}
+      data-testid="collection-fullscreen"
+      data-collection-item-id={item.id}
+      data-collection-item-type={item.type}
+    >
       {/* Header */}
       <div className="flex-shrink-0 flex items-center justify-between p-4 bg-background/95 backdrop-blur border-b">
         <div className="flex items-center gap-3">
@@ -207,41 +240,8 @@ export function CollectionFullscreen({
             inModal ? "absolute right-0 top-0 bottom-0 w-80" : "fixed right-0 top-0 bottom-0 w-80",
             "border-l bg-background overflow-y-auto hidden md:block"
           )}>
-            <div className="p-6 space-y-6">
-              {/* Summary section */}
-              {item.label && (
-                <h2 className="text-lg font-semibold">{item.label}</h2>
-              )}
-              {item.summary && (
-                <div className="space-y-2">
-                  <p className="text-sm leading-relaxed opacity-80">{item.summary}</p>
-                </div>
-              )}
-
-              {/* Resources section */}
-              {resources.length > 0 && (
-                <div className="space-y-3">
-                  <div className="space-y-2">
-                    {resources.map((resource, idx) => (
-                      <ResourceButton key={idx} resource={resource} currentProject={project} />
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Metadata section */}
-              <div className="space-y-2 pt-4 border-t">
-                <div className="space-y-1 text-sm">
-                  {resources.length > 0 && (
-                    <div className="flex justify-between">
-                      <span className="text-muted-foreground">Resources</span>
-                      <span className="font-medium">
-                        {resources.length}
-                      </span>
-                    </div>
-                  )}
-                </div>
-              </div>
+            <div className="p-6">
+              <CollectionItemDetails item={item} project={project} />
             </div>
           </div>
         )}
@@ -281,40 +281,7 @@ export function CollectionFullscreen({
               </div>
               
               <div className="px-6 pb-6 space-y-6">
-                {/* Summary section */}
-                {item.label && (
-                  <h2 className="text-lg font-semibold">{item.label}</h2>
-                )}
-                {item.summary && (
-                  <div className="space-y-2">
-                    <p className="text-sm leading-relaxed opacity-80">{item.summary}</p>
-                  </div>
-                )}
-
-                {/* Resources section */}
-                {resources.length > 0 && (
-                  <div className="space-y-3">
-                    <div className="space-y-2">
-                      {resources.map((resource, idx) => (
-                        <ResourceButton key={idx} resource={resource} currentProject={project} />
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {/* Metadata section */}
-                <div className="space-y-2 pt-4 border-t">
-                  <div className="space-y-1 text-sm">
-                    {resources.length > 0 && (
-                      <div className="flex justify-between">
-                        <span className="text-muted-foreground">Resources</span>
-                        <span className="font-medium">
-                          {resources.length}
-                        </span>
-                      </div>
-                    )}
-                  </div>
-                </div>
+                <CollectionItemDetails item={item} project={project} />
               </div>
             </div>
           </>

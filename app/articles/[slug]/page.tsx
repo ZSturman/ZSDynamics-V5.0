@@ -5,6 +5,7 @@ import { ArrowRight, FolderOpen, Newspaper, type LucideIcon } from "lucide-react
 
 import { ArticleAnalyticsTracker } from "@/components/analytics/article-analytics-tracker";
 import { ArticleMarkdown } from "@/components/articles/article-markdown";
+import { PageColumn, PageFrame } from "@/components/layout/page-frame";
 import { BreadcrumbTrail } from "@/components/ui/breadcrumb-trail";
 import { MetadataTag, MetadataText } from "@/components/ui/metadata-text";
 import { loadArticleBySlug, loadArticles } from "@/lib/load-articles";
@@ -101,7 +102,6 @@ function ArticleRecommendationCard({
         fallbackIcon={Newspaper}
       />
       <div className="min-w-0 flex-1 space-y-1.5">
-        <p className="text-[11px] font-medium uppercase tracking-[0.16em] text-muted-foreground">Article</p>
         <p className="font-medium leading-6 text-foreground transition-colors group-hover:text-primary">{title}</p>
         <p className="line-clamp-2 text-sm leading-6 text-muted-foreground">{summary}</p>
         <p className="text-xs text-muted-foreground">{dateLabel}</p>
@@ -232,7 +232,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
 
   return (
     <div className="min-h-screen bg-background">
-      <main className="mx-auto max-w-6xl px-4 py-8 sm:px-6 md:px-8 md:py-12">
+      <PageFrame as="main" data-testid="site-page-frame" className="py-8 md:py-12">
         <ArticleAnalyticsTracker slug={article.slug} title={article.title} />
 
         <div className="space-y-8">
@@ -244,45 +244,45 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
             ]}
           />
 
-          <div className="space-y-6 border-b border-border/70 pb-8 md:pb-10">
-            {article.coverImage && (
-              <div className="overflow-hidden rounded-[2rem] border border-border/70 bg-muted/40 shadow-sm">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={article.coverImage}
-                  alt={`Cover image for ${article.title}`}
-                  className="aspect-[16/7] w-full object-cover"
-                />
-              </div>
-            )}
+          {article.coverImage && (
+            <div className="overflow-hidden rounded-[2rem] border border-border/70 bg-muted/40 shadow-sm">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={article.coverImage}
+                alt={`Cover image for ${article.title}`}
+                className="aspect-[16/7] w-full object-cover"
+              />
+            </div>
+          )}
 
-            <div className="space-y-4">
+          <PageColumn data-testid="article-content-column" className="space-y-8">
+            <div
+              data-testid="article-header-block"
+              className="space-y-4 border-b border-border/70 pb-8 md:pb-10"
+            >
               <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
                 <span>{publishedLabel}</span>
                 {updatedLabel && <span>Updated {updatedLabel}</span>}
               </div>
 
-              <div className="max-w-4xl space-y-4">
+              <div className="space-y-4">
                 <h1 className="text-3xl font-semibold tracking-tight md:text-5xl">{article.title}</h1>
                 <p className="text-base leading-8 text-muted-foreground md:text-lg">{article.summary}</p>
               </div>
             </div>
-          </div>
 
-          <div className="mx-auto max-w-4xl pt-2">
-            <ArticleMarkdown content={content} slug={article.slug} linkPreviews={article.linkPreviews} />
-          </div>
+            <div className="pt-1">
+              <ArticleMarkdown content={content} slug={article.slug} linkPreviews={article.linkPreviews} />
+            </div>
 
-          {hasPostMetadata && (
-            <section
-              data-testid="article-post-metadata"
-              className="mx-auto max-w-4xl space-y-6 border-t border-border/70 pt-8"
-            >
-              {(article.series || article.tags?.length) && (
-                <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-                  {article.series ? (
-                    <div className="space-y-2">
-                      <p className="text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground">Series</p>
+            {hasPostMetadata && (
+              <section
+                data-testid="article-post-metadata"
+                className="space-y-6 border-t border-border/70 pt-8"
+              >
+                {(article.series || article.tags?.length) && (
+                  <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                    {article.series ? (
                       <MetadataText
                         href={getSeriesHref(article.series)}
                         tone="interactive"
@@ -291,14 +291,11 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                       >
                         Series: {article.series}
                       </MetadataText>
-                    </div>
-                  ) : (
-                    <div />
-                  )}
+                    ) : (
+                      <div />
+                    )}
 
-                  {article.tags?.length ? (
-                    <div className="space-y-2 sm:text-right">
-                      <p className="text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground">Tags</p>
+                    {article.tags?.length ? (
                       <div
                         data-testid="article-tag-list"
                         className="flex flex-wrap gap-x-3 gap-y-1 sm:justify-end"
@@ -307,25 +304,20 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                           <MetadataTag key={`${article.slug}-${tag}`} tag={tag} size="sm" />
                         ))}
                       </div>
-                    </div>
-                  ) : null}
-                </div>
-              )}
+                    ) : null}
+                  </div>
+                )}
 
-              {relatedProjects.length > 0 && (
-                <div className="space-y-4">
-                  <p className="text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground">
-                    Projects connected to this article
-                  </p>
+                {relatedProjects.length > 0 && (
                   <div className="grid gap-4 lg:grid-cols-2">
                     {relatedProjects.map((project) => (
                       <ConnectedProjectCard key={project.id} project={project} />
                     ))}
                   </div>
-                </div>
-              )}
-            </section>
-          )}
+                )}
+              </section>
+            )}
+          </PageColumn>
         </div>
 
         {recommendedArticles.length > 0 && (
@@ -368,7 +360,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
             </div>
           </section>
         )}
-      </main>
+      </PageFrame>
     </div>
   );
 }

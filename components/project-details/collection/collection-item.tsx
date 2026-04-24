@@ -17,9 +17,18 @@ import { ArrowRight } from "lucide-react"
 import { CollectionFullscreen } from "./collection-item-fullscreen"
 import { getProjectHref } from "@/lib/project-paths"
 import { cn, extractPathValue, resolveProjectAssetPath, isSvgFile, getRenderableProjectPreviewPath } from "@/lib/utils"
+import {
+  getCollectionItemPosterPath,
+  getCollectionItemPreviewFrames,
+  getCollectionItemPreviewIntervalMs,
+  getCollectionItemResources,
+  getCollectionItemTextContent,
+  getCollectionItemOptimizedPath,
+} from "@/lib/collection-item-media"
 import ResourceButton from "../resource-button"
 import { useBreadcrumb } from "@/lib/breadcrumb-context"
 import { LinkPreviewSurface } from "../link-preview-surface"
+import { CollectionVideoPreview } from "./collection-video-preview"
 
 // Helper function to extract thumbnail path from various formats (string or object)
 function getThumbnailPath(item: CollectionItem): string | undefined {
@@ -97,35 +106,6 @@ function getItemPath(item: CollectionItem, folderName?: string, collectionName?:
   return undefined;
 }
 
-// Helper function to get resources as array
-function getItemResources(item: CollectionItem): Resource[] {
-  const resources: Resource[] = [];
-  
-  // Add resources array if exists
-  if (item.resources && Array.isArray(item.resources)) {
-    resources.push(...item.resources);
-  }
-  
-  // Add singular resource if exists
-  if (item.resource) {
-    resources.push(item.resource);
-  }
-  
-  const deduped: Resource[] = [];
-  const seen = new Set<string>();
-
-  // Filter out invalid resources and dedupe by url+label
-  resources.forEach((resource) => {
-    if (!resource.url || !resource.label) return;
-    const key = `${resource.url}::${resource.label}`;
-    if (seen.has(key)) return;
-    seen.add(key);
-    deduped.push(resource);
-  });
-
-  return deduped;
-}
-
 interface CollectionItemViewerProps {
   item: CollectionItem
 
@@ -157,7 +137,8 @@ interface CollectionItemWrapperProps {
 }
 
 function CollectionItemWrapper({ item, onRequestFullscreen, children, className, disableClickToFullscreen, project }: CollectionItemWrapperProps) {
-  const resources = getItemResources(item);
+  const resources = getCollectionItemResources(item);
+  const { oneLiner, summary } = getCollectionItemTextContent(item);
   
   const handleCardClick = (e: React.MouseEvent) => {
     // Don't trigger fullscreen if disabled or no handler
@@ -181,6 +162,9 @@ function CollectionItemWrapper({ item, onRequestFullscreen, children, className,
   
   return (
     <Card 
+      data-testid="collection-item-card"
+      data-collection-item-id={item.id}
+      data-collection-item-type={item.type}
       className={cn(
         "overflow-hidden transition-shadow hover:shadow-lg flex flex-col h-full relative p-0",
         onRequestFullscreen && !disableClickToFullscreen && "cursor-pointer",
@@ -202,11 +186,16 @@ function CollectionItemWrapper({ item, onRequestFullscreen, children, className,
       )}
       
       {/* Summary Footer with resource buttons as icons */}
-      {(item.summary || resources.length > 0) && (
+      {(oneLiner || summary || resources.length > 0) && (
         <div className="p-2 pt-1.5 space-y-1.5  flex-1 flex flex-col gap-2">
-          {item.summary && (
-            <p className="text-xs text-muted-foreground line-clamp-4 flex-1">
-              {item.summary}
+          {oneLiner && (
+            <p data-testid="collection-item-one-liner" className="text-sm font-medium leading-5 text-foreground/90 line-clamp-2">
+              {oneLiner}
+            </p>
+          )}
+          {summary && (
+            <p data-testid="collection-item-summary" className="text-xs text-muted-foreground line-clamp-4 flex-1">
+              {summary}
             </p>
           )}
           {resources.length > 0 && (
@@ -247,6 +236,17 @@ export default function CollectionItemCard({ item, project, inModal, folderName,
     item.type === "folio"
     || item.type === "local-link"
     || (item.type === "url-link" && typeof itemPath === "string" && itemPath.startsWith("/projects/"))
+
+  useEffect(() => {
+    if (isProjectPageItem) {
+      return
+    }
+
+    const params = new URLSearchParams(window.location.search)
+    if (params.get("collectionItem") === item.id) {
+      setIsFullscreen(true)
+    }
+  }, [isProjectPageItem, item.id])
 
   // Navigation handler
   const handleNavigate = (index: number) => {
@@ -591,163 +591,25 @@ function ImageViewer({ item, onRequestFullscreen, folderName, collectionName, pr
 }
 
 function VideoViewer({ item, onRequestFullscreen, folderName, collectionName, project }: ExtendedCollectionItemViewerProps) {
-  const videoRef = useRef<HTMLVideoElement>(null)
-  const [isPlaying, setIsPlaying] = useState(false)
-  const [isMuted, setIsMuted] = useState(false)
-  const [isMobile, setIsMobile] = useState(false)
-  const [userInitiatedPlay, setUserInitiatedPlay] = useState(false)
-  
-  // Detect mobile on mount
-  useEffect(() => {
-    setIsMobile(window.innerWidth < 768);
-  }, []);
-  
-  const rawPath = getItemPath(item, folderName, collectionName);
-  const pathOptions = { folderName, collectionName, itemId: item.id };
-  
-  // Helper to get optimized video path
-  const getOptimizedVideoPath = (path: string | undefined): string | undefined => {
-    if (!path || typeof path !== 'string') return undefined;
-    
-    // If it's an external URL, return as-is
-    if (path.startsWith('http://') || path.startsWith('https://')) {
-      return path;
-    }
-    
-    // If already optimized, return as-is
-    if (path.includes('-optimized') || path.includes('-thumb') || path.includes('-placeholder')) {
-      return path;
-    }
-    
-    // Convert to optimized version for video files
-    if (path.match(/\.(mp4|mov|webm|avi|mkv)$/i)) {
-      return path.replace(/\.[^.]+$/, '-optimized.mp4');
-    }
-    
-    return path;
-  };
-  
-  const itemPath = getOptimizedVideoPath(rawPath);
-
-  const togglePlay = () => {
-    if (videoRef.current) {
-      if (isPlaying) {
-        videoRef.current.pause()
-      } else {
-        setUserInitiatedPlay(true)
-        videoRef.current.play()
-      }
-      setIsPlaying(!isPlaying)
-    }
-  }
-
-  const toggleMute = () => {
-    if (videoRef.current) {
-      videoRef.current.muted = !isMuted
-      setIsMuted(!isMuted)
-    }
-  }
-
-  // Helper to get optimized thumbnail path for poster
-  const getOptimizedPoster = (): string | undefined => {
-    const thumbnailPath = getThumbnailPath(item);
-    if (!thumbnailPath || thumbnailPath === '') return undefined;
-    const fullPath = resolveProjectAssetPath(thumbnailPath, pathOptions);
-    if (!fullPath) return undefined;
-    
-    // If already optimized, use as-is
-    if (fullPath.includes('-optimized') || fullPath.includes('-thumb')) {
-      return fullPath;
-    }
-
-    // Video thumbnails should use a generated still image for preview
-    if (thumbnailPath.match(/\.(mp4|mov|webm|avi|mkv)$/i)) {
-      const withoutExt = fullPath.replace(/\.[^.]+$/, '');
-      return `${withoutExt}-thumb.jpg`;
-    }
-    
-    // Convert to optimized version
-    const withoutExt = fullPath.replace(/\.[^.]+$/, '');
-    const ext = isSvgFile(fullPath) ? '.svg' : '.webp';
-    return `${withoutExt}-optimized${ext}`;
-  };
-
-  // use thumbnail as poster when provided
-  const poster = getOptimizedPoster();
-  const hasPosterThumbnail = Boolean(poster);
-  
-  // On mobile, never autoplay to prevent videos from taking over the screen
-  // Users must tap play to start the video
-  const shouldAutoPlay = isMobile ? false : (item.autoPlay !== false);
-  const shouldLoop = item.loop !== false;
-
-  // In the collection grid, if a thumbnail exists, use the thumbnail card instead of autoplaying video.
-  if (hasPosterThumbnail && !userInitiatedPlay) {
-    return (
-      <CollectionItemWrapper item={item} onRequestFullscreen={onRequestFullscreen} project={project}>
-        <div 
-          className="relative w-full h-full cursor-pointer"
-          onClick={(e) => {
-            e.stopPropagation();
-            if (isMobile) {
-              setUserInitiatedPlay(true);
-            } else {
-              onRequestFullscreen?.();
-            }
-          }}
-        >
-          {/* Poster/thumbnail image */}
-          {hasPosterThumbnail ? (
-            <Image
-              src={poster as string}
-              alt={item.label || "Video thumbnail"}
-              fill
-              className="object-cover"
-            />
-          ) : (
-            <div className="w-full h-full bg-muted flex items-center justify-center">
-              <Play className="h-8 w-8 text-muted-foreground" />
-            </div>
-          )}
-          
-          {/* Play button overlay */}
-          <div className="absolute inset-0 flex items-center justify-center bg-black/20">
-            <div className="bg-background/90 rounded-full p-4 shadow-lg">
-              <Play className="h-8 w-8" />
-            </div>
-          </div>
-        </div>
-      </CollectionItemWrapper>
-    )
-  }
+  const pathOptions = { folderName, collectionName };
+  const poster = getCollectionItemPosterPath(item, pathOptions);
+  const previewFrames = getCollectionItemPreviewFrames(item, pathOptions);
+  const previewIntervalMs = getCollectionItemPreviewIntervalMs(item);
+  const itemPath = getCollectionItemOptimizedPath(item, pathOptions);
 
   return (
-    <CollectionItemWrapper item={item} onRequestFullscreen={onRequestFullscreen} project={project}>
-      <video
-        ref={videoRef}
-        src={itemPath}
-        poster={poster}
-        className="w-full h-full object-cover"
-        controls
-        autoPlay={shouldAutoPlay || userInitiatedPlay}
-        loop={shouldLoop}
-        muted={shouldAutoPlay && !userInitiatedPlay} // Auto-playing videos should be muted by default
-        playsInline // Critical for iOS - prevents fullscreen takeover
-        onPlay={() => setIsPlaying(true)}
-        onPause={() => setIsPlaying(false)}
-        onClick={(e) => e.stopPropagation()}
-      >
-        Your browser does not support the video tag.
-      </video>
-
-      <div className="absolute bottom-4 left-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity z-10">
-        <Button size="icon" variant="secondary" onClick={(e) => { e.stopPropagation(); togglePlay(); }}>
-          {isPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
-        </Button>
-        <Button size="icon" variant="secondary" onClick={(e) => { e.stopPropagation(); toggleMute(); }}>
-          {isMuted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
-        </Button>
-      </div>
+    <CollectionItemWrapper
+      item={item}
+      onRequestFullscreen={itemPath ? onRequestFullscreen : undefined}
+      project={project}
+    >
+      <CollectionVideoPreview
+        label={item.label}
+        posterSrc={poster}
+        previewFrames={previewFrames}
+        previewIntervalMs={previewIntervalMs}
+        onOpen={itemPath ? onRequestFullscreen : undefined}
+      />
     </CollectionItemWrapper>
   )
 }

@@ -8,8 +8,10 @@ normalizes data to the UI contract, copies referenced assets into a pre-build
 
 from __future__ import annotations
 
+import base64
 import json
 import hashlib
+import posixpath
 import re
 import shutil
 import subprocess
@@ -19,7 +21,7 @@ from html import unescape
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional, Set, Tuple
 from urllib.error import URLError
-from urllib.parse import unquote, urljoin, urlparse
+from urllib.parse import quote, unquote, urljoin, urlparse
 from urllib.request import Request, urlopen
 
 IMAGE_EXTS = {".png", ".jpg", ".jpeg", ".gif", ".webp", ".bmp", ".tiff"}
@@ -41,6 +43,8 @@ HTML_TAG_ATTR_RE = re.compile(r"(?P<name>[\w:-]+)\s*=\s*(?P<quote>[\"'])(?P<valu
 HTML_META_TAG_RE = re.compile(r"<meta\b(?P<attrs>[^>]+)>", re.IGNORECASE)
 HTML_LINK_TAG_RE = re.compile(r"<link\b(?P<attrs>[^>]+)>", re.IGNORECASE)
 HTML_TITLE_RE = re.compile(r"<title[^>]*>(?P<title>.*?)</title>", re.IGNORECASE | re.DOTALL)
+README_MARKDOWN_LINK_RE = re.compile(r"(?P<prefix>!?\[[^\]]*\]\()(?P<target>[^)\n]+)(?P<suffix>\))")
+README_HTML_ATTR_RE = re.compile(r'(?P<attr>\b(?:src|href)=)(?P<quote>["\'])(?P<target>[^"\']+)(?P=quote)')
 FAVICON_EXT_BY_CONTENT_TYPE = {
     "image/x-icon": ".ico",
     "image/vnd.microsoft.icon": ".ico",
@@ -52,6 +56,9 @@ FAVICON_EXT_BY_CONTENT_TYPE = {
     "image/webp": ".webp",
 }
 GITHUB_HOSTS = {"github.com", "www.github.com"}
+MARKDOWN_FILE_EXTS = {".md", ".markdown", ".mdx"}
+VIDEO_PREVIEW_FRAME_COUNT = 6
+VIDEO_PREVIEW_INTERVAL_MS = 650
 
 UUID_RE = re.compile(r"[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
 SCHEME_RE = re.compile(r"^[a-zA-Z][a-zA-Z0-9+.-]*://")
@@ -837,6 +844,283 @@ def _normalize_preview_display_url(url: str) -> str:
     if not path:
         return hostname
     return f"{hostname}{path}"
+
+
+def _extract_fragment(target: str) -> Tuple[str, str]:
+    if "#" not in target:
+        return target, ""
+    path_part, fragment = target.split("#", 1)
+    return path_part, f"#{fragment}"
+
+
+def _is_relative_target(target: str) -> bool:
+    stripped = target.strip()
+    if not stripped:
+        return False
+    if stripped.startswith(("#", "mailto:", "tel:", "data:")):
+        return False
+    if stripped.startswith("//"):
+        return False
+    return not SCHEME_RE.match(stripped)
+
+
+def _strip_url_path_suffix(url: Optional[str], suffix: str) -> Optional[str]:
+    normalized_url = _as_str(url)
+    if not normalized_url:
+        return None
+
+    normalized_suffix = suffix.strip().lstrip("/")
+    if not normalized_suffix:
+        return normalized_url.rstrip("/")
+
+    suffix_fragment = f"/{normalized_suffix}"
+    if normalized_url.endswith(suffix_fragment):
+        return normalized_url[: -len(suffix_fragment)].rstrip("/")
+
+    if normalized_url.endswith(normalized_suffix):
+        return normalized_url[: -len(normalized_suffix)].rstrip("/")
+
+    return normalized_url.rstrip("/")
+
+
+def _resolve_repo_relative_target(
+    raw_target: str,
+    *,
+    html_url: str,
+    raw_url: Optional[str],
+    readme_path: str,
+    use_raw_base: bool,
+) -> Optional[str]:
+    stripped = raw_target.strip()
+    if not stripped:
+        return None
+
+    target, fragment = _extract_fragment(stripped)
+    if not _is_relative_target(target):
+        return None
+
+    base_url = raw_url if use_raw_base and raw_url else html_url
+    repo_root = _strip_url_path_suffix(raw_url if use_raw_base else html_url, readme_path)
+    if not base_url:
+        return None
+
+    if target.startswith("/"):
+        normalized_target = "/".join(
+            quote(part, safe=":@~!$&'()*+,;=-._") for part in target.lstrip("/").split("/")
+        )
+        if repo_root:
+            return f"{repo_root}/{normalized_target}{fragment}"
+        return None
+
+    resolved = urljoin(base_url, target)
+    return f"{resolved}{fragment}"
+
+
+def rewrite_github_readme_markdown(
+    markdown: str,
+    *,
+    html_url: str,
+    raw_url: Optional[str],
+    readme_path: str,
+) -> str:
+    def replace_markdown_link(match: re.Match[str]) -> str:
+        replacement = _resolve_repo_relative_target(
+            match.group("target"),
+            html_url=html_url,
+            raw_url=raw_url,
+            readme_path=readme_path,
+            use_raw_base=match.group("prefix").startswith("!["),
+        )
+        if not replacement:
+            return match.group(0)
+        return f"{match.group('prefix')}{replacement}{match.group('suffix')}"
+
+    def replace_html_attr(match: re.Match[str]) -> str:
+        replacement = _resolve_repo_relative_target(
+            match.group("target"),
+            html_url=html_url,
+            raw_url=raw_url,
+            readme_path=readme_path,
+            use_raw_base=match.group("attr").lower().startswith("src"),
+        )
+        if not replacement:
+            return match.group(0)
+        return f"{match.group('attr')}{match.group('quote')}{replacement}{match.group('quote')}"
+
+    rewritten = README_MARKDOWN_LINK_RE.sub(replace_markdown_link, markdown)
+    rewritten = README_HTML_ATTR_RE.sub(replace_html_attr, rewritten)
+    return rewritten
+
+
+def _normalize_repo_relative_path(raw_path: str) -> str:
+    normalized = posixpath.normpath(raw_path.strip().lstrip("/"))
+    return "" if normalized == "." else normalized
+
+
+def _is_likely_repo_directory_target(target: str) -> bool:
+    path_part = target.split("?", 1)[0].split("#", 1)[0].rstrip("/")
+    if not path_part:
+        return False
+
+    ext = Path(path_part).suffix.lower()
+    if ext in MARKDOWN_FILE_EXTS:
+        return False
+
+    return ext == ""
+
+
+def _extract_github_repo_ref(url: str, path_within_repo: str) -> Optional[str]:
+    repo_root = _strip_url_path_suffix(url, path_within_repo)
+    if not repo_root:
+        return None
+    marker = "/blob/"
+    if marker not in repo_root:
+        return None
+    return repo_root.rsplit(marker, 1)[-1].lstrip("/")
+
+
+def _to_github_path_url(base_url: str, path: str) -> str:
+    ref = _extract_github_repo_ref(base_url, path)
+    normalized_path = _normalize_repo_relative_path(path)
+    if not ref or not normalized_path:
+        return base_url
+
+    suffix = "tree" if _is_likely_repo_directory_target(path) else "blob"
+    path_fragment = "/".join(quote(part, safe=":@~!$&'()*+,;=-._") for part in normalized_path.split("/"))
+    return base_url.replace(f"/blob/{ref}", f"/{suffix}/{ref}") + f"/{path_fragment}"
+
+
+def _parse_github_repo_url(raw_url: Any) -> Optional[Tuple[str, str, str]]:
+    normalized_url = _normalize_url(raw_url)
+    if not normalized_url:
+        return None
+
+    try:
+        parsed = urlparse(normalized_url)
+    except Exception:
+        return None
+
+    hostname = (parsed.hostname or "").lower()
+    if hostname not in GITHUB_HOSTS:
+        return None
+
+    parts = [part for part in parsed.path.split("/") if part]
+    if len(parts) < 2:
+        return None
+
+    owner, repo = parts[0], parts[1].removesuffix(".git")
+    if not owner or not repo:
+        return None
+
+    return owner, repo, f"https://github.com/{owner}/{repo}"
+
+
+def _extract_project_repo_url(source: Dict[str, Any]) -> Optional[str]:
+    preferred: List[str] = []
+    fallback: List[str] = []
+
+    for resource in source.get("resources") or []:
+        if not isinstance(resource, dict):
+            continue
+
+        parsed = _parse_github_repo_url(resource.get("url"))
+        if not parsed:
+            continue
+
+        _owner, _repo, repo_url = parsed
+        label = (_as_str(resource.get("label")) or "").lower()
+        resource_type = (_as_str(resource.get("type")) or "").lower()
+        category = (_as_str(resource.get("category")) or "").lower()
+
+        if resource_type == "github" or "repo" in label or "source" in label or category == "code":
+            preferred.append(repo_url)
+        else:
+            fallback.append(repo_url)
+
+    candidates = preferred or fallback
+    return candidates[0] if candidates else None
+
+
+def _decode_readme_content(payload: Dict[str, Any], repo_url: str) -> Optional[str]:
+    content = payload.get("content")
+    encoding = (_as_str(payload.get("encoding")) or "").lower()
+    if isinstance(content, str) and encoding == "base64":
+        try:
+            return base64.b64decode(content, validate=False).decode("utf-8", errors="replace")
+        except Exception:
+            return None
+
+    download_url = _as_str(payload.get("download_url"))
+    if not download_url:
+        return None
+
+    try:
+        body, _final_url, _content_type = _fetch_url_bytes(download_url, accept="text/plain,*/*;q=0.8")
+    except Exception:
+        return None
+
+    try:
+        return body.decode("utf-8", errors="replace")
+    except Exception:
+        return None
+
+
+def _fetch_project_readme(
+    repo_url: str,
+    *,
+    project_id: str,
+    warnings: List[str],
+) -> Tuple[Optional[Dict[str, str]], Optional[str]]:
+    parsed_repo = _parse_github_repo_url(repo_url)
+    if not parsed_repo:
+        return None, None
+
+    owner, repo, normalized_repo_url = parsed_repo
+    api_url = f"https://api.github.com/repos/{owner}/{repo}/readme"
+
+    try:
+        body, _final_url, _content_type = _fetch_url_bytes(api_url, accept="application/vnd.github+json")
+        payload = json.loads(body.decode("utf-8"))
+    except Exception as exc:
+        message = f"Unable to fetch README for project {project_id} ({normalized_repo_url}): {exc}"
+        warnings.append(message)
+        return None, message
+
+    if not isinstance(payload, dict):
+        message = f"Unable to fetch README for project {project_id} ({normalized_repo_url}): unexpected API response"
+        warnings.append(message)
+        return None, message
+
+    html_url = _as_str(payload.get("html_url")) or normalized_repo_url
+    raw_url = _as_str(payload.get("download_url"))
+    readme_path = _as_str(payload.get("path")) or _as_str(payload.get("name")) or "README.md"
+    markdown = _decode_readme_content(payload, normalized_repo_url)
+
+    if not markdown or not markdown.strip():
+        message = f"Unable to fetch README for project {project_id} ({normalized_repo_url}): README content was empty"
+        warnings.append(message)
+        return None, message
+
+    rewritten = rewrite_github_readme_markdown(
+        markdown,
+        html_url=html_url,
+        raw_url=raw_url,
+        readme_path=readme_path,
+    ).strip()
+    if not rewritten:
+        message = f"Unable to fetch README for project {project_id} ({normalized_repo_url}): README content was empty after normalization"
+        warnings.append(message)
+        return None, message
+
+    return {
+        "content": rewritten,
+        "sourceUrl": html_url,
+    }, None
+
+
+def _predict_video_preview_frames(filename: str, count: int = VIDEO_PREVIEW_FRAME_COUNT) -> List[str]:
+    stem = Path(filename).stem
+    return [f"{stem}-preview-{index:02d}.jpg" for index in range(1, count + 1)]
 
 
 def _cached_favicon_public_url(cache_root: Path, hostname: str) -> Optional[str]:
@@ -1705,10 +1989,13 @@ def _normalize_collection_item(
 
     if copied_file_name:
         out["filePath"] = copied_file_name
+        if item_type == "video":
+            out["previewFrames"] = _predict_video_preview_frames(copied_file_name)
+            out["previewIntervalMs"] = VIDEO_PREVIEW_INTERVAL_MS
 
     if copied_thumbnail:
         out["thumbnail"] = copied_thumbnail
-    elif item_type == "video":
+    elif item_type == "video" and not copied_file_name:
         warnings.append(f"\u26a0\ufe0f Video item '{label}' in collection '{collection_name}' is missing a thumbnail")
 
     item_url = _normalize_url(_first_non_empty(item.get("url"), raw_item.get("property_url")))
@@ -1930,6 +2217,8 @@ def _normalize_project(
     warnings: List[str],
     missing_thumbnail_projects: List[str],
     missing_summary_projects: List[str],
+    readme_fetched_projects: List[str],
+    readme_failed_projects: List[str],
 ) -> Dict[str, Any]:
     project_id = _as_str(source.get("id")) or ""
     title = _first_non_empty(source.get("title"), source.get("name"), project_id) or project_id
@@ -2001,6 +2290,19 @@ def _normalize_project(
 
     if not project_out["summary"]:
         missing_summary_projects.append(project_id)
+
+    repo_url = _extract_project_repo_url(source)
+    if repo_url:
+        project_readme, readme_failure = _fetch_project_readme(
+            repo_url,
+            project_id=project_id,
+            warnings=warnings,
+        )
+        if project_readme:
+            project_out["readme"] = project_readme
+            readme_fetched_projects.append(project_id)
+        elif readme_failure:
+            readme_failed_projects.append(readme_failure)
 
     image_candidates: Dict[str, Any] = {}
 
@@ -2256,6 +2558,7 @@ def _prune_project_output(project: Dict[str, Any]) -> Dict[str, Any]:
         "collection",
         "workLogs",
         "articles",
+        "readme",
         "folderName",
     }
 
@@ -2393,6 +2696,8 @@ def build_projects_from_json(
     warnings: List[str] = []
     missing_thumbnail_projects: List[str] = []
     missing_summary_projects: List[str] = []
+    readme_fetched_projects: List[str] = []
+    readme_failed_projects: List[str] = []
 
     normalized_projects: List[Dict[str, Any]] = []
     for source in source_projects:
@@ -2418,6 +2723,8 @@ def build_projects_from_json(
             warnings=warnings,
             missing_thumbnail_projects=missing_thumbnail_projects,
             missing_summary_projects=missing_summary_projects,
+            readme_fetched_projects=readme_fetched_projects,
+            readme_failed_projects=readme_failed_projects,
         )
         normalized_projects.append(project_out)
 
@@ -2435,5 +2742,7 @@ def build_projects_from_json(
         "warnings": warnings,
         "missing_thumbnail_projects": sorted(set(missing_thumbnail_projects)),
         "missing_summary_projects": sorted(set(missing_summary_projects)),
+        "readme_fetched_projects": sorted(set(readme_fetched_projects)),
+        "readme_failed_projects": sorted(set(readme_failed_projects)),
         "external_hostnames": sorted(external_hostnames),
     }

@@ -48,6 +48,11 @@ export interface ProjectArticleReference {
   oneLiner?: string;
 }
 
+export interface ProjectReadme {
+  content: string;
+  sourceUrl?: string;
+}
+
 export interface Article {
   slug: string;
   title: string;
@@ -84,6 +89,8 @@ export type CollectionItem = {
   label?: string;
   oneLiner?: string;
   summary?: string;
+  previewFrames?: Array<string | { path?: string }>;
+  previewIntervalMs?: number;
   thumbnail?: string | { path?: string }; // Can be image or video
   resource?: Resource; // Single resource (legacy)
   resources?: Resource[]; // Multiple resources
@@ -202,6 +209,7 @@ export interface Project {
   assets?: CollectionItem[];
   workLogs?: WorkLog[];
   articles?: ProjectArticleReference[];
+  readme?: ProjectReadme;
 
   details?: [
     {

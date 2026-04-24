@@ -52,6 +52,7 @@ import { ProjectIdentity } from "@/components/ui/project-identity";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn, formatDate, getOptimizedImageExt, getOptimizedMediaPath, isImageFile, isVideoFile } from "@/lib/utils";
 import {
+  formatWorkLogSessionRange,
   getWorkLogDurationMinutes,
   getWorkLogStart,
   getWorkLogSummary,
@@ -126,33 +127,7 @@ function formatDateRange(start?: string, end?: string): string {
 }
 
 function formatSessionRange(log: WorkLogWithProject): string {
-  const start = getWorkLogStart(log);
-  const end = log.endTime || log.sessionEnd || start;
-
-  if (!start && !end) return "Session time not set";
-  if (!start && end) return `Ends ${formatLongDate(end)}`;
-  if (!start) return "Session time not set";
-
-  const startTs = toTimestamp(start);
-  const endTs = toTimestamp(end);
-  const startDay = formatDate(start, { month: "short", day: "numeric", year: "numeric" });
-  const startClock = formatDate(start, { hour: "numeric", minute: "2-digit" });
-
-  if (!end || !startTs || !endTs || endTs <= startTs) {
-    if (startDay && startClock) return `${startDay} · ${startClock}`;
-    return startDay || "Session time not set";
-  }
-
-  const endDay = formatDate(end, { month: "short", day: "numeric", year: "numeric" });
-  const endClock = formatDate(end, { hour: "numeric", minute: "2-digit" });
-
-  if (startDay && endDay && startDay === endDay && startClock && endClock) {
-    return `${startDay} · ${startClock} - ${endClock}`;
-  }
-
-  const startPart = [startDay, startClock].filter(Boolean).join(" ");
-  const endPart = [endDay, endClock].filter(Boolean).join(" ");
-  return `${startPart} - ${endPart}`;
+  return formatWorkLogSessionRange(log);
 }
 
 function maybeString(value: unknown): string | undefined {

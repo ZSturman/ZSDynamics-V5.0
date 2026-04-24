@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useCallback, useRef, useEffect } from "react";
-import { Maximize2, Globe, FileText, Music, Gamepad2, Box } from "lucide-react";
+import Image from "next/image";
+import { Maximize2, FileText, Music, Gamepad2, Box } from "lucide-react";
 import { CollectionItem, Project, Resource, type LinkPreviewCard } from "@/types";
 import { CollectionFullscreen } from "./collection/collection-item-fullscreen";
 import ResourceButton from "./resource-button";
@@ -18,6 +19,10 @@ import {
   getRenderableProjectPreviewPath,
 } from "@/lib/utils";
 import { MediaDisplay } from "@/components/ui/media-display";
+import { getProjectAssetSectionId } from "@/lib/project-section-anchors";
+import { ExpandableCardContent } from "./expandable-card-content";
+
+const ASSET_SUMMARY_COLLAPSE_THRESHOLD = 520;
 
 // ─── Path helpers ───────────────────────────────────────────────
 
@@ -75,6 +80,18 @@ function getItemResources(item: CollectionItem): Resource[] {
   return out.filter((r) => r.url && r.label);
 }
 
+function getAssetFavicon(resources: Resource[]): string | undefined {
+  const faviconResource = resources.find((resource) => {
+    return (
+      typeof resource.iconUrl === "string" &&
+      resource.iconUrl.trim().length > 0 &&
+      resource.iconUrl.includes("/icons/favicons/")
+    );
+  });
+
+  return faviconResource?.iconUrl?.trim();
+}
+
 function isLinkType(type: string): boolean {
   return type === "url-link" || type === "local-link" || type === "folio";
 }
@@ -87,7 +104,7 @@ function AssetTypeIcon({ type, className }: { type: string; className?: string }
     case "url-link":
     case "local-link":
     case "folio":
-      return <Globe className={c} />;
+      return null;
     case "text":
       return <FileText className={c} />;
     case "audio":
@@ -293,18 +310,14 @@ function StandaloneAssetItem({
   }, []);
 
   const resources = getItemResources(item);
+  const faviconIcon = getAssetFavicon(resources);
   const linkType = isLinkType(item.type);
   const canFullscreen = !linkType;
 
   const openFullscreen = useCallback(() => {
-    if (linkType) {
-      const path = getItemPath(item, folderName, "assets");
-      if (path) window.open(path, "_blank", "noopener,noreferrer");
-      return;
-    }
     setFullscreenIndex(currentIndex);
     setIsFullscreen(true);
-  }, [item, folderName, linkType, currentIndex]);
+  }, [currentIndex]);
 
   const activeItem = allItems[fullscreenIndex] || item;
 
@@ -313,25 +326,39 @@ function StandaloneAssetItem({
       <div
         ref={ref}
         className={cn(
-          "space-y-4 transition-all duration-500",
+          "rounded-2xl border border-border/50 bg-card/40 p-5 transition-all duration-500 md:p-6",
           visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4",
         )}
       >
         {/* Header: label + type icon */}
-        <div className="flex items-start gap-2">
-          <div className="flex-1 min-w-0 space-y-1">
-            <h4 className="text-lg font-semibold tracking-tight">{item.label || item.id}</h4>
+        <div data-testid="project-asset-title-row" className="flex items-start gap-3">
+          <div className="flex-1 min-w-0 space-y-2">
+            <div className="flex items-center gap-2">
+              {faviconIcon ? (
+                <Image
+                  data-testid="project-asset-favicon"
+                  src={faviconIcon}
+                  alt=""
+                  width={18}
+                  height={18}
+                  className="h-[18px] w-[18px] rounded-[4px] object-contain"
+                />
+              ) : null}
+              <h4 className="text-xl font-semibold tracking-tight text-foreground md:text-2xl">
+                {item.label || item.id}
+              </h4>
+            </div>
             {item.oneLiner && (
-              <p className="text-sm text-muted-foreground">{item.oneLiner}</p>
+              <p className="text-sm text-muted-foreground md:text-base">{item.oneLiner}</p>
             )}
           </div>
-          <AssetTypeIcon type={item.type} className="mt-1" />
+          <AssetTypeIcon type={item.type} className="mt-1.5" />
         </div>
 
         {/* Media — clickable for fullscreen (or open link) */}
         <div
           className={cn("relative group", canFullscreen && "cursor-pointer")}
-          onClick={openFullscreen}
+          onClick={canFullscreen ? openFullscreen : undefined}
           role={canFullscreen ? "button" : undefined}
           tabIndex={canFullscreen ? 0 : undefined}
           onKeyDown={canFullscreen ? (e) => { if (e.key === "Enter" || e.key === " ") openFullscreen(); } : undefined}
@@ -347,9 +374,18 @@ function StandaloneAssetItem({
 
         {/* Summary */}
         {item.summary && (
-          <p className="whitespace-pre-wrap text-sm leading-relaxed text-muted-foreground">
-            {item.summary}
-          </p>
+          <ExpandableCardContent
+            contentLength={item.summary.length}
+            threshold={ASSET_SUMMARY_COLLAPSE_THRESHOLD}
+            collapsedHeightClassName="max-h-32"
+            collapsedHeightPx={128}
+            minCollapsedOverflowPx={96}
+            testId="project-asset-summary-expandable"
+          >
+            <p className="whitespace-pre-wrap text-sm leading-relaxed text-muted-foreground md:text-[15px]">
+              {item.summary}
+            </p>
+          </ExpandableCardContent>
         )}
 
         {/* Resources */}
@@ -395,21 +431,19 @@ export function ProjectStandaloneAssets({ project, inModal }: ProjectStandaloneA
 
   return (
     <section
+      id={inModal ? undefined : "assets"}
       data-testid="project-standalone-assets"
       data-project-id={project.id}
-      className="space-y-8"
+      className="scroll-mt-24 space-y-5 md:space-y-6"
     >
-      <div className="space-y-1">
-        <h3 className="text-sm font-medium text-muted-foreground">Project Assets</h3>
-      </div>
-
-      <div className="divide-y divide-border/50">
+      <div className="space-y-4 md:space-y-5">
         {items.map((item, idx) => (
           <div
             key={item.id || idx}
+            id={inModal ? undefined : getProjectAssetSectionId(item, idx)}
             data-testid="project-standalone-asset"
             data-asset-id={item.id}
-            className={cn(idx > 0 && "pt-8", idx < items.length - 1 && "pb-8")}
+            className="scroll-mt-24"
           >
             <StandaloneAssetItem
               item={item}

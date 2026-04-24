@@ -300,6 +300,8 @@ def main() -> None:
 
         missing_thumbs = result.get("missing_thumbnail_projects", [])
         missing_summaries = result.get("missing_summary_projects", [])
+        readme_fetched = result.get("readme_fetched_projects", [])
+        readme_failed = result.get("readme_failed_projects", [])
 
         if missing_thumbs:
             print("\n⚠️  Projects missing thumbnails:")
@@ -310,6 +312,17 @@ def main() -> None:
             print("\n⚠️  Projects missing summaries:")
             for project_id in missing_summaries:
                 print(f" - {project_id}")
+
+        print("\n📚 README prebuild summary:")
+        print(f" - fetched: {len(readme_fetched)}")
+        if readme_failed:
+            print(" - failed:")
+            for failure in readme_failed:
+                print(f"   • {failure}")
+            print(" - fallback used: project pages continue without a rendered README section.")
+            print(" - how to fix: confirm the repo is public, has a readable README, and the repo link points at the GitHub repository root.")
+        else:
+            print(" - failed: 0")
 
     except Exception as exc:
         append_log(paths.legacy_log_file, f"ERROR: build failed: {exc}")

@@ -1,5 +1,6 @@
 import { getProjectIdentityMedia } from "@/lib/project-identity";
 import { getProjectHref, getProjectSlug } from "@/lib/project-paths";
+import { formatDate } from "@/lib/utils";
 import type { Project, WorkLog } from "@/types";
 
 export type WorkLogWithProject = WorkLog & {
@@ -94,6 +95,46 @@ export function getWorkLogTitle(log: Pick<WorkLog, "title" | "entry">): string {
 
 export function getWorkLogSummary(log: Pick<WorkLog, "whatHappened" | "entry">): string {
   return log.whatHappened || log.entry || "";
+}
+
+export function formatWorkLogSessionRange(
+  log: Pick<WorkLog, "endTime" | "sessionEnd" | "startTime" | "sessionStart" | "date">
+): string {
+  const start = getWorkLogStart(log);
+  const end = getWorkLogEnd(log);
+
+  if (!start && !end) return "Session time not set";
+  if (!start && end) {
+    const endLabel = formatDate(end, { month: "short", day: "numeric", year: "numeric" });
+    return endLabel ? `Ends ${endLabel}` : "Session time not set";
+  }
+  if (!start) return "Session time not set";
+
+  const startTs = toTimestamp(start);
+  const endTs = toTimestamp(end);
+  const startDay = formatDate(start, { month: "short", day: "numeric", year: "numeric" });
+  const startClock = formatDate(start, { hour: "numeric", minute: "2-digit" });
+
+  if (!end || !startTs || !endTs || endTs <= startTs) {
+    if (startDay && startClock) return `${startDay} · ${startClock}`;
+    return startDay || "Session time not set";
+  }
+
+  const endDay = formatDate(end, { month: "short", day: "numeric", year: "numeric" });
+  const endClock = formatDate(end, { hour: "numeric", minute: "2-digit" });
+
+  if (startDay && endDay && startDay === endDay && startClock && endClock) {
+    return `${startDay} · ${startClock} - ${endClock}`;
+  }
+
+  const startPart = [startDay, startClock].filter(Boolean).join(" ");
+  const endPart = [endDay, endClock].filter(Boolean).join(" ");
+
+  if (!startPart && !endPart) return "Session time not set";
+  if (!startPart) return `Ends ${endPart}`;
+  if (!endPart) return startPart;
+
+  return `${startPart} - ${endPart}`;
 }
 
 export function buildWorkLogSessionSummaries(logs: Array<Pick<WorkLog, "sessionType">>): WorkLogSessionSummary[] {
