@@ -119,28 +119,28 @@ export function ProjectContent({ project, showReadme = true }: ProjectContentPro
   if (!hasDescription && !hasStory && !hasReadme) return null;
 
   return (
-    <article className="space-y-8">
+    <article className="min-w-0 max-w-full space-y-7 overflow-x-clip md:space-y-8">
       {hasDescription && (
-        <section id="description" className="scroll-mt-24">
-          <h2 className="text-2xl md:text-3xl font-bold mb-4 text-foreground">Description</h2>
-          <div className="text-base md:text-lg leading-relaxed text-foreground/90 whitespace-pre-wrap">
+        <section id="description" className="min-w-0 max-w-full scroll-mt-24">
+          <h2 className="mb-3 text-xl font-bold text-foreground md:mb-4 md:text-3xl">Description</h2>
+          <div className="max-w-full whitespace-pre-wrap break-words text-sm leading-relaxed text-foreground/90 md:text-lg">
             {formatTextWithNewlines(description)}
           </div>
         </section>
       )}
 
       {hasStory && (
-        <section id="story" className="scroll-mt-24">
-          <h2 className="text-2xl md:text-3xl font-bold mb-4 text-foreground">Story</h2>
-          <div className="text-base md:text-lg leading-relaxed text-foreground/90 whitespace-pre-wrap border-l-4 border-primary/20 pl-6">
+        <section id="story" className="min-w-0 max-w-full scroll-mt-24">
+          <h2 className="mb-3 text-xl font-bold text-foreground md:mb-4 md:text-3xl">Story</h2>
+          <div className="max-w-full whitespace-pre-wrap border-l-2 border-primary/20 pl-4 text-sm leading-relaxed text-foreground/90 md:pl-6 md:text-lg">
             {formatTextWithNewlines(story)}
           </div>
         </section>
       )}
 
       {hasReadme && (
-        <section id="readme" data-testid="project-readme" className="scroll-mt-24">
-          <div className="rounded-2xl border border-border/50 bg-card/40 p-5 shadow-sm md:p-6">
+        <section id="readme" data-testid="project-readme" className="min-w-0 max-w-full scroll-mt-24 overflow-x-clip">
+          <div className="rounded-lg border border-border/30 bg-card/25 p-3 md:p-6">
             {readmeSourceUrl ? (
               <div className="mb-4 flex justify-end">
                 <Button asChild variant="outline" size="sm">
@@ -165,10 +165,12 @@ export function ProjectContent({ project, showReadme = true }: ProjectContentPro
               minCollapsedOverflowPx={160}
               testId="project-readme-expandable"
             >
-              <ArticleMarkdown
-                content={readmeContent}
-                slug={`${project.slug || project.id}-readme`}
-              />
+              <div className="project-readme-markdown min-w-0 max-w-full overflow-x-auto">
+                <ArticleMarkdown
+                  content={readmeContent}
+                  slug={`${project.slug || project.id}-readme`}
+                />
+              </div>
             </ExpandableCardContent>
           </div>
         </section>

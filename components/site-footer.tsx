@@ -84,9 +84,9 @@ export function SiteFooter() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer data-testid="site-footer" className="border-t border-border/70 bg-background/95">
+    <footer data-testid="site-footer" className="border-t border-border/40 bg-background/95">
       <PageFrame className="py-10 md:py-12">
-        <div className="rounded-[2rem] border border-border/60 bg-card/40 p-6 shadow-sm sm:p-7 lg:p-8">
+        <div className="border-y border-border/35 py-6 sm:py-7 lg:py-8">
           <div className="grid gap-8 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)_minmax(0,1.2fr)_minmax(0,1fr)]">
             <section className="space-y-3">
               <p className="text-xs font-semibold uppercase tracking-[0.24em] text-muted-foreground">
@@ -142,7 +142,7 @@ export function SiteFooter() {
             </section>
           </div>
 
-          <div className="mt-8 border-t border-border/60 pt-4 text-sm text-muted-foreground">
+          <div className="mt-8 border-t border-border/35 pt-4 text-sm text-muted-foreground">
             <p>© {currentYear} Zachary Sturman. Built to keep projects, articles, and work logs in one consistent frame.</p>
           </div>
         </div>

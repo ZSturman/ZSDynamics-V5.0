@@ -24,9 +24,9 @@ export function ProjectMetadata({ project, compact = false }: ProjectMetadataPro
   return (
     <div
       data-testid="project-metadata"
-      className="rounded-2xl border border-border/60 bg-card/60 p-5 md:p-6"
+      className="max-w-full overflow-hidden rounded-lg border border-border/35 bg-card/35 p-3 md:p-5"
     >
-      <div className="space-y-6">
+      <div className="min-w-0 space-y-5 md:space-y-6">
         {/* Status and Dates Section - Hidden in compact mode */}
         {!compact && (
           <div className="space-y-4">
@@ -51,7 +51,7 @@ export function ProjectMetadata({ project, compact = false }: ProjectMetadataPro
             )}
 
             {/* Dates in a grid */}
-            <div className="grid gap-4 sm:grid-cols-2">
+            <div className="grid min-w-0 gap-4 sm:grid-cols-2">
               {project.createdAt && (
                 <div className="flex items-center gap-2">
                   <Calendar className="h-4 w-4 text-muted-foreground flex-shrink-0" />

@@ -115,7 +115,7 @@ function CollectionHeroImage({
   description?: string;
 }) {
   return (
-    <div className="relative overflow-hidden rounded-xl border border-border/70 bg-card/30">
+    <div className="relative max-w-full overflow-hidden rounded-lg border border-border/35 bg-card/25">
       <div className="relative aspect-[21/9] w-full">
         <MediaDisplay
           src={src}
@@ -126,8 +126,8 @@ function CollectionHeroImage({
           loop={false}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-        <div className="absolute inset-x-0 bottom-0 p-5 md:p-6">
-          <h3 className="text-xl md:text-2xl font-semibold tracking-tight text-white drop-shadow-sm">
+        <div className="absolute inset-x-0 bottom-0 p-4 md:p-6">
+          <h3 className="text-lg font-semibold tracking-tight text-white drop-shadow-sm md:text-2xl">
             {label}
           </h3>
           {summary && (
@@ -171,15 +171,15 @@ function CollectionHeader({
 
   // No image — just render text header
   return (
-    <div className="space-y-1.5">
-      <h3 className="text-xl md:text-2xl font-semibold tracking-tight">{label}</h3>
+    <div className="max-w-full space-y-1.5">
+      <h3 className="break-words text-lg font-semibold tracking-tight md:text-2xl">{label}</h3>
       {summary && (
-        <p className="text-sm text-muted-foreground whitespace-pre-wrap">
+        <p className="max-w-full whitespace-pre-wrap break-words text-sm text-muted-foreground">
           {formatTextWithNewlines(summary)}
         </p>
       )}
       {description && (
-        <p className="text-sm text-muted-foreground whitespace-pre-wrap">
+        <p className="max-w-full whitespace-pre-wrap break-words text-sm text-muted-foreground">
           {formatTextWithNewlines(description)}
         </p>
       )}
@@ -199,7 +199,7 @@ function CollectionItemGrid({
   folderName: string;
 }) {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="grid min-w-0 max-w-full grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 lg:grid-cols-3">
       {collection.items.map((item, idx) => (
         <CollectionItemCard
           key={item.id || idx}
@@ -292,7 +292,7 @@ export function Collection({ project, inModal, requestedCollectionItemId: initia
   if (collections.length === 1) {
     const collection = collections[0];
     return (
-      <div className="space-y-6">
+      <div className="min-w-0 max-w-full space-y-5 overflow-x-clip md:space-y-6">
         <CollectionHeader
           label={collection.label}
           summary={collection.summary}
@@ -310,7 +310,7 @@ export function Collection({ project, inModal, requestedCollectionItemId: initia
   // Multiple collections: tabs with thumbnail previews in tab triggers
   return (
     <>
-      <Tabs value={selectedCollectionKey} onValueChange={setSelectedCollectionKey} className="w-full">
+      <Tabs value={selectedCollectionKey} onValueChange={setSelectedCollectionKey} className="w-full max-w-full overflow-x-clip">
         <TabsList className="h-auto w-full justify-start gap-1 overflow-x-auto rounded-lg bg-muted/50 p-1">
           {collections.map((collection) => (
             <TabsTrigger
@@ -324,7 +324,7 @@ export function Collection({ project, inModal, requestedCollectionItemId: initia
         </TabsList>
 
         {collections.map((collection) => (
-          <TabsContent key={collection.key} value={collection.key} className="mt-4 space-y-6">
+          <TabsContent key={collection.key} value={collection.key} className="mt-4 min-w-0 max-w-full space-y-5 overflow-x-clip md:space-y-6">
             <CollectionHeader
               label={collection.label}
               summary={collection.summary}

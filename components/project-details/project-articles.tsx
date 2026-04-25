@@ -16,21 +16,21 @@ export function ProjectArticles({ project }: ProjectArticlesProps) {
   }
 
   return (
-    <section className="space-y-3">
+    <section className="min-w-0 max-w-full space-y-3 overflow-x-clip">
       <div className="flex items-center justify-between gap-3">
         <h3 className="text-sm font-medium text-muted-foreground">Articles</h3>
       </div>
 
-      <div className="space-y-2">
+      <div className="min-w-0 max-w-full space-y-2">
         {articles.map((article) => (
           <Link
             key={`${project.id}-${article.slug}`}
             href={article.href}
-            className="group flex items-center gap-3 rounded-lg border border-border/70 bg-card p-3 transition-colors hover:border-primary/40 hover:bg-accent/30"
+            className="group flex w-full min-w-0 items-center gap-3 overflow-hidden rounded-md border border-border/35 bg-card/35 p-2.5 transition-colors hover:border-primary/30 hover:bg-accent/25 md:p-3"
             title={article.title}
           >
             {article.coverImage ? (
-              <div className="shrink-0 overflow-hidden rounded-md border border-border/50 bg-muted/40 h-10 w-14">
+              <div className="h-10 w-14 shrink-0 overflow-hidden rounded-md border border-border/35 bg-muted/35">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={article.coverImage}
@@ -39,7 +39,7 @@ export function ProjectArticles({ project }: ProjectArticlesProps) {
                 />
               </div>
             ) : (
-              <div className="flex shrink-0 h-10 w-14 items-center justify-center rounded-md border border-border/50 bg-muted/30 text-muted-foreground">
+              <div className="flex h-10 w-14 shrink-0 items-center justify-center rounded-md border border-border/35 bg-muted/25 text-muted-foreground">
                 <Newspaper className="size-4" />
               </div>
             )}
@@ -49,7 +49,7 @@ export function ProjectArticles({ project }: ProjectArticlesProps) {
                 {article.title}
               </span>
               {(article.summary || article.oneLiner) && (
-                <p className="mt-0.5 text-xs text-muted-foreground line-clamp-2">
+                <p className="mt-0.5 line-clamp-2 break-words text-xs text-muted-foreground">
                   {article.oneLiner || article.summary}
                 </p>
               )}

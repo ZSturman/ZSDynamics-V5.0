@@ -76,9 +76,11 @@ const DEFAULT_HOME_STATE: PersistedHomeDiscoveryState = {
   searchScope: "all",
   sort: "newest",
   viewMode: "list",
-  group: "status",
+  group: "none",
 };
 
+const HOME_DISCOVERY_STORAGE_KEY = "portfolio.filters.v2";
+const LEGACY_HOME_DISCOVERY_STORAGE_KEY = "portfolio.filters.v1";
 const HOME_DISCOVERY_PARAM_KEYS = ["q", "domain", "medium", "status", "tags", "searchScope", "sort", "view", "group"] as const;
 
 function readWindowSearchEntries(): Record<string, string> {
@@ -280,7 +282,7 @@ export function PortfolioClient({ projects, onProjectSelect }: PortfolioClientPr
   const persistHomeState = useCallback((state: PersistedHomeDiscoveryState): void => {
     try {
       if (typeof window !== "undefined") {
-        window.sessionStorage.setItem("portfolio.filters.v1", JSON.stringify(state));
+        window.sessionStorage.setItem(HOME_DISCOVERY_STORAGE_KEY, JSON.stringify(state));
       }
     } catch {
       // Ignore storage errors and rely on in-memory state.
@@ -317,15 +319,20 @@ export function PortfolioClient({ projects, onProjectSelect }: PortfolioClientPr
       nextState = urlState;
     } else {
       try {
-        const rawSession = typeof window !== "undefined" ? window.sessionStorage.getItem("portfolio.filters.v1") : null;
-        const rawLocal = typeof window !== "undefined" ? window.localStorage.getItem("portfolio.filters.v1") : null;
-        const raw = rawSession ?? rawLocal;
+        const rawSession = typeof window !== "undefined" ? window.sessionStorage.getItem(HOME_DISCOVERY_STORAGE_KEY) : null;
+        const rawLocal = typeof window !== "undefined" ? window.localStorage.getItem(HOME_DISCOVERY_STORAGE_KEY) : null;
+        const rawLegacySession =
+          typeof window !== "undefined" ? window.sessionStorage.getItem(LEGACY_HOME_DISCOVERY_STORAGE_KEY) : null;
+        const rawLegacyLocal =
+          typeof window !== "undefined" ? window.localStorage.getItem(LEGACY_HOME_DISCOVERY_STORAGE_KEY) : null;
+        const raw = rawSession ?? rawLocal ?? rawLegacySession ?? rawLegacyLocal;
+        const isLegacyState = !rawSession && !rawLocal && Boolean(rawLegacySession ?? rawLegacyLocal);
 
         if (raw) {
           const parsed = JSON.parse(raw);
           const stored = toStoredHomeState(parsed);
           if (stored) {
-            nextState = stored;
+            nextState = isLegacyState ? { ...stored, group: DEFAULT_HOME_STATE.group } : stored;
           }
         }
       } catch {

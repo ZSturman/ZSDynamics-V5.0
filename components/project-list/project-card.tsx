@@ -37,7 +37,7 @@ export function ProjectCard({
     <Card
       data-testid="project-card-root"
       data-project-id={project.id}
-      className="group cursor-pointer transition-all duration-200 hover:shadow-lg md:hover:scale-[1.01] bg-card border-border max-w-full overflow-hidden flex flex-col h-full p-0"
+      className="group flex h-full max-w-full cursor-pointer flex-col overflow-hidden rounded-lg border-border/35 bg-card/35 p-0 shadow-none transition-colors duration-200 hover:border-primary/25"
       onClick={onClick}
     >
 

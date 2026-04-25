@@ -38,7 +38,7 @@ export function ProjectListItem({ project, onClick, sortField = "updatedAt" }: P
     <Card
       data-testid="project-list-item-root"
       data-project-id={project.id}
-      className="p-2 md:px-6 md:pb-4 md:pt-3 hover:shadow-md transition-all duration-200 cursor-pointer group mb-2 max-w-full overflow-hidden"
+      className="mb-2 max-w-full cursor-pointer overflow-hidden rounded-lg border-border/35 bg-card/35 p-2 shadow-none transition-colors duration-200 hover:border-primary/25 md:px-6 md:pb-4 md:pt-3"
       onClick={onClick}
     >
       <div className="flex flex-row-reverse md:flex-row gap-2 md:gap-6 max-w-full min-h-24 md:min-h-32 lg:min-h-48">

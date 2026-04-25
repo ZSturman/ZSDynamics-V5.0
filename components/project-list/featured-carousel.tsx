@@ -148,7 +148,7 @@ export function FeaturedCarousel({
                   className="flex-[0_0_100%] min-w-0"
                 >
                   <div 
-                    className="relative rounded-xl overflow-hidden bg-card border border-border shadow-lg cursor-pointer transition-all duration-300 hover:shadow-xl mx-1"
+                    className="relative mx-1 cursor-pointer overflow-hidden rounded-lg border border-border/35 bg-card/35 transition-colors duration-300 hover:border-primary/25"
                     onClick={() => {
                       const projectSlug = project.slug || project.id
 

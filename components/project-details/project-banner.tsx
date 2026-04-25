@@ -58,7 +58,7 @@ function HeaderMediaTile({
       data-testid="project-header-media-trigger"
       data-project-id={project.id}
       data-media-role={mediaRole}
-      className="group block w-full rounded-2xl text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+      className="group block w-full max-w-full rounded-lg text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
       onClick={() =>
         onOpen({
           src,
@@ -74,7 +74,7 @@ function HeaderMediaTile({
         data-project-id={project.id}
         data-media-role={mediaRole}
         className={cn(
-          "relative overflow-hidden rounded-2xl border border-border/60 bg-card/30 shadow-sm transition-all duration-200 group-hover:border-primary/35 group-hover:shadow-md",
+          "relative max-w-full overflow-hidden rounded-lg border border-border/35 bg-card/25 transition-colors duration-200 group-hover:border-primary/30",
           className
         )}
       >
@@ -182,7 +182,7 @@ export function ProjectHeader({
       <header
         data-testid="project-header"
         data-project-id={project.id}
-        className="space-y-5 border-b border-border pb-6 md:space-y-7 md:pb-8"
+        className="max-w-full space-y-5 overflow-x-clip border-b border-border/45 pb-6 md:space-y-7 md:pb-8"
       >
         {!hideBanner && srcBanner && (
           <div
@@ -219,7 +219,7 @@ export function ProjectHeader({
                   data-testid="project-header-icon"
                   data-project-id={project.id}
                   data-media-role={project.images?.icon ? "icon" : "thumbnail"}
-                  className="relative mt-1 h-11 w-11 shrink-0 overflow-hidden rounded-xl border border-border/70 bg-card md:h-12 md:w-12"
+                  className="relative mt-1 h-10 w-10 shrink-0 overflow-hidden rounded-lg border border-border/40 bg-card/50 md:h-12 md:w-12"
                 >
                   <MediaDisplay
                     src={iconPath}
@@ -232,8 +232,8 @@ export function ProjectHeader({
                 </div>
               )}
 
-              <div className="min-w-0 space-y-1.5">
-                <h1 className="text-balance font-sans text-2xl font-bold tracking-tight text-foreground md:text-4xl lg:text-5xl">
+              <div className="min-w-0 max-w-full space-y-1.5">
+                <h1 className="text-balance break-words font-sans text-xl font-bold tracking-tight text-foreground md:text-4xl lg:text-5xl">
                   {project.title}
                 </h1>
                 {project.subtitle ? (
@@ -262,11 +262,11 @@ export function ProjectHeader({
 
         <div
           className={cn(
-            "grid gap-5 md:gap-6",
+            "grid min-w-0 max-w-full gap-5 md:gap-6",
             posterAccentPath ? "xl:grid-cols-[minmax(0,1fr)_12rem]" : undefined
           )}
         >
-          <div className="space-y-5 md:space-y-6">
+          <div className="min-w-0 max-w-full space-y-5 md:space-y-6">
             {heroPath ? (
               <HeaderMediaTile
                 project={project}
@@ -282,13 +282,13 @@ export function ProjectHeader({
               />
             ) : null}
 
-            <p className="w-full whitespace-pre-wrap text-pretty text-sm leading-relaxed text-muted-foreground md:text-base">
+            <p className="w-full max-w-full whitespace-pre-wrap text-pretty break-words text-sm leading-relaxed text-muted-foreground md:text-base">
               {formatTextWithNewlines(project.summary)}
             </p>
           </div>
 
           {posterAccentPath ? (
-            <div className="w-full max-w-[13rem] xl:justify-self-end">
+            <div className="w-full max-w-[11rem] sm:max-w-[13rem] xl:justify-self-end">
               <HeaderMediaTile
                 project={project}
                 mediaRole={posterAccentRole}

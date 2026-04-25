@@ -34,9 +34,9 @@
     "description": "",
     "story": "",
     "images": {
+      "hero": "hero.png",
       "banner": "banner.png",
       "icon": "icon.png",
-      "hero": "hero.png",
       "thumbnail": "thumbnail.png"
     },
     "resources": [],
@@ -366,10 +366,10 @@
     "description": "",
     "story": "",
     "images": {
-      "banner": "banner.png",
-      "poster": "poster.png",
-      "icon": "TopNote AppIcon v2-watchOS-Default-1088x1088@1x.png",
       "hero": "hero.png",
+      "banner": "banner.png",
+      "icon": "TopNote AppIcon v2-watchOS-Default-1088x1088@1x.png",
+      "poster": "poster.png",
       "thumbnail": "thumbnail.png"
     },
     "resources": [
@@ -599,8 +599,8 @@
     "description": "",
     "story": "",
     "images": {
-      "banner": "banner.png",
       "hero": "hero.png",
+      "banner": "banner.png",
       "thumbnail": "E4690E5D-3901-4E26-A237-8AA0FF26EE76.png"
     },
     "resources": [],
@@ -672,8 +672,8 @@
     "story": "",
     "images": {
       "banner": "banner.png",
-      "poster": "poster.gif",
       "icon": "logo.png",
+      "poster": "poster.gif",
       "thumbnail": "thumbnail.png"
     },
     "resources": [],
@@ -1474,10 +1474,10 @@
     "description": "",
     "story": "",
     "images": {
-      "banner": "banner.png",
-      "poster": "poster.png",
-      "icon": "icon.png",
       "hero": "hero.png",
+      "banner": "banner.png",
+      "icon": "icon.png",
+      "poster": "poster.png",
       "thumbnail": "thumbnail.png"
     },
     "resources": [
@@ -1633,9 +1633,9 @@
     "description": "",
     "story": "",
     "images": {
+      "hero": "queueExample.png",
       "banner": "banner.gif",
       "poster": "poster.gif",
-      "hero": "queueExample.png",
       "thumbnail": "thumbnail.png"
     },
     "resources": [
@@ -1708,8 +1708,8 @@
     "story": "",
     "images": {
       "banner": "banner.png",
-      "poster": "poster.png",
       "icon": "thumbnail.png",
+      "poster": "poster.png",
       "thumbnail": "thumbnail.png"
     },
     "resources": [
@@ -1949,8 +1949,8 @@
     "story": "",
     "images": {
       "banner": "banner.png",
-      "poster": "poster.png",
       "icon": "icon.svg",
+      "poster": "poster.png",
       "thumbnail": "thumbnail.png"
     },
     "resources": [
@@ -2083,8 +2083,8 @@
     "story": "",
     "images": {
       "banner": "banner.png",
-      "poster": "poster.tiff",
       "icon": "thumbnail.tiff",
+      "poster": "poster.tiff",
       "thumbnail": "thumbnail.tiff"
     },
     "resources": [],
@@ -2146,9 +2146,9 @@
     "description": "",
     "story": "",
     "images": {
+      "hero": "hero.png",
       "banner": "banner.png",
       "icon": "icon.png",
-      "hero": "hero.png",
       "thumbnail": "thumbnail.png"
     },
     "resources": [
@@ -2568,9 +2568,9 @@
     "description": "",
     "story": "",
     "images": {
+      "hero": "Ope_Hero.png",
       "banner": "Concept_art_with_Logo.jpeg",
       "icon": "AppIcon.png",
-      "hero": "Ope_Hero.png",
       "thumbnail": "thumbnail.png"
     },
     "resources": [
@@ -2648,9 +2648,9 @@
     "description": "",
     "story": "",
     "images": {
+      "hero": "hero.png",
       "banner": "banner.png",
       "icon": "icon.png",
-      "hero": "hero.png",
       "thumbnail": "thumbnail.png"
     },
     "resources": [
@@ -2720,9 +2720,9 @@
     "description": "",
     "story": "",
     "images": {
+      "hero": "hero.png",
       "banner": "banner.png",
       "poster": "poster.png",
-      "hero": "hero.png",
       "thumbnail": "thumbnail.png"
     },
     "resources": [
@@ -2790,9 +2790,9 @@
     "description": "",
     "story": "",
     "images": {
+      "hero": "hero.png",
       "banner": "banner.png",
       "icon": "icon.png",
-      "hero": "hero.png",
       "thumbnail": "thumbnail.png"
     },
     "resources": [
@@ -2864,9 +2864,9 @@
     "description": "",
     "story": "",
     "images": {
+      "hero": "hero.png",
       "banner": "banner.png",
       "icon": "icon.png",
-      "hero": "hero.png",
       "thumbnail": "thumbnail.png"
     },
     "resources": [
@@ -2910,7 +2910,7 @@
     ],
     "folderName": "train_of_thought_agent_332aec94-4d3c-807a-ba3b-d0950cd03a66",
     "readme": {
-      "content": "# Tree-of-Thought Location Agent\n\nA continuously learning agent that begins by anchoring interpretation in location and grows toward a broader synthetic memory-and-attention engine. It learns from observation and correction instead of pretrained knowledge, stores labels as first-class nodes, and now keeps enclosing or overlapping location context active while individual room labels change.\n\n**Current Phase:** 5 — Nested Location Context *(implemented; validation in progress)*\n\n## Quick Start\n\n```bash\n# Run the interactive agent\npython3 -m location_agent.cli\n\n# Run in quiet/scripting mode\npython3 -m location_agent.cli --quiet\n\n# Reset all learned memory\npython3 -m location_agent.cli --reset\n\n# Run all automated tests\npython3 -B -m unittest discover -s tests -v\n```\n\n**Requirements:** Python 3.12+ preferred, stdlib only, no external packages required.\n\nDuring an interactive session, use `sense /absolute/path/to/file` to route an image, video, or other file through the simulated sensor-learning flow.\n\nFor detailed phase-specific instructions and validation steps, see [CURRENT_PHASE.md](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/CURRENT_PHASE.md).\n\nRepo-local sensor fixtures now live under [media/README.md](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/media/README.md), and the cross-phase sensor ladder is documented in [MEDIA_PLAN.md](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/MEDIA_PLAN.md).\n\n## Project Structure\n\n```text\n├── README.md\n├── CURRENT_PHASE.md\n├── PROJECT_ROADMAP.md\n├── PROJECT_STATE.json\n├── DECISIONS.md\n├── VALIDATION.md\n├── CHANGELOG.md\n├── MEDIA_PLAN.md\n├── TODO.md\n│\n├── media/\n│   ├── README.md\n│   ├── catalog.json\n│   ├── core_images/\n│   └── scenarios/\n│\n├── location_agent/\n│   ├── cli.py\n│   ├── session.py\n│   ├── memory.py\n│   ├── models.py\n│   └── logging.py\n│\n├── tests/\n│   ├── test_confidence.py\n│   ├── test_media.py\n│   ├── test_memory.py\n│   ├── test_models_phase3.py\n│   ├── test_session.py\n│   └── test_stress.py\n│\n└── runtime/\n    ├── location_memory.json\n    └── agent_events.jsonl\n```\n\n## How It Works\n\n1. You provide either a grayscale observation in `[0.0, 1.0]` or a `sense /path/to/media` command.\n2. The current Phase 5 sensor preview still matches media files by direct file fingerprint, but the roadmap treats that as a temporary baseline rather than the final perception model.\n3. If recognized, it guesses the canonical label and asks for confirmation.\n4. If you reuse an existing location label for a new observation, the agent reinforces that same learned location instead of forcing a different name.\n5. `contain` teaches enclosing context such as `house -> bedroom`, while `overlap` records co-active locations without duplicating the pair in reverse order.\n6. If the same location is confirmed at both ends of a wider scalar range, later values inside that learned span default to the same location unless conflicting evidence appears.\n7. `rename` changes the canonical label and keeps the old name as an alias.\n8. `alias` adds more names that resolve to the same learned location.\n9. `inspect` shows label ids, aliases, provenance-aware model stats, active context, and explicit `contains`, `within`, and `overlaps` relation summaries.\n\nThe agent remembers across sessions, including label aliases, rename history, sensor bindings, and location/context scaffolding. Persisted memory is grounded only in explicit user input or direct sensor input.\n\nThe current runtime remains location-first on purpose. The long-range roadmap now treats that as the entry curriculum for a broader system that later adds `ObservationBundle`, `ExperienceFrame`, `MemoryUnit`, attention competition, replay, resurfacing, and reconsolidation.\n\n## Perception Architecture\n\n- The long-term sensor contract is one transformed `ObservationBundle` regardless of sensor type.\n- Future adapters normalize raw sensor output into the same bundle fields: `bundle_id`, `timestamp`, `adapter_id`, `modality`, `reference_frame`, `pose_estimate`, `motion_estimate`, `sensor_origin`, `regions`, `primitive_features`, `concept_candidates`, `raw_refs`, and `provenance`.\n- Later phases wrap each bundle in an `ExperienceFrame` with goals, mode, load, recent winners, and prior residue.\n- The planned retained trace is a generic `MemoryUnit` with `content`, `context`, `priority_signals`, `dynamics`, `links`, and `example_refs`.\n- The guiding example is explicit in the roadmap: `blue streak across top` and `green streak across bottom` support `sky` and `grass` or `field`, and together can support scene hypotheses such as `park` and `yard`.\n- Robot and body-relative sensing still matter, but they now serve a broader synthetic memory-and-attention engine instead of defining the only end state.\n\n## Sensor Media\n\n- The current committed starter pack is image-first and lives in `media/core_images/`.\n- Phase 5 adds a committed `house` anchor fixture and reuses the Phase 4 `bedroom` and `living room` fixtures for containment walks.\n- `media/catalog.json` lists every committed asset, its provenance, and the scenario ids that depend on it.\n- `media/scenarios/` contains ordered validation bundles that describe how fixtures should be used during a phase.\n- `MEDIA_PLAN.md` carries the phase-by-phase ladder from committed still images to annotated region fixtures, cue-composition corpora, frame and chunk traces, resurfacing corpora, pose-aware multimodal replays, and operator audit bundles.\n\n## Resetting Memory\n\n- During a session: type `reset` and confirm.\n- From the command line: run `python3 -m location_agent.cli --reset`.\n\nReset clears learned location models, label nodes, concepts, graph edges, and sensor bindings. The event log remains append-only.\n\n## Phase Documentation\n\n`CURRENT_PHASE.md` is the active implementation guide. It describes:\n\n- the current phase goal\n- the supported CLI commands\n- the expected runtime schema\n- the automated and manual validation checklist\n\nFor the longer roadmap, see [PROJECT_ROADMAP.md](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/PROJECT_ROADMAP.md).",
+      "content": "# Tree-of-Thought Location Agent\n\nA small learning agent that remembers places through observation, correction, and inspection.\n\nThe project starts with a simple idea: if an agent is going to build useful memory, it should be able to learn from direct experience, accept correction, preserve where its knowledge came from, and show what it thinks it knows. Right now that learning is anchored in locations. You can teach it a numeric observation, connect a media file to a place, rename labels, add aliases, and describe how places relate to each other.\n\nIt is not trying to be a finished vision model yet. The current version is a careful scaffold for one, with each sensor input normalized into an `ObservationBundle` before it reaches learning and memory.\n\n| Status | Detail |\n| --- | --- |\n| Current phase | Phase 8, Modality-Neutral Observation Bundle |\n| Last validated state | 177 automated tests passing |\n| Next phase | Phase 9, Region Descriptors and Primitive Feature Extraction |\n| Runtime style | Local interactive CLI |\n| Dependencies | Python standard library only |\n\n## Preview\n\nThe agent runs in a terminal. You can give it a value, ask it to sense a local media file, correct its guesses, and inspect what it has learned.\n\n```text\nagent online\nobservation[0.0-1.0|quit]: sense /path/to/bedroom.png\nsensor: new image\nlabel: bedroom\nobservation[0.0-1.0|quit]: sense /path/to/bedroom.png\nsensor: recognized image\nguess: bedroom (confidence=1.00)\ncorrect?[1/0]: 1\nobservation[0.0-1.0|quit]: quit\ngoodbye\n```\n\nBehind that short exchange, the project stores a label node, a location model, sensor evidence, and an event log. If the same place later gets renamed or connected to a larger context such as a house, the old label and the enclosing context remain inspectable instead of disappearing.\n\n## What This Project Does\n\nThe agent learns location memory from two kinds of input:\n\n- A grayscale-style value between `0.0` and `1.0`, which gives the agent a small controlled observation space.\n- A local media file passed through `sense /path/to/file`, which currently uses an image adapter and stores a normalized observation bundle.\n\nWhen the agent recognizes something, it asks for confirmation. When it is wrong, you can correct it. When a label needs to change, you can rename it while keeping the old name as an alias. When one place contains or overlaps another, you can teach that relationship and later ask the agent to show the active context.\n\nThe important part is not that the first observation space is simple. The important part is that the memory is persistent, correctable, and visible.\n\n## Why It Exists\n\nThis project explores how a memory system can grow from grounded, inspectable pieces instead of starting as a sealed model that already claims to know the world.\n\nThe long-range direction is a synthetic memory-and-attention engine. Location learning is the entry point because it gives the system something concrete to anchor on: a place, a label, a correction, a relationship, and a record of evidence. Later phases expand that into region attention, primitive percepts, experience frames, memory units, replay, resurfacing, and reconsolidation.\n\nOne rule carries through the project: persisted memory should come from explicit user input or direct sensor input. The language model may help structure the interaction, but it is not treated as the source of truth.\n\n## Who It Is For\n\nThis repository may be useful if you are interested in:\n\n- Learning systems that accept correction instead of treating the first answer as final.\n- Memory that can be inspected, renamed, and repaired.\n- Small agent architectures that grow in visible phases.\n- Sensor and perception work that starts with a stable input contract before adding richer recognition.\n- A local Python project that can be read without installing a framework.\n\nFor a non-technical reader, the project is easiest to understand as a working notebook for agent memory. For a technical reader, it is a compact Python implementation with tests, schema migrations, media fixtures, and roadmap documents.\n\n## Key Features\n\n| Feature | What it means in practice |\n| --- | --- |\n| Persistent memory | Learned locations, labels, aliases, relations, sensor bindings, and observation bundles are stored under `runtime/`. |\n| Correctable guesses | The agent asks whether a guess is right, then reinforces or corrects memory based on the answer. |\n| Label history | Renames preserve the previous canonical name as an alias, so older vocabulary still resolves. |\n| Nested context | `contain` can teach relationships such as `house contains bedroom`. |\n| Overlapping context | `overlap` can record places that can be active together without forcing one parent-child shape. |\n| Concept scaffold | `concept`, `relate`, and `concepts` let the project begin separating named ideas from locations. |\n| Sensor preview | `sense /path/to/file` routes local media through an adapter and stores a bundle-backed sensor binding. |\n| Inspectable state | `inspect`, `context`, persisted JSON, and JSONL event logs make the learned state visible. |\n\n## Visual Walkthrough\n\nThe current visuals are small generated fixtures used by tests and sensor examples. They are not polished screenshots, and that is intentional for now. They keep the project deterministic and easy to run offline while the perception layer is still being built.\n\n| House context | Bedroom | Living room | Unknown scene |\n| --- | --- | --- | --- |\n| <img alt=\"Generated house fixture\" src=\"https://raw.githubusercontent.com/ZSturman/Train-of-Thought-Agent/main/media/core_images/phase05_house_scene.png\" width=\"160\"> | <img alt=\"Generated bedroom fixture\" src=\"https://raw.githubusercontent.com/ZSturman/Train-of-Thought-Agent/main/media/core_images/phase04_bedroom_scene.png\" width=\"160\"> | <img alt=\"Generated living room fixture\" src=\"https://raw.githubusercontent.com/ZSturman/Train-of-Thought-Agent/main/media/core_images/phase04_living_room_scene.png\" width=\"160\"> | <img alt=\"Generated unknown fixture\" src=\"https://raw.githubusercontent.com/ZSturman/Train-of-Thought-Agent/main/media/core_images/phase04_unknown_scene.png\" width=\"160\"> |\n\nThese files are registered in [`media/catalog.json`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/media/catalog.json), explained in [`media/README.md`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/media/README.md), and staged through scenario files in [`media/scenarios/`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/media/scenarios/). Notes for future screenshots, GIFs, or demo videos live in [`docs/assets/README.md`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/docs/assets/README.md).\n\n## What Can I Do With This?\n\nYou can run the agent locally, teach it a few places, correct it, and inspect how its memory changes. A simple session might look like this:\n\n1. Teach `0.25` as `kitchen`.\n2. Enter `0.253` and confirm that it is still `kitchen`.\n3. Rename `kitchen` to a better label if needed.\n4. Teach `house`, `bedroom`, and `living room` from the included media fixtures.\n5. Use `contain` to say that `house` contains `bedroom` and `living room`.\n6. Use `inspect` or `context` to see what the agent now believes.\n\nThe current sensor recognition is still a temporary exact-file preview at the binding layer. Phase 8 changes the interface around it, so media now enters as an `ObservationBundle`, but content-based visual understanding is still planned work.\n\n## Quick Start\n\nRequirements: Python 3.12+ is preferred. No external packages are required.\n\n```bash\n# Run the interactive agent\npython3 -m location_agent.cli\n\n# Run in quiet mode for scripting or tests\npython3 -m location_agent.cli --quiet\n\n# Clear learned memory and exit\npython3 -m location_agent.cli --reset\n\n# Run the automated test suite\npython3 -B -m unittest discover -s tests -v\n```\n\nDuring an interactive session, use `sense /absolute/path/to/file` to route a local media file through the sensor flow.\n\nFor fuller setup notes, memory isolation tips, and command examples, see [`docs/SETUP.md`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/docs/SETUP.md).\n\n## Technical Notes\n\nThe README keeps the technical surface brief so the project remains readable from the outside. These supporting files hold the deeper details:\n\n| Topic | Where to read more |\n| --- | --- |\n| Setup, local runs, reset behavior, commands | [`docs/SETUP.md`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/docs/SETUP.md) |\n| Architecture, schema v7, data flow, project structure | [`docs/TECHNICAL.md`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/docs/TECHNICAL.md) |\n| Common errors and likely fixes | [`docs/TROUBLESHOOTING.md`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/docs/TROUBLESHOOTING.md) |\n| Contribution workflow | [`docs/CONTRIBUTING.md`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/docs/CONTRIBUTING.md) |\n| Media fixture and demo capture notes | [`docs/assets/README.md`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/docs/assets/README.md) |\n| Current phase validation | [`CURRENT_PHASE.md`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/CURRENT_PHASE.md) and [`VALIDATION.md`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/VALIDATION.md) |\n| Long-range roadmap | [`PROJECT_ROADMAP.md`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/PROJECT_ROADMAP.md) and [`MEDIA_PLAN.md`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/MEDIA_PLAN.md) |\n\n## Contributing\n\nThe repository remote is [`https://github.com/ZSturman/Train-of-Thought-Agent.git`](https://github.com/ZSturman/Train-of-Thought-Agent.git).\n\nBefore changing behavior, run the test suite and check the current phase notes. The project is intentionally phase-driven, so documentation, media scenarios, and validation notes matter alongside code changes. See [`docs/CONTRIBUTING.md`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/docs/CONTRIBUTING.md) for the local workflow.",
       "sourceUrl": "https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/README.md"
     }
   },
@@ -2945,10 +2945,10 @@
     "description": "",
     "story": "",
     "images": {
-      "banner": "banner.png",
-      "poster": "poster.png",
-      "icon": "icon.png",
       "hero": "hero.png",
+      "banner": "banner.png",
+      "icon": "icon.png",
+      "poster": "poster.png",
       "thumbnail": "thumbnail.png"
     },
     "resources": [
@@ -3019,8 +3019,8 @@
     "description": "",
     "story": "",
     "images": {
-      "banner": "banner.png",
       "hero": "hero.png",
+      "banner": "banner.png",
       "thumbnail": "thumbnail.png"
     },
     "resources": [
@@ -3089,10 +3089,10 @@
     "description": "",
     "story": "",
     "images": {
-      "banner": "banner.png",
-      "poster": "poster.png",
-      "icon": "icon.png",
       "hero": "hero.png",
+      "banner": "banner.png",
+      "icon": "icon.png",
+      "poster": "poster.png",
       "thumbnail": "thumbnail.png"
     },
     "resources": [
@@ -3128,7 +3128,7 @@
     "articles": [],
     "folderName": "psyche_agent_332aec94-4d3c-80ea-8468-c3a18bc61258",
     "readme": {
-      "content": "# PsycheAgent\n\n> Modular psychometrics for LLM personas.\n\n[![Next.js](https://img.shields.io/badge/Next.js-16.2.1-111111?style=flat-square)](https://nextjs.org/)\n[![React](https://img.shields.io/badge/React-19.2-149eca?style=flat-square)](https://react.dev/)\n[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178c6?style=flat-square)](https://www.typescriptlang.org/)\n[![Status Model](https://img.shields.io/badge/status-measured%20%7C%20placeholder%20%7C%20missing-6d28d9?style=flat-square)](#measured-vs-placeholder-vs-missing)\n\nPsycheAgent turns psychometric inputs into an LLM persona builder without pretending incomplete data is complete.\n\nThe app still supports:\n\n- 16 Personalities\n- Moral Foundations\n\nIt now also supports optional, import-first modules for:\n\n- Big Five\n- HEXACO\n- VIA Character Strengths\n- O*NET / RIASEC career interests\n- Attachment style / attachment dimensions\n- PERMA wellbeing\n- Basic Psychological Needs\n\nYou can generate from partial data, build preset agents, create opposite agents, tune custom filters, and export the resulting LLM bundle without ever fabricating missing assessment results.\n\n## Why this version is different\n\nMost “personality-to-AI” tools quietly fill missing gaps with averages and then act as if those numbers are real. PsycheAgent does the opposite:\n\n- Known modules contribute signal.\n- Missing modules stay marked as `Not yet taken`.\n- Placeholder scaffolds stay labeled as placeholder scaffolds.\n- Political and religious difference live in a separate worldview layer, never as fake assessment outputs.\n- Presets, opposites, and custom agents are target blueprints, not the measured user profile.\n\n## Feature Matrix\n\n| Capability | What it does |\n| --- | --- |\n| Modular profile registry | Each assessment is independent and optional. |\n| Native assessments | 16 Personalities and Moral Foundations can still be taken in-app. |\n| Import-first modules | Big Five, HEXACO, VIA, RIASEC, Attachment, PERMA, and Basic Needs can be added manually or from exports. |\n| Provenance tracking | Every field knows which module it came from and whether it is measured, placeholder, or missing. |\n| Partial-data persona generation | The app uses whichever modules are known and simply becomes less specific when others are absent. |\n| Preset agents | Curated cross-system target personas with different communication styles and value emphases. |\n| Opposite agents | Contrasts only the dimensions that are actually present, with adjustable intensity. |\n| Custom filters | Tune personality alignment/opposition, moral orientation, worldview distance, strengths, interests, attachment tendencies, and wellbeing style. |\n| Structured export | Export the modular user profile or the full LLM bundle as JSON, plus the generated system prompt as Markdown. |\n\n## Measured vs Placeholder vs Missing\n\nThis distinction is the backbone of the app:\n\n- `measured`: The result came from an assessment or an imported user-provided result.\n- `placeholder`: The system has a low-fidelity scaffold that helps the app function, but it is not presented as measured. Example: deriving 16P dimension values from a type code.\n- `missing`: No result exists yet. The UI should say `Not yet taken`, and the persona generator should simply skip it.\n\nWorldview signals are separate again:\n\n- `manual`: Explicitly entered by the user.\n- `inferred`: Soft hint derived from known data, with confidence and reasons shown back to the user.\n- `unknown`: No signal.\n\n## Architecture Snapshot\n\n```mermaid\nflowchart LR\n  A[\"User Profile\"] -->|\"measured / placeholder / missing\"| B[\"Assessment Modules\"]\n  A --> C[\"Worldview Layer\"]\n  B --> D[\"Persona Composer\"]\n  C --> D\n  E[\"Preset / Opposite / Custom Blueprint\"] --> D\n  D --> F[\"System Prompt\"]\n  D --> G[\"LLM Bundle Export\"]\n  D --> H[\"Chat UI\"]\n```\n\n## Supported Inputs\n\n### Native\n\n- 16 Personalities\n- Moral Foundations\n\n### Import-first\n\n- Big Five\n- HEXACO\n- VIA Character Strengths\n- O*NET / RIASEC\n- Attachment\n- PERMA\n- Basic Psychological Needs\n\n## Agent Modes\n\n### Self\n\nBuilds from the measured modular profile only.\n\n### Preset\n\nUses curated cross-system target personas such as:\n\n- Bridge Builder\n- Systems Dissenter\n- Grounded Coach\n- Explorer Strategist\n\n### Opposite\n\nContrasts only known dimensions and leaves missing ones untouched.\n\n### Custom\n\nApplies tuning controls such as:\n\n- personality alignment or opposition\n- moral alignment or opposition\n- political difference\n- religious difference\n- strengths emphasis\n- interest emphasis\n- attachment tendency preference\n- wellbeing style preference\n\n## Local Development\n\n```bash\nnpm install\nnpm run dev\n```\n\nOpen [http://localhost:3000](http://localhost:3000).\n\n## Verification\n\nThe implementation in this repo has been checked with:\n\n```bash\n./node_modules/.bin/tsc --noEmit --pretty false\n./node_modules/.bin/eslint src/app/profile/page.tsx src/app/agent/page.tsx src/app/import/page.tsx src/lib/profile.ts src/lib/transformer.ts src/lib/storage.ts src/app/chat/page.tsx src/app/assess/page.tsx src/app/assess/personality/page.tsx src/app/assess/moral/page.tsx src/app/page.tsx\nnpm run build\n```\n\nNote: `npm run build` may require running outside a restricted sandbox because Turbopack can need permissions that sandboxes deny.\n\n## Exports\n\nThe app currently supports:\n\n- modular profile JSON export\n- full LLM bundle JSON export\n- generated system prompt Markdown export\n\nStructured export is the sharing model for v1. Public hosted share pages are intentionally out of scope.\n\n## Documentation\n\n- Developer + schema notes: [`docs/modular-profile-system.md`](https://github.com/ZSturman/Psyche-Agent/blob/main/docs/modular-profile-system.md)\n\n## A few design rules worth keeping\n\n- Never present placeholder values as measured user results.\n- Never invent missing scores or missing types.\n- Never collapse worldview inference into assessment data.\n- Never let presets or opposite/custom blueprints overwrite the user’s measured profile.\n- Missing modules should reduce specificity, not block the experience.",
+      "content": "# PsycheAgent\n\n> A chat-first persona builder that uses personality, values, strengths, interests, and wellbeing inputs without pretending missing data is complete.\n\n[![Next.js](https://img.shields.io/badge/Next.js-16.2.1-111111?style=flat-square)](https://nextjs.org/)\n[![React](https://img.shields.io/badge/React-19.2.4-149eca?style=flat-square)](https://react.dev/)\n[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178c6?style=flat-square)](https://www.typescriptlang.org/)\n[![License: MIT](https://img.shields.io/badge/License-MIT-111111?style=flat-square)](LICENSE)\n\nPsycheAgent is an experimental app for building and chatting with AI personas shaped by psychometric inputs. You can start with premade personas right away, then add your own data later if you want the app to reflect a saved profile more closely.\n\nThe main design rule is simple: partial data should make the output less specific, not less honest. If a result is measured, the app can use it directly. If a value is only a placeholder, the app keeps that label visible. If something is missing, the app does not quietly fill it in.\n\n## Preview\n\nThe screenshots below use a small local demo profile with an `INTJ-A` type-code import. That type code is treated as placeholder data, which means it can help the app generate a useful persona without being presented as directly measured dimension scores.\n\n| Chat first | Add data |\n| --- | --- |\n| ![PsycheAgent chat home with premade personas and a saved local persona option.](https://raw.githubusercontent.com/ZSturman/Psyche-Agent/main/docs/assets/screenshots/home-chat.png) | ![PsycheAgent add-data screen showing a 16P type-code import and modular assessment cards.](https://raw.githubusercontent.com/ZSturman/Psyche-Agent/main/docs/assets/screenshots/add-data.png) |\n\n| Profile dashboard | Agent workbench |\n| --- | --- |\n| ![PsycheAgent profile dashboard showing measured, default-only, and not-yet-taken module counts.](https://raw.githubusercontent.com/ZSturman/Psyche-Agent/main/docs/assets/screenshots/profile-dashboard.png) | ![PsycheAgent agent workbench showing known modules, blueprint mode, contributing fields, and export controls.](https://raw.githubusercontent.com/ZSturman/Psyche-Agent/main/docs/assets/screenshots/agent-workbench.png) |\n\n## What This Project Does\n\nPsycheAgent turns whatever profile information you have into a structured AI persona. It can use in-app assessments, manual entries, imports, and lightweight placeholders, while keeping those sources separate.\n\nYou can use it to:\n\n- Chat with premade personas before adding any personal data.\n- Take short or full in-app versions of 16 Personalities and Moral Foundations assessments.\n- Add results from outside tools such as Big Five, HEXACO, VIA Character Strengths, O*NET / RIASEC, Attachment, PERMA, and Basic Psychological Needs.\n- Import a known 16P type code as clearly labeled placeholder scaffolding.\n- Review a profile dashboard that shows what is measured, what is placeholder, and what is still missing.\n- Build a self, preset, opposite, or custom persona in the workbench.\n- Export a modular profile, an LLM bundle, or the generated system prompt.\n\n## Why It Exists\n\nIt is easy to make an AI persona sound confident. It is harder to make the path behind that persona honest.\n\nThis project started from the idea that LLMs can be useful for exploring different perspectives, especially when their voice, values, and reasoning style are shaped deliberately. The more important problem showed up once the inputs became incomplete. A person might know a type code but not the underlying scores. They might have a strengths report but no moral profile. They might want a persona that differs from them, without rewriting their actual saved profile.\n\nPsycheAgent is built around those distinctions. It tries to keep profile data, inferred hints, and target persona behavior separate, so the generated persona is useful without implying that the app knows more than it does.\n\n## Who It Is For\n\nThis project is most useful for people who want to explore how different communication styles, values, or reasoning patterns can shape a conversation. That includes curious non-technical visitors, writers, product thinkers, educators, and anyone experimenting with AI personas.\n\nIt is also useful for developers and maintainers who want a concrete example of a local-first, modular profile system feeding an LLM prompt composer. The deeper implementation notes are linked below so the README can stay readable.\n\n## How To Try It\n\nThere is no hosted demo URL recorded in this repository yet, so the verified way to try PsycheAgent is to run it locally.\n\n```bash\nnpm install\nnpm run dev\n```\n\nThen open [http://localhost:3000](http://localhost:3000).\n\nThe app opens on the chat screen. You can choose a premade persona and start exploring the interface. To use live model responses, open Chat Setup and either use an app-hosted provider key if one is configured, or paste your own provider key for the current browser.\n\n## Key Features\n\n| Feature | What it means in practice |\n| --- | --- |\n| Chat-first entry | You can start with premade personas before taking assessments or importing data. |\n| Modular profile data | Each supported assessment has its own status, fields, and source information. |\n| Honest partial data | Measured, placeholder, and missing values stay distinct in the UI and exports. |\n| Native assessments | 16 Personalities and Moral Foundations can be taken directly in the app. |\n| Import-first modules | Big Five, HEXACO, VIA, RIASEC, Attachment, PERMA, and Basic Needs can be entered from outside results. |\n| Persona workbench | Build from your profile, use presets, create opposite agents, or tune a custom target. |\n| Local-first storage | Profiles, personas, chat sessions, and model settings are stored in the browser. |\n| Structured exports | Export profile JSON, LLM bundle JSON, or the generated system prompt as Markdown. |\n\n## A Short Walkthrough\n\n1. Open the app and chat with one of the premade personas.\n2. Add data only when it becomes useful. You can take an in-app assessment, import a JSON file, enter fields manually, or add a 16P type code.\n3. Review the profile dashboard to see which modules are measured, placeholder, or missing.\n4. Open the workbench to generate a persona from the data that exists.\n5. Export the result if you want to inspect, archive, or reuse the generated prompt and profile data.\n\n## Technical Notes\n\nThe README keeps the main path light on purpose. These supporting docs go deeper:\n\n- [Setup](https://github.com/ZSturman/Psyche-Agent/blob/main/docs/SETUP.md), for installation, local development, build commands, provider keys, and local storage notes.\n- [Technical overview](https://github.com/ZSturman/Psyche-Agent/blob/main/docs/TECHNICAL.md), for routes, data flow, project structure, scripts, and implementation details.\n- [Modular profile system](https://github.com/ZSturman/Psyche-Agent/blob/main/docs/modular-profile-system.md), for the profile schema, provenance rules, placeholder behavior, and export model.\n- [Troubleshooting](https://github.com/ZSturman/Psyche-Agent/blob/main/docs/TROUBLESHOOTING.md), for common local setup and runtime issues.\n- [Contributing](https://github.com/ZSturman/Psyche-Agent/blob/main/docs/CONTRIBUTING.md), for a simple contribution workflow and project guardrails.\n- [Screenshot guide](https://github.com/ZSturman/Psyche-Agent/blob/main/docs/assets/README.md), for updating the README visuals.\n\n## Configuration\n\nLive chat can use a server-side provider key or a visitor-supplied key entered in Chat Setup.\n\nOptional server environment variables:\n\n| Provider | Environment variable |\n| --- | --- |\n| OpenAI | `OPENAI_API_KEY` |\n| Anthropic | `ANTHROPIC_API_KEY` |\n| Groq | `GROQ_API_KEY` |\n| Mistral | `MISTRAL_API_KEY` |\n| Google | `GOOGLE_API_KEY` |\n\nIf a visitor enters their own key in Chat Setup, the key is stored in browser localStorage and sent through this app's `/api/chat` route to the selected provider.\n\n## Current Limits\n\nPsycheAgent is still a proof of concept. It has no hosted share pages, no account system, and no backend database. The current sharing model is export-first: profile JSON, LLM bundle JSON, and system prompt Markdown.\n\nThe app supports several provider paths in code, but each provider should be tested in the target environment before treating it as production-ready.\n\n## Contributing\n\nThe repository remote is [github.com/ZSturman/Psyche-Agent](https://github.com/ZSturman/Psyche-Agent). Small, focused changes are easiest to review.\n\nBefore changing behavior, please keep the central rule in view: do not turn missing or placeholder data into fake measured results. See [Contributing](https://github.com/ZSturman/Psyche-Agent/blob/main/docs/CONTRIBUTING.md) for the workflow and validation commands.\n\n## License\n\nThis project is available under the [MIT License](https://github.com/ZSturman/Psyche-Agent/blob/main/LICENSE).",
       "sourceUrl": "https://github.com/ZSturman/Psyche-Agent/blob/main/README.md"
     }
   },
@@ -3162,9 +3162,9 @@
     "description": "",
     "story": "",
     "images": {
+      "hero": "hero.png",
       "banner": "banner.png",
       "poster": "poster.png",
-      "hero": "hero.png",
       "thumbnail": "thumbnail.png"
     },
     "resources": [],
@@ -3226,10 +3226,10 @@
     "description": "",
     "story": "",
     "images": {
-      "banner": "banner.png",
-      "poster": "poster.png",
-      "icon": "icon.png",
       "hero": "hero.png",
+      "banner": "banner.png",
+      "icon": "icon.png",
+      "poster": "poster.png",
       "thumbnail": "thumbnail.png"
     },
     "resources": [
@@ -3300,8 +3300,8 @@
     "description": "",
     "story": "",
     "images": {
-      "icon": "Wolf-hero.webp",
       "hero": "Screenshot_2026-04-18_at_17.29.59.png",
+      "icon": "Wolf-hero.webp",
       "thumbnail": "Wolf-hero.webp"
     },
     "resources": [

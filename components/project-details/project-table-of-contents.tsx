@@ -66,7 +66,7 @@ export function ProjectTableOfContents({ project }: { project: Project }) {
   return (
     <nav
       aria-label="Project sections"
-      className="rounded-2xl border border-border/60 bg-card/45 px-4 py-3 shadow-sm md:px-5"
+      className="max-w-full overflow-x-auto rounded-lg border border-border/35 bg-card/25 px-3 py-3 md:px-5"
     >
       <div className="flex flex-col gap-3 md:flex-row md:items-start">
         <p className="shrink-0 text-[11px] font-medium uppercase tracking-[0.16em] text-muted-foreground md:pt-2">
@@ -78,7 +78,7 @@ export function ProjectTableOfContents({ project }: { project: Project }) {
               key={`${item.href}-${item.label}`}
               href={item.href}
               className={cn(
-                "inline-flex max-w-full items-center rounded-full border border-border/70 px-3 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:border-primary/40 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                "inline-flex max-w-full items-center rounded-full border border-border/40 px-3 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:border-primary/30 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
                 item.kind === "asset" && "bg-muted/30 text-[11px]",
               )}
             >

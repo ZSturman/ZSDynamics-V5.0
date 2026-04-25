@@ -240,7 +240,16 @@ test.describe("@smoke @matrix media rendering", () => {
       const preview = card.getByTestId("collection-video-card-media");
       await expect(preview).toBeVisible();
       await expect(preview).toHaveAttribute("data-preview-state", "poster");
-      await expect(preview.locator("img").first()).toHaveAttribute("src", /-thumb\.jpg/i);
+      const previewImage = preview.locator("img").first();
+      await expect(previewImage).toHaveAttribute("src", /-thumb\.jpg/i);
+
+      if (!testInfo.project.name.includes("mobile")) {
+        await preview.hover();
+        await expect(preview).toHaveAttribute("data-preview-state", "frames");
+        await expect(previewImage).toHaveAttribute("src", /-preview-\d+\.jpg/i);
+        const frameSrc = decodeURIComponent((await previewImage.getAttribute("src")) || "");
+        expect(frameSrc).not.toContain("-optimized.webp");
+      }
 
       await gotoProjectReady(page, project.id, project.title, `${route}?collectionItem=${itemId}`);
 

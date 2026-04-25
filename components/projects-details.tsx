@@ -79,9 +79,9 @@ export default function ProjectDetails({ project, requestedCollectionItemId }: P
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      <PageFrame className="py-8 md:py-12 lg:py-16">
-        <div className="space-y-6 md:space-y-8">
+    <div className="min-h-[100svh] overflow-x-clip bg-background">
+      <PageFrame className="overflow-x-clip py-6 pb-[calc(4rem+env(safe-area-inset-bottom))] md:py-12 lg:py-16">
+        <div className="min-w-0 max-w-full space-y-5 md:space-y-8">
           <BreadcrumbTrail
             items={[
               { label: "Home", href: "/" },
@@ -101,9 +101,10 @@ export default function ProjectDetails({ project, requestedCollectionItemId }: P
               key={section.key}
               id={section.id}
               className={cn(
+                "min-w-0 max-w-full overflow-x-clip",
                 section.id && "scroll-mt-24",
-                index > 0 && "pt-8 md:pt-10",
-                index < sections.length - 1 && "pb-8 md:pb-10",
+                index > 0 && "pt-7 md:pt-10",
+                index < sections.length - 1 && "pb-7 md:pb-10",
               )}
             >
               {section.content}
@@ -113,24 +114,24 @@ export default function ProjectDetails({ project, requestedCollectionItemId }: P
 
         <div className="mt-10 md:mt-14">
           {supportingSections.length > 0 ? (
-            <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_20rem] xl:gap-10">
-              <div className="space-y-6 md:space-y-8">
+            <div className="grid min-w-0 max-w-full gap-7 overflow-x-clip lg:grid-cols-[minmax(0,1fr)_minmax(0,20rem)] xl:gap-10">
+              <div className="min-w-0 max-w-full space-y-6 md:space-y-8">
                 {supportingSections.map((section) => (
-                  <section key={section.key} id={section.id} className="scroll-mt-24">
+                  <section key={section.key} id={section.id} className="min-w-0 max-w-full scroll-mt-24 overflow-x-clip">
                     {section.content}
                   </section>
                 ))}
               </div>
 
-              <aside className="self-start lg:sticky lg:top-24">
-                <section id="project-details" className="scroll-mt-24 space-y-4">
+              <aside className="min-w-0 max-w-full self-start lg:sticky lg:top-24">
+                <section id="project-details" className="min-w-0 max-w-full scroll-mt-24 space-y-4 overflow-x-clip">
                   <h3 className="text-base font-semibold tracking-tight text-foreground">Project Details</h3>
                   <ProjectMetadata project={project} />
                 </section>
               </aside>
             </div>
           ) : (
-            <section id="project-details" className="max-w-md scroll-mt-24 space-y-4">
+            <section id="project-details" className="min-w-0 max-w-md scroll-mt-24 space-y-4 overflow-x-clip">
               <h3 className="text-base font-semibold tracking-tight text-foreground">Project Details</h3>
               <ProjectMetadata project={project} />
             </section>

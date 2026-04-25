@@ -254,7 +254,7 @@ export function LinkPreviewSurface({
         data-link-preview-state="thumbnail"
         data-link-preview-kind={isInternal ? "internal" : "external"}
         className={cn(
-          "group relative block w-full overflow-hidden rounded-lg border border-border/60 bg-muted/10 transition-all hover:border-primary/40 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+          "group relative block w-full max-w-full overflow-hidden rounded-md border border-border/35 bg-muted/10 transition-colors hover:border-primary/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
           surfaceClassName,
         )}
       >
@@ -282,12 +282,12 @@ export function LinkPreviewSurface({
         data-link-preview-state="fallback"
         data-link-preview-kind={isInternal ? "internal" : "external"}
         className={cn(
-          "flex w-full flex-col justify-between gap-3 overflow-hidden rounded-lg border border-border/60 bg-gradient-to-br from-card via-card to-muted/40 p-4",
+          "flex w-full max-w-full flex-col justify-between gap-3 overflow-hidden rounded-md border border-border/35 bg-card/30 p-3 md:p-4",
           fallbackClassName,
         )}
       >
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
-          <div className="relative h-20 w-full shrink-0 overflow-hidden rounded-2xl border border-border/60 bg-muted/30 sm:h-20 sm:w-20">
+        <div className="flex min-w-0 flex-col gap-4 sm:flex-row sm:items-start">
+          <div className="relative h-20 w-full shrink-0 overflow-hidden rounded-md border border-border/35 bg-muted/25 sm:h-20 sm:w-20">
             {resolvedPreviewImage ? (
               <MediaDisplay
                 src={resolvedPreviewImage}
@@ -306,16 +306,16 @@ export function LinkPreviewSurface({
 
           <div className="min-w-0 flex-1 space-y-3">
             <div className="space-y-1">
-              <div className="flex flex-wrap items-center gap-2 text-[11px] font-medium uppercase tracking-[0.16em] text-muted-foreground">
-                <span>{resolvedPreviewSiteName}</span>
+              <div className="flex min-w-0 flex-wrap items-center gap-2 text-[11px] font-medium uppercase tracking-[0.16em] text-muted-foreground">
+                <span className="min-w-0 truncate">{resolvedPreviewSiteName}</span>
                 <span className="h-1 w-1 rounded-full bg-border/80" />
-                <span className="truncate">{resolvedPreviewDisplayUrl}</span>
+                <span className="min-w-0 truncate">{resolvedPreviewDisplayUrl}</span>
               </div>
-              <p className="text-sm font-semibold text-foreground">{resolvedPreviewTitle}</p>
+              <p className="break-words text-sm font-semibold text-foreground">{resolvedPreviewTitle}</p>
             </div>
 
             {resolvedPreviewDescription ? (
-              <p className="line-clamp-3 text-sm leading-relaxed text-muted-foreground">
+              <p className="line-clamp-3 break-words text-sm leading-relaxed text-muted-foreground">
                 {resolvedPreviewDescription}
               </p>
             ) : (
@@ -349,7 +349,7 @@ export function LinkPreviewSurface({
       data-link-preview-state={iframeLoaded ? "iframe-loaded" : "iframe-loading"}
       data-link-preview-kind="external"
       className={cn(
-        "relative w-full overflow-hidden rounded-lg border border-border/60 bg-card",
+        "relative w-full max-w-full overflow-hidden rounded-md border border-border/35 bg-card/35",
         surfaceClassName,
       )}
     >

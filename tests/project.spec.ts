@@ -38,6 +38,20 @@ const projectWithReadme = canonicalProjects.find((project) => {
       (readme as { content: string }).content.trim()
   );
 });
+const projectWithMobileLayoutCoverage =
+  canonicalProjects.find((project) => {
+    const readme = project.readme;
+    return Boolean(
+      readme &&
+        typeof readme === "object" &&
+        typeof (readme as { content?: unknown }).content === "string" &&
+        (readme as { content: string }).content.trim() &&
+        getStandaloneAssets(project).length > 0 &&
+        getRenderableWorkLogs(project).length > 0 &&
+        Array.isArray(project.articles) &&
+        project.articles.length > 0
+    );
+  }) ?? projectWithReadme;
 
 test.describe("Project Details Page", () => {
   test("should load project details for the canonical slug route", async ({ page }) => {
@@ -180,6 +194,66 @@ test.describe("Project Details Page", () => {
       await expandButton.click();
       await expect(readmeSection.getByRole("button", { name: "Collapse" })).toBeVisible();
     }
+  });
+
+  test("mobile project detail content stays within the viewport", async ({ page }) => {
+    test.skip(
+      !projectWithMobileLayoutCoverage,
+      "A repo-backed project with README content is required for this mobile layout regression."
+    );
+
+    const project = projectWithMobileLayoutCoverage!;
+    await page.setViewportSize({ width: 390, height: 844 });
+    await gotoProjectReady(page, project.id, project.title, getProjectRoute(project));
+
+    const readmeText = page
+      .getByTestId("project-readme")
+      .locator(".article-markdown p, .article-markdown li")
+      .first();
+    await expect(readmeText).toBeVisible();
+
+    const mobileReadmeFontSize = await readmeText.evaluate((element) =>
+      Number.parseFloat(window.getComputedStyle(element).fontSize)
+    );
+    const hasNoHorizontalOverflow = await page.evaluate(
+      () => document.documentElement.scrollWidth <= document.documentElement.clientWidth
+    );
+    expect(hasNoHorizontalOverflow).toBe(true);
+
+    const viewportWidth = await page.evaluate(() => window.innerWidth);
+    for (const selector of [
+      '[data-testid="project-readme"]',
+      "#articles",
+      '[data-testid="project-work-logs"]',
+      '[data-testid="project-metadata"]',
+      '[data-testid="project-standalone-assets"]',
+    ]) {
+      const locator = page.locator(selector).first();
+      if ((await locator.count()) === 0 || !(await locator.isVisible().catch(() => false))) {
+        continue;
+      }
+
+      const box = await locator.boundingBox();
+      expect(box).not.toBeNull();
+      expect(box!.x).toBeGreaterThanOrEqual(-1);
+      expect(box!.x + box!.width).toBeLessThanOrEqual(viewportWidth + 1);
+    }
+
+    await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
+    await expect(page.getByTestId("site-footer")).toBeVisible();
+    await expect
+      .poll(() => page.evaluate(() => window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 2))
+      .toBe(true);
+
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await gotoProjectReady(page, project.id, project.title, getProjectRoute(project));
+    const desktopReadmeFontSize = await page
+      .getByTestId("project-readme")
+      .locator(".article-markdown p, .article-markdown li")
+      .first()
+      .evaluate((element) => Number.parseFloat(window.getComputedStyle(element).fontSize));
+
+    expect(mobileReadmeFontSize).toBeLessThan(desktopReadmeFontSize);
   });
 
   test("should show error for invalid project ID", async () => {

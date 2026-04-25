@@ -167,7 +167,7 @@ function CollectionItemWrapper({ item, onRequestFullscreen, children, className,
       data-collection-item-id={item.id}
       data-collection-item-type={item.type}
       className={cn(
-        "overflow-hidden transition-shadow hover:shadow-lg flex flex-col h-full relative p-0",
+        "relative flex h-full max-w-full flex-col overflow-hidden rounded-lg border-border/35 bg-card/35 p-0 shadow-none transition-colors hover:border-primary/25",
         onRequestFullscreen && !disableClickToFullscreen && "cursor-pointer",
         className
       )}
@@ -176,26 +176,26 @@ function CollectionItemWrapper({ item, onRequestFullscreen, children, className,
 
       
       {/* Content Area */}
-      <div className="relative group aspect-video bg-muted">
+      <div className="relative group aspect-video max-w-full bg-muted/60">
         {children}
       </div>
 
             {item.label && (
-        <div className="px-2 pt-2">
-          <h4 className="font-semibold text-sm line-clamp-1">{item.label}</h4>
+        <div className="min-w-0 px-2 pt-2">
+          <h4 className="line-clamp-1 break-words text-sm font-semibold">{item.label}</h4>
         </div>
       )}
       
       {/* Summary Footer with resource buttons as icons */}
       {(oneLiner || summary || resources.length > 0) && (
-        <div className="p-2 pt-1.5 space-y-1.5  flex-1 flex flex-col gap-2">
+        <div className="flex min-w-0 flex-1 flex-col gap-2 space-y-1.5 p-2 pt-1.5">
           {oneLiner && (
-            <p data-testid="collection-item-one-liner" className="text-sm font-medium leading-5 text-foreground/90 line-clamp-2">
+            <p data-testid="collection-item-one-liner" className="line-clamp-2 break-words text-sm font-medium leading-5 text-foreground/90">
               {oneLiner}
             </p>
           )}
           {summary && (
-            <p data-testid="collection-item-summary" className="text-xs text-muted-foreground line-clamp-4 flex-1">
+            <p data-testid="collection-item-summary" className="line-clamp-4 flex-1 break-words text-xs text-muted-foreground">
               {summary}
             </p>
           )}
@@ -433,7 +433,7 @@ function UrlLinkViewer({ item, folderName, collectionName }: ExtendedCollectionI
       : thumbnailPath
 
   return (
-    <Card className="p-4">
+    <Card className="max-w-full border-0 bg-transparent p-0 shadow-none">
       <LinkPreviewSurface
         url={itemPath || ""}
         label={item.label || itemPath || "Link preview"}

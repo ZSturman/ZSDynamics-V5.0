@@ -227,8 +227,7 @@ export function getCollectionItemPreviewFrames(
 
   return item.previewFrames
     .map((frame) => resolveProjectAssetPath(frame, getPathOptions(item, options)) || extractPathValue(frame))
-    .filter((frame): frame is string => Boolean(frame))
-    .map((frame) => getRenderableProjectPreviewPath(frame) || frame);
+    .filter((frame): frame is string => Boolean(frame));
 }
 
 export function getCollectionItemPreviewIntervalMs(item: CollectionItem): number {

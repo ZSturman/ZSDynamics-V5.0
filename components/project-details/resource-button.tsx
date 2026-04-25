@@ -108,7 +108,7 @@ export default function ResourceButton({
   return (
     <Button
       variant="outline"
-      className={className || "justify-start md:gap-3 h-auto md:px-4 px-3 py-1 bg-transparent w-auto max-w-full hover:cursor-pointer min-h-[22px] md:min-h-[36px] opacity-70 hover:opacity-100"}
+      className={className || "h-auto min-h-[22px] max-w-full justify-start bg-transparent px-3 py-1 opacity-70 hover:cursor-pointer hover:opacity-100 md:min-h-[36px] md:gap-3 md:px-4"}
       onClick={handleClick}
     >
       <Image
@@ -118,7 +118,7 @@ export default function ResourceButton({
         width={iconSize}
         height={iconSize}
       />
-      <div className="text-left truncate">
+      <div className="min-w-0 truncate text-left">
         <div className="truncate text-xs md:text-xs">{resource.label} </div>
         {/* {!isFolio && (
           <div className="text-[10px] md:text-xs text-muted-foreground break-all truncate">{resource.url}</div>

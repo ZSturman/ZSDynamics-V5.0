@@ -1,6 +1,6 @@
-import { expect, test } from "@playwright/test";
+import { expect, test, type Page } from "@playwright/test";
 
-import { getProjectSlug, loadCanonicalProjects } from "./media/helpers/project-media-fixtures";
+import { getProjectRoute, getProjectSlug, loadCanonicalProjects } from "./media/helpers/project-media-fixtures";
 import { gotoHomeReady } from "./helpers/route-readiness";
 
 const canonicalProjects = loadCanonicalProjects();
@@ -15,6 +15,14 @@ const hiddenNonTechnologyProject = canonicalProjects.find(
 const featuredHeroProject = canonicalProjects.find(
   (project) => Boolean(project.featured) && Boolean(project.images?.hero)
 );
+const featuredProjects = canonicalProjects
+  .filter((project) => Boolean(project.featured))
+  .sort((left, right) => {
+    const leftOrder = typeof left.featuredOrder === "number" ? left.featuredOrder : Number.POSITIVE_INFINITY;
+    const rightOrder = typeof right.featuredOrder === "number" ? right.featuredOrder : Number.POSITIVE_INFINITY;
+    return leftOrder - rightOrder;
+  });
+const firstFeaturedProject = featuredProjects[0];
 const technologyProjectWithResources = technologyProjects.find(
   (project) => Array.isArray(project.resources) && project.resources.length > 0
 );
@@ -50,14 +58,8 @@ test.describe("Homepage", () => {
     ).toBeVisible();
   });
 
-  test("defaults to technology projects and shows the active discovery state on load", async ({ page }) => {
+  test("defaults to technology projects without grouping", async ({ page }) => {
     test.skip(!defaultTechnologyProject, "A technology project fixture is required for this regression.");
-
-    const currentState = page.getByTestId("project-current-state");
-    await expect(currentState).toBeVisible();
-    await expect(currentState).toContainText("Domain: Technology");
-    await expect(currentState).toContainText("Group: Status");
-    await expect(currentState).toContainText("Sort: Last updated");
 
     await expect(
       page
@@ -74,6 +76,17 @@ test.describe("Homepage", () => {
         )
       ).toHaveCount(0);
     }
+
+    await expect(page.getByTestId("project-group-list")).toHaveCount(0);
+    await expect(page.getByTestId("project-list-group-heading")).toHaveCount(0);
+  });
+
+  test("can still group projects by status manually", async ({ page }) => {
+    await openGroupOptions(page);
+    await page.getByRole("menuitemradio", { name: "Status" }).click();
+
+    await expect(page).toHaveURL(/(?:\?|&)group=status(?:&|$)/);
+    await expect(page.getByTestId("project-group-list")).toBeVisible();
 
     const groupHeadings = await page.getByTestId("project-list-group-heading").allTextContents();
     expect(groupHeadings[0]).toBe("Complete");
@@ -109,7 +122,41 @@ test.describe("Homepage", () => {
     ).toHaveCount(1);
   });
 
-  test("project resource icons stay interactive and sit above the title in list view", async ({ page }) => {
+  test("mobile project list taps navigate directly to the project page", async ({ page }) => {
+    test.skip(!defaultTechnologyProject, "A technology project fixture is required for this regression.");
+
+    const project = defaultTechnologyProject!;
+    await page.setViewportSize({ width: 390, height: 844 });
+    await gotoHomeReady(page);
+
+    const card = page
+      .locator(
+        `[data-testid="project-card-root"][data-project-id="${project.id}"], [data-testid="project-list-item-root"][data-project-id="${project.id}"]`
+      )
+      .first();
+    await card.getByRole("heading", { name: project.title }).first().click();
+
+    await expect(page).toHaveURL(new RegExp(`${getProjectRoute(project)}$`));
+    await expect(page.locator('[data-testid="project-modal-content"]')).toHaveCount(0);
+  });
+
+  test("mobile featured carousel taps navigate directly to the project page", async ({ page }) => {
+    test.skip(!firstFeaturedProject, "A featured project fixture is required for this regression.");
+
+    const project = firstFeaturedProject!;
+    await page.setViewportSize({ width: 390, height: 844 });
+    await gotoHomeReady(page);
+
+    await page
+      .locator(`[data-testid="featured-carousel-slide"][data-project-id="${project.id}"]`)
+      .first()
+      .click();
+
+    await expect(page).toHaveURL(new RegExp(`${getProjectRoute(project)}$`));
+    await expect(page.locator('[data-testid="project-modal-content"]')).toHaveCount(0);
+  });
+
+  test("project resource icons stay interactive in list view", async ({ page }) => {
     test.skip(
       !technologyProjectWithResourcesAndTags,
       "A visible technology project with both resources and tags is required for this regression."
@@ -131,12 +178,6 @@ test.describe("Homepage", () => {
     await expect(resourceIcons).toBeVisible();
     await expect(title).toBeVisible();
 
-    const resourceBox = await resourceIcons.boundingBox();
-    const titleBox = await title.boundingBox();
-    expect(resourceBox).not.toBeNull();
-    expect(titleBox).not.toBeNull();
-    expect(resourceBox!.y).toBeLessThan(titleBox!.y);
-
     await expect(
       card
         .locator('[data-slot="passive-chip"], [data-slot="metadata-tag"]')
@@ -152,26 +193,33 @@ test.describe("Homepage", () => {
     await expect(resourceButton).toBeFocused();
   });
 
-  test("status and domain dropdown filters can stack without getting stuck", async ({ page }) => {
-    const statusTrigger = page.getByTestId("project-filter-status-trigger");
-    await statusTrigger.focus();
-    await statusTrigger.press("Enter");
+  test("status and domain filters can stack without getting stuck", async ({ page }) => {
+    await openFilterOptions(page);
     await expect(page.getByRole("menuitemcheckbox", { name: "Complete" }).first()).toBeVisible();
     await page.getByRole("menuitemcheckbox", { name: "Complete" }).first().click();
-    await page.keyboard.press("Escape");
 
-    const domainTrigger = page.getByTestId("project-filter-domain-trigger");
-    await domainTrigger.focus();
-    await domainTrigger.press("Enter");
+    await openFilterOptions(page);
     await expect(page.getByRole("menuitemcheckbox", { name: "Artistic" }).first()).toBeVisible();
     await page.getByRole("menuitemcheckbox", { name: "Artistic" }).first().click();
-    await page.keyboard.press("Escape");
-
-    const currentState = page.getByTestId("project-current-state");
-    await expect(currentState).toContainText("Domain: Technology +1");
 
     const activeFilters = page.getByTestId("project-active-filters");
     await expect(activeFilters).toContainText("Status: Complete");
     await expect(activeFilters).toContainText("Domain: Artistic");
   });
 });
+
+async function openFilterOptions(page: Page): Promise<void> {
+  await page.getByTestId("project-view-options-trigger").click();
+  const allStatuses = page.getByRole("menuitemcheckbox", { name: "All statuses" }).first();
+  if (!(await allStatuses.isVisible().catch(() => false))) {
+    await page.getByRole("button", { name: "Filters" }).click();
+  }
+}
+
+async function openGroupOptions(page: Page): Promise<void> {
+  await page.getByTestId("project-view-options-trigger").click();
+  const statusGroup = page.getByRole("menuitemradio", { name: "Status" }).first();
+  if (!(await statusGroup.isVisible().catch(() => false))) {
+    await page.getByRole("button", { name: "Group by" }).click();
+  }
+}

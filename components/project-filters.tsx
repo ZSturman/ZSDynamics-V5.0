@@ -4,13 +4,11 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { Check, ChevronRight, Grid3X3, List, Search, SlidersHorizontal, X } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import {
   DEFAULT_HOME_DOMAIN,
-  getProjectGroupLabel,
-  getProjectSortLabel,
   getProjectStatusLabel,
   type HomeProjectGroupOption,
   type HomeProjectSortOption,
@@ -212,23 +210,19 @@ export function ProjectFilters({
   onViewModeChange,
   onSortChange,
   sort = "newest",
-  group = "status",
+  group = "none",
   onGroupChange,
-  totalCount,
-  visibleCount,
   initialSearch = "",
   initialDomain = [DEFAULT_HOME_DOMAIN],
   initialStatus = ["all"],
   initialTags = [],
   defaultDomainSelection = [DEFAULT_HOME_DOMAIN],
-  defaultSort = "newest",
-  defaultGroup = "status",
 }: ProjectFiltersProps) {
   const [searchQuery, setSearchQuery] = useState(initialSearch);
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [selectedDomains, setSelectedDomains] = useState(uniqueNormalizedValues(initialDomain));
   const [selectedStatuses, setSelectedStatuses] = useState(uniqueNormalizedValues(initialStatus));
-  const [selectedTags, setSelectedTags] = useState(initialTags);
+  const [selectedTags] = useState(initialTags);
   const [openMenu, setOpenMenu] = useState<OpenMenu>(null);
   const [openSections, setOpenSections] = useState<Record<ViewOptionsSection, boolean>>({
     filters: false,
@@ -416,20 +410,6 @@ export function ProjectFilters({
     });
     setOpenMenu(null);
   };
-
-  const domainSummary = useMemo(() => {
-    if (selectedDomains.includes("all")) return "All";
-    const labels = selectedDomains.map((value) => domainLabelMap.get(value) || toTitleCase(value));
-    if (labels.length <= 1) return labels[0] || "All";
-    return `${labels[0]} +${labels.length - 1}`;
-  }, [domainLabelMap, selectedDomains]);
-
-  const statusSummary = useMemo(() => {
-    if (selectedStatuses.includes("all")) return "All";
-    const labels = selectedStatuses.map((value) => statusLabelMap.get(value) || getProjectStatusLabel(value));
-    if (labels.length <= 1) return labels[0] || "All";
-    return `${labels[0]} +${labels.length - 1}`;
-  }, [selectedStatuses, statusLabelMap]);
 
   const hasCustomFilters =
     searchQuery.trim().length > 0 ||

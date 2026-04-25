@@ -48,7 +48,7 @@ export function ProjectWorkLogs({ project, limit }: ProjectWorkLogsProps) {
   }
 
   return (
-    <section data-testid="project-work-logs" className="space-y-4 md:space-y-5">
+    <section data-testid="project-work-logs" className="min-w-0 max-w-full space-y-4 overflow-x-clip md:space-y-5">
       <div className="flex items-center justify-between gap-3">
         <h3 className="text-base font-semibold tracking-tight text-foreground">Work Logs</h3>
         <Link
@@ -59,7 +59,7 @@ export function ProjectWorkLogs({ project, limit }: ProjectWorkLogsProps) {
         </Link>
       </div>
 
-      <div data-testid="project-work-logs-list" className="space-y-3">
+      <div data-testid="project-work-logs-list" className="min-w-0 max-w-full space-y-3">
         {visibleLogs.map((workLog, idx) => {
           const key = workLog.id || `${project.id}-work-log-${idx}`;
           const summary = getWorkLogSummary(workLog);
@@ -69,11 +69,11 @@ export function ProjectWorkLogs({ project, limit }: ProjectWorkLogsProps) {
             <Card
               key={key}
               data-testid="project-work-log-card"
-              className="border-border/60 bg-card/50 shadow-sm"
+              className="max-w-full overflow-hidden rounded-lg border-border/35 bg-card/30 shadow-none"
             >
-              <CardContent className="space-y-4 p-4 md:p-5">
-                <div className="flex flex-wrap items-start justify-between gap-3">
-                  <h4 className="max-w-2xl text-base font-semibold leading-snug text-foreground">
+              <CardContent className="min-w-0 space-y-3 p-3 md:space-y-4 md:p-5">
+                <div className="flex min-w-0 flex-wrap items-start justify-between gap-3">
+                  <h4 className="min-w-0 max-w-2xl break-words text-sm font-semibold leading-snug text-foreground md:text-base">
                     {getWorkLogTitle(workLog)}
                   </h4>
                   <span className="text-xs text-muted-foreground md:text-sm">
@@ -82,7 +82,7 @@ export function ProjectWorkLogs({ project, limit }: ProjectWorkLogsProps) {
                 </div>
 
                 {summary && (
-                  <p className="whitespace-pre-wrap text-sm leading-relaxed text-muted-foreground md:text-[15px]">
+                  <p className="max-w-full whitespace-pre-wrap break-words text-sm leading-relaxed text-muted-foreground md:text-[15px]">
                     {summary}
                   </p>
                 )}

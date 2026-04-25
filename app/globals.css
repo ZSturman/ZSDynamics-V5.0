@@ -45,53 +45,53 @@
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
+  --background: oklch(0.982 0.004 95);
   --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
+  --card: oklch(0.968 0.004 95);
   --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
+  --popover: oklch(0.986 0.003 95);
   --popover-foreground: oklch(0.145 0 0);
   --primary: oklch(0.205 0 0);
   --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
+  --secondary: oklch(0.938 0.005 95);
   --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
+  --muted: oklch(0.938 0.005 95);
   --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
+  --accent: oklch(0.94 0.006 95);
   --accent-foreground: oklch(0.205 0 0);
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
+  --border: oklch(0.88 0.006 95);
+  --input: oklch(0.88 0.006 95);
   --ring: oklch(0.708 0 0);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
   --chart-4: oklch(0.828 0.189 84.429);
   --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0 0);
+  --sidebar: oklch(0.964 0.004 95);
   --sidebar-foreground: oklch(0.145 0 0);
   --sidebar-primary: oklch(0.205 0 0);
   --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent: oklch(0.938 0.005 95);
   --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-border: oklch(0.88 0.006 95);
   --sidebar-ring: oklch(0.708 0 0);
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
+  --background: oklch(0.18 0.014 250);
   --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
+  --card: oklch(0.22 0.014 250);
   --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
+  --popover: oklch(0.22 0.014 250);
   --popover-foreground: oklch(0.985 0 0);
   --primary: oklch(0.922 0 0);
   --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
+  --secondary: oklch(0.285 0.014 250);
   --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
+  --muted: oklch(0.285 0.014 250);
   --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
+  --accent: oklch(0.292 0.016 250);
   --accent-foreground: oklch(0.985 0 0);
   --destructive: oklch(0.704 0.191 22.216);
   --border: oklch(1 0 0 / 10%);
@@ -102,11 +102,11 @@
   --chart-3: oklch(0.769 0.188 70.08);
   --chart-4: oklch(0.627 0.265 303.9);
   --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
+  --sidebar: oklch(0.22 0.014 250);
   --sidebar-foreground: oklch(0.985 0 0);
   --sidebar-primary: oklch(0.488 0.243 264.376);
   --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent: oklch(0.285 0.014 250);
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
@@ -136,6 +136,8 @@
 @layer components {
   .article-markdown {
     @apply mx-auto max-w-4xl text-base leading-8 text-foreground;
+    max-width: min(100%, 56rem);
+    overflow-wrap: anywhere;
   }
 
   .article-markdown > * + * {
@@ -194,7 +196,8 @@
   }
 
   .article-markdown pre {
-    @apply my-6 overflow-x-auto rounded-2xl border border-border/70 bg-muted px-4 py-4 text-sm leading-7;
+    @apply my-6 overflow-x-auto rounded-lg border border-border/40 bg-muted px-4 py-4 text-sm leading-7;
+    max-width: 100%;
   }
 
   .article-markdown pre code {
@@ -202,7 +205,10 @@
   }
 
   .article-markdown table {
-    @apply my-6 w-full border-collapse overflow-hidden rounded-2xl border border-border/70 text-left text-sm;
+    @apply my-6 w-full border-collapse overflow-hidden rounded-lg border border-border/40 text-left text-sm;
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
   }
 
   .article-markdown thead {
@@ -211,6 +217,98 @@
 
   .article-markdown th,
   .article-markdown td {
-    @apply border border-border/70 px-4 py-3 align-top;
+    @apply border border-border/40 px-4 py-3 align-top;
+  }
+
+  .project-readme-markdown .article-markdown {
+    max-width: 100%;
+    font-size: 0.875rem;
+    line-height: 1.7;
+  }
+
+  .project-readme-markdown .article-markdown > * + * {
+    margin-top: 1rem;
+  }
+
+  .project-readme-markdown .article-markdown h1,
+  .project-readme-markdown .article-markdown h2,
+  .project-readme-markdown .article-markdown h3,
+  .project-readme-markdown .article-markdown h4 {
+    margin-top: 1.75rem;
+  }
+
+  .project-readme-markdown .article-markdown h1 {
+    font-size: 1.5rem;
+    line-height: 2rem;
+  }
+
+  .project-readme-markdown .article-markdown h2 {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+  }
+
+  .project-readme-markdown .article-markdown h3 {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+  }
+
+  .project-readme-markdown .article-markdown p,
+  .project-readme-markdown .article-markdown li,
+  .project-readme-markdown .article-markdown blockquote {
+    font-size: 0.875rem;
+    line-height: 1.7;
+  }
+
+  .project-readme-markdown .article-markdown pre,
+  .project-readme-markdown .article-markdown table {
+    border-radius: 0.5rem;
+    font-size: 0.8125rem;
+    line-height: 1.6;
+  }
+
+  .project-readme-markdown .article-markdown blockquote {
+    border-radius: 0 0.5rem 0.5rem 0;
+    padding: 0.875rem 1rem;
+  }
+
+  .project-readme-markdown .article-markdown-image-wrapper > div {
+    border-radius: 0.5rem;
+  }
+
+  .project-readme-markdown .article-markdown-image-wrapper img {
+    border-radius: 0.375rem;
+  }
+
+  @media (min-width: 768px) {
+    .project-readme-markdown .article-markdown {
+      font-size: 1rem;
+      line-height: 2rem;
+    }
+
+    .project-readme-markdown .article-markdown > * + * {
+      margin-top: 1.25rem;
+    }
+
+    .project-readme-markdown .article-markdown h1 {
+      font-size: 1.875rem;
+      line-height: 2.25rem;
+    }
+
+    .project-readme-markdown .article-markdown h2 {
+      font-size: 1.5rem;
+      line-height: 2rem;
+    }
+
+    .project-readme-markdown .article-markdown h3 {
+      font-size: 1.25rem;
+      line-height: 1.75rem;
+    }
+
+    .project-readme-markdown .article-markdown p,
+    .project-readme-markdown .article-markdown li,
+    .project-readme-markdown .article-markdown blockquote {
+      font-size: 1rem;
+      line-height: 2rem;
+    }
   }
 }

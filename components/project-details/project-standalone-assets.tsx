@@ -72,7 +72,7 @@ function AssetTypeIcon({ type, className }: { type: string; className?: string }
 
 function ImageMedia({ src, alt }: { src: string; alt: string }) {
   return (
-    <div className="relative w-full overflow-hidden rounded-lg border border-border/60 bg-muted/20">
+    <div className="relative w-full max-w-full overflow-hidden rounded-md border border-border/30 bg-muted/15">
       <div className="relative aspect-video w-full">
         <MediaDisplay src={src} alt={alt} fill className="object-contain" autoPlay={false} loop={false} />
       </div>
@@ -82,7 +82,7 @@ function ImageMedia({ src, alt }: { src: string; alt: string }) {
 
 function VideoMedia({ src, poster, alt }: { src: string; poster?: string; alt: string }) {
   return (
-    <div className="relative w-full overflow-hidden rounded-lg border border-border/60 bg-black/5">
+    <div className="relative w-full max-w-full overflow-hidden rounded-md border border-border/30 bg-black/5">
       <video
         src={src}
         poster={poster}
@@ -97,7 +97,7 @@ function VideoMedia({ src, poster, alt }: { src: string; poster?: string; alt: s
 
 function AudioMedia({ src, alt }: { src: string; alt: string }) {
   return (
-    <div className="w-full rounded-lg border border-border/60 bg-muted/20 p-4">
+    <div className="w-full max-w-full rounded-md border border-border/30 bg-muted/15 p-3 md:p-4">
       <audio src={src} controls className="w-full" aria-label={alt} />
     </div>
   );
@@ -107,7 +107,7 @@ function TextMedia({ src, alt }: { src: string; alt: string }) {
   const isPdf = src.toLowerCase().endsWith(".pdf");
   if (isPdf) {
     return (
-      <div className="w-full overflow-hidden rounded-lg border border-border/60">
+      <div className="w-full max-w-full overflow-hidden rounded-md border border-border/30">
         <iframe
           src={src}
           title={alt}
@@ -118,7 +118,7 @@ function TextMedia({ src, alt }: { src: string; alt: string }) {
     );
   }
   return (
-    <div className="rounded-lg border border-border/60 bg-muted/20 p-4">
+    <div className="max-w-full rounded-md border border-border/30 bg-muted/15 p-3 md:p-4">
       <p className="text-sm text-muted-foreground">Text file: {alt}</p>
     </div>
   );
@@ -126,7 +126,7 @@ function TextMedia({ src, alt }: { src: string; alt: string }) {
 
 function GameMedia({ src, alt }: { src: string; alt: string }) {
   return (
-    <div className="w-full overflow-hidden rounded-lg border border-border/60">
+    <div className="w-full max-w-full overflow-hidden rounded-md border border-border/30">
       <iframe
         src={src}
         title={alt}
@@ -199,7 +199,7 @@ function AssetMedia({
       // 3d-model renders via fullscreen only for now — show thumbnail preview
       if (thumb) return <ImageMedia src={thumb} alt={label} />;
       return (
-        <div className="flex aspect-video w-full items-center justify-center rounded-lg border border-border/60 bg-muted/20">
+        <div className="flex aspect-video w-full max-w-full items-center justify-center rounded-md border border-border/30 bg-muted/15">
           <Box className="size-8 text-muted-foreground" />
         </div>
       );
@@ -271,12 +271,12 @@ function StandaloneAssetItem({
       <div
         ref={ref}
         className={cn(
-          "rounded-2xl border border-border/50 bg-card/40 p-5 transition-all duration-500 md:p-6",
+          "max-w-full overflow-hidden rounded-lg border border-border/30 bg-card/25 p-3 transition-all duration-500 md:p-5",
           visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4",
         )}
       >
         {/* Header: label + type icon */}
-        <div data-testid="project-asset-title-row" className="flex items-start gap-3">
+        <div data-testid="project-asset-title-row" className="flex min-w-0 items-start gap-3">
           <div className="flex-1 min-w-0 space-y-2">
             <div className="flex items-center gap-2">
               {faviconIcon ? (
@@ -289,12 +289,12 @@ function StandaloneAssetItem({
                   className="h-[18px] w-[18px] rounded-[4px] object-contain"
                 />
               ) : null}
-              <h4 className="text-xl font-semibold tracking-tight text-foreground md:text-2xl">
+              <h4 className="min-w-0 break-words text-base font-semibold tracking-tight text-foreground md:text-2xl">
                 {item.label || item.id}
               </h4>
             </div>
             {item.oneLiner && (
-              <p className="text-sm text-muted-foreground md:text-base">{item.oneLiner}</p>
+              <p className="break-words text-sm text-muted-foreground md:text-base">{item.oneLiner}</p>
             )}
           </div>
           <AssetTypeIcon type={item.type} className="mt-1.5" />
@@ -302,7 +302,7 @@ function StandaloneAssetItem({
 
         {/* Media — clickable for fullscreen (or open link) */}
         <div
-          className={cn("relative group", canFullscreen && "cursor-pointer")}
+          className={cn("relative group mt-4 max-w-full overflow-hidden", canFullscreen && "cursor-pointer")}
           onClick={canFullscreen ? openFullscreen : undefined}
           role={canFullscreen ? "button" : undefined}
           tabIndex={canFullscreen ? 0 : undefined}
@@ -327,7 +327,7 @@ function StandaloneAssetItem({
             minCollapsedOverflowPx={96}
             testId="project-asset-summary-expandable"
           >
-            <p className="whitespace-pre-wrap text-sm leading-relaxed text-muted-foreground md:text-[15px]">
+            <p className="max-w-full whitespace-pre-wrap break-words text-sm leading-relaxed text-muted-foreground md:text-[15px]">
               {item.summary}
             </p>
           </ExpandableCardContent>
@@ -335,7 +335,7 @@ function StandaloneAssetItem({
 
         {/* Resources */}
         {resources.length > 0 && (
-          <div className="flex flex-wrap gap-2">
+          <div className="flex max-w-full flex-wrap gap-2">
             {resources.map((r, i) => (
               <ResourceButton key={`${r.url}-${i}`} resource={r} currentProject={project} />
             ))}
@@ -379,16 +379,16 @@ export function ProjectStandaloneAssets({ project, inModal }: ProjectStandaloneA
       id={inModal ? undefined : "assets"}
       data-testid="project-standalone-assets"
       data-project-id={project.id}
-      className="scroll-mt-24 space-y-5 md:space-y-6"
+      className="min-w-0 max-w-full scroll-mt-24 space-y-5 overflow-x-clip md:space-y-6"
     >
-      <div className="space-y-4 md:space-y-5">
+      <div className="min-w-0 max-w-full space-y-4 md:space-y-5">
         {items.map((item, idx) => (
           <div
             key={item.id || idx}
             id={inModal ? undefined : getProjectAssetSectionId(item, idx)}
             data-testid="project-standalone-asset"
             data-asset-id={item.id}
-            className="scroll-mt-24"
+            className="min-w-0 max-w-full scroll-mt-24"
           >
             <StandaloneAssetItem
               item={item}
