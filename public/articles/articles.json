@@ -4,7 +4,7 @@
     "title": "The Wolf Project - Reworking a Real-World Project",
     "summary": "After discovering The Wolf Project through a Dodo video, I connected with the team and began rebuilding their website to better support their needs. The new version introduces structured data, dynamic content, and scalable infrastructure using Next.js, Firebase, and Cloudinary. It’s now a usable foundation that can evolve into a more complete system for showcasing cases, managing content, and supporting contributions.",
     "oneLiner": "Rebuilding The Wolf Project’s site into a structured, scalable platform to better support real rescue work.",
-    "publishedAt": null,
+    "publishedAt": "2026-04-28",
     "updatedAt": "2026-04-18",
     "series": "The Wolf Project",
     "tags": [
@@ -42,8 +42,8 @@
         "siteName": "Instagram",
         "hostname": "www.instagram.com",
         "displayUrl": "instagram.com/_wolf_project",
-        "description": "9,122 Followers, 53 Following, 39 Posts - See Instagram photos and videos from The Wolf Project (@_wolf_project)",
-        "image": "https://scontent-sea5-1.cdninstagram.com/v/t51.82787-19/669995688_17855811255634945_8055336562483547172_n.jpg?stp=dst-jpg_s100x100_tt6&_nc_cat=105&ccb=7-5&_nc_sid=bf7eb4&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy4xMDgwLkMzIn0%3D&_nc_ohc=OHioTdJz7nkQ7kNvwEscija&_nc_oc=AdqxulAq9VWSe_MfEC5o99siQKlajJL_4PP1NWmBZuIrkHcU0LsmQnFTK3oiZbBVR-PfSMYqWdqCNjMOIr1zGRbF&_nc_zt=24&_nc_ht=scontent-sea5-1.cdninstagram.com&_nc_gid=aw0h6Vt5NH1MUV1uFRDBJA&oh=00_Af3VC8qZM9VkO1wys1v5N8incoJLeYJj34vISIC3SeF9Nw&oe=69F1CC71"
+        "description": "9,187 Followers, 53 Following, 40 Posts - See Instagram photos and videos from The Wolf Project (@_wolf_project)",
+        "image": "https://scontent-sea5-1.cdninstagram.com/v/t51.82787-19/669995688_17855811255634945_8055336562483547172_n.jpg?stp=dst-jpg_s100x100_tt6&_nc_cat=105&ccb=7-5&_nc_sid=bf7eb4&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy4xMDgwLkMzIn0%3D&_nc_ohc=tbEE3-t4uQ4Q7kNvwFJ71du&_nc_oc=Adr6u6ZRhpFwx0lMoPjjO-2A9TgZQivp8Urb8VO0j2h9sIVhVrzrOr91-2sGTqW6Ukvz9JkIE8hMz50b1om-hu4u&_nc_zt=24&_nc_ht=scontent-sea5-1.cdninstagram.com&_nc_gid=l3n-jtFAUjbJt4AoYZ77BQ&_nc_ss=7860f&oh=00_Af1leQI9a8l0Owatp3axxWcdud2xSeY2VRa_pd1aW6bFxQ&oe=69F3FEF1"
       },
       {
         "url": "https://the-wolf-project-14stqkkgr-zsturmans-projects.vercel.app/",
