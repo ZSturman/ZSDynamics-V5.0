@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "kind": "articles.detail",
+  "generated_at": "2026-05-06T02:07:33.259710+00:00",
+  "data": {
+    "slug": "the-art-of-turning-a-90-minute-task-into-a-2-month",
+    "title": "The Art of Turning a 90-Minute Task Into a 2-Month Automation Project",
+    "summary": "The article traces the evolution of four systems - Obsidian + Project Management App, OPE, RPOVault, and Folio - built to keep project metadata, files, and a public portfolio in sync without constant duplication. Each version clarified the value of structured project records, but also exposed the growing maintenance cost of owning every layer, especially around files, media, and editing workflows. The final takeaway is that integrating existing tools like Notion, n8n, GitHub Actions, and Firebase solves the real problem more effectively than continuing to maintain a complex custom application.",
+    "oneLiner": "A reflection on building four generations of project-and-portfolio management tools, and why a simpler integrated workflow ultimately beat a fully custom app.",
+    "publishedAt": null,
+    "updatedAt": "2026-04-08",
+    "series": "My Notion Pipeline",
+    "tags": [
+      "Automation",
+      "Note Taking",
+      "Notion",
+      "Obsidian",
+      "Portfolio",
+      "Product Design",
+      "React",
+      "Swift",
+      "macOS"
+    ],
+    "projectIds": [
+      "324aec94-4d3c-8068-a8a7-ed6d1d4d1790"
+    ],
+    "sourceUrl": "https://github.com/ZSturman/Articles/blob/main/articles/the-art-of-turning-a-90-minute-task-into-a-2-month/index.md",
+    "href": "/articles/the-art-of-turning-a-90-minute-task-into-a-2-month",
+    "coverImage": "/articles/the-art-of-turning-a-90-minute-task-into-a-2-month/images/Concept_art_with_Logo.jpeg"
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "schema_version": 1,
+  "kind": "projects.detail",
+  "generated_at": "2026-05-06T02:07:33.258312+00:00",
+  "data": {
+    "id": "339aec94-4d3c-8047-a3ea-ea94ff1e518f",
+    "slug": "media-organizer",
+    "href": "/projects/media-organizer",
+    "title": "Media Organizer",
+    "name": "Media Organizer",
+    "subtitle": "",
+    "summary": "A local-first media organizing app for macOS, built for people who still manage photo and video libraries as folders on disk instead of inside a closed catalog. You pick a folder, scan it, review conservative metadata suggestions, accept or reject rename proposals, and then apply changes with backups or XMP sidecars depending on how safe direct writeback is for that file type.\n\nWhat makes it useful is the posture more than the feature list. It is careful, reversible, and fairly modest about what it claims to know. Existing metadata is preserved, people suggestions stay anonymous unless someone names them, uncertain results stay in a review queue, and video handling falls back to sidecars rather than forcing direct container edits. The likely audience is photographers, family archivists, and small teams with messy folder-based libraries. What is less clear is the broader brand personality, because there are no explicit design assets or marketing materials in the repo, so the strongest visual cue is the product’s quiet, native, utility-first character.",
+    "oneLiner": "A native macOS app for people who keep real folders of photos and videos, and want help cleaning up metadata, filenames, and review decisions without handing the library to a cloud service.",
+    "domain": "Technology",
+    "category": "Application",
+    "status": "Active",
+    "phase": "Development",
+    "featured": false,
+    "createdAt": "2026-04-03",
+    "updatedAt": "2026-03-28",
+    "isPublic": true,
+    "tags": [
+      "macOS",
+      "Photos",
+      "Metadata",
+      "Organization",
+      "Digital Archive",
+      "Utility"
+    ],
+    "mediums": [],
+    "genres": [],
+    "topics": [],
+    "subjects": [],
+    "description": "",
+    "story": "",
+    "images": {
+      "icon": "icon.png",
+      "banner": "banner.png",
+      "thumbnail": "thumbnail.png",
+      "poster": "poster.png",
+      "hero": "hero.png"
+    },
+    "resources": [
+      {
+        "type": "github",
+        "label": "Repo",
+        "url": "https://github.com/ZSturman/Media-Organizer"
+      }
+    ],
+    "assets": [],
+    "collection": {},
+    "workLogs": [
+      {
+        "id": "339aec94-4d3c-800c-82b4-dfe7c5f9ce11",
+        "title": "Created new project entry for Media Organizer",
+        "entry": "Created new project entry for Media Organizer",
+        "url": "https://www.notion.so/Created-new-project-entry-for-Media-Organizer-339aec944d3c800c82b4dfe7c5f9ce11",
+        "startTime": "2026-04-03",
+        "endTime": "2026-04-03T01:00:00.000-07:00",
+        "date": "2026-04-05T03:18:00.000-07:00",
+        "sessionType": [
+          "Planning",
+          "Organizing"
+        ],
+        "whatHappened": "Created new project entry for Media Organizer and added the 'Project Starter' milestones and tasks.",
+        "problems": null,
+        "nextStep": "Complete to do items",
+        "feelGoodAboutWork": 100.0,
+        "accomplishedWhatYouWanted": 100.0,
+        "durationMinutes": 60
+      }
+    ],
+    "articles": [],
+    "folderName": "media_organizer_339aec94-4d3c-8047-a3ea-ea94ff1e518f",
+    "readme": {
+      "content": "# Media Organizer\n\nMedia Organizer is a simple native macOS SwiftUI app for folder-based photo and video libraries. You choose a folder, optionally include subfolders, scan the media locally, review uncertain metadata suggestions, and then apply safe writeback to the original files or to standards-based XMP sidecars.\n\n## What It Does\n\n- Selects a user folder with AppKit `NSOpenPanel`\n- Scans common image and video formats in place\n- Reads existing metadata first before suggesting anything new\n- Uses Apple-native analysis to suggest conservative tags for people groups, pets/animals, activities, dates, and locations\n- Queues low-confidence, conflicting, and rename suggestions for human review\n- Applies embedded metadata writes only where the format is considered low-risk in v1\n- Falls back to XMP sidecars when direct writeback would be riskier or less portable\n\n## Supported File Types\n\nThe scanner uses `UTType` and currently targets common `UTType.image` and `UTType.movie` items.\n\nTested / intended image coverage:\n- `jpg`, `jpeg`\n- `tif`, `tiff`\n- `heic`, `heif`\n- `png`\n- `gif`\n- `bmp`\n- `webp`\n- `dng` and other image-like RAW formats when the system reports them as images\n\nTested / intended video coverage:\n- `mov`\n- `mp4`\n- `m4v`\n- other movie containers that AVFoundation can inspect as `UTType.movie`\n\n## How Metadata Is Written\n\nWriteback is intentionally conservative in v1.\n\n- Embedded writeback:\n  - `jpeg/jpg`\n  - `tiff/tif`\n  - Uses ImageIO metadata-copy APIs so pixels are not recompressed\n  - Creates a backup under `.media-organizer-backups/<timestamp>/...` before replacing the original file\n\n- XMP sidecars:\n  - All videos\n  - `heic/heif`, `png`, `gif`, `bmp`, `webp`, RAW/DNG, and any image format not treated as low-risk embedded writeback\n  - Sidecars are written as `<original-filename>.xmp`\n\nCurrent XMP fields:\n- `dc:subject`\n- `dc:description`\n- `xmp:CreateDate`\n- `Iptc4xmpExt:PersonInImage`\n- `Iptc4xmpCore:Location`\n- `photoshop:City`\n- `photoshop:State`\n- `photoshop:Country`\n\n## Apple-Native Analysis Used\n\n- SwiftUI for the single-window app UI\n- AppKit `NSOpenPanel` for folder picking\n- Sandbox user-selected read/write access plus security-scoped bookmarks\n- `UniformTypeIdentifiers` for media detection\n- ImageIO for image metadata reading and embedded metadata writeback\n- AVFoundation for video metadata reading and preview frame extraction\n- Vision for:\n  - image classification\n  - face detection\n  - face feature prints for rough person-group clustering\n  - animal body pose detection\n  - human body pose detection\n- `NSFileCoordinator` for coordinated writes\n\n## Where Human Review Is Required\n\nThe app does not silently accept everything.\n\n- All people-group suggestions require review\n- All activity/event suggestions require review\n- Any low-confidence suggestion below the auto-accept threshold requires review\n- Any conflicting suggestion requires review\n- All rename suggestions require review\n\n## Known Limitations\n\n- People naming is intentionally conservative. The app never invents a real person’s name; it only suggests anonymous groups like `Person group A`.\n- Event/activity labels are best-effort and intentionally narrow in v1.\n- Reverse geocoding is not included in v1, so GPS coordinates are preserved but not expanded into human-readable place names unless place text already exists.\n- Video metadata is written only to XMP sidecars in v1. The app does not rewrite video containers directly.\n- Embedded writeback beyond JPEG/TIFF is intentionally avoided because format-safe, standards-portable updates are less clear or may require more invasive rewrites.\n- Vision-based clustering thresholds are conservative and may need tuning on real libraries.\n- The current in-app search is a lightweight filter over scanned results, not a full search index.\n\n## Future Extensions\n\n- Better preview thumbnails and richer review cards\n- Reverse geocoding via Apple location services as an optional local-first enhancement\n- Broader embedded writeback coverage where Apple APIs prove safe enough\n- Additional rename templates and batch rename presets\n- Duplicate detection and “apply to cluster” improvements\n- Optional external APIs or custom models for harder event recognition if local-first heuristics are not enough later",
+      "sourceUrl": "https://github.com/ZSturman/Media-Organizer/blob/main/README.md"
+    }
+  }
+}

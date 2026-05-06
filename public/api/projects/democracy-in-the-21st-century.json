@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "kind": "projects.detail",
+  "generated_at": "2026-05-06T02:07:33.258171+00:00",
+  "data": {
+    "id": "333aec94-4d3c-8036-82e4-d96b64b15c6c",
+    "slug": "democracy-in-the-21st-century",
+    "href": "/projects/democracy-in-the-21st-century",
+    "title": "Democracy in the 21st Century",
+    "name": "Democracy in the 21st Century",
+    "subtitle": "",
+    "summary": "A working concept for a public decision platform, part civic portal and part policy explainer. People can submit proposals, gather endorsements, review budget and impact analysis, compare arguments for and against, pass a short comprehension check, and then vote. The archive and sunset model matter just as much as the vote itself, which gives the whole thing a more reflective posture than a typical petition or polling app.\n\nThe clearest audience is citizens who want government to feel less opaque, plus educators, organizers, and policy-minded groups who want a concrete model for more deliberative participation. The use cases are broad but practical: public proposals, referendum-style questions, participatory budgeting, issue browsing by category, and a questionnaire that helps people sort out what they actually think government should do. There is also a hint that the same system could be adapted for organizations, since the surrounding notes sketch a business version built on the same logic.\n\nWhat feels distinct here is the insistence on slowing participation down just enough to make it more informed. Plain-language summaries, equal visibility for both sides, visible spending, tracked outcomes, and an archive all push in that direction. Some things are still open, though. The project reads more like a proof of concept than a deployment-ready civic system, so identity checks, moderation, expert workflows, and real enforcement are still more implied than built, and the overall character stays earnest, procedural, calm, and quietly idealistic.",
+    "oneLiner": "This is a prototype for a digital democracy platform where people can propose policies, review tradeoffs, vote more deliberately, and see how public money and decisions move over time.",
+    "domain": "Expository",
+    "category": "Social Experiment",
+    "status": "Active",
+    "phase": "Development",
+    "featured": false,
+    "createdAt": "2024-08-27",
+    "updatedAt": "2026-03-09",
+    "isPublic": true,
+    "tags": [
+      "Democracy",
+      "Social",
+      "Experiment",
+      "Government"
+    ],
+    "mediums": [],
+    "genres": [],
+    "topics": [],
+    "subjects": [],
+    "description": "",
+    "story": "",
+    "images": {
+      "banner": "banner.png",
+      "thumbnail": "thumbnail.png",
+      "poster": "poster.png",
+      "hero": "hero.png"
+    },
+    "resources": [],
+    "assets": [],
+    "collection": {},
+    "workLogs": [
+      {
+        "id": "339aec94-4d3c-80a3-b0d2-d94c15a97f7f",
+        "title": "Created new project entry for Democracy in the 21st Century",
+        "entry": "Created new project entry for Democracy in the 21st Century",
+        "url": "https://www.notion.so/Created-new-project-entry-for-Democracy-in-the-21st-Century-339aec944d3c80a3b0d2d94c15a97f7f",
+        "startTime": "2024-08-27",
+        "endTime": "2024-08-27T01:00:00.000-07:00",
+        "date": "2026-04-05T03:13:00.000-07:00",
+        "sessionType": [
+          "Planning",
+          "Organizing"
+        ],
+        "whatHappened": "Created new project entry for Democracy in the 21st Century and added the 'Project Starter' milestones and tasks.",
+        "problems": null,
+        "nextStep": "Complete to do items",
+        "feelGoodAboutWork": 100.0,
+        "accomplishedWhatYouWanted": 100.0,
+        "durationMinutes": 60
+      }
+    ],
+    "articles": [],
+    "folderName": "democracy_in_the_21st_century_333aec94-4d3c-8036-82e4-d96b64b15c6c"
+  }
+}

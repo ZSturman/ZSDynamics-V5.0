@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "kind": "projects.detail",
+  "generated_at": "2026-05-06T02:07:33.256701+00:00",
+  "data": {
+    "id": "324aec94-4d3c-8068-a8a7-ed6d1d4d1790",
+    "slug": "folio",
+    "href": "/projects/folio",
+    "title": "Folio",
+    "name": "Folio",
+    "subtitle": "",
+    "summary": "Folio Studio is the branch where the project stops trying to organize an entire filesystem first and instead treats each portfolio item as a document with its own portable package. It is still ambitious, but the ambition is finally bounded. The app is focused on authoring and maintaining .folio documents rather than being a full project-management operating system.",
+    "oneLiner": "An archive of related but independent attempts to solve the same personal problem: how to keep projects, ideas, media, metadata, references, and portfolio material in one system without losing the shape of the work.",
+    "domain": "Technology",
+    "category": "Application",
+    "status": "Complete",
+    "phase": "Deprecated",
+    "featured": false,
+    "createdAt": "2026-03-18",
+    "updatedAt": "2026-01-29",
+    "isPublic": true,
+    "tags": [
+      "macOS",
+      "Productivity"
+    ],
+    "mediums": [],
+    "genres": [],
+    "topics": [],
+    "subjects": [],
+    "description": "",
+    "story": "",
+    "images": {
+      "icon": "AppIcon.png",
+      "banner": "Concept_art_with_Logo.jpeg",
+      "thumbnail": "thumbnail.png",
+      "hero": "Ope_Hero.png"
+    },
+    "resources": [
+      {
+        "type": "github",
+        "label": "Repo",
+        "url": "https://github.com/ZSturman/Folio-Studio"
+      }
+    ],
+    "assets": [],
+    "collection": {},
+    "workLogs": [
+      {
+        "id": "324aec94-4d3c-809d-b816-f8ac0b5e3d94",
+        "title": "Consolidating Folio Versions into a Documented Project History",
+        "entry": "Consolidating Folio Versions into a Documented Project History",
+        "url": "https://www.notion.so/Consolidating-Folio-Versions-into-a-Documented-Project-History-324aec944d3c809db816f8ac0b5e3d94",
+        "startTime": "2026-03-14T03:00:00.000-07:00",
+        "endTime": "2026-03-14T07:00:00.000-07:00",
+        "date": "2026-03-14T20:29:00.000-07:00",
+        "sessionType": [
+          "Writing"
+        ],
+        "whatHappened": "I gathered all of my Folio versions from across the years and placed them into a single organized folder structure. Using Copilot, I arranged the versions chronologically and extracted details about how each iteration was created. Those insights were then used to write an article documenting the evolution of the work along with plans for its future development.",
+        "problems": null,
+        "nextStep": "Post the documentation somewhere",
+        "feelGoodAboutWork": 1.0,
+        "accomplishedWhatYouWanted": 1.0,
+        "durationMinutes": 240
+      }
+    ],
+    "articles": [
+      {
+        "title": "The Art of Turning a 90-Minute Task Into a 2-Month Automation Project",
+        "slug": "the-art-of-turning-a-90-minute-task-into-a-2-month",
+        "href": "/articles/the-art-of-turning-a-90-minute-task-into-a-2-month",
+        "sourceUrl": "https://github.com/ZSturman/Articles/blob/main/articles/the-art-of-turning-a-90-minute-task-into-a-2-month/index.md",
+        "coverImage": "/articles/the-art-of-turning-a-90-minute-task-into-a-2-month/images/Concept_art_with_Logo.jpeg"
+      }
+    ],
+    "folderName": "folio_324aec94-4d3c-8068-a8a7-ed6d1d4d1790",
+    "readme": {
+      "content": "# Folio Archive\n\n![Folio app icon](https://raw.githubusercontent.com/ZSturman/Folio-Studio/main/Reference/AppIcon/AppIcon.png)\n\nThis repository is an archive of related but independent attempts to solve the same personal problem: how to keep projects, ideas, media, metadata, references, and portfolio material in one system without losing the shape of the work.\n\nThe important thing to know is that this is not a neat release train. It is closer to a shelf of short stories with a family resemblance. Some branches are polished enough to run. Some are prototypes that taught a single lesson. Some are abandoned sketches that still explain why the later work looks the way it does.\n\nDates are approximate when they come from filesystem timestamps instead of Git history. The full narrative source is in [docs/HISTORY.md](https://github.com/ZSturman/Folio-Studio/blob/main/docs/HISTORY.md).\n\nThe current visual identity for the project lives in [Reference/AppIcon/AppIcon.png](https://github.com/ZSturman/Folio-Studio/blob/main/Reference/AppIcon/AppIcon.png), which is included here so the repo front page has a clear visual anchor instead of reading like a raw filesystem dump.\n\n## Start Here\n\n| If you want to... | Go here |\n| --- | --- |\n| Understand the overall arc | [docs/HISTORY.md](https://github.com/ZSturman/Folio-Studio/blob/main/docs/HISTORY.md) |\n| See the organization system of the repo | [Current/README.md](https://github.com/ZSturman/Folio-Studio/blob/main/Current/README.md), [Archive/README.md](https://github.com/ZSturman/Folio-Studio/blob/main/Archive/README.md), [Experiments/README.md](https://github.com/ZSturman/Folio-Studio/blob/main/Experiments/README.md) |\n| Open the most complete app | [Current/FolioStudio/README.md](https://github.com/ZSturman/Folio-Studio/blob/main/Current/FolioStudio/README.md) |\n| Explore the historical branches | [Archive/README.md](https://github.com/ZSturman/Folio-Studio/blob/main/Archive/README.md) |\n| Browse supporting assets and legacy workspace material | [Reference/README.md](https://github.com/ZSturman/Folio-Studio/blob/main/Reference/README.md) |\n\n## Organization System\n\nEvery major branch in this repository follows the same documentation pattern.\n\n- `Dates`: the span of time the branch seems to belong to.\n- `Status`: active, archived, prototype, abandoned, spike, or reference-only.\n- `Question`: the problem that branch was trying to answer.\n- `What survives here`: the code, notes, or assets that still matter.\n- `What it led to`: the next branch, if one exists.\n\nAt the repo level, the structure is intentionally simple.\n\n- [Current](https://github.com/ZSturman/Folio-Studio/blob/main/Current/README.md): the most complete product path.\n- [Archive](https://github.com/ZSturman/Folio-Studio/blob/main/Archive/README.md): historical versions, concept families, and abandoned attempts.\n- [Experiments](https://github.com/ZSturman/Folio-Studio/blob/main/Experiments/README.md): side branches and spikes that mattered enough to keep.\n- [Reference](https://github.com/ZSturman/Folio-Studio/blob/main/Reference/README.md): app icons, setup captures, and legacy workspace material.\n- [docs](https://github.com/ZSturman/Folio-Studio/blob/main/docs/README.md): long-form narrative and archive notes.\n\n## Map Of The Archive\n\n| Storyline | Dates | Status | What it is | Read more |\n| --- | --- | --- | --- | --- |\n| Current Folio Studio | Nov 2025 to Mar 2026 | Active snapshot | The clearest, most complete macOS document-based portfolio editor in the archive | [Current/FolioStudio/README.md](https://github.com/ZSturman/Folio-Studio/blob/main/Current/FolioStudio/README.md) |\n| IdeasApp | Sep 2025 to Oct 2025 | Archived prototype | Idea capture, triage, and project scaffolding separated from long-term project management | [Archive/IdeasApp/README.md](https://github.com/ZSturman/Folio-Studio/blob/main/Archive/IdeasApp/README.md) |\n| OPE Metadata Systems | Sep 2022 to Jan 2026 | Archived concept family | The broadest thinking branch: wireframes, notes, filesystem-first organizers, and schema experiments | [Archive/OPE-Metadata-Systems/README.md](https://github.com/ZSturman/Folio-Studio/blob/main/Archive/OPE-Metadata-Systems/README.md) |\n| Obsidian Project Management App | Jul 2024 to Sep 2024 | Abandoned prototype | A Tauri desktop attempt to bridge local projects, ideas, and markdown tools like Obsidian | [Archive/Obsidian-Project-Management-App/README.md](https://github.com/ZSturman/Folio-Studio/blob/main/Archive/Obsidian-Project-Management-App/README.md) |\n| PortfolioEditor | Oct 2025 to Dec 2025 | Archived prototype | A simpler document-based JSON editor that narrowed the scope before current Folio | [Archive/PortfolioEditor/README.md](https://github.com/ZSturman/Folio-Studio/blob/main/Archive/PortfolioEditor/README.md) |\n| RPOVault | Oct 2025 to Dec 2025 | Archived spike | A very small SwiftUI and SwiftData experiment kept as context rather than as a product | [Experiments/RPOVault/README.md](https://github.com/ZSturman/Folio-Studio/blob/main/Experiments/RPOVault/README.md) |\n\n## How To Read This Repo\n\nIf you want the shortest path, start with [Current/FolioStudio/README.md](https://github.com/ZSturman/Folio-Studio/blob/main/Current/FolioStudio/README.md) and then jump backward into [Archive/PortfolioEditor/README.md](https://github.com/ZSturman/Folio-Studio/blob/main/Archive/PortfolioEditor/README.md) and [Archive/OPE-Metadata-Systems/README.md](https://github.com/ZSturman/Folio-Studio/blob/main/Archive/OPE-Metadata-Systems/README.md).\n\nIf you want the full story, read [docs/HISTORY.md](https://github.com/ZSturman/Folio-Studio/blob/main/docs/HISTORY.md) and then use the README files in each branch as chapter cards for the surviving folders.\n\nIf you are here for technical context more than narrative, the most useful branches are current Folio, PortfolioEditor, Portfolio Organizer, and the browser editor in the OPE family.",
+      "sourceUrl": "https://github.com/ZSturman/Folio-Studio/blob/main/README.md"
+    }
+  }
+}

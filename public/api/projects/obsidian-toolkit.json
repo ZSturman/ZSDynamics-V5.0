@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "kind": "projects.detail",
+  "generated_at": "2026-05-06T02:07:33.254572+00:00",
+  "data": {
+    "id": "306aec94-4d3c-8085-a43d-f9ac3bec06ef",
+    "slug": "obsidian-toolkit",
+    "href": "/projects/obsidian-toolkit",
+    "title": "Obsidian Toolkit",
+    "name": "Obsidian Toolkit",
+    "subtitle": "",
+    "summary": "This project is a modular toolkit designed to make working inside Obsidian more dynamic and visual. It includes a dashboard system modeled after how Next.js handles routing, turning your folder structure into a navigable home view that mirrors the way web frameworks organize content. Alongside it is QueueCards, a note queueing system that helps prioritize ideas, tasks, or references by tracking how often items are skipped. Together, they create a workspace that’s both structured and adaptable, aimed at people who like to think in systems and want their vault to feel more like a living interface than a static archive.",
+    "oneLiner": "A modular Obsidian toolkit that turns your vault into an interactive dashboard and adds a simple queue system for managing notes. It’s an experiment in blending web-style structure with personal note-taking.",
+    "domain": "Technology",
+    "category": "Module",
+    "status": "Complete",
+    "phase": "Released",
+    "featured": false,
+    "createdAt": "2024-04-01",
+    "updatedAt": "2024-07-01",
+    "isPublic": true,
+    "tags": [
+      "Obsidian",
+      "JavaScript"
+    ],
+    "mediums": [],
+    "genres": [],
+    "topics": [],
+    "subjects": [],
+    "description": "",
+    "story": "",
+    "images": {
+      "banner": "banner.gif",
+      "thumbnail": "thumbnail.png",
+      "poster": "poster.gif",
+      "hero": "queueExample.png"
+    },
+    "resources": [
+      {
+        "type": "github",
+        "label": "Repo",
+        "url": "https://github.com/ZSturman/The-2nd-Best-Obsidian-Collection"
+      }
+    ],
+    "assets": [],
+    "collection": {},
+    "workLogs": [
+      {
+        "id": "339aec94-4d3c-80f4-a5fc-da6eb64781d4",
+        "title": "Created new project entry for Obsidian Toolkit",
+        "entry": "Created new project entry for Obsidian Toolkit",
+        "url": "https://www.notion.so/Created-new-project-entry-for-Obsidian-Toolkit-339aec944d3c80f4a5fcda6eb64781d4",
+        "startTime": "2024-04-01",
+        "endTime": "2024-04-01T01:00:00.000-07:00",
+        "date": "2026-04-05T04:37:00.000-07:00",
+        "sessionType": [
+          "Planning",
+          "Organizing"
+        ],
+        "whatHappened": "Created new project entry for Obsidian Toolkit and added the 'Project Starter' milestones and tasks.",
+        "problems": null,
+        "nextStep": "Complete to do items",
+        "feelGoodAboutWork": 100.0,
+        "accomplishedWhatYouWanted": 100.0,
+        "durationMinutes": 60
+      }
+    ],
+    "articles": [],
+    "folderName": "obsidian_toolkit_306aec94-4d3c-8085-a43d-f9ac3bec06ef",
+    "readme": {
+      "content": "# The-2nd-Best-Obsidian-Collection\n\nThis repo is a growing collection of Obsidian resources designed to enhance how you interact with your notes and manage your information. \n\n## Current Features\n\n### Dashboard\n\nThe `Dashboard` feature is a dynamic way to visualize your Obsidian folders and notes, using a layout inspired by NextJS routing. It helps you turn your Obsidian vault into a navigable dashboard, organizing content through a flexible folder system.\n\n- **How It Works**: The dashboard automatically organizes files into rows and columns based on your folder structure, making it easy to visualize and access your notes directly from the Obsidian homepage.\n\n- **Setup**: Simply paste the provided CSS and JavaScript files into your Obsidian settings to get started.\n\n### QueueCards\n\nThe `QueueCards` feature helps you stay organized by creating a queue of notes to work through. You can skip items if you're not ready to deal with them yet, and each time you do, the skip counter goes up. This count also influences the color of the queued items, so you can see at a glance which items you've been avoiding.\n\n- **Requirements**: For this to work, your notes need to have a `to` field in the frontmatter or metadata. This field can either be a string or an array of strings.\n\n- **Setup**: Copy and paste the provided JavaScript and CSS files into your vault, and configure Templater to use the script.\n\n## Getting Started\n\nTo use the contents of this repo, clone it or download the files to your local machine:\n\n``` bash\ngit clone https://github.com/ZSturman/The-2nd-Best-Obsidian-Collection\n```\n\nNavigate to the specific feature directory you're interested in, and follow the instructions provided in the subfolder's README.\n\n### Contribution\nFeel free to fork this repo, add your features, or make improvements and send a pull request.\n\n### Feedback and Suggestions\nGot ideas or feedback? Open an issue in this repository, and let's make this truly the second best Obsidian collection out there!\n\n---\n\nVisit [ZSDynamics](https://www.zsdynamics.com/) to see a picture of a dog.",
+      "sourceUrl": "https://github.com/ZSturman/The-2nd-Best-Obsidian-Collection/blob/main/README.md"
+    }
+  }
+}

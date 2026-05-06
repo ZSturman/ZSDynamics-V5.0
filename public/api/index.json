@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "kind": "index",
+  "generated_at": "2026-05-06T02:07:33.260636+00:00",
+  "data": {
+    "endpoints": [
+      {
+        "path": "/api/site.json",
+        "kind": "site"
+      },
+      {
+        "path": "/api/projects.json",
+        "kind": "projects.list"
+      },
+      {
+        "path": "/api/projects/{slug}.json",
+        "kind": "projects.detail"
+      },
+      {
+        "path": "/api/articles.json",
+        "kind": "articles.list"
+      },
+      {
+        "path": "/api/articles/{slug}.json",
+        "kind": "articles.detail"
+      }
+    ],
+    "schema_versioning": "Each endpoint envelope includes 'schema_version'. Breaking changes bump the integer; additive fields do not."
+  }
+}

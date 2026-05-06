@@ -42,8 +42,8 @@
         "siteName": "Instagram",
         "hostname": "www.instagram.com",
         "displayUrl": "instagram.com/_wolf_project",
-        "description": "9,187 Followers, 53 Following, 40 Posts - See Instagram photos and videos from The Wolf Project (@_wolf_project)",
-        "image": "https://scontent-sea5-1.cdninstagram.com/v/t51.82787-19/669995688_17855811255634945_8055336562483547172_n.jpg?stp=dst-jpg_s100x100_tt6&_nc_cat=105&ccb=7-5&_nc_sid=bf7eb4&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy4xMDgwLkMzIn0%3D&_nc_ohc=tbEE3-t4uQ4Q7kNvwFJ71du&_nc_oc=Adr6u6ZRhpFwx0lMoPjjO-2A9TgZQivp8Urb8VO0j2h9sIVhVrzrOr91-2sGTqW6Ukvz9JkIE8hMz50b1om-hu4u&_nc_zt=24&_nc_ht=scontent-sea5-1.cdninstagram.com&_nc_gid=l3n-jtFAUjbJt4AoYZ77BQ&_nc_ss=7860f&oh=00_Af1leQI9a8l0Owatp3axxWcdud2xSeY2VRa_pd1aW6bFxQ&oe=69F3FEF1"
+        "description": "9,422 Followers, 55 Following, 40 Posts - See Instagram photos and videos from The Wolf Project (@_wolf_project)",
+        "image": "https://scontent-sea5-1.cdninstagram.com/v/t51.82787-19/669995688_17855811255634945_8055336562483547172_n.jpg?stp=dst-jpg_s100x100_tt6&_nc_cat=105&ccb=7-5&_nc_sid=bf7eb4&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy4xMDgwLkMzIn0%3D&_nc_ohc=mw4UyJRrXYoQ7kNvwE7JrVO&_nc_oc=AdqGBbA48IXCW7mSJJPltvQwLtvBbooUbq3_VtOVZcvOjaJMrrmmM277ZJGl4T4O9iNHo2PvHPYaaGHwyQlw5quB&_nc_zt=24&_nc_ht=scontent-sea5-1.cdninstagram.com&_nc_gid=oS6YxUfBXdOIKiNlwu-l-A&_nc_ss=7860f&oh=00_Af6knIl49S0-xTGmQ_FcWqiWk8t-JQ1P5AiwVNRU2nXV-A&oe=6A008531"
       },
       {
         "url": "https://the-wolf-project-14stqkkgr-zsturmans-projects.vercel.app/",
@@ -208,7 +208,7 @@
     "title": "Building a Location-First Learning Agent to Explore Context, Memory, and Consciousness",
     "summary": "This explores the idea that recognition comes more from place, context, and repeated reinforcement than detached labels, using an inspectable Python CLI agent that learns locations from sensor observations and stores state plainly. It evolves from simple grayscale location memory into richer, modality-neutral location and concept structures, with a roadmap toward broader memory processes like activation, replay, resurfacing, and reconsolidation.",
     "oneLiner": "A location-first learning agent that turns user and sensor input into inspectable memory, then grows toward a broader synthetic memory-and-attention engine.",
-    "publishedAt": null,
+    "publishedAt": "2026-05-02",
     "updatedAt": "2026-04-04",
     "series": "Engineering AI for Recognition and Memory",
     "tags": [

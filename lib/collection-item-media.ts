@@ -7,6 +7,7 @@ import {
   isVideoFile,
   resolveProjectAssetPath,
 } from "@/lib/utils";
+import { preferHostedUrl } from "@/lib/media-url-map";
 
 interface CollectionItemPathOptions {
   folderName?: string;
@@ -148,23 +149,23 @@ export function getCollectionItemOptimizedPath(
     resolvedPath.includes("-thumb") ||
     resolvedPath.includes("-placeholder")
   ) {
-    return resolvedPath;
+    return preferHostedUrl(resolvedPath);
   }
 
   if (isVideoFile(resolvedPath)) {
-    return resolvedPath.replace(/\.[^.]+$/, "-optimized.mp4");
+    return preferHostedUrl(resolvedPath.replace(/\.[^.]+$/, "-optimized.mp4"));
   }
 
   if (resolvedPath.match(/\.(obj|gltf)$/i)) {
-    return resolvedPath.replace(/\.[^.]+$/, ".glb");
+    return preferHostedUrl(resolvedPath.replace(/\.[^.]+$/, ".glb"));
   }
 
   if (isImageFile(resolvedPath)) {
     const ext = getOptimizedImageExt(resolvedPath);
-    return resolvedPath.replace(/\.[^.]+$/, `-optimized${ext}`);
+    return preferHostedUrl(resolvedPath.replace(/\.[^.]+$/, `-optimized${ext}`));
   }
 
-  return resolvedPath;
+  return preferHostedUrl(resolvedPath);
 }
 
 function toVideoPosterPath(path: string | undefined): string | undefined {
@@ -173,7 +174,7 @@ function toVideoPosterPath(path: string | undefined): string | undefined {
   }
 
   const normalizedPath = path.replace(/-optimized(?=\.[^.]+$)/, "");
-  return normalizedPath.replace(/\.[^.]+$/, "-thumb.jpg");
+  return preferHostedUrl(normalizedPath.replace(/\.[^.]+$/, "-thumb.jpg"));
 }
 
 function getCollectionItemResolvedThumbnail(

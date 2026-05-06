@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { ArticleCard } from "@/components/articles/article-card";
 import { ArticleFilters } from "@/components/articles/article-filters";
 import { ArticleListItem } from "@/components/articles/article-list-item";
-import type { ArticleListEntry, ArticleSearchScope, ArticleSortOption, ArticleViewMode } from "./article-list-types";
+import type { ArticleListEntry, ArticleSearchScope, ArticleSortOption, ArticleViewMode, ArticleVisibilityFilter } from "./article-list-types";
 
 const STORAGE_KEY = "articles.filters.v1";
 
@@ -19,6 +19,7 @@ interface StoredArticleFilters {
   searchQuery?: string;
   sort?: ArticleSortOption;
   viewMode?: ArticleViewMode;
+  visibilityFilter?: ArticleVisibilityFilter;
 }
 
 function toTimestamp(value?: string | null): number {
@@ -54,6 +55,10 @@ function isViewMode(value: string | null | undefined): value is ArticleViewMode 
   return value === "grid" || value === "list";
 }
 
+function isVisibilityFilter(value: string | null | undefined): value is ArticleVisibilityFilter {
+  return value === "published" || value === "all";
+}
+
 export function ArticlesClient({ articles }: ArticlesClientProps) {
   const router = useRouter();
   const pathname = usePathname();
@@ -61,13 +66,14 @@ export function ArticlesClient({ articles }: ArticlesClientProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [sort, setSort] = useState<ArticleSortOption>("newest");
   const [viewMode, setViewMode] = useState<ArticleViewMode>("list");
+  const [visibilityFilter, setVisibilityFilter] = useState<ArticleVisibilityFilter>("published");
   const [initialized, setInitialized] = useState(false);
   const deferredSearchQuery = useDeferredValue(searchQuery);
 
   useEffect(() => {
     if (initialized) return;
 
-    const hasUrlState = ["q", "sort", "view"].some((key) => {
+    const hasUrlState = ["q", "sort", "view", "vis"].some((key) => {
       const value = searchParams?.get(key);
       return typeof value === "string" && value !== "";
     });
@@ -76,10 +82,12 @@ export function ArticlesClient({ articles }: ArticlesClientProps) {
       const urlSearch = searchParams?.get("q") || "";
       const urlSort = searchParams?.get("sort");
       const urlView = searchParams?.get("view");
+      const urlVis = searchParams?.get("vis");
 
       setSearchQuery(urlSearch);
       setSort(isSortOption(urlSort) ? urlSort : "newest");
       setViewMode(isViewMode(urlView) ? urlView : "list");
+      setVisibilityFilter(isVisibilityFilter(urlVis) ? urlVis : "published");
       setInitialized(true);
       return;
     }
@@ -91,6 +99,7 @@ export function ArticlesClient({ articles }: ArticlesClientProps) {
         setSearchQuery(typeof saved.searchQuery === "string" ? saved.searchQuery : "");
         setSort(isSortOption(saved.sort) ? saved.sort : "newest");
         setViewMode(isViewMode(saved.viewMode) ? saved.viewMode : "list");
+        setVisibilityFilter(isVisibilityFilter(saved.visibilityFilter) ? saved.visibilityFilter : "published");
       }
     } catch {
       // Ignore restore failures and fall back to defaults.
@@ -104,7 +113,7 @@ export function ArticlesClient({ articles }: ArticlesClientProps) {
 
     try {
       if (typeof window !== "undefined") {
-        const nextState: StoredArticleFilters = { searchQuery, sort, viewMode };
+        const nextState: StoredArticleFilters = { searchQuery, sort, viewMode, visibilityFilter };
         window.sessionStorage.setItem(STORAGE_KEY, JSON.stringify(nextState));
       }
     } catch {
@@ -115,21 +124,27 @@ export function ArticlesClient({ articles }: ArticlesClientProps) {
     if (searchQuery.trim()) params.set("q", searchQuery.trim());
     if (sort !== "newest") params.set("sort", sort);
     if (viewMode !== "list") params.set("view", viewMode);
+    if (visibilityFilter !== "published") params.set("vis", visibilityFilter);
 
     const basePath = pathname || "/articles";
     const nextUrl = params.toString() ? `${basePath}?${params.toString()}` : basePath;
     router.replace(nextUrl, { scroll: false });
-  }, [initialized, pathname, router, searchQuery, sort, viewMode]);
+  }, [initialized, pathname, router, searchQuery, sort, viewMode, visibilityFilter]);
 
   const parsedSearch = useMemo(() => parseSearchQuery(deferredSearchQuery), [deferredSearchQuery]);
+
+  const visibilityFilteredArticles = useMemo(() => {
+    if (visibilityFilter === "all") return articles;
+    return articles.filter((article) => typeof article.publishedAt === "string" && article.publishedAt.trim().length > 0);
+  }, [articles, visibilityFilter]);
 
   const filteredArticles = useMemo(() => {
     const normalizedTerm = parsedSearch.term.toLowerCase();
     if (!normalizedTerm) {
-      return articles;
+      return visibilityFilteredArticles;
     }
 
-    return articles.filter((article) => {
+    return visibilityFilteredArticles.filter((article) => {
       const title = article.title.toLowerCase();
       const summary = article.summary.toLowerCase();
       const series = (article.series || "").toLowerCase();
@@ -155,7 +170,7 @@ export function ArticlesClient({ articles }: ArticlesClientProps) {
           );
       }
     });
-  }, [articles, parsedSearch]);
+  }, [visibilityFilteredArticles, parsedSearch]);
 
   const sortedArticles = useMemo(() => {
     const copy = [...filteredArticles];
@@ -163,12 +178,12 @@ export function ArticlesClient({ articles }: ArticlesClientProps) {
     switch (sort) {
       case "newest":
         return copy.sort((left, right) => {
-          const diff = toTimestamp(right.updatedAt || right.publishedAt) - toTimestamp(left.updatedAt || left.publishedAt);
+          const diff = toTimestamp(right.publishedAt || right.updatedAt) - toTimestamp(left.publishedAt || left.updatedAt);
           return diff !== 0 ? diff : left.title.localeCompare(right.title);
         });
       case "oldest":
         return copy.sort((left, right) => {
-          const diff = toTimestamp(left.updatedAt || left.publishedAt) - toTimestamp(right.updatedAt || right.publishedAt);
+          const diff = toTimestamp(left.publishedAt || left.updatedAt) - toTimestamp(right.publishedAt || right.updatedAt);
           return diff !== 0 ? diff : left.title.localeCompare(right.title);
         });
       case "title-asc":
@@ -189,6 +204,8 @@ export function ArticlesClient({ articles }: ArticlesClientProps) {
         onSortChange={setSort}
         viewMode={viewMode}
         onViewModeChange={setViewMode}
+        visibilityFilter={visibilityFilter}
+        onVisibilityFilterChange={setVisibilityFilter}
         totalCount={articles.length}
         visibleCount={sortedArticles.length}
       />

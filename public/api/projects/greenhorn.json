@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "kind": "projects.detail",
+  "generated_at": "2026-05-06T02:07:33.255597+00:00",
+  "data": {
+    "id": "306aec94-4d3c-80b0-b478-e070bcd1d517",
+    "slug": "greenhorn",
+    "href": "/projects/greenhorn",
+    "title": "Greenhorn",
+    "name": "Greenhorn",
+    "subtitle": "A TV Pilot",
+    "summary": "Greenhorn is an animated dark comedy-drama about Jeff Wyatt, a sixth grader forced to navigate grief, crime, and moral decay in the icy Alaskan town of Greenhorn. After accidentally killing a man, Jeff is blackmailed into joining a small-town gang, dragging his fractured family into a world of violence and manipulation. The series mixes grounded emotional storytelling with sharp humor, drawing tonal inspiration from Breaking Bad, South Park, and Rick and Morty. Beneath its absurdity runs a story about power, guilt, and the limits of control—how ordinary people rationalize extraordinary wrongdoing. The project is designed for adult animation audiences who appreciate shows that balance comedy with moral consequence and psychological realism.",
+    "oneLiner": "An Alaskan middle schooler accidentally kills a man and is pulled into a spiraling world of crime, power, and consequence, turning a small town into his personal battlefield.",
+    "domain": "Narrative",
+    "category": "Television",
+    "status": "Complete",
+    "phase": "Released",
+    "featured": false,
+    "createdAt": "2017-11-21",
+    "updatedAt": "2021-11-05",
+    "isPublic": true,
+    "tags": [
+      "Adult Animation",
+      "Comedy"
+    ],
+    "mediums": [],
+    "genres": [],
+    "topics": [],
+    "subjects": [],
+    "description": "",
+    "story": "",
+    "images": {
+      "icon": "thumbnail.tiff",
+      "banner": "banner.png",
+      "thumbnail": "thumbnail.tiff",
+      "poster": "poster.tiff"
+    },
+    "resources": [],
+    "assets": [],
+    "collection": {},
+    "workLogs": [
+      {
+        "id": "339aec94-4d3c-8009-a0c5-cc97cf61bc0e",
+        "title": "Created new project entry for Greenhorn",
+        "entry": "Created new project entry for Greenhorn",
+        "url": "https://www.notion.so/Created-new-project-entry-for-Greenhorn-339aec944d3c8009a0c5cc97cf61bc0e",
+        "startTime": "2017-11-21",
+        "endTime": "2017-11-21T01:00:00.000-08:00",
+        "date": "2026-04-05T04:37:00.000-07:00",
+        "sessionType": [
+          "Planning",
+          "Organizing"
+        ],
+        "whatHappened": "Created new project entry for Greenhorn and added the 'Project Starter' milestones and tasks.",
+        "problems": null,
+        "nextStep": "Complete to do items",
+        "feelGoodAboutWork": 100.0,
+        "accomplishedWhatYouWanted": 100.0,
+        "durationMinutes": 60
+      }
+    ],
+    "articles": [],
+    "folderName": "greenhorn_306aec94-4d3c-80b0-b478-e070bcd1d517"
+  }
+}

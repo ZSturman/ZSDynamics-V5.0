@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "kind": "projects.detail",
+  "generated_at": "2026-05-06T02:07:33.253546+00:00",
+  "data": {
+    "id": "306aec94-4d3c-805d-b085-e4252d4601b3",
+    "slug": "timeline-7",
+    "href": "/projects/timeline-7",
+    "title": "Timeline 7",
+    "name": "Timeline 7",
+    "subtitle": "Across time, technology, and survival—what remains of humanity fights to define itself again.",
+    "summary": "Timeline 7 is a sprawling science fiction novel set hundreds of years after a catastrophic global collapse. The story follows a future civilization struggling to rebuild from the ashes of war, plague, and corruption. Human survivors, fractured into evolving species and new hierarchies, rediscover power, morality, and identity amid shifting political and biological landscapes. Through multiple intersecting perspectives—a soldier, a scientist, and a sentient machine—the book explores how progress and destruction often walk hand in hand. Written for readers who enjoy world-building and layered timelines, Timeline 7 examines the cyclical nature of humanity’s rise and fall with an eye toward resilience and reinvention.",
+    "oneLiner": "Post-apocalyptic sci-fi story about humanity rebuilding after self-destruction, told through intertwined lives across generations and technologies. A personal milestone—the first completed story built from a lifelong idea.",
+    "domain": "Narrative",
+    "category": "Novel",
+    "status": "Complete",
+    "phase": "Published",
+    "featured": false,
+    "createdAt": "2014-12-01",
+    "updatedAt": "2016-11-01",
+    "isPublic": true,
+    "tags": [
+      "Epic",
+      "Sci-fi",
+      "Dystopian"
+    ],
+    "mediums": [],
+    "genres": [],
+    "topics": [],
+    "subjects": [],
+    "description": "",
+    "story": "",
+    "images": {
+      "banner": "banner.png",
+      "thumbnail": "thumbnail.png"
+    },
+    "resources": [],
+    "assets": [],
+    "collection": {},
+    "workLogs": [
+      {
+        "id": "339aec94-4d3c-8051-9f86-e1373b244c9b",
+        "title": "Created new project entry for Timeline 7",
+        "entry": "Created new project entry for Timeline 7",
+        "url": "https://www.notion.so/Created-new-project-entry-for-Timeline-7-339aec944d3c80519f86e1373b244c9b",
+        "startTime": "2014-12-01",
+        "endTime": "2014-12-01T01:00:00.000-08:00",
+        "date": "2026-04-05T04:36:00.000-07:00",
+        "sessionType": [
+          "Planning",
+          "Organizing"
+        ],
+        "whatHappened": "Created new project entry for Timeline 7 and added the 'Project Starter' milestones and tasks.",
+        "problems": null,
+        "nextStep": "Complete to do items",
+        "feelGoodAboutWork": 100.0,
+        "accomplishedWhatYouWanted": 100.0,
+        "durationMinutes": 60
+      }
+    ],
+    "articles": [],
+    "folderName": "timeline_7_306aec94-4d3c-805d-b085-e4252d4601b3"
+  }
+}

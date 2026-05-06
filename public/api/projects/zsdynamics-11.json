@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "kind": "projects.detail",
+  "generated_at": "2026-05-06T02:07:33.256205+00:00",
+  "data": {
+    "id": "306aec94-4d3c-80ff-a96a-c3c51900e249",
+    "slug": "zsdynamics-11",
+    "href": "/projects/zsdynamics-11",
+    "title": "ZSDynamics 1.1",
+    "name": "ZSDynamics 1.1",
+    "subtitle": "Built with Flask",
+    "summary": "After digging deeper into data science, I wanted the portfolio to be more than a place to drop my work. So I added a simple email subscription so visitors could get updates, and I integrated Dashly for some lightweight analytics and visualization. It was a noticeable step forward for me—not just in the code, but in how I was thinking about the people visiting the site.",
+    "oneLiner": "This version turned the portfolio from a static project list into an interactive site with email subscriptions and built-in analytics to better understand user engagement.",
+    "domain": "Technology",
+    "category": "Web",
+    "status": "Complete",
+    "phase": "Deprecated",
+    "featured": false,
+    "createdAt": "2021-07-10",
+    "updatedAt": "2022-04-10",
+    "isPublic": true,
+    "tags": [
+      "Flask",
+      "Portfolio",
+      "Python"
+    ],
+    "mediums": [],
+    "genres": [],
+    "topics": [],
+    "subjects": [],
+    "description": "",
+    "story": "",
+    "images": {
+      "banner": "banner.png",
+      "thumbnail": "thumbnail.png"
+    },
+    "resources": [
+      {
+        "type": "github",
+        "label": "Repo",
+        "url": "https://github.com/ZSturman/ZSDynamics-v1.1"
+      },
+      {
+        "type": "web",
+        "label": "Visit",
+        "url": "https://zsturman.github.io/ZSDynamics-V1.1/",
+        "linkPreview": {
+          "provider": "zsturman.github.io",
+          "title": "Zachary Sturman Home",
+          "siteName": "Zsturman Github Io",
+          "hostname": "zsturman.github.io",
+          "displayUrl": "zsturman.github.io/ZSDynamics-V1.1"
+        },
+        "iconUrl": "/icons/favicons/zsturman.github.io.png"
+      }
+    ],
+    "assets": [],
+    "collection": {},
+    "workLogs": [
+      {
+        "id": "339aec94-4d3c-802c-a489-c5461b195777",
+        "title": "Created new project entry for ZSDynamics 1.1",
+        "entry": "Created new project entry for ZSDynamics 1.1",
+        "url": "https://www.notion.so/Created-new-project-entry-for-ZSDynamics-1-1-339aec944d3c802ca489c5461b195777",
+        "startTime": "2021-07-10",
+        "endTime": "2021-07-10T01:00:00.000-07:00",
+        "date": "2026-04-05T04:36:00.000-07:00",
+        "sessionType": [
+          "Planning",
+          "Organizing"
+        ],
+        "whatHappened": "Created new project entry for ZSDynamics 1.1 and added the 'Project Starter' milestones and tasks.",
+        "problems": null,
+        "nextStep": "Complete to do items",
+        "feelGoodAboutWork": 100.0,
+        "accomplishedWhatYouWanted": 100.0,
+        "durationMinutes": 60
+      }
+    ],
+    "articles": [],
+    "folderName": "zsdynamics_11_306aec94-4d3c-80ff-a96a-c3c51900e249",
+    "readme": {
+      "content": "# ZSDynamics Static Portfolio\n\nThis is a static version of the ZSDynamics portfolio website.\n\n## Running the Site\n\nTo serve this site locally:\n\n```bash\nnpx serve docs\n```\n\nOr if you have serve installed globally:\n\n```bash\nserve docs\n```\n\nThen open your browser to the URL shown in the terminal (usually http://localhost:3000).\n\n## Structure\n\n- `index.html` - Home page\n- `/about/` - About page\n- `/portfolio/` - Portfolio page  \n- `/data_analytics/` - Data Analytics page\n- `/back_end/` - Back-end Developer page\n- `/front_end/` - Front-end Developer page\n- `/contact/` - Contact page\n- `/sliding_scale_project_page/` - Sliding Scale Project page\n- `/battle_fictional_character/` - Character Battle page\n- `/periodic_table/` - Periodic Table page\n- `/static/` - Static assets (CSS, JS, images)\n- `/dashboard_data/` - Data files for dashboard\n- `/dash_app/` - Dash application (if available)\n\n## Note\n\nThis static version removes server-side functionality like:\n- Email sending\n- Form submissions  \n- Database interactions\n- Session management\n\nThe contact forms and subscription forms are preserved for styling but will not function.",
+      "sourceUrl": "https://github.com/ZSturman/ZSDynamics-V1.1/blob/main/docs/README.md"
+    }
+  }
+}

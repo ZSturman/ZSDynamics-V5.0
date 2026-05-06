@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "kind": "projects.detail",
+  "generated_at": "2026-05-06T02:07:33.252345+00:00",
+  "data": {
+    "id": "306aec94-4d3c-800f-8fd6-c80ad845b5df",
+    "slug": "mediledger",
+    "href": "/projects/mediledger",
+    "title": "MediLedger",
+    "name": "MediLedger",
+    "subtitle": "Widget-first medication tracking built for everyday reliability.",
+    "summary": "MediLedger is designed around a simple idea: most of what you need to do with your medication shouldn’t require opening an app. With interactive widgets, you can log a full or half dose, check how many pills you have left, see when your refill is coming up, and set up different widgets for different medications. The app handles both prescription and non-prescription meds, tracks strength and dosage, and keeps a full history of what you’ve taken. Everything syncs through SwiftData across iPhone, iPad, and Mac, and it works offline when it needs to. You can customize what each widget shows, set up alerts for refills, and rely on automatic calculations to keep your supply accurate without any extra effort.",
+    "oneLiner": "A medication management tool centered on interactive Home Screen widgets. Users can log doses, track supply, monitor refills, and sync across Apple devices—moving medication tracking from the app to the widget for faster, simpler daily adherence.",
+    "domain": "Technology",
+    "category": "Application",
+    "status": "Complete",
+    "phase": "Regular updates",
+    "featured": false,
+    "featuredOrder": 4,
+    "createdAt": "2025-08-06",
+    "updatedAt": "2026-03-08",
+    "isPublic": true,
+    "tags": [
+      "iOS",
+      "Swift",
+      "Widgets",
+      "Health"
+    ],
+    "mediums": [],
+    "genres": [],
+    "topics": [],
+    "subjects": [],
+    "description": "",
+    "story": "",
+    "images": {
+      "icon": "thumbnail.png",
+      "banner": "banner.png",
+      "thumbnail": "thumbnail.png"
+    },
+    "resources": [
+      {
+        "type": "github",
+        "label": "Repo",
+        "url": "https://github.com/ZSturman/MediLedger"
+      }
+    ],
+    "assets": [],
+    "collection": {},
+    "workLogs": [
+      {
+        "id": "339aec94-4d3c-8083-bc02-f2cedc4a098d",
+        "title": "Created new project entry for MediLedger",
+        "entry": "Created new project entry for MediLedger",
+        "url": "https://www.notion.so/Created-new-project-entry-for-MediLedger-339aec944d3c8083bc02f2cedc4a098d",
+        "startTime": "2025-08-06",
+        "endTime": "2025-08-06T01:00:00.000-07:00",
+        "date": "2026-04-05T04:37:00.000-07:00",
+        "sessionType": [
+          "Planning",
+          "Organizing"
+        ],
+        "whatHappened": "Created new project entry for MediLedger and added the 'Project Starter' milestones and tasks.",
+        "problems": null,
+        "nextStep": "Complete to do items",
+        "feelGoodAboutWork": 100.0,
+        "accomplishedWhatYouWanted": 100.0,
+        "durationMinutes": 60
+      }
+    ],
+    "articles": [],
+    "folderName": "mediledger_306aec94-4d3c-800f-8fd6-c80ad845b5df",
+    "readme": {
+      "content": "# MediLedger\n\nA **widget-first** iOS medication tracking app built with SwiftUI and WidgetKit. MediLedger helps you manage prescriptions and supplements with powerful home screen widgets for quick medication logging and at-a-glance tracking.\n\n## Features\n\n### 🎯 Widget-First Design\n- **Interactive Home Screen Widgets**: Take medications, log half-doses, and refill prescriptions directly from your home screen\n- **Customizable Widget Displays**: Choose from 15+ different data displays (pills remaining, daily average, streak tracking, etc.)\n- **Real-Time Updates**: Widgets automatically update to reflect your latest medication intake\n\n### 💊 Medication Management\n- **Dual Medication Types**:\n  - **Prescription**: Full refill tracking, days supply calculation, pharmacy information\n  - **Non-Prescription**: Supplements, OTC medications, serving sizes, expiration dates\n- **Flexible Dosing**: Log full doses, half doses, or custom amounts\n- **Smart Tracking**: Automatic pill count updates, mg/dose tracking, and supply calculations\n\n### 📊 Goal Tracking & Adherence\n- **Intake Goals**: Set daily, weekly, or monthly adherence goals\n- **Streak Tracking**: Monitor consecutive days of meeting your goals\n- **Progress Monitoring**: Real-time progress bars and completion tracking\n- **Specific Day Targeting**: Set goals for specific days of the week\n\n### 📈 Analytics & Insights\n- **7-Day Averages**: Track daily intake patterns over the past week\n- **Refill Analytics**: Monitor average daily usage since last refill\n- **Weekly Totals**: See cumulative intake for the current week\n- **Historical Logs**: Complete medication history with timestamps\n\n### 📤 Data Export\n- **CSV Export**: Export medication logs for medical records or analysis\n- **JSON Export**: Machine-readable format for data portability\n- **Per-Medication or All**: Export individual medication logs or complete history\n\n## Technical Stack\n\n- **SwiftUI** & **SwiftData**: Modern Apple frameworks for UI and data persistence\n- **WidgetKit**: Interactive home screen widgets with App Intents\n- **AppIntents**: Deep integration for Siri shortcuts and widget actions\n- **Swift 5.0**: Type-safe, modern Swift codebase\n\n## Architecture\n\n### Core Models\n- `Med`: SwiftData model for medications with prescription/non-prescription support\n- `MedLog`: Timestamped intake records with dosage tracking\n- `MedEntity`: App Entity for widget integration and Siri support\n- `IntakeGoal`: Goal tracking with period-based adherence\n\n### Widget System\n- `MedicationWidgetView`: Modular widget displays with 15+ configurable views\n- `AppIntent`: Interactive widget actions (Take, TakeHalf, Refill)\n- `MedTrackerWidget`: Widget timeline provider with real-time medication data\n\n### Views\n- `ContentView`: Master-detail medication list\n- `MedicationDetailView`: Comprehensive medication information and actions\n- `NewMedicationSheet`: Medication creation with progressive disclosure\n- `MedicationGoalConfigView`: Goal setup and tracking\n\n## Widget Display Options\n\nThe app supports **15+ customizable widget displays**:\n\n### Universal Displays\n- Pills Per Day Left\n- Last Intake Time\n- Total Pills Left\n- Today's Total Intake\n- 7-Day Average\n- Pills Remaining\n- This Week's Intake\n\n### Goal-Based Displays\n- Goal Progress (completed/target)\n- Adherence Streak (consecutive days)\n- Doses Left Today\n\n### Prescription-Specific\n- Average Since Refill\n- Days Until Refill\n- Refills Remaining\n\n### Non-Prescription Specific\n- Bottle Quantity Remaining\n\n## Getting Started\n\n### Requirements\n- iOS 18.4+\n- Xcode 16.0+\n- Swift 5.0+\n\n### Installation\n1. Clone the repository:\n   ```bash\n   git clone https://github.com/ZSturman/MediLedger.git\n   ```\n\n2. Open `MedTracker.xcodeproj` in Xcode\n\n3. Build and run on your device or simulator\n\n### Adding Your First Medication\n\n1. Tap **\"Add Medication\"** button\n2. Enter medication name and details\n3. Choose **Prescription** or **Non-Prescription** type\n4. Configure supply and dosage information\n5. (Optional) Set an intake goal for adherence tracking\n6. Tap **\"Save\"**\n\n### Configuring Widgets\n\n1. Long-press on your home screen\n2. Tap the **+** button\n3. Search for **\"MediLedger\"**\n4. Add the small widget\n5. Tap the widget to configure:\n   - Select a medication\n   - Choose primary display metric\n   - Choose secondary display metric\n6. Tap outside to save\n\n### Taking Medications via Widget\n\n- **Full Dose**: Tap the pill icon\n- **Half Dose**: Tap the half-pill icon\n- **Refill**: Use the refill action in the widget\n\n## Project Structure\n\n```\nMedTracker/\n├── MedTracker/                 # Main app target\n│   ├── Models/                 # SwiftData models\n│   │   ├── Medication.swift    # Core medication model\n│   │   ├── MedEntity.swift     # App Entity for widgets\n│   │   └── MedicationActions.swift # Medication business logic\n│   ├── Views/                  # SwiftUI views\n│   │   ├── MedicationDetailView.swift\n│   │   ├── MedicationGoalConfigView.swift\n│   │   └── MedicationActionButtons.swift\n│   ├── Support/                # Helpers and utilities\n│   │   ├── Enums.swift         # App enumerations\n│   │   └── MedicationLogExporter.swift\n│   ├── ContentView.swift       # Main list view\n│   ├── NewMedicationSheet.swift # Add medication form\n│   ├── Intents.swift           # App Intent implementations\n│   └── SharedModel.swift       # Shared ModelContainer\n│\n├── MedTrackerWidget/           # Widget extension\n│   ├── MedTrackerWidget.swift  # Widget definition\n│   ├── MedicationWidgetView.swift # Widget UI components\n│   ├── AppIntent.swift         # Widget configuration\n│   └── MedTrackerWidgetBundle.swift\n│\n├── MedTrackerTests/            # Unit tests\n└── MedTrackerUITests/          # UI tests\n```\n\n## Testing\n\nThe app includes comprehensive test coverage:\n\n- **Unit Tests**: Medication logic, goal tracking, calculations\n- **UI Tests**: Navigation, form validation, user interactions\n- **Launch Tests**: Screenshots, orientation, accessibility\n\nRun tests in Xcode: `⌘U`\n\n## Data Persistence\n\n- **SwiftData**: All medication data is stored locally using SwiftData\n- **Shared Container**: Widget extension shares data with main app via shared model container\n- **Privacy-First**: No cloud sync, all data stays on device\n\n## Future Enhancements\n\n- [ ] Scheduled dose reminders\n- [ ] Multiple daily dose tracking\n- [ ] Medication interaction warnings\n- [ ] PDF prescription export\n- [ ] Apple Watch companion app\n- [ ] Medium/Large widget sizes\n\n## Contributing\n\nContributions are welcome! Please feel free to submit a Pull Request.\n\n## License\n\nThis project is available under the MIT License.\n\n## Acknowledgments\n\nBuilt with SwiftUI, SwiftData, and WidgetKit on iOS 18.4+\n\n---\n\n**Note**: This is a personal health tracking tool. Always consult with healthcare professionals for medical advice.",
+      "sourceUrl": "https://github.com/ZSturman/MediLedger/blob/main/README.md"
+    }
+  }
+}

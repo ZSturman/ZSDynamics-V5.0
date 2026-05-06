@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "kind": "articles.detail",
+  "generated_at": "2026-05-06T02:07:33.259824+00:00",
+  "data": {
+    "slug": "how-i-sync-my-portfolio-using-notion",
+    "title": "How I Sync My Portfolio Using Notion",
+    "summary": "How a portfolio can be built as a publishing pipeline, with Notion as the source of truth, n8n creating a JSON handoff, Python scripts normalizing content and media, and Next.js exporting the final static site. The result is a cleaner separation between editing, transformation, and publishing, making the site more predictable and maintainable.",
+    "oneLiner": "A portfolio architecture that turns structured project data into a static site through a local publishing pipeline.",
+    "publishedAt": null,
+    "updatedAt": "2026-04-08",
+    "series": null,
+    "tags": [
+      "Automation",
+      "CI/CD",
+      "Firebase",
+      "GitHub Actions",
+      "Next.js",
+      "Notion",
+      "Python",
+      "n8n"
+    ],
+    "projectIds": [],
+    "sourceUrl": "https://github.com/ZSturman/Articles/blob/main/articles/how-i-sync-my-portfolio-using-notion/index.md",
+    "href": "/articles/how-i-sync-my-portfolio-using-notion",
+    "coverImage": "/articles/how-i-sync-my-portfolio-using-notion/images/Hero_image.png",
+    "linkPreviews": [
+      {
+        "url": "https://zachary-sturman.com/articles/how-i-use-notion-to-track-my-projects",
+        "kind": "card",
+        "provider": "zachary-sturman.com",
+        "title": "How I Use Notion to Ingest, Organize, and Track My Projects",
+        "siteName": "Zachary Sturman",
+        "hostname": "zachary-sturman.com",
+        "displayUrl": "zachary-sturman.com/articles/how-i-use-notion-to-track-my-projects",
+        "description": "This Notion setup is a guided project intake workflow rather than a simple notes system: each project starts from a template, highlights the highest-priority next step, and builds toward execution, portfolio readiness, and future automation. By checking key setup steps automatically and separating projects, tasks, assets, resources, and milestones into linked systems, it reduces friction and makes the workflow easier to manage as it scales.",
+        "image": "https://zacharysturman.com/articles/how-i-use-notion-to-track-my-projects/images/cover_image.png"
+      }
+    ]
+  }
+}

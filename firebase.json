@@ -9,6 +9,18 @@
     "cleanUrls": true,
     "trailingSlash": false,
 
+    "headers": [
+      {
+        "source": "/api/**",
+        "headers": [
+          { "key": "Access-Control-Allow-Origin", "value": "*" },
+          { "key": "Access-Control-Allow-Methods", "value": "GET, OPTIONS" },
+          { "key": "Cache-Control", "value": "public, max-age=300, s-maxage=600" },
+          { "key": "Content-Type", "value": "application/json; charset=utf-8" }
+        ]
+      }
+    ],
+
     "redirects": [
       {
         "source": "http://www.zachary-sturman.com/**",

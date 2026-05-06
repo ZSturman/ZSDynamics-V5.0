@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "kind": "projects.detail",
+  "generated_at": "2026-05-06T02:07:33.258599+00:00",
+  "data": {
+    "id": "33baec94-4d3c-80d2-8a69-deb2a742f972",
+    "slug": "google-sheets-production-schedule-desktop-app",
+    "href": "/projects/google-sheets-production-schedule-desktop-app",
+    "title": "Google Sheets Production Schedule Desktop App",
+    "name": "Google Sheets Production Schedule Desktop App",
+    "subtitle": "",
+    "summary": "Production Scheduling Desktop App helps teams manage jobs, work centers, and timelines from a single Google Sheet without needing a separate database. It provides a minimal desktop interface for viewing, editing, filtering, and visualizing production schedules through auto-generated Gantt charts. Built with React, Tauri, and Rust, it supports macOS, Windows, and Linux while remaining customizable for different production workflows.",
+    "oneLiner": "A cross-platform desktop app that turns Google Sheets into a lightweight production scheduling system with interactive Gantt charts and role-based access.",
+    "domain": "Technology",
+    "category": "Application",
+    "status": "Complete",
+    "phase": "Deprecated",
+    "featured": false,
+    "createdAt": "2024-11-30",
+    "updatedAt": "2025-09-30",
+    "isPublic": true,
+    "tags": [
+      "Manufacturing",
+      "Charts",
+      "Scheduling",
+      "Google Sheets",
+      "Gantt",
+      "React",
+      "Rust",
+      "Tauri",
+      "Windows",
+      "Machine Learning"
+    ],
+    "mediums": [],
+    "genres": [],
+    "topics": [],
+    "subjects": [],
+    "description": "",
+    "story": "",
+    "images": {
+      "icon": "icon.png",
+      "banner": "banner.png",
+      "thumbnail": "thumb.png",
+      "hero": "hero.png"
+    },
+    "resources": [
+      {
+        "type": "github",
+        "label": "Repo",
+        "url": "https://github.com/ZSturman/Google-Sheets-Production-Schedule-Desktop-App"
+      }
+    ],
+    "assets": [],
+    "collection": {},
+    "workLogs": [
+      {
+        "id": "34faec94-4d3c-80c1-98c7-c494b86f85a9",
+        "title": "Created new project entry for Google Sheets Production Schedule Desktop App",
+        "entry": "Created new project entry for Google Sheets Production Schedule Desktop App",
+        "url": "https://www.notion.so/Created-new-project-entry-for-Google-Sheets-Production-Schedule-Desktop-App-34faec944d3c80c198c7c494b86f85a9",
+        "startTime": "2024-11-30",
+        "endTime": "2024-11-30T01:00:00.000-08:00",
+        "date": "2026-04-27T02:23:00.000-07:00",
+        "sessionType": [
+          "Planning",
+          "Organizing"
+        ],
+        "whatHappened": "Created new project entry for Google Sheets Production Schedule Desktop App and added the 'Project Starter' milestones and tasks.",
+        "problems": null,
+        "nextStep": "Complete to do items",
+        "feelGoodAboutWork": 100.0,
+        "accomplishedWhatYouWanted": 100.0,
+        "durationMinutes": 60
+      },
+      {
+        "id": "34faec94-4d3c-8094-bfa3-c742c549c04d",
+        "title": "Project Completed",
+        "entry": "Project Completed",
+        "url": "https://www.notion.so/Project-Completed-34faec944d3c8094bfa3c742c549c04d",
+        "startTime": "2024-07-03",
+        "endTime": "2024-07-03T14:23:00.000-07:00",
+        "date": "2026-04-27T02:23:00.000-07:00",
+        "sessionType": [
+          "Planning",
+          "Build"
+        ],
+        "whatHappened": "Finalized Project",
+        "problems": null,
+        "nextStep": null,
+        "durationMinutes": 863
+      }
+    ],
+    "articles": [],
+    "folderName": "google_sheets_production_schedule_desktop_app_33baec94-4d3c-80d2-8a69-deb2a742f972",
+    "readme": {
+      "content": "# Production Scheduling Desktop App\n\nProduction Scheduling Desktop App leverages Google Sheets as a database to streamline production scheduling with cross-platform support, interactive Gantt charts, and role-based access control.\n\n## Overview\nThis app streamlines production scheduling by managing all schedule information in one Google Sheet and displaying progress with interactive Gantt charts.\n\n## Features\n- **Cross-Platform:** Runs on macOS, Windows, and Linux.\n- **Google Sheets Integration:** No additional database needed.\n- **Scheduling & Gantt Charts:** Auto generates visual timelines.\n- **Secure Authentication:** Uses a secure JSON key from Google Cloud.\n- **User Role Management:** Customizes view and access based on roles.\n- **Flexibility:** Minimal UI with optional extensions.\n\n\n## Installation & Setup\n\n1. Download the Application \n\n    - This application is designed for company-specific use, with builds available on their hardware. However, the source code is fully open for anyone to use and modify.\n    - To get started, clone the repository, install the dependencies, and build the app following the instructions below.\n    - To customize the app for your specific needs:\n        - Edit src/data/tabs.tsx to adjust the tabs configuration to match your Google Sheet columns.\n        - Modify src/data/defaults.tsx to align with your data. These changes will update how initial Google Sheets are generated and structured in the app.\n\n2. Obtain Google Sheets Credentials\n\n    - Follow the instructions below in Managing Your Google Sheets Credentials to get a .json file from Google Cloud.\n    - Drag and drop that file into the app or paste its contents into the appropriate screen.\n\n3. Enter Spreadsheet ID\n\n    - Inside the app, once credentials are loaded, provide the ID of the Google Spreadsheet you want to use.\n    - Ensure that the service account email address (found in your .json file) has permission to edit the Google Sheet.\n\n4. Start Scheduling\n\n    - The app will load your Sheet data, show you a table of jobs, and generate Gantt charts.\n\nThat’s it. You can now view and manage your production schedule.\n\n\n## Developer Setup Instructions\n**Prerequisites:** Node.js (16+), Yarn/npm, and the Rust toolchain.\n\nClone the repository\n\n```bash\ngit clone https://github.com/ZSturman/rods-sheets_v2.git\n```\n\nInstall dependencies\n\n``` bash\nnpm install\n```\n\nBuild the app\n\n```     bash\nnpm run tauri build\n```\n\nRun in development mode\n\n``` bash\nnpm run tauri dev\n```\n\n_Edit the React frontend in the src directory or adjust Tauri configuration in tauri.conf.json as needed._\n\n## Project Structure\n- **src-tauri:** Rust-based backend for the desktop wrapper.\n- **src:** React frontend for the user interface.\n\n## Using the App\n- View, edit, and filter production jobs.\n- See real-time updates in Gantt charts.\n- Export Gantt charts as images or PDFs.\n\n## Managing Google Sheets Credentials\n1. Visit Google Cloud Console.\n2. Create/select a project and enable the Google Sheets API.\n3. Create a service account and download the JSON key.\n4. Securely import the key to the app.\n\n## Work Centers & Schedules\nThe app groups production jobs by work center for easy filtering and tracking.\n\n## Further Customization\n- Add custom columns for extra job details.\n- Modify Gantt chart behavior.\n- Implement additional user roles and permissions.\n- Enhance the UI with new components.\n\n## Contributing\n- Fork the repository and create a new branch.\n- Make your changes, test them, and submit a pull request following our code style.\n- Be respectful and constructive.\n\n## License\nThis project is licensed under the MIT License.",
+      "sourceUrl": "https://github.com/ZSturman/Google-Sheets-Production-Schedule-Desktop-App/blob/main/README.md"
+    }
+  }
+}

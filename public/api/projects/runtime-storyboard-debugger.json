@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "kind": "projects.detail",
+  "generated_at": "2026-05-06T02:07:33.256876+00:00",
+  "data": {
+    "id": "32eaec94-4d3c-80c9-b238-c8a9f0b1990e",
+    "slug": "runtime-storyboard-debugger",
+    "href": "/projects/runtime-storyboard-debugger",
+    "title": "Runtime Storyboard Debugger",
+    "name": "Runtime Storyboard Debugger",
+    "subtitle": "",
+    "summary": "Runtime Storyboard Debugger is a developer tool that reveals how a system actually works by transforming execution into a sequence of meaningful, replayable frames. It helps engineers start from real entry points, follow branches and side effects, understand why decisions were made, and traverse unfamiliar architecture as a clear causal flow instead of scattered code, logs, and traces.",
+    "oneLiner": "Turn unfamiliar codebases into navigable causal stories.",
+    "domain": "Technology",
+    "category": "Application",
+    "status": "Active",
+    "phase": "Development",
+    "featured": false,
+    "createdAt": "2026-03-25",
+    "updatedAt": "2026-04-25",
+    "isPublic": true,
+    "tags": [
+      "Debugging",
+      "Developer Tools",
+      "Code Exploration",
+      "Onboarding",
+      "Visualization"
+    ],
+    "mediums": [],
+    "genres": [],
+    "topics": [],
+    "subjects": [],
+    "description": "",
+    "story": "",
+    "images": {
+      "icon": "icon.png",
+      "banner": "banner.png",
+      "thumbnail": "thumbnail.png",
+      "hero": "hero.png"
+    },
+    "resources": [
+      {
+        "type": "github",
+        "label": "Repo",
+        "url": "https://github.com/ZSturman/Runtime-Storyboard-Debugger"
+      }
+    ],
+    "assets": [],
+    "collection": {},
+    "workLogs": [
+      {
+        "id": "32eaec94-4d3c-8097-8c33-f093879d5316",
+        "title": "Created new project entry for Runtime Storyboard Debugger",
+        "entry": "Created new project entry for Runtime Storyboard Debugger",
+        "url": "https://www.notion.so/Created-new-project-entry-for-Runtime-Storyboard-Debugger-32eaec944d3c80978c33f093879d5316",
+        "startTime": "2026-03-25T15:08:00.000-07:00",
+        "endTime": "2026-03-25T16:08:00.000-07:00",
+        "date": "2026-03-25T16:08:00.000-07:00",
+        "sessionType": [
+          "Planning",
+          "Organizing"
+        ],
+        "whatHappened": "Created new project entry for Runtime Storyboard Debugger and added the 'Project Starter' milestones and tasks.",
+        "problems": null,
+        "nextStep": "Push to github",
+        "feelGoodAboutWork": 1.0,
+        "accomplishedWhatYouWanted": 1.0,
+        "durationMinutes": 60
+      }
+    ],
+    "articles": [],
+    "folderName": "runtime_storyboard_debugger_32eaec94-4d3c-80c9-b238-c8a9f0b1990e",
+    "readme": {
+      "content": "# Runtime Storyboard Debugger\n\n> **Status:** pre-1.0, public roadmap. See [docs/release-plan.md](https://github.com/ZSturman/Runtime-Storyboard-Debugger/blob/main/docs/release-plan.md) and [docs/v1-scope.md](https://github.com/ZSturman/Runtime-Storyboard-Debugger/blob/main/docs/v1-scope.md) for what's shipping and what's deferred.\n\nUnderstand an unfamiliar codebase by turning repo structure and runtime behavior into a visible, navigable storyboard.\n\nRuntime Storyboard Debugger helps two kinds of people quickly:\n\n- Developers who need to debug or extend a repo they have never seen before\n- Stakeholders who want a readable walkthrough of what an app is doing\n\nInstead of hiding behind a loading spinner, RSD shows the pipeline in public:\n\n- repo ingestion\n- dependency discovery\n- static analysis\n- runtime instrumentation\n- execution\n- fallback analysis\n\nThen, when you trace a route or exported function, RSD shows the current step, current function or route, branch reasons, variable snapshots, side effects, waits, logs, returns, and failures as the run unfolds.\n\n## Why This Exists\n\nMost code understanding tools force a tradeoff:\n\n- static graphs show what could happen, but not what actually happened\n- debuggers show what happened, but not in a repo-first, onboarding-friendly way\n- LLM explanations can be helpful, but they often hide uncertainty or skip over the underlying evidence\n\nRSD is built to make the evidence visible first and the interpretation optional.\n\n## What It Does\n\n- Open a local path or a public GitHub repository URL\n- Detect routes, exported functions, startup files, package scripts, and likely user journeys automatically\n- Build flow graphs and unfinished-work findings before any runtime execution starts\n- Stream execution into a live timeline instead of waiting for one final result\n- Let you scrub backward and forward through already-captured steps\n- Fall back to the best available static analysis when runtime tracing stalls or fails\n- Offer optional LLM assistance for path discovery, explanations, uncertainty callouts, and alternate traces\n\n## How It Works\n\n1. Create a workspace from a local directory or GitHub URL.\n2. RSD ingests the repo and surfaces progress while it is happening.\n3. Static analysis discovers entry points, routes, startup paths, scripts, blockers, and likely journeys.\n4. You choose a route or exported function and provide inputs.\n5. RSD streams execution events into a live storyboard.\n6. If runtime tracing cannot complete, RSD keeps the experience useful by explaining the blocker and showing fallback analysis.\n\n## Quick Start\n\nRequires **Node.js 20+** and npm 10+.\n\n```bash\ngit clone https://github.com/ZSturman/Runtime-Storyboard-Debugger.git\ncd Runtime-Storyboard-Debugger\nnpm install\nnpm run dev\n```\n\n`npm run dev` starts the API server (with `examples/order-api` preloaded) and the Vite UI together. Open [http://localhost:3000](http://localhost:3000).\n\n### Advanced: run the pieces separately\n\nIf you need to target a different repo or port, run the two halves directly.\n\nTerminal 1 — API server:\n\n```bash\nnpx ts-node packages/core/src/cli/index.ts analyze <path-to-target> --port 3001\n```\n\nTerminal 2 — UI:\n\n```bash\ncd packages/ui\nRSD_API_URL=http://localhost:3001 npx vite\n```\n\n## Recommended Demo Targets\n\n- Local: `examples/order-api`\n- GitHub: `mjgs/minimal-express-typescript`\n- GitHub: `expressjs/express`\n- GitHub: `gothinkster/node-express-realworld-example-app`\n\nThe last two are especially useful for testing graceful fallback when runtime setup is incomplete or expensive.\n\n## UI Flow\n\n### Workspace Intake\n\n- Choose `Local path` or `GitHub URL`\n- Create a workspace\n- Watch ingestion and analysis progress instead of waiting on a blank state\n\n### Workspace Overview\n\n- Review likely journeys\n- Inspect detected entry points\n- Check runtime blockers and detected scripts\n- Optionally configure LLM assistance\n\n### Live Execution\n\n- Start an explicit trace for a supported route or exported function\n- Watch the timeline fill with status updates, calls, branches, waits, logs, snapshots, side effects, returns, and failures\n- Scrub through captured steps while the run is still active\n- Click any branch you didn't take to re-run with inputs aimed at it\n\n### Keyboard Shortcuts\n\n| Key | Action |\n| --- | --- |\n| `←` / `→` | Previous / next step |\n| `↑` / `↓` | Jump back / forward 5 steps |\n| `F` | Focus the flow map |\n| `/` | Filter the timeline |\n| `C` | Re-run with different inputs |\n| `B` | Back to workspace overview |\n| `?` | Open the keyboard shortcut sheet |\n| `Esc` | Close overlays / clear filter |\n\n### Fallback Analysis\n\n- If execution fails or stalls, RSD shows the blocker clearly\n- The flow graph, unfinished work, and other static artifacts stay visible so the workspace still feels trustworthy\n\n## Optional LLM Assistance\n\n> **Note for v1.0:** the LLM panel is being removed from the v1.0 launch and reintroduced post-launch. The code still exists in the current build but is not part of the supported flow. See [docs/release-plan.md](https://github.com/ZSturman/Runtime-Storyboard-Debugger/blob/main/docs/release-plan.md).\n\nLLM help is opt-in and session-only.\n\n- Providers: OpenAI, Anthropic, Gemini, OpenRouter\n- API keys are kept in memory only\n- Model lists are fetched when the provider supports it, otherwise curated defaults are shown\n- The LLM layer is used for explanation and prioritization, not for baseline repo ingestion or core tracing\n\n## Architecture\n\n```text\npackages/\n  core/\n    analyzer/        entry points, unfinished work, flow graphs\n    instrumenter/    runtime tracing + Babel instrumentation\n    server/          workspace sessions, GitHub ingestion, SSE streams, execution sessions, LLM endpoints\n    storyboard/      frame building + narration\n  ui/\n    src/components/  intake, loading, overview, live execution, step inspection\nexamples/\n  order-api/         sample local app for end-to-end exploration\ntests/\n  unit/              analyzer, instrumenter, storyboard, server helpers\n```\n\n## Screenshots And Diagrams\n\nFor a stronger GitHub presentation, add these assets near the top of the README:\n\n- A hero screenshot of the live execution workspace while a trace is actively streaming\n- A screenshot of the workspace overview showing journeys, entry points, blockers, and scripts\n- A short GIF of a run progressing from analysis to live execution to fallback\n- A simple architecture diagram showing `Ingest -> Analyze -> Trace -> Explain`\n\nIf you add screenshots, place them directly under `What It Does` and keep captions short and outcome-oriented.\n\n## Current Scope\n\nIncluded now:\n\n- local path ingestion\n- public GitHub repo ingestion\n- automatic entry-point and journey discovery\n- live execution streaming with inspectable steps\n- workspace-level fallback states\n- optional multi-provider LLM assist flow\n\nNot included yet:\n\n- private GitHub repo auth\n- automatic remote runtime execution without explicit user action\n- persistent LLM credential storage\n- multi-language analysis beyond JS/TS\n- IDE integration\n- collaborative annotations and sharing\n\n## Validation\n\n```bash\nnpm run lint\nnpm test\nnpm run build\n```\n\n## License\n\n[MIT](https://github.com/ZSturman/Runtime-Storyboard-Debugger/blob/main/LICENSE) © Zachary Sturman\n\n## Design Principles\n\n- Fast repo understanding beats hidden magic\n- Live progress beats vague loading states\n- Trustworthy fallback beats broken execution\n- Static evidence comes before LLM interpretation\n- Technical detail stays available without overwhelming non-developers",
+      "sourceUrl": "https://github.com/ZSturman/Runtime-Storyboard-Debugger/blob/main/README.md"
+    }
+  }
+}

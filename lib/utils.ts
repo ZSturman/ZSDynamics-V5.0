@@ -2,6 +2,8 @@ import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 import React from "react"
 
+import { preferHostedUrl } from "./media-url-map"
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
@@ -130,7 +132,7 @@ export function getRenderableProjectPreviewPath(path?: string | null): string | 
   }
 
   if (path.includes("-optimized") || path.includes("-thumb") || path.includes("-placeholder")) {
-    return path
+    return preferHostedUrl(path)
   }
 
   if (!path.startsWith("/projects/")) {
@@ -138,15 +140,15 @@ export function getRenderableProjectPreviewPath(path?: string | null): string | 
   }
 
   if (isVideoFile(path)) {
-    return path.replace(/\.[^.]+$/, "-optimized.mp4")
+    return preferHostedUrl(path.replace(/\.[^.]+$/, "-optimized.mp4"))
   }
 
   if (isImageFile(path)) {
     const ext = getOptimizedImageExt(path)
-    return path.replace(/\.[^.]+$/, `-optimized${ext}`)
+    return preferHostedUrl(path.replace(/\.[^.]+$/, `-optimized${ext}`))
   }
 
-  return path
+  return preferHostedUrl(path)
 }
 
 /**
@@ -176,17 +178,17 @@ export function getOptimizedMediaPath(filename: string | { path?: string } | und
   // Check if it's a video
   if (isVideoFile(resolvedFilename)) {
     // Videos get optimized to .mp4
-    return `${folderPath}/${stem}-optimized.mp4`
+    return preferHostedUrl(`${folderPath}/${stem}-optimized.mp4`)
   }
   
   // SVGs stay as .svg; raster images get optimized to .webp
   if (isImageFile(resolvedFilename)) {
     const ext = getOptimizedImageExt(resolvedFilename)
-    return `${folderPath}/${stem}-optimized${ext}`
+    return preferHostedUrl(`${folderPath}/${stem}-optimized${ext}`)
   }
   
   // For other files, return as-is
-  return `${folderPath}/${resolvedFilename}`
+  return preferHostedUrl(`${folderPath}/${resolvedFilename}`)
 }
 
 export function getCategory(type?: string, path?: string) {

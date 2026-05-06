@@ -1,0 +1,89 @@
+{
+  "schema_version": 1,
+  "kind": "projects.detail",
+  "generated_at": "2026-05-06T02:07:33.256540+00:00",
+  "data": {
+    "id": "31faec94-4d3c-80a8-9ab6-e791da057b67",
+    "slug": "between-jobs",
+    "href": "/projects/between-jobs",
+    "title": "Between Jobs",
+    "name": "Between Jobs",
+    "subtitle": "",
+    "summary": "Between Jobs follows a group of roommates who are all trying, in different ways, to avoid the simple problem in front of them: they need rent money. The pilot moves through a failed family video call, a disastrous job interview, and an illegal mimosa stand, using each character’s flawed logic to push the situation further out of control. It reads like a rough, character-driven sitcom setup, where the comedy comes less from a clean plan and more from watching everyone make the wrong choice with complete confidence.",
+    "oneLiner": "A sitcom pilot about four broke roommates trying to make rent, where every shortcut turns into a bigger problem than the one they started with.",
+    "domain": "Narrative",
+    "category": "Screenplay",
+    "status": "Complete",
+    "phase": "Archived",
+    "featured": false,
+    "createdAt": "2017-01-11",
+    "updatedAt": "2017-02-10",
+    "isPublic": true,
+    "tags": [
+      "Screenwriting",
+      "Comedy",
+      "Sitcom",
+      "Roommates"
+    ],
+    "mediums": [],
+    "genres": [],
+    "topics": [],
+    "subjects": [],
+    "description": "",
+    "story": "",
+    "images": {
+      "banner": "bannner.png",
+      "thumbnail": "thumb.png",
+      "hero": "hero.png"
+    },
+    "resources": [],
+    "assets": [
+      {
+        "id": "351aec94-4d3c-80c2-9dbd-cd9b435cad91",
+        "label": "Between Jobs Screenplay",
+        "order": 0,
+        "type": "text",
+        "filePath": "Between Jobs S.1 E.1 Pilot.pdf",
+        "thumbnail": "thumb - pdf.png"
+      }
+    ],
+    "collection": {},
+    "workLogs": [
+      {
+        "id": "351aec94-4d3c-8076-a987-f095df9508a3",
+        "title": "Complete Between Jobs. 'Archived'",
+        "entry": "Complete Between Jobs. 'Archived'",
+        "url": "https://www.notion.so/Complete-Between-Jobs-Archived-351aec944d3c8076a987f095df9508a3",
+        "startTime": "2017-02-10",
+        "endTime": "2017-02-10T01:00:00.000-08:00",
+        "date": "2026-04-29T08:25:00.000-07:00",
+        "sessionType": [
+          "Organizing"
+        ],
+        "whatHappened": "Finalized project entry for Between Jobs.",
+        "problems": null,
+        "nextStep": null,
+        "durationMinutes": 60
+      },
+      {
+        "id": "351aec94-4d3c-80e0-ba6f-d8c512768780",
+        "title": "Created new project entry for Between Jobs",
+        "entry": "Created new project entry for Between Jobs",
+        "url": "https://www.notion.so/Created-new-project-entry-for-Between-Jobs-351aec944d3c80e0ba6fd8c512768780",
+        "startTime": "2017-01-11",
+        "endTime": "2017-01-11T01:00:00.000-08:00",
+        "date": "2026-04-29T08:25:00.000-07:00",
+        "sessionType": [
+          "Planning",
+          "Build"
+        ],
+        "whatHappened": "Created new project entry for Between Jobs and added the 'Project Starter' milestones and tasks.",
+        "problems": null,
+        "nextStep": null,
+        "durationMinutes": 60
+      }
+    ],
+    "articles": [],
+    "folderName": "between_jobs_31faec94-4d3c-80a8-9ab6-e791da057b67"
+  }
+}

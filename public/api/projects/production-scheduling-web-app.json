@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "kind": "projects.detail",
+  "generated_at": "2026-05-06T02:07:33.259008+00:00",
+  "data": {
+    "id": "34faec94-4d3c-80bf-928b-e0e32ba51cc8",
+    "slug": "production-scheduling-web-app",
+    "href": "/projects/production-scheduling-web-app",
+    "title": "Production-Scheduling-Web-App",
+    "name": "Production-Scheduling-Web-App",
+    "subtitle": "",
+    "summary": "This project helps manufacturing teams manage production schedules across organizations, work centers, holidays, and user roles. It integrates with Google Sheets for production data, calculates schedules around capacity constraints, and provides a Gantt chart view for visual planning. Jobs can also be locked to fixed time slots, giving planners more control over real-world scheduling changes.",
+    "oneLiner": "A web-based manufacturing scheduling system that connects production planning, capacity-aware scheduling, and Google Sheets data in a multi-tenant Next.js app.",
+    "domain": "Technology",
+    "category": "Application",
+    "status": "Dormant",
+    "phase": "Backburner",
+    "featured": false,
+    "createdAt": "2025-05-04",
+    "updatedAt": "2024-09-30",
+    "isPublic": true,
+    "tags": [
+      "Production",
+      "Scheduling",
+      "Next.js",
+      "React",
+      "Firebase",
+      "Google Sheets"
+    ],
+    "mediums": [],
+    "genres": [],
+    "topics": [],
+    "subjects": [],
+    "description": "",
+    "story": "",
+    "images": {
+      "icon": "icon.png",
+      "banner": "banner.png",
+      "thumbnail": "thumb.png",
+      "hero": "hero.png"
+    },
+    "resources": [
+      {
+        "type": "github",
+        "label": "Repo",
+        "url": "https://github.com/ZSturman/Production-Scheduling-Web-App"
+      },
+      {
+        "type": "github",
+        "label": "Repo",
+        "url": "https://github.com/ZSturman/Google-Sheets-Production-Schedule-Desktop-App"
+      }
+    ],
+    "assets": [],
+    "collection": {},
+    "workLogs": [],
+    "articles": [],
+    "folderName": "production_scheduling_web_app_34faec94-4d3c-80bf-928b-e0e32ba51cc8",
+    "readme": {
+      "content": "# Manufacturing Production Scheduling System\n\nA web-based manufacturing scheduling application built with Next.js, Firebase, and Google Sheets integration.\n\n## Quick Start\n\n```bash\n# Install dependencies\nnpm install\n\n# Copy environment file and configure\ncp .env.example .env.local\n\n# Start development server\nnpm run dev\n```\n\n## Environment Setup\n\n### Required Environment Variables\n\nCreate a `.env.local` file with the following variables:\n\n```env\n# Firebase (get from Firebase Console > Project Settings)\nNEXT_PUBLIC_FIREBASE_API_KEY=...\nNEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=...\nNEXT_PUBLIC_FIREBASE_PROJECT_ID=...\nNEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=...\nNEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=...\nNEXT_PUBLIC_FIREBASE_APP_ID=...\n\n# Firebase Admin (service account JSON, base64 encoded)\nGOOGLE_APPLICATION_CREDENTIALS_JSON=...\n\n# Encryption key for Google Sheets credentials\nENCRYPTION_KEY=...\n```\n\n### Generate Encryption Key\n\n```bash\nnode -e \"console.log(require('crypto').randomBytes(32).toString('hex'))\"\n```\n\n### Base64 Encode Service Account\n\n```bash\ncat service-account.json | base64\n```\n\n## Features\n\n- **Multi-tenant Organizations** - Each organization has isolated data\n- **Google Sheets Integration** - Read/write production data from Google Sheets\n- **Production Scheduling** - Automatic schedule calculation with work center capacity\n- **Gantt Chart View** - Visual timeline of production jobs\n- **Job Locking** - Lock jobs to fixed time slots\n- **Holiday Management** - Configure holidays that affect scheduling\n- **Role-Based Access** - Admin, Planner, and Viewer roles\n\n## Architecture\n\nThis is a unified Next.js application that handles both frontend and API routes:\n\n```\nclient-next/\n├── src/\n│   ├── app/                 # Next.js App Router pages\n│   │   ├── api/             # API route handlers (server-side)\n│   │   ├── (auth)/          # Authentication pages\n│   │   ├── (dashboard)/     # Main application pages\n│   │   └── (onboarding)/    # Setup/onboarding pages\n│   ├── contexts/            # React contexts (Auth, Data)\n│   ├── lib/\n│   │   ├── server/          # Server-only code (Firebase Admin, Sheets API)\n│   │   └── firebase.ts      # Client-side Firebase\n│   └── types/               # TypeScript type definitions\n```\n\n## Deployment\n\n### Firebase Hosting + Cloud Run\n\n1. Build the Docker image:\n```bash\ndocker build -t manufacturing-scheduler .\n```\n\n2. Deploy to Cloud Run:\n```bash\ngcloud run deploy manufacturing-scheduler \\\n  --image gcr.io/YOUR_PROJECT/manufacturing-scheduler \\\n  --platform managed \\\n  --region us-central1 \\\n  --allow-unauthenticated\n```\n\n3. Configure Firebase Hosting to route to Cloud Run:\n```bash\nfirebase deploy --only hosting\n```\n\n### Environment Variables in Cloud Run\n\nSet these in the Cloud Run console or via CLI:\n- `ENCRYPTION_KEY`\n- `GOOGLE_APPLICATION_CREDENTIALS_JSON` (optional if using Cloud Run service account)\n\n## Google Sheets Setup\n\n### Prerequisites\n\n1. **Enable Google Sheets API** in your Google Cloud project:\n   - Go to [Google Cloud Console](https://console.cloud.google.com/)\n   - Navigate to **APIs & Services** > **Library**\n   - Search for \"Google Sheets API\" and click **Enable**\n   - ⚠️ **This step is REQUIRED** - the service account won't work without it!\n\n2. **Create a Service Account**:\n   - Go to **IAM & Admin** > **Service Accounts**\n   - Create a new service account with Editor role\n   - Download the JSON key file\n\n3. **Create and Share Google Sheet**:\n   - Create a Google Sheet with these tabs:\n     - **Products** - Production job data\n     - **WorkCenters** - Manufacturing work centers and schedules\n     - **Holidays** - Company holidays\n     - **Settings** - Application settings (optional)\n   - Share the sheet with your service account email (from JSON file)\n   - Grant Editor access\n\nSee [SHEETS_TEMPLATE.md](https://github.com/ZSturman/Production-Scheduling-Web-App/blob/main/docs/SHEETS_TEMPLATE.md) for detailed setup instructions and column requirements.\n\n## Development\n\n```bash\n# Run development server\nnpm run dev\n\n# Type checking\nnpm run typecheck\n\n# Linting\nnpm run lint\n\n# Build for production\nnpm run build\n```\n\n## License\n\nPrivate - All rights reserved.",
+      "sourceUrl": "https://github.com/ZSturman/Production-Scheduling-Web-App/blob/main/README.md"
+    }
+  }
+}

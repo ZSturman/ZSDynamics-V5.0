@@ -15,7 +15,7 @@
     "featured": true,
     "featuredOrder": 6,
     "createdAt": "2026-02-03T09:00:00.000-08:00",
-    "updatedAt": "2026-04-01",
+    "updatedAt": "2026-04-12",
     "isPublic": true,
     "tags": [
       "Notion",
@@ -35,8 +35,8 @@
     "story": "",
     "images": {
       "icon": "icon.png",
-      "thumbnail": "thumbnail.png",
       "banner": "banner.png",
+      "thumbnail": "thumbnail.png",
       "hero": "hero.png"
     },
     "resources": [],
@@ -271,7 +271,7 @@
     "featured": true,
     "featuredOrder": 3,
     "createdAt": "2026-01-18",
-    "updatedAt": "2026-02-26",
+    "updatedAt": "2026-03-16",
     "isPublic": true,
     "tags": [
       "Python",
@@ -347,7 +347,7 @@
     "featured": true,
     "featuredOrder": 1,
     "createdAt": "2025-07-03",
-    "updatedAt": "2026-01-10",
+    "updatedAt": "2026-03-08",
     "isPublic": true,
     "tags": [
       "iOS",
@@ -366,10 +366,10 @@
     "description": "",
     "story": "",
     "images": {
-      "poster": "poster.png",
       "icon": "TopNote AppIcon v2-watchOS-Default-1088x1088@1x.png",
-      "thumbnail": "thumbnail.png",
       "banner": "banner.png",
+      "thumbnail": "thumbnail.png",
+      "poster": "poster.png",
       "hero": "hero.png"
     },
     "resources": [
@@ -445,8 +445,8 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "thumbnail.png",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "thumbnail": "thumbnail.png"
     },
     "resources": [
       {
@@ -460,8 +460,8 @@
           "hostname": "zsturman.github.io",
           "displayUrl": "zsturman.github.io/ZSDynamics-V2.0",
           "description": "Explore Zachary Sturman's Software Engineering portfolio.",
-          "image": "/projects/zsdynamics_20_306aec94-4d3c-800b-9d7d-ed0c879ab5b3/previews/zsturman.github.io-f992a52961cf.png",
-          "imageSource": "capture"
+          "image": "https://www.ZSdynamics.com/og_img.png'",
+          "imageSource": "metadata"
         },
         "iconUrl": "/icons/favicons/zsturman.github.io.png"
       },
@@ -513,7 +513,7 @@
     "featured": false,
     "featuredOrder": 4,
     "createdAt": "2025-08-06",
-    "updatedAt": null,
+    "updatedAt": "2026-03-08",
     "isPublic": true,
     "tags": [
       "iOS",
@@ -529,8 +529,8 @@
     "story": "",
     "images": {
       "icon": "thumbnail.png",
-      "thumbnail": "thumbnail.png",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "thumbnail": "thumbnail.png"
     },
     "resources": [
       {
@@ -599,8 +599,8 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "E4690E5D-3901-4E26-A237-8AA0FF26EE76.png",
       "banner": "banner.png",
+      "thumbnail": "E4690E5D-3901-4E26-A237-8AA0FF26EE76.png",
       "hero": "hero.png"
     },
     "resources": [],
@@ -655,7 +655,7 @@
     "featured": false,
     "featuredOrder": 5,
     "createdAt": "2020-12-01",
-    "updatedAt": "2025-12-17",
+    "updatedAt": "2026-03-24",
     "isPublic": true,
     "tags": [
       "Flask",
@@ -671,10 +671,10 @@
     "description": "",
     "story": "",
     "images": {
-      "poster": "poster.gif",
       "icon": "logo.png",
+      "banner": "banner.png",
       "thumbnail": "thumbnail.png",
-      "banner": "banner.png"
+      "poster": "poster.gif"
     },
     "resources": [],
     "assets": [],
@@ -710,8 +710,8 @@
                   "hostname": "zsturman.github.io",
                   "displayUrl": "zsturman.github.io/ZSDynamics-V2.0",
                   "description": "Explore Zachary Sturman's Software Engineering portfolio.",
-                  "image": "/projects/zsdynamics_20_306aec94-4d3c-800b-9d7d-ed0c879ab5b3/previews/zsturman.github.io-f992a52961cf.png",
-                  "imageSource": "capture"
+                  "image": "https://www.ZSdynamics.com/og_img.png'",
+                  "imageSource": "metadata"
                 },
                 "iconUrl": "/icons/favicons/zsturman.github.io.png"
               },
@@ -732,8 +732,8 @@
                 "hostname": "zsturman.github.io",
                 "displayUrl": "zsturman.github.io/ZSDynamics-V2.0",
                 "description": "Explore Zachary Sturman's Software Engineering portfolio.",
-                "image": "/projects/zsdynamics_20_306aec94-4d3c-800b-9d7d-ed0c879ab5b3/previews/zsturman.github.io-f992a52961cf.png",
-                "imageSource": "capture"
+                "image": "https://www.ZSdynamics.com/og_img.png'",
+                "imageSource": "metadata"
               },
               "iconUrl": "/icons/favicons/zsturman.github.io.png"
             }
@@ -758,8 +758,8 @@
                   "hostname": "zsturman.github.io",
                   "displayUrl": "zsturman.github.io/ZSDynamics-V1.0",
                   "description": "Explore my data science portfolio, showcasing projects in machine learning, data visualization, and analytics. Learn how I leverage data-driven insights to solve real-world problems.",
-                  "image": "/projects/zsdynamics_10_306aec94-4d3c-803d-8230-fe06337c4a51/previews/zsturman.github.io-a017dada2068.png",
-                  "imageSource": "capture"
+                  "image": "https://www.ZSdynamics.com/static/images/og_img.png",
+                  "imageSource": "metadata"
                 },
                 "iconUrl": "/icons/favicons/zsturman.github.io.png"
               },
@@ -780,8 +780,8 @@
                 "hostname": "zsturman.github.io",
                 "displayUrl": "zsturman.github.io/ZSDynamics-V1.0",
                 "description": "Explore my data science portfolio, showcasing projects in machine learning, data visualization, and analytics. Learn how I leverage data-driven insights to solve real-world problems.",
-                "image": "/projects/zsdynamics_10_306aec94-4d3c-803d-8230-fe06337c4a51/previews/zsturman.github.io-a017dada2068.png",
-                "imageSource": "capture"
+                "image": "https://www.ZSdynamics.com/static/images/og_img.png",
+                "imageSource": "metadata"
               },
               "iconUrl": "/icons/favicons/zsturman.github.io.png"
             }
@@ -811,8 +811,8 @@
                   "hostname": "zsturman.github.io",
                   "displayUrl": "zsturman.github.io/TowardBetter-Announcement-Page",
                   "description": "Women Deserve Better",
-                  "image": "/projects/towardbetterme_announcement_page_306aec94-4d3c-8064-9e5a-c59f1df02bee/previews/zsturman.github.io-9abb1d1ecb48.png",
-                  "imageSource": "capture"
+                  "image": "https://zsturman.github.io/images/Sam Logo - Blush.svg",
+                  "imageSource": "metadata"
                 },
                 "iconUrl": "/icons/favicons/zsturman.github.io.png"
               }
@@ -847,9 +847,7 @@
                   "siteName": "Zsturman Github Io",
                   "hostname": "zsturman.github.io",
                   "displayUrl": "zsturman.github.io/ZSDynamics-V4.0",
-                  "description": "Cross-Platform Development | Responsive and Mobile-First User Interfaces | Scalable Backend Architectures with Robust APIs | Real-Time Data Processing",
-                  "image": "/projects/zsdynamics_40_306aec94-4d3c-807e-a7ef-db0aa63a2ec7/previews/zsturman.github.io-bde3e5bc6f2e.png",
-                  "imageSource": "capture"
+                  "description": "Cross-Platform Development | Responsive and Mobile-First User Interfaces | Scalable Backend Architectures with Robust APIs | Real-Time Data Processing"
                 },
                 "iconUrl": "/icons/favicons/zsturman.github.io.png"
               }
@@ -904,9 +902,7 @@
                   "title": "Zachary Sturman Home",
                   "siteName": "Zsturman Github Io",
                   "hostname": "zsturman.github.io",
-                  "displayUrl": "zsturman.github.io/ZSDynamics-V1.1",
-                  "image": "/projects/zsdynamics_11_306aec94-4d3c-80ff-a96a-c3c51900e249/previews/zsturman.github.io-ee7e4a65aa78.png",
-                  "imageSource": "capture"
+                  "displayUrl": "zsturman.github.io/ZSDynamics-V1.1"
                 },
                 "iconUrl": "/icons/favicons/zsturman.github.io.png"
               }
@@ -974,8 +970,8 @@
     "story": "",
     "images": {
       "icon": "poster.png",
-      "thumbnail": "thumbnail.png",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "thumbnail": "thumbnail.png"
     },
     "resources": [
       {
@@ -989,8 +985,8 @@
           "hostname": "zsturman.github.io",
           "displayUrl": "zsturman.github.io/ZSDynamics-V1.0",
           "description": "Explore my data science portfolio, showcasing projects in machine learning, data visualization, and analytics. Learn how I leverage data-driven insights to solve real-world problems.",
-          "image": "/projects/zsdynamics_10_306aec94-4d3c-803d-8230-fe06337c4a51/previews/zsturman.github.io-a017dada2068.png",
-          "imageSource": "capture"
+          "image": "https://www.ZSdynamics.com/static/images/og_img.png",
+          "imageSource": "metadata"
         },
         "iconUrl": "/icons/favicons/zsturman.github.io.png"
       },
@@ -1055,8 +1051,8 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "thumbnail.png",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "thumbnail": "thumbnail.png"
     },
     "resources": [],
     "assets": [],
@@ -1116,8 +1112,8 @@
     "story": "",
     "images": {
       "icon": "Celestial Hands Holding Heart.png",
-      "thumbnail": "thumbnail.png",
-      "banner": "Collaborative Effort with Green Ball.png"
+      "banner": "Collaborative Effort with Green Ball.png",
+      "thumbnail": "thumbnail.png"
     },
     "resources": [
       {
@@ -1136,8 +1132,8 @@
           "hostname": "zsturman.github.io",
           "displayUrl": "zsturman.github.io/TowardBetter-Announcement-Page",
           "description": "Women Deserve Better",
-          "image": "/projects/towardbetterme_announcement_page_306aec94-4d3c-8064-9e5a-c59f1df02bee/previews/zsturman.github.io-9abb1d1ecb48.png",
-          "imageSource": "capture"
+          "image": "https://zsturman.github.io/images/Sam Logo - Blush.svg",
+          "imageSource": "metadata"
         },
         "iconUrl": "/icons/favicons/zsturman.github.io.png"
       }
@@ -1203,8 +1199,8 @@
     "story": "",
     "images": {
       "icon": "banner.png",
-      "thumbnail": "thumbnail.png",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "thumbnail": "thumbnail.png"
     },
     "resources": [],
     "assets": [],
@@ -1459,7 +1455,7 @@
     "phase": "Development",
     "featured": false,
     "createdAt": "2023-02-09",
-    "updatedAt": "2026-04-03",
+    "updatedAt": "2026-01-29",
     "isPublic": true,
     "tags": [
       "Tasks",
@@ -1474,10 +1470,10 @@
     "description": "",
     "story": "",
     "images": {
-      "poster": "poster.png",
       "icon": "icon.png",
-      "thumbnail": "thumbnail.png",
       "banner": "banner.png",
+      "thumbnail": "thumbnail.png",
+      "poster": "poster.png",
       "hero": "hero.png"
     },
     "resources": [
@@ -1549,8 +1545,8 @@
     "story": "",
     "images": {
       "icon": "banner.png",
-      "thumbnail": "thumbnail.png",
-      "banner": "poster.png"
+      "banner": "poster.png",
+      "thumbnail": "thumbnail.png"
     },
     "resources": [
       {
@@ -1568,9 +1564,7 @@
           "siteName": "Zsturman Github Io",
           "hostname": "zsturman.github.io",
           "displayUrl": "zsturman.github.io/ZSDynamics-V4.0",
-          "description": "Cross-Platform Development | Responsive and Mobile-First User Interfaces | Scalable Backend Architectures with Robust APIs | Real-Time Data Processing",
-          "image": "/projects/zsdynamics_40_306aec94-4d3c-807e-a7ef-db0aa63a2ec7/previews/zsturman.github.io-bde3e5bc6f2e.png",
-          "imageSource": "capture"
+          "description": "Cross-Platform Development | Responsive and Mobile-First User Interfaces | Scalable Backend Architectures with Robust APIs | Real-Time Data Processing"
         },
         "iconUrl": "/icons/favicons/zsturman.github.io.png"
       }
@@ -1633,9 +1627,9 @@
     "description": "",
     "story": "",
     "images": {
-      "poster": "poster.gif",
-      "thumbnail": "thumbnail.png",
       "banner": "banner.gif",
+      "thumbnail": "thumbnail.png",
+      "poster": "poster.gif",
       "hero": "queueExample.png"
     },
     "resources": [
@@ -1691,7 +1685,7 @@
     "featured": true,
     "featuredOrder": 2,
     "createdAt": "2025-10-15",
-    "updatedAt": "2026-01-05",
+    "updatedAt": "2026-03-23",
     "isPublic": true,
     "tags": [
       "iOS",
@@ -1707,10 +1701,10 @@
     "description": "",
     "story": "",
     "images": {
-      "poster": "poster.png",
       "icon": "thumbnail.png",
+      "banner": "banner.png",
       "thumbnail": "thumbnail.png",
-      "banner": "banner.png"
+      "poster": "poster.png"
     },
     "resources": [
       {
@@ -1789,8 +1783,8 @@
     "story": "",
     "images": {
       "icon": "icon.png",
-      "thumbnail": "collection thumbnail.png",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "thumbnail": "collection thumbnail.png"
     },
     "resources": [],
     "assets": [],
@@ -1948,10 +1942,10 @@
     "description": "",
     "story": "",
     "images": {
-      "poster": "poster.png",
       "icon": "icon.svg",
+      "banner": "banner.png",
       "thumbnail": "thumbnail.png",
-      "banner": "banner.png"
+      "poster": "poster.png"
     },
     "resources": [
       {
@@ -2005,9 +1999,15 @@
     "phase": "Development",
     "featured": false,
     "createdAt": "2021-04-04",
-    "updatedAt": null,
+    "updatedAt": "2026-02-19",
     "isPublic": true,
-    "tags": [],
+    "tags": [
+      "Blender",
+      "Story",
+      "Unity",
+      "React",
+      "Video Game"
+    ],
     "mediums": [],
     "genres": [],
     "topics": [],
@@ -2082,10 +2082,10 @@
     "description": "",
     "story": "",
     "images": {
-      "poster": "poster.tiff",
       "icon": "thumbnail.tiff",
+      "banner": "banner.png",
       "thumbnail": "thumbnail.tiff",
-      "banner": "banner.png"
+      "poster": "poster.tiff"
     },
     "resources": [],
     "assets": [],
@@ -2129,7 +2129,7 @@
     "phase": "Researching",
     "featured": false,
     "createdAt": "2025-12-23",
-    "updatedAt": "2026-04-05",
+    "updatedAt": "2025-11-18",
     "isPublic": true,
     "tags": [
       "Simulation",
@@ -2147,8 +2147,8 @@
     "story": "",
     "images": {
       "icon": "icon.png",
-      "thumbnail": "thumbnail.png",
       "banner": "banner.png",
+      "thumbnail": "thumbnail.png",
       "hero": "hero.png"
     },
     "resources": [
@@ -2267,7 +2267,7 @@
     "phase": "Deprecated",
     "featured": false,
     "createdAt": "2023-11-10",
-    "updatedAt": "2024-05-10",
+    "updatedAt": "2024-07-23",
     "isPublic": true,
     "tags": [
       "Portfolio",
@@ -2281,8 +2281,8 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "thumbnail.png",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "thumbnail": "thumbnail.png"
     },
     "resources": [
       {
@@ -2350,8 +2350,8 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "thumbnail.png",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "thumbnail": "thumbnail.png"
     },
     "resources": [
       {
@@ -2368,9 +2368,7 @@
           "title": "Zachary Sturman Home",
           "siteName": "Zsturman Github Io",
           "hostname": "zsturman.github.io",
-          "displayUrl": "zsturman.github.io/ZSDynamics-V1.1",
-          "image": "/projects/zsdynamics_11_306aec94-4d3c-80ff-a96a-c3c51900e249/previews/zsturman.github.io-ee7e4a65aa78.png",
-          "imageSource": "capture"
+          "displayUrl": "zsturman.github.io/ZSDynamics-V1.1"
         },
         "iconUrl": "/icons/favicons/zsturman.github.io.png"
       }
@@ -2406,87 +2404,6 @@
     }
   },
   {
-    "id": "30faec94-4d3c-80a8-b5b4-ea129363d308",
-    "slug": "zachary-sturmancom",
-    "href": "/projects/zachary-sturmancom",
-    "title": "zachary-sturman.com",
-    "name": "zachary-sturman.com",
-    "subtitle": "",
-    "summary": "My personal portfolio page",
-    "oneLiner": "2026 Portfolio",
-    "domain": "Technology",
-    "category": "Web",
-    "status": "Active",
-    "phase": "Live",
-    "featured": false,
-    "createdAt": "2026-01-01",
-    "updatedAt": null,
-    "isPublic": true,
-    "tags": [
-      "web",
-      "Portfolio"
-    ],
-    "mediums": [],
-    "genres": [],
-    "topics": [],
-    "subjects": [],
-    "description": "",
-    "story": "",
-    "images": {},
-    "resources": [
-      {
-        "type": "web",
-        "label": "Visit",
-        "url": "https://zachary-sturman.com",
-        "linkPreview": {
-          "provider": "zachary-sturman.com",
-          "title": "Zachary Sturman",
-          "siteName": "Zachary Sturman",
-          "hostname": "zachary-sturman.com",
-          "displayUrl": "zachary-sturman.com",
-          "description": "I think a lot about how design influences trust, and how AI can support human judgment instead of replacing it.",
-          "image": "/projects/zachary_sturmancom_30faec94-4d3c-80a8-b5b4-ea129363d308/previews/zachary-sturman.com-348a6519fc0b.png",
-          "imageSource": "capture"
-        },
-        "iconUrl": "/icons/favicons/zachary-sturman.com.ico"
-      },
-      {
-        "type": "github",
-        "label": "Repo",
-        "url": "https://github.com/ZSturman/ZSDynamics-V5.0"
-      }
-    ],
-    "assets": [],
-    "collection": {},
-    "workLogs": [
-      {
-        "id": "30faec94-4d3c-80de-97c6-e1194a9f8851",
-        "title": "Updating the UI and Rebuilding the Site from n8n Output",
-        "entry": "Updating the UI and Rebuilding the Site from n8n Output",
-        "url": "https://www.notion.so/Updating-the-UI-and-Rebuilding-the-Site-from-n8n-Output-30faec944d3c80de97c6e1194a9f8851",
-        "startTime": "2026-03-11T09:00:00.000-07:00",
-        "endTime": "2026-03-11T12:00:00.000-07:00",
-        "date": "2026-02-22T10:53:00.000-08:00",
-        "sessionType": [
-          "Build",
-          "Organizing"
-        ],
-        "whatHappened": "I updated the UI to take advantage of new Notion automations, enabling the interface to work directly with automated workspace data and workflows. I also used Codex to rebuild my website so it now generates from the new n8n output rather than the older .folio export pipeline. This shifts the site architecture toward an automation-driven workflow where Notion and other services feed structured data through n8n into the site.",
-        "problems": null,
-        "nextStep": null,
-        "feelGoodAboutWork": 0.95,
-        "accomplishedWhatYouWanted": 0.95,
-        "durationMinutes": 180
-      }
-    ],
-    "articles": [],
-    "folderName": "zachary_sturmancom_30faec94-4d3c-80a8-b5b4-ea129363d308",
-    "readme": {
-      "content": "# Zachary Sturman Portfolio\n\nThis repository showcases my creative, scientific, and technological projects.\n\n## Project Organization\n\nTo see the full implementation of this project organization system, check out the **OPE** project, which is featured in my portfolio at [zachary-sturman.com](https://zachary-sturman.com).\n\n## Firebase Analytics\n\nThe site includes a client-only Firebase Analytics integration for GA4/Firebase web tracking.\n\n1. Copy `.env.example` to `.env.local`.\n2. Run `firebase login --reauth`.\n3. Run `firebase apps:list WEB --project zachary-sturman-portfolio`.\n4. Run `firebase apps:sdkconfig WEB <APP_ID> --project zachary-sturman-portfolio`.\n5. Paste the returned values into `.env.local` and set `NEXT_PUBLIC_FIREBASE_ANALYTICS_ENABLED=true`.\n\nThis setup is intended to stay on Firebase/GA4's no-cost path and does not require BigQuery export, Cloud Functions, or other paid services.\n\n## Prebuild URL Previews\n\n`npm run generate-projects` now captures backup screenshots for embeddable external project links during prebuild. Those screenshots are used on project pages when an iframe cannot be embedded.\n\nIf Playwright browsers are not installed yet, run:\n\n```bash\nnpx playwright install chromium\n```\n\nIf screenshot capture fails for a given URL, the prebuild still completes and falls back to a metadata-based preview card instead.",
-      "sourceUrl": "https://github.com/ZSturman/ZSDynamics-V5.0/blob/main/README.md"
-    }
-  },
-  {
     "id": "312aec94-4d3c-817e-9295-e018716cf990",
     "slug": "3d-models-collection",
     "href": "/projects/3d-models-collection",
@@ -2501,9 +2418,17 @@
     "phase": "Occasional updates",
     "featured": false,
     "createdAt": "2018-05-17",
-    "updatedAt": null,
+    "updatedAt": "2024-11-19",
     "isPublic": true,
-    "tags": [],
+    "tags": [
+      "3D",
+      "Art",
+      "Model comparison",
+      "Adult Animation",
+      "Blender",
+      "C4D",
+      "Simulations"
+    ],
     "mediums": [],
     "genres": [],
     "topics": [],
@@ -2541,6 +2466,90 @@
     "folderName": "3d_models_collection_312aec94-4d3c-817e-9295-e018716cf990"
   },
   {
+    "id": "31faec94-4d3c-80a8-9ab6-e791da057b67",
+    "slug": "between-jobs",
+    "href": "/projects/between-jobs",
+    "title": "Between Jobs",
+    "name": "Between Jobs",
+    "subtitle": "",
+    "summary": "Between Jobs follows a group of roommates who are all trying, in different ways, to avoid the simple problem in front of them: they need rent money. The pilot moves through a failed family video call, a disastrous job interview, and an illegal mimosa stand, using each character’s flawed logic to push the situation further out of control. It reads like a rough, character-driven sitcom setup, where the comedy comes less from a clean plan and more from watching everyone make the wrong choice with complete confidence.",
+    "oneLiner": "A sitcom pilot about four broke roommates trying to make rent, where every shortcut turns into a bigger problem than the one they started with.",
+    "domain": "Narrative",
+    "category": "Screenplay",
+    "status": "Complete",
+    "phase": "Archived",
+    "featured": false,
+    "createdAt": "2017-01-11",
+    "updatedAt": "2017-02-10",
+    "isPublic": true,
+    "tags": [
+      "Screenwriting",
+      "Comedy",
+      "Sitcom",
+      "Roommates"
+    ],
+    "mediums": [],
+    "genres": [],
+    "topics": [],
+    "subjects": [],
+    "description": "",
+    "story": "",
+    "images": {
+      "banner": "bannner.png",
+      "thumbnail": "thumb.png",
+      "hero": "hero.png"
+    },
+    "resources": [],
+    "assets": [
+      {
+        "id": "351aec94-4d3c-80c2-9dbd-cd9b435cad91",
+        "label": "Between Jobs Screenplay",
+        "order": 0,
+        "type": "text",
+        "filePath": "Between Jobs S.1 E.1 Pilot.pdf",
+        "thumbnail": "thumb - pdf.png"
+      }
+    ],
+    "collection": {},
+    "workLogs": [
+      {
+        "id": "351aec94-4d3c-8076-a987-f095df9508a3",
+        "title": "Complete Between Jobs. 'Archived'",
+        "entry": "Complete Between Jobs. 'Archived'",
+        "url": "https://www.notion.so/Complete-Between-Jobs-Archived-351aec944d3c8076a987f095df9508a3",
+        "startTime": "2017-02-10",
+        "endTime": "2017-02-10T01:00:00.000-08:00",
+        "date": "2026-04-29T08:25:00.000-07:00",
+        "sessionType": [
+          "Organizing"
+        ],
+        "whatHappened": "Finalized project entry for Between Jobs.",
+        "problems": null,
+        "nextStep": null,
+        "durationMinutes": 60
+      },
+      {
+        "id": "351aec94-4d3c-80e0-ba6f-d8c512768780",
+        "title": "Created new project entry for Between Jobs",
+        "entry": "Created new project entry for Between Jobs",
+        "url": "https://www.notion.so/Created-new-project-entry-for-Between-Jobs-351aec944d3c80e0ba6fd8c512768780",
+        "startTime": "2017-01-11",
+        "endTime": "2017-01-11T01:00:00.000-08:00",
+        "date": "2026-04-29T08:25:00.000-07:00",
+        "sessionType": [
+          "Planning",
+          "Build"
+        ],
+        "whatHappened": "Created new project entry for Between Jobs and added the 'Project Starter' milestones and tasks.",
+        "problems": null,
+        "nextStep": null,
+        "durationMinutes": 60
+      }
+    ],
+    "articles": [],
+    "folderName": "between_jobs_31faec94-4d3c-80a8-9ab6-e791da057b67"
+  },
+  {
     "id": "324aec94-4d3c-8068-a8a7-ed6d1d4d1790",
     "slug": "folio",
     "href": "/projects/folio",
@@ -2555,7 +2564,7 @@
     "phase": "Deprecated",
     "featured": false,
     "createdAt": "2026-03-18",
-    "updatedAt": null,
+    "updatedAt": "2026-01-29",
     "isPublic": true,
     "tags": [
       "macOS",
@@ -2569,8 +2578,8 @@
     "story": "",
     "images": {
       "icon": "AppIcon.png",
-      "thumbnail": "thumbnail.png",
       "banner": "Concept_art_with_Logo.jpeg",
+      "thumbnail": "thumbnail.png",
       "hero": "Ope_Hero.png"
     },
     "resources": [
@@ -2632,7 +2641,7 @@
     "phase": "Development",
     "featured": false,
     "createdAt": "2026-03-25",
-    "updatedAt": null,
+    "updatedAt": "2026-04-25",
     "isPublic": true,
     "tags": [
       "Debugging",
@@ -2649,8 +2658,8 @@
     "story": "",
     "images": {
       "icon": "icon.png",
-      "thumbnail": "thumbnail.png",
       "banner": "banner.png",
+      "thumbnail": "thumbnail.png",
       "hero": "hero.png"
     },
     "resources": [
@@ -2686,7 +2695,7 @@
     "articles": [],
     "folderName": "runtime_storyboard_debugger_32eaec94-4d3c-80c9-b238-c8a9f0b1990e",
     "readme": {
-      "content": "# Runtime Storyboard Debugger\n\n**Turn software behavior into navigable causal stories.**\n\nRuntime Storyboard Debugger (RSD) is a developer tool that combines static code analysis with runtime tracing to produce human-readable storyboards of how code actually executes. Instead of stepping through breakpoints, you get a narrative: which functions ran, why each branch was taken, what side effects occurred, and how async operations handed off.\n\n---\n\n## Key Features\n\n- **Entry Point Discovery** — Automatically finds HTTP routes, exported functions, and main entry patterns via AST analysis\n- **Flow Graph Construction** — Builds static control flow graphs showing possible paths through functions\n- **Runtime Instrumentation** — Babel plugin transforms code to emit trace events without modifying source files\n- **Storyboard Generation** — Converts raw trace events into linked narrative frames with human-readable descriptions\n- **Branch Explanation** — Shows *why* each conditional was taken, with actual runtime variable values\n- **Side Effect Visibility** — Surfaces database writes, HTTP calls, notifications, and other impactful operations\n- **Async Causality** — Tracks execution across async boundaries with continuation linking\n- **Template-Based Narration** — No LLM dependency; deterministic, offline-capable descriptions\n\n## Architecture\n\n```\npackages/\n  core/           # Analysis engine, instrumenter, runtime, server, CLI\n    src/\n      analyzer/     # Entry point discovery + flow graph builder\n      instrumenter/ # Babel plugin + AsyncLocalStorage runtime\n      storyboard/   # Types, frame builder, narrator\n      server/       # Express API\n      cli/          # Commander CLI\n  ui/             # React + Vite + Tailwind web interface\nexamples/\n  order-api/      # Example application with 5 test scenarios\ntests/\n  unit/           # Unit tests (analyzer, instrumenter, storyboard)\n  scenarios/      # Integration tests (full pipeline)\n```\n\n## Quick Start\n\n### Install\n\n```bash\nnpm install\n```\n\n### Run Tests\n\n```bash\nnpm test\n```\n\n### Analyze an Application\n\n```bash\n# Discover entry points and start the API server\nnpx ts-node packages/core/src/cli/index.ts analyze examples/order-api\n\n# If port 3001 is already in use\nnpx ts-node packages/core/src/cli/index.ts analyze examples/order-api --port 3002\n\n# Run a specific scenario\nnpx ts-node packages/core/src/cli/index.ts run examples/order-api --scenario examples/order-api/scenarios/straight-through.ts\n```\n\n### Start the Web UI\n\n```bash\n# Terminal 1: Start the API server\nnpx ts-node packages/core/src/cli/index.ts analyze examples/order-api\n\n# Terminal 2: Start the React dev server\ncd packages/ui && npx vite\n\n# If the API is running on a different port\ncd packages/ui && RSD_API_URL=http://localhost:3002 npx vite\n```\n\nOpen http://localhost:3000 to explore storyboards.\n\n## Example Scenarios\n\nThe included `examples/order-api` application exercises all core capabilities:\n\n| Scenario | What It Tests |\n|---|---|\n| **Straight-Through** | Happy path, no branching — clean causal chain |\n| **Conditional Branch** | Order > $100 triggers discount — branch explanation with values |\n| **Validation Failure** | Empty order → early exit — shortened story, error frame |\n| **Async Handoff** | `notify=true` → async email — cross-boundary causality |\n| **Side Effects** | Multiple items → inventory updates — visible state changes |\n\n## API Endpoints\n\n| Method | Path | Description |\n|---|---|---|\n| `GET` | `/api/entry-points` | List discovered entry points |\n| `GET` | `/api/entry-points/:id/flow` | Get flow graph for an entry point |\n| `POST` | `/api/run` | Execute a scenario and get its storyboard |\n| `GET` | `/api/storyboards` | List all recorded storyboards |\n| `GET` | `/api/storyboards/:id` | Get a specific storyboard |\n| `GET` | `/api/source` | Get source code snippet with context |\n| `GET` | `/api/scenarios` | List available scenario files |\n\n## How It Works\n\n1. **Static Analysis** — Babel parser reads the target codebase AST, finding entry points and building flow graphs\n2. **Instrumentation** — A Babel plugin transforms scenario files (and their imports) to inject tracing calls at function boundaries, branch points, await expressions, and known side-effect patterns\n3. **Execution** — The scenario runs inside an `AsyncLocalStorage` context that collects `TraceEvent` objects\n4. **Frame Building** — Raw events are converted into linked `StoryboardFrame` objects with proper sequencing and async continuation links\n5. **Narration** — Template-based narrator generates human-readable titles and descriptions for each frame\n\n## Tech Stack\n\n- **TypeScript** — Strict mode, monorepo with npm workspaces\n- **Babel** — AST parsing, traversal, code generation, and plugin system\n- **Node.js AsyncLocalStorage** — Trace context propagation across async boundaries\n- **Express** — API server\n- **React 18 + Vite 5 + Tailwind CSS 3** — Web interface\n- **Vitest** — Testing framework\n- **Commander** — CLI argument parsing\n\n## Project Status\n\nThis is an MVP demonstrating the core concept. See [docs/mvp-scope.md](https://github.com/ZSturman/Runtime-Storyboard-Debugger/blob/main/docs/mvp-scope.md) for scope details and [docs/testing-guide.md](https://github.com/ZSturman/Runtime-Storyboard-Debugger/blob/main/docs/testing-guide.md) for the test plan.",
+      "content": "# Runtime Storyboard Debugger\n\n> **Status:** pre-1.0, public roadmap. See [docs/release-plan.md](https://github.com/ZSturman/Runtime-Storyboard-Debugger/blob/main/docs/release-plan.md) and [docs/v1-scope.md](https://github.com/ZSturman/Runtime-Storyboard-Debugger/blob/main/docs/v1-scope.md) for what's shipping and what's deferred.\n\nUnderstand an unfamiliar codebase by turning repo structure and runtime behavior into a visible, navigable storyboard.\n\nRuntime Storyboard Debugger helps two kinds of people quickly:\n\n- Developers who need to debug or extend a repo they have never seen before\n- Stakeholders who want a readable walkthrough of what an app is doing\n\nInstead of hiding behind a loading spinner, RSD shows the pipeline in public:\n\n- repo ingestion\n- dependency discovery\n- static analysis\n- runtime instrumentation\n- execution\n- fallback analysis\n\nThen, when you trace a route or exported function, RSD shows the current step, current function or route, branch reasons, variable snapshots, side effects, waits, logs, returns, and failures as the run unfolds.\n\n## Why This Exists\n\nMost code understanding tools force a tradeoff:\n\n- static graphs show what could happen, but not what actually happened\n- debuggers show what happened, but not in a repo-first, onboarding-friendly way\n- LLM explanations can be helpful, but they often hide uncertainty or skip over the underlying evidence\n\nRSD is built to make the evidence visible first and the interpretation optional.\n\n## What It Does\n\n- Open a local path or a public GitHub repository URL\n- Detect routes, exported functions, startup files, package scripts, and likely user journeys automatically\n- Build flow graphs and unfinished-work findings before any runtime execution starts\n- Stream execution into a live timeline instead of waiting for one final result\n- Let you scrub backward and forward through already-captured steps\n- Fall back to the best available static analysis when runtime tracing stalls or fails\n- Offer optional LLM assistance for path discovery, explanations, uncertainty callouts, and alternate traces\n\n## How It Works\n\n1. Create a workspace from a local directory or GitHub URL.\n2. RSD ingests the repo and surfaces progress while it is happening.\n3. Static analysis discovers entry points, routes, startup paths, scripts, blockers, and likely journeys.\n4. You choose a route or exported function and provide inputs.\n5. RSD streams execution events into a live storyboard.\n6. If runtime tracing cannot complete, RSD keeps the experience useful by explaining the blocker and showing fallback analysis.\n\n## Quick Start\n\nRequires **Node.js 20+** and npm 10+.\n\n```bash\ngit clone https://github.com/ZSturman/Runtime-Storyboard-Debugger.git\ncd Runtime-Storyboard-Debugger\nnpm install\nnpm run dev\n```\n\n`npm run dev` starts the API server (with `examples/order-api` preloaded) and the Vite UI together. Open [http://localhost:3000](http://localhost:3000).\n\n### Advanced: run the pieces separately\n\nIf you need to target a different repo or port, run the two halves directly.\n\nTerminal 1 — API server:\n\n```bash\nnpx ts-node packages/core/src/cli/index.ts analyze <path-to-target> --port 3001\n```\n\nTerminal 2 — UI:\n\n```bash\ncd packages/ui\nRSD_API_URL=http://localhost:3001 npx vite\n```\n\n## Recommended Demo Targets\n\n- Local: `examples/order-api`\n- GitHub: `mjgs/minimal-express-typescript`\n- GitHub: `expressjs/express`\n- GitHub: `gothinkster/node-express-realworld-example-app`\n\nThe last two are especially useful for testing graceful fallback when runtime setup is incomplete or expensive.\n\n## UI Flow\n\n### Workspace Intake\n\n- Choose `Local path` or `GitHub URL`\n- Create a workspace\n- Watch ingestion and analysis progress instead of waiting on a blank state\n\n### Workspace Overview\n\n- Review likely journeys\n- Inspect detected entry points\n- Check runtime blockers and detected scripts\n- Optionally configure LLM assistance\n\n### Live Execution\n\n- Start an explicit trace for a supported route or exported function\n- Watch the timeline fill with status updates, calls, branches, waits, logs, snapshots, side effects, returns, and failures\n- Scrub through captured steps while the run is still active\n- Click any branch you didn't take to re-run with inputs aimed at it\n\n### Keyboard Shortcuts\n\n| Key | Action |\n| --- | --- |\n| `←` / `→` | Previous / next step |\n| `↑` / `↓` | Jump back / forward 5 steps |\n| `F` | Focus the flow map |\n| `/` | Filter the timeline |\n| `C` | Re-run with different inputs |\n| `B` | Back to workspace overview |\n| `?` | Open the keyboard shortcut sheet |\n| `Esc` | Close overlays / clear filter |\n\n### Fallback Analysis\n\n- If execution fails or stalls, RSD shows the blocker clearly\n- The flow graph, unfinished work, and other static artifacts stay visible so the workspace still feels trustworthy\n\n## Optional LLM Assistance\n\n> **Note for v1.0:** the LLM panel is being removed from the v1.0 launch and reintroduced post-launch. The code still exists in the current build but is not part of the supported flow. See [docs/release-plan.md](https://github.com/ZSturman/Runtime-Storyboard-Debugger/blob/main/docs/release-plan.md).\n\nLLM help is opt-in and session-only.\n\n- Providers: OpenAI, Anthropic, Gemini, OpenRouter\n- API keys are kept in memory only\n- Model lists are fetched when the provider supports it, otherwise curated defaults are shown\n- The LLM layer is used for explanation and prioritization, not for baseline repo ingestion or core tracing\n\n## Architecture\n\n```text\npackages/\n  core/\n    analyzer/        entry points, unfinished work, flow graphs\n    instrumenter/    runtime tracing + Babel instrumentation\n    server/          workspace sessions, GitHub ingestion, SSE streams, execution sessions, LLM endpoints\n    storyboard/      frame building + narration\n  ui/\n    src/components/  intake, loading, overview, live execution, step inspection\nexamples/\n  order-api/         sample local app for end-to-end exploration\ntests/\n  unit/              analyzer, instrumenter, storyboard, server helpers\n```\n\n## Screenshots And Diagrams\n\nFor a stronger GitHub presentation, add these assets near the top of the README:\n\n- A hero screenshot of the live execution workspace while a trace is actively streaming\n- A screenshot of the workspace overview showing journeys, entry points, blockers, and scripts\n- A short GIF of a run progressing from analysis to live execution to fallback\n- A simple architecture diagram showing `Ingest -> Analyze -> Trace -> Explain`\n\nIf you add screenshots, place them directly under `What It Does` and keep captions short and outcome-oriented.\n\n## Current Scope\n\nIncluded now:\n\n- local path ingestion\n- public GitHub repo ingestion\n- automatic entry-point and journey discovery\n- live execution streaming with inspectable steps\n- workspace-level fallback states\n- optional multi-provider LLM assist flow\n\nNot included yet:\n\n- private GitHub repo auth\n- automatic remote runtime execution without explicit user action\n- persistent LLM credential storage\n- multi-language analysis beyond JS/TS\n- IDE integration\n- collaborative annotations and sharing\n\n## Validation\n\n```bash\nnpm run lint\nnpm test\nnpm run build\n```\n\n## License\n\n[MIT](https://github.com/ZSturman/Runtime-Storyboard-Debugger/blob/main/LICENSE) © Zachary Sturman\n\n## Design Principles\n\n- Fast repo understanding beats hidden magic\n- Live progress beats vague loading states\n- Trustworthy fallback beats broken execution\n- Static evidence comes before LLM interpretation\n- Technical detail stays available without overwhelming non-developers",
       "sourceUrl": "https://github.com/ZSturman/Runtime-Storyboard-Debugger/blob/main/README.md"
     }
   },
@@ -2705,7 +2714,7 @@
     "phase": "Development",
     "featured": false,
     "createdAt": "2023-07-21",
-    "updatedAt": "2026-04-04",
+    "updatedAt": "2026-02-23",
     "isPublic": true,
     "tags": [
       "Telemetry",
@@ -2720,9 +2729,9 @@
     "description": "",
     "story": "",
     "images": {
-      "poster": "poster.png",
-      "thumbnail": "thumbnail.png",
       "banner": "banner.png",
+      "thumbnail": "thumbnail.png",
+      "poster": "poster.png",
       "hero": "hero.png"
     },
     "resources": [
@@ -2791,8 +2800,8 @@
     "story": "",
     "images": {
       "icon": "icon.png",
-      "thumbnail": "thumbnail.png",
       "banner": "banner.png",
+      "thumbnail": "thumbnail.png",
       "hero": "hero.png"
     },
     "resources": [
@@ -2865,8 +2874,8 @@
     "story": "",
     "images": {
       "icon": "icon.png",
-      "thumbnail": "thumbnail.png",
       "banner": "banner.png",
+      "thumbnail": "thumbnail.png",
       "hero": "hero.png"
     },
     "resources": [
@@ -2910,7 +2919,7 @@
     ],
     "folderName": "train_of_thought_agent_332aec94-4d3c-807a-ba3b-d0950cd03a66",
     "readme": {
-      "content": "# Tree-of-Thought Location Agent\n\nA small learning agent that remembers places through observation, correction, and inspection.\n\nThe project starts with a simple idea: if an agent is going to build useful memory, it should be able to learn from direct experience, accept correction, preserve where its knowledge came from, and show what it thinks it knows. Right now that learning is anchored in locations. You can teach it a numeric observation, connect a media file to a place, rename labels, add aliases, and describe how places relate to each other.\n\nIt is not trying to be a finished vision model yet. The current version is a careful scaffold for one, with each sensor input normalized into an `ObservationBundle` before it reaches learning and memory.\n\n| Status | Detail |\n| --- | --- |\n| Current phase | Phase 8, Modality-Neutral Observation Bundle |\n| Last validated state | 177 automated tests passing |\n| Next phase | Phase 9, Region Descriptors and Primitive Feature Extraction |\n| Runtime style | Local interactive CLI |\n| Dependencies | Python standard library only |\n\n## Preview\n\nThe agent runs in a terminal. You can give it a value, ask it to sense a local media file, correct its guesses, and inspect what it has learned.\n\n```text\nagent online\nobservation[0.0-1.0|quit]: sense /path/to/bedroom.png\nsensor: new image\nlabel: bedroom\nobservation[0.0-1.0|quit]: sense /path/to/bedroom.png\nsensor: recognized image\nguess: bedroom (confidence=1.00)\ncorrect?[1/0]: 1\nobservation[0.0-1.0|quit]: quit\ngoodbye\n```\n\nBehind that short exchange, the project stores a label node, a location model, sensor evidence, and an event log. If the same place later gets renamed or connected to a larger context such as a house, the old label and the enclosing context remain inspectable instead of disappearing.\n\n## What This Project Does\n\nThe agent learns location memory from two kinds of input:\n\n- A grayscale-style value between `0.0` and `1.0`, which gives the agent a small controlled observation space.\n- A local media file passed through `sense /path/to/file`, which currently uses an image adapter and stores a normalized observation bundle.\n\nWhen the agent recognizes something, it asks for confirmation. When it is wrong, you can correct it. When a label needs to change, you can rename it while keeping the old name as an alias. When one place contains or overlaps another, you can teach that relationship and later ask the agent to show the active context.\n\nThe important part is not that the first observation space is simple. The important part is that the memory is persistent, correctable, and visible.\n\n## Why It Exists\n\nThis project explores how a memory system can grow from grounded, inspectable pieces instead of starting as a sealed model that already claims to know the world.\n\nThe long-range direction is a synthetic memory-and-attention engine. Location learning is the entry point because it gives the system something concrete to anchor on: a place, a label, a correction, a relationship, and a record of evidence. Later phases expand that into region attention, primitive percepts, experience frames, memory units, replay, resurfacing, and reconsolidation.\n\nOne rule carries through the project: persisted memory should come from explicit user input or direct sensor input. The language model may help structure the interaction, but it is not treated as the source of truth.\n\n## Who It Is For\n\nThis repository may be useful if you are interested in:\n\n- Learning systems that accept correction instead of treating the first answer as final.\n- Memory that can be inspected, renamed, and repaired.\n- Small agent architectures that grow in visible phases.\n- Sensor and perception work that starts with a stable input contract before adding richer recognition.\n- A local Python project that can be read without installing a framework.\n\nFor a non-technical reader, the project is easiest to understand as a working notebook for agent memory. For a technical reader, it is a compact Python implementation with tests, schema migrations, media fixtures, and roadmap documents.\n\n## Key Features\n\n| Feature | What it means in practice |\n| --- | --- |\n| Persistent memory | Learned locations, labels, aliases, relations, sensor bindings, and observation bundles are stored under `runtime/`. |\n| Correctable guesses | The agent asks whether a guess is right, then reinforces or corrects memory based on the answer. |\n| Label history | Renames preserve the previous canonical name as an alias, so older vocabulary still resolves. |\n| Nested context | `contain` can teach relationships such as `house contains bedroom`. |\n| Overlapping context | `overlap` can record places that can be active together without forcing one parent-child shape. |\n| Concept scaffold | `concept`, `relate`, and `concepts` let the project begin separating named ideas from locations. |\n| Sensor preview | `sense /path/to/file` routes local media through an adapter and stores a bundle-backed sensor binding. |\n| Inspectable state | `inspect`, `context`, persisted JSON, and JSONL event logs make the learned state visible. |\n\n## Visual Walkthrough\n\nThe current visuals are small generated fixtures used by tests and sensor examples. They are not polished screenshots, and that is intentional for now. They keep the project deterministic and easy to run offline while the perception layer is still being built.\n\n| House context | Bedroom | Living room | Unknown scene |\n| --- | --- | --- | --- |\n| <img alt=\"Generated house fixture\" src=\"https://raw.githubusercontent.com/ZSturman/Train-of-Thought-Agent/main/media/core_images/phase05_house_scene.png\" width=\"160\"> | <img alt=\"Generated bedroom fixture\" src=\"https://raw.githubusercontent.com/ZSturman/Train-of-Thought-Agent/main/media/core_images/phase04_bedroom_scene.png\" width=\"160\"> | <img alt=\"Generated living room fixture\" src=\"https://raw.githubusercontent.com/ZSturman/Train-of-Thought-Agent/main/media/core_images/phase04_living_room_scene.png\" width=\"160\"> | <img alt=\"Generated unknown fixture\" src=\"https://raw.githubusercontent.com/ZSturman/Train-of-Thought-Agent/main/media/core_images/phase04_unknown_scene.png\" width=\"160\"> |\n\nThese files are registered in [`media/catalog.json`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/media/catalog.json), explained in [`media/README.md`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/media/README.md), and staged through scenario files in [`media/scenarios/`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/media/scenarios/). Notes for future screenshots, GIFs, or demo videos live in [`docs/assets/README.md`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/docs/assets/README.md).\n\n## What Can I Do With This?\n\nYou can run the agent locally, teach it a few places, correct it, and inspect how its memory changes. A simple session might look like this:\n\n1. Teach `0.25` as `kitchen`.\n2. Enter `0.253` and confirm that it is still `kitchen`.\n3. Rename `kitchen` to a better label if needed.\n4. Teach `house`, `bedroom`, and `living room` from the included media fixtures.\n5. Use `contain` to say that `house` contains `bedroom` and `living room`.\n6. Use `inspect` or `context` to see what the agent now believes.\n\nThe current sensor recognition is still a temporary exact-file preview at the binding layer. Phase 8 changes the interface around it, so media now enters as an `ObservationBundle`, but content-based visual understanding is still planned work.\n\n## Quick Start\n\nRequirements: Python 3.12+ is preferred. No external packages are required.\n\n```bash\n# Run the interactive agent\npython3 -m location_agent.cli\n\n# Run in quiet mode for scripting or tests\npython3 -m location_agent.cli --quiet\n\n# Clear learned memory and exit\npython3 -m location_agent.cli --reset\n\n# Run the automated test suite\npython3 -B -m unittest discover -s tests -v\n```\n\nDuring an interactive session, use `sense /absolute/path/to/file` to route a local media file through the sensor flow.\n\nFor fuller setup notes, memory isolation tips, and command examples, see [`docs/SETUP.md`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/docs/SETUP.md).\n\n## Technical Notes\n\nThe README keeps the technical surface brief so the project remains readable from the outside. These supporting files hold the deeper details:\n\n| Topic | Where to read more |\n| --- | --- |\n| Setup, local runs, reset behavior, commands | [`docs/SETUP.md`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/docs/SETUP.md) |\n| Architecture, schema v7, data flow, project structure | [`docs/TECHNICAL.md`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/docs/TECHNICAL.md) |\n| Common errors and likely fixes | [`docs/TROUBLESHOOTING.md`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/docs/TROUBLESHOOTING.md) |\n| Contribution workflow | [`docs/CONTRIBUTING.md`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/docs/CONTRIBUTING.md) |\n| Media fixture and demo capture notes | [`docs/assets/README.md`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/docs/assets/README.md) |\n| Current phase validation | [`CURRENT_PHASE.md`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/CURRENT_PHASE.md) and [`VALIDATION.md`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/VALIDATION.md) |\n| Long-range roadmap | [`PROJECT_ROADMAP.md`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/PROJECT_ROADMAP.md) and [`MEDIA_PLAN.md`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/MEDIA_PLAN.md) |\n\n## Contributing\n\nThe repository remote is [`https://github.com/ZSturman/Train-of-Thought-Agent.git`](https://github.com/ZSturman/Train-of-Thought-Agent.git).\n\nBefore changing behavior, run the test suite and check the current phase notes. The project is intentionally phase-driven, so documentation, media scenarios, and validation notes matter alongside code changes. See [`docs/CONTRIBUTING.md`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/docs/CONTRIBUTING.md) for the local workflow.",
+      "content": "# Tree-of-Thought Location Agent\n\nA small learning agent that remembers places through observation, correction, and inspection.\n\nThe project starts with a simple idea: if an agent is going to build useful memory, it should be able to learn from direct experience, accept correction, preserve where its knowledge came from, and show what it thinks it knows. Right now that learning is anchored in locations. You can teach it a numeric observation, connect a media file to a place, rename labels, add aliases, and describe how places relate to each other.\n\nIt is not trying to be a finished vision model yet. The current version is a careful scaffold for one, with each sensor input normalized into an `ObservationBundle` before it reaches learning and memory.\n\n| Status | Detail |\n| --- | --- |\n| Current phase | Phase 8, Modality-Neutral Observation Bundle |\n| Last validated state | 177 automated tests passing |\n| Next phase | Phase 9, Region Descriptors and Primitive Feature Extraction |\n| Runtime style | Local interactive CLI |\n| Dependencies | Python standard library only |\n\n## Preview\n\nThe agent runs in a terminal. You can give it a value, ask it to sense a local media file, correct its guesses, and inspect what it has learned.\n\n```text\nagent online\nobservation[0.0-1.0|quit]: sense /path/to/bedroom.png\nsensor: new image\nlabel: bedroom\nobservation[0.0-1.0|quit]: sense /path/to/bedroom.png\nsensor: recognized image\nguess: bedroom (confidence=1.00)\ncorrect?[1/0]: 1\nobservation[0.0-1.0|quit]: quit\ngoodbye\n```\n\nBehind that short exchange, the project stores a label node, a location model, sensor evidence, and an event log. If the same place later gets renamed or connected to a larger context such as a house, the old label and the enclosing context remain inspectable instead of disappearing.\n\n## What This Project Does\n\nThe agent learns location memory from two kinds of input:\n\n- A grayscale-style value between `0.0` and `1.0`, which gives the agent a small controlled observation space.\n- A local media file passed through `sense /path/to/file`, which currently uses an image adapter and stores a normalized observation bundle.\n\nWhen the agent recognizes something, it asks for confirmation. When it is wrong, you can correct it. When a label needs to change, you can rename it while keeping the old name as an alias. When one place contains or overlaps another, you can teach that relationship and later ask the agent to show the active context.\n\nThe important part is not that the first observation space is simple. The important part is that the memory is persistent, correctable, and visible.\n\n## Why It Exists\n\nThis project explores how a memory system can grow from grounded, inspectable pieces instead of starting as a sealed model that already claims to know the world.\n\nThe long-range direction is a synthetic memory-and-attention engine. Location learning is the entry point because it gives the system something concrete to anchor on: a place, a label, a correction, a relationship, and a record of evidence. Later phases expand that into region attention, primitive percepts, experience frames, memory units, replay, resurfacing, and reconsolidation.\n\nOne rule carries through the project: persisted memory should come from explicit user input or direct sensor input. The language model may help structure the interaction, but it is not treated as the source of truth.\n\n## Who It Is For\n\nThis repository may be useful if you are interested in:\n\n- Learning systems that accept correction instead of treating the first answer as final.\n- Memory that can be inspected, renamed, and repaired.\n- Small agent architectures that grow in visible phases.\n- Sensor and perception work that starts with a stable input contract before adding richer recognition.\n- A local Python project that can be read without installing a framework.\n\nFor a non-technical reader, the project is easiest to understand as a working notebook for agent memory. For a technical reader, it is a compact Python implementation with tests, schema migrations, media fixtures, and roadmap documents.\n\n## Key Features\n\n| Feature | What it means in practice |\n| --- | --- |\n| Persistent memory | Learned locations, labels, aliases, relations, sensor bindings, and observation bundles are stored under `runtime/`. |\n| Correctable guesses | The agent asks whether a guess is right, then reinforces or corrects memory based on the answer. |\n| Label history | Renames preserve the previous canonical name as an alias, so older vocabulary still resolves. |\n| Nested context | `contain` can teach relationships such as `house contains bedroom`. |\n| Overlapping context | `overlap` can record places that can be active together without forcing one parent-child shape. |\n| Concept scaffold | `concept`, `relate`, and `concepts` let the project begin separating named ideas from locations. |\n| Sensor preview | `sense /path/to/file` routes local media through an adapter and stores a bundle-backed sensor binding. |\n| Inspectable state | `inspect`, `context`, persisted JSON, and JSONL event logs make the learned state visible. |\n\n## Visual Walkthrough\n\nThe current visuals are small generated fixtures used by tests and sensor examples. They are not polished screenshots, and that is intentional for now. They keep the project deterministic and easy to run offline while the perception layer is still being built.\n\n| House context | Bedroom | Living room | Unknown scene |\n| --- | --- | --- | --- |\n| <img alt=\"Generated house fixture\" src=\"https://raw.githubusercontent.com/ZSturman/Train-of-Thought-Agent/main/media/core_images/phase05_house_scene.png\" width=\"160\"> | <img alt=\"Generated bedroom fixture\" src=\"https://raw.githubusercontent.com/ZSturman/Train-of-Thought-Agent/main/media/core_images/phase04_bedroom_scene.png\" width=\"160\"> | <img alt=\"Generated living room fixture\" src=\"https://raw.githubusercontent.com/ZSturman/Train-of-Thought-Agent/main/media/core_images/phase04_living_room_scene.png\" width=\"160\"> | <img alt=\"Generated unknown fixture\" src=\"https://raw.githubusercontent.com/ZSturman/Train-of-Thought-Agent/main/media/core_images/phase04_unknown_scene.png\" width=\"160\"> |\n\nThese files are registered in [`media/catalog.json`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/media/catalog.json), explained in [`media/README.md`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/media/README.md), and staged through scenario files in [`media/scenarios/`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/media/scenarios/). Notes for future screenshots, GIFs, or demo videos live in [`docs/assets/README.md`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/docs/assets/README.md).\n\n## What Can I Do With This?\n\nYou can run the agent locally, teach it a few places, correct it, and inspect how its memory changes. A simple session might look like this:\n\n1. Teach `0.25` as `kitchen`.\n2. Enter `0.253` and confirm that it is still `kitchen`.\n3. Rename `kitchen` to a better label if needed.\n4. Teach `house`, `bedroom`, and `living room` from the included media fixtures.\n5. Use `contain` to say that `house` contains `bedroom` and `living room`.\n6. Use `inspect` or `context` to see what the agent now believes.\n\nThe current sensor recognition is still a temporary exact-file preview at the binding layer. Phase 8 changes the interface around it, so media now enters as an `ObservationBundle`, but content-based visual understanding is still planned work.\n\n## Quick Start\n\nRequirements: Python 3.12+ is preferred. No external packages are required.\n\n```bash\n# Run the interactive agent\npython3 -m location_agent.cli\n\n# Run in quiet mode for scripting or tests\npython3 -m location_agent.cli --quiet\n\n# Clear learned memory and exit\npython3 -m location_agent.cli --reset\n\n# Run the automated test suite\npython3 -B -m unittest discover -s tests -v\n```\n\nDuring an interactive session, use `sense /absolute/path/to/file` to route a local media file through the sensor flow.\n\nFor fuller setup notes, memory isolation tips, and command examples, see [`docs/SETUP.md`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/docs/SETUP.md).\n\n## SDK Quickstart\n\n`location_agent` also ships as a programmatic SDK. The `Agent` facade is the recommended entry point for embedding the learning loop in another application:\n\n```python\nfrom location_agent import Agent\n\nagent = Agent()                             # writes to ./runtime/\nagent.learn_scalar(0.25, \"kitchen\")\nresult = agent.recognize_scalar(0.253)\nprint(result.is_known, result.label, result.confidence)\n# True kitchen 0.94\n\nsnapshot = agent.inspect()                  # JSON-serializable\n```\n\nPublic names are listed in [`docs/api.md`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/docs/api.md) and follow SemVer. Sensor adapters can be added via Python entry points — see [`docs/plugins.md`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/docs/plugins.md).\n\n## Technical Notes\n\nThe README keeps the technical surface brief so the project remains readable from the outside. These supporting files hold the deeper details:\n\n| Topic | Where to read more |\n| --- | --- |\n| Setup, local runs, reset behavior, commands | [`docs/SETUP.md`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/docs/SETUP.md) |\n| Architecture, schema v7, data flow, project structure | [`docs/TECHNICAL.md`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/docs/TECHNICAL.md) |\n| Common errors and likely fixes | [`docs/TROUBLESHOOTING.md`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/docs/TROUBLESHOOTING.md) |\n| Contribution workflow | [`docs/CONTRIBUTING.md`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/docs/CONTRIBUTING.md) |\n| Media fixture and demo capture notes | [`docs/assets/README.md`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/docs/assets/README.md) |\n| Current phase validation | [`CURRENT_PHASE.md`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/CURRENT_PHASE.md) and [`VALIDATION.md`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/VALIDATION.md) |\n| Long-range roadmap | [`PROJECT_ROADMAP.md`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/PROJECT_ROADMAP.md) and [`MEDIA_PLAN.md`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/MEDIA_PLAN.md) |\n\n## Contributing\n\nThe repository remote is [`https://github.com/ZSturman/Train-of-Thought-Agent.git`](https://github.com/ZSturman/Train-of-Thought-Agent.git).\n\nBefore changing behavior, run the test suite and check the current phase notes. The project is intentionally phase-driven, so documentation, media scenarios, and validation notes matter alongside code changes. See [`docs/CONTRIBUTING.md`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/docs/CONTRIBUTING.md) for the local workflow.",
       "sourceUrl": "https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/README.md"
     }
   },
@@ -2929,7 +2938,7 @@
     "phase": "Development",
     "featured": false,
     "createdAt": "2022-12-28",
-    "updatedAt": "2026-03-30",
+    "updatedAt": "2025-12-22",
     "isPublic": true,
     "tags": [
       "Cognition",
@@ -2945,10 +2954,10 @@
     "description": "",
     "story": "",
     "images": {
-      "poster": "poster.png",
       "icon": "icon.png",
-      "thumbnail": "thumbnail.png",
       "banner": "banner.png",
+      "thumbnail": "thumbnail.png",
+      "poster": "poster.png",
       "hero": "hero.png"
     },
     "resources": [
@@ -3019,8 +3028,8 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "thumbnail.png",
       "banner": "banner.png",
+      "thumbnail": "thumbnail.png",
       "hero": "hero.png"
     },
     "resources": [
@@ -3089,10 +3098,10 @@
     "description": "",
     "story": "",
     "images": {
-      "poster": "poster.png",
       "icon": "icon.png",
-      "thumbnail": "thumbnail.png",
       "banner": "banner.png",
+      "thumbnail": "thumbnail.png",
+      "poster": "poster.png",
       "hero": "hero.png"
     },
     "resources": [
@@ -3147,7 +3156,7 @@
     "phase": "Development",
     "featured": false,
     "createdAt": "2024-08-27",
-    "updatedAt": null,
+    "updatedAt": "2026-03-09",
     "isPublic": true,
     "tags": [
       "Democracy",
@@ -3162,9 +3171,9 @@
     "description": "",
     "story": "",
     "images": {
-      "poster": "poster.png",
-      "thumbnail": "thumbnail.png",
       "banner": "banner.png",
+      "thumbnail": "thumbnail.png",
+      "poster": "poster.png",
       "hero": "hero.png"
     },
     "resources": [],
@@ -3209,7 +3218,7 @@
     "phase": "Development",
     "featured": false,
     "createdAt": "2026-04-03",
-    "updatedAt": null,
+    "updatedAt": "2026-03-28",
     "isPublic": true,
     "tags": [
       "macOS",
@@ -3226,10 +3235,10 @@
     "description": "",
     "story": "",
     "images": {
-      "poster": "poster.png",
       "icon": "icon.png",
-      "thumbnail": "thumbnail.png",
       "banner": "banner.png",
+      "thumbnail": "thumbnail.png",
+      "poster": "poster.png",
       "hero": "hero.png"
     },
     "resources": [
@@ -3270,6 +3279,145 @@
     }
   },
   {
+    "id": "33baec94-4d3c-8077-a29c-c57cb736b6f2",
+    "slug": "down-n-out",
+    "href": "/projects/down-n-out",
+    "title": "Down n' Out",
+    "name": "Down n' Out",
+    "subtitle": "",
+    "summary": "I wrote Down-and-Out not long after film school, while I was applying to the NBC Writing Program and still figuring out what kinds of stories I wanted to tell. The script follows three homeless men who find discarded tuxedos and use them to move through spaces that usually shut them out, which turns a simple comic premise into an early attempt at exploring identity, class, and the performance of belonging.\n\nLooking back, I can see the limits of what I understood at the time, especially after later living in New York and Anchorage and meeting more people whose lives were far more complicated than the version I had written. I would approach the story differently now, with more care and awareness, but the project still matters to me because it taught me how to build an idea from nothing, finish something imperfect, and let experience change the way I understand my own work.",
+    "oneLiner": "Down-and-Out is an early screenplay about three homeless men who try to step into another world by wearing discarded tuxedos, and slowly discover how much belonging can depend on what other people think they see.",
+    "domain": "Narrative",
+    "category": "Comedy",
+    "status": "Complete",
+    "phase": "Archived",
+    "featured": false,
+    "createdAt": "2014-10-26",
+    "updatedAt": "2014-12-12",
+    "isPublic": true,
+    "tags": [
+      "Screenwriting",
+      "Short Film",
+      "Comedy",
+      "Drama",
+      "Satire",
+      "Friendship",
+      "Dark"
+    ],
+    "mediums": [],
+    "genres": [],
+    "topics": [],
+    "subjects": [],
+    "description": "",
+    "story": "",
+    "images": {
+      "banner": "banner.png",
+      "thumbnail": "thumb.png",
+      "hero": "hero.png"
+    },
+    "resources": [],
+    "assets": [],
+    "collection": {},
+    "workLogs": [],
+    "articles": [],
+    "folderName": "down_n_out_33baec94-4d3c-8077-a29c-c57cb736b6f2"
+  },
+  {
+    "id": "33baec94-4d3c-80d2-8a69-deb2a742f972",
+    "slug": "google-sheets-production-schedule-desktop-app",
+    "href": "/projects/google-sheets-production-schedule-desktop-app",
+    "title": "Google Sheets Production Schedule Desktop App",
+    "name": "Google Sheets Production Schedule Desktop App",
+    "subtitle": "",
+    "summary": "Production Scheduling Desktop App helps teams manage jobs, work centers, and timelines from a single Google Sheet without needing a separate database. It provides a minimal desktop interface for viewing, editing, filtering, and visualizing production schedules through auto-generated Gantt charts. Built with React, Tauri, and Rust, it supports macOS, Windows, and Linux while remaining customizable for different production workflows.",
+    "oneLiner": "A cross-platform desktop app that turns Google Sheets into a lightweight production scheduling system with interactive Gantt charts and role-based access.",
+    "domain": "Technology",
+    "category": "Application",
+    "status": "Complete",
+    "phase": "Deprecated",
+    "featured": false,
+    "createdAt": "2024-11-30",
+    "updatedAt": "2025-09-30",
+    "isPublic": true,
+    "tags": [
+      "Manufacturing",
+      "Charts",
+      "Scheduling",
+      "Google Sheets",
+      "Gantt",
+      "React",
+      "Rust",
+      "Tauri",
+      "Windows",
+      "Machine Learning"
+    ],
+    "mediums": [],
+    "genres": [],
+    "topics": [],
+    "subjects": [],
+    "description": "",
+    "story": "",
+    "images": {
+      "icon": "icon.png",
+      "banner": "banner.png",
+      "thumbnail": "thumb.png",
+      "hero": "hero.png"
+    },
+    "resources": [
+      {
+        "type": "github",
+        "label": "Repo",
+        "url": "https://github.com/ZSturman/Google-Sheets-Production-Schedule-Desktop-App"
+      }
+    ],
+    "assets": [],
+    "collection": {},
+    "workLogs": [
+      {
+        "id": "34faec94-4d3c-80c1-98c7-c494b86f85a9",
+        "title": "Created new project entry for Google Sheets Production Schedule Desktop App",
+        "entry": "Created new project entry for Google Sheets Production Schedule Desktop App",
+        "url": "https://www.notion.so/Created-new-project-entry-for-Google-Sheets-Production-Schedule-Desktop-App-34faec944d3c80c198c7c494b86f85a9",
+        "startTime": "2024-11-30",
+        "endTime": "2024-11-30T01:00:00.000-08:00",
+        "date": "2026-04-27T02:23:00.000-07:00",
+        "sessionType": [
+          "Planning",
+          "Organizing"
+        ],
+        "whatHappened": "Created new project entry for Google Sheets Production Schedule Desktop App and added the 'Project Starter' milestones and tasks.",
+        "problems": null,
+        "nextStep": "Complete to do items",
+        "feelGoodAboutWork": 100.0,
+        "accomplishedWhatYouWanted": 100.0,
+        "durationMinutes": 60
+      },
+      {
+        "id": "34faec94-4d3c-8094-bfa3-c742c549c04d",
+        "title": "Project Completed",
+        "entry": "Project Completed",
+        "url": "https://www.notion.so/Project-Completed-34faec944d3c8094bfa3c742c549c04d",
+        "startTime": "2024-07-03",
+        "endTime": "2024-07-03T14:23:00.000-07:00",
+        "date": "2026-04-27T02:23:00.000-07:00",
+        "sessionType": [
+          "Planning",
+          "Build"
+        ],
+        "whatHappened": "Finalized Project",
+        "problems": null,
+        "nextStep": null,
+        "durationMinutes": 863
+      }
+    ],
+    "articles": [],
+    "folderName": "google_sheets_production_schedule_desktop_app_33baec94-4d3c-80d2-8a69-deb2a742f972",
+    "readme": {
+      "content": "# Production Scheduling Desktop App\n\nProduction Scheduling Desktop App leverages Google Sheets as a database to streamline production scheduling with cross-platform support, interactive Gantt charts, and role-based access control.\n\n## Overview\nThis app streamlines production scheduling by managing all schedule information in one Google Sheet and displaying progress with interactive Gantt charts.\n\n## Features\n- **Cross-Platform:** Runs on macOS, Windows, and Linux.\n- **Google Sheets Integration:** No additional database needed.\n- **Scheduling & Gantt Charts:** Auto generates visual timelines.\n- **Secure Authentication:** Uses a secure JSON key from Google Cloud.\n- **User Role Management:** Customizes view and access based on roles.\n- **Flexibility:** Minimal UI with optional extensions.\n\n\n## Installation & Setup\n\n1. Download the Application \n\n    - This application is designed for company-specific use, with builds available on their hardware. However, the source code is fully open for anyone to use and modify.\n    - To get started, clone the repository, install the dependencies, and build the app following the instructions below.\n    - To customize the app for your specific needs:\n        - Edit src/data/tabs.tsx to adjust the tabs configuration to match your Google Sheet columns.\n        - Modify src/data/defaults.tsx to align with your data. These changes will update how initial Google Sheets are generated and structured in the app.\n\n2. Obtain Google Sheets Credentials\n\n    - Follow the instructions below in Managing Your Google Sheets Credentials to get a .json file from Google Cloud.\n    - Drag and drop that file into the app or paste its contents into the appropriate screen.\n\n3. Enter Spreadsheet ID\n\n    - Inside the app, once credentials are loaded, provide the ID of the Google Spreadsheet you want to use.\n    - Ensure that the service account email address (found in your .json file) has permission to edit the Google Sheet.\n\n4. Start Scheduling\n\n    - The app will load your Sheet data, show you a table of jobs, and generate Gantt charts.\n\nThat’s it. You can now view and manage your production schedule.\n\n\n## Developer Setup Instructions\n**Prerequisites:** Node.js (16+), Yarn/npm, and the Rust toolchain.\n\nClone the repository\n\n```bash\ngit clone https://github.com/ZSturman/rods-sheets_v2.git\n```\n\nInstall dependencies\n\n``` bash\nnpm install\n```\n\nBuild the app\n\n```     bash\nnpm run tauri build\n```\n\nRun in development mode\n\n``` bash\nnpm run tauri dev\n```\n\n_Edit the React frontend in the src directory or adjust Tauri configuration in tauri.conf.json as needed._\n\n## Project Structure\n- **src-tauri:** Rust-based backend for the desktop wrapper.\n- **src:** React frontend for the user interface.\n\n## Using the App\n- View, edit, and filter production jobs.\n- See real-time updates in Gantt charts.\n- Export Gantt charts as images or PDFs.\n\n## Managing Google Sheets Credentials\n1. Visit Google Cloud Console.\n2. Create/select a project and enable the Google Sheets API.\n3. Create a service account and download the JSON key.\n4. Securely import the key to the app.\n\n## Work Centers & Schedules\nThe app groups production jobs by work center for easy filtering and tracking.\n\n## Further Customization\n- Add custom columns for extra job details.\n- Modify Gantt chart behavior.\n- Implement additional user roles and permissions.\n- Enhance the UI with new components.\n\n## Contributing\n- Fork the repository and create a new branch.\n- Make your changes, test them, and submit a pull request following our code style.\n- Be respectful and constructive.\n\n## License\nThis project is licensed under the MIT License.",
+      "sourceUrl": "https://github.com/ZSturman/Google-Sheets-Production-Schedule-Desktop-App/blob/main/README.md"
+    }
+  },
+  {
     "id": "346aec94-4d3c-801e-851f-c7e727f0e186",
     "slug": "the-wolf-project",
     "href": "/projects/the-wolf-project",
@@ -3285,7 +3433,7 @@
     "featured": true,
     "featuredOrder": 1,
     "createdAt": "2026-04-17",
-    "updatedAt": "2026-04-18",
+    "updatedAt": "2026-04-27",
     "isPublic": true,
     "tags": [
       "web",
@@ -3321,8 +3469,8 @@
           "hostname": "yourdogcanstay.com",
           "displayUrl": "yourdogcanstay.com",
           "description": "Access to Care Lifeline for families whose dog requires lifesaving medical care, but the upfront costs stand in the way.",
-          "image": "/projects/the_wolf_project_346aec94-4d3c-801e-851f-c7e727f0e186/previews/yourdogcanstay.com-98da4ec0bcac.png",
-          "imageSource": "capture"
+          "image": "http://yourdogcanstay.com/cdn/shop/files/3AC01483-E6E2-4011-833D-F6C8714C4FDC_dfbfda84-9ef0-49a6-be7e-7f1fa826400c.png?height=628&pad_color=ffffff&v=1776093581&width=1200",
+          "imageSource": "metadata"
         }
       },
       {
@@ -3336,8 +3484,8 @@
           "hostname": "the-wolf-pack.vercel.app",
           "displayUrl": "the-wolf-pack.vercel.app",
           "description": "When treatment exists but access to care doesn't, The Wolf Project exists to help families keep dogs where they belong - at home.",
-          "image": "/projects/the_wolf_project_346aec94-4d3c-801e-851f-c7e727f0e186/previews/the-wolf-pack.vercel.app-23526c25a9c2.png",
-          "imageSource": "capture"
+          "image": "https://yourdogcanstay.com/assets/brand/ydcs-logo.png",
+          "imageSource": "metadata"
         },
         "iconUrl": "/icons/favicons/the-wolf-pack.vercel.app.ico"
       }
@@ -3374,10 +3522,9 @@
           "hostname": "yourdogcanstay.com",
           "displayUrl": "yourdogcanstay.com",
           "description": "Access to Care Lifeline for families whose dog requires lifesaving medical care, but the upfront costs stand in the way.",
-          "image": "/projects/the_wolf_project_346aec94-4d3c-801e-851f-c7e727f0e186/previews/yourdogcanstay.com-98da4ec0bcac.png",
-          "imageSource": "capture"
-        },
-        "thumbnail": "/projects/the_wolf_project_346aec94-4d3c-801e-851f-c7e727f0e186/previews/yourdogcanstay.com-98da4ec0bcac.png"
+          "image": "http://yourdogcanstay.com/cdn/shop/files/3AC01483-E6E2-4011-833D-F6C8714C4FDC_dfbfda84-9ef0-49a6-be7e-7f1fa826400c.png?height=628&pad_color=ffffff&v=1776093581&width=1200",
+          "imageSource": "metadata"
+        }
       }
     ],
     "collection": {
@@ -3422,6 +3569,65 @@
     "readme": {
       "content": "# The Wolf Project\n\nThe Wolf Project site is a Next.js + Firebase marketing and content platform for an access-to-care initiative under SGT Canines. The site explains the mission, publishes stories and case updates, tracks fundraising progress, and includes a custom admin panel for non-technical content editing.\n\n## What The Site Does\n\nThe public site currently covers these jobs:\n\n- Explains the mission behind The Wolf Project and Wolf's founding story.\n- Publishes informational pages about access to care, trust, transparency, and how the lifeline works.\n- Displays case pages with fundraising goals, progress, and status updates.\n- Displays blog posts and an RSS feed at `/feed.xml`.\n- Collects email signups through the `/api/subscribe` endpoint.\n- Promotes merchandise and donation pathways.\n- Provides a custom admin panel at `/admin` for content management.\n\n## Stack\n\n- Next.js 16 App Router\n- React 19\n- TypeScript\n- Tailwind CSS 4\n- Firebase Auth + Firestore for content persistence\n- Cloudinary for image uploads\n- Markdoc for long-form case and blog content\n\n## Content Model\n\nAll content is stored in Firestore with the following collections:\n\n### Collections\n\n- `cases/{slug}` — Dog cases with fundraising goals, status, updates, and stories\n- `posts/{slug}` — Blog posts with Markdoc body content\n\n### Singletons (`singletons/{key}`)\n\n- `donationProgress` — Fundraising goal and amount raised\n- `applicationConfig` — Application open/closed state and messaging\n- `siteSettings` — Phase label, operational state, fund allocation\n- `homeContent` — Homepage hero, mission, CTA copy\n- `storyContent` — Our Story page sections and statistics\n- `processContent` — How It Works page steps and conditions\n- `trustContent` — Trust, impact, and transparency copy\n- `donationContent` — Donate and Join the Pack page messaging\n- `shopContent` — Shop page and product storytelling copy\n\nThe runtime adapter in `lib/site-content.ts` reads Firestore first and falls back to `data/site-content.ts` defaults if a singleton entry is missing.\n\n### Still code-managed\n\n- Navigation and footer links\n- Social links\n- Some merch/product metadata and outbound product URLs\n- Support option cards\n- Asset registry data in `data/assets.ts`\n\n## Admin Panel\n\nThe admin panel at `/admin` provides a full content management interface:\n\n- **Dashboard** — Overview of cases, posts, and singletons with a \"Reset Demo Data\" button\n- **Cases** — List, create, edit, and delete dog cases\n- **Blog Posts** — List, create, edit, and delete blog posts\n- **Site Settings** — Edit all 9 singletons through structured forms\n\nAuthentication uses Firebase Auth (email/password). All mutations are protected by token verification.\n\n## Demo Banner\n\nA dismissible demo banner appears at the top of the site linking to the admin panel. It can be dismissed via the close button and uses localStorage to remember the dismissal.\n\n## Seed Data\n\nThe seed system at `POST /api/seed` (auth-protected) resets all Firestore content to demo data. This can also be triggered from the admin dashboard's \"Reset Demo Data\" button.\n\nSeeded cases: Wolf (completed), Luna (active), Juniper (in-treatment), Scout (funded), Remy (memorial).\n\nSeeded posts: 5 editorial posts covering emergency care, case updates, and community stories.\n\nSeeded singletons: donationProgress, applicationConfig, siteSettings.\n\n## Local Setup\n\n1. Install dependencies.\n\n```bash\npnpm install\n```\n\n2. Create a local env file.\n\n```bash\ncp .env.example .env.local\n```\n\n3. Start the app.\n\n```bash\npnpm dev\n```\n\n4. Open the site at `http://localhost:3000`.\n\n5. Open the admin panel at `http://localhost:3000/admin`.\n\n## Environment Variables\n\nThe checked-in template is `.env.example`.\n\n### Firebase (required)\n\n- `NEXT_PUBLIC_FIREBASE_API_KEY` — Firebase client API key\n- `NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN` — Firebase auth domain\n- `NEXT_PUBLIC_FIREBASE_PROJECT_ID` — Firebase project ID\n- `NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET` — Firebase storage bucket\n- `NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID` — Firebase messaging sender ID\n- `NEXT_PUBLIC_FIREBASE_APP_ID` — Firebase app ID\n- `FIREBASE_PROJECT_ID` — Firebase project ID (server)\n- `FIREBASE_CLIENT_EMAIL` — Service account email\n- `FIREBASE_PRIVATE_KEY` — Service account private key\n\n### Cloudinary (required for image uploads)\n\n- `CLOUDINARY_CLOUD_NAME` — Cloudinary cloud name\n- `CLOUDINARY_API_KEY` — Cloudinary API key\n- `CLOUDINARY_API_SECRET` — Cloudinary API secret\n\n### Site\n\n- `NEXT_PUBLIC_SITE_URL` — Used for metadata and RSS feed URLs\n- `KIT_API_KEY` — Optional. Enables newsletter signup proxy to Kit\n- `KIT_FORM_ID` — Optional. The Kit form that receives subscriptions\n\nIf the Kit variables are omitted, the subscribe endpoint returns success and logs the submitted email server-side.\n\n## Editing Workflow\n\n1. Sign in at `/admin/login` with your Firebase Auth credentials.\n2. Create, edit, or delete cases and blog posts from the admin panel.\n3. Edit site settings, donation progress, and other singletons from the Settings tab.\n4. Upload images via Cloudinary integration.\n5. Changes are persisted immediately to Firestore and reflected on the public site.\n\n## Repo Map\n\n- `app/` — Route files, API endpoints, and admin panel\n- `app/admin/` — Admin panel pages (login, dashboard, CRUD editors, settings)\n- `app/api/` — API routes for cases, posts, singletons, upload, seed, subscribe\n- `components/` — Reusable UI components\n- `components/admin/` — Admin-specific components (form-field, save-button, etc.)\n- `content/` — Legacy content files (kept for reference, not used at runtime)\n- `data/` — Code-managed defaults and assets\n- `lib/db/` — Firebase/Firestore data access layer\n- `lib/auth/` — Auth context and token verification\n- `lib/site-content.ts` — Server-side content adapter\n- `lib/site-url.ts` — Canonical site URL helper\n- `public/assets/` — Local media\n- `types/` — Shared TypeScript types\n\n## Production Requirements\n\nBefore shipping to production, verify all of the following:\n\n1. Set `NEXT_PUBLIC_SITE_URL` to the canonical production domain.\n2. Decide whether email signup should be live.\n3. If email signup should be live, set `KIT_API_KEY` and `KIT_FORM_ID`.\n4. Confirm the public domain used for metadata, RSS, and social sharing is correct.\n5. Review every seeded dummy case, post, and singleton entry and replace or remove anything not meant for public launch.\n6. Confirm remote merch images from `yourdogcanstay.com` still resolve and are permitted by `next.config.ts`.\n7. Confirm redirects still reflect the intended information architecture:\n\t `/join-the-pack -> /donate`\n\t `/impact -> /transparency`\n8. Smoke test these routes before release:\n\t `/`\n\t `/our-story`\n\t `/how-it-works`\n\t `/our-promise`\n\t `/transparency`\n\t `/cases`\n\t `/blog`\n\t `/donate`\n\t `/shop`\n\t `/apply`\n\t `/feed.xml`\n\t `/admin`\n9. Verify all required static assets are present in `public/assets` and that externally hosted images are still available.\n\n## Known Limitations And TODOs\n\n- Donation progress `source: api` is not implemented yet. The schema exposes the setting, but the frontend still uses a placeholder/manual workflow.\n- `components/donation-progress-bar.tsx` still has the API fetch TODO for live donation sync.\n- Some site data is still intentionally code-managed rather than editable in the GUI.\n- The current demo content is operationally useful for testing, but it should be reviewed carefully before a public launch.\n\n## Recommended Release Process\n\n1. Edit content in the admin panel at `/admin`.\n2. Review changes on a local branch or staging deployment.\n3. Run lint and a production build.\n4. Have a human review copy, links, donation destinations, and legal/tax language.\n5. Merge and deploy.\n\n## Commands\n\n```bash\npnpm dev\npnpm lint\npnpm build\npnpm start\n```",
       "sourceUrl": "https://github.com/ZSturman/The-Wolf-Project/blob/main/README.md"
+    }
+  },
+  {
+    "id": "34faec94-4d3c-80bf-928b-e0e32ba51cc8",
+    "slug": "production-scheduling-web-app",
+    "href": "/projects/production-scheduling-web-app",
+    "title": "Production-Scheduling-Web-App",
+    "name": "Production-Scheduling-Web-App",
+    "subtitle": "",
+    "summary": "This project helps manufacturing teams manage production schedules across organizations, work centers, holidays, and user roles. It integrates with Google Sheets for production data, calculates schedules around capacity constraints, and provides a Gantt chart view for visual planning. Jobs can also be locked to fixed time slots, giving planners more control over real-world scheduling changes.",
+    "oneLiner": "A web-based manufacturing scheduling system that connects production planning, capacity-aware scheduling, and Google Sheets data in a multi-tenant Next.js app.",
+    "domain": "Technology",
+    "category": "Application",
+    "status": "Dormant",
+    "phase": "Backburner",
+    "featured": false,
+    "createdAt": "2025-05-04",
+    "updatedAt": "2024-09-30",
+    "isPublic": true,
+    "tags": [
+      "Production",
+      "Scheduling",
+      "Next.js",
+      "React",
+      "Firebase",
+      "Google Sheets"
+    ],
+    "mediums": [],
+    "genres": [],
+    "topics": [],
+    "subjects": [],
+    "description": "",
+    "story": "",
+    "images": {
+      "icon": "icon.png",
+      "banner": "banner.png",
+      "thumbnail": "thumb.png",
+      "hero": "hero.png"
+    },
+    "resources": [
+      {
+        "type": "github",
+        "label": "Repo",
+        "url": "https://github.com/ZSturman/Production-Scheduling-Web-App"
+      },
+      {
+        "type": "github",
+        "label": "Repo",
+        "url": "https://github.com/ZSturman/Google-Sheets-Production-Schedule-Desktop-App"
+      }
+    ],
+    "assets": [],
+    "collection": {},
+    "workLogs": [],
+    "articles": [],
+    "folderName": "production_scheduling_web_app_34faec94-4d3c-80bf-928b-e0e32ba51cc8",
+    "readme": {
+      "content": "# Manufacturing Production Scheduling System\n\nA web-based manufacturing scheduling application built with Next.js, Firebase, and Google Sheets integration.\n\n## Quick Start\n\n```bash\n# Install dependencies\nnpm install\n\n# Copy environment file and configure\ncp .env.example .env.local\n\n# Start development server\nnpm run dev\n```\n\n## Environment Setup\n\n### Required Environment Variables\n\nCreate a `.env.local` file with the following variables:\n\n```env\n# Firebase (get from Firebase Console > Project Settings)\nNEXT_PUBLIC_FIREBASE_API_KEY=...\nNEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=...\nNEXT_PUBLIC_FIREBASE_PROJECT_ID=...\nNEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=...\nNEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=...\nNEXT_PUBLIC_FIREBASE_APP_ID=...\n\n# Firebase Admin (service account JSON, base64 encoded)\nGOOGLE_APPLICATION_CREDENTIALS_JSON=...\n\n# Encryption key for Google Sheets credentials\nENCRYPTION_KEY=...\n```\n\n### Generate Encryption Key\n\n```bash\nnode -e \"console.log(require('crypto').randomBytes(32).toString('hex'))\"\n```\n\n### Base64 Encode Service Account\n\n```bash\ncat service-account.json | base64\n```\n\n## Features\n\n- **Multi-tenant Organizations** - Each organization has isolated data\n- **Google Sheets Integration** - Read/write production data from Google Sheets\n- **Production Scheduling** - Automatic schedule calculation with work center capacity\n- **Gantt Chart View** - Visual timeline of production jobs\n- **Job Locking** - Lock jobs to fixed time slots\n- **Holiday Management** - Configure holidays that affect scheduling\n- **Role-Based Access** - Admin, Planner, and Viewer roles\n\n## Architecture\n\nThis is a unified Next.js application that handles both frontend and API routes:\n\n```\nclient-next/\n├── src/\n│   ├── app/                 # Next.js App Router pages\n│   │   ├── api/             # API route handlers (server-side)\n│   │   ├── (auth)/          # Authentication pages\n│   │   ├── (dashboard)/     # Main application pages\n│   │   └── (onboarding)/    # Setup/onboarding pages\n│   ├── contexts/            # React contexts (Auth, Data)\n│   ├── lib/\n│   │   ├── server/          # Server-only code (Firebase Admin, Sheets API)\n│   │   └── firebase.ts      # Client-side Firebase\n│   └── types/               # TypeScript type definitions\n```\n\n## Deployment\n\n### Firebase Hosting + Cloud Run\n\n1. Build the Docker image:\n```bash\ndocker build -t manufacturing-scheduler .\n```\n\n2. Deploy to Cloud Run:\n```bash\ngcloud run deploy manufacturing-scheduler \\\n  --image gcr.io/YOUR_PROJECT/manufacturing-scheduler \\\n  --platform managed \\\n  --region us-central1 \\\n  --allow-unauthenticated\n```\n\n3. Configure Firebase Hosting to route to Cloud Run:\n```bash\nfirebase deploy --only hosting\n```\n\n### Environment Variables in Cloud Run\n\nSet these in the Cloud Run console or via CLI:\n- `ENCRYPTION_KEY`\n- `GOOGLE_APPLICATION_CREDENTIALS_JSON` (optional if using Cloud Run service account)\n\n## Google Sheets Setup\n\n### Prerequisites\n\n1. **Enable Google Sheets API** in your Google Cloud project:\n   - Go to [Google Cloud Console](https://console.cloud.google.com/)\n   - Navigate to **APIs & Services** > **Library**\n   - Search for \"Google Sheets API\" and click **Enable**\n   - ⚠️ **This step is REQUIRED** - the service account won't work without it!\n\n2. **Create a Service Account**:\n   - Go to **IAM & Admin** > **Service Accounts**\n   - Create a new service account with Editor role\n   - Download the JSON key file\n\n3. **Create and Share Google Sheet**:\n   - Create a Google Sheet with these tabs:\n     - **Products** - Production job data\n     - **WorkCenters** - Manufacturing work centers and schedules\n     - **Holidays** - Company holidays\n     - **Settings** - Application settings (optional)\n   - Share the sheet with your service account email (from JSON file)\n   - Grant Editor access\n\nSee [SHEETS_TEMPLATE.md](https://github.com/ZSturman/Production-Scheduling-Web-App/blob/main/docs/SHEETS_TEMPLATE.md) for detailed setup instructions and column requirements.\n\n## Development\n\n```bash\n# Run development server\nnpm run dev\n\n# Type checking\nnpm run typecheck\n\n# Linting\nnpm run lint\n\n# Build for production\nnpm run build\n```\n\n## License\n\nPrivate - All rights reserved.",
+      "sourceUrl": "https://github.com/ZSturman/Production-Scheduling-Web-App/blob/main/README.md"
     }
   }
 ]

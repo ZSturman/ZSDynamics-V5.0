@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "kind": "projects.detail",
+  "generated_at": "2026-05-06T02:07:33.255317+00:00",
+  "data": {
+    "id": "306aec94-4d3c-80a8-850e-df4dd020d452",
+    "slug": "broken-time-machine",
+    "href": "/projects/broken-time-machine",
+    "title": "Broken Time Machine",
+    "name": "Broken Time Machine",
+    "subtitle": "",
+    "summary": "Broken Time Machine is a story-driven adventure game built in Unity where players step into the role of a scientist’s assistant trying to repair a malfunctioning time machine. When an experiment goes wrong, fragments of the device scatter across different eras—from the Hadean eon to the modern age—opening unstable portals that pull ancient life and historical figures into the present. The game blends exploration, puzzle-solving, and light combat as players travel through time, retrieve lost machine parts, and face the consequences of a fractured timeline. Designed for players who enjoy narrative exploration and gradual skill-building, Broken Time Machine connects history, science, and discovery into a single continuous journey of repair and adaptation.",
+    "oneLiner": "A Unity-based adventure game where a scientist’s assistant repairs a broken time machine by traveling through Earth’s history, collecting its missing parts, and restoring order to a fractured timeline.",
+    "domain": "Technology",
+    "category": "Video Game",
+    "status": "Dormant",
+    "phase": "Development",
+    "featured": false,
+    "createdAt": "2021-04-04",
+    "updatedAt": "2026-02-19",
+    "isPublic": true,
+    "tags": [
+      "Blender",
+      "Story",
+      "Unity",
+      "React",
+      "Video Game"
+    ],
+    "mediums": [],
+    "genres": [],
+    "topics": [],
+    "subjects": [],
+    "description": "",
+    "story": "",
+    "images": {
+      "thumbnail": "D5A4CF89-4891-4BFE-8BC3-0317AD20CF80.png"
+    },
+    "resources": [
+      {
+        "type": "github",
+        "label": "Repo",
+        "url": "https://github.com/ZSturman/Broken-Time-Machine"
+      }
+    ],
+    "assets": [],
+    "collection": {},
+    "workLogs": [
+      {
+        "id": "339aec94-4d3c-8094-9e6d-c17fa1333637",
+        "title": "Created new project entry for Broken Time Machine",
+        "entry": "Created new project entry for Broken Time Machine",
+        "url": "https://www.notion.so/Created-new-project-entry-for-Broken-Time-Machine-339aec944d3c80949e6dc17fa1333637",
+        "startTime": "2021-04-04",
+        "endTime": "2021-04-04T01:00:00.000-07:00",
+        "date": "2026-04-05T03:08:00.000-07:00",
+        "sessionType": [
+          "Planning",
+          "Organizing"
+        ],
+        "whatHappened": "Created new project entry for Broken Time Machine and added the 'Project Starter' milestones and tasks.",
+        "problems": null,
+        "nextStep": "Complete to do items",
+        "feelGoodAboutWork": 100.0,
+        "accomplishedWhatYouWanted": 100.0,
+        "durationMinutes": 60
+      }
+    ],
+    "articles": [],
+    "folderName": "broken_time_machine_306aec94-4d3c-80a8-850e-df4dd020d452",
+    "readme": {
+      "content": "# Broken Time Machine\n\nBroken Time Machine is now organized as a two-track repo:\n\n- `BTM_3D_Browser/`: the active Babylon.js + TypeScript browser game.\n- `V1_SideScroller/`: the preserved Python/Pygame side-scrolling prototype.\n- `docs/`: architecture, gameplay, schema, and migration notes.\n- `_original_design/`: archived concept writing and legacy Unity reference material.\n\n## Active Build: `BTM_3D_Browser`\n\nThis is the current vertical-slice target: a third-person 3D browser adventure where an underqualified lab assistant fixes history one prehistoric retrieval job at a time.\n\n### Features in the current 3D slice\n\n- main menu and browser boot flow\n- lab intro tutorial\n- evolving present-day hub with staged corruption\n- Archean retrieval mission with lava escape sequence\n- hub creature capture loop with research-point upgrades\n- Cambrian dive mission with oxygen pressure and oversized creature aggro\n- HTML/CSS overlays for HUD, dialogue, field log, pause, and upgrade station\n- local save persistence with manifest validation and gameplay logic tests\n\n### Run locally\n\n```bash\ncd BTM_3D_Browser\nnpm install\nnpm run dev\n```\n\n### Build and test\n\n```bash\ncd BTM_3D_Browser\nnpm run test\nnpm run build\n```\n\n## Legacy Build: `V1_SideScroller`\n\nThis is the frozen 2D Python prototype preserved for reference and comparison. It is still runnable as its own self-contained prototype.\n\n```bash\ncd V1_SideScroller\npip install -r requirements.txt\npython main.py\n```\n\n## Docs\n\n- `docs/architecture.md`: runtime layout, scene flow, and major systems\n- `docs/gameplay-loop.md`: story beats, progression rhythm, and player-facing flow\n- `docs/content-schema.md`: data contracts for eras, creatures, missions, and saves\n- `docs/migration-notes.md`: what changed from the side scroller to the browser version\n\n## Project direction\n\nThe browser game is intentionally a polished vertical slice rather than a full content-complete campaign. The repo is now set up so more eras, hazards, upgrades, and hub corruption stages can be added without changing the core data contracts.",
+      "sourceUrl": "https://github.com/ZSturman/Broken-Time-Machine/blob/main/README.md"
+    }
+  }
+}

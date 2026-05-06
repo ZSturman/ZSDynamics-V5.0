@@ -1,0 +1,227 @@
+{
+  "schema_version": 1,
+  "kind": "articles.list",
+  "generated_at": "2026-05-06T02:07:33.259183+00:00",
+  "data": [
+    {
+      "slug": "the-wolf-project-reworking-a-real-world-project",
+      "title": "The Wolf Project - Reworking a Real-World Project",
+      "summary": "After discovering The Wolf Project through a Dodo video, I connected with the team and began rebuilding their website to better support their needs. The new version introduces structured data, dynamic content, and scalable infrastructure using Next.js, Firebase, and Cloudinary. It’s now a usable foundation that can evolve into a more complete system for showcasing cases, managing content, and supporting contributions.",
+      "oneLiner": "Rebuilding The Wolf Project’s site into a structured, scalable platform to better support real rescue work.",
+      "tags": [
+        "Dogs",
+        "Firebase",
+        "Next.js",
+        "Nonprofit",
+        "Web App",
+        "Welfare"
+      ],
+      "series": "The Wolf Project",
+      "publishedAt": "2026-04-28",
+      "updatedAt": "2026-04-18",
+      "href": "/articles/the-wolf-project-reworking-a-real-world-project",
+      "sourceUrl": "https://github.com/ZSturman/Articles/blob/main/articles/the-wolf-project-reworking-a-real-world-project/index.md",
+      "coverImage": "/articles/the-wolf-project-reworking-a-real-world-project/imgaes/Wolf-hero.webp",
+      "projectIds": [
+        "346aec94-4d3c-801e-851f-c7e727f0e186"
+      ]
+    },
+    {
+      "slug": "consolidating-an-offline-first-episodic-memory-system",
+      "title": "Consolidating an Offline-First Episodic Memory System",
+      "summary": "This piece traces the consolidation of several related experiments into one canonical episodic memory project, built around a single Python package, a shared artifact contract, and a dashboard and notebook workflow that inspect the same persisted runs. It argues that memory systems become more useful when they are transparent, offline-first, and structured around evidence, decision traces, and revisitable artifacts rather than hidden runtime state. Running through all of it is a broader research view, that location and whereabouts are not secondary details, but central signals in how a system interprets scenes, updates memory, and reasons about revisitation.",
+      "oneLiner": "This project is becoming a single offline-first episodic memory system that brings runtime, artifacts, and inspection into one coherent architecture, with location playing a central role in how memory is formed and understood.",
+      "tags": [
+        "Dashboard",
+        "Episodic Memory",
+        "Monty",
+        "Synthetic Memory",
+        "Thousand Brains Projects"
+      ],
+      "series": "Engineering AI for Recognition and Memory",
+      "publishedAt": null,
+      "updatedAt": "2026-04-11",
+      "href": "/articles/consolidating-an-offline-first-episodic-memory-system",
+      "sourceUrl": "https://github.com/ZSturman/Articles/blob/main/articles/consolidating-an-offline-first-episodic-memory-system/index.md",
+      "coverImage": "/articles/consolidating-an-offline-first-episodic-memory-system/images/hero.png",
+      "projectIds": [
+        "306aec94-4d3c-8005-97ab-d4572f1ab679"
+      ]
+    },
+    {
+      "slug": "the-art-of-turning-a-90-minute-task-into-a-2-month",
+      "title": "The Art of Turning a 90-Minute Task Into a 2-Month Automation Project",
+      "summary": "The article traces the evolution of four systems - Obsidian + Project Management App, OPE, RPOVault, and Folio - built to keep project metadata, files, and a public portfolio in sync without constant duplication. Each version clarified the value of structured project records, but also exposed the growing maintenance cost of owning every layer, especially around files, media, and editing workflows. The final takeaway is that integrating existing tools like Notion, n8n, GitHub Actions, and Firebase solves the real problem more effectively than continuing to maintain a complex custom application.",
+      "oneLiner": "A reflection on building four generations of project-and-portfolio management tools, and why a simpler integrated workflow ultimately beat a fully custom app.",
+      "tags": [
+        "Automation",
+        "Note Taking",
+        "Notion",
+        "Obsidian",
+        "Portfolio",
+        "Product Design",
+        "React",
+        "Swift",
+        "macOS"
+      ],
+      "series": "My Notion Pipeline",
+      "publishedAt": null,
+      "updatedAt": "2026-04-08",
+      "href": "/articles/the-art-of-turning-a-90-minute-task-into-a-2-month",
+      "sourceUrl": "https://github.com/ZSturman/Articles/blob/main/articles/the-art-of-turning-a-90-minute-task-into-a-2-month/index.md",
+      "coverImage": "/articles/the-art-of-turning-a-90-minute-task-into-a-2-month/images/Concept_art_with_Logo.jpeg",
+      "projectIds": [
+        "324aec94-4d3c-8068-a8a7-ed6d1d4d1790"
+      ]
+    },
+    {
+      "slug": "how-i-sync-my-portfolio-using-notion",
+      "title": "How I Sync My Portfolio Using Notion",
+      "summary": "How a portfolio can be built as a publishing pipeline, with Notion as the source of truth, n8n creating a JSON handoff, Python scripts normalizing content and media, and Next.js exporting the final static site. The result is a cleaner separation between editing, transformation, and publishing, making the site more predictable and maintainable.",
+      "oneLiner": "A portfolio architecture that turns structured project data into a static site through a local publishing pipeline.",
+      "tags": [
+        "Automation",
+        "CI/CD",
+        "Firebase",
+        "GitHub Actions",
+        "Next.js",
+        "Notion",
+        "Python",
+        "n8n"
+      ],
+      "series": null,
+      "publishedAt": null,
+      "updatedAt": "2026-04-08",
+      "href": "/articles/how-i-sync-my-portfolio-using-notion",
+      "sourceUrl": "https://github.com/ZSturman/Articles/blob/main/articles/how-i-sync-my-portfolio-using-notion/index.md",
+      "coverImage": "/articles/how-i-sync-my-portfolio-using-notion/images/Hero_image.png",
+      "projectIds": []
+    },
+    {
+      "slug": "building-chewsense-using-motion-data-for-an-on-device-ai-health-agent",
+      "title": "Building ChewSense - Using Motion Data For An On-Device AI Health Agent",
+      "summary": "This article traces how ChewSense evolved from early experiments with raw AirPods motion signals into a structured pipeline for session collection, video-assisted labeling, feature extraction, model training, and on-device inference. The core lesson is that the hardest part of applied ML was not just training a model, but building the surrounding system needed to collect trustworthy data, preserve feature parity, and make runtime behavior believable.",
+      "oneLiner": "A first-person build story about turning AirPods motion data, synchronized video, and disciplined tooling into a believable on-device chewing-detection ML pipeline.",
+      "tags": [
+        "AirPods",
+        "Applied ML",
+        "ChewSense",
+        "Health Tech",
+        "Machine Learning",
+        "On-Device",
+        "Prototyping",
+        "Python",
+        "Swift",
+        "Time-series",
+        "Wearables",
+        "iOS"
+      ],
+      "series": "ChewSense",
+      "publishedAt": null,
+      "updatedAt": "2026-04-07",
+      "href": "/articles/building-chewsense-using-motion-data-for-an-on-device-ai-health-agent",
+      "sourceUrl": "https://github.com/ZSturman/Articles/blob/main/articles/building-chewsense-using-motion-data-for-an-on-device-ai-health-agent/index.md",
+      "coverImage": "/articles/building-chewsense-using-motion-data-for-an-on-device-ai-health-agent/images/hero.png",
+      "projectIds": [
+        "306aec94-4d3c-808d-9ada-f0ccca484d3b"
+      ]
+    },
+    {
+      "slug": "building-a-desktop-app-around-google-sheets",
+      "title": "Building a Desktop App Around Google Sheets",
+      "summary": "This project began after seeing a manufacturer manage production schedules through emailed Excel files, which exposed how much critical operational work was being held together by fragile spreadsheet workflows. It started as a desktop app built around those existing habits, but the bigger lesson was that the real challenge was not just replacing spreadsheets, it was reducing the friction of adoption. That led to a web-based version focused on easier onboarding, configuration, and reusable workflow views, with the project ultimately becoming a lesson in testing earlier and designing for usability before technical ambition.",
+      "oneLiner": "A manufacturing scheduling project that evolved from a desktop app built around spreadsheet workflows into a web-based system focused on reducing adoption friction.",
+      "tags": [
+        "Desktop App",
+        "Google Sheets",
+        "Manufacturing",
+        "SaaS",
+        "Spreadsheets",
+        "Systems Design",
+        "Tauri",
+        "Web App"
+      ],
+      "series": "Using Google Sheets as an Application Database",
+      "publishedAt": null,
+      "updatedAt": "2026-04-07",
+      "href": "/articles/building-a-desktop-app-around-google-sheets",
+      "sourceUrl": "https://github.com/ZSturman/Articles/blob/main/articles/building-a-desktop-app-around-google-sheets/index.md",
+      "coverImage": "/articles/building-a-desktop-app-around-google-sheets/images/Spreadsheet_chaos_scene.png",
+      "projectIds": []
+    },
+    {
+      "slug": "building-a-location-first-learning-agent-to-explore-context-memory-and-consciousness",
+      "title": "Building a Location-First Learning Agent to Explore Context, Memory, and Consciousness",
+      "summary": "This explores the idea that recognition comes more from place, context, and repeated reinforcement than detached labels, using an inspectable Python CLI agent that learns locations from sensor observations and stores state plainly. It evolves from simple grayscale location memory into richer, modality-neutral location and concept structures, with a roadmap toward broader memory processes like activation, replay, resurfacing, and reconsolidation.",
+      "oneLiner": "A location-first learning agent that turns user and sensor input into inspectable memory, then grows toward a broader synthetic memory-and-attention engine.",
+      "tags": [
+        "AI",
+        "Adaptive",
+        "CLI",
+        "Learning",
+        "Location",
+        "ML",
+        "Python",
+        "Sensor",
+        "State Management",
+        "Synthetic Memory"
+      ],
+      "series": "Engineering AI for Recognition and Memory",
+      "publishedAt": "2026-05-02",
+      "updatedAt": "2026-04-04",
+      "href": "/articles/building-a-location-first-learning-agent-to-explore-context-memory-and-consciousness",
+      "sourceUrl": "https://github.com/ZSturman/Articles/blob/main/articles/building-a-location-first-learning-agent-to-explore-context-memory-and-consciousness/index.md",
+      "coverImage": "/articles/building-a-location-first-learning-agent-to-explore-context-memory-and-consciousness/images/cover_image.png",
+      "projectIds": [
+        "332aec94-4d3c-807a-ba3b-d0950cd03a66"
+      ]
+    },
+    {
+      "slug": "how-i-use-notion-to-track-my-projects",
+      "title": "How I Use Notion to Ingest, Organize, and Track My Projects",
+      "summary": "This Notion setup is a guided project intake workflow rather than a simple notes system: each project starts from a template, highlights the highest-priority next step, and builds toward execution, portfolio readiness, and future automation. By checking key setup steps automatically and separating projects, tasks, assets, resources, and milestones into linked systems, it reduces friction and makes the workflow easier to manage as it scales.",
+      "oneLiner": null,
+      "tags": [
+        "AI",
+        "API Integration",
+        "ML",
+        "Notion",
+        "Productivity"
+      ],
+      "series": "My Notion Pipeline",
+      "publishedAt": null,
+      "updatedAt": "2026-04-01",
+      "href": "/articles/how-i-use-notion-to-track-my-projects",
+      "sourceUrl": "https://github.com/ZSturman/Articles/blob/main/articles/how-i-use-notion-to-track-my-projects/index.md",
+      "coverImage": "/articles/how-i-use-notion-to-track-my-projects/images/cover_image.png",
+      "projectIds": [
+        "304aec94-4d3c-8029-a1b1-ea0f92487137"
+      ]
+    },
+    {
+      "slug": "automating-linear-from-notion",
+      "title": "Automating Linear From Notion",
+      "summary": "A bidirectional sync engine that keeps Notion and Linear aligned by normalizing their data into shared models, reconciling meaningful changes, and preserving relationships and identity across systems.",
+      "oneLiner": "A reliable sync layer that makes Notion planning and Linear execution behave like a single system.",
+      "tags": [
+        "API Integration",
+        "Automation",
+        "Linear",
+        "Notion",
+        "Python",
+        "State Management",
+        "Systems Design"
+      ],
+      "series": "Notion as a Source of Truth",
+      "publishedAt": null,
+      "updatedAt": "2026-03-25",
+      "href": "/articles/automating-linear-from-notion",
+      "sourceUrl": "https://github.com/ZSturman/Articles/blob/main/articles/automating-linear-from-notion/index.md",
+      "coverImage": "/articles/automating-linear-from-notion/images/Cover.png",
+      "projectIds": [
+        "304aec94-4d3c-8029-a1b1-ea0f92487137"
+      ]
+    }
+  ],
+  "count": 9
+}

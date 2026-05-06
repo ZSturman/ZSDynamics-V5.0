@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "kind": "projects.detail",
+  "generated_at": "2026-05-06T02:07:33.257057+00:00",
+  "data": {
+    "id": "332aec94-4d3c-8040-87a1-e4f349ef0994",
+    "slug": "math-and-happiness",
+    "href": "/projects/math-and-happiness",
+    "title": "Math and Happiness",
+    "name": "Math and Happiness",
+    "subtitle": "",
+    "summary": "This project is a personal happiness tracker, though “tracker” isn’t really the right word. It feels more like a tool for people who want to define their own life structure, decide what matters most, rate how things are going, and use weighted scoring to surface what needs care and what is already strong. The default shape leans on basic needs, safety, daily life, esteem, and self-actualization, but the real point is that the structure is editable, so the model can become personal rather than generic.\n\nThe audience seems to be reflective adults who want something more rigorous than vague wellness advice and more private than a social app. It is local, self-directed, and practical, with no accounts, no public layer, and no coaching voice. The overall character is calm, analytical, and a little intimate, grounded in self-reflection and simple math rather than performance or lifestyle branding.\n\nIt is clearly meant for personal use, habit review, and periodic reassessment over time, and it clearly values autonomy, meaning, and honest self-scoring. What feels less fixed is the final brand style, because the interface is restrained and functional, so the most plausible direction is a quiet editorial system that mixes structure, hierarchy, and measured warmth without turning into a glossy wellness brand.",
+    "oneLiner": "A tool that helps map the parts of life that matter, weight them honestly, score how things are going, and see where the math points my attention next.",
+    "domain": "Expository",
+    "category": "Application",
+    "status": "Active",
+    "phase": "Development",
+    "featured": false,
+    "createdAt": "2023-07-21",
+    "updatedAt": "2026-02-23",
+    "isPublic": true,
+    "tags": [
+      "Telemetry",
+      "Psychology",
+      "Happiness",
+      "Reflection"
+    ],
+    "mediums": [],
+    "genres": [],
+    "topics": [],
+    "subjects": [],
+    "description": "",
+    "story": "",
+    "images": {
+      "banner": "banner.png",
+      "thumbnail": "thumbnail.png",
+      "poster": "poster.png",
+      "hero": "hero.png"
+    },
+    "resources": [
+      {
+        "type": "github",
+        "label": "Repo",
+        "url": "https://github.com/ZSturman/Math-and-Hapiness"
+      }
+    ],
+    "assets": [],
+    "collection": {},
+    "workLogs": [
+      {
+        "id": "339aec94-4d3c-80d3-9a8b-ec1e096ea00e",
+        "title": "Created new project entry for Math and Happiness",
+        "entry": "Created new project entry for Math and Happiness",
+        "url": "https://www.notion.so/Created-new-project-entry-for-Math-and-Happiness-339aec944d3c80d39a8bec1e096ea00e",
+        "startTime": "2023-07-21",
+        "endTime": "2023-07-21T01:00:00.000-07:00",
+        "date": "2026-04-05T03:04:00.000-07:00",
+        "sessionType": [
+          "Planning",
+          "Organizing"
+        ],
+        "whatHappened": "Created new project entry for Math and Happiness and added the 'Project Starter' milestones and tasks.",
+        "problems": null,
+        "nextStep": "Complete to do items",
+        "feelGoodAboutWork": 100.0,
+        "accomplishedWhatYouWanted": 100.0,
+        "durationMinutes": 60
+      }
+    ],
+    "articles": [],
+    "folderName": "math_and_happiness_332aec94-4d3c-8040-87a1-e4f349ef0994",
+    "readme": {
+      "content": "<div align=\"center\">\n\n# 😊 Happiness Tracker\n\n**A thinking tool for understanding what matters.**\n\nDefine the areas of life that affect your happiness, assign importance,<br>\nscore yourself honestly, and watch the math reveal what to focus on.\n\n[![Next.js](https://img.shields.io/badge/Next.js-15-black?logo=next.js)](https://nextjs.org/)\n[![React](https://img.shields.io/badge/React-19-61DAFB?logo=react)](https://react.dev/)\n[![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript)](https://typescriptlang.org/)\n[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)\n\n</div>\n\n---\n\n## Why?\n\nMost happiness advice is generic. This tool takes the opposite approach — it asks *you* to define what matters and how much, then uses weighted scoring to surface where your life is strong and where it needs attention.\n\nThe default categories are inspired by Maslow's hierarchy, but you can restructure everything to match your own mental model.\n\n## How It Works\n\nThe app follows a five-step workflow:\n\n| Step | Tab | What you do |\n|------|-----|-------------|\n| **1** | **Structure** | Define your life areas as a category tree (pillars → subcategories) |\n| **2** | **Prioritize** | Assign importance weights (1–10) to each area |\n| **3** | **Assess** | Score yourself 1–10 in every leaf category |\n| **4** | **Results** | See your weighted overall score, pillar breakdown, strengths, and attention areas |\n| **5** | **History** | Compare assessments over time and track trends |\n\nScores bubble up through the tree using normalized sibling weights, so a low score in a high-priority area gets flagged automatically.\n\n## Quick Start\n\n```bash\n# Install dependencies\nnpm install\n\n# Start the dev server\nnpm run dev\n```\n\nOpen [http://localhost:3000](http://localhost:3000) in your browser.\n\n## Scripts\n\n| Command | Description |\n|---------|-------------|\n| `npm run dev` | Start development server with hot reload |\n| `npm run build` | Build for production (static export) |\n| `npm start` | Serve the production build |\n| `npm run lint` | Run Next.js linting |\n\n## Project Structure\n\n```\nsrc/\n├── app/\n│   ├── layout.tsx        # Root layout with metadata\n│   ├── page.tsx           # Main page (client-side SPA)\n│   └── globals.css        # All styles + CSS custom properties\n├── components/\n│   ├── AssessmentFlow.tsx  # Score input UI for each leaf category\n│   ├── CategoryTree.tsx    # Editable tree of life areas\n│   ├── Dashboard.tsx       # Results: overall score, pillars, insights\n│   ├── History.tsx         # Past assessments timeline\n│   └── WeightEditor.tsx    # Importance sliders per category\n├── context/\n│   └── AppContext.tsx      # Global state via useReducer + auto-save\n├── data/\n│   └── starterContent.ts   # Default Maslow-based category tree\n├── models/\n│   └── types.ts            # TypeScript interfaces for all data\n└── services/\n    ├── calculator.ts       # Weighted score computation engine\n    └── storage.ts          # localStorage persistence + JSON import/export\n```\n\n## Key Design Decisions\n\n- **Client-only** — All data lives in `localStorage`. No server, no accounts, no tracking. Your data stays on your device.\n- **Static export** — Configured with `output: 'export'` in Next.js, so it can be deployed to any static host (GitHub Pages, Netlify, Vercel, etc.).\n- **Hierarchical weighted scoring** — Weights are normalized among siblings at each level, then multiplied up the tree. This means rearranging your categories changes how scores aggregate.\n- **Dark mode** — Automatic via `prefers-color-scheme` with CSS custom properties.\n\n## Data Portability\n\nUse the **Export** / **Import** buttons in the header to back up or transfer your data as JSON.\n\n## License\n\nMIT",
+      "sourceUrl": "https://github.com/ZSturman/Math-and-Hapiness/blob/main/README.md"
+    }
+  }
+}

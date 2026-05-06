@@ -7,10 +7,11 @@
   },
   "scripts": {
     "dev": "next dev",
-    "dev:full": "npm run generate-articles && npm run generate-projects && npm run optimize && next dev",
+    "dev:full": "npm run generate-articles && npm run generate-projects && npm run optimize && npm run postprocess && next dev",
     "dev-cached": "next dev",
     "build": "next build",
-    "build:full": "npm run generate-articles && npm run generate-projects && npm run optimize && next build",
+    "build:full": "npm run generate-articles && npm run generate-projects && npm run optimize && npm run postprocess && next build",
+    "build:full:hosted": "npm run generate-articles && npm run generate-projects && npm run optimize && npm run postprocess:hosted && next build",
     "start": "next start",
     "lint": "eslint",
     "test:media": "playwright test -c playwright.media.config.ts",
@@ -20,7 +21,12 @@
     "hooks:pre-push": "bash .githooks/pre-push",
     "generate-articles": "python3 lib/sync_articles.py",
     "generate-projects": "python3 lib/folio-prebuild.py --input-json /Users/zacharysturman/n8n-files/exports/new_projects.json",
-    "optimize": "python3 lib/media-optimizer.py public/projects --delete-originals"
+    "optimize": "python3 lib/media-optimizer.py public/projects --delete-originals",
+    "postprocess": "python3 lib/build_postprocess.py",
+    "postprocess:hosted": "python3 lib/build_postprocess.py --enable-r2",
+    "upload-media": "python3 lib/build_postprocess.py --enable-r2 --media-only",
+    "upload-media:dry-run": "python3 lib/build_postprocess.py --enable-r2 --media-only --dry-run",
+    "daily-analytics": "node scripts/daily-analytics-summary.mjs"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.15",
@@ -46,6 +52,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@google-analytics/data": "^4.13.0",
     "@playwright/test": "^1.57.0",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",

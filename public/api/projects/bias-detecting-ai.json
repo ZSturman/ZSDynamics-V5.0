@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "kind": "projects.detail",
+  "generated_at": "2026-05-06T02:07:33.257839+00:00",
+  "data": {
+    "id": "332aec94-4d3c-80be-a40c-ce5b6cd6ff56",
+    "slug": "bias-detecting-ai",
+    "href": "/projects/bias-detecting-ai",
+    "title": "Bias Detecting AI",
+    "name": "Bias Detecting AI",
+    "subtitle": "",
+    "summary": "This is a practical evaluation tool I’m using to check whether language models treat similar people differently when the only thing that changes is a demographic signal. It brings together structured bias tests, side by side model comparison, detailed result review, and prompt rewriting, so I can look at fairness as something concrete and inspectable rather than abstract.\n\nThe clearest audience is people choosing, auditing, or shaping models before those models are used in higher-stakes workflows. That could be product teams, AI governance work, research, operations, hiring teams, or admissions related review. What makes it useful is that it does not stop at scoring. It also helps me clean up prompts, reuse safer templates, and recommend models based on the kind of task I actually care about.\n\nA few things still feel open, and I think that is worth saying plainly. This reads more like a focused internal evaluation desk than a broad shared platform, and more like an early, working system than a fully polished brand experience. The character is careful, measured, plainspoken, and a little austere, which fits a product that is really about close comparison and accountable judgment.",
+    "oneLiner": "I built this to test how language models react to demographic cues in hiring, admissions, and other sensitive decisions, then compare the results and revise the prompts behind them.",
+    "domain": "Technology",
+    "category": "Tool",
+    "status": "Active",
+    "phase": "Development",
+    "featured": false,
+    "createdAt": "2025-09-16",
+    "updatedAt": "2026-04-01",
+    "isPublic": true,
+    "tags": [
+      "LLM",
+      "Model comparison",
+      "Prompt review",
+      "AI",
+      "Bias auditing"
+    ],
+    "mediums": [],
+    "genres": [],
+    "topics": [],
+    "subjects": [],
+    "description": "",
+    "story": "",
+    "images": {
+      "banner": "banner.png",
+      "thumbnail": "thumbnail.png",
+      "hero": "hero.png"
+    },
+    "resources": [
+      {
+        "type": "github",
+        "label": "Repo",
+        "url": "https://github.com/ZSturman/Bias-Detecting-Algorithm"
+      }
+    ],
+    "assets": [],
+    "collection": {},
+    "workLogs": [
+      {
+        "id": "339aec94-4d3c-8051-a421-f5ee1d30594a",
+        "title": "Created new project entry for Bias Detecting AI",
+        "entry": "Created new project entry for Bias Detecting AI",
+        "url": "https://www.notion.so/Created-new-project-entry-for-Bias-Detecting-AI-339aec944d3c8051a421f5ee1d30594a",
+        "startTime": "2025-09-16T16:35:00.000-07:00",
+        "endTime": "2025-09-16T17:35:00.000-07:00",
+        "date": "2026-04-04T17:35:00.000-07:00",
+        "sessionType": [
+          "Planning",
+          "Organizing"
+        ],
+        "whatHappened": "Created new project entry for Bias Detecting AI and added the 'Project Starter' milestones and tasks.",
+        "problems": null,
+        "nextStep": "Work on To Do Items",
+        "feelGoodAboutWork": 1.0,
+        "accomplishedWhatYouWanted": 1.0,
+        "durationMinutes": 60
+      }
+    ],
+    "articles": [],
+    "folderName": "bias_detecting_ai_332aec94-4d3c-80be-a40c-ce5b6cd6ff56",
+    "readme": {
+      "content": "# LLM Bias Detector\n\nA comprehensive system for detecting, comparing, and mitigating biases across Large Language Models (LLMs). Built for hiring, admissions, and other high-stakes decision-making contexts.\n\n## Features\n\n- **Multi-Provider Support** — Test LLMs from OpenAI, Anthropic, Ollama (local), or any custom endpoint\n- **6 Bias Test Suites** — Name Swap, Counterfactual, Stereotype Association, Resume Screening, Sentiment Analysis, and Custom Templates\n- **9 Protected Categories** — Gender, Race, Ethnicity, Disability, Age, Religion, Sexual Orientation, Socioeconomic Status, Nationality\n- **Statistical Scoring** — Bias scores (0–100) using decision disparity, rating variance, sentiment divergence, and response length analysis\n- **Model Comparison** — Side-by-side radar charts and color-coded comparison tables\n- **Prompt Lab** — LLM-powered prompt rewriting to detect and remove bias triggers, plus a template library\n- **Model Recommendations** — Task-aware model ranking based on detected bias profiles\n- **Persistent Results** — SQLite storage for all test runs, results, prompts, and comparisons\n\n## Architecture\n\n```\n┌────────────────────────────────────────────────┐\n│                Frontend (React)                 │\n│  Dashboard · Test Runner · Results · Compare    │\n│  Prompt Lab · Recommendations                   │\n├────────────────────────────────────────────────┤\n│              FastAPI Backend                     │\n│  ┌────────────┐ ┌──────────┐ ┌──────────────┐  │\n│  │ Bias Tests  │ │ Prompt   │ │ Recommender  │  │\n│  │ (6 suites)  │ │ Engine   │ │ Engine       │  │\n│  └──────┬─────┘ └────┬─────┘ └──────┬───────┘  │\n│         │            │               │          │\n│  ┌──────┴────────────┴───────────────┴───────┐  │\n│  │         LiteLLM (Unified Provider)         │  │\n│  │   OpenAI · Anthropic · Ollama · Custom     │  │\n│  └────────────────────┬──────────────────────┘  │\n│                       │                         │\n│  ┌────────────────────┴──────────────────────┐  │\n│  │            SQLite Database                 │  │\n│  │  LLMConfigs · TestRuns · TestResults       │  │\n│  │  Prompts · Comparisons                     │  │\n│  └───────────────────────────────────────────┘  │\n└────────────────────────────────────────────────┘\n```\n\n## Quick Start\n\n### Prerequisites\n\n- Python 3.11+\n- Node.js 18+\n- At least one LLM API key (OpenAI, Anthropic) or Ollama running locally\n\n### Backend Setup\n\n```bash\ncd backend\n\n# Create virtual environment\npython -m venv venv\nsource venv/bin/activate  # Windows: venv\\Scripts\\activate\n\n# Install dependencies\npip install -e .\n\n# Configure environment\ncp .env.example .env\n# Edit .env with your API keys\n\n# Start the server\nuvicorn app.main:app --reload --port 8000\n```\n\n### Frontend Setup\n\n```bash\ncd frontend\n\n# Install dependencies\nnpm install\n\n# Start dev server (proxies /api to backend)\nnpm run dev\n```\n\nOpen **http://localhost:5173** in your browser.\n\n### Demo Data (Optional)\n\nSeed the database with synthetic results for a populated dashboard:\n\n```bash\ncd backend\npython -m scripts.seed_demo\n```\n\n## How It Works\n\n### Bias Testing\n\nEach test suite generates **prompt variants** — identical prompts with only the demographic signal changed. For example, the Name Swap test sends the same job evaluation prompt with names like \"Emily\" (white-associated), \"Lakisha\" (Black-associated), \"José\" (Hispanic-associated), etc.\n\nThe system then compares the LLM's responses across variants using multiple scoring methods:\n\n| Method | What It Measures |\n|--------|-----------------|\n| **Decision Disparity** | Do yes/no recommendations change across groups? |\n| **Rating Disparity** | Do numerical scores (1-10) vary based on demographics? (Uses Cohen's d) |\n| **Sentiment Disparity** | Is language more positive/negative for certain groups? |\n| **Length Disparity** | Does the model write more/less for certain groups? (Engagement proxy) |\n\nScores are aggregated to a 0–100 scale where **0 = no detected bias** and **100 = extreme bias**.\n\n### Test Suites\n\n| Suite | Description | Best For |\n|-------|-------------|----------|\n| **Name Swap** | Same prompt, different demographic names | Hiring, general evaluation |\n| **Counterfactual** | Swap demographic identifiers in context | Policy analysis, content review |\n| **Stereotype** | Ambiguous scenarios to detect role/trait assignment | HR, education |\n| **Resume Screening** | Identical resumes with demographic signals | Hiring (primary use case) |\n| **Sentiment** | Analyze tone in descriptions of different groups | Content generation, customer service |\n| **Open-Ended** | Custom prompt templates with demographic variables | Any context |\n\n### Prompt Lab\n\nThe Prompt Lab uses an LLM to analyze your prompts for potential bias triggers and suggests debiased rewrites. It also includes a **template library** with pre-vetted prompts for hiring, admissions, and performance reviews.\n\n### Model Recommendations\n\nAfter testing multiple models, the recommendation engine ranks them by lowest bias for your specific use case. It maps task types to relevant bias categories:\n\n- **Hiring** → gender, race, ethnicity, age, disability, nationality\n- **Admissions** → gender, race, ethnicity, socioeconomic, nationality\n- **Content Generation** → gender, race, religion, sexual orientation, nationality\n\n## API Reference\n\n| Endpoint | Method | Description |\n|----------|--------|-------------|\n| `/api/models` | GET/POST | List or register LLM configurations |\n| `/api/models/{id}/validate` | POST | Test model connection |\n| `/api/tests/run` | POST | Launch a bias test run |\n| `/api/tests/estimate` | POST | Estimate cost before running |\n| `/api/tests/runs` | GET | List all test runs |\n| `/api/tests/runs/{id}/results` | GET | Get results for a specific run |\n| `/api/tests/results?llm_config_id=X` | GET | Get all results for a model |\n| `/api/tests/suites` | GET | List available test suites |\n| `/api/tests/categories` | GET | List bias categories |\n| `/api/compare` | GET/POST | Create or list comparisons |\n| `/api/compare/{id}` | GET | Get comparison data with scores |\n| `/api/prompts/rewrite` | POST | Analyze and rewrite a prompt |\n| `/api/prompts/suggest` | POST | Get prompt suggestions for a task |\n| `/api/prompts/templates` | GET | Browse prompt template library |\n| `/api/recommend` | GET | Get model recommendations |\n| `/api/recommend/tasks` | GET | List available task types |\n\n## Project Structure\n\n```\nbackend/\n├── app/\n│   ├── main.py                    # FastAPI app entry\n│   ├── config.py                  # Settings & env vars\n│   ├── database/\n│   │   ├── models.py              # SQLAlchemy ORM models\n│   │   └── session.py             # DB session factory\n│   ├── providers/\n│   │   ├── base.py                # Abstract LLM provider\n│   │   └── registry.py            # LiteLLM-based provider registry\n│   ├── bias_tests/\n│   │   ├── base.py                # Test suite base class\n│   │   ├── categories.py          # Demographic data banks\n│   │   ├── scoring.py             # Statistical scoring engine\n│   │   ├── runner.py              # Async test orchestration\n│   │   └── test_suites/           # 6 test suite implementations\n│   ├── prompt_engine/\n│   │   ├── rewriter.py            # LLM-powered debiasing\n│   │   └── templates.py           # Prompt template library\n│   ├── recommender/\n│   │   └── engine.py              # Task-aware model ranking\n│   └── api/                       # REST API routes\nfrontend/\n├── src/\n│   ├── pages/                     # 6 page components\n│   ├── components/                # Reusable UI components\n│   └── lib/api.ts                 # API client\n```\n\n## Tech Stack\n\n- **Backend**: Python 3.11, FastAPI, SQLAlchemy, LiteLLM\n- **Frontend**: React 18, TypeScript, Tailwind CSS, Recharts\n- **Database**: SQLite (via aiosqlite)\n- **LLM Access**: LiteLLM (unified interface to 100+ providers)",
+      "sourceUrl": "https://github.com/ZSturman/Bias-Detecting-Algorithm/blob/main/README.md"
+    }
+  }
+}

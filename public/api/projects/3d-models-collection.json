@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "kind": "projects.detail",
+  "generated_at": "2026-05-06T02:07:33.256383+00:00",
+  "data": {
+    "id": "312aec94-4d3c-817e-9295-e018716cf990",
+    "slug": "3d-models-collection",
+    "href": "/projects/3d-models-collection",
+    "title": "3D Models Collection",
+    "name": "3D Models Collection",
+    "subtitle": "",
+    "summary": "This collection brings together a range of 3D models created during my early work in Blender. Each piece was built with a specific purpose, from simple objects intended for 3D printing to assets designed for animation and game environments. The collection is not centered on a single style or outcome, but on learning how digital form works across different contexts. Earlier models focus on basic structure, lighting, and scale, while later ones begin to account for motion, function, and narrative use. Taken together, the work documents a gradual shift from experimenting with tools to understanding how design decisions support real-world and virtual applications.",
+    "oneLiner": "A personal collection of 3D models made while learning Blender, focused on understanding form, scale, and how digital objects function across different uses.",
+    "domain": "Artistic",
+    "category": "Animation",
+    "status": "Active",
+    "phase": "Occasional updates",
+    "featured": false,
+    "createdAt": "2018-05-17",
+    "updatedAt": "2024-11-19",
+    "isPublic": true,
+    "tags": [
+      "3D",
+      "Art",
+      "Model comparison",
+      "Adult Animation",
+      "Blender",
+      "C4D",
+      "Simulations"
+    ],
+    "mediums": [],
+    "genres": [],
+    "topics": [],
+    "subjects": [],
+    "description": "",
+    "story": "",
+    "images": {
+      "thumbnail": "thumbnail.png"
+    },
+    "resources": [],
+    "assets": [],
+    "collection": {},
+    "workLogs": [
+      {
+        "id": "339aec94-4d3c-800e-8737-fa7c70fe859b",
+        "title": "Created new project entry for 3D Models Collection",
+        "entry": "Created new project entry for 3D Models Collection",
+        "url": "https://www.notion.so/Created-new-project-entry-for-3D-Models-Collection-339aec944d3c800e8737fa7c70fe859b",
+        "startTime": "2018-05-17",
+        "endTime": "2018-05-17T01:00:00.000-07:00",
+        "date": "2026-04-05T04:37:00.000-07:00",
+        "sessionType": [
+          "Planning",
+          "Organizing"
+        ],
+        "whatHappened": "Created new project entry for 3D Models Collection and added the 'Project Starter' milestones and tasks.",
+        "problems": null,
+        "nextStep": "Complete to do items",
+        "feelGoodAboutWork": 100.0,
+        "accomplishedWhatYouWanted": 100.0,
+        "durationMinutes": 60
+      }
+    ],
+    "articles": [],
+    "folderName": "3d_models_collection_312aec94-4d3c-817e-9295-e018716cf990"
+  }
+}

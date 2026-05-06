@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "kind": "projects.detail",
+  "generated_at": "2026-05-06T02:07:33.254715+00:00",
+  "data": {
+    "id": "306aec94-4d3c-808d-9ada-f0ccca484d3b",
+    "slug": "chewsense",
+    "href": "/projects/chewsense",
+    "title": "ChewSense",
+    "name": "ChewSense",
+    "subtitle": "Using AirPods and motion data to help people slow down and eat more mindfully.",
+    "summary": "ChewSense is an iOS app that helps people slow down while they eat and pay more attention to their habits. It uses the motion sensors in AirPods to pick up chewing—mainly through X-axis acceleration—and gives gentle alerts when someone might be eating too fast. The app records motion and optional video so it can learn a person’s eating pattern and adjust over time. The goal is simple: improve digestion, avoid overeating, and make meals feel more mindful without asking the user to track anything manually.",
+    "oneLiner": "An iOS app that uses AirPods’ motion sensors to detect chewing and help users eat more mindfully by slowing down their pace.",
+    "domain": "Technology",
+    "category": "Application",
+    "status": "Active",
+    "phase": "Development",
+    "featured": true,
+    "featuredOrder": 2,
+    "createdAt": "2025-10-15",
+    "updatedAt": "2026-03-23",
+    "isPublic": true,
+    "tags": [
+      "iOS",
+      "Swift",
+      "Spaced Repetition",
+      "Data Analytics",
+      "Machine Learning"
+    ],
+    "mediums": [],
+    "genres": [],
+    "topics": [],
+    "subjects": [],
+    "description": "",
+    "story": "",
+    "images": {
+      "icon": "thumbnail.png",
+      "banner": "banner.png",
+      "thumbnail": "thumbnail.png",
+      "poster": "poster.png"
+    },
+    "resources": [
+      {
+        "type": "github",
+        "label": "Repo",
+        "url": "https://github.com/ZSturman/ChewSense---Data-Collection-and-Labeling"
+      }
+    ],
+    "assets": [],
+    "collection": {},
+    "workLogs": [
+      {
+        "id": "339aec94-4d3c-8065-b3e0-c0457622bded",
+        "title": "Created new project entry for ChewSense",
+        "entry": "Created new project entry for ChewSense",
+        "url": "https://www.notion.so/Created-new-project-entry-for-ChewSense-339aec944d3c8065b3e0c0457622bded",
+        "startTime": "2025-10-15",
+        "endTime": "2025-10-15T01:00:00.000-07:00",
+        "date": "2026-04-05T04:38:00.000-07:00",
+        "sessionType": [
+          "Planning",
+          "Organizing"
+        ],
+        "whatHappened": "Created new project entry for ChewSense and added the 'Project Starter' milestones and tasks.",
+        "problems": null,
+        "nextStep": "Complete to do items",
+        "feelGoodAboutWork": 100.0,
+        "accomplishedWhatYouWanted": 100.0,
+        "durationMinutes": 60
+      }
+    ],
+    "articles": [
+      {
+        "title": "Building ChewSense - Using Motion Data For An On-Device AI Health Agent",
+        "slug": "building-chewsense-using-motion-data-for-an-on-device-ai-health-agent",
+        "href": "/articles/building-chewsense-using-motion-data-for-an-on-device-ai-health-agent",
+        "sourceUrl": "https://github.com/ZSturman/Articles/blob/main/articles/building-chewsense-using-motion-data-for-an-on-device-ai-health-agent/index.md",
+        "coverImage": "/articles/building-chewsense-using-motion-data-for-an-on-device-ai-health-agent/images/hero.png"
+      }
+    ],
+    "folderName": "chewsense_306aec94-4d3c-808d-9ada-f0ccca484d3b",
+    "readme": {
+      "content": "# Chew Sense – Data Collection and Labeling\n\nChew Sense records synchronized AirPods motion data and video for research, prototyping, and dataset creation. While optimized for chewing-related motion analysis, it can support any workflow requiring aligned video and AirPods motion samples.\n\n---\n\n## Features\n\n### Automatic AirPods Connection\n- The app connects to supported AirPods motion sensors on launch.  \n- Recording is enabled only when motion data is actively available.\n\n### Synchronized Recording\n- Each session stores a `.mov` video file and a `.csv` motion-data file in a single folder.  \n- Timestamps ensure precise alignment between modalities.\n\n### Optional Labeling Workflow\n- Recordings can be exported immediately when started in **Not eating** mode.  \n- When labeling is required, the detail view supports:\n  - Playback  \n  - Marker placement  \n  - Segment-based boolean labels  \n- Segments between markers are labeled `true`; all others are `false`.\n\n### Connection-Loss Protection\n- The app automatically pauses recording if the AirPods connection drops.  \n- This prevents incomplete or misaligned datasets.\n\n---\n\n## Data Format\n\n- **Video:** `recording.mov`  \n- **Motion data:** `motion.csv` with timestamped sensor rows  \n- **Labels:** Boolean values aligned to motion-data segments  \n\n---\n\n## Exporting\n\nRecordings can be exported or shared as a folder containing both files. This design simplifies downstream processing and machine-learning dataset assembly.\n\n---\n\n## Intended Use\n\nChew Sense is designed for technical users who need clean, consistent, and synchronized motion/video data.  \nIt is **not** intended as a consumer chewing-monitoring or health-tracking product.",
+      "sourceUrl": "https://github.com/ZSturman/ChewSense---Data-Collection-and-Labeling/blob/main/README.md"
+    }
+  }
+}

@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "kind": "projects.detail",
+  "generated_at": "2026-05-06T02:07:33.257701+00:00",
+  "data": {
+    "id": "332aec94-4d3c-80ae-805d-f01e79254789",
+    "slug": "testing-traits",
+    "href": "/projects/testing-traits",
+    "title": "Testing Traits",
+    "name": "Testing Traits",
+    "subtitle": "",
+    "summary": "This is a browser-based cognitive assessment made of ten short games, each mapped to five traits: memory, attention, problem solving, emotional regulation, and cognitive flexibility. The experience is intentionally lightweight, people can start fast, play in any order, and get partial results without being forced into a full run.\n\nIt seems aimed at everyday users who are curious about how they perform right now, including students, creators, and professionals who want a structured self-check rather than a clinical diagnosis. The useful part is the mix of simple tasks, visible progress, and trait-level scoring that stays readable and practical, while keeping data local and private.\n\nWhat is clear is the product’s tone: focused, calm, game-like but not childish, and structured around quick completion. What is still uncertain is scientific validation depth, so I’d describe it as a reflective performance profile tool, not a medical or diagnostic instrument.",
+    "oneLiner": "A game-based cognitive check-in that lets people test memory, attention, flexibility, emotional steadiness, and problem solving in one short, approachable session.",
+    "domain": "Technology",
+    "category": "Application",
+    "status": "Active",
+    "phase": "Development",
+    "featured": false,
+    "createdAt": "2022-12-28",
+    "updatedAt": "2025-12-22",
+    "isPublic": true,
+    "tags": [
+      "Cognition",
+      "Assessment",
+      "Personal",
+      "Health",
+      "Mental"
+    ],
+    "mediums": [],
+    "genres": [],
+    "topics": [],
+    "subjects": [],
+    "description": "",
+    "story": "",
+    "images": {
+      "icon": "icon.png",
+      "banner": "banner.png",
+      "thumbnail": "thumbnail.png",
+      "poster": "poster.png",
+      "hero": "hero.png"
+    },
+    "resources": [
+      {
+        "type": "github",
+        "label": "Repo",
+        "url": "https://github.com/ZSturman/Testing-Traits"
+      }
+    ],
+    "assets": [],
+    "collection": {},
+    "workLogs": [
+      {
+        "id": "339aec94-4d3c-80e1-9dff-c8b447537fab",
+        "title": "Created new project entry for Testing Traits",
+        "entry": "Created new project entry for Testing Traits",
+        "url": "https://www.notion.so/Created-new-project-entry-for-Testing-Traits-339aec944d3c80e19dffc8b447537fab",
+        "startTime": "2022-12-28",
+        "endTime": "2022-12-28T01:00:00.000-08:00",
+        "date": "2026-04-05T03:26:00.000-07:00",
+        "sessionType": [
+          "Planning",
+          "Organizing"
+        ],
+        "whatHappened": "Created new project entry for Testing Traits and added the 'Project Starter' milestones and tasks.",
+        "problems": null,
+        "nextStep": "Complete to do items",
+        "feelGoodAboutWork": 100.0,
+        "accomplishedWhatYouWanted": 100.0,
+        "durationMinutes": 60
+      }
+    ],
+    "articles": [],
+    "folderName": "testing_traits_332aec94-4d3c-80ae-805d-f01e79254789",
+    "readme": {
+      "content": "This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).\n\n## Getting Started\n\nFirst, run the development server:\n\n```bash\nnpm run dev\n# or\nyarn dev\n# or\npnpm dev\n# or\nbun dev\n```\n\nOpen [http://localhost:3000](http://localhost:3000) with your browser to see the result.\n\nYou can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.\n\nThis project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.\n\n## Learn More\n\nTo learn more about Next.js, take a look at the following resources:\n\n- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.\n- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.\n\nYou can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!\n\n## Deploy on Vercel\n\nThe easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.\n\nCheck out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.",
+      "sourceUrl": "https://github.com/ZSturman/Testing-Traits/blob/main/README.md"
+    }
+  }
+}

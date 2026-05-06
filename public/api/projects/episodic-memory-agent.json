@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "kind": "projects.detail",
+  "generated_at": "2026-05-06T02:07:33.251740+00:00",
+  "data": {
+    "id": "306aec94-4d3c-8005-97ab-d4572f1ab679",
+    "slug": "episodic-memory-agent",
+    "href": "/projects/episodic-memory-agent",
+    "title": "Episodic Memory Agent",
+    "name": "Episodic Memory Agent",
+    "subtitle": "A Sensor-Agnostic Cognitive Architecture for Event-Segmented Memory Formation",
+    "summary": "An event-segmented episodic memory agent designed to simulate how an intelligent system perceives, interprets, and organizes experience over time. The architecture centers on a strict cognitive loop—resolving location, identifying entities, detecting change—and freezing those moments into structured episodes. Built with swappable modules, strict invariants, and full logging, the system prioritizes learning over hardcoded assumptions, user-defined semantics over predefined categories, and reproducible behavior over opaque heuristics.",
+    "oneLiner": "A modular cognitive agent framework that models how experience becomes memory.",
+    "domain": "Technology",
+    "category": "AI Model",
+    "status": "Active",
+    "phase": "Development",
+    "featured": true,
+    "featuredOrder": 3,
+    "createdAt": "2026-01-18",
+    "updatedAt": "2026-03-16",
+    "isPublic": true,
+    "tags": [
+      "Python",
+      "Machine Learning"
+    ],
+    "mediums": [],
+    "genres": [],
+    "topics": [],
+    "subjects": [],
+    "description": "",
+    "story": "",
+    "images": {
+      "thumbnail": "episodic memory thumbnail.png"
+    },
+    "resources": [
+      {
+        "type": "github",
+        "label": "Repo",
+        "url": "https://github.com/ZSturman/Episodic-Memory-Agent"
+      }
+    ],
+    "assets": [],
+    "collection": {},
+    "workLogs": [
+      {
+        "id": "339aec94-4d3c-8068-b38f-f333edb8f183",
+        "title": "Created new project entry for Episodic Memory Agent",
+        "entry": "Created new project entry for Episodic Memory Agent",
+        "url": "https://www.notion.so/Created-new-project-entry-for-Episodic-Memory-Agent-339aec944d3c8068b38ff333edb8f183",
+        "startTime": "2026-01-18",
+        "endTime": "2026-01-18T01:00:00.000-08:00",
+        "date": "2026-04-05T04:37:00.000-07:00",
+        "sessionType": [
+          "Planning",
+          "Organizing"
+        ],
+        "whatHappened": "Created new project entry for Episodic Memory Agent and added the 'Project Starter' milestones and tasks.",
+        "problems": null,
+        "nextStep": "Complete to do items",
+        "feelGoodAboutWork": 100.0,
+        "accomplishedWhatYouWanted": 100.0,
+        "durationMinutes": 60
+      }
+    ],
+    "articles": [
+      {
+        "title": "Consolidating an Offline-First Episodic Memory System",
+        "slug": "consolidating-an-offline-first-episodic-memory-system",
+        "href": "/articles/consolidating-an-offline-first-episodic-memory-system",
+        "sourceUrl": "https://github.com/ZSturman/Articles/blob/main/articles/consolidating-an-offline-first-episodic-memory-system/index.md",
+        "coverImage": "/articles/consolidating-an-offline-first-episodic-memory-system/images/hero.png"
+      }
+    ],
+    "folderName": "episodic_memory_agent_306aec94-4d3c-8005-97ab-d4572f1ab679",
+    "readme": {
+      "content": "# Episodic Memory\n\nThis repository is now organized around one canonical Python package, `episodic_memory`, and one canonical web app in `dashboard/`.\n\nThe merged project is offline-first and built around a single artifact bundle that notebooks, the inspector API, and the Next.js dashboard all read.\n\n## What It Does\n\n- runs deterministic stub scenarios against the canonical working-memory core\n- runs panorama image or video exploration for location identification\n- records one canonical run bundle for every execution\n- exposes read-only inspection through Jupyter notebooks and the dashboard\n- imports legacy `episodic-memory-agent` run directories into the canonical bundle format\n\n## Canonical Layout\n\n- `src/episodic_memory/`: canonical Python package\n- `dashboard/`: canonical Next.js dashboard\n- `notebooks/`: canonical notebook workspace\n- `docs/`: architecture, runtime, validation, migration, and notebook docs\n- `archive/`: archived legacy codebases after migration\n\n## Install\n\n```bash\npip install -e .[dev,notebook]\n```\n\n## Run\n\n```bash\n# Stub scenario\nepisodic-memory run --mode stub --scenario scenario_e\n\n# Panorama location-identification flow\nepisodic-memory run --mode panorama --image-dir tests/fixtures/panorama\n\n# Import an old episodic-memory-agent run\nepisodic-memory import-legacy archive/episodic-memory-agent/runs/<run_dir>\n\n# Start the read-only inspector API\nepisodic-memory inspect --run-root runs\n```\n\n## Dashboard\n\n```bash\ncd dashboard\nnpm install\nnpm run dev\n```\n\nThe dashboard expects the inspector API at `http://127.0.0.1:8780` by default. Override with `INSPECTOR_API_BASE` if needed.\n\n## Notebook Workspace\n\n```bash\njupyter lab\n```\n\nCanonical notebooks:\n\n- `notebooks/01_pipeline_workspace.ipynb`\n- `notebooks/02_memory_explorer.ipynb`\n- `notebooks/03_run_comparison_and_dashboard_parity.ipynb`\n\n## Canonical Artifact Bundle\n\nEvery run writes:\n\n- `manifest.json`\n- `summary.json`\n- `memories.json`\n- `graph.json`\n- `events.jsonl`\n- `memory_decisions.jsonl`\n- `steps/step_XXXX.snapshot.json`\n\nThis is the shared contract used by notebooks, the inspector API, and the dashboard.\n\n## Unity Status\n\nUnity remains part of the long-term architecture but is intentionally deferred in this merged v1. The current canonical runtime supports `stub` and `panorama` modes end-to-end.\n\n## Docs\n\n- [Docs Index](https://github.com/ZSturman/Episodic-Memory-Agent/blob/main/docs/README.md)\n- [Architecture](https://github.com/ZSturman/Episodic-Memory-Agent/blob/main/docs/architecture.md)\n- [Runtime Flow](https://github.com/ZSturman/Episodic-Memory-Agent/blob/main/docs/runtime-flow.md)\n- [Notebook Workspace](https://github.com/ZSturman/Episodic-Memory-Agent/blob/main/docs/notebooks.md)\n- [Memory Transparency](https://github.com/ZSturman/Episodic-Memory-Agent/blob/main/docs/memory-transparency.md)\n- [Validation Guide](https://github.com/ZSturman/Episodic-Memory-Agent/blob/main/docs/validation.md)\n- [Status](https://github.com/ZSturman/Episodic-Memory-Agent/blob/main/docs/status.md)\n- [Migration Map](https://github.com/ZSturman/Episodic-Memory-Agent/blob/main/docs/migration-map.md)",
+      "sourceUrl": "https://github.com/ZSturman/Episodic-Memory-Agent/blob/main/README.md"
+    }
+  }
+}

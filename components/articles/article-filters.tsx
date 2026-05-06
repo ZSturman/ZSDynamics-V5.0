@@ -14,7 +14,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import type { ArticleSortOption, ArticleViewMode } from "./article-list-types";
+import type { ArticleSortOption, ArticleViewMode, ArticleVisibilityFilter } from "./article-list-types";
 
 interface ArticleFiltersProps {
   searchQuery: string;
@@ -23,6 +23,8 @@ interface ArticleFiltersProps {
   onSortChange: (value: ArticleSortOption) => void;
   viewMode: ArticleViewMode;
   onViewModeChange: (value: ArticleViewMode) => void;
+  visibilityFilter: ArticleVisibilityFilter;
+  onVisibilityFilterChange: (value: ArticleVisibilityFilter) => void;
   totalCount: number;
   visibleCount: number;
 }
@@ -34,6 +36,8 @@ export function ArticleFilters({
   onSortChange,
   viewMode,
   onViewModeChange,
+  visibilityFilter,
+  onVisibilityFilterChange,
   totalCount,
   visibleCount,
 }: ArticleFiltersProps) {
@@ -79,6 +83,12 @@ export function ArticleFilters({
                 <DropdownMenuRadioItem value="title-asc">Title A-Z</DropdownMenuRadioItem>
                 <DropdownMenuRadioItem value="title-desc">Title Z-A</DropdownMenuRadioItem>
               </DropdownMenuRadioGroup>
+              <DropdownMenuSeparator />
+              <DropdownMenuLabel>Visibility</DropdownMenuLabel>
+              <DropdownMenuRadioGroup value={visibilityFilter} onValueChange={(value) => onVisibilityFilterChange(value as ArticleVisibilityFilter)}>
+                <DropdownMenuRadioItem value="published">Published only</DropdownMenuRadioItem>
+                <DropdownMenuRadioItem value="all">Show all</DropdownMenuRadioItem>
+              </DropdownMenuRadioGroup>
             </DropdownMenuContent>
           </DropdownMenu>
 
@@ -106,9 +116,17 @@ export function ArticleFilters({
               </button>
             </Badge>
           )}
-          {searchQuery && (
-            <Button variant="ghost" size="sm" className="h-8 px-2" onClick={() => onSearchQueryChange("")}>
-              Clear
+          {visibilityFilter === "all" && (
+            <Badge variant="outline" className="gap-1 border-amber-400/60 bg-amber-50 text-amber-700 dark:bg-amber-950/40 dark:text-amber-400">
+              Showing drafts
+              <button type="button" onClick={() => onVisibilityFilterChange("published")} className="ml-1 transition-colors hover:text-foreground">
+                ×
+              </button>
+            </Badge>
+          )}
+          {(searchQuery || visibilityFilter === "all") && (
+            <Button variant="ghost" size="sm" className="h-8 px-2" onClick={() => { onSearchQueryChange(""); onVisibilityFilterChange("published"); }}>
+              Clear all
             </Button>
           )}
         </div>

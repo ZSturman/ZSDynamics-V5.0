@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "kind": "articles.detail",
+  "generated_at": "2026-05-06T02:07:33.260431+00:00",
+  "data": {
+    "slug": "automating-linear-from-notion",
+    "title": "Automating Linear From Notion",
+    "summary": "A bidirectional sync engine that keeps Notion and Linear aligned by normalizing their data into shared models, reconciling meaningful changes, and preserving relationships and identity across systems.",
+    "oneLiner": "A reliable sync layer that makes Notion planning and Linear execution behave like a single system.",
+    "publishedAt": null,
+    "updatedAt": "2026-03-25",
+    "series": "Notion as a Source of Truth",
+    "tags": [
+      "API Integration",
+      "Automation",
+      "Linear",
+      "Notion",
+      "Python",
+      "State Management",
+      "Systems Design"
+    ],
+    "projectIds": [
+      "304aec94-4d3c-8029-a1b1-ea0f92487137"
+    ],
+    "sourceUrl": "https://github.com/ZSturman/Articles/blob/main/articles/automating-linear-from-notion/index.md",
+    "href": "/articles/automating-linear-from-notion",
+    "coverImage": "/articles/automating-linear-from-notion/images/Cover.png"
+  }
+}

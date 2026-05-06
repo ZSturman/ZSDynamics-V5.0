@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { PageFrame } from "@/components/layout/page-frame";
+import { FooterAnalyticsLink } from "@/components/analytics/footer-analytics-link";
 import { loadPersonalLinks, type PersonalLinkEntry } from "@/lib/personal-links";
 import { SITE_DESCRIPTION } from "@/lib/site-metadata";
 import { portfolioData } from "@/lib/site-content";
@@ -12,11 +13,19 @@ const QUICK_LINKS = [
   { label: "Projects", href: "/#projects" },
   { label: "Articles", href: "/articles" },
   { label: "Work Logs", href: "/work-logs" },
+  { label: "Contact", href: "/contact" },
 ] as const;
 
 function isExternalLink(href: string): boolean {
   return href.startsWith("http://") || href.startsWith("https://");
 }
+
+type AnalyticsKind =
+  | { type: "social"; network: string }
+  | { type: "resume_download"; url: string }
+  | { type: "resume_view"; url: string }
+  | { type: "contact" }
+  | null;
 
 function FooterChipLink({
   href,
@@ -25,6 +34,7 @@ function FooterChipLink({
   dataTestId,
   download,
   openInNewTab,
+  analytics,
 }: {
   href: string;
   label: string;
@@ -32,18 +42,23 @@ function FooterChipLink({
   dataTestId: string;
   download?: string;
   openInNewTab?: boolean;
+  analytics?: AnalyticsKind;
 }) {
   const external = isExternalLink(href);
   const target = external || openInNewTab ? "_blank" : undefined;
   const rel = external || openInNewTab ? "noreferrer" : undefined;
 
   return (
-    <a
+    <FooterAnalyticsLink
       href={href}
       target={target}
       rel={rel}
       download={download}
       data-testid={dataTestId}
+      // Skip the generic outbound delegate; we have a specific tracker.
+      data-analytics-skip={analytics ? "true" : undefined}
+      data-analytics-surface="site_footer"
+      analytics={analytics}
       className={cn(
         "inline-flex min-h-9 items-center gap-2 rounded-md px-2 py-1 text-sm font-medium text-foreground/90 transition-colors",
         "hover:bg-accent/60 hover:text-foreground",
@@ -58,9 +73,20 @@ function FooterChipLink({
         className="size-4 shrink-0 opacity-80 dark:invert"
       />
       <span>{label}</span>
-    </a>
+    </FooterAnalyticsLink>
   );
 }
+
+const SOCIAL_NETWORK_BY_KEY: Record<string, string> = {
+  linkedin: "linkedin",
+  x: "x",
+  github: "github",
+  instagram: "instagram",
+  bluesky: "bluesky",
+  threads: "threads",
+  imdb: "imdb",
+  email: "email",
+};
 
 function FooterProfileLinkList({ links }: { links: PersonalLinkEntry[] }) {
   return (
@@ -72,6 +98,7 @@ function FooterProfileLinkList({ links }: { links: PersonalLinkEntry[] }) {
           label={link.label}
           iconSrc={link.iconSrc}
           dataTestId={`site-footer-profile-link-${link.key}`}
+          analytics={{ type: "social", network: SOCIAL_NETWORK_BY_KEY[link.key] || link.key }}
         />
       ))}
     </div>
@@ -130,6 +157,7 @@ export function SiteFooter() {
                   iconSrc="/icons/personal-resume.svg"
                   dataTestId="site-footer-resume-view"
                   openInNewTab
+                  analytics={{ type: "resume_view", url: resumeUrl }}
                 />
                 <FooterChipLink
                   href={resumeUrl}
@@ -137,6 +165,7 @@ export function SiteFooter() {
                   iconSrc="/icons/pdf.svg"
                   dataTestId="site-footer-resume-download"
                   download="Zachary Sturman Resume.pdf"
+                  analytics={{ type: "resume_download", url: resumeUrl }}
                 />
               </div>
             </section>

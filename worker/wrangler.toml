@@ -1,0 +1,47 @@
+name = "zacharysturman-api"
+main = "src/index.ts"
+compatibility_date = "2024-11-01"
+compatibility_flags = ["nodejs_compat"]
+workers_dev = true
+
+# Custom domain route. Set up in Cloudflare dashboard:
+#   Workers & Pages → zacharysturman-api → Triggers → Add Custom Domain
+#     api.zacharysturman.com
+# (No `routes` block needed when using a custom domain.)
+
+# ---------------------------------------------------------------------------
+# KV namespaces
+#   RATE_LIMIT  — short-TTL keys for per-IP throttling.
+#   NEWSLETTER  — long-lived store of opted-in email addresses.
+# Create with:
+#   wrangler kv:namespace create RATE_LIMIT
+#   wrangler kv:namespace create NEWSLETTER
+# Then paste the returned ids below.
+# ---------------------------------------------------------------------------
+[[kv_namespaces]]
+binding = "RATE_LIMIT"
+id = "REPLACE_WITH_RATE_LIMIT_KV_ID"
+
+[[kv_namespaces]]
+binding = "NEWSLETTER"
+id = "REPLACE_WITH_NEWSLETTER_KV_ID"
+
+# ---------------------------------------------------------------------------
+# Plain-text vars (non-secret). Override per-environment if needed.
+# ---------------------------------------------------------------------------
+[vars]
+ALLOWED_ORIGINS = "https://zacharysturman.com,https://www.zacharysturman.com,https://zachary-sturman.com"
+CONTACT_FROM_EMAIL = "contact@zacharysturman.com"
+RATE_LIMIT_MAX = "5"
+RATE_LIMIT_WINDOW_SECONDS = "3600"
+
+# ---------------------------------------------------------------------------
+# Secrets — set with `wrangler secret put <NAME>`:
+#   RESEND_API_KEY      Resend API key (verified domain zacharysturman.com)
+#   CONTACT_TO_EMAIL    where contact-form messages are delivered
+#   TURNSTILE_SECRET    Cloudflare Turnstile server secret
+#   INTERNAL_TOKEN      shared bearer for /internal/* endpoints (GH Actions)
+# ---------------------------------------------------------------------------
+
+[observability]
+enabled = true

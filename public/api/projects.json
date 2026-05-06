@@ -1,0 +1,793 @@
+{
+  "schema_version": 1,
+  "kind": "projects.list",
+  "generated_at": "2026-05-06T02:07:33.250438+00:00",
+  "data": [
+    {
+      "id": "304aec94-4d3c-8029-a1b1-ea0f92487137",
+      "slug": "my-notion-pipeline",
+      "title": "My Notion Pipeline",
+      "summary": "An automated project and portfolio workflow that uses Notion as the central source of truth for capturing, organizing, maintaining, and publishing work across its full lifecycle. What began as a folder-based system built on local files and .project.json evolved into a relational Notion workspace that connects project metadata, work logs, tasks, milestones, media, and documentation in one structured environment.\n\n\nInside Notion, the system uses formulas, required-action logic, severity scoring, and visual workflow signals to make project readiness measurable and easier to manage. That structure reduces duplicate entry, improves documentation quality, and keeps projects consistently maintained as they move from idea to execution to presentation.\n\n\nWhen project data reaches the right state, n8n detects qualifying changes and assembles portfolio-ready JSON, which is then sent into a Python-based build pipeline that prepares content and media for a static portfolio site. Linear supports issue tracking, GitHub stores code and optimized assets, and Firebase Hosting serves the finished site.\n\n\nThe result is a connected operating system for project operations and portfolio publishing: one that keeps documentation, execution, and presentation aligned with the real state of the work over time.",
+      "oneLiner": "A Notion-centered project operating system that turns structured project data into an always-up-to-date portfolio.",
+      "tags": [
+        "Notion",
+        "Organization",
+        "Productivity",
+        "Automation",
+        "n8n",
+        "React",
+        "Python",
+        "Next.js"
+      ],
+      "status": "Active",
+      "featured": true,
+      "domain": "Personal",
+      "category": "Organization",
+      "href": "/projects/my-notion-pipeline",
+      "primaryImageUrl": "/projects/my_notion_pipeline_304aec94-4d3c-8029-a1b1-ea0f92487137/thumbnail.png",
+      "updatedAt": "2026-04-12"
+    },
+    {
+      "id": "306aec94-4d3c-8005-97ab-d4572f1ab679",
+      "slug": "episodic-memory-agent",
+      "title": "Episodic Memory Agent",
+      "summary": "An event-segmented episodic memory agent designed to simulate how an intelligent system perceives, interprets, and organizes experience over time. The architecture centers on a strict cognitive loop—resolving location, identifying entities, detecting change—and freezing those moments into structured episodes. Built with swappable modules, strict invariants, and full logging, the system prioritizes learning over hardcoded assumptions, user-defined semantics over predefined categories, and reproducible behavior over opaque heuristics.",
+      "oneLiner": "A modular cognitive agent framework that models how experience becomes memory.",
+      "tags": [
+        "Python",
+        "Machine Learning"
+      ],
+      "status": "Active",
+      "featured": true,
+      "domain": "Technology",
+      "category": "AI Model",
+      "href": "/projects/episodic-memory-agent",
+      "primaryImageUrl": "/projects/episodic_memory_agent_306aec94-4d3c-8005-97ab-d4572f1ab679/episodic memory thumbnail.png",
+      "updatedAt": "2026-03-16"
+    },
+    {
+      "id": "306aec94-4d3c-8008-9985-d94ba1780069",
+      "slug": "top-note",
+      "title": "Top Note",
+      "summary": "Top Note is a focused productivity app for people who tend to ignore reminders or feel weighed down by long to-do lists. It takes a simpler approach: one reminder, flashcard, or note at a time. You can complete it or skip it, and if you skip, it returns sooner through a spaced repetition system that keeps important things visible.\n\n\nThis design encourages accountability and steady progress. It helps build habits, strengthen memory, and keep personal ideas within reach—without the noise of endless lists.\n\n\nWhy it works\nTop Note combines two familiar ideas: single-task focus and spaced repetition. Together they keep your attention on what matters next, reinforcing memory and consistency over time.\n\n\nFeatures\n– One-at-a-time reminders that reduce distraction.\n– Skip and repeat so skipped items return sooner.\n– Spaced repetition flashcards for better recall.\n– Widget-first design that keeps the app close at hand.\n– Flexible note support for quotes, goals, or brief thoughts.\n– Simple setup inside the app; most use happens in the widget.\n\n\nBest for\n– People who often dismiss reminders.\n– Habit tracking and reinforcement.\n– Short study or review sessions.\n– Keeping a meaningful note visible through the day.\n\n\nTop Note makes productivity manageable by narrowing your focus. Instead of managing a list, you engage with one small task—and let time handle the rest.",
+      "oneLiner": "A widget-first productivity app that keeps you focused on what's next and only on what’s next.",
+      "tags": [
+        "iOS",
+        "Productivity",
+        "Reminders",
+        "Spaced Repetition",
+        "Widgets",
+        "Flashcards",
+        "Learning",
+        "Focus"
+      ],
+      "status": "Complete",
+      "featured": true,
+      "domain": "Technology",
+      "category": "Application",
+      "href": "/projects/top-note",
+      "primaryImageUrl": "/projects/top_note_306aec94-4d3c-8008-9985-d94ba1780069/thumbnail.png",
+      "updatedAt": "2026-03-08"
+    },
+    {
+      "id": "306aec94-4d3c-800b-9d7d-ed0c879ab5b3",
+      "slug": "zsdynamics-20",
+      "title": "ZSDynamics 2.0",
+      "summary": "While I was in Australia on a working holiday visa, I started noticing how often React showed up in job descriptions. I didn’t want to throw away the Python knowledge I already had, so I rebuilt my portfolio using Python on the backend and React on the frontend. It helped me connect what I knew with what I needed to learn and gave me a better sense of how a modern stack actually fits together.",
+      "oneLiner": "Full-stack rebuild with a Python backend and React frontend to modernize the stack while leveraging Python experience. Built during a working holiday in Australia with a component-based design, and a structure for showcasing data projects.",
+      "tags": [
+        "Portfolio",
+        "React",
+        "Next.js",
+        "TS"
+      ],
+      "status": "Complete",
+      "featured": false,
+      "domain": "Technology",
+      "category": "Web",
+      "href": "/projects/zsdynamics-20",
+      "primaryImageUrl": "/projects/zsdynamics_20_306aec94-4d3c-800b-9d7d-ed0c879ab5b3/thumbnail.png",
+      "updatedAt": "2023-11-13"
+    },
+    {
+      "id": "306aec94-4d3c-800f-8fd6-c80ad845b5df",
+      "slug": "mediledger",
+      "title": "MediLedger",
+      "summary": "MediLedger is designed around a simple idea: most of what you need to do with your medication shouldn’t require opening an app. With interactive widgets, you can log a full or half dose, check how many pills you have left, see when your refill is coming up, and set up different widgets for different medications. The app handles both prescription and non-prescription meds, tracks strength and dosage, and keeps a full history of what you’ve taken. Everything syncs through SwiftData across iPhone, iPad, and Mac, and it works offline when it needs to. You can customize what each widget shows, set up alerts for refills, and rely on automatic calculations to keep your supply accurate without any extra effort.",
+      "oneLiner": "A medication management tool centered on interactive Home Screen widgets. Users can log doses, track supply, monitor refills, and sync across Apple devices—moving medication tracking from the app to the widget for faster, simpler daily adherence.",
+      "tags": [
+        "iOS",
+        "Swift",
+        "Widgets",
+        "Health"
+      ],
+      "status": "Complete",
+      "featured": false,
+      "domain": "Technology",
+      "category": "Application",
+      "href": "/projects/mediledger",
+      "primaryImageUrl": "/projects/mediledger_306aec94-4d3c-800f-8fd6-c80ad845b5df/thumbnail.png",
+      "updatedAt": "2026-03-08"
+    },
+    {
+      "id": "306aec94-4d3c-801d-b601-cb6d0de3219e",
+      "slug": "mind-adrift",
+      "title": "Mind Adrift",
+      "summary": "Mind Adrift is a short-form narrative work centered on cognitive decline and disorientation, told from the inside rather than observed from a distance. It follows a person who is still present in the world—surrounded by family, routines, and familiar spaces—but increasingly unable to connect those pieces into a stable sense of reality. Time slips, relationships blur, and moments repeat or contradict one another without warning.The project is less about plot progression and more about structure and perspective. Scenes loop, reset, or fracture in ways that mirror how memory fails in real life. The goal is not to explain the condition or resolve it, but to place the audience inside that experience long enough to understand its logic and weight. It is designed for readers interested in character-driven narratives, psychological realism, and stories that prioritize internal experience over external action.",
+      "oneLiner": "Mind Adrift is a narrative project about losing continuity with your own life while still moving through it, exploring memory, identity, and the quiet confusion of trying to stay oriented when your mind no longer cooperates.",
+      "tags": [
+        "Story",
+        "Loss",
+        "Family",
+        "Getting Old"
+      ],
+      "status": "Complete",
+      "featured": false,
+      "domain": "Narrative",
+      "category": "Short story",
+      "href": "/projects/mind-adrift",
+      "primaryImageUrl": "/projects/mind_adrift_306aec94-4d3c-801d-b601-cb6d0de3219e/E4690E5D-3901-4E26-A237-8AA0FF26EE76.png",
+      "updatedAt": "2013-09-01"
+    },
+    {
+      "id": "306aec94-4d3c-803b-a895-e775003b0f5d",
+      "slug": "frontend-collection",
+      "title": "Frontend Collection",
+      "summary": "Across these versions, you can see me going from basic experiments with servers and deployment to paying more attention to how things actually feel to use. What started as me trying to learn the fundamentals turned into a steady process of trying something, seeing what worked, and adjusting. Each version added a small piece—a backend tweak, a visual idea, a different layout—and the whole set basically shows how I learn by building, fixing, and trying again.",
+      "oneLiner": "This collection brings together different versions of my portfolio, each one capturing how my design sense, presentation choices, technical skill, and even career direction have shifted and sharpened over time.",
+      "tags": [
+        "Flask",
+        "Portfolio",
+        "Next.js",
+        "React",
+        "TS"
+      ],
+      "status": "Complete",
+      "featured": false,
+      "domain": "Technology",
+      "category": "Web",
+      "href": "/projects/frontend-collection",
+      "primaryImageUrl": "/projects/frontend_collection_306aec94-4d3c-803b-a895-e775003b0f5d/thumbnail.png",
+      "updatedAt": "2026-03-24"
+    },
+    {
+      "id": "306aec94-4d3c-803d-8230-fe06337c4a51",
+      "slug": "zsdynamics-10",
+      "title": "ZSDynamics 1.0",
+      "summary": "The first version of my portfolio came from following Corey Schafer’s Flask tutorials and trying to understand how a real web app fits together. I set up my own server, configured Nginx, and handled deployment myself—mostly because I didn’t know there were easier options. It took a lot of trial and error, but it taught me how everything actually works behind the scenes. I added some of my own SVG graphics and simple animations to make it feel personal. It wasn’t perfect, but it ran, and I learned a lot from getting it there.",
+      "oneLiner": "Flask portfolio deployed manually with Nginx on a self-hosted server. Features custom SVGs, simple animations, and hand-configured routing. Early full-stack project demonstrating web app structure, hosting, and deployment fundamentals.",
+      "tags": [
+        "Flask",
+        "Python",
+        "Portfolio"
+      ],
+      "status": "Complete",
+      "featured": false,
+      "domain": "Technology",
+      "category": "Web",
+      "href": "/projects/zsdynamics-10",
+      "primaryImageUrl": "/projects/zsdynamics_10_306aec94-4d3c-803d-8230-fe06337c4a51/thumbnail.png",
+      "updatedAt": "2021-07-10"
+    },
+    {
+      "id": "306aec94-4d3c-805d-b085-e4252d4601b3",
+      "slug": "timeline-7",
+      "title": "Timeline 7",
+      "summary": "Timeline 7 is a sprawling science fiction novel set hundreds of years after a catastrophic global collapse. The story follows a future civilization struggling to rebuild from the ashes of war, plague, and corruption. Human survivors, fractured into evolving species and new hierarchies, rediscover power, morality, and identity amid shifting political and biological landscapes. Through multiple intersecting perspectives—a soldier, a scientist, and a sentient machine—the book explores how progress and destruction often walk hand in hand. Written for readers who enjoy world-building and layered timelines, Timeline 7 examines the cyclical nature of humanity’s rise and fall with an eye toward resilience and reinvention.",
+      "oneLiner": "Post-apocalyptic sci-fi story about humanity rebuilding after self-destruction, told through intertwined lives across generations and technologies. A personal milestone—the first completed story built from a lifelong idea.",
+      "tags": [
+        "Epic",
+        "Sci-fi",
+        "Dystopian"
+      ],
+      "status": "Complete",
+      "featured": false,
+      "domain": "Narrative",
+      "category": "Novel",
+      "href": "/projects/timeline-7",
+      "primaryImageUrl": "/projects/timeline_7_306aec94-4d3c-805d-b085-e4252d4601b3/thumbnail.png",
+      "updatedAt": "2016-11-01"
+    },
+    {
+      "id": "306aec94-4d3c-8064-9e5a-c59f1df02bee",
+      "slug": "towardbetterme-announcement-page",
+      "title": "Towardbetter.me - Announcement Page",
+      "summary": "TowardBetter.me is a platform designed to help women find supportive communities around life transitions, personal growth, and difficult moments that are often navigated alone. I was brought on to build an announcement page that could clearly communicate the mission of the project while laying the technical groundwork for what would eventually become a larger, authenticated platform. The goal was to create something simple, welcoming, and trustworthy—an entry point that felt intentional rather than promotional.\nThe site was built with React and Next.js, with Firebase Authentication integrated to support future user accounts and onboarding flows. From the beginning, the focus was on clarity and structure: clean UI, predictable behavior, and a codebase that could evolve without needing to be rethought later. This project served as both a public-facing introduction and a technical foundation for what TowardBetter.me would grow into.",
+      "oneLiner": "Announcement page for TowardBetter.me built with React, Next.js, and Firebase Auth. Designed as a clear, trustworthy entry to a community-focused platform and marked my first project after returning from Australia.",
+      "tags": [
+        "web",
+        "Firebase",
+        "Next.js",
+        "React"
+      ],
+      "status": "Complete",
+      "featured": false,
+      "domain": "Technology",
+      "category": "Web",
+      "href": "/projects/towardbetterme-announcement-page",
+      "primaryImageUrl": "/projects/towardbetterme_announcement_page_306aec94-4d3c-8064-9e5a-c59f1df02bee/thumbnail.png",
+      "updatedAt": "2025-02-06"
+    },
+    {
+      "id": "306aec94-4d3c-8067-909b-da087d8b0c26",
+      "slug": "history-of-everything-coloring-book",
+      "title": "History of Everything Coloring Book",
+      "summary": "This coloring book traces major moments in history through a series of hand-drawn illustrations. Each page focuses on a specific period or event, presenting information in a simple, visual way that can be engaged with by coloring. The drawings were made on an iPad using an Apple Pencil and then compiled into a printed format. The goal was to make the scope of history feel more manageable by breaking it into individual pages that invite slower, more focused attention. It’s meant for anyone curious about how large stretches of time and events connect, from the beginnings of life to the stories that shaped the world.",
+      "oneLiner": "Hand-drawn coloring book mapping major historical moments to make large timelines approachable one page at a time. Served as a structured way to return to drawing and research, though it was never fully completed.",
+      "tags": [
+        "Art",
+        "Illustration",
+        "History",
+        "Science"
+      ],
+      "status": "Abandoned",
+      "featured": false,
+      "domain": "Artistic",
+      "category": "Art",
+      "href": "/projects/history-of-everything-coloring-book",
+      "primaryImageUrl": "/projects/history_of_everything_coloring_book_306aec94-4d3c-8067-909b-da087d8b0c26/thumbnail.png",
+      "updatedAt": "2020-08-17"
+    },
+    {
+      "id": "306aec94-4d3c-806a-b191-f329f1efc1ae",
+      "slug": "drifting-priorities",
+      "title": "Drifting Priorities",
+      "summary": "Drifting Priorities looks like a task app, but it is really a personal experiment in choosing work more honestly. It ranks tasks by combining time-based priority curves, recent avoidance, category recency, current state of mind, and dependency cost, then exposes that through both a CLI and a local web GUI. It also accepts small normalized telemetry imports and exports clean snapshots, which makes it feel more like a portable local system than a closed productivity app.\n\nThe audience seems fairly specific: people working alone or in a self-directed way, especially developers, writers, researchers, and other knowledge workers who do not trust a static list to tell the truth all day. What feels distinct here is the model, not the surface. The repo stays careful about explicit inputs, portability, and shared logic across interfaces. The part that still feels open is how tuned the scoring is in repeated real use, so I would describe it as thoughtful and usable, but still clearly in progress.",
+      "oneLiner": "A local task recommender for days that do not stay flat, where what makes sense next can shift with time, energy, recent work, and complexity.",
+      "tags": [
+        "Tasks",
+        "Reminders",
+        "Telemetry",
+        "Dynamic"
+      ],
+      "status": "Dormant",
+      "featured": false,
+      "domain": "Technology",
+      "category": "Application",
+      "href": "/projects/drifting-priorities",
+      "primaryImageUrl": "/projects/drifting_priorities_306aec94-4d3c-806a-b191-f329f1efc1ae/thumbnail.png",
+      "updatedAt": "2026-01-29"
+    },
+    {
+      "id": "306aec94-4d3c-807e-a7ef-db0aa63a2ec7",
+      "slug": "zsdynamics-40",
+      "title": "ZSDynamics 4.0",
+      "summary": "In the latest version, I focused on making the site feel more refined. I experimented with parallax effects and smoother animations to understand how small design choices change the overall experience. I also created an SVG character of myself that shifts colors in light and dark mode, which made the site feel a bit more personal. At this point, the portfolio wasn’t just about showing projects—it was a way to see how my design and development skills had grown.",
+      "oneLiner": "A design-driven update centered on smoother motion, subtle parallax effects, and an adaptive SVG avatar. Combined earlier technical and design skills into a more polished, cohesive, and expressive version of the portfolio.",
+      "tags": [
+        "web",
+        "React",
+        "Next.js",
+        "TS",
+        "Portfolio"
+      ],
+      "status": "Complete",
+      "featured": false,
+      "domain": "Technology",
+      "category": "Web",
+      "href": "/projects/zsdynamics-40",
+      "primaryImageUrl": "/projects/zsdynamics_40_306aec94-4d3c-807e-a7ef-db0aa63a2ec7/thumbnail.png",
+      "updatedAt": "2025-11-07"
+    },
+    {
+      "id": "306aec94-4d3c-8085-a43d-f9ac3bec06ef",
+      "slug": "obsidian-toolkit",
+      "title": "Obsidian Toolkit",
+      "summary": "This project is a modular toolkit designed to make working inside Obsidian more dynamic and visual. It includes a dashboard system modeled after how Next.js handles routing, turning your folder structure into a navigable home view that mirrors the way web frameworks organize content. Alongside it is QueueCards, a note queueing system that helps prioritize ideas, tasks, or references by tracking how often items are skipped. Together, they create a workspace that’s both structured and adaptable, aimed at people who like to think in systems and want their vault to feel more like a living interface than a static archive.",
+      "oneLiner": "A modular Obsidian toolkit that turns your vault into an interactive dashboard and adds a simple queue system for managing notes. It’s an experiment in blending web-style structure with personal note-taking.",
+      "tags": [
+        "Obsidian",
+        "JavaScript"
+      ],
+      "status": "Complete",
+      "featured": false,
+      "domain": "Technology",
+      "category": "Module",
+      "href": "/projects/obsidian-toolkit",
+      "primaryImageUrl": "/projects/obsidian_toolkit_306aec94-4d3c-8085-a43d-f9ac3bec06ef/thumbnail.png",
+      "updatedAt": "2024-07-01"
+    },
+    {
+      "id": "306aec94-4d3c-808d-9ada-f0ccca484d3b",
+      "slug": "chewsense",
+      "title": "ChewSense",
+      "summary": "ChewSense is an iOS app that helps people slow down while they eat and pay more attention to their habits. It uses the motion sensors in AirPods to pick up chewing—mainly through X-axis acceleration—and gives gentle alerts when someone might be eating too fast. The app records motion and optional video so it can learn a person’s eating pattern and adjust over time. The goal is simple: improve digestion, avoid overeating, and make meals feel more mindful without asking the user to track anything manually.",
+      "oneLiner": "An iOS app that uses AirPods’ motion sensors to detect chewing and help users eat more mindfully by slowing down their pace.",
+      "tags": [
+        "iOS",
+        "Swift",
+        "Spaced Repetition",
+        "Data Analytics",
+        "Machine Learning"
+      ],
+      "status": "Active",
+      "featured": true,
+      "domain": "Technology",
+      "category": "Application",
+      "href": "/projects/chewsense",
+      "primaryImageUrl": "/projects/chewsense_306aec94-4d3c-808d-9ada-f0ccca484d3b/thumbnail.png",
+      "updatedAt": "2026-03-23"
+    },
+    {
+      "id": "306aec94-4d3c-8091-876a-f028b4c582c4",
+      "slug": "animation-collection",
+      "title": "Animation Collection",
+      "summary": "This collection brings together a range of animations produced across different periods, tools, and creative goals. It includes 3D models and scenes developed in Blender alongside 2D animations focused on timing, clarity, and visual communication. Some works are polished and complete, while others function more as studies—short explorations of movement, structure, or technique. Together, they show how ideas evolve when approached through different dimensions and constraints. The collection is intended for viewers interested in process as much as outcome, offering a clear look at how visual ideas are tested, refined, and sometimes left intentionally unresolved.",
+      "oneLiner": "An archive of motion experiments, and finished pieces across 2D and 3D.",
+      "tags": [
+        "Art",
+        "Cartoons",
+        "Comedy",
+        "Blender",
+        "Anime"
+      ],
+      "status": "Active",
+      "featured": false,
+      "domain": "Artistic",
+      "category": "Animation",
+      "href": "/projects/animation-collection",
+      "primaryImageUrl": "/projects/animation_collection_306aec94-4d3c-8091-876a-f028b4c582c4/collection thumbnail.png",
+      "updatedAt": "2023-03-10"
+    },
+    {
+      "id": "306aec94-4d3c-80a5-b00e-f67cc4ff5901",
+      "slug": "lost-and-hound",
+      "title": "Lost & Hound",
+      "summary": "Lost & Hound is a mobile application designed to make it easier to reconnect lost pets with the people looking for them. Instead of relying on flyers, chance encounters, or social media posts that quickly disappear, the app provides a centralized place to report lost pets and log sightings in real time. Users can post details, photos, and locations, browse nearby reports, and reach out directly when something looks like a match.The app currently only works in Australia, reflecting where the initial rollout and testing took place. The project was built as a full-stack React Native application with a Node backend and Firebase for data and authentication. One team extended the system further by integrating computer vision, allowing uploaded images of spotted animals to be compared against photos of missing pets. The goal was not to replace human judgment, but to reduce friction and shorten the path between seeing an animal and contacting the right person.",
+      "oneLiner": "A community-driven mobile app that helps reunite lost pets with their owners by turning scattered, offline sightings into a shared, searchable system. The live app currently operates in Australia.",
+      "tags": [
+        "React",
+        "React Native",
+        "Expo",
+        "Node.js",
+        "Firebase",
+        "Computer Vision",
+        "Machine Learning",
+        "Mobile"
+      ],
+      "status": "Complete",
+      "featured": false,
+      "domain": "Technology",
+      "category": "Mobile App",
+      "href": "/projects/lost-and-hound",
+      "primaryImageUrl": "/projects/lost_hound_306aec94-4d3c-80a5-b00e-f67cc4ff5901/thumbnail.png",
+      "updatedAt": "2024-10-10"
+    },
+    {
+      "id": "306aec94-4d3c-80a8-850e-df4dd020d452",
+      "slug": "broken-time-machine",
+      "title": "Broken Time Machine",
+      "summary": "Broken Time Machine is a story-driven adventure game built in Unity where players step into the role of a scientist’s assistant trying to repair a malfunctioning time machine. When an experiment goes wrong, fragments of the device scatter across different eras—from the Hadean eon to the modern age—opening unstable portals that pull ancient life and historical figures into the present. The game blends exploration, puzzle-solving, and light combat as players travel through time, retrieve lost machine parts, and face the consequences of a fractured timeline. Designed for players who enjoy narrative exploration and gradual skill-building, Broken Time Machine connects history, science, and discovery into a single continuous journey of repair and adaptation.",
+      "oneLiner": "A Unity-based adventure game where a scientist’s assistant repairs a broken time machine by traveling through Earth’s history, collecting its missing parts, and restoring order to a fractured timeline.",
+      "tags": [
+        "Blender",
+        "Story",
+        "Unity",
+        "React",
+        "Video Game"
+      ],
+      "status": "Dormant",
+      "featured": false,
+      "domain": "Technology",
+      "category": "Video Game",
+      "href": "/projects/broken-time-machine",
+      "primaryImageUrl": "/projects/broken_time_machine_306aec94-4d3c-80a8-850e-df4dd020d452/D5A4CF89-4891-4BFE-8BC3-0317AD20CF80.png",
+      "updatedAt": "2026-02-19"
+    },
+    {
+      "id": "306aec94-4d3c-80b0-b478-e070bcd1d517",
+      "slug": "greenhorn",
+      "title": "Greenhorn",
+      "summary": "Greenhorn is an animated dark comedy-drama about Jeff Wyatt, a sixth grader forced to navigate grief, crime, and moral decay in the icy Alaskan town of Greenhorn. After accidentally killing a man, Jeff is blackmailed into joining a small-town gang, dragging his fractured family into a world of violence and manipulation. The series mixes grounded emotional storytelling with sharp humor, drawing tonal inspiration from Breaking Bad, South Park, and Rick and Morty. Beneath its absurdity runs a story about power, guilt, and the limits of control—how ordinary people rationalize extraordinary wrongdoing. The project is designed for adult animation audiences who appreciate shows that balance comedy with moral consequence and psychological realism.",
+      "oneLiner": "An Alaskan middle schooler accidentally kills a man and is pulled into a spiraling world of crime, power, and consequence, turning a small town into his personal battlefield.",
+      "tags": [
+        "Adult Animation",
+        "Comedy"
+      ],
+      "status": "Complete",
+      "featured": false,
+      "domain": "Narrative",
+      "category": "Television",
+      "href": "/projects/greenhorn",
+      "primaryImageUrl": "/projects/greenhorn_306aec94-4d3c-80b0-b478-e070bcd1d517/thumbnail.tiff",
+      "updatedAt": "2021-11-05"
+    },
+    {
+      "id": "306aec94-4d3c-80c9-a6d4-f6362f15b981",
+      "slug": "mass-and-time",
+      "title": "Mass and Time",
+      "summary": "I’m treating this as a serious personal inquiry rather than a finished theory. The project turns a bold idea, that time may help generate or stabilize what we call mass, into three concrete modeling tracks: a feedback simulation, a minimal quantum stability model, and a relativistic conceptual visualization. The useful part is that the idea has to face equations, parameter choices, and saved outputs instead of staying at the level of language.\n\nThe audience is people who are comfortable with scientific reasoning and code, including technically curious readers, independent researchers, and physics-adjacent builders who value inspectable assumptions over polished certainty. What makes it distinct is the tone and structure: I keep the claim ambitious, then narrow it carefully, and I separate what is computed from what is interpretive. Some uncertainty is still central, especially around physical realism, conservation behavior, and how far these toy models can responsibly be taken.",
+      "oneLiner": "A simulation-backed physics project that tests whether temporal persistence can help explain mass, orbital stability, and gravity, while staying honest about what is model output versus interpretation.",
+      "tags": [
+        "Simulation",
+        "Physics",
+        "Research",
+        "Notebook",
+        "Theory",
+        "Speculative"
+      ],
+      "status": "Active",
+      "featured": false,
+      "domain": "Expository",
+      "category": "Physics",
+      "href": "/projects/mass-and-time",
+      "primaryImageUrl": "/projects/mass_and_time_306aec94-4d3c-80c9-a6d4-f6362f15b981/thumbnail.png",
+      "updatedAt": "2025-11-18"
+    },
+    {
+      "id": "306aec94-4d3c-80d4-a8bd-d83a8832ebf8",
+      "slug": "zsdynamics-30",
+      "title": "ZSDynamics 3.0",
+      "summary": "After I got more comfortable with React, I wanted to see how design choices and small interactions could change the experience. I built a feature that let users switch between themes and font styles. It wasn’t the most practical feature, but it taught me a lot and pushed me to pay more attention to how design decisions show up in real use. That curiosity drove most of what I built during this stage.",
+      "oneLiner": "Added interactive features such as a live theme and font selector to experiment with frontend flexibility. Focused on React state management, component communication, and styling behavior. Served as a small sandbox for improving overall frontend fluency.",
+      "tags": [
+        "Portfolio",
+        "React",
+        "TS"
+      ],
+      "status": "Complete",
+      "featured": false,
+      "domain": "Technology",
+      "category": "Web",
+      "href": "/projects/zsdynamics-30",
+      "primaryImageUrl": "/projects/zsdynamics_30_306aec94-4d3c-80d4-a8bd-d83a8832ebf8/thumbnail.png",
+      "updatedAt": "2024-07-23"
+    },
+    {
+      "id": "306aec94-4d3c-80ff-a96a-c3c51900e249",
+      "slug": "zsdynamics-11",
+      "title": "ZSDynamics 1.1",
+      "summary": "After digging deeper into data science, I wanted the portfolio to be more than a place to drop my work. So I added a simple email subscription so visitors could get updates, and I integrated Dashly for some lightweight analytics and visualization. It was a noticeable step forward for me—not just in the code, but in how I was thinking about the people visiting the site.",
+      "oneLiner": "This version turned the portfolio from a static project list into an interactive site with email subscriptions and built-in analytics to better understand user engagement.",
+      "tags": [
+        "Flask",
+        "Portfolio",
+        "Python"
+      ],
+      "status": "Complete",
+      "featured": false,
+      "domain": "Technology",
+      "category": "Web",
+      "href": "/projects/zsdynamics-11",
+      "primaryImageUrl": "/projects/zsdynamics_11_306aec94-4d3c-80ff-a96a-c3c51900e249/thumbnail.png",
+      "updatedAt": "2022-04-10"
+    },
+    {
+      "id": "312aec94-4d3c-817e-9295-e018716cf990",
+      "slug": "3d-models-collection",
+      "title": "3D Models Collection",
+      "summary": "This collection brings together a range of 3D models created during my early work in Blender. Each piece was built with a specific purpose, from simple objects intended for 3D printing to assets designed for animation and game environments. The collection is not centered on a single style or outcome, but on learning how digital form works across different contexts. Earlier models focus on basic structure, lighting, and scale, while later ones begin to account for motion, function, and narrative use. Taken together, the work documents a gradual shift from experimenting with tools to understanding how design decisions support real-world and virtual applications.",
+      "oneLiner": "A personal collection of 3D models made while learning Blender, focused on understanding form, scale, and how digital objects function across different uses.",
+      "tags": [
+        "3D",
+        "Art",
+        "Model comparison",
+        "Adult Animation",
+        "Blender",
+        "C4D",
+        "Simulations"
+      ],
+      "status": "Active",
+      "featured": false,
+      "domain": "Artistic",
+      "category": "Animation",
+      "href": "/projects/3d-models-collection",
+      "primaryImageUrl": "/projects/3d_models_collection_312aec94-4d3c-817e-9295-e018716cf990/thumbnail.png",
+      "updatedAt": "2024-11-19"
+    },
+    {
+      "id": "31faec94-4d3c-80a8-9ab6-e791da057b67",
+      "slug": "between-jobs",
+      "title": "Between Jobs",
+      "summary": "Between Jobs follows a group of roommates who are all trying, in different ways, to avoid the simple problem in front of them: they need rent money. The pilot moves through a failed family video call, a disastrous job interview, and an illegal mimosa stand, using each character’s flawed logic to push the situation further out of control. It reads like a rough, character-driven sitcom setup, where the comedy comes less from a clean plan and more from watching everyone make the wrong choice with complete confidence.",
+      "oneLiner": "A sitcom pilot about four broke roommates trying to make rent, where every shortcut turns into a bigger problem than the one they started with.",
+      "tags": [
+        "Screenwriting",
+        "Comedy",
+        "Sitcom",
+        "Roommates"
+      ],
+      "status": "Complete",
+      "featured": false,
+      "domain": "Narrative",
+      "category": "Screenplay",
+      "href": "/projects/between-jobs",
+      "primaryImageUrl": "/projects/between_jobs_31faec94-4d3c-80a8-9ab6-e791da057b67/thumb.png",
+      "updatedAt": "2017-02-10"
+    },
+    {
+      "id": "324aec94-4d3c-8068-a8a7-ed6d1d4d1790",
+      "slug": "folio",
+      "title": "Folio",
+      "summary": "Folio Studio is the branch where the project stops trying to organize an entire filesystem first and instead treats each portfolio item as a document with its own portable package. It is still ambitious, but the ambition is finally bounded. The app is focused on authoring and maintaining .folio documents rather than being a full project-management operating system.",
+      "oneLiner": "An archive of related but independent attempts to solve the same personal problem: how to keep projects, ideas, media, metadata, references, and portfolio material in one system without losing the shape of the work.",
+      "tags": [
+        "macOS",
+        "Productivity"
+      ],
+      "status": "Complete",
+      "featured": false,
+      "domain": "Technology",
+      "category": "Application",
+      "href": "/projects/folio",
+      "primaryImageUrl": "/projects/folio_324aec94-4d3c-8068-a8a7-ed6d1d4d1790/thumbnail.png",
+      "updatedAt": "2026-01-29"
+    },
+    {
+      "id": "32eaec94-4d3c-80c9-b238-c8a9f0b1990e",
+      "slug": "runtime-storyboard-debugger",
+      "title": "Runtime Storyboard Debugger",
+      "summary": "Runtime Storyboard Debugger is a developer tool that reveals how a system actually works by transforming execution into a sequence of meaningful, replayable frames. It helps engineers start from real entry points, follow branches and side effects, understand why decisions were made, and traverse unfamiliar architecture as a clear causal flow instead of scattered code, logs, and traces.",
+      "oneLiner": "Turn unfamiliar codebases into navigable causal stories.",
+      "tags": [
+        "Debugging",
+        "Developer Tools",
+        "Code Exploration",
+        "Onboarding",
+        "Visualization"
+      ],
+      "status": "Active",
+      "featured": false,
+      "domain": "Technology",
+      "category": "Application",
+      "href": "/projects/runtime-storyboard-debugger",
+      "primaryImageUrl": "/projects/runtime_storyboard_debugger_32eaec94-4d3c-80c9-b238-c8a9f0b1990e/thumbnail.png",
+      "updatedAt": "2026-04-25"
+    },
+    {
+      "id": "332aec94-4d3c-8040-87a1-e4f349ef0994",
+      "slug": "math-and-happiness",
+      "title": "Math and Happiness",
+      "summary": "This project is a personal happiness tracker, though “tracker” isn’t really the right word. It feels more like a tool for people who want to define their own life structure, decide what matters most, rate how things are going, and use weighted scoring to surface what needs care and what is already strong. The default shape leans on basic needs, safety, daily life, esteem, and self-actualization, but the real point is that the structure is editable, so the model can become personal rather than generic.\n\nThe audience seems to be reflective adults who want something more rigorous than vague wellness advice and more private than a social app. It is local, self-directed, and practical, with no accounts, no public layer, and no coaching voice. The overall character is calm, analytical, and a little intimate, grounded in self-reflection and simple math rather than performance or lifestyle branding.\n\nIt is clearly meant for personal use, habit review, and periodic reassessment over time, and it clearly values autonomy, meaning, and honest self-scoring. What feels less fixed is the final brand style, because the interface is restrained and functional, so the most plausible direction is a quiet editorial system that mixes structure, hierarchy, and measured warmth without turning into a glossy wellness brand.",
+      "oneLiner": "A tool that helps map the parts of life that matter, weight them honestly, score how things are going, and see where the math points my attention next.",
+      "tags": [
+        "Telemetry",
+        "Psychology",
+        "Happiness",
+        "Reflection"
+      ],
+      "status": "Active",
+      "featured": false,
+      "domain": "Expository",
+      "category": "Application",
+      "href": "/projects/math-and-happiness",
+      "primaryImageUrl": "/projects/math_and_happiness_332aec94-4d3c-8040-87a1-e4f349ef0994/thumbnail.png",
+      "updatedAt": "2026-02-23"
+    },
+    {
+      "id": "332aec94-4d3c-804b-8f00-ee1bb0b4d82a",
+      "slug": "transactions",
+      "title": "Transactions",
+      "summary": "A lightweight web app for exactly two people who need a shared running balance, not a group expense splitter and not a full personal finance tool. One person invites the other, they connect around a single balance, then they record payments or requests and the other person approves or disputes them before the total changes.\n\nWhat makes it useful is the small amount of structure around trust. It keeps the interaction simple, but it still acknowledges that shared money between two people can be ambiguous, so pending, approved, and disputed states matter. The audience seems most plausibly roommates, couples, close friends, or anyone with an ongoing two-person money relationship. I’m less certain about which of those groups is primary, because the product language stays broad on purpose, but the overall character is clear: calm, practical, personal, and intentionally narrow.",
+      "oneLiner": "A simple shared-balance tracker for two people, a place to log who paid, wait for approval, and keep the running total clear without turning it into a full budgeting app.",
+      "tags": [
+        "Balance tracker",
+        "Finance"
+      ],
+      "status": "Active",
+      "featured": false,
+      "domain": "Technology",
+      "category": "Utility",
+      "href": "/projects/transactions",
+      "primaryImageUrl": "/projects/transactions_332aec94-4d3c-804b-8f00-ee1bb0b4d82a/thumbnail.png",
+      "updatedAt": "2026-04-03"
+    },
+    {
+      "id": "332aec94-4d3c-807a-ba3b-d0950cd03a66",
+      "slug": "train-of-thought-agent",
+      "title": "Train of Thought Agent",
+      "summary": "I’m using this project to test whether memory and recognition should begin with location and context instead of detached labels. Right now it is a plain, inspectable learning system that can take simple observations and file-backed sensor inputs, learn names, keep aliases and nested context straight, and show its state instead of hiding it.\n\nThat makes it useful less as a finished product and more as a research tool and portfolio case study for technically curious readers, AI builders, and engineers who care about systems they can trace, correct, and inspect. What makes it distinct is the combination of restraint and ambition: it stays grounded in user or sensor evidence, it is careful not to pretend temporary sensing shortcuts are full perception, and it keeps a clear path toward a broader memory-and-attention engine.\n\nThere is still real uncertainty around the final product shape, because the long-range memory system is mostly roadmap while the current learning loop is real and working. The overall character is thoughtful, methodical, and a little provisional on purpose, more like a careful research notebook than a polished AI launch.",
+      "oneLiner": "I’m building a location-first learning agent to test whether memory becomes more useful, and more inspectable, when it begins with place, context, and correction instead of detached labels.",
+      "tags": [
+        "AI",
+        "CLI",
+        "Machine Learning",
+        "Location-first",
+        "Inspectable memory",
+        "Computer Vision"
+      ],
+      "status": "Active",
+      "featured": false,
+      "domain": "Technology",
+      "category": "AI Model",
+      "href": "/projects/train-of-thought-agent",
+      "primaryImageUrl": "/projects/train_of_thought_agent_332aec94-4d3c-807a-ba3b-d0950cd03a66/thumbnail.png",
+      "updatedAt": "2026-04-05"
+    },
+    {
+      "id": "332aec94-4d3c-80ae-805d-f01e79254789",
+      "slug": "testing-traits",
+      "title": "Testing Traits",
+      "summary": "This is a browser-based cognitive assessment made of ten short games, each mapped to five traits: memory, attention, problem solving, emotional regulation, and cognitive flexibility. The experience is intentionally lightweight, people can start fast, play in any order, and get partial results without being forced into a full run.\n\nIt seems aimed at everyday users who are curious about how they perform right now, including students, creators, and professionals who want a structured self-check rather than a clinical diagnosis. The useful part is the mix of simple tasks, visible progress, and trait-level scoring that stays readable and practical, while keeping data local and private.\n\nWhat is clear is the product’s tone: focused, calm, game-like but not childish, and structured around quick completion. What is still uncertain is scientific validation depth, so I’d describe it as a reflective performance profile tool, not a medical or diagnostic instrument.",
+      "oneLiner": "A game-based cognitive check-in that lets people test memory, attention, flexibility, emotional steadiness, and problem solving in one short, approachable session.",
+      "tags": [
+        "Cognition",
+        "Assessment",
+        "Personal",
+        "Health",
+        "Mental"
+      ],
+      "status": "Active",
+      "featured": false,
+      "domain": "Technology",
+      "category": "Application",
+      "href": "/projects/testing-traits",
+      "primaryImageUrl": "/projects/testing_traits_332aec94-4d3c-80ae-805d-f01e79254789/thumbnail.png",
+      "updatedAt": "2025-12-22"
+    },
+    {
+      "id": "332aec94-4d3c-80be-a40c-ce5b6cd6ff56",
+      "slug": "bias-detecting-ai",
+      "title": "Bias Detecting AI",
+      "summary": "This is a practical evaluation tool I’m using to check whether language models treat similar people differently when the only thing that changes is a demographic signal. It brings together structured bias tests, side by side model comparison, detailed result review, and prompt rewriting, so I can look at fairness as something concrete and inspectable rather than abstract.\n\nThe clearest audience is people choosing, auditing, or shaping models before those models are used in higher-stakes workflows. That could be product teams, AI governance work, research, operations, hiring teams, or admissions related review. What makes it useful is that it does not stop at scoring. It also helps me clean up prompts, reuse safer templates, and recommend models based on the kind of task I actually care about.\n\nA few things still feel open, and I think that is worth saying plainly. This reads more like a focused internal evaluation desk than a broad shared platform, and more like an early, working system than a fully polished brand experience. The character is careful, measured, plainspoken, and a little austere, which fits a product that is really about close comparison and accountable judgment.",
+      "oneLiner": "I built this to test how language models react to demographic cues in hiring, admissions, and other sensitive decisions, then compare the results and revise the prompts behind them.",
+      "tags": [
+        "LLM",
+        "Model comparison",
+        "Prompt review",
+        "AI",
+        "Bias auditing"
+      ],
+      "status": "Active",
+      "featured": false,
+      "domain": "Technology",
+      "category": "Tool",
+      "href": "/projects/bias-detecting-ai",
+      "primaryImageUrl": "/projects/bias_detecting_ai_332aec94-4d3c-80be-a40c-ce5b6cd6ff56/thumbnail.png",
+      "updatedAt": "2026-04-01"
+    },
+    {
+      "id": "332aec94-4d3c-80ea-8468-c3a18bc61258",
+      "slug": "psyche-agent",
+      "title": "Psyche Agent",
+      "summary": "This project is a personal creation based on the idea that if profile data is incomplete, the system should still be helpful without pretending to know more than it does. The app can begin with ready-made personas, and then you can add optional assessment results or manual imports as you go, so you can start using it right away.\n\nWhat sets it apart is how it keeps measured data, placeholder scaffolding, and missing modules separate, while also keeping political and religious worldview signals in their own layer, rather than mixing them into test results. It feels like it’s designed for curious builders, thoughtful users, and anyone who wants persona-driven chat with clearer boundaries around uncertainty.\n\nI’m still seeing it as a proof of concept, so there’s some uncertainty about how it will be used in the long run and where people will get the most benefit, but the main direction is clear: less fake certainty, more explicit structure, and practical flexibility.",
+      "oneLiner": "I’m building a chat-first persona app that uses whatever profile data is actually known, keeps missing modules visible, and helps me explore different perspectives without pretending uncertain inputs are facts.",
+      "tags": [
+        "Chat bot",
+        "Social",
+        "Psychology"
+      ],
+      "status": "Active",
+      "featured": false,
+      "domain": "Technology",
+      "category": "Application",
+      "href": "/projects/psyche-agent",
+      "primaryImageUrl": "/projects/psyche_agent_332aec94-4d3c-80ea-8468-c3a18bc61258/thumbnail.png",
+      "updatedAt": "2026-04-04"
+    },
+    {
+      "id": "333aec94-4d3c-8036-82e4-d96b64b15c6c",
+      "slug": "democracy-in-the-21st-century",
+      "title": "Democracy in the 21st Century",
+      "summary": "A working concept for a public decision platform, part civic portal and part policy explainer. People can submit proposals, gather endorsements, review budget and impact analysis, compare arguments for and against, pass a short comprehension check, and then vote. The archive and sunset model matter just as much as the vote itself, which gives the whole thing a more reflective posture than a typical petition or polling app.\n\nThe clearest audience is citizens who want government to feel less opaque, plus educators, organizers, and policy-minded groups who want a concrete model for more deliberative participation. The use cases are broad but practical: public proposals, referendum-style questions, participatory budgeting, issue browsing by category, and a questionnaire that helps people sort out what they actually think government should do. There is also a hint that the same system could be adapted for organizations, since the surrounding notes sketch a business version built on the same logic.\n\nWhat feels distinct here is the insistence on slowing participation down just enough to make it more informed. Plain-language summaries, equal visibility for both sides, visible spending, tracked outcomes, and an archive all push in that direction. Some things are still open, though. The project reads more like a proof of concept than a deployment-ready civic system, so identity checks, moderation, expert workflows, and real enforcement are still more implied than built, and the overall character stays earnest, procedural, calm, and quietly idealistic.",
+      "oneLiner": "This is a prototype for a digital democracy platform where people can propose policies, review tradeoffs, vote more deliberately, and see how public money and decisions move over time.",
+      "tags": [
+        "Democracy",
+        "Social",
+        "Experiment",
+        "Government"
+      ],
+      "status": "Active",
+      "featured": false,
+      "domain": "Expository",
+      "category": "Social Experiment",
+      "href": "/projects/democracy-in-the-21st-century",
+      "primaryImageUrl": "/projects/democracy_in_the_21st_century_333aec94-4d3c-8036-82e4-d96b64b15c6c/thumbnail.png",
+      "updatedAt": "2026-03-09"
+    },
+    {
+      "id": "339aec94-4d3c-8047-a3ea-ea94ff1e518f",
+      "slug": "media-organizer",
+      "title": "Media Organizer",
+      "summary": "A local-first media organizing app for macOS, built for people who still manage photo and video libraries as folders on disk instead of inside a closed catalog. You pick a folder, scan it, review conservative metadata suggestions, accept or reject rename proposals, and then apply changes with backups or XMP sidecars depending on how safe direct writeback is for that file type.\n\nWhat makes it useful is the posture more than the feature list. It is careful, reversible, and fairly modest about what it claims to know. Existing metadata is preserved, people suggestions stay anonymous unless someone names them, uncertain results stay in a review queue, and video handling falls back to sidecars rather than forcing direct container edits. The likely audience is photographers, family archivists, and small teams with messy folder-based libraries. What is less clear is the broader brand personality, because there are no explicit design assets or marketing materials in the repo, so the strongest visual cue is the product’s quiet, native, utility-first character.",
+      "oneLiner": "A native macOS app for people who keep real folders of photos and videos, and want help cleaning up metadata, filenames, and review decisions without handing the library to a cloud service.",
+      "tags": [
+        "macOS",
+        "Photos",
+        "Metadata",
+        "Organization",
+        "Digital Archive",
+        "Utility"
+      ],
+      "status": "Active",
+      "featured": false,
+      "domain": "Technology",
+      "category": "Application",
+      "href": "/projects/media-organizer",
+      "primaryImageUrl": "/projects/media_organizer_339aec94-4d3c-8047-a3ea-ea94ff1e518f/thumbnail.png",
+      "updatedAt": "2026-03-28"
+    },
+    {
+      "id": "33baec94-4d3c-8077-a29c-c57cb736b6f2",
+      "slug": "down-n-out",
+      "title": "Down n' Out",
+      "summary": "I wrote Down-and-Out not long after film school, while I was applying to the NBC Writing Program and still figuring out what kinds of stories I wanted to tell. The script follows three homeless men who find discarded tuxedos and use them to move through spaces that usually shut them out, which turns a simple comic premise into an early attempt at exploring identity, class, and the performance of belonging.\n\nLooking back, I can see the limits of what I understood at the time, especially after later living in New York and Anchorage and meeting more people whose lives were far more complicated than the version I had written. I would approach the story differently now, with more care and awareness, but the project still matters to me because it taught me how to build an idea from nothing, finish something imperfect, and let experience change the way I understand my own work.",
+      "oneLiner": "Down-and-Out is an early screenplay about three homeless men who try to step into another world by wearing discarded tuxedos, and slowly discover how much belonging can depend on what other people think they see.",
+      "tags": [
+        "Screenwriting",
+        "Short Film",
+        "Comedy",
+        "Drama",
+        "Satire",
+        "Friendship",
+        "Dark"
+      ],
+      "status": "Complete",
+      "featured": false,
+      "domain": "Narrative",
+      "category": "Comedy",
+      "href": "/projects/down-n-out",
+      "primaryImageUrl": "/projects/down_n_out_33baec94-4d3c-8077-a29c-c57cb736b6f2/thumb.png",
+      "updatedAt": "2014-12-12"
+    },
+    {
+      "id": "33baec94-4d3c-80d2-8a69-deb2a742f972",
+      "slug": "google-sheets-production-schedule-desktop-app",
+      "title": "Google Sheets Production Schedule Desktop App",
+      "summary": "Production Scheduling Desktop App helps teams manage jobs, work centers, and timelines from a single Google Sheet without needing a separate database. It provides a minimal desktop interface for viewing, editing, filtering, and visualizing production schedules through auto-generated Gantt charts. Built with React, Tauri, and Rust, it supports macOS, Windows, and Linux while remaining customizable for different production workflows.",
+      "oneLiner": "A cross-platform desktop app that turns Google Sheets into a lightweight production scheduling system with interactive Gantt charts and role-based access.",
+      "tags": [
+        "Manufacturing",
+        "Charts",
+        "Scheduling",
+        "Google Sheets",
+        "Gantt",
+        "React",
+        "Rust",
+        "Tauri",
+        "Windows",
+        "Machine Learning"
+      ],
+      "status": "Complete",
+      "featured": false,
+      "domain": "Technology",
+      "category": "Application",
+      "href": "/projects/google-sheets-production-schedule-desktop-app",
+      "primaryImageUrl": "/projects/google_sheets_production_schedule_desktop_app_33baec94-4d3c-80d2-8a69-deb2a742f972/thumb.png",
+      "updatedAt": "2025-09-30"
+    },
+    {
+      "id": "346aec94-4d3c-801e-851f-c7e727f0e186",
+      "slug": "the-wolf-project",
+      "title": "The Wolf Project",
+      "summary": "After discovering The Wolf Project through a Dodo video, I connected with the team and began rebuilding their website to better support their needs. The new version introduces structured data, dynamic content, and scalable infrastructure using Next.js, Firebase, and Cloudinary. It’s now a usable foundation that can evolve into a more complete system for showcasing cases, managing content, and supporting contributions.",
+      "oneLiner": "A recreation of the existing Wolf Pack site with more custom features and modernization",
+      "tags": [
+        "web",
+        "Next.js",
+        "Firebase",
+        "Dogs"
+      ],
+      "status": "Active",
+      "featured": true,
+      "domain": "Technology",
+      "category": "Application",
+      "href": "/projects/the-wolf-project",
+      "primaryImageUrl": "/projects/the_wolf_project_346aec94-4d3c-801e-851f-c7e727f0e186/Wolf-hero.webp",
+      "updatedAt": "2026-04-27"
+    },
+    {
+      "id": "34faec94-4d3c-80bf-928b-e0e32ba51cc8",
+      "slug": "production-scheduling-web-app",
+      "title": "Production-Scheduling-Web-App",
+      "summary": "This project helps manufacturing teams manage production schedules across organizations, work centers, holidays, and user roles. It integrates with Google Sheets for production data, calculates schedules around capacity constraints, and provides a Gantt chart view for visual planning. Jobs can also be locked to fixed time slots, giving planners more control over real-world scheduling changes.",
+      "oneLiner": "A web-based manufacturing scheduling system that connects production planning, capacity-aware scheduling, and Google Sheets data in a multi-tenant Next.js app.",
+      "tags": [
+        "Production",
+        "Scheduling",
+        "Next.js",
+        "React",
+        "Firebase",
+        "Google Sheets"
+      ],
+      "status": "Dormant",
+      "featured": false,
+      "domain": "Technology",
+      "category": "Application",
+      "href": "/projects/production-scheduling-web-app",
+      "primaryImageUrl": "/projects/production_scheduling_web_app_34faec94-4d3c-80bf-928b-e0e32ba51cc8/thumb.png",
+      "updatedAt": "2024-09-30"
+    }
+  ],
+  "count": 38
+}

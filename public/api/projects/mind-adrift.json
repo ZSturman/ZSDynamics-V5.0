@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "kind": "projects.detail",
+  "generated_at": "2026-05-06T02:07:33.252657+00:00",
+  "data": {
+    "id": "306aec94-4d3c-801d-b601-cb6d0de3219e",
+    "slug": "mind-adrift",
+    "href": "/projects/mind-adrift",
+    "title": "Mind Adrift",
+    "name": "Mind Adrift",
+    "subtitle": "",
+    "summary": "Mind Adrift is a short-form narrative work centered on cognitive decline and disorientation, told from the inside rather than observed from a distance. It follows a person who is still present in the world—surrounded by family, routines, and familiar spaces—but increasingly unable to connect those pieces into a stable sense of reality. Time slips, relationships blur, and moments repeat or contradict one another without warning.The project is less about plot progression and more about structure and perspective. Scenes loop, reset, or fracture in ways that mirror how memory fails in real life. The goal is not to explain the condition or resolve it, but to place the audience inside that experience long enough to understand its logic and weight. It is designed for readers interested in character-driven narratives, psychological realism, and stories that prioritize internal experience over external action.",
+    "oneLiner": "Mind Adrift is a narrative project about losing continuity with your own life while still moving through it, exploring memory, identity, and the quiet confusion of trying to stay oriented when your mind no longer cooperates.",
+    "domain": "Narrative",
+    "category": "Short story",
+    "status": "Complete",
+    "phase": "Published",
+    "featured": false,
+    "createdAt": "2013-09-01",
+    "updatedAt": "2013-09-01",
+    "isPublic": true,
+    "tags": [
+      "Story",
+      "Loss",
+      "Family",
+      "Getting Old"
+    ],
+    "mediums": [],
+    "genres": [],
+    "topics": [],
+    "subjects": [],
+    "description": "",
+    "story": "",
+    "images": {
+      "banner": "banner.png",
+      "thumbnail": "E4690E5D-3901-4E26-A237-8AA0FF26EE76.png",
+      "hero": "hero.png"
+    },
+    "resources": [],
+    "assets": [
+      {
+        "id": "30eaec94-4d3c-80da-85b0-e17e2b55025f",
+        "label": "mind adrift",
+        "order": 1,
+        "type": "text",
+        "filePath": "Mind Adrift.pdf",
+        "thumbnail": "thumbnail.tiff"
+      }
+    ],
+    "collection": {},
+    "workLogs": [
+      {
+        "id": "339aec94-4d3c-804c-8243-fbc0df8b678e",
+        "title": "Created new project entry for Mind Adrift",
+        "entry": "Created new project entry for Mind Adrift",
+        "url": "https://www.notion.so/Created-new-project-entry-for-Mind-Adrift-339aec944d3c804c8243fbc0df8b678e",
+        "startTime": "2013-09-01",
+        "endTime": "2013-09-01T01:00:00.000-07:00",
+        "date": "2026-04-05T04:37:00.000-07:00",
+        "sessionType": [
+          "Planning",
+          "Organizing"
+        ],
+        "whatHappened": "Created new project entry for Mind Adrift and added the 'Project Starter' milestones and tasks.",
+        "problems": null,
+        "nextStep": "Complete to do items",
+        "feelGoodAboutWork": 100.0,
+        "accomplishedWhatYouWanted": 100.0,
+        "durationMinutes": 60
+      }
+    ],
+    "articles": [],
+    "folderName": "mind_adrift_306aec94-4d3c-801d-b601-cb6d0de3219e"
+  }
+}

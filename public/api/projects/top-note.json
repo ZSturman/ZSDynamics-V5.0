@@ -1,0 +1,89 @@
+{
+  "schema_version": 1,
+  "kind": "projects.detail",
+  "generated_at": "2026-05-06T02:07:33.251994+00:00",
+  "data": {
+    "id": "306aec94-4d3c-8008-9985-d94ba1780069",
+    "slug": "top-note",
+    "href": "/projects/top-note",
+    "title": "Top Note",
+    "name": "Top Note",
+    "subtitle": "A widget based iOS app",
+    "summary": "Top Note is a focused productivity app for people who tend to ignore reminders or feel weighed down by long to-do lists. It takes a simpler approach: one reminder, flashcard, or note at a time. You can complete it or skip it, and if you skip, it returns sooner through a spaced repetition system that keeps important things visible.\n\n\nThis design encourages accountability and steady progress. It helps build habits, strengthen memory, and keep personal ideas within reach—without the noise of endless lists.\n\n\nWhy it works\nTop Note combines two familiar ideas: single-task focus and spaced repetition. Together they keep your attention on what matters next, reinforcing memory and consistency over time.\n\n\nFeatures\n– One-at-a-time reminders that reduce distraction.\n– Skip and repeat so skipped items return sooner.\n– Spaced repetition flashcards for better recall.\n– Widget-first design that keeps the app close at hand.\n– Flexible note support for quotes, goals, or brief thoughts.\n– Simple setup inside the app; most use happens in the widget.\n\n\nBest for\n– People who often dismiss reminders.\n– Habit tracking and reinforcement.\n– Short study or review sessions.\n– Keeping a meaningful note visible through the day.\n\n\nTop Note makes productivity manageable by narrowing your focus. Instead of managing a list, you engage with one small task—and let time handle the rest.",
+    "oneLiner": "A widget-first productivity app that keeps you focused on what's next and only on what’s next.",
+    "domain": "Technology",
+    "category": "Application",
+    "status": "Complete",
+    "phase": "Regular updates",
+    "featured": true,
+    "featuredOrder": 1,
+    "createdAt": "2025-07-03",
+    "updatedAt": "2026-03-08",
+    "isPublic": true,
+    "tags": [
+      "iOS",
+      "Productivity",
+      "Reminders",
+      "Spaced Repetition",
+      "Widgets",
+      "Flashcards",
+      "Learning",
+      "Focus"
+    ],
+    "mediums": [],
+    "genres": [],
+    "topics": [],
+    "subjects": [],
+    "description": "",
+    "story": "",
+    "images": {
+      "icon": "TopNote AppIcon v2-watchOS-Default-1088x1088@1x.png",
+      "banner": "banner.png",
+      "thumbnail": "thumbnail.png",
+      "poster": "poster.png",
+      "hero": "hero.png"
+    },
+    "resources": [
+      {
+        "type": "github",
+        "label": "Github Repo",
+        "url": "https://github.com/ZSturman/TopNote"
+      },
+      {
+        "type": "apple",
+        "label": "App Store",
+        "url": "https://apps.apple.com/us/app/top-note/id6742725271",
+        "iconUrl": "/icons/favicons/apps.apple.com.png"
+      }
+    ],
+    "assets": [],
+    "collection": {},
+    "workLogs": [
+      {
+        "id": "339aec94-4d3c-809c-bbbc-c398dd02d369",
+        "title": "Created new project entry for Top Note",
+        "entry": "Created new project entry for Top Note",
+        "url": "https://www.notion.so/Created-new-project-entry-for-Top-Note-339aec944d3c809cbbbcc398dd02d369",
+        "startTime": "2025-07-03",
+        "endTime": "2025-07-03T01:00:00.000-07:00",
+        "date": "2026-04-05T04:38:00.000-07:00",
+        "sessionType": [
+          "Planning",
+          "Organizing"
+        ],
+        "whatHappened": "Created new project entry for Top Note and added the 'Project Starter' milestones and tasks.",
+        "problems": null,
+        "nextStep": "Complete to do items",
+        "feelGoodAboutWork": 100.0,
+        "accomplishedWhatYouWanted": 100.0,
+        "durationMinutes": 60
+      }
+    ],
+    "articles": [],
+    "folderName": "top_note_306aec94-4d3c-8008-9985-d94ba1780069",
+    "readme": {
+      "content": "# Top Note\n\nTop Note is a widget-first productivity app that keeps you focused on what’s next—literally one thing at a time. Instead of endless to‑do lists you never look at, Top Note presents a single reminder, flashcard, or note right on your Home Screen widget.\n\nDownload on the App Store:\nhttps://apps.apple.com/us/app/top-note/id6742725271\n\n## Why it works\nTop Note introduces gentle friction: there’s no long list to cherry-pick from. You must either complete the next item or see it again soon, keeping important tasks and knowledge top-of-mind without overwhelming you.\n\n## Core features\n- One-at-a-time reminders — No scrolling, no distraction.  \n- Skip & repeat — Skipped items return sooner so you can’t forget them.  \n- Spaced repetition flashcards — Boost memory and recall with confidence-rated reviews.  \n- Widget-first design — Most interactions happen directly from the Home Screen.  \n- Flexible notes — Keep quotes, mantras, micro-goals, or short reminders visible all day.  \n- Simple setup — Configure everything in the main app; use it primarily from the widget.\n\n## Perfect for\n- People who ignore traditional reminders.  \n- Habit building and routine reinforcement.  \n- Quick study sessions with spaced repetition.  \n- Keeping a short note or mantra in plain sight.\n\n## Quick start\n1. Install Top Note from the App Store.  \n2. Open the app and create a note, reminder, or flashcard.  \n3. Add the Top Note widget to your Home Screen.  \n4. Use the widget to complete, skip, or review the single item it shows.\n\n## Privacy\nTop Note is designed for simplicity; local-first storage is preferred where possible. Consult the app’s privacy settings for details on syncing and backups.\n\n## Feedback & support\nFor bugs, feature requests, or support, use the contact option inside the app or submit feedback through the App Store page.",
+      "sourceUrl": "https://github.com/ZSturman/TopNote/blob/main/README.md"
+    }
+  }
+}

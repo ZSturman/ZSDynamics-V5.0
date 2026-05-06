@@ -3,6 +3,8 @@
 import type { Analytics } from "firebase/analytics";
 import type { FirebaseApp } from "firebase/app";
 
+import { getStoredUtm } from "./analytics-utm";
+
 type AnalyticsValue = string | number | undefined;
 type AnalyticsParams = Record<string, AnalyticsValue>;
 
@@ -211,8 +213,11 @@ async function logAnalyticsEvent(name: string, params: AnalyticsParams = {}): Pr
     return;
   }
 
+  const utm = getStoredUtm();
+  const merged: AnalyticsParams = { ...utm, ...params };
+
   const analyticsModule = await import("firebase/analytics");
-  analyticsModule.logEvent(analytics, name, sanitizeParams(params));
+  analyticsModule.logEvent(analytics, name, sanitizeParams(merged));
 }
 
 export function initializeAnalytics(): void {
@@ -294,5 +299,75 @@ export function trackAutomationSignal(signalReason: string): void {
 
   void logAnalyticsEvent("automation_signal", {
     signal_reason: signalReason,
+  });
+}
+
+// ---------------------------------------------------------------------------
+// Additional events (contact, newsletter, outbound, demo/github clicks)
+// ---------------------------------------------------------------------------
+
+type OutboundLinkInput = {
+  destinationUrl: string;
+  surface: string;
+  label?: string;
+};
+
+export function trackOutboundLink(input: OutboundLinkInput): void {
+  void logAnalyticsEvent("outbound_click", {
+    destination_domain: normalizeDomain(input.destinationUrl),
+    destination_url: input.destinationUrl.slice(0, 500),
+    surface: input.surface,
+    link_label: input.label?.slice(0, 200),
+  });
+}
+
+export function trackContactClick(surface: string): void {
+  void logAnalyticsEvent("contact_click", { surface });
+}
+
+type ContactSubmitStatus = "success" | "error" | "rate_limited" | "invalid";
+
+export function trackContactSubmit(status: ContactSubmitStatus, errorCode?: string): void {
+  void logAnalyticsEvent("contact_submit", {
+    status,
+    error_code: errorCode,
+  });
+}
+
+type NewsletterStatus = "success" | "error" | "duplicate" | "invalid" | "rate_limited";
+
+export function trackNewsletterInterest(status: NewsletterStatus): void {
+  void logAnalyticsEvent("newsletter_interest", { status });
+}
+
+type ProjectMediaInput = {
+  projectSlug?: string;
+  projectTitle?: string;
+  mediaKind: "image" | "video" | "3d_model" | "audio" | "other";
+  mediaUrl?: string;
+  surface?: string;
+};
+
+export function trackProjectMediaPlay(input: ProjectMediaInput): void {
+  void logAnalyticsEvent("project_media_play", {
+    project_slug: input.projectSlug,
+    project_title: input.projectTitle,
+    media_kind: input.mediaKind,
+    destination_domain: input.mediaUrl ? normalizeDomain(input.mediaUrl) : undefined,
+    surface: input.surface,
+  });
+}
+
+export function trackProjectDemoClick(input: { projectSlug?: string; destinationUrl: string }): void {
+  void logAnalyticsEvent("project_demo_click", {
+    project_slug: input.projectSlug,
+    destination_domain: normalizeDomain(input.destinationUrl),
+  });
+}
+
+export function trackGitHubClick(input: { destinationUrl: string; surface: string }): void {
+  void logAnalyticsEvent("github_click", {
+    destination_domain: normalizeDomain(input.destinationUrl),
+    surface: input.surface,
   });
 }

@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "kind": "projects.detail",
+  "generated_at": "2026-05-06T02:07:33.257510+00:00",
+  "data": {
+    "id": "332aec94-4d3c-807a-ba3b-d0950cd03a66",
+    "slug": "train-of-thought-agent",
+    "href": "/projects/train-of-thought-agent",
+    "title": "Train of Thought Agent",
+    "name": "Train of Thought Agent",
+    "subtitle": "",
+    "summary": "I’m using this project to test whether memory and recognition should begin with location and context instead of detached labels. Right now it is a plain, inspectable learning system that can take simple observations and file-backed sensor inputs, learn names, keep aliases and nested context straight, and show its state instead of hiding it.\n\nThat makes it useful less as a finished product and more as a research tool and portfolio case study for technically curious readers, AI builders, and engineers who care about systems they can trace, correct, and inspect. What makes it distinct is the combination of restraint and ambition: it stays grounded in user or sensor evidence, it is careful not to pretend temporary sensing shortcuts are full perception, and it keeps a clear path toward a broader memory-and-attention engine.\n\nThere is still real uncertainty around the final product shape, because the long-range memory system is mostly roadmap while the current learning loop is real and working. The overall character is thoughtful, methodical, and a little provisional on purpose, more like a careful research notebook than a polished AI launch.",
+    "oneLiner": "I’m building a location-first learning agent to test whether memory becomes more useful, and more inspectable, when it begins with place, context, and correction instead of detached labels.",
+    "domain": "Technology",
+    "category": "AI Model",
+    "status": "Active",
+    "phase": "Development",
+    "featured": false,
+    "createdAt": "2026-03-30",
+    "updatedAt": "2026-04-05",
+    "isPublic": true,
+    "tags": [
+      "AI",
+      "CLI",
+      "Machine Learning",
+      "Location-first",
+      "Inspectable memory",
+      "Computer Vision"
+    ],
+    "mediums": [],
+    "genres": [],
+    "topics": [],
+    "subjects": [],
+    "description": "",
+    "story": "",
+    "images": {
+      "icon": "icon.png",
+      "banner": "banner.png",
+      "thumbnail": "thumbnail.png",
+      "hero": "hero.png"
+    },
+    "resources": [
+      {
+        "type": "github",
+        "label": "Repo",
+        "url": "https://github.com/ZSturman/Train-of-Thought-Agent"
+      }
+    ],
+    "assets": [],
+    "collection": {},
+    "workLogs": [
+      {
+        "id": "339aec94-4d3c-8088-a5e1-e2334247b0de",
+        "title": "Created new project entry for Train of Thought Agent",
+        "entry": "Created new project entry for Train of Thought Agent",
+        "url": "https://www.notion.so/Created-new-project-entry-for-Train-of-Thought-Agent-339aec944d3c8088a5e1e2334247b0de",
+        "startTime": "2026-03-30",
+        "endTime": "2026-03-30T01:00:00.000-07:00",
+        "date": "2026-04-05T02:48:00.000-07:00",
+        "sessionType": [
+          "Planning",
+          "Organizing"
+        ],
+        "whatHappened": "Created new project entry for Train of Thought Agent and added the 'Project Starter' milestones and tasks.",
+        "problems": null,
+        "nextStep": "Complete to do items",
+        "feelGoodAboutWork": 100.0,
+        "accomplishedWhatYouWanted": 100.0,
+        "durationMinutes": 60
+      }
+    ],
+    "articles": [
+      {
+        "title": "Building a Location-First Learning Agent to Explore Context, Memory, and Consciousness",
+        "slug": "building-a-location-first-learning-agent-to-explore-context-memory-and-consciousness",
+        "href": "/articles/building-a-location-first-learning-agent-to-explore-context-memory-and-consciousness",
+        "sourceUrl": "https://github.com/ZSturman/Articles/blob/main/articles/building-a-location-first-learning-agent-to-explore-context-memory-and-consciousness/index.md",
+        "coverImage": "/articles/building-a-location-first-learning-agent-to-explore-context-memory-and-consciousness/images/cover_image.png"
+      }
+    ],
+    "folderName": "train_of_thought_agent_332aec94-4d3c-807a-ba3b-d0950cd03a66",
+    "readme": {
+      "content": "# Tree-of-Thought Location Agent\n\nA small learning agent that remembers places through observation, correction, and inspection.\n\nThe project starts with a simple idea: if an agent is going to build useful memory, it should be able to learn from direct experience, accept correction, preserve where its knowledge came from, and show what it thinks it knows. Right now that learning is anchored in locations. You can teach it a numeric observation, connect a media file to a place, rename labels, add aliases, and describe how places relate to each other.\n\nIt is not trying to be a finished vision model yet. The current version is a careful scaffold for one, with each sensor input normalized into an `ObservationBundle` before it reaches learning and memory.\n\n| Status | Detail |\n| --- | --- |\n| Current phase | Phase 8, Modality-Neutral Observation Bundle |\n| Last validated state | 177 automated tests passing |\n| Next phase | Phase 9, Region Descriptors and Primitive Feature Extraction |\n| Runtime style | Local interactive CLI |\n| Dependencies | Python standard library only |\n\n## Preview\n\nThe agent runs in a terminal. You can give it a value, ask it to sense a local media file, correct its guesses, and inspect what it has learned.\n\n```text\nagent online\nobservation[0.0-1.0|quit]: sense /path/to/bedroom.png\nsensor: new image\nlabel: bedroom\nobservation[0.0-1.0|quit]: sense /path/to/bedroom.png\nsensor: recognized image\nguess: bedroom (confidence=1.00)\ncorrect?[1/0]: 1\nobservation[0.0-1.0|quit]: quit\ngoodbye\n```\n\nBehind that short exchange, the project stores a label node, a location model, sensor evidence, and an event log. If the same place later gets renamed or connected to a larger context such as a house, the old label and the enclosing context remain inspectable instead of disappearing.\n\n## What This Project Does\n\nThe agent learns location memory from two kinds of input:\n\n- A grayscale-style value between `0.0` and `1.0`, which gives the agent a small controlled observation space.\n- A local media file passed through `sense /path/to/file`, which currently uses an image adapter and stores a normalized observation bundle.\n\nWhen the agent recognizes something, it asks for confirmation. When it is wrong, you can correct it. When a label needs to change, you can rename it while keeping the old name as an alias. When one place contains or overlaps another, you can teach that relationship and later ask the agent to show the active context.\n\nThe important part is not that the first observation space is simple. The important part is that the memory is persistent, correctable, and visible.\n\n## Why It Exists\n\nThis project explores how a memory system can grow from grounded, inspectable pieces instead of starting as a sealed model that already claims to know the world.\n\nThe long-range direction is a synthetic memory-and-attention engine. Location learning is the entry point because it gives the system something concrete to anchor on: a place, a label, a correction, a relationship, and a record of evidence. Later phases expand that into region attention, primitive percepts, experience frames, memory units, replay, resurfacing, and reconsolidation.\n\nOne rule carries through the project: persisted memory should come from explicit user input or direct sensor input. The language model may help structure the interaction, but it is not treated as the source of truth.\n\n## Who It Is For\n\nThis repository may be useful if you are interested in:\n\n- Learning systems that accept correction instead of treating the first answer as final.\n- Memory that can be inspected, renamed, and repaired.\n- Small agent architectures that grow in visible phases.\n- Sensor and perception work that starts with a stable input contract before adding richer recognition.\n- A local Python project that can be read without installing a framework.\n\nFor a non-technical reader, the project is easiest to understand as a working notebook for agent memory. For a technical reader, it is a compact Python implementation with tests, schema migrations, media fixtures, and roadmap documents.\n\n## Key Features\n\n| Feature | What it means in practice |\n| --- | --- |\n| Persistent memory | Learned locations, labels, aliases, relations, sensor bindings, and observation bundles are stored under `runtime/`. |\n| Correctable guesses | The agent asks whether a guess is right, then reinforces or corrects memory based on the answer. |\n| Label history | Renames preserve the previous canonical name as an alias, so older vocabulary still resolves. |\n| Nested context | `contain` can teach relationships such as `house contains bedroom`. |\n| Overlapping context | `overlap` can record places that can be active together without forcing one parent-child shape. |\n| Concept scaffold | `concept`, `relate`, and `concepts` let the project begin separating named ideas from locations. |\n| Sensor preview | `sense /path/to/file` routes local media through an adapter and stores a bundle-backed sensor binding. |\n| Inspectable state | `inspect`, `context`, persisted JSON, and JSONL event logs make the learned state visible. |\n\n## Visual Walkthrough\n\nThe current visuals are small generated fixtures used by tests and sensor examples. They are not polished screenshots, and that is intentional for now. They keep the project deterministic and easy to run offline while the perception layer is still being built.\n\n| House context | Bedroom | Living room | Unknown scene |\n| --- | --- | --- | --- |\n| <img alt=\"Generated house fixture\" src=\"https://raw.githubusercontent.com/ZSturman/Train-of-Thought-Agent/main/media/core_images/phase05_house_scene.png\" width=\"160\"> | <img alt=\"Generated bedroom fixture\" src=\"https://raw.githubusercontent.com/ZSturman/Train-of-Thought-Agent/main/media/core_images/phase04_bedroom_scene.png\" width=\"160\"> | <img alt=\"Generated living room fixture\" src=\"https://raw.githubusercontent.com/ZSturman/Train-of-Thought-Agent/main/media/core_images/phase04_living_room_scene.png\" width=\"160\"> | <img alt=\"Generated unknown fixture\" src=\"https://raw.githubusercontent.com/ZSturman/Train-of-Thought-Agent/main/media/core_images/phase04_unknown_scene.png\" width=\"160\"> |\n\nThese files are registered in [`media/catalog.json`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/media/catalog.json), explained in [`media/README.md`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/media/README.md), and staged through scenario files in [`media/scenarios/`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/media/scenarios/). Notes for future screenshots, GIFs, or demo videos live in [`docs/assets/README.md`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/docs/assets/README.md).\n\n## What Can I Do With This?\n\nYou can run the agent locally, teach it a few places, correct it, and inspect how its memory changes. A simple session might look like this:\n\n1. Teach `0.25` as `kitchen`.\n2. Enter `0.253` and confirm that it is still `kitchen`.\n3. Rename `kitchen` to a better label if needed.\n4. Teach `house`, `bedroom`, and `living room` from the included media fixtures.\n5. Use `contain` to say that `house` contains `bedroom` and `living room`.\n6. Use `inspect` or `context` to see what the agent now believes.\n\nThe current sensor recognition is still a temporary exact-file preview at the binding layer. Phase 8 changes the interface around it, so media now enters as an `ObservationBundle`, but content-based visual understanding is still planned work.\n\n## Quick Start\n\nRequirements: Python 3.12+ is preferred. No external packages are required.\n\n```bash\n# Run the interactive agent\npython3 -m location_agent.cli\n\n# Run in quiet mode for scripting or tests\npython3 -m location_agent.cli --quiet\n\n# Clear learned memory and exit\npython3 -m location_agent.cli --reset\n\n# Run the automated test suite\npython3 -B -m unittest discover -s tests -v\n```\n\nDuring an interactive session, use `sense /absolute/path/to/file` to route a local media file through the sensor flow.\n\nFor fuller setup notes, memory isolation tips, and command examples, see [`docs/SETUP.md`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/docs/SETUP.md).\n\n## SDK Quickstart\n\n`location_agent` also ships as a programmatic SDK. The `Agent` facade is the recommended entry point for embedding the learning loop in another application:\n\n```python\nfrom location_agent import Agent\n\nagent = Agent()                             # writes to ./runtime/\nagent.learn_scalar(0.25, \"kitchen\")\nresult = agent.recognize_scalar(0.253)\nprint(result.is_known, result.label, result.confidence)\n# True kitchen 0.94\n\nsnapshot = agent.inspect()                  # JSON-serializable\n```\n\nPublic names are listed in [`docs/api.md`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/docs/api.md) and follow SemVer. Sensor adapters can be added via Python entry points — see [`docs/plugins.md`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/docs/plugins.md).\n\n## Technical Notes\n\nThe README keeps the technical surface brief so the project remains readable from the outside. These supporting files hold the deeper details:\n\n| Topic | Where to read more |\n| --- | --- |\n| Setup, local runs, reset behavior, commands | [`docs/SETUP.md`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/docs/SETUP.md) |\n| Architecture, schema v7, data flow, project structure | [`docs/TECHNICAL.md`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/docs/TECHNICAL.md) |\n| Common errors and likely fixes | [`docs/TROUBLESHOOTING.md`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/docs/TROUBLESHOOTING.md) |\n| Contribution workflow | [`docs/CONTRIBUTING.md`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/docs/CONTRIBUTING.md) |\n| Media fixture and demo capture notes | [`docs/assets/README.md`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/docs/assets/README.md) |\n| Current phase validation | [`CURRENT_PHASE.md`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/CURRENT_PHASE.md) and [`VALIDATION.md`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/VALIDATION.md) |\n| Long-range roadmap | [`PROJECT_ROADMAP.md`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/PROJECT_ROADMAP.md) and [`MEDIA_PLAN.md`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/MEDIA_PLAN.md) |\n\n## Contributing\n\nThe repository remote is [`https://github.com/ZSturman/Train-of-Thought-Agent.git`](https://github.com/ZSturman/Train-of-Thought-Agent.git).\n\nBefore changing behavior, run the test suite and check the current phase notes. The project is intentionally phase-driven, so documentation, media scenarios, and validation notes matter alongside code changes. See [`docs/CONTRIBUTING.md`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/docs/CONTRIBUTING.md) for the local workflow.",
+      "sourceUrl": "https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/README.md"
+    }
+  }
+}

@@ -1,0 +1,92 @@
+{
+  "schema_version": 1,
+  "kind": "projects.detail",
+  "generated_at": "2026-05-06T02:07:33.253689+00:00",
+  "data": {
+    "id": "306aec94-4d3c-8064-9e5a-c59f1df02bee",
+    "slug": "towardbetterme-announcement-page",
+    "href": "/projects/towardbetterme-announcement-page",
+    "title": "Towardbetter.me - Announcement Page",
+    "name": "Towardbetter.me - Announcement Page",
+    "subtitle": "",
+    "summary": "TowardBetter.me is a platform designed to help women find supportive communities around life transitions, personal growth, and difficult moments that are often navigated alone. I was brought on to build an announcement page that could clearly communicate the mission of the project while laying the technical groundwork for what would eventually become a larger, authenticated platform. The goal was to create something simple, welcoming, and trustworthy—an entry point that felt intentional rather than promotional.\nThe site was built with React and Next.js, with Firebase Authentication integrated to support future user accounts and onboarding flows. From the beginning, the focus was on clarity and structure: clean UI, predictable behavior, and a codebase that could evolve without needing to be rethought later. This project served as both a public-facing introduction and a technical foundation for what TowardBetter.me would grow into.",
+    "oneLiner": "Announcement page for TowardBetter.me built with React, Next.js, and Firebase Auth. Designed as a clear, trustworthy entry to a community-focused platform and marked my first project after returning from Australia.",
+    "domain": "Technology",
+    "category": "Web",
+    "status": "Complete",
+    "phase": "Live",
+    "featured": false,
+    "createdAt": "2024-11-29",
+    "updatedAt": "2025-02-06",
+    "isPublic": true,
+    "tags": [
+      "web",
+      "Firebase",
+      "Next.js",
+      "React"
+    ],
+    "mediums": [],
+    "genres": [],
+    "topics": [],
+    "subjects": [],
+    "description": "",
+    "story": "",
+    "images": {
+      "icon": "Celestial Hands Holding Heart.png",
+      "banner": "Collaborative Effort with Green Ball.png",
+      "thumbnail": "thumbnail.png"
+    },
+    "resources": [
+      {
+        "type": "github",
+        "label": "Repo",
+        "url": "https://github.com/ZSturman/TowardBetter-Announcement-Page"
+      },
+      {
+        "type": "web",
+        "label": "Visit",
+        "url": "https://zsturman.github.io/TowardBetter-Announcement-Page/",
+        "linkPreview": {
+          "provider": "zsturman.github.io",
+          "title": "Sam - First Look",
+          "siteName": "Zsturman Github Io",
+          "hostname": "zsturman.github.io",
+          "displayUrl": "zsturman.github.io/TowardBetter-Announcement-Page",
+          "description": "Women Deserve Better",
+          "image": "https://zsturman.github.io/images/Sam Logo - Blush.svg",
+          "imageSource": "metadata"
+        },
+        "iconUrl": "/icons/favicons/zsturman.github.io.png"
+      }
+    ],
+    "assets": [],
+    "collection": {},
+    "workLogs": [
+      {
+        "id": "339aec94-4d3c-8052-99c4-cbfc9727d649",
+        "title": "Created new project entry for Towardbetter.me - Announcement Page",
+        "entry": "Created new project entry for Towardbetter.me - Announcement Page",
+        "url": "https://www.notion.so/Created-new-project-entry-for-Towardbetter-me-Announcement-Page-339aec944d3c805299c4cbfc9727d649",
+        "startTime": "2024-11-29",
+        "endTime": "2024-11-29T01:00:00.000-08:00",
+        "date": "2026-04-05T04:36:00.000-07:00",
+        "sessionType": [
+          "Planning",
+          "Organizing"
+        ],
+        "whatHappened": "Created new project entry for Towardbetter.me - Announcement Page and added the 'Project Starter' milestones and tasks.",
+        "problems": null,
+        "nextStep": "Complete to do items",
+        "feelGoodAboutWork": 100.0,
+        "accomplishedWhatYouWanted": 100.0,
+        "durationMinutes": 60
+      }
+    ],
+    "articles": [],
+    "folderName": "towardbetterme_announcement_page_306aec94-4d3c-8064-9e5a-c59f1df02bee",
+    "readme": {
+      "content": "**TowardBetter Announcement — Static Demonstration Site**\n\nThis repository contains a static announcement/landing page built to demonstrate design and frontend engineering skills. It's not a full product backend — it's a polished, component-driven static site showing what I can deliver: layout, responsive UI, animations, forms, and small serverless routes for demo purposes.\n\n**What This Is**\n- **Purpose:** A static marketing/announcement page intended as a demonstration of frontend craft and product thinking.\n- **Stack:** Next.js (App Router), TypeScript, Tailwind CSS, modular React components, and a small set of serverless API routes for demo form/email flows.\n- **Static-first:** The site is built to be exported/deployed as a static site or hosted on serverless platforms (Vercel, Netlify). There is no production database — all dynamic examples are self-contained and demo-focused.\n\n**Highlights / Features**\n- **Design & Layout:** Clean, responsive landing layout with a hero, features, FAQ, and CTA sections.\n- **Component Library:** Reusable components in the `components/` folder (cards, forms, buttons, dialogs, inputs).\n- **Interactions & Accessibility:** Keyboard accessible UI, lightbox, parallax image, and subtle animations for an engaging experience.\n- **Forms & Demo API:** Email/Signup forms wired to demo serverless routes under `app/api/` to show end-to-end flow without a full backend.\n- **Content Modules:** Central content and copy live in the `site/` folder for easy editing and reuse.\n\n**Project Structure (short)**\n- `app/` — Next.js app entry, global layout, and top-level routes.\n- `components/` — UI components organized by purpose (containers, forms, ui primitives).\n- `site/` — Content modules (features, faqs, media, pitch deck data).\n- `styles/` — Tailwind config and global styles.\n- `public/` — Static images and assets.\n\n**Run locally**\n1. Install dependencies:\n\n\t`npm install`\n\n2. Run development server:\n\n\t`npm run dev`\n\n3. Build for production:\n\n\t`npm run build`\n\n4. Start the production server (if needed):\n\n\t`npm run start`\n\nNotes: This project uses Next.js and is intended to be previewed locally or deployed to a static/serverless host. If you want a fully static export, you can use hosting options that support Next.js static output or run an export process depending on your preferred hosting provider.\n\n**Editing & Extending**\n- Update copy and structured content in the `site/` folder.\n- Add or modify components in `components/` and styles in `styles/`.\n- Serverless demo endpoints live in `app/api/` — they are lightweight examples and can be replaced with real APIs if you connect a backend.\n\n**Deployment**\n- Recommended: Deploy to Vercel for best compatibility with Next.js app and serverless functions.\n- Alternatives: Netlify or other static hosts (may require build/export configuration).\n\n**Why this repo**\nThis project exists to show a complete, polished static announcement page that you can use as a starting point or a live portfolio sample. It demonstrates:\n- Frontend engineering with modern React/Next.js patterns\n- Component-driven UI and design consistency\n- Attention to accessibility, responsive design, and micro-interactions\n- Practical demo of connecting forms to serverless endpoints\n\n**Contact / Attribution**\nIf you'd like to discuss this project, request changes, or see more work, reach out to the author directly (contact details in my portfolio). This repository is a demonstration and may be updated periodically to reflect new experiments and UI ideas.\n\n---\n_Project: TowardBetter-Announcement-Page_",
+      "sourceUrl": "https://github.com/ZSturman/TowardBetter-Announcement-Page/blob/main/README.md"
+    }
+  }
+}

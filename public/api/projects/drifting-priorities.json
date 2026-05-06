@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "kind": "projects.detail",
+  "generated_at": "2026-05-06T02:07:33.254243+00:00",
+  "data": {
+    "id": "306aec94-4d3c-806a-b191-f329f1efc1ae",
+    "slug": "drifting-priorities",
+    "href": "/projects/drifting-priorities",
+    "title": "Drifting Priorities",
+    "name": "Drifting Priorities",
+    "subtitle": "",
+    "summary": "Drifting Priorities looks like a task app, but it is really a personal experiment in choosing work more honestly. It ranks tasks by combining time-based priority curves, recent avoidance, category recency, current state of mind, and dependency cost, then exposes that through both a CLI and a local web GUI. It also accepts small normalized telemetry imports and exports clean snapshots, which makes it feel more like a portable local system than a closed productivity app.\n\nThe audience seems fairly specific: people working alone or in a self-directed way, especially developers, writers, researchers, and other knowledge workers who do not trust a static list to tell the truth all day. What feels distinct here is the model, not the surface. The repo stays careful about explicit inputs, portability, and shared logic across interfaces. The part that still feels open is how tuned the scoring is in repeated real use, so I would describe it as thoughtful and usable, but still clearly in progress.",
+    "oneLiner": "A local task recommender for days that do not stay flat, where what makes sense next can shift with time, energy, recent work, and complexity.",
+    "domain": "Technology",
+    "category": "Application",
+    "status": "Dormant",
+    "phase": "Development",
+    "featured": false,
+    "createdAt": "2023-02-09",
+    "updatedAt": "2026-01-29",
+    "isPublic": true,
+    "tags": [
+      "Tasks",
+      "Reminders",
+      "Telemetry",
+      "Dynamic"
+    ],
+    "mediums": [],
+    "genres": [],
+    "topics": [],
+    "subjects": [],
+    "description": "",
+    "story": "",
+    "images": {
+      "icon": "icon.png",
+      "banner": "banner.png",
+      "thumbnail": "thumbnail.png",
+      "poster": "poster.png",
+      "hero": "hero.png"
+    },
+    "resources": [
+      {
+        "type": "github",
+        "label": "Repo",
+        "url": "https://github.com/ZSturman/Drifting-Priorities"
+      }
+    ],
+    "assets": [],
+    "collection": {},
+    "workLogs": [
+      {
+        "id": "339aec94-4d3c-80a8-ac75-c03427b3dc5b",
+        "title": "Created new project entry for Drifting Priorities",
+        "entry": "Created new project entry for Drifting Priorities",
+        "url": "https://www.notion.so/Created-new-project-entry-for-Drifting-Priorities-339aec944d3c80a8ac75c03427b3dc5b",
+        "startTime": "2023-02-09",
+        "endTime": "2023-02-09T01:00:00.000-08:00",
+        "date": "2026-04-05T02:53:00.000-07:00",
+        "sessionType": [
+          "Planning",
+          "Organizing"
+        ],
+        "whatHappened": "Created new project entry for Drifting Priorities and added the 'Project Starter' milestones and tasks.",
+        "problems": null,
+        "nextStep": "Complete to do items",
+        "feelGoodAboutWork": 100.0,
+        "accomplishedWhatYouWanted": 100.0,
+        "durationMinutes": 60
+      }
+    ],
+    "articles": [],
+    "folderName": "drifting_priorities_306aec94-4d3c-806a-b191-f329f1efc1ae",
+    "readme": {
+      "content": "# Drifting Priorities\n\n![Drifting Priorities hero](https://raw.githubusercontent.com/ZSturman/Drifting-Priorities/main/docs/assets/github-hero.svg)\n\n![Python](https://img.shields.io/badge/python-3.11%2B-0f4c81?style=flat-square)\n![Interface](https://img.shields.io/badge/interface-CLI%20%2B%20GUI-136f63?style=flat-square)\n![Telemetry](https://img.shields.io/badge/telemetry-CSV%20%2F%20JSON-cf5c36?style=flat-square)\n![Exports](https://img.shields.io/badge/exports-JSON%20%2B%20CSV%20ZIP-6a4c93?style=flat-square)\n\nDrifting Priorities is a context-aware task recommender for work that refuses to stay equally urgent all day. It combines task metadata, time-sensitive priority curves, recent activity, state-of-mind signals, and dependency penalties into a ranked \"what should I do next?\" view that you can drive from the command line or a local web GUI.\n\n## Why It Exists\n\nMost task lists flatten everything into one static queue. Drifting Priorities is designed for situations where:\n\n- urgency changes over time,\n- repeated avoidance should matter,\n- your current energy or focus should influence the recommendation,\n- telemetry or external activity signals should feed the system,\n- data needs to stay portable instead of trapped in one interface.\n\n## What You Get\n\n- A shared application layer used by both the CLI and the GUI.\n- A local Streamlit GUI with tabs for dashboard, tasks, state, visualization, telemetry import, and export.\n- Normalized telemetry import from CSV or JSON into activity and state signals.\n- Portable exports as a JSON snapshot or a CSV bundle ZIP.\n- Documentation and examples for automation, adapters, and external integrations.\n\n## Interface Preview\n\n![GUI preview](https://raw.githubusercontent.com/ZSturman/Drifting-Priorities/main/docs/assets/gui-preview.svg)\n\nThe GUI mirrors the CLI rather than wrapping shell commands. Every task action runs through the same service layer used by `drift`.\n\n## Architecture\n\n```mermaid\nflowchart LR\n    CLI[\"CLI (`drift`)\"] --> Service[\"Shared application service\"]\n    GUI[\"GUI (`drift gui` / `drift-gui`)\"] --> Service\n    Telemetry[\"Telemetry adapters<br/>CSV / JSON\"] --> Service\n    Service --> Engine[\"Priority engine\"]\n    Service --> Repo[\"SQLite repositories\"]\n    Engine --> Repo\n    Repo --> DB[(\"SQLite database\")]\n    Service --> Export[\"Export builders<br/>JSON / CSV ZIP\"]\n```\n\n## Quick Start\n\n### 1. Install\n\n```bash\npython3 -m pip install -e \".[gui,dev]\"\n```\n\nIf you only want the CLI and core library, install without extras:\n\n```bash\npython3 -m pip install -e .\n```\n\n### 2. Create Your First Task\n\n```bash\ndrift add \"Write landing page copy\" -c communication --days 2 --duration 45\ndrift add \"Refine recommendation curve\" -c research --days 5 --duration 90\ndrift next\n```\n\n### 3. Launch the GUI\n\n```bash\ndrift gui\n```\n\nYou can also use the dedicated launcher:\n\n```bash\ndrift-gui\n```\n\n### 4. Set a Custom Database Location\n\nUse either a flag or an environment variable:\n\n```bash\ndrift --db-path ./workspace.db tasks\nDRIFT_DB_PATH=./workspace.db drift next\n```\n\n## CLI Surface\n\n| Command | Purpose | GUI Equivalent |\n| --- | --- | --- |\n| `drift add` | Create a task with timing and curve settings | `Tasks -> Add Task` |\n| `drift next` | Show ranked recommendations | `Dashboard -> Recommended Next` |\n| `drift done` | Mark a task complete | `Dashboard` or `Tasks` action buttons |\n| `drift skip` | Skip a task and increase penance | `Dashboard` or `Tasks` action buttons |\n| `drift log` | Record category activity | `State & Activity -> Log Activity` |\n| `drift state` | View or update state-of-mind values | `State & Activity -> State of Mind` |\n| `drift tasks` | List active tasks with current scores | `Tasks -> Active Tasks` |\n| `drift viz` | Plot task priority curves | `Visualization` |\n| `drift remove` | Deactivate a task | `Tasks -> Remove` |\n| `drift import-telemetry` | Validate or import normalized telemetry | `Telemetry` |\n| `drift export` | Generate JSON or CSV bundle exports | `Export` |\n| `drift gui` | Launch the local web GUI | N/A |\n\n## Telemetry Import\n\nTelemetry v1 uses a normalized schema so integrations can be added without rewriting the core engine.\n\n### Supported record types\n\n- `activity`: written into `activity_log`\n- `state`: written into `user_state` and `user_state_history`\n\n### CSV example\n\n```csv\nkind,timestamp,category,task_id,description,key,value\nactivity,2026-03-27T09:00:00,creative,,Morning sketch,,\nstate,2026-03-27T09:15:00,,,,focus,0.90\n```\n\n### JSON example\n\n```json\n{\n  \"records\": [\n    {\n      \"kind\": \"activity\",\n      \"timestamp\": \"2026-03-27T09:00:00\",\n      \"category\": \"creative\",\n      \"description\": \"Morning sketch\"\n    },\n    {\n      \"kind\": \"state\",\n      \"timestamp\": \"2026-03-27T09:15:00\",\n      \"key\": \"focus\",\n      \"value\": 0.9\n    }\n  ]\n}\n```\n\n### Import commands\n\n```bash\ndrift import-telemetry --format csv --input examples/telemetry/sample_telemetry.csv --preview\ndrift import-telemetry --format json --input examples/telemetry/sample_telemetry.json\n```\n\nValidation rules are documented in [docs/telemetry.md](https://github.com/ZSturman/Drifting-Priorities/blob/main/docs/telemetry.md).\n\n## Export Data\n\nTwo export formats are available:\n\n- JSON snapshot: one portable file containing metadata, tasks, activity, completions, current state, and state history.\n- CSV bundle: a ZIP archive with table-level CSV files plus `metadata.json`.\n\n```bash\ndrift export --format json --output exports/drift-export.json\ndrift export --format csv --output exports/drift-export.zip\n```\n\nThe GUI exposes these as direct downloads in the `Export` tab.\n\n## Automations and Integrations\n\nThe app does not include a built-in scheduler. Instead, it exposes clean CLI and service boundaries so you can automate it with the tooling you already trust:\n\n- cron / launchd / Task Scheduler for recurring imports or exports,\n- wrapper scripts for wearable, note, or project-tool adapters,\n- local dashboards or notebooks that consume JSON / CSV exports,\n- future custom adapters that implement the normalized telemetry contract.\n\nStart with [docs/automations-integrations.md](https://github.com/ZSturman/Drifting-Priorities/blob/main/docs/automations-integrations.md) for working examples.\n\n## Project Layout\n\n```text\nsrc/\n  app.py              shared service layer\n  cli.py              command line interface\n  gui.py              Streamlit launcher\n  gui_app.py          Streamlit UI\n  telemetry.py        CSV / JSON parsing and validation\n  exporters.py        JSON snapshot and CSV bundle exports\ndocs/\n  gui.md\n  telemetry.md\n  exports.md\n  automations-integrations.md\nexamples/\n  telemetry/\ntests/\n```\n\n## Docs Index\n\n- [docs/README.md](https://github.com/ZSturman/Drifting-Priorities/blob/main/docs/README.md)\n- [docs/gui.md](https://github.com/ZSturman/Drifting-Priorities/blob/main/docs/gui.md)\n- [docs/telemetry.md](https://github.com/ZSturman/Drifting-Priorities/blob/main/docs/telemetry.md)\n- [docs/exports.md](https://github.com/ZSturman/Drifting-Priorities/blob/main/docs/exports.md)\n- [docs/automations-integrations.md](https://github.com/ZSturman/Drifting-Priorities/blob/main/docs/automations-integrations.md)\n\n## Development\n\nRun the test suite:\n\n```bash\npython3 -m pytest -q\n```\n\nRun the CLI directly from source:\n\n```bash\npython3 -m src.cli tasks\n```\n\nLaunch the GUI from source:\n\n```bash\npython3 -m src.gui\n```",
+      "sourceUrl": "https://github.com/ZSturman/Drifting-Priorities/blob/main/README.md"
+    }
+  }
+}

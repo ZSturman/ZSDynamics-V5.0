@@ -38,6 +38,13 @@ export function PortfolioHeader() {
         >
           Work Logs
         </Link>
+        <Link
+          href="/contact"
+          className="hover:text-foreground transition-colors"
+          data-testid="portfolio-header-contact-link"
+        >
+          Contact
+        </Link>
       </div>
 {/*       <PersonalTabs /> */}
     </header>

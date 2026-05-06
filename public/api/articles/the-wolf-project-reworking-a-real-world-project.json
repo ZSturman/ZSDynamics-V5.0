@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "kind": "articles.detail",
+  "generated_at": "2026-05-06T02:07:33.259448+00:00",
+  "data": {
+    "slug": "the-wolf-project-reworking-a-real-world-project",
+    "title": "The Wolf Project - Reworking a Real-World Project",
+    "summary": "After discovering The Wolf Project through a Dodo video, I connected with the team and began rebuilding their website to better support their needs. The new version introduces structured data, dynamic content, and scalable infrastructure using Next.js, Firebase, and Cloudinary. It’s now a usable foundation that can evolve into a more complete system for showcasing cases, managing content, and supporting contributions.",
+    "oneLiner": "Rebuilding The Wolf Project’s site into a structured, scalable platform to better support real rescue work.",
+    "publishedAt": "2026-04-28",
+    "updatedAt": "2026-04-18",
+    "series": "The Wolf Project",
+    "tags": [
+      "Dogs",
+      "Firebase",
+      "Next.js",
+      "Nonprofit",
+      "Web App",
+      "Welfare"
+    ],
+    "projectIds": [
+      "346aec94-4d3c-801e-851f-c7e727f0e186"
+    ],
+    "sourceUrl": "https://github.com/ZSturman/Articles/blob/main/articles/the-wolf-project-reworking-a-real-world-project/index.md",
+    "href": "/articles/the-wolf-project-reworking-a-real-world-project",
+    "coverImage": "/articles/the-wolf-project-reworking-a-real-world-project/imgaes/Wolf-hero.webp",
+    "linkPreviews": [
+      {
+        "url": "https://www.youtube.com/watch?v=NMf8mlxO4sk",
+        "kind": "youtube",
+        "provider": "youtube",
+        "title": "Husky With Zero Chance Of Survival Showed Everyone He’s Wasn't Giving Up | The Dodo",
+        "siteName": "YouTube",
+        "hostname": "youtube.com",
+        "displayUrl": "youtube.com/watch",
+        "embedUrl": "https://www.youtube-nocookie.com/embed/NMf8mlxO4sk",
+        "image": "https://i.ytimg.com/vi/NMf8mlxO4sk/maxresdefault.jpg",
+        "description": "The way he never stopped telling his rescuer to keep going 🩵Dodo producer Keren followed Megan of SGT Canines through Wolf’s incredible journey — as he kept..."
+      },
+      {
+        "url": "https://www.instagram.com/_wolf_project/",
+        "kind": "card",
+        "provider": "instagram",
+        "title": "The Wolf Project (@_wolf_project) • Instagram photos and videos",
+        "siteName": "Instagram",
+        "hostname": "www.instagram.com",
+        "displayUrl": "instagram.com/_wolf_project",
+        "description": "9,422 Followers, 55 Following, 40 Posts - See Instagram photos and videos from The Wolf Project (@_wolf_project)",
+        "image": "https://scontent-sea5-1.cdninstagram.com/v/t51.82787-19/669995688_17855811255634945_8055336562483547172_n.jpg?stp=dst-jpg_s100x100_tt6&_nc_cat=105&ccb=7-5&_nc_sid=bf7eb4&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy4xMDgwLkMzIn0%3D&_nc_ohc=mw4UyJRrXYoQ7kNvwE7JrVO&_nc_oc=AdqGBbA48IXCW7mSJJPltvQwLtvBbooUbq3_VtOVZcvOjaJMrrmmM277ZJGl4T4O9iNHo2PvHPYaaGHwyQlw5quB&_nc_zt=24&_nc_ht=scontent-sea5-1.cdninstagram.com&_nc_gid=oS6YxUfBXdOIKiNlwu-l-A&_nc_ss=7860f&oh=00_Af6knIl49S0-xTGmQ_FcWqiWk8t-JQ1P5AiwVNRU2nXV-A&oe=6A008531"
+      },
+      {
+        "url": "https://the-wolf-project-14stqkkgr-zsturmans-projects.vercel.app/",
+        "kind": "card",
+        "provider": "the-wolf-project-14stqkkgr-zsturmans-projects.vercel.app",
+        "title": "the-wolf-project-14stqkkgr-zsturmans-projects.vercel.app",
+        "siteName": "The-Wolf-Project-14Stqkkgr-Zsturmans-Projects Vercel App",
+        "hostname": "the-wolf-project-14stqkkgr-zsturmans-projects.vercel.app",
+        "displayUrl": "the-wolf-project-14stqkkgr-zsturmans-projects.vercel.app"
+      },
+      {
+        "url": "https://yourdogcanstay.com/",
+        "kind": "card",
+        "provider": "yourdogcanstay.com",
+        "title": "The WOLF PROJECT",
+        "siteName": "YOUR DOG CAN STAY",
+        "hostname": "yourdogcanstay.com",
+        "displayUrl": "yourdogcanstay.com",
+        "description": "Access to Care Lifeline for families whose dog requires lifesaving medical care, but the upfront costs stand in the way.",
+        "image": "http://yourdogcanstay.com/cdn/shop/files/3AC01483-E6E2-4011-833D-F6C8714C4FDC_dfbfda84-9ef0-49a6-be7e-7f1fa826400c.png?height=628&pad_color=ffffff&v=1776093581&width=1200"
+      }
+    ]
+  }
+}

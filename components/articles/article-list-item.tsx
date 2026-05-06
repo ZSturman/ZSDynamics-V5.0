@@ -31,11 +31,16 @@ function getSeriesHref(series: string): string {
 
 export function ArticleListItem({ article }: ArticleListItemProps) {
   const updatedDate = getUpdatedDate(article);
+  const isDraft = !article.publishedAt;
 
   return (
     <article
       data-testid="article-list-item-root"
-      className="group relative overflow-hidden rounded-3xl border border-border/70 bg-card p-3 shadow-sm transition-all duration-200 hover:border-foreground/20 hover:shadow-md md:p-4"
+      className={`group relative overflow-hidden rounded-3xl border bg-card p-3 shadow-sm transition-all duration-200 hover:shadow-md md:p-4 ${
+        isDraft
+          ? "border-amber-300/60 hover:border-amber-400/80 dark:border-amber-700/50 dark:hover:border-amber-600/70"
+          : "border-border/70 hover:border-foreground/20"
+      }`}
     >
       <Link href={article.href} aria-label={article.title} className="absolute inset-0 z-10 rounded-3xl" />
 
@@ -61,6 +66,11 @@ export function ArticleListItem({ article }: ArticleListItemProps) {
           <div className="flex flex-wrap items-center gap-2 text-xs uppercase tracking-[0.14em] text-muted-foreground">
             <span>{getPrimaryDate(article)}</span>
             {updatedDate && <span>Updated {updatedDate}</span>}
+            {isDraft && (
+              <span className="inline-flex items-center rounded-full bg-amber-100/90 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-widest text-amber-700 ring-1 ring-amber-400/50 dark:bg-amber-900/60 dark:text-amber-300 dark:ring-amber-500/40">
+                Draft
+              </span>
+            )}
             {article.series && (
               <MetadataText
                 href={getSeriesHref(article.series)}

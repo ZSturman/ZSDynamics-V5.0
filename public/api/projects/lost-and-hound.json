@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "kind": "projects.detail",
+  "generated_at": "2026-05-06T02:07:33.255146+00:00",
+  "data": {
+    "id": "306aec94-4d3c-80a5-b00e-f67cc4ff5901",
+    "slug": "lost-and-hound",
+    "href": "/projects/lost-and-hound",
+    "title": "Lost & Hound",
+    "name": "Lost & Hound",
+    "subtitle": "Find your Furry Friend",
+    "summary": "Lost & Hound is a mobile application designed to make it easier to reconnect lost pets with the people looking for them. Instead of relying on flyers, chance encounters, or social media posts that quickly disappear, the app provides a centralized place to report lost pets and log sightings in real time. Users can post details, photos, and locations, browse nearby reports, and reach out directly when something looks like a match.The app currently only works in Australia, reflecting where the initial rollout and testing took place. The project was built as a full-stack React Native application with a Node backend and Firebase for data and authentication. One team extended the system further by integrating computer vision, allowing uploaded images of spotted animals to be compared against photos of missing pets. The goal was not to replace human judgment, but to reduce friction and shorten the path between seeing an animal and contacting the right person.",
+    "oneLiner": "A community-driven mobile app that helps reunite lost pets with their owners by turning scattered, offline sightings into a shared, searchable system. The live app currently operates in Australia.",
+    "domain": "Technology",
+    "category": "Mobile App",
+    "status": "Complete",
+    "phase": "Archived",
+    "featured": false,
+    "createdAt": "2024-06-01",
+    "updatedAt": "2024-10-10",
+    "isPublic": true,
+    "tags": [
+      "React",
+      "React Native",
+      "Expo",
+      "Node.js",
+      "Firebase",
+      "Computer Vision",
+      "Machine Learning",
+      "Mobile"
+    ],
+    "mediums": [],
+    "genres": [],
+    "topics": [],
+    "subjects": [],
+    "description": "",
+    "story": "",
+    "images": {
+      "icon": "icon.svg",
+      "banner": "banner.png",
+      "thumbnail": "thumbnail.png",
+      "poster": "poster.png"
+    },
+    "resources": [
+      {
+        "type": "github",
+        "label": "Repo",
+        "url": "https://github.com/ZSturman/Lost-Hound"
+      }
+    ],
+    "assets": [],
+    "collection": {},
+    "workLogs": [
+      {
+        "id": "339aec94-4d3c-80f7-aa6a-efb006a4364a",
+        "title": "Created new project entry for Lost & Hound",
+        "entry": "Created new project entry for Lost & Hound",
+        "url": "https://www.notion.so/Created-new-project-entry-for-Lost-Hound-339aec944d3c80f7aa6aefb006a4364a",
+        "startTime": "2024-06-01",
+        "endTime": "2024-06-01T01:00:00.000-07:00",
+        "date": "2026-04-05T04:37:00.000-07:00",
+        "sessionType": [
+          "Planning",
+          "Organizing"
+        ],
+        "whatHappened": "Created new project entry for Lost & Hound and added the 'Project Starter' milestones and tasks.",
+        "problems": null,
+        "nextStep": "Complete to do items",
+        "feelGoodAboutWork": 100.0,
+        "accomplishedWhatYouWanted": 100.0,
+        "durationMinutes": 60
+      }
+    ],
+    "articles": [],
+    "folderName": "lost_hound_306aec94-4d3c-80a5-b00e-f67cc4ff5901",
+    "readme": {
+      "content": "# Lost & Hound - a Pet Finder Mobile Application\n\n### App Link: <a href=\"https://appstoreconnect.apple.com/teams/88ed8354-418c-4d0b-a56c-e36019522304/apps/6702022401/testflight/ios\">Test Flight App</a>\n\n\n\n<!-- TABLE OF CONTENTS -->\n<details>\n  <summary>Table of Contents</summary>\n  <ol>\n    <li>\n      <a href=\"#about-lost--hound\">About Lost & Hound</a>\n      <ul>\n        <li><a href=\"#project-team-members\">Project Team Members</a></li>\n        <li><a href=\"#built-with\">Built With</a></li>\n      </ul>\n    </li>\n    <li><a href=\"#repository-directory-structure\">Repository Directory Structure</a></li>\n    <li><a href=\"#changelog\">Changelog</a></li>\n    <li>\n      <a href=\"#getting-started\">Getting Started</a>\n      <ul>\n        <li><a href=\"#installations\">Installations</a></li>\n        <li><a href=\"#clone-the-repository\">Clone the Repository</a></li>\n        <li><a href=\"#prerequisites\">Prerequisites</a></li>\n      </ul>\n    </li>\n    \n  </ol>\n</details>\n\n<!-- ABOUT THE PROJECT -->\n## About Lost & Hound\nLost & Hound is a mobile application designed to help reunite lost pets with their owners. As a community-driven platform, users will be able to use Lost & Hound to report sightings of lost pets and stray animals. By digitising what has traditionally been an offline activity, Lost & Hound aims to address said limitations to enhance the efficiency and increase the chances of pet recovery.\n\n\n### Built With\nThis project will be utilising these following technologies:\n\n* [![React Native][React.js]][React-url]\n* [![Node.js][Node.js]][Node-url]\n* [![Expo][Expo.dev]][Expo-url]\n* [![Android][Android]][Android-url]\n* [![Xcode][Xcode]][Xcode-url]\n* [![Jest][Jest]][Jest-url]\n* [![Postman][Postman]][Postman-url]\n* [![Firebase][Firebase]][Firebase-url]\n* [![Heroku][Heroku]][Heroku-url]\n\n*The location services in this app are only available in Australia for now.*\n\n<p align=\"right\">(<a href=\"#lost--hound---a-pet-finder-mobile-application\">back to top</a>)</p>\n\n## Repository Directory Structure\nFor client and server parts, more details are added in their respective README files. \n\nClient Side: /src/client/PFRedback/README.md\n\nServer Side: /src/server/README.md\n\nComputer Vision (CV) Server Side: src/cv_server/README.md\n\n### General Workflow\n```\npf-redback\n├── .github               # All GitHub customised settings\n├── docs/                 # Documentation files \n│   ├── sprint1/          # Sprint 1 Documentation\n|   |   ├── pdf\n│   ├── sprint2/          # Sprint 2 Documentation\n|   |   ├── pdf\n│   ├── sprint3/          # Sprint 3 Documentation\n|   |   ├── pdf\n├── src/                  # Source code folder\n│   ├── client/           # Client side folder\n|   |   ├── js, jsx       # Refer to README file (Client)\n│   ├── resources/        # Resources folder\n|   |   ├── images\n│   ├── server/           # Server side folder\n|   |   ├── js            # Refer to README file (Server)\n│   ├── cv_server/        # Computer Vision Server side folder\n|   |   ├── js            # Refer to README file (CV Server)\n├── .gitignore            # Extensions to exclude in git\n└── README.md             # Markdown of the Github repository\n```\n<p align=\"right\">(<a href=\"#lost--hound---a-pet-finder-mobile-application\">back to top</a>)</p>\n\n## Changelog\nAll notable changes to this project is documented in this section. The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). All Changelogs can be seen in `CHANGELOG.md`.\n\n<p align=\"right\">(<a href=\"#lost--hound---a-pet-finder-mobile-application\">back to top</a>)</p>\n\n<!-- GETTING STARTED -->\n## Getting Started\nTo run the project, the following steps needs to be done to get started:\n\n### Installations\nSet up the applications needed in order to work on the project\n\n#### Software:\n1. Node.js\n- Version: v16.x\n- Installation: Download and install Node.js from the official website.\n- Verify installation by running:\n```bash\nnode -v\nnpm -v\n```\n2. React Native\n- Version: Latest stable version\n- Installation: Install React Native CLI globally:\n```bash\nnpm install -g react-native-cli\n```\n- Verify installation by running:\n```bash\nreact-native --version\n```\n3. Expo\n- Version: Latest version\n- Installation: Install Expo CLI globally:\n```bash\nnpm install -g expo-cli\n```\n- Verify installation by running:\n```bash\nexpo --version\n```\n### Development Tools:\n- Download [Visual Studio Code](https://code.visualstudio.com/)\n- Setup the [Firebase](https://firebase.google.com/) project\n- Setup the [Heroku](https://www.heroku.com/)\n\n\n#### Testing:\n- Download [Postman](https://www.postman.com/downloads/)\n- Install Jest\n    - Version: Latest stable version\n    - Installation: Install Jest as a development dependency:\n    ```bash\n    npm install --save-dev jest\n    ```\n    - Verify installation by running:\n    ```bash\n    jest --version\n    ```\n\n\n\n\n### Clone the repository\nTo start, you need to clone the project to your local machine:\n  ```sh\n  git clone https://github.com/ZSturman/Lost-Hound\n  ```\n\n### Prerequisites\n\n#### To run the application (Frontend)\n1. Open Visual Studio Code\n2. Open Terminal in VS Code\n3. Install NPM packages\n```sh\n  npm install\n  ```\n4. Run the application via local machine\n```sh\n  npx expo start -c\n  ```\n\n#### To run the application (Backend)\n1. Open Visual Studio Code\n2. Open Terminal in VS Code (another terminal)\n3. Install NPM packages\n```sh\n  npm install\n  ```\n4. Run the application via local machine\n```sh\n  npm start\n  ```\n\nYou're ready to code!\n\n#### Run Tests (Frontend / Backend)\n1. Open Visual Studio Code\n2. Open Terminal in VS Code (another terminal)\n3. Install NPM packages\n```sh\n  npm install\n  ```\n4. Run the test in the application\n```sh\n  npm test\n  ```\n\n<p align=\"right\">(<a href=\"#lost--hound---a-pet-finder-mobile-application\">back to top</a>)</p>\n\n\n\n\n<!-- MARKDOWN LINKS & IMAGES -->\n<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->\n[React.js]: https://img.shields.io/badge/React%20Native-20232A?style=for-the-badge&logo=react&logoColor=61DAFB\n[React-url]: https://reactjs.org/\n[Node.js]: https://img.shields.io/badge/Node.js-grey?style=for-the-badge&logo=javascript&logoColor=5FA04E\n[Node-url]: https://nodejs.org/en\n[Expo.dev]: https://img.shields.io/badge/Expo-000000?style=for-the-badge&logo=expo&logoColor=white\n[Expo-url]: https://expo.dev/\n[Android]: https://img.shields.io/badge/Android%20Studio-808080?style=for-the-badge&logo=android&logoColor=3DDC84\n[Android-url]: https://developer.android.com/studio\n[Xcode]: https://img.shields.io/badge/xCode-DFFF00?style=for-the-badge&logo=xcode&logoColor=147EFB\n[Xcode-url]: https://developer.apple.com/xcode/\n[Jest]: https://img.shields.io/badge/Jest-FFFFFF?style=for-the-badge&logo=jest&logoColor=C21325\n[Jest-url]: https://jestjs.io/\n[Postman]: https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=postman&logoColor=FFFFFF\n[Postman-url]: https://www.postman.com/\n[Firebase]: https://img.shields.io/badge/Firebase-DD2C00?style=for-the-badge&logo=firebase&logoColor=white\n[Firebase-url]: https://firebase.google.com/\n[Heroku]: https://img.shields.io/badge/heroku-%23430098.svg?style=for-the-badge&logo=heroku&logoColor=white\n[Heroku-url]: https://www.heroku.com/",
+      "sourceUrl": "https://github.com/ZSturman/Lost-Hound/blob/main/README.md"
+    }
+  }
+}

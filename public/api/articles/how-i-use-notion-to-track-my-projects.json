@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "kind": "articles.detail",
+  "generated_at": "2026-05-06T02:07:33.260306+00:00",
+  "data": {
+    "slug": "how-i-use-notion-to-track-my-projects",
+    "title": "How I Use Notion to Ingest, Organize, and Track My Projects",
+    "summary": "This Notion setup is a guided project intake workflow rather than a simple notes system: each project starts from a template, highlights the highest-priority next step, and builds toward execution, portfolio readiness, and future automation. By checking key setup steps automatically and separating projects, tasks, assets, resources, and milestones into linked systems, it reduces friction and makes the workflow easier to manage as it scales.",
+    "oneLiner": null,
+    "publishedAt": null,
+    "updatedAt": "2026-04-01",
+    "series": "My Notion Pipeline",
+    "tags": [
+      "AI",
+      "API Integration",
+      "ML",
+      "Notion",
+      "Productivity"
+    ],
+    "projectIds": [
+      "304aec94-4d3c-8029-a1b1-ea0f92487137"
+    ],
+    "sourceUrl": "https://github.com/ZSturman/Articles/blob/main/articles/how-i-use-notion-to-track-my-projects/index.md",
+    "href": "/articles/how-i-use-notion-to-track-my-projects",
+    "coverImage": "/articles/how-i-use-notion-to-track-my-projects/images/cover_image.png",
+    "linkPreviews": [
+      {
+        "url": "https://zachary-sturman.com/articles/how-i-sync-my-portfolio-using-notion",
+        "kind": "card",
+        "provider": "zachary-sturman.com",
+        "title": "How I Sync My Portfolio Using Notion",
+        "siteName": "Zachary Sturman",
+        "hostname": "zachary-sturman.com",
+        "displayUrl": "zachary-sturman.com/articles/how-i-sync-my-portfolio-using-notion",
+        "description": "How a portfolio can be built as a publishing pipeline, with Notion as the source of truth, n8n creating a JSON handoff, Python scripts normalizing content and media, and Next.js exporting the final static site. The result is a cleaner separation between editing, transformation, and publishing, making the site more predictable and maintainable.",
+        "image": "https://zacharysturman.com/articles/how-i-sync-my-portfolio-using-notion/images/Hero_image.png"
+      }
+    ]
+  }
+}

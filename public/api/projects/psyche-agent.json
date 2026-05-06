@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "kind": "projects.detail",
+  "generated_at": "2026-05-06T02:07:33.258011+00:00",
+  "data": {
+    "id": "332aec94-4d3c-80ea-8468-c3a18bc61258",
+    "slug": "psyche-agent",
+    "href": "/projects/psyche-agent",
+    "title": "Psyche Agent",
+    "name": "Psyche Agent",
+    "subtitle": "",
+    "summary": "This project is a personal creation based on the idea that if profile data is incomplete, the system should still be helpful without pretending to know more than it does. The app can begin with ready-made personas, and then you can add optional assessment results or manual imports as you go, so you can start using it right away.\n\nWhat sets it apart is how it keeps measured data, placeholder scaffolding, and missing modules separate, while also keeping political and religious worldview signals in their own layer, rather than mixing them into test results. It feels like it’s designed for curious builders, thoughtful users, and anyone who wants persona-driven chat with clearer boundaries around uncertainty.\n\nI’m still seeing it as a proof of concept, so there’s some uncertainty about how it will be used in the long run and where people will get the most benefit, but the main direction is clear: less fake certainty, more explicit structure, and practical flexibility.",
+    "oneLiner": "I’m building a chat-first persona app that uses whatever profile data is actually known, keeps missing modules visible, and helps me explore different perspectives without pretending uncertain inputs are facts.",
+    "domain": "Technology",
+    "category": "Application",
+    "status": "Active",
+    "phase": "Development",
+    "featured": false,
+    "createdAt": "2026-03-31",
+    "updatedAt": "2026-04-04",
+    "isPublic": true,
+    "tags": [
+      "Chat bot",
+      "Social",
+      "Psychology"
+    ],
+    "mediums": [],
+    "genres": [],
+    "topics": [],
+    "subjects": [],
+    "description": "",
+    "story": "",
+    "images": {
+      "icon": "icon.png",
+      "banner": "banner.png",
+      "thumbnail": "thumbnail.png",
+      "poster": "poster.png",
+      "hero": "hero.png"
+    },
+    "resources": [
+      {
+        "type": "github",
+        "label": "Repo",
+        "url": "https://github.com/ZSturman/Psyche-Agent"
+      }
+    ],
+    "assets": [],
+    "collection": {},
+    "workLogs": [
+      {
+        "id": "339aec94-4d3c-807a-9dea-dc28a1d55383",
+        "title": "Created new project entry for Psyche Agent",
+        "entry": "Created new project entry for Psyche Agent",
+        "url": "https://www.notion.so/Created-new-project-entry-for-Psyche-Agent-339aec944d3c807a9deadc28a1d55383",
+        "startTime": "2026-03-31",
+        "endTime": "2026-03-31T01:00:00.000-07:00",
+        "date": "2026-04-05T04:42:00.000-07:00",
+        "sessionType": [
+          "Planning",
+          "Organizing"
+        ],
+        "whatHappened": "Created new project entry for Psyche Agent and added the 'Project Starter' milestones and tasks.",
+        "problems": null,
+        "nextStep": "Complete to do items",
+        "feelGoodAboutWork": 100.0,
+        "accomplishedWhatYouWanted": 1.0,
+        "durationMinutes": 60
+      }
+    ],
+    "articles": [],
+    "folderName": "psyche_agent_332aec94-4d3c-80ea-8468-c3a18bc61258",
+    "readme": {
+      "content": "# PsycheAgent\n\n> A chat-first persona builder that uses personality, values, strengths, interests, and wellbeing inputs without pretending missing data is complete.\n\n[![Next.js](https://img.shields.io/badge/Next.js-16.2.1-111111?style=flat-square)](https://nextjs.org/)\n[![React](https://img.shields.io/badge/React-19.2.4-149eca?style=flat-square)](https://react.dev/)\n[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178c6?style=flat-square)](https://www.typescriptlang.org/)\n[![License: MIT](https://img.shields.io/badge/License-MIT-111111?style=flat-square)](LICENSE)\n\nPsycheAgent is an experimental app for building and chatting with AI personas shaped by psychometric inputs. You can start with premade personas right away, then add your own data later if you want the app to reflect a saved profile more closely.\n\nThe main design rule is simple: partial data should make the output less specific, not less honest. If a result is measured, the app can use it directly. If a value is only a placeholder, the app keeps that label visible. If something is missing, the app does not quietly fill it in.\n\n## Preview\n\nThe screenshots below use a small local demo profile with an `INTJ-A` type-code import. That type code is treated as placeholder data, which means it can help the app generate a useful persona without being presented as directly measured dimension scores.\n\n| Chat first | Add data |\n| --- | --- |\n| ![PsycheAgent chat home with premade personas and a saved local persona option.](https://raw.githubusercontent.com/ZSturman/Psyche-Agent/main/docs/assets/screenshots/home-chat.png) | ![PsycheAgent add-data screen showing a 16P type-code import and modular assessment cards.](https://raw.githubusercontent.com/ZSturman/Psyche-Agent/main/docs/assets/screenshots/add-data.png) |\n\n| Profile dashboard | Agent workbench |\n| --- | --- |\n| ![PsycheAgent profile dashboard showing measured, default-only, and not-yet-taken module counts.](https://raw.githubusercontent.com/ZSturman/Psyche-Agent/main/docs/assets/screenshots/profile-dashboard.png) | ![PsycheAgent agent workbench showing known modules, blueprint mode, contributing fields, and export controls.](https://raw.githubusercontent.com/ZSturman/Psyche-Agent/main/docs/assets/screenshots/agent-workbench.png) |\n\n## What This Project Does\n\nPsycheAgent turns whatever profile information you have into a structured AI persona. It can use in-app assessments, manual entries, imports, and lightweight placeholders, while keeping those sources separate.\n\nYou can use it to:\n\n- Chat with premade personas before adding any personal data.\n- Take short or full in-app versions of 16 Personalities and Moral Foundations assessments.\n- Add results from outside tools such as Big Five, HEXACO, VIA Character Strengths, O*NET / RIASEC, Attachment, PERMA, and Basic Psychological Needs.\n- Import a known 16P type code as clearly labeled placeholder scaffolding.\n- Review a profile dashboard that shows what is measured, what is placeholder, and what is still missing.\n- Build a self, preset, opposite, or custom persona in the workbench.\n- Export a modular profile, an LLM bundle, or the generated system prompt.\n\n## Why It Exists\n\nIt is easy to make an AI persona sound confident. It is harder to make the path behind that persona honest.\n\nThis project started from the idea that LLMs can be useful for exploring different perspectives, especially when their voice, values, and reasoning style are shaped deliberately. The more important problem showed up once the inputs became incomplete. A person might know a type code but not the underlying scores. They might have a strengths report but no moral profile. They might want a persona that differs from them, without rewriting their actual saved profile.\n\nPsycheAgent is built around those distinctions. It tries to keep profile data, inferred hints, and target persona behavior separate, so the generated persona is useful without implying that the app knows more than it does.\n\n## Who It Is For\n\nThis project is most useful for people who want to explore how different communication styles, values, or reasoning patterns can shape a conversation. That includes curious non-technical visitors, writers, product thinkers, educators, and anyone experimenting with AI personas.\n\nIt is also useful for developers and maintainers who want a concrete example of a local-first, modular profile system feeding an LLM prompt composer. The deeper implementation notes are linked below so the README can stay readable.\n\n## How To Try It\n\nThere is no hosted demo URL recorded in this repository yet, so the verified way to try PsycheAgent is to run it locally.\n\n```bash\nnpm install\nnpm run dev\n```\n\nThen open [http://localhost:3000](http://localhost:3000).\n\nThe app opens on the chat screen. You can choose a premade persona and start exploring the interface. To use live model responses, open Chat Setup and either use an app-hosted provider key if one is configured, or paste your own provider key for the current browser.\n\n## Key Features\n\n| Feature | What it means in practice |\n| --- | --- |\n| Chat-first entry | You can start with premade personas before taking assessments or importing data. |\n| Modular profile data | Each supported assessment has its own status, fields, and source information. |\n| Honest partial data | Measured, placeholder, and missing values stay distinct in the UI and exports. |\n| Native assessments | 16 Personalities and Moral Foundations can be taken directly in the app. |\n| Import-first modules | Big Five, HEXACO, VIA, RIASEC, Attachment, PERMA, and Basic Needs can be entered from outside results. |\n| Persona workbench | Build from your profile, use presets, create opposite agents, or tune a custom target. |\n| Local-first storage | Profiles, personas, chat sessions, and model settings are stored in the browser. |\n| Structured exports | Export profile JSON, LLM bundle JSON, or the generated system prompt as Markdown. |\n\n## A Short Walkthrough\n\n1. Open the app and chat with one of the premade personas.\n2. Add data only when it becomes useful. You can take an in-app assessment, import a JSON file, enter fields manually, or add a 16P type code.\n3. Review the profile dashboard to see which modules are measured, placeholder, or missing.\n4. Open the workbench to generate a persona from the data that exists.\n5. Export the result if you want to inspect, archive, or reuse the generated prompt and profile data.\n\n## Technical Notes\n\nThe README keeps the main path light on purpose. These supporting docs go deeper:\n\n- [Setup](https://github.com/ZSturman/Psyche-Agent/blob/main/docs/SETUP.md), for installation, local development, build commands, provider keys, and local storage notes.\n- [Technical overview](https://github.com/ZSturman/Psyche-Agent/blob/main/docs/TECHNICAL.md), for routes, data flow, project structure, scripts, and implementation details.\n- [Modular profile system](https://github.com/ZSturman/Psyche-Agent/blob/main/docs/modular-profile-system.md), for the profile schema, provenance rules, placeholder behavior, and export model.\n- [Troubleshooting](https://github.com/ZSturman/Psyche-Agent/blob/main/docs/TROUBLESHOOTING.md), for common local setup and runtime issues.\n- [Contributing](https://github.com/ZSturman/Psyche-Agent/blob/main/docs/CONTRIBUTING.md), for a simple contribution workflow and project guardrails.\n- [Screenshot guide](https://github.com/ZSturman/Psyche-Agent/blob/main/docs/assets/README.md), for updating the README visuals.\n\n## Configuration\n\nLive chat can use a server-side provider key or a visitor-supplied key entered in Chat Setup.\n\nOptional server environment variables:\n\n| Provider | Environment variable |\n| --- | --- |\n| OpenAI | `OPENAI_API_KEY` |\n| Anthropic | `ANTHROPIC_API_KEY` |\n| Groq | `GROQ_API_KEY` |\n| Mistral | `MISTRAL_API_KEY` |\n| Google | `GOOGLE_API_KEY` |\n\nIf a visitor enters their own key in Chat Setup, the key is stored in browser localStorage and sent through this app's `/api/chat` route to the selected provider.\n\n## Current Limits\n\nPsycheAgent is still a proof of concept. It has no hosted share pages, no account system, and no backend database. The current sharing model is export-first: profile JSON, LLM bundle JSON, and system prompt Markdown.\n\nThe app supports several provider paths in code, but each provider should be tested in the target environment before treating it as production-ready.\n\n## Contributing\n\nThe repository remote is [github.com/ZSturman/Psyche-Agent](https://github.com/ZSturman/Psyche-Agent). Small, focused changes are easiest to review.\n\nBefore changing behavior, please keep the central rule in view: do not turn missing or placeholder data into fake measured results. See [Contributing](https://github.com/ZSturman/Psyche-Agent/blob/main/docs/CONTRIBUTING.md) for the workflow and validation commands.\n\n## License\n\nThis project is available under the [MIT License](https://github.com/ZSturman/Psyche-Agent/blob/main/LICENSE).",
+      "sourceUrl": "https://github.com/ZSturman/Psyche-Agent/blob/main/README.md"
+    }
+  }
+}

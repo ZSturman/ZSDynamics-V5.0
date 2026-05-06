@@ -22,6 +22,7 @@ function getSeriesHref(series: string): string {
 }
 
 export function ArticleCard({ article }: ArticleCardProps) {
+  const isDraft = !article.publishedAt;
   return (
     <article
       data-testid="article-card-root"
@@ -40,6 +41,14 @@ export function ArticleCard({ article }: ArticleCardProps) {
         ) : (
           <div className="flex h-full items-center justify-center bg-muted/60 text-muted-foreground">
             <Newspaper className="size-8" />
+          </div>
+        )}
+
+        {isDraft && (
+          <div className="pointer-events-none absolute left-3 top-3 z-20">
+            <span className="inline-flex items-center rounded-full bg-amber-100/90 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-widest text-amber-700 ring-1 ring-amber-400/50 dark:bg-amber-900/60 dark:text-amber-300 dark:ring-amber-500/40">
+              Draft
+            </span>
           </div>
         )}
 

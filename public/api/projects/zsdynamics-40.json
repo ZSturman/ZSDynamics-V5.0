@@ -1,0 +1,91 @@
+{
+  "schema_version": 1,
+  "kind": "projects.detail",
+  "generated_at": "2026-05-06T02:07:33.254412+00:00",
+  "data": {
+    "id": "306aec94-4d3c-807e-a7ef-db0aa63a2ec7",
+    "slug": "zsdynamics-40",
+    "href": "/projects/zsdynamics-40",
+    "title": "ZSDynamics 4.0",
+    "name": "ZSDynamics 4.0",
+    "subtitle": "",
+    "summary": "In the latest version, I focused on making the site feel more refined. I experimented with parallax effects and smoother animations to understand how small design choices change the overall experience. I also created an SVG character of myself that shifts colors in light and dark mode, which made the site feel a bit more personal. At this point, the portfolio wasn’t just about showing projects—it was a way to see how my design and development skills had grown.",
+    "oneLiner": "A design-driven update centered on smoother motion, subtle parallax effects, and an adaptive SVG avatar. Combined earlier technical and design skills into a more polished, cohesive, and expressive version of the portfolio.",
+    "domain": "Technology",
+    "category": "Web",
+    "status": "Complete",
+    "phase": "Deprecated",
+    "featured": false,
+    "createdAt": "2025-05-01",
+    "updatedAt": "2025-11-07",
+    "isPublic": true,
+    "tags": [
+      "web",
+      "React",
+      "Next.js",
+      "TS",
+      "Portfolio"
+    ],
+    "mediums": [],
+    "genres": [],
+    "topics": [],
+    "subjects": [],
+    "description": "",
+    "story": "",
+    "images": {
+      "icon": "banner.png",
+      "banner": "poster.png",
+      "thumbnail": "thumbnail.png"
+    },
+    "resources": [
+      {
+        "type": "github",
+        "label": "Repo",
+        "url": "https://github.com/ZSturman/ZSDynamics-V4.0"
+      },
+      {
+        "type": "web",
+        "label": "Visit",
+        "url": "https://zsturman.github.io/ZSDynamics-V4.0/",
+        "linkPreview": {
+          "provider": "zsturman.github.io",
+          "title": "Zachary Sturman | Full-Stack Developer | Python | React | Rust | TypeScript",
+          "siteName": "Zsturman Github Io",
+          "hostname": "zsturman.github.io",
+          "displayUrl": "zsturman.github.io/ZSDynamics-V4.0",
+          "description": "Cross-Platform Development | Responsive and Mobile-First User Interfaces | Scalable Backend Architectures with Robust APIs | Real-Time Data Processing"
+        },
+        "iconUrl": "/icons/favicons/zsturman.github.io.png"
+      }
+    ],
+    "assets": [],
+    "collection": {},
+    "workLogs": [
+      {
+        "id": "339aec94-4d3c-80ac-93bd-c49098345759",
+        "title": "Created new project entry for ZSDynamics 4.0",
+        "entry": "Created new project entry for ZSDynamics 4.0",
+        "url": "https://www.notion.so/Created-new-project-entry-for-ZSDynamics-4-0-339aec944d3c80ac93bdc49098345759",
+        "startTime": "2025-05-01",
+        "endTime": "2025-05-01T01:00:00.000-07:00",
+        "date": "2026-04-05T04:35:00.000-07:00",
+        "sessionType": [
+          "Planning",
+          "Organizing"
+        ],
+        "whatHappened": "Created new project entry for ZSDynamics 4.0 and added the 'Project Starter' milestones and tasks.",
+        "problems": null,
+        "nextStep": "Complete to do items",
+        "feelGoodAboutWork": 100.0,
+        "accomplishedWhatYouWanted": 100.0,
+        "durationMinutes": 60
+      }
+    ],
+    "articles": [],
+    "folderName": "zsdynamics_40_306aec94-4d3c-807e-a7ef-db0aa63a2ec7",
+    "readme": {
+      "content": "# Zachary Sturman\n\n[![LinkedIn](https://img.shields.io/badge/LinkedIn-Profile-blue)](https://linkedin.com/in/zacharysturman)\n[![GitHub](https://img.shields.io/badge/GitHub-Profile-black)](https://github.com/ZSturman)\n[![Website](https://img.shields.io/badge/Website-Portfolio-red)](http://zachary-sturman.com)\n\n## About Me\n\nI am a full-stack software engineer with expertise in data engineering, machine learning, and scalable cloud-based solutions. I specialize in building robust web and mobile applications, designing efficient data pipelines, and implementing AI-driven features. My background includes hands-on experience with cloud computing, database optimization, and DevOps automation, enabling me to deliver performant and scalable applications. I am passionate about leveraging emerging technologies to create innovative solutions.\n\n## Skills\n\n- **Programming Languages:** Python, TypeScript, JavaScript, Rust, Swift, Ruby, C#, Objective-C  \n- **Data Engineering & Machine Learning:** Pandas, NumPy, Scikit-learn, TensorFlow, PyTorch, Matplotlib, Seaborn, Airflow, Spark  \n- **Data Storage & Pipeline Tools:** PostgreSQL, MongoDB, MySQL, Redis, AWS RDS, S3, Athena, Snowflake, BigQuery  \n- **API & Backend Development:** FastAPI, Flask, Django, Node.js, Express, GraphQL, RESTful APIs  \n- **Testing & Analytics:** Pytest, Postman, Jupyter Notebook, TensorBoard, Cypress, React Testing Library  \n- **Cloud, DevOps & Tools:** AWS (Lambda, EC2, S3, CloudFront, RDS), Firebase, Docker, CI/CD, Git, GitHub Actions, Redis, Jenkins  \n- **Frontend, UI & UX Development:** React, Next.js, Redux, Tailwind, Figma, Sketch, Adobe Illustrator, Photoshop  \n\n## Experience\n\n### Data Engineer (Contract) | TowardBetter.me\n**October 2024 – February 2025**\n\n- Designed and implemented data architecture to support app development, enabling efficient storage and retrieval of user-generated content.\n- Built and optimized API endpoints using FastAPI with Firebase for seamless user authentication and database operations.\n- Leveraged XState to build state-driven pipeline processing workflows, ensuring robust and maintainable data flows.\n- Developed and integrated an LLM-powered chat assistant tailored for free-tier users, enhancing user engagement and accessibility.\n- Integrated third-party tools such as Twilio (communications), Stripe (payments), and Zoom (virtual meetings) to expand app functionality.\n\n### Full Stack Software Engineer | Lost & Hound (University of Melbourne, Australia)\n**February 2024 - October 2024**\n\n- Built a Python-based data pipeline to process images using OpenCV and Scikit-learn for computer vision tasks.\n- Implemented a PostgreSQL database schema to handle large-scale image data with optimized queries.\n- Delivered end-to-end ML solutions by training and deploying models for lost pet photo matching.\n- Conducted training to empower non-profit teams to manage and maintain applications independently.\n- Improved build and deployment processes using GitHub Actions.\n\n### Web Engineer | The Knife Grinder\n**August 2020 - November 2023**\n\n- Modernized website infrastructure using React and Next.js, enhancing performance and user experience.\n- Developed RESTful APIs using FastAPI for efficient data delivery to frontend applications.\n- Applied Pandas and NumPy for in-depth data cleaning and transformation, supporting advanced business analytics.\n\n### Business Intelligence Engineer | Ameristar Casino\n**April 2017 - October 2023**\n\n- Conducted advanced data analysis with Pandas and Matplotlib, generating actionable business insights.\n- Created machine learning models in Python for customer segmentation and trend prediction.\n- Built scalable backend systems to support high-frequency data ingestion and real-time analytics.\n\n## Education & Certifications\n\n- **Bachelor of Science in Media Communication** - Full Sail University (2014)\n- **Google Certified Data Analyst** (2022)\n- **AWS Certified Cloud Practitioner** (2023)\n\n## Projects\n\nCheck out some of my projects on [GitHub](https://github.com/ZSturman) and my [Portfolio](http://zachary-sturman.com).\n\n### Notable Projects:\n- **Data Labeling & Analysis Tool:** Created a desktop application using Python, React, OpenCV, and machine learning to assist with dietary tracking and data analysis. Demonstrates proficiency in computer vision techniques and ML. [GitHub](https://github.com/ZSturman/Hows-My-Eating)\n- **Scheduling Pipeline Application:** Developed a scheduling app using Python and Flask, showcasing the ability to design and implement a clear and efficient pipeline of processes for production scheduling. [GitHub](https://github.com/ZSturman/Google-Sheets-Production-Schedule-Desktop-App)\n\n## Contact\n\nI'm always open to new opportunities and collaborations. Feel free to reach out to me via [email](mailto:zasturman@gmail.com) or connect with me on [LinkedIn](https://linkedin.com/in/zacharysturman).",
+      "sourceUrl": "https://github.com/ZSturman/ZSDynamics-V4.0/blob/main/README.md"
+    }
+  }
+}

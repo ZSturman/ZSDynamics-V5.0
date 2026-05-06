@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "kind": "projects.detail",
+  "generated_at": "2026-05-06T02:07:33.252185+00:00",
+  "data": {
+    "id": "306aec94-4d3c-800b-9d7d-ed0c879ab5b3",
+    "slug": "zsdynamics-20",
+    "href": "/projects/zsdynamics-20",
+    "title": "ZSDynamics 2.0",
+    "name": "ZSDynamics 2.0",
+    "subtitle": "Built with Python and React",
+    "summary": "While I was in Australia on a working holiday visa, I started noticing how often React showed up in job descriptions. I didn’t want to throw away the Python knowledge I already had, so I rebuilt my portfolio using Python on the backend and React on the frontend. It helped me connect what I knew with what I needed to learn and gave me a better sense of how a modern stack actually fits together.",
+    "oneLiner": "Full-stack rebuild with a Python backend and React frontend to modernize the stack while leveraging Python experience. Built during a working holiday in Australia with a component-based design, and a structure for showcasing data projects.",
+    "domain": "Technology",
+    "category": "Web",
+    "status": "Complete",
+    "phase": "Deprecated",
+    "featured": false,
+    "createdAt": "2022-04-10",
+    "updatedAt": "2023-11-13",
+    "isPublic": true,
+    "tags": [
+      "Portfolio",
+      "React",
+      "Next.js",
+      "TS"
+    ],
+    "mediums": [],
+    "genres": [],
+    "topics": [],
+    "subjects": [],
+    "description": "",
+    "story": "",
+    "images": {
+      "banner": "banner.png",
+      "thumbnail": "thumbnail.png"
+    },
+    "resources": [
+      {
+        "type": "web",
+        "label": "Visit",
+        "url": "https://zsturman.github.io/ZSDynamics-V2.0/",
+        "linkPreview": {
+          "provider": "zsturman.github.io",
+          "title": "Zachary Sturman Portfolio",
+          "siteName": "Zsturman Github Io",
+          "hostname": "zsturman.github.io",
+          "displayUrl": "zsturman.github.io/ZSDynamics-V2.0",
+          "description": "Explore Zachary Sturman's Software Engineering portfolio.",
+          "image": "https://www.ZSdynamics.com/og_img.png'",
+          "imageSource": "metadata"
+        },
+        "iconUrl": "/icons/favicons/zsturman.github.io.png"
+      },
+      {
+        "type": "github",
+        "label": "Repo",
+        "url": "https://github.com/ZSturman/ZSDynamics-V2.0"
+      }
+    ],
+    "assets": [],
+    "collection": {},
+    "workLogs": [
+      {
+        "id": "339aec94-4d3c-803f-ab98-c3c3c2ded455",
+        "title": "Created new project entry for ZSDynamics 2.0",
+        "entry": "Created new project entry for ZSDynamics 2.0",
+        "url": "https://www.notion.so/Created-new-project-entry-for-ZSDynamics-2-0-339aec944d3c803fab98c3c3c2ded455",
+        "startTime": "2022-04-10",
+        "endTime": "2022-04-10T01:00:00.000-07:00",
+        "date": "2026-04-05T04:36:00.000-07:00",
+        "sessionType": [
+          "Planning",
+          "Organizing"
+        ],
+        "whatHappened": "Created new project entry for ZSDynamics 2.0 and added the 'Project Starter' milestones and tasks.",
+        "problems": null,
+        "nextStep": "Complete to do items",
+        "feelGoodAboutWork": 100.0,
+        "accomplishedWhatYouWanted": 100.0,
+        "durationMinutes": 60
+      }
+    ],
+    "articles": [],
+    "folderName": "zsdynamics_20_306aec94-4d3c-800b-9d7d-ed0c879ab5b3"
+  }
+}
