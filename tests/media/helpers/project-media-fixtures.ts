@@ -97,10 +97,13 @@ export function getRepresentativeProjects(projects: CanonicalProject[]): Represe
   result.poster = projects.find((project) => hasProjectImage(project, "poster"));
   result.banner = projects.find((project) => hasProjectImage(project, "banner"));
   result.icon = projects.find((project) => hasProjectImage(project, "icon"));
-  result["thumbnail-only"] = projects.find((project) => {
+  const isThumbnailOnly = (project: CanonicalProject) => {
     const keys = getProjectImageKeys(project);
     return keys.length === 1 && keys[0] === "thumbnail";
-  });
+  };
+  result["thumbnail-only"] =
+    projects.find((project) => isThumbnailOnly(project) && project.domain?.toString().toLowerCase() === "technology") ??
+    projects.find(isThumbnailOnly);
   result["no-images"] = projects.find((project) => getProjectImageKeys(project).length === 0);
 
   return result;
