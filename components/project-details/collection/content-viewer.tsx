@@ -105,7 +105,24 @@ function VideoContent({ item, folderName, collectionName }: { item: CollectionIt
   const shouldLoop = item.loop === true
 
   useEffect(() => {
-    videoRef.current?.load();
+    const video = videoRef.current;
+    if (!video) return;
+
+    const handleError = () => setHasVideoError(true);
+    video.addEventListener('error', handleError);
+
+    // If the error already fired before this effect ran (e.g., the 404 was
+    // received before React hydrated and attached the onError prop handler),
+    // surface the error state immediately without triggering another load.
+    if (video.error) {
+      setHasVideoError(true);
+    } else {
+      video.load();
+    }
+
+    return () => {
+      video.removeEventListener('error', handleError);
+    };
   }, [itemPath]);
 
   const togglePlay = () => {
