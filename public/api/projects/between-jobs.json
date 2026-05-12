@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-05-12T12:25:11.730065+00:00",
+  "generated_at": "2026-05-12T16:02:32.732457+00:00",
   "data": {
     "id": "31faec94-4d3c-80a8-9ab6-e791da057b67",
     "slug": "between-jobs",
@@ -32,9 +32,9 @@
     "description": "",
     "story": "",
     "images": {
+      "thumbnail": "thumb.png",
       "hero": "hero.png",
-      "banner": "bannner.png",
-      "thumbnail": "thumb.png"
+      "banner": "bannner.png"
     },
     "resources": [],
     "assets": [

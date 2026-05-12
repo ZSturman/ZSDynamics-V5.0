@@ -1,0 +1,170 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - generic [ref=e5]:
+    - generic [ref=e6]:
+      - navigation "Breadcrumb" [ref=e7]:
+        - list [ref=e8]:
+          - listitem [ref=e9]:
+            - link "Home" [ref=e10] [cursor=pointer]:
+              - /url: /
+          - listitem [ref=e11]:
+            - generic [ref=e12]: /
+            - link "Projects" [ref=e13] [cursor=pointer]:
+              - /url: /#projects
+          - listitem [ref=e14]:
+            - generic [ref=e15]: /
+            - generic [ref=e16]: Animation Collection
+      - banner [ref=e17]:
+        - img "Animation Collection banner" [ref=e22]
+        - generic [ref=e25]:
+          - generic [ref=e26]:
+            - img "Animation Collection icon" [ref=e31]
+            - heading "Animation Collection" [level=1] [ref=e33]
+          - paragraph [ref=e34]: An archive of motion experiments, and finished pieces across 2D and 3D.
+        - paragraph [ref=e37]: This collection brings together a range of animations produced across different periods, tools, and creative goals. It includes 3D models and scenes developed in Blender alongside 2D animations focused on timing, clarity, and visual communication. Some works are polished and complete, while others function more as studies—short explorations of movement, structure, or technique. Together, they show how ideas evolve when approached through different dimensions and constraints. The collection is intended for viewers interested in process as much as outcome, offering a clear look at how visual ideas are tested, refined, and sometimes left intentionally unresolved.
+      - navigation "Project sections" [ref=e38]:
+        - generic [ref=e39]:
+          - paragraph [ref=e40]: On this page
+          - generic [ref=e41]:
+            - link "Collection" [ref=e42] [cursor=pointer]:
+              - /url: "#collection"
+              - generic [ref=e43]: Collection
+            - link "Work Logs" [ref=e44] [cursor=pointer]:
+              - /url: "#work-logs"
+              - generic [ref=e45]: Work Logs
+            - link "Project Details" [ref=e46] [cursor=pointer]:
+              - /url: "#project-details"
+              - generic [ref=e47]: Project Details
+    - generic [ref=e50]:
+      - tablist [ref=e51]:
+        - tab "2D" [active] [selected] [ref=e52]
+        - tab "3D" [ref=e53]
+      - tabpanel "2D" [ref=e54]:
+        - heading "2D" [level=3] [ref=e56]
+        - generic [ref=e57]:
+          - generic [ref=e58] [cursor=pointer]:
+            - button "Funeral preview" [ref=e60]:
+              - img "Funeral preview" [ref=e61]
+              - img [ref=e65]
+            - heading "Funeral" [level=4] [ref=e68]
+          - generic [ref=e69] [cursor=pointer]:
+            - button "Easter Bunny preview" [ref=e71]:
+              - img "Easter Bunny preview" [ref=e72]
+              - img [ref=e76]
+            - heading "Easter Bunny" [level=4] [ref=e79]
+          - generic [ref=e80] [cursor=pointer]:
+            - button "Channel 5 News preview" [ref=e82]:
+              - img "Channel 5 News preview" [ref=e83]
+              - img [ref=e87]
+            - heading "Channel 5 News" [level=4] [ref=e90]
+          - generic [ref=e91] [cursor=pointer]:
+            - button "Bassackwards preview" [ref=e93]:
+              - img "Bassackwards preview" [ref=e94]
+              - img [ref=e98]
+            - heading "Bassackwards" [level=4] [ref=e101]
+    - generic [ref=e103]:
+      - generic [ref=e106]:
+        - generic [ref=e107]:
+          - heading "Work Logs" [level=3] [ref=e108]
+          - link "See all logs" [ref=e109] [cursor=pointer]:
+            - /url: /work-logs?project=animation-collection
+        - generic [ref=e112]:
+          - generic [ref=e113]:
+            - heading "Created new project entry for Animation Collection" [level=4] [ref=e114]
+            - generic [ref=e115]: Dec 27, 2020 12/27/2020, 4:00 PM - Dec 28, 2020 12/28/2020, 1:00 AM
+          - paragraph [ref=e116]: Created new project entry for Animation Collection and added the 'Project Starter' milestones and tasks.
+          - generic [ref=e118]: "Duration: 1h"
+      - complementary [ref=e119]:
+        - generic [ref=e120]:
+          - heading "Project Details" [level=3] [ref=e121]
+          - generic [ref=e123]:
+            - generic [ref=e124]:
+              - generic [ref=e125]:
+                - generic: Active (Occasional updates)
+              - generic [ref=e126]:
+                - generic [ref=e127]:
+                  - img [ref=e128]
+                  - generic [ref=e130]:
+                    - generic [ref=e131]: Started
+                    - generic [ref=e132]: Dec 2020
+                - generic [ref=e133]:
+                  - img [ref=e134]
+                  - generic [ref=e136]:
+                    - generic [ref=e137]: Last Updated
+                    - generic [ref=e138]: Mar 2023
+            - generic [ref=e139]:
+              - paragraph [ref=e140]: Tags
+              - generic [ref=e141]:
+                - generic [ref=e142]:
+                  - generic [ref=e143]: "#"
+                  - generic [ref=e144]: Art
+                - generic [ref=e145]:
+                  - generic [ref=e146]: "#"
+                  - generic [ref=e147]: Cartoons
+                - generic [ref=e148]:
+                  - generic [ref=e149]: "#"
+                  - generic [ref=e150]: Comedy
+                - generic [ref=e151]:
+                  - generic [ref=e152]: "#"
+                  - generic [ref=e153]: Blender
+                - generic [ref=e154]:
+                  - generic [ref=e155]: "#"
+                  - generic [ref=e156]: Anime
+  - contentinfo [ref=e157]:
+    - generic [ref=e159]:
+      - generic [ref=e160]:
+        - generic [ref=e161]:
+          - paragraph [ref=e162]: Zachary Sturman
+          - heading "Design, engineering, and writing in one shared portfolio." [level=2] [ref=e163]
+          - paragraph [ref=e164]: I think a lot about how design influences trust, and how AI can support human judgment instead of replacing it.
+        - navigation "Footer" [ref=e166]:
+          - link "Home" [ref=e167] [cursor=pointer]:
+            - /url: /
+          - link "Projects" [ref=e168] [cursor=pointer]:
+            - /url: /#projects
+          - link "Articles" [ref=e169] [cursor=pointer]:
+            - /url: /articles
+          - link "Work Logs" [ref=e170] [cursor=pointer]:
+            - /url: /work-logs
+        - generic [ref=e171]:
+          - heading "Profiles" [level=3] [ref=e172]
+          - generic [ref=e173]:
+            - link "Email" [ref=e174] [cursor=pointer]:
+              - /url: mailto:zasturman@gmail.com
+              - img [ref=e175]
+              - generic [ref=e176]: Email
+            - link "GitHub" [ref=e177] [cursor=pointer]:
+              - /url: https://github.com/zsturman
+              - img [ref=e178]
+              - generic [ref=e179]: GitHub
+            - link "LinkedIn" [ref=e180] [cursor=pointer]:
+              - /url: https://linkedin.com/in/zacharysturman
+              - img [ref=e181]
+              - generic [ref=e182]: LinkedIn
+            - link "X" [ref=e183] [cursor=pointer]:
+              - /url: https://x.com/XzckndhttqZ
+              - img [ref=e184]
+              - generic [ref=e185]: X
+            - link "Bluesky" [ref=e186] [cursor=pointer]:
+              - /url: https://bsky.app/profile/zacharysturman.bsky.social
+              - img [ref=e187]
+              - generic [ref=e188]: Bluesky
+            - link "IMDb" [ref=e189] [cursor=pointer]:
+              - /url: https://www.imdb.com/name/nm6373994/?ref_=ext_shr_lnk
+              - img [ref=e190]
+              - generic [ref=e191]: IMDb
+        - generic [ref=e192]:
+          - heading "Resume" [level=3] [ref=e193]
+          - generic [ref=e194]:
+            - link "View Resume" [ref=e195] [cursor=pointer]:
+              - /url: /Zachary Sturman Resume.pdf
+              - img [ref=e196]
+              - generic [ref=e197]: View Resume
+            - link "Download PDF" [ref=e198] [cursor=pointer]:
+              - /url: /Zachary Sturman Resume.pdf
+              - img [ref=e199]
+              - generic [ref=e200]: Download PDF
+      - paragraph [ref=e202]: © 2026 Zachary Sturman. Built to keep projects, articles, and work logs in one consistent frame.
+```

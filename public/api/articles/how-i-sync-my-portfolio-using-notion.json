@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
   "kind": "articles.detail",
-  "generated_at": "2026-05-12T12:25:11.739033+00:00",
+  "generated_at": "2026-05-12T16:02:32.739689+00:00",
   "data": {
     "slug": "how-i-sync-my-portfolio-using-notion",
     "title": "How I Sync My Portfolio Using Notion",
     "summary": "How a portfolio can be built as a publishing pipeline, with Notion as the source of truth, n8n creating a JSON handoff, Python scripts normalizing content and media, and Next.js exporting the final static site. The result is a cleaner separation between editing, transformation, and publishing, making the site more predictable and maintainable.",
     "oneLiner": "A portfolio architecture that turns structured project data into a static site through a local publishing pipeline.",
-    "publishedAt": null,
+    "publishedAt": "2026-05-12",
     "updatedAt": "2026-04-08",
     "series": null,
     "tags": [

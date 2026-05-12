@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-05-12T12:25:11.736805+00:00",
+  "generated_at": "2026-05-12T16:02:32.737030+00:00",
   "data": {
     "id": "306aec94-4d3c-800f-8fd6-c80ad845b5df",
     "slug": "mediledger",
@@ -33,9 +33,9 @@
     "description": "",
     "story": "",
     "images": {
-      "icon": "thumbnail.png",
+      "thumbnail": "thumbnail.png",
       "banner": "banner.png",
-      "thumbnail": "thumbnail.png"
+      "icon": "thumbnail.png"
     },
     "resources": [
       {

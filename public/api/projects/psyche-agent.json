@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-05-12T12:25:11.727360+00:00",
+  "generated_at": "2026-05-12T16:02:32.730853+00:00",
   "data": {
     "id": "332aec94-4d3c-80ea-8468-c3a18bc61258",
     "slug": "psyche-agent",
@@ -31,11 +31,11 @@
     "description": "",
     "story": "",
     "images": {
-      "icon": "icon.png",
-      "poster": "poster.png",
+      "thumbnail": "thumbnail.png",
       "hero": "hero.png",
       "banner": "banner.png",
-      "thumbnail": "thumbnail.png"
+      "icon": "icon.png",
+      "poster": "poster.png"
     },
     "resources": [
       {

@@ -1,11 +1,11 @@
 {
   "schema_version": 1,
   "kind": "articles.detail",
-  "generated_at": "2026-05-12T12:25:11.739392+00:00",
+  "generated_at": "2026-05-12T16:02:32.740080+00:00",
   "data": {
     "slug": "building-a-location-first-learning-agent-to-explore-context-memory-and-consciousness",
     "title": "Building a Location-First Learning Agent to Explore Context, Memory, and Consciousness",
-    "summary": "This explores the idea that recognition comes more from place, context, and repeated reinforcement than detached labels, using an inspectable Python CLI agent that learns locations from sensor observations and stores state plainly. It evolves from simple grayscale location memory into richer, modality-neutral location and concept structures, with a roadmap toward broader memory processes like activation, replay, resurfacing, and reconsolidation.",
+    "summary": "An inspectable Python CLI agent that learns locations from sensor observations and stores state plainly, evolving from grayscale place memory into richer, modality-neutral concepts and broader memory processes.",
     "oneLiner": "A location-first learning agent that turns user and sensor input into inspectable memory, then grows toward a broader synthetic memory-and-attention engine.",
     "publishedAt": "2026-05-02",
     "updatedAt": "2026-04-04",

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "articles.list",
-  "generated_at": "2026-05-12T12:25:11.738203+00:00",
+  "generated_at": "2026-05-12T16:02:32.738869+00:00",
   "data": [
     {
       "slug": "the-wolf-project-reworking-a-real-world-project",
@@ -90,7 +90,7 @@
         "n8n"
       ],
       "series": null,
-      "publishedAt": null,
+      "publishedAt": "2026-05-12",
       "updatedAt": "2026-04-08",
       "href": "/articles/how-i-sync-my-portfolio-using-notion",
       "sourceUrl": "https://github.com/ZSturman/Articles/blob/main/articles/how-i-sync-my-portfolio-using-notion/index.md",
@@ -152,7 +152,7 @@
     {
       "slug": "building-a-location-first-learning-agent-to-explore-context-memory-and-consciousness",
       "title": "Building a Location-First Learning Agent to Explore Context, Memory, and Consciousness",
-      "summary": "This explores the idea that recognition comes more from place, context, and repeated reinforcement than detached labels, using an inspectable Python CLI agent that learns locations from sensor observations and stores state plainly. It evolves from simple grayscale location memory into richer, modality-neutral location and concept structures, with a roadmap toward broader memory processes like activation, replay, resurfacing, and reconsolidation.",
+      "summary": "An inspectable Python CLI agent that learns locations from sensor observations and stores state plainly, evolving from grayscale place memory into richer, modality-neutral concepts and broader memory processes.",
       "oneLiner": "A location-first learning agent that turns user and sensor input into inspectable memory, then grows toward a broader synthetic memory-and-attention engine.",
       "tags": [
         "AI",

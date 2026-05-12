@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.list",
-  "generated_at": "2026-05-12T12:25:11.723548+00:00",
+  "generated_at": "2026-05-12T16:02:32.727118+00:00",
   "data": [
     {
       "id": "35eaec94-4d3c-809c-a0f4-ff355a7a6d21",
@@ -243,24 +243,6 @@
       "updatedAt": "2026-04-01"
     },
     {
-      "id": "332aec94-4d3c-804b-8f00-ee1bb0b4d82a",
-      "slug": "transactions-2",
-      "title": "Transactions",
-      "summary": "A lightweight web app for exactly two people who need a shared running balance, not a group expense splitter and not a full personal finance tool. One person invites the other, they connect around a single balance, then they record payments or requests and the other person approves or disputes them before the total changes.\n\nWhat makes it useful is the small amount of structure around trust. It keeps the interaction simple, but it still acknowledges that shared money between two people can be ambiguous, so pending, approved, and disputed states matter. The audience seems most plausibly roommates, couples, close friends, or anyone with an ongoing two-person money relationship. I’m less certain about which of those groups is primary, because the product language stays broad on purpose, but the overall character is clear: calm, practical, personal, and intentionally narrow.",
-      "oneLiner": "A simple shared-balance tracker for two people, a place to log who paid, wait for approval, and keep the running total clear without turning it into a full budgeting app.",
-      "tags": [
-        "Balance tracker",
-        "Finance"
-      ],
-      "status": "Active",
-      "featured": false,
-      "domain": "Technology",
-      "category": "Utility",
-      "href": "/projects/transactions-2",
-      "primaryImageUrl": "/projects/transactions_332aec94-4d3c-804b-8f00-ee1bb0b4d82a/thumbnail.png",
-      "updatedAt": "2026-04-03"
-    },
-    {
       "id": "332aec94-4d3c-807a-ba3b-d0950cd03a66",
       "slug": "train-of-thought-agent",
       "title": "Train of Thought Agent",
@@ -446,7 +428,7 @@
       "category": "Application",
       "href": "/projects/chewsense",
       "primaryImageUrl": "/projects/chewsense_306aec94-4d3c-808d-9ada-f0ccca484d3b/thumbnail.png",
-      "updatedAt": "2026-03-23"
+      "updatedAt": "2026-05-12"
     },
     {
       "id": "306aec94-4d3c-807e-a7ef-db0aa63a2ec7",
@@ -834,5 +816,5 @@
       "updatedAt": "2026-04-12"
     }
   ],
-  "count": 40
+  "count": 39
 }

@@ -11,6 +11,9 @@
  * static export builds and dev mode get a consistent answer.
  */
 
+import { readFileSync, existsSync } from "fs";
+import { join } from "path";
+
 type MediaUrlMap = Record<string, string>;
 
 let cachedMap: MediaUrlMap | null = null;
@@ -22,8 +25,6 @@ function loadMap(): MediaUrlMap {
     return cachedMap;
   }
   try {
-    const { readFileSync, existsSync } = require("fs") as typeof import("fs");
-    const { join } = require("path") as typeof import("path");
     const filePath = join(process.cwd(), "public", "media-urls.json");
     if (!existsSync(filePath)) {
       cachedMap = {};

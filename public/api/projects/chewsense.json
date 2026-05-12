@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-05-12T12:25:11.733602+00:00",
+  "generated_at": "2026-05-12T16:02:32.733561+00:00",
   "data": {
     "id": "306aec94-4d3c-808d-9ada-f0ccca484d3b",
     "slug": "chewsense",
@@ -18,7 +18,7 @@
     "featured": true,
     "featuredOrder": 2,
     "createdAt": "2025-10-15",
-    "updatedAt": "2026-03-23",
+    "updatedAt": "2026-05-12",
     "isPublic": true,
     "tags": [
       "iOS",
@@ -34,10 +34,10 @@
     "description": "",
     "story": "",
     "images": {
-      "icon": "thumbnail.png",
-      "poster": "poster.png",
+      "thumbnail": "thumbnail.png",
       "banner": "banner.png",
-      "thumbnail": "thumbnail.png"
+      "icon": "thumbnail.png",
+      "poster": "poster.png"
     },
     "resources": [
       {

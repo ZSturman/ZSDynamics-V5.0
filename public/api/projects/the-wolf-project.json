@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-05-12T12:25:11.725704+00:00",
+  "generated_at": "2026-05-12T16:02:32.729396+00:00",
   "data": {
     "id": "346aec94-4d3c-801e-851f-c7e727f0e186",
     "slug": "the-wolf-project",
@@ -33,9 +33,9 @@
     "description": "",
     "story": "",
     "images": {
-      "icon": "Wolf-hero.webp",
+      "thumbnail": "Wolf-hero.webp",
       "hero": "Screenshot_2026-04-18_at_17.29.59.png",
-      "thumbnail": "Wolf-hero.webp"
+      "icon": "Wolf-hero.webp"
     },
     "resources": [
       {

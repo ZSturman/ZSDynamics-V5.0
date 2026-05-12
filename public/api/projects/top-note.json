@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-05-12T12:25:11.737305+00:00",
+  "generated_at": "2026-05-12T16:02:32.737660+00:00",
   "data": {
     "id": "306aec94-4d3c-8008-9985-d94ba1780069",
     "slug": "top-note",
@@ -37,11 +37,11 @@
     "description": "",
     "story": "",
     "images": {
-      "icon": "TopNote AppIcon v2-watchOS-Default-1088x1088@1x.png",
-      "poster": "poster.png",
+      "thumbnail": "thumbnail.png",
       "hero": "hero.png",
       "banner": "banner.png",
-      "thumbnail": "thumbnail.png"
+      "icon": "TopNote AppIcon v2-watchOS-Default-1088x1088@1x.png",
+      "poster": "poster.png"
     },
     "resources": [
       {

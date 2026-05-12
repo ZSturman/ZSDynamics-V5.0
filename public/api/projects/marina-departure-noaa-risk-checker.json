@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-05-12T12:25:11.724418+00:00",
+  "generated_at": "2026-05-12T16:02:32.728120+00:00",
   "data": {
     "id": "35eaec94-4d3c-809c-a0f4-ff355a7a6d21",
     "slug": "marina-departure-noaa-risk-checker",
@@ -35,10 +35,10 @@
     "description": "",
     "story": "",
     "images": {
-      "icon": "icon.png",
+      "thumbnail": "thumb.png",
       "hero": "hero.png",
       "banner": "banner.png",
-      "thumbnail": "thumb.png"
+      "icon": "icon.png"
     },
     "resources": [
       {
