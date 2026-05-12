@@ -16,18 +16,18 @@
  */
 
 export interface Env {
-  // KV
-  RATE_LIMIT: KVNamespace;
-  NEWSLETTER: KVNamespace;
+  // KV (contact form + newsletter — optional, not currently deployed)
+  RATE_LIMIT?: KVNamespace;
+  NEWSLETTER?: KVNamespace;
   // vars
   ALLOWED_ORIGINS: string;
   CONTACT_FROM_EMAIL: string;
-  RATE_LIMIT_MAX: string;
-  RATE_LIMIT_WINDOW_SECONDS: string;
+  RATE_LIMIT_MAX?: string;
+  RATE_LIMIT_WINDOW_SECONDS?: string;
   // secrets
   RESEND_API_KEY: string;
   CONTACT_TO_EMAIL: string;
-  TURNSTILE_SECRET: string;
+  TURNSTILE_SECRET?: string;
   INTERNAL_TOKEN: string;
 }
 

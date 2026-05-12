@@ -1071,6 +1071,8 @@ def _fetch_project_readme(
     project_id: str,
     warnings: List[str],
 ) -> Tuple[Optional[Dict[str, str]], Optional[str]]:
+    import os
+
     parsed_repo = _parse_github_repo_url(repo_url)
     if not parsed_repo:
         return None, None
@@ -1078,8 +1080,15 @@ def _fetch_project_readme(
     owner, repo, normalized_repo_url = parsed_repo
     api_url = f"https://api.github.com/repos/{owner}/{repo}/readme"
 
+    github_token = os.environ.get("GITHUB_TOKEN") or os.environ.get("GH_TOKEN")
+    extra_headers: Dict[str, str] = {}
+    if github_token:
+        extra_headers["Authorization"] = f"Bearer {github_token}"
+
     try:
-        body, _final_url, _content_type = _fetch_url_bytes(api_url, accept="application/vnd.github+json")
+        body, _final_url, _content_type = _fetch_url_bytes(
+            api_url, accept="application/vnd.github+json", extra_headers=extra_headers
+        )
         payload = json.loads(body.decode("utf-8"))
     except Exception as exc:
         message = f"Unable to fetch README for project {project_id} ({normalized_repo_url}): {exc}"
@@ -1144,14 +1153,16 @@ def _guess_favicon_extension(icon_url: str, content_type: str) -> str:
     return ".ico"
 
 
-def _fetch_url_bytes(url: str, *, accept: str) -> Tuple[bytes, str, str]:
-    request = Request(
-        url,
-        headers={
-            "User-Agent": "Mozilla/5.0 (compatible; portfolio-prebuild/1.0)",
-            "Accept": accept,
-        },
-    )
+def _fetch_url_bytes(
+    url: str, *, accept: str, extra_headers: Optional[Dict[str, str]] = None
+) -> Tuple[bytes, str, str]:
+    headers: Dict[str, str] = {
+        "User-Agent": "Mozilla/5.0 (compatible; portfolio-prebuild/1.0)",
+        "Accept": accept,
+    }
+    if extra_headers:
+        headers.update(extra_headers)
+    request = Request(url, headers=headers)
 
     with urlopen(request, timeout=15) as response:
         body = response.read()

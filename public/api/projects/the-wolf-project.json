@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-05-06T02:07:33.258766+00:00",
+  "generated_at": "2026-05-12T12:25:11.725704+00:00",
   "data": {
     "id": "346aec94-4d3c-801e-851f-c7e727f0e186",
     "slug": "the-wolf-project",
@@ -34,15 +34,10 @@
     "story": "",
     "images": {
       "icon": "Wolf-hero.webp",
-      "thumbnail": "Wolf-hero.webp",
-      "hero": "Screenshot_2026-04-18_at_17.29.59.png"
+      "hero": "Screenshot_2026-04-18_at_17.29.59.png",
+      "thumbnail": "Wolf-hero.webp"
     },
     "resources": [
-      {
-        "type": "github",
-        "label": "Repo",
-        "url": "https://github.com/ZSturman/The-Wolf-Pack"
-      },
       {
         "type": "web",
         "label": "Original Site",
@@ -73,25 +68,14 @@
           "imageSource": "metadata"
         },
         "iconUrl": "/icons/favicons/the-wolf-pack.vercel.app.ico"
+      },
+      {
+        "type": "github",
+        "label": "Repo",
+        "url": "https://github.com/ZSturman/The-Wolf-Pack"
       }
     ],
     "assets": [
-      {
-        "id": "348aec94-4d3c-800c-aaad-c539680bc5b2",
-        "label": "Dev Site",
-        "order": 10,
-        "type": "url-link",
-        "summary": "The rebuilt version shifts the site into something closer to a system rather than just a set of pages. Instead of static content, the core pieces like cases, posts, and shared site data are structured and stored in Firestore, which means they can be updated and reflected immediately. That changes how the site can be used, since it is no longer tied to manual edits or local files.\n\nIt is still early, but the direction is clearer. Cases can be treated as real entities, images are handled through Cloudinary instead of being bundled into the project, and there is enough seeded data to make the site usable without setup. There are still gaps, especially around polish and some of the workflows, but the foundation is in place. It is now something that can be built on, rather than something that needs to be worked around.",
-        "oneLiner": "A clear, story-driven site that explains the mission and builds awareness, but relies on mostly static content that makes it harder to support ongoing, structured work.",
-        "url": "https://the-wolf-project-14stqkkgr-zsturmans-projects.vercel.app",
-        "linkPreview": {
-          "provider": "the-wolf-project-14stqkkgr-zsturmans-projects.vercel.app",
-          "title": "the-wolf-project-14stqkkgr-zsturmans-projects.vercel.app",
-          "siteName": "The-Wolf-Project-14Stqkkgr-Zsturmans-Projects Vercel App",
-          "hostname": "the-wolf-project-14stqkkgr-zsturmans-projects.vercel.app",
-          "displayUrl": "the-wolf-project-14stqkkgr-zsturmans-projects.vercel.app"
-        }
-      },
       {
         "id": "348aec94-4d3c-80e3-a593-fd72a46bf93c",
         "label": "Original Site",
@@ -109,6 +93,23 @@
           "description": "Access to Care Lifeline for families whose dog requires lifesaving medical care, but the upfront costs stand in the way.",
           "image": "http://yourdogcanstay.com/cdn/shop/files/3AC01483-E6E2-4011-833D-F6C8714C4FDC_dfbfda84-9ef0-49a6-be7e-7f1fa826400c.png?height=628&pad_color=ffffff&v=1776093581&width=1200",
           "imageSource": "metadata"
+        }
+      },
+      {
+        "id": "348aec94-4d3c-800c-aaad-c539680bc5b2",
+        "label": "Dev Site",
+        "order": 10,
+        "type": "url-link",
+        "summary": "The rebuilt version shifts the site into something closer to a system rather than just a set of pages. Instead of static content, the core pieces like cases, posts, and shared site data are structured and stored in Firestore, which means they can be updated and reflected immediately. That changes how the site can be used, since it is no longer tied to manual edits or local files.\n\nIt is still early, but the direction is clearer. Cases can be treated as real entities, images are handled through Cloudinary instead of being bundled into the project, and there is enough seeded data to make the site usable without setup. There are still gaps, especially around polish and some of the workflows, but the foundation is in place. It is now something that can be built on, rather than something that needs to be worked around.",
+        "oneLiner": "A clear, story-driven site that explains the mission and builds awareness, but relies on mostly static content that makes it harder to support ongoing, structured work.",
+        "thumbnail": "Vercel App.png",
+        "url": "https://the-wolf-project-14stqkkgr-zsturmans-projects.vercel.app",
+        "linkPreview": {
+          "provider": "the-wolf-project-14stqkkgr-zsturmans-projects.vercel.app",
+          "title": "the-wolf-project-14stqkkgr-zsturmans-projects.vercel.app",
+          "siteName": "The-Wolf-Project-14Stqkkgr-Zsturmans-Projects Vercel App",
+          "hostname": "the-wolf-project-14stqkkgr-zsturmans-projects.vercel.app",
+          "displayUrl": "the-wolf-project-14stqkkgr-zsturmans-projects.vercel.app"
         }
       }
     ],

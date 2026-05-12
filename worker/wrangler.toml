@@ -2,7 +2,7 @@ name = "zacharysturman-api"
 main = "src/index.ts"
 compatibility_date = "2024-11-01"
 compatibility_flags = ["nodejs_compat"]
-workers_dev = true
+workers_dev = false
 
 # Custom domain route. Set up in Cloudflare dashboard:
 #   Workers & Pages → zacharysturman-api → Triggers → Add Custom Domain
@@ -10,21 +10,19 @@ workers_dev = true
 # (No `routes` block needed when using a custom domain.)
 
 # ---------------------------------------------------------------------------
-# KV namespaces
-#   RATE_LIMIT  — short-TTL keys for per-IP throttling.
-#   NEWSLETTER  — long-lived store of opted-in email addresses.
-# Create with:
+# KV namespaces (contact form + newsletter — not currently deployed)
+# To enable, run:
 #   wrangler kv:namespace create RATE_LIMIT
 #   wrangler kv:namespace create NEWSLETTER
-# Then paste the returned ids below.
+# then uncomment below and paste the returned ids.
 # ---------------------------------------------------------------------------
-[[kv_namespaces]]
-binding = "RATE_LIMIT"
-id = "REPLACE_WITH_RATE_LIMIT_KV_ID"
-
-[[kv_namespaces]]
-binding = "NEWSLETTER"
-id = "REPLACE_WITH_NEWSLETTER_KV_ID"
+# [[kv_namespaces]]
+# binding = "RATE_LIMIT"
+# id = "REPLACE_WITH_RATE_LIMIT_KV_ID"
+#
+# [[kv_namespaces]]
+# binding = "NEWSLETTER"
+# id = "REPLACE_WITH_NEWSLETTER_KV_ID"
 
 # ---------------------------------------------------------------------------
 # Plain-text vars (non-secret). Override per-environment if needed.
@@ -32,8 +30,9 @@ id = "REPLACE_WITH_NEWSLETTER_KV_ID"
 [vars]
 ALLOWED_ORIGINS = "https://zacharysturman.com,https://www.zacharysturman.com,https://zachary-sturman.com"
 CONTACT_FROM_EMAIL = "contact@zacharysturman.com"
-RATE_LIMIT_MAX = "5"
-RATE_LIMIT_WINDOW_SECONDS = "3600"
+# RATE_LIMIT_MAX and RATE_LIMIT_WINDOW_SECONDS used by contact form (not currently deployed)
+# RATE_LIMIT_MAX = "5"
+# RATE_LIMIT_WINDOW_SECONDS = "3600"
 
 # ---------------------------------------------------------------------------
 # Secrets — set with `wrangler secret put <NAME>`:
@@ -42,6 +41,10 @@ RATE_LIMIT_WINDOW_SECONDS = "3600"
 #   TURNSTILE_SECRET    Cloudflare Turnstile server secret
 #   INTERNAL_TOKEN      shared bearer for /internal/* endpoints (GH Actions)
 # ---------------------------------------------------------------------------
+
+[[routes]]
+pattern = "api.zacharysturman.com"
+custom_domain = true
 
 [observability]
 enabled = true

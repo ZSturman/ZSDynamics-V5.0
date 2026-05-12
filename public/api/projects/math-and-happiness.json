@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-05-06T02:07:33.257057+00:00",
+  "generated_at": "2026-05-12T12:25:11.729022+00:00",
   "data": {
     "id": "332aec94-4d3c-8040-87a1-e4f349ef0994",
     "slug": "math-and-happiness",
@@ -32,10 +32,10 @@
     "description": "",
     "story": "",
     "images": {
-      "banner": "banner.png",
-      "thumbnail": "thumbnail.png",
       "poster": "poster.png",
-      "hero": "hero.png"
+      "hero": "hero.png",
+      "banner": "banner.png",
+      "thumbnail": "thumbnail.png"
     },
     "resources": [
       {

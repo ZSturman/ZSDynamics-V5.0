@@ -13,7 +13,7 @@ const QUICK_LINKS = [
   { label: "Projects", href: "/#projects" },
   { label: "Articles", href: "/articles" },
   { label: "Work Logs", href: "/work-logs" },
-  { label: "Contact", href: "/contact" },
+  // { label: "Contact", href: "/contact" },
 ] as const;
 
 function isExternalLink(href: string): boolean {
@@ -24,7 +24,7 @@ type AnalyticsKind =
   | { type: "social"; network: string }
   | { type: "resume_download"; url: string }
   | { type: "resume_view"; url: string }
-  | { type: "contact" }
+  // | { type: "contact" }
   | null;
 
 function FooterChipLink({
@@ -81,9 +81,9 @@ const SOCIAL_NETWORK_BY_KEY: Record<string, string> = {
   linkedin: "linkedin",
   x: "x",
   github: "github",
-  instagram: "instagram",
+  // instagram: "instagram",
   bluesky: "bluesky",
-  threads: "threads",
+  // threads: "threads",
   imdb: "imdb",
   email: "email",
 };

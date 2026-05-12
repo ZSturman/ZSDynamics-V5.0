@@ -6,10 +6,10 @@ export type PersonalLinkKey =
   | "linkedin"
   | "x"
   | "github"
-  | "instagram"
+  // | "instagram"
   | "bluesky"
   | "email"
-  | "threads"
+  // | "threads"
   | "imdb";
 
 export interface PersonalLinkEntry {
@@ -52,11 +52,11 @@ const PERSONAL_LINK_SPECS: Record<PersonalLinkKey, PersonalLinkSpec> = {
     iconSrc: "/icons/github.svg",
     section: "profile",
   },
-  instagram: {
-    label: "Instagram",
-    iconSrc: "/icons/instagram.svg",
-    section: "profile",
-  },
+  // instagram: {
+  //   label: "Instagram",
+  //   iconSrc: "/icons/instagram.svg",
+  //   section: "profile",
+  // },
   bluesky: {
     label: "Bluesky",
     iconSrc: "/icons/bluesky.svg",
@@ -68,11 +68,11 @@ const PERSONAL_LINK_SPECS: Record<PersonalLinkKey, PersonalLinkSpec> = {
     iconSrc: "/icons/email.svg",
     section: "profile",
   },
-  threads: {
-    label: "Threads",
-    iconSrc: "/icons/threads.svg",
-    section: "profile",
-  },
+  // threads: {
+  //   label: "Threads",
+  //   iconSrc: "/icons/threads.svg",
+  //   section: "profile",
+  // },
   imdb: {
     label: "IMDb",
     iconSrc: "/icons/imdb.svg",
@@ -85,8 +85,8 @@ const PERSONAL_LINK_ORDER: PersonalLinkKey[] = [
   "github",
   "linkedin",
   "x",
-  "threads",
-  "instagram",
+  // "threads",
+  // "instagram",
   "bluesky",
   "imdb",
 ];

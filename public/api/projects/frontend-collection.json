@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-05-06T02:07:33.252830+00:00",
+  "generated_at": "2026-05-12T12:25:11.732607+00:00",
   "data": {
     "id": "306aec94-4d3c-803b-a895-e775003b0f5d",
     "slug": "frontend-collection",
@@ -35,9 +35,9 @@
     "story": "",
     "images": {
       "icon": "logo.png",
+      "poster": "poster.gif",
       "banner": "banner.png",
-      "thumbnail": "thumbnail.png",
-      "poster": "poster.gif"
+      "thumbnail": "thumbnail.png"
     },
     "resources": [],
     "assets": [],
@@ -54,9 +54,122 @@
         "images": {},
         "items": [
           {
+            "id": "306aec94-4d3c-807e-a7ef-db0aa63a2ec7",
+            "label": "ZSDynamics 4.0",
+            "order": 0,
+            "type": "url-link",
+            "summary": "In the latest version, I focused on making the site feel more refined. I experimented with parallax effects and smoother animations to understand how small design choices change the overall experience. I also created an SVG character of myself that shifts colors in light and dark mode, which made the site feel a bit more personal. At this point, the portfolio wasn’t just about showing projects—it was a way to see how my design and development skills had grown.",
+            "url": "/projects/zsdynamics-40",
+            "thumbnail": "thumbnail.png",
+            "resources": [
+              {
+                "type": "web",
+                "label": "Visit",
+                "url": "https://zsturman.github.io/ZSDynamics-V4.0/",
+                "linkPreview": {
+                  "provider": "zsturman.github.io",
+                  "title": "Zachary Sturman | Full-Stack Developer | Python | React | Rust | TypeScript",
+                  "siteName": "Zsturman Github Io",
+                  "hostname": "zsturman.github.io",
+                  "displayUrl": "zsturman.github.io/ZSDynamics-V4.0",
+                  "description": "Cross-Platform Development | Responsive and Mobile-First User Interfaces | Scalable Backend Architectures with Robust APIs | Real-Time Data Processing"
+                },
+                "iconUrl": "/icons/favicons/zsturman.github.io.png"
+              },
+              {
+                "type": "github",
+                "label": "Repo",
+                "url": "https://github.com/ZSturman/ZSDynamics-V4.0"
+              }
+            ],
+            "resource": {
+              "type": "web",
+              "label": "Visit",
+              "url": "https://zsturman.github.io/ZSDynamics-V4.0/",
+              "linkPreview": {
+                "provider": "zsturman.github.io",
+                "title": "Zachary Sturman | Full-Stack Developer | Python | React | Rust | TypeScript",
+                "siteName": "Zsturman Github Io",
+                "hostname": "zsturman.github.io",
+                "displayUrl": "zsturman.github.io/ZSDynamics-V4.0",
+                "description": "Cross-Platform Development | Responsive and Mobile-First User Interfaces | Scalable Backend Architectures with Robust APIs | Real-Time Data Processing"
+              },
+              "iconUrl": "/icons/favicons/zsturman.github.io.png"
+            }
+          },
+          {
+            "id": "306aec94-4d3c-8064-9e5a-c59f1df02bee",
+            "label": "Towardbetter.me - Announcement Page",
+            "order": 1,
+            "type": "url-link",
+            "summary": "TowardBetter.me is a platform designed to help women find supportive communities around life transitions, personal growth, and difficult moments that are often navigated alone. I was brought on to build an announcement page that could clearly communicate the mission of the project while laying the technical groundwork for what would eventually become a larger, authenticated platform. The goal was to create something simple, welcoming, and trustworthy—an entry point that felt intentional rather than promotional.\nThe site was built with React and Next.js, with Firebase Authentication integrated to support future user accounts and onboarding flows. From the beginning, the focus was on clarity and structure: clean UI, predictable behavior, and a codebase that could evolve without needing to be rethought later. This project served as both a public-facing introduction and a technical foundation for what TowardBetter.me would grow into.",
+            "url": "/projects/towardbetterme-announcement-page",
+            "thumbnail": "thumbnail.png",
+            "resources": [
+              {
+                "type": "web",
+                "label": "Visit",
+                "url": "https://zsturman.github.io/TowardBetter-Announcement-Page/",
+                "linkPreview": {
+                  "provider": "zsturman.github.io",
+                  "title": "Sam - First Look",
+                  "siteName": "Zsturman Github Io",
+                  "hostname": "zsturman.github.io",
+                  "displayUrl": "zsturman.github.io/TowardBetter-Announcement-Page",
+                  "description": "Women Deserve Better",
+                  "image": "https://zsturman.github.io/images/Sam Logo - Blush.svg",
+                  "imageSource": "metadata"
+                },
+                "iconUrl": "/icons/favicons/zsturman.github.io.png"
+              },
+              {
+                "type": "github",
+                "label": "Repo",
+                "url": "https://github.com/ZSturman/TowardBetter-Announcement-Page"
+              }
+            ],
+            "resource": {
+              "type": "web",
+              "label": "Visit",
+              "url": "https://zsturman.github.io/TowardBetter-Announcement-Page/",
+              "linkPreview": {
+                "provider": "zsturman.github.io",
+                "title": "Sam - First Look",
+                "siteName": "Zsturman Github Io",
+                "hostname": "zsturman.github.io",
+                "displayUrl": "zsturman.github.io/TowardBetter-Announcement-Page",
+                "description": "Women Deserve Better",
+                "image": "https://zsturman.github.io/images/Sam Logo - Blush.svg",
+                "imageSource": "metadata"
+              },
+              "iconUrl": "/icons/favicons/zsturman.github.io.png"
+            }
+          },
+          {
+            "id": "306aec94-4d3c-80d4-a8bd-d83a8832ebf8",
+            "label": "ZSDynamics 3.0",
+            "order": 2,
+            "type": "url-link",
+            "summary": "After I got more comfortable with React, I wanted to see how design choices and small interactions could change the experience. I built a feature that let users switch between themes and font styles. It wasn’t the most practical feature, but it taught me a lot and pushed me to pay more attention to how design decisions show up in real use. That curiosity drove most of what I built during this stage.",
+            "url": "/projects/zsdynamics-30",
+            "thumbnail": "thumbnail.png",
+            "resources": [
+              {
+                "type": "github",
+                "label": "Repo",
+                "url": "https://github.com/ZSturman/ZSDynamics-V3.0"
+              }
+            ],
+            "resource": {
+              "type": "github",
+              "label": "Repo",
+              "url": "https://github.com/ZSturman/ZSDynamics-V3.0"
+            }
+          },
+          {
             "id": "306aec94-4d3c-800b-9d7d-ed0c879ab5b3",
             "label": "ZSDynamics 2.0",
-            "order": 0,
+            "order": 3,
             "type": "url-link",
             "summary": "While I was in Australia on a working holiday visa, I started noticing how often React showed up in job descriptions. I didn’t want to throw away the Python knowledge I already had, so I rebuilt my portfolio using Python on the backend and React on the frontend. It helped me connect what I knew with what I needed to learn and gave me a better sense of how a modern stack actually fits together.",
             "url": "/projects/zsdynamics-20",
@@ -102,9 +215,51 @@
             }
           },
           {
+            "id": "306aec94-4d3c-80ff-a96a-c3c51900e249",
+            "label": "ZSDynamics 1.1",
+            "order": 4,
+            "type": "url-link",
+            "summary": "After digging deeper into data science, I wanted the portfolio to be more than a place to drop my work. So I added a simple email subscription so visitors could get updates, and I integrated Dashly for some lightweight analytics and visualization. It was a noticeable step forward for me—not just in the code, but in how I was thinking about the people visiting the site.",
+            "url": "/projects/zsdynamics-11",
+            "thumbnail": "thumbnail.png",
+            "resources": [
+              {
+                "type": "web",
+                "label": "Visit",
+                "url": "https://zsturman.github.io/ZSDynamics-V1.1/",
+                "linkPreview": {
+                  "provider": "zsturman.github.io",
+                  "title": "Zachary Sturman Home",
+                  "siteName": "Zsturman Github Io",
+                  "hostname": "zsturman.github.io",
+                  "displayUrl": "zsturman.github.io/ZSDynamics-V1.1"
+                },
+                "iconUrl": "/icons/favicons/zsturman.github.io.png"
+              },
+              {
+                "type": "github",
+                "label": "Repo",
+                "url": "https://github.com/ZSturman/ZSDynamics-v1.1"
+              }
+            ],
+            "resource": {
+              "type": "web",
+              "label": "Visit",
+              "url": "https://zsturman.github.io/ZSDynamics-V1.1/",
+              "linkPreview": {
+                "provider": "zsturman.github.io",
+                "title": "Zachary Sturman Home",
+                "siteName": "Zsturman Github Io",
+                "hostname": "zsturman.github.io",
+                "displayUrl": "zsturman.github.io/ZSDynamics-V1.1"
+              },
+              "iconUrl": "/icons/favicons/zsturman.github.io.png"
+            }
+          },
+          {
             "id": "306aec94-4d3c-803d-8230-fe06337c4a51",
             "label": "ZSDynamics 1.0",
-            "order": 1,
+            "order": 5,
             "type": "url-link",
             "summary": "The first version of my portfolio came from following Corey Schafer’s Flask tutorials and trying to understand how a real web app fits together. I set up my own server, configured Nginx, and handled deployment myself—mostly because I didn’t know there were easier options. It took a lot of trial and error, but it taught me how everything actually works behind the scenes. I added some of my own SVG graphics and simple animations to make it feel personal. It wasn’t perfect, but it ran, and I learned a lot from getting it there.",
             "url": "/projects/zsdynamics-10",
@@ -147,133 +302,6 @@
                 "imageSource": "metadata"
               },
               "iconUrl": "/icons/favicons/zsturman.github.io.png"
-            }
-          },
-          {
-            "id": "306aec94-4d3c-8064-9e5a-c59f1df02bee",
-            "label": "Towardbetter.me - Announcement Page",
-            "order": 2,
-            "type": "url-link",
-            "summary": "TowardBetter.me is a platform designed to help women find supportive communities around life transitions, personal growth, and difficult moments that are often navigated alone. I was brought on to build an announcement page that could clearly communicate the mission of the project while laying the technical groundwork for what would eventually become a larger, authenticated platform. The goal was to create something simple, welcoming, and trustworthy—an entry point that felt intentional rather than promotional.\nThe site was built with React and Next.js, with Firebase Authentication integrated to support future user accounts and onboarding flows. From the beginning, the focus was on clarity and structure: clean UI, predictable behavior, and a codebase that could evolve without needing to be rethought later. This project served as both a public-facing introduction and a technical foundation for what TowardBetter.me would grow into.",
-            "url": "/projects/towardbetterme-announcement-page",
-            "thumbnail": "thumbnail.png",
-            "resources": [
-              {
-                "type": "github",
-                "label": "Repo",
-                "url": "https://github.com/ZSturman/TowardBetter-Announcement-Page"
-              },
-              {
-                "type": "web",
-                "label": "Visit",
-                "url": "https://zsturman.github.io/TowardBetter-Announcement-Page/",
-                "linkPreview": {
-                  "provider": "zsturman.github.io",
-                  "title": "Sam - First Look",
-                  "siteName": "Zsturman Github Io",
-                  "hostname": "zsturman.github.io",
-                  "displayUrl": "zsturman.github.io/TowardBetter-Announcement-Page",
-                  "description": "Women Deserve Better",
-                  "image": "https://zsturman.github.io/images/Sam Logo - Blush.svg",
-                  "imageSource": "metadata"
-                },
-                "iconUrl": "/icons/favicons/zsturman.github.io.png"
-              }
-            ],
-            "resource": {
-              "type": "github",
-              "label": "Repo",
-              "url": "https://github.com/ZSturman/TowardBetter-Announcement-Page"
-            }
-          },
-          {
-            "id": "306aec94-4d3c-807e-a7ef-db0aa63a2ec7",
-            "label": "ZSDynamics 4.0",
-            "order": 3,
-            "type": "url-link",
-            "summary": "In the latest version, I focused on making the site feel more refined. I experimented with parallax effects and smoother animations to understand how small design choices change the overall experience. I also created an SVG character of myself that shifts colors in light and dark mode, which made the site feel a bit more personal. At this point, the portfolio wasn’t just about showing projects—it was a way to see how my design and development skills had grown.",
-            "url": "/projects/zsdynamics-40",
-            "thumbnail": "thumbnail.png",
-            "resources": [
-              {
-                "type": "github",
-                "label": "Repo",
-                "url": "https://github.com/ZSturman/ZSDynamics-V4.0"
-              },
-              {
-                "type": "web",
-                "label": "Visit",
-                "url": "https://zsturman.github.io/ZSDynamics-V4.0/",
-                "linkPreview": {
-                  "provider": "zsturman.github.io",
-                  "title": "Zachary Sturman | Full-Stack Developer | Python | React | Rust | TypeScript",
-                  "siteName": "Zsturman Github Io",
-                  "hostname": "zsturman.github.io",
-                  "displayUrl": "zsturman.github.io/ZSDynamics-V4.0",
-                  "description": "Cross-Platform Development | Responsive and Mobile-First User Interfaces | Scalable Backend Architectures with Robust APIs | Real-Time Data Processing"
-                },
-                "iconUrl": "/icons/favicons/zsturman.github.io.png"
-              }
-            ],
-            "resource": {
-              "type": "github",
-              "label": "Repo",
-              "url": "https://github.com/ZSturman/ZSDynamics-V4.0"
-            }
-          },
-          {
-            "id": "306aec94-4d3c-80d4-a8bd-d83a8832ebf8",
-            "label": "ZSDynamics 3.0",
-            "order": 4,
-            "type": "url-link",
-            "summary": "After I got more comfortable with React, I wanted to see how design choices and small interactions could change the experience. I built a feature that let users switch between themes and font styles. It wasn’t the most practical feature, but it taught me a lot and pushed me to pay more attention to how design decisions show up in real use. That curiosity drove most of what I built during this stage.",
-            "url": "/projects/zsdynamics-30",
-            "thumbnail": "thumbnail.png",
-            "resources": [
-              {
-                "type": "github",
-                "label": "Repo",
-                "url": "https://github.com/ZSturman/ZSDynamics-V3.0"
-              }
-            ],
-            "resource": {
-              "type": "github",
-              "label": "Repo",
-              "url": "https://github.com/ZSturman/ZSDynamics-V3.0"
-            }
-          },
-          {
-            "id": "306aec94-4d3c-80ff-a96a-c3c51900e249",
-            "label": "ZSDynamics 1.1",
-            "order": 5,
-            "type": "url-link",
-            "summary": "After digging deeper into data science, I wanted the portfolio to be more than a place to drop my work. So I added a simple email subscription so visitors could get updates, and I integrated Dashly for some lightweight analytics and visualization. It was a noticeable step forward for me—not just in the code, but in how I was thinking about the people visiting the site.",
-            "url": "/projects/zsdynamics-11",
-            "thumbnail": "thumbnail.png",
-            "resources": [
-              {
-                "type": "github",
-                "label": "Repo",
-                "url": "https://github.com/ZSturman/ZSDynamics-v1.1"
-              },
-              {
-                "type": "web",
-                "label": "Visit",
-                "url": "https://zsturman.github.io/ZSDynamics-V1.1/",
-                "linkPreview": {
-                  "provider": "zsturman.github.io",
-                  "title": "Zachary Sturman Home",
-                  "siteName": "Zsturman Github Io",
-                  "hostname": "zsturman.github.io",
-                  "displayUrl": "zsturman.github.io/ZSDynamics-V1.1"
-                },
-                "iconUrl": "/icons/favicons/zsturman.github.io.png"
-              }
-            ],
-            "resource": {
-              "type": "github",
-              "label": "Repo",
-              "url": "https://github.com/ZSturman/ZSDynamics-v1.1"
             }
           }
         ]

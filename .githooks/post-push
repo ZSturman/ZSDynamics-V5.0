@@ -1,0 +1,108 @@
+#!/usr/bin/env bash
+# post-push: smoke-test the live Worker after every push.
+# Never blocks — always exits 0. Results are informational only.
+
+API_BASE="${API_BASE_URL:-https://api.zacharysturman.com}"
+
+PASS=0
+FAIL=0
+SKIP=0
+
+GREEN='\033[0;32m'
+RED='\033[0;31m'
+YELLOW='\033[0;33m'
+RESET='\033[0m'
+
+pass() { echo -e "  ${GREEN}PASS${RESET}  $1"; PASS=$((PASS + 1)); }
+fail() { echo -e "  ${RED}FAIL${RESET}  $1"; FAIL=$((FAIL + 1)); }
+skip() { echo -e "  ${YELLOW}SKIP${RESET}  $1"; SKIP=$((SKIP + 1)); }
+
+echo ""
+echo "[post-push] Smoke-testing Worker at ${API_BASE} ..."
+echo ""
+
+# ---------------------------------------------------------------------------
+# 1. Health check — Worker is live
+# ---------------------------------------------------------------------------
+resp=$(curl -sf --max-time 8 "${API_BASE}/health" 2>&1) && \
+  echo "$resp" | grep -q '"ok":true' && \
+  pass "/health → 200 ok:true" || \
+  fail "/health → expected 200 ok:true (got: ${resp})"
+
+# ---------------------------------------------------------------------------
+# 2. CORS preflight — Access-Control headers present
+# ---------------------------------------------------------------------------
+headers=$(curl -si --max-time 8 -X OPTIONS \
+  -H "Origin: https://zacharysturman.com" \
+  -H "Access-Control-Request-Method: POST" \
+  "${API_BASE}/contact" 2>&1)
+http_status=$(echo "$headers" | head -1 | awk '{print $2}')
+if [[ "$http_status" == "204" ]] && echo "$headers" | grep -qi "access-control-allow-origin"; then
+  pass "OPTIONS /contact → 204 + CORS headers present"
+else
+  fail "OPTIONS /contact → expected 204 + CORS (got HTTP ${http_status})"
+fi
+
+# ---------------------------------------------------------------------------
+# 3. Origin allow-list — disallowed origin is rejected
+# ---------------------------------------------------------------------------
+http_status=$(curl -so /dev/null -w "%{http_code}" --max-time 8 \
+  -X POST \
+  -H "Origin: https://evil.example.com" \
+  -H "Content-Type: application/json" \
+  -d '{"name":"test","email":"t@t.com","message":"hello","hp":"","turnstileToken":""}' \
+  "${API_BASE}/contact" 2>&1)
+if [[ "$http_status" == "403" ]]; then
+  pass "POST /contact with disallowed origin → 403"
+else
+  fail "POST /contact with disallowed origin → expected 403 (got ${http_status})"
+fi
+
+# ---------------------------------------------------------------------------
+# 4. Analytics relay auth gate — no token rejected
+# ---------------------------------------------------------------------------
+http_status=$(curl -so /dev/null -w "%{http_code}" --max-time 8 \
+  -X POST \
+  -H "Content-Type: application/json" \
+  -d '{"subject":"test","text":"test"}' \
+  "${API_BASE}/internal/daily-summary" 2>&1)
+if [[ "$http_status" == "401" ]]; then
+  pass "POST /internal/daily-summary (no auth) → 401"
+else
+  fail "POST /internal/daily-summary (no auth) → expected 401 (got ${http_status})"
+fi
+
+# ---------------------------------------------------------------------------
+# 5. Analytics relay with valid token — 200 or 502 both count as pass
+#    (502 = auth+routing OK, email sending not configured locally)
+#    Skipped if INTERNAL_TOKEN is not set in the environment.
+# ---------------------------------------------------------------------------
+if [[ -z "${INTERNAL_TOKEN:-}" ]]; then
+  skip "POST /internal/daily-summary (valid auth) — INTERNAL_TOKEN not set locally"
+else
+  http_status=$(curl -so /dev/null -w "%{http_code}" --max-time 8 \
+    -X POST \
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer ${INTERNAL_TOKEN}" \
+    -d '{"subject":"[post-push smoke test]","text":"Worker auth smoke test — safe to ignore."}' \
+    "${API_BASE}/internal/daily-summary" 2>&1)
+  if [[ "$http_status" == "200" || "$http_status" == "502" ]]; then
+    pass "POST /internal/daily-summary (valid auth) → ${http_status} (auth+routing OK)"
+  else
+    fail "POST /internal/daily-summary (valid auth) → expected 200 or 502 (got ${http_status})"
+  fi
+fi
+
+# ---------------------------------------------------------------------------
+# Summary
+# ---------------------------------------------------------------------------
+TOTAL=$((PASS + FAIL))
+echo ""
+if [[ $FAIL -eq 0 ]]; then
+  echo -e "[post-push] ${GREEN}${PASS}/${TOTAL} checks passed${RESET}${SKIP:+ (${SKIP} skipped)}"
+else
+  echo -e "[post-push] ${RED}${FAIL}/${TOTAL} checks failed${RESET} — review Worker secrets / deployment"
+fi
+echo ""
+
+exit 0

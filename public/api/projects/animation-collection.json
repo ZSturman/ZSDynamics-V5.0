@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-05-06T02:07:33.254891+00:00",
+  "generated_at": "2026-05-12T12:25:11.736063+00:00",
   "data": {
     "id": "306aec94-4d3c-8091-876a-f028b4c582c4",
     "slug": "animation-collection",
@@ -46,41 +46,9 @@
         "images": {},
         "items": [
           {
-            "id": "31faec94-4d3c-802c-bf1c-c5bacccb0d38",
-            "label": "Channel 5 News",
-            "order": 0,
-            "type": "video",
-            "filePath": "Channel 5 News - Bo Burnham.mov",
-            "previewFrames": [
-              "Channel 5 News - Bo Burnham-preview-01.jpg",
-              "Channel 5 News - Bo Burnham-preview-02.jpg",
-              "Channel 5 News - Bo Burnham-preview-03.jpg",
-              "Channel 5 News - Bo Burnham-preview-04.jpg",
-              "Channel 5 News - Bo Burnham-preview-05.jpg",
-              "Channel 5 News - Bo Burnham-preview-06.jpg"
-            ],
-            "previewIntervalMs": 650
-          },
-          {
-            "id": "31faec94-4d3c-805a-8e41-c69cd68fc48d",
-            "label": "Bassackwards",
-            "order": 1,
-            "type": "video",
-            "filePath": "Bass_Ackward_Lip_Sync_Test.mov",
-            "previewFrames": [
-              "Bass_Ackward_Lip_Sync_Test-preview-01.jpg",
-              "Bass_Ackward_Lip_Sync_Test-preview-02.jpg",
-              "Bass_Ackward_Lip_Sync_Test-preview-03.jpg",
-              "Bass_Ackward_Lip_Sync_Test-preview-04.jpg",
-              "Bass_Ackward_Lip_Sync_Test-preview-05.jpg",
-              "Bass_Ackward_Lip_Sync_Test-preview-06.jpg"
-            ],
-            "previewIntervalMs": 650
-          },
-          {
             "id": "320aec94-4d3c-8055-bfcb-e43151baab66",
             "label": "Funeral",
-            "order": 2,
+            "order": 0,
             "type": "video",
             "filePath": "Funeral.mov",
             "previewFrames": [
@@ -96,7 +64,7 @@
           {
             "id": "320aec94-4d3c-80f9-ad2c-d2a873d164ae",
             "label": "Easter Bunny",
-            "order": 3,
+            "order": 1,
             "type": "video",
             "filePath": "Easter Bunny.mov",
             "previewFrames": [
@@ -106,6 +74,38 @@
               "Easter Bunny-preview-04.jpg",
               "Easter Bunny-preview-05.jpg",
               "Easter Bunny-preview-06.jpg"
+            ],
+            "previewIntervalMs": 650
+          },
+          {
+            "id": "31faec94-4d3c-802c-bf1c-c5bacccb0d38",
+            "label": "Channel 5 News",
+            "order": 2,
+            "type": "video",
+            "filePath": "Channel 5 News - Bo Burnham.mov",
+            "previewFrames": [
+              "Channel 5 News - Bo Burnham-preview-01.jpg",
+              "Channel 5 News - Bo Burnham-preview-02.jpg",
+              "Channel 5 News - Bo Burnham-preview-03.jpg",
+              "Channel 5 News - Bo Burnham-preview-04.jpg",
+              "Channel 5 News - Bo Burnham-preview-05.jpg",
+              "Channel 5 News - Bo Burnham-preview-06.jpg"
+            ],
+            "previewIntervalMs": 650
+          },
+          {
+            "id": "31faec94-4d3c-805a-8e41-c69cd68fc48d",
+            "label": "Bassackwards",
+            "order": 3,
+            "type": "video",
+            "filePath": "Bass_Ackward_Lip_Sync_Test.mov",
+            "previewFrames": [
+              "Bass_Ackward_Lip_Sync_Test-preview-01.jpg",
+              "Bass_Ackward_Lip_Sync_Test-preview-02.jpg",
+              "Bass_Ackward_Lip_Sync_Test-preview-03.jpg",
+              "Bass_Ackward_Lip_Sync_Test-preview-04.jpg",
+              "Bass_Ackward_Lip_Sync_Test-preview-05.jpg",
+              "Bass_Ackward_Lip_Sync_Test-preview-06.jpg"
             ],
             "previewIntervalMs": 650
           }

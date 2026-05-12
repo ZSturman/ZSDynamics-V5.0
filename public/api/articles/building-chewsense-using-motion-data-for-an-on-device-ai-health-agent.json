@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "articles.detail",
-  "generated_at": "2026-05-06T02:07:33.259947+00:00",
+  "generated_at": "2026-05-12T12:25:11.739157+00:00",
   "data": {
     "slug": "building-chewsense-using-motion-data-for-an-on-device-ai-health-agent",
     "title": "Building ChewSense - Using Motion Data For An On-Device AI Health Agent",

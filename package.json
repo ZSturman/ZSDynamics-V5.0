@@ -19,6 +19,7 @@
     "test:media:matrix": "playwright test -c playwright.media.config.ts --grep @matrix",
     "hooks:install": "node scripts/install-hooks.mjs",
     "hooks:pre-push": "bash .githooks/pre-push",
+    "hooks:post-push": "bash .githooks/post-push",
     "generate-articles": "python3 lib/sync_articles.py",
     "generate-projects": "python3 lib/folio-prebuild.py --input-json /Users/zacharysturman/n8n-files/exports/new_projects.json",
     "optimize": "python3 lib/media-optimizer.py public/projects --delete-originals",

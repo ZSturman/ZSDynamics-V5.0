@@ -95,45 +95,27 @@ function getNextCandidateIndex(currentIndex: number, candidateCount: number): nu
 }
 
 function PlaceholderLayer({
-  alt,
-  className,
-  width,
-  height,
   fill = false,
-  priority = false,
-  sizes,
-  objectFit = "cover",
-}: PlaceholderLayerProps) {
+}: Pick<PlaceholderLayerProps, "fill">) {
   if (fill) {
     return (
-      <div data-media-placeholder="true" className="absolute inset-0 overflow-hidden bg-muted/30">
-        <Image
-          src={PLACEHOLDER_SRC}
-          alt={alt}
-          fill
-          className={className}
-          style={{ objectFit }}
-          priority={priority}
-          sizes={sizes}
-          unoptimized
-        />
+      <div
+        data-media-placeholder="true"
+        aria-hidden="true"
+        className="absolute inset-0 overflow-hidden bg-muted/40"
+      >
+        <div className="absolute inset-0 animate-pulse bg-gradient-to-r from-muted/60 via-muted/30 to-muted/60 bg-[length:200%_100%]" />
       </div>
     );
   }
 
   return (
-    <div data-media-placeholder="true" className="absolute inset-0 overflow-hidden bg-muted/30">
-      <Image
-        src={PLACEHOLDER_SRC}
-        alt={alt}
-        width={width || 800}
-        height={height || 600}
-        className={className}
-        style={{ objectFit }}
-        priority={priority}
-        sizes={sizes}
-        unoptimized
-      />
+    <div
+      data-media-placeholder="true"
+      aria-hidden="true"
+      className="absolute inset-0 overflow-hidden bg-muted/40"
+    >
+      <div className="absolute inset-0 animate-pulse bg-gradient-to-r from-muted/60 via-muted/30 to-muted/60 bg-[length:200%_100%]" />
     </div>
   );
 }
@@ -311,14 +293,7 @@ export function MediaDisplay({
     return (
       <div className="relative h-full w-full overflow-hidden">
         {!isImageLoaded ? (
-          <PlaceholderLayer
-            alt={alt}
-            className={className}
-            fill
-            priority={priority}
-            sizes={sizes}
-            objectFit={objectFit}
-          />
+          <PlaceholderLayer fill />
         ) : null}
         <Image
           ref={imageRef}
@@ -339,15 +314,7 @@ export function MediaDisplay({
   return (
     <div className="relative overflow-hidden">
       {!isImageLoaded ? (
-        <PlaceholderLayer
-          alt={alt}
-          className={className}
-          width={width}
-          height={height}
-          priority={priority}
-          sizes={sizes}
-          objectFit={objectFit}
-        />
+        <PlaceholderLayer />
       ) : null}
       <Image
         ref={imageRef}

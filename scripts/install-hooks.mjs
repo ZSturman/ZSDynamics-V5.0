@@ -5,17 +5,20 @@ import path from "node:path";
 
 const repoRoot = process.cwd();
 const hooksPath = ".githooks";
-const prePushPath = path.join(repoRoot, hooksPath, "pre-push");
+const hooks = ["pre-push", "post-push"];
 
-if (!existsSync(prePushPath)) {
-  console.error(`Missing hook file: ${prePushPath}`);
-  process.exit(1);
+for (const hook of hooks) {
+  const hookPath = path.join(repoRoot, hooksPath, hook);
+  if (!existsSync(hookPath)) {
+    console.error(`Missing hook file: ${hookPath}`);
+    process.exit(1);
+  }
+  chmodSync(hookPath, 0o755);
 }
 
 try {
-  chmodSync(prePushPath, 0o755);
   execSync(`git config core.hooksPath ${hooksPath}`, { stdio: "inherit" });
-  console.log(`Configured git hooks path to ${hooksPath}`);
+  console.log(`Configured git hooks path to ${hooksPath} (${hooks.join(", ")})`);
 } catch (error) {
   console.error("Failed to install git hooks:", error);
   process.exit(1);

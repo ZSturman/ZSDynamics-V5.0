@@ -1,0 +1,111 @@
+{
+  "schema_version": 1,
+  "kind": "projects.detail",
+  "generated_at": "2026-05-12T12:25:11.724418+00:00",
+  "data": {
+    "id": "35eaec94-4d3c-809c-a0f4-ff355a7a6d21",
+    "slug": "marina-departure-noaa-risk-checker",
+    "href": "/projects/marina-departure-noaa-risk-checker",
+    "title": "Marina Departure NOAA Risk Checker",
+    "name": "Marina Departure NOAA Risk Checker",
+    "subtitle": "",
+    "summary": "Marina Departure NOAA Risk Checker helps boaters evaluate whether a coastal departure window looks safe. It combines NOAA tides and currents, NWS marine forecasts and alerts, and sunrise/sunset data into a transparent weighted risk score with charts, alerts, station search, and shareable departure windows.",
+    "oneLiner": "A NOAA-powered web app for checking marina departure risk before heading out on the water.",
+    "domain": "Technology",
+    "category": "Application",
+    "status": "Complete",
+    "phase": "Occasional updates",
+    "featured": false,
+    "createdAt": "2026-04-30",
+    "updatedAt": "2026-05-08",
+    "isPublic": true,
+    "tags": [
+      "Next.js",
+      "TypeScript",
+      "NOAA",
+      "Happiness",
+      "Data Vizualization",
+      "Recharts",
+      "Tailwind CSS"
+    ],
+    "mediums": [],
+    "genres": [],
+    "topics": [],
+    "subjects": [],
+    "description": "",
+    "story": "",
+    "images": {
+      "icon": "icon.png",
+      "hero": "hero.png",
+      "banner": "banner.png",
+      "thumbnail": "thumb.png"
+    },
+    "resources": [
+      {
+        "type": "web",
+        "label": "Visit",
+        "url": "https://marina-departure-noaa-risk-checker.vercel.app",
+        "linkPreview": {
+          "provider": "marina-departure-noaa-risk-checker.vercel.app",
+          "title": "Marina Departure Risk",
+          "siteName": "Marina-Departure-Noaa-Risk-Checker Vercel App",
+          "hostname": "marina-departure-noaa-risk-checker.vercel.app",
+          "displayUrl": "marina-departure-noaa-risk-checker.vercel.app",
+          "description": "NOAA-powered go/no-go decision support for recreational boaters, charters, and marinas.",
+          "image": "https://marina-risk.example.com/opengraph-image?cd0c36d3e1d3b76c",
+          "imageSource": "metadata"
+        }
+      },
+      {
+        "type": "github",
+        "label": "Repo",
+        "url": "https://github.com/ZSturman/Marina-Departure-NOAA-Risk-Checker"
+      }
+    ],
+    "assets": [],
+    "collection": {},
+    "workLogs": [
+      {
+        "id": "35eaec94-4d3c-8067-b8b5-dec63d3df99f",
+        "title": "Complete Marina Departure NOAA Risk Checker. 'Occasional updates'",
+        "entry": "Complete Marina Departure NOAA Risk Checker. 'Occasional updates'",
+        "url": "https://www.notion.so/Complete-Marina-Departure-NOAA-Risk-Checker-Occasional-updates-35eaec944d3c8067b8b5dec63d3df99f",
+        "startTime": "2026-05-08",
+        "endTime": "2026-05-08T01:00:00.000-07:00",
+        "date": "2026-05-12T03:48:00.000-07:00",
+        "sessionType": [
+          "Organizing"
+        ],
+        "whatHappened": "Finalized project entry for Marina Departure NOAA Risk Checker.",
+        "problems": null,
+        "nextStep": null,
+        "durationMinutes": 60
+      },
+      {
+        "id": "35eaec94-4d3c-8072-9b75-ef15310ba3de",
+        "title": "Created new project entry for Marina Departure NOAA Risk Checker",
+        "entry": "Created new project entry for Marina Departure NOAA Risk Checker",
+        "url": "https://www.notion.so/Created-new-project-entry-for-Marina-Departure-NOAA-Risk-Checker-35eaec944d3c80729b75ef15310ba3de",
+        "startTime": "2026-04-30",
+        "endTime": "2026-04-30T01:00:00.000-07:00",
+        "date": "2026-05-12T03:48:00.000-07:00",
+        "sessionType": [
+          "Planning",
+          "Organizing"
+        ],
+        "whatHappened": "Created new project entry for Marina Departure NOAA Risk Checker and added the 'Project Starter' milestones and tasks.",
+        "problems": null,
+        "nextStep": "Complete to do items",
+        "feelGoodAboutWork": 100.0,
+        "accomplishedWhatYouWanted": 100.0,
+        "durationMinutes": 60
+      }
+    ],
+    "articles": [],
+    "folderName": "marina_departure_noaa_risk_checker_35eaec94-4d3c-809c-a0f4-ff355a7a6d21",
+    "readme": {
+      "content": "# Marina Departure NOAA Risk Checker\n\n> **\"Is this a good time to leave the marina?\"**\n>\n> A polished, portfolio-grade web app that combines real-time NOAA CO-OPS tides & currents, NWS marine forecasts & alerts, and astronomical sunrise/sunset data to produce a transparent, weighted risk score for any US coastal departure window.\n\n---\n\n## Live demo\n\nDeep-link examples (no account required — all data from public government APIs):\n\n| Station | URL |\n|---|---|\n| Boston, MA | `/station/8443970` |\n| San Francisco (The Embarcadero) | `/station/9414290` |\n| Seattle, WA | `/station/9447130` |\n| Charleston Harbor currents | `/station/ACT6651` |\n\nAdd `?start=2026-06-01T12:00:00Z&end=2026-06-01T18:00:00Z` to any station URL to share a specific departure window.\n\n---\n\n## Features\n\n- **Risk verdict** — Low / Medium / High with an animated score gauge.\n- **Seven scored factors**: wind, sea state (proxy), tide, current, water level anomaly, NWS alerts, visibility & daylight.\n- **Transparent engine** — every factor shows its score, tier, plain-English reason, and raw evidence JSON.\n- **Departure window picker** — dual-thumb slider (0–48 h), shareable via URL query params (`nuqs`).\n- **Hourly forecast strip** — wind speed/direction, gust, POP per hour.\n- **Interactive charts** — tide AreaChart, current BarChart, wind ComposedChart (sustained + gust, SCA/Gale reference lines).\n- **Active alerts panel** — NWS alerts with severity badges and full instructions.\n- **Sun card** — sunrise/sunset, civil twilight, daylight percentage bar.\n- **Station search** — ⌘K command palette with debounced CO-OPS station search and localStorage favorites.\n- **Dark/light theme** — dark default, respects system preference, no flash.\n- **Map** — MapLibre GL + CARTO (no token required) with all 27 featured stations.\n- **OG image** — dynamic `/opengraph-image` edge route for social sharing previews.\n\n---\n\n## Architecture\n\n```\nsrc/\n├── app/\n│   ├── layout.tsx               # Root layout: fonts, providers, header\n│   ├── page.tsx                 # Landing: hero, map, featured grid\n│   ├── station/[id]/page.tsx    # Server component: station lookup → StationView\n│   ├── api/\n│   │   ├── conditions/route.ts  # GET ?station&start&end → ConditionsBundle + RiskReport\n│   │   └── stations/route.ts    # GET ?q&limit → Station[] (search)\n│   └── opengraph-image.tsx      # Edge OG image\n├── components/\n│   ├── cards/                   # HourlyStrip, AlertsPanel, SunCard\n│   ├── charts/                  # TideChart, CurrentChart, WindChart (Recharts)\n│   ├── map/                     # StationMap (MapLibre GL)\n│   ├── risk/                    # RiskHero, FactorsBreakdown, AdviceCard\n│   ├── search/                  # StationCommand (cmdk + Radix Dialog)\n│   ├── station/                 # StationView (React Query + nuqs)\n│   ├── ui/                      # Button, Card, Badge, Skeleton\n│   ├── window/                  # DepartureWindowPicker (Radix Slider)\n│   ├── providers.tsx            # TanStack Query + next-themes + NuqsAdapter\n│   └── site-header.tsx          # Sticky glass header\n├── data/\n│   └── featured-stations.ts     # 27 US coastal stations with lat/lng + products\n└── lib/\n    ├── aggregate/conditions.ts  # getDepartureConditions — parallel API fan-out\n    ├── noaa/\n    │   ├── coops-datagetter.ts  # Tide predictions, current predictions, water levels\n    │   └── coops-metadata.ts   # Station list + single-station lookup\n    ├── nws/client.ts            # NWS point, hourly forecast, active alerts\n    ├── risk/\n    │   ├── config.ts            # RISK_CONFIG — weights + thresholds\n    │   ├── engine.ts            # scoreConditions — 7 factor scorers + advice\n    │   └── __tests__/\n    │       └── engine.test.ts   # Vitest unit tests\n    ├── sun/sunrise-sunset.ts    # getSunInfo — sunrise-sunset.org\n    ├── env.ts                   # Zod-parsed env vars\n    ├── format.ts                # knots(), compassFromDeg(), formatWind*\n    ├── types.ts                 # All shared TypeScript types\n    └── utils.ts                 # cn() clsx + tailwind-merge\n```\n\n### Data flow\n\n```\nBrowser\n  └─ StationView (React Query)\n       └─ GET /api/conditions?station=…&start=…&end=…\n            ├─ NOAA CO-OPS datagetter  → TidePredictions, CurrentPredictions, WaterLevels\n            ├─ NWS API                 → HourlyForecast, ActiveAlerts\n            └─ sunrise-sunset.org      → SunInfo\n                 ↓\n            scoreConditions()  (server-side, pure function)\n                 ↓\n            { conditions: ConditionsBundle, risk: RiskReport }\n```\n\n### Risk engine\n\nEach factor produces a `score` (0–100) and a `level` (low/medium/high). The overall score is a **weighted average** of the seven factors. Hard escalation rules override the weighted result:\n\n| Condition | Effect |\n|---|---|\n| Any `alerts` factor = **high** (warning keyword or Severe/Extreme) | Force overall = **high** |\n| `wind` factor = **high** | Clamp overall ≥ **high** |\n\nDefault weights (configurable in `src/lib/risk/config.ts`):\n\n| Factor | Weight | Key thresholds |\n|---|---|---|\n| Wind | 1.0 | SCA: 18 kt, Gale: 34 kt |\n| Sea state (proxy) | 0.6 | Est. from sustained wind × duration |\n| Tide | 0.4 | Low-tide proximity, range >6 ft |\n| Current | 0.7 | 1.5/3.0 kt thresholds + wind-against-tide |\n| Water level anomaly | 0.4 | Surge/setdown >0.4/0.9 ft |\n| NWS alerts | 1.4 | Advisory→medium, Warning→high |\n| Visibility / daylight | 0.5 | Dark%, fog mentions, POP ≥60% |\n\n---\n\n## Tech stack\n\n| Layer | Choice |\n|---|---|\n| Framework | Next.js 14 App Router (TypeScript) |\n| Styling | Tailwind CSS 3.4, custom HSL design tokens |\n| State | TanStack React Query (server), nuqs (URL), localStorage (favorites) |\n| UI primitives | Radix UI (Dialog, Accordion, Slider, Slot) |\n| Charts | Recharts 3 |\n| Map | MapLibre GL + CARTO tiles (no token) |\n| Animation | Framer Motion |\n| Validation | Zod |\n| Theme | next-themes |\n| Fonts | Inter + JetBrains Mono (next/font) |\n| Testing | Vitest |\n\n---\n\n## Getting started\n\n### Prerequisites\n\n- Node.js 20+ and pnpm\n\n```bash\nnpm install -g pnpm\n```\n\n### Install & run\n\n```bash\npnpm install\npnpm dev          # http://localhost:3000\n```\n\n### Run tests\n\n```bash\npnpm vitest run   # unit tests (no network)\npnpm vitest       # watch mode\n```\n\n### Build for production\n\n```bash\npnpm build\npnpm start\n```\n\n### Optional env vars\n\n| Variable | Default | Notes |\n|---|---|---|\n| `NWS_USER_AGENT` | `marina-risk-checker (portfolio-demo, contact@example.com)` | Required by NWS API; customize to your email |\n| `MAPTILER_KEY` | _(none)_ | Unlocks MapTiler vector tiles if desired; CARTO is used by default |\n\nCreate `.env.local` at the project root:\n\n```bash\nNWS_USER_AGENT=\"marina-risk-checker (yourapp, your@email.com)\"\n```\n\n---\n\n## Data sources\n\nAll data is sourced from **free, public US government APIs** — no API keys required for core functionality.\n\n| Source | Data |\n|---|---|\n| [NOAA CO-OPS Tides & Currents](https://tidesandcurrents.noaa.gov/api-helper/url-builder.html) | Tide predictions, current predictions, water level observations |\n| [NWS Weather API](https://www.weather.gov/documentation/services-web-api) | Hourly forecasts, active marine alerts |\n| [sunrise-sunset.org](https://sunrise-sunset.org/api) | Astronomical sunrise/sunset, civil twilight |\n\n> **Disclaimer**: This tool is for informational purposes only. Always consult official NOAA and NWS products before making a departure decision. The risk score is a heuristic aid, not a substitute for mariner judgment.\n\n---\n\n## Design decisions\n\n**Why a proxy wave-height factor?**\nNOAA's wave model data (WAVEWATCH III) isn't available through the CO-OPS API used here. Instead, the engine uses sustained wind speed × duration as a fetch-limited proxy — clearly labeled \"est.\" in the UI so users understand its limitations.\n\n**Why weighted rules instead of ML?**\nTransparency matters for safety-adjacent tools. Every factor shows its score, threshold, and evidence. Boaters can audit the logic, and the weights are in a single editable config file.\n\n**Why MapLibre over Mapbox?**\nMapLibre GL is fully open-source. CARTO's `dark-matter` and `positron` styles are available without authentication, keeping the demo zero-dependency on external keys.\n\n\n## Deploy on Vercel\n\nThe easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.\n\nCheck out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.",
+      "sourceUrl": "https://github.com/ZSturman/Marina-Departure-NOAA-Risk-Checker/blob/main/README.md"
+    }
+  }
+}

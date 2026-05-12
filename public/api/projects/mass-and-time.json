@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-05-06T02:07:33.255774+00:00",
+  "generated_at": "2026-05-12T12:25:11.730934+00:00",
   "data": {
     "id": "306aec94-4d3c-80c9-a6d4-f6362f15b981",
     "slug": "mass-and-time",
@@ -35,9 +35,9 @@
     "story": "",
     "images": {
       "icon": "icon.png",
+      "hero": "hero.png",
       "banner": "banner.png",
-      "thumbnail": "thumbnail.png",
-      "hero": "hero.png"
+      "thumbnail": "thumbnail.png"
     },
     "resources": [
       {
@@ -48,6 +48,15 @@
     ],
     "assets": [
       {
+        "id": "34caec94-4d3c-80d0-aa11-fe6da9f3b4d9",
+        "label": "Horizon Zoom: Extreme Gravitational Time Ratio",
+        "order": 7,
+        "type": "image",
+        "summary": "This horizon zoom focuses on the region near the black hole’s Schwarzschild radius, where gravitational time effects become more extreme. Tightening the radial window around the horizon reduced the minimum gravitational time ratio from 0.0995 to 0.0316, emphasizing how rapidly temporal behavior changes near this boundary. This image works well as a technical companion to the broader photon–black hole duality map. It gives viewers a more focused look at the extreme end of the model, where spatial confinement, horizon behavior, and temporal distortion become most visually pronounced.",
+        "oneLiner": "A close-up of the black-hole horizon region showing intensified gravitational time distortion.",
+        "filePath": "photon_bh_duality2.png"
+      },
+      {
         "id": "34caec94-4d3c-8008-ad65-f20246bab840",
         "label": "Photon–Black Hole Duality Map",
         "order": 6,
@@ -55,15 +64,6 @@
         "summary": "This image presents the photon–black hole duality simulation, which compares horizon behavior, lightlike motion, and a broader polarity diagram in a single figure. The default configuration models a 10-solar-mass black hole, corresponding to a Schwarzschild radius of 29.538 km. Conceptually, the visualization frames photons and black holes as opposite endpoints: photon-like behavior as an extreme associated with lightlike motion, and black-hole-like behavior as an extreme associated with horizon-level spatial confinement. This is one of the most portfolio-friendly visuals because it translates a complex theoretical idea into a clear geometric spectrum.",
         "oneLiner": "A polarity diagram comparing lightlike motion and black-hole horizon behavior as opposite geometric limits.",
         "filePath": "photon_bh_duality.png"
-      },
-      {
-        "id": "34caec94-4d3c-8046-86c5-debf8dddd72a",
-        "label": "Simulation Overview: Time, Mass, and Geometric Extremes",
-        "order": 1,
-        "type": "image",
-        "summary": "This overview contact sheet presents the full simulation batch as a unified visual system. It brings together three experimental models that explore different aspects of the Time and Mass framework: how mass presence might evolve under locally varying clock rates, how temporal perturbations may affect orbital stability, and how photons and black holes can be interpreted as opposite geometric limits. The image functions as a high-level map of the project, giving viewers an immediate sense of the visual language, simulation outputs, and conceptual scope before they enter the individual experiments.",
-        "oneLiner": "A visual summary of the project’s three simulation tracks: mass-time emergence, temporal orbital stability, and photon–black hole duality.",
-        "filePath": "overview_contact_sheet.png"
       },
       {
         "id": "34caec94-4d3c-80c1-b656-de0b5d296e3e",
@@ -75,22 +75,13 @@
         "filePath": "orbital_stability.png"
       },
       {
-        "id": "34caec94-4d3c-80c2-bc16-df3e88897555",
-        "label": "Mass-Time Emergence: Baseline Field Evolution",
-        "order": 2,
+        "id": "34caec94-4d3c-80f1-ac12-ee78e6070e75",
+        "label": "High-Alpha Clock Distortion Test",
+        "order": 4,
         "type": "image",
-        "summary": "This image shows the final state of a baseline mass-time simulation. The model evolves an initial mass distribution against a clock field whose local rate changes over time, allowing the simulation to test whether slowed local time can reshape mass presence and generate a gravitational response. In this run, total mass increased from 1.0000 to 1.6140 while producing a maximum gravitational potential magnitude of 0.1836. As a portfolio visual, this image represents the project’s core hypothesis: that mass and gravitational behavior can be explored as emergent effects of temporal structure rather than treated only as static spatial quantities.",
-        "oneLiner": "A baseline simulation showing how mass presence evolves within a locally distorted clock field.",
-        "filePath": "final_state.png"
-      },
-      {
-        "id": "34caec94-4d3c-80d0-aa11-fe6da9f3b4d9",
-        "label": "Horizon Zoom: Extreme Gravitational Time Ratio",
-        "order": 7,
-        "type": "image",
-        "summary": "This horizon zoom focuses on the region near the black hole’s Schwarzschild radius, where gravitational time effects become more extreme. Tightening the radial window around the horizon reduced the minimum gravitational time ratio from 0.0995 to 0.0316, emphasizing how rapidly temporal behavior changes near this boundary. This image works well as a technical companion to the broader photon–black hole duality map. It gives viewers a more focused look at the extreme end of the model, where spatial confinement, horizon behavior, and temporal distortion become most visually pronounced.",
-        "oneLiner": "A close-up of the black-hole horizon region showing intensified gravitational time distortion.",
-        "filePath": "photon_bh_duality2.png"
+        "summary": "This image shows the final state of the mass-time emergence model under a stronger alpha setting. Increasing alpha to 0.5 deepened the slowest local clock rate from 0.7955 in the baseline run to 0.0001, creating a much more extreme temporal distortion. This comparison is useful because it shows how sensitive the model is to temporal coupling strength. In the portfolio narrative, this image can serve as a “parameter stress test,” demonstrating that the simulation is not just a static visualization but a tunable model whose behavior changes substantially under different assumptions.",
+        "oneLiner": "A stress test showing how stronger temporal coupling dramatically slows the local clock field.",
+        "filePath": "final_state2.png"
       },
       {
         "id": "34caec94-4d3c-80e3-bac3-dd4fa93c2f4b",
@@ -102,13 +93,22 @@
         "filePath": "animation.gif"
       },
       {
-        "id": "34caec94-4d3c-80f1-ac12-ee78e6070e75",
-        "label": "High-Alpha Clock Distortion Test",
-        "order": 4,
+        "id": "34caec94-4d3c-80c2-bc16-df3e88897555",
+        "label": "Mass-Time Emergence: Baseline Field Evolution",
+        "order": 2,
         "type": "image",
-        "summary": "This image shows the final state of the mass-time emergence model under a stronger alpha setting. Increasing alpha to 0.5 deepened the slowest local clock rate from 0.7955 in the baseline run to 0.0001, creating a much more extreme temporal distortion. This comparison is useful because it shows how sensitive the model is to temporal coupling strength. In the portfolio narrative, this image can serve as a “parameter stress test,” demonstrating that the simulation is not just a static visualization but a tunable model whose behavior changes substantially under different assumptions.",
-        "oneLiner": "A stress test showing how stronger temporal coupling dramatically slows the local clock field.",
-        "filePath": "final_state2.png"
+        "summary": "This image shows the final state of a baseline mass-time simulation. The model evolves an initial mass distribution against a clock field whose local rate changes over time, allowing the simulation to test whether slowed local time can reshape mass presence and generate a gravitational response. In this run, total mass increased from 1.0000 to 1.6140 while producing a maximum gravitational potential magnitude of 0.1836. As a portfolio visual, this image represents the project’s core hypothesis: that mass and gravitational behavior can be explored as emergent effects of temporal structure rather than treated only as static spatial quantities.",
+        "oneLiner": "A baseline simulation showing how mass presence evolves within a locally distorted clock field.",
+        "filePath": "final_state.png"
+      },
+      {
+        "id": "34caec94-4d3c-8046-86c5-debf8dddd72a",
+        "label": "Simulation Overview: Time, Mass, and Geometric Extremes",
+        "order": 1,
+        "type": "image",
+        "summary": "This overview contact sheet presents the full simulation batch as a unified visual system. It brings together three experimental models that explore different aspects of the Time and Mass framework: how mass presence might evolve under locally varying clock rates, how temporal perturbations may affect orbital stability, and how photons and black holes can be interpreted as opposite geometric limits. The image functions as a high-level map of the project, giving viewers an immediate sense of the visual language, simulation outputs, and conceptual scope before they enter the individual experiments.",
+        "oneLiner": "A visual summary of the project’s three simulation tracks: mass-time emergence, temporal orbital stability, and photon–black hole duality.",
+        "filePath": "overview_contact_sheet.png"
       }
     ],
     "collection": {},

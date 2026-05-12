@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-05-06T02:07:33.256205+00:00",
+  "generated_at": "2026-05-12T12:25:11.735510+00:00",
   "data": {
     "id": "306aec94-4d3c-80ff-a96a-c3c51900e249",
     "slug": "zsdynamics-11",
@@ -36,11 +36,6 @@
     },
     "resources": [
       {
-        "type": "github",
-        "label": "Repo",
-        "url": "https://github.com/ZSturman/ZSDynamics-v1.1"
-      },
-      {
         "type": "web",
         "label": "Visit",
         "url": "https://zsturman.github.io/ZSDynamics-V1.1/",
@@ -52,6 +47,11 @@
           "displayUrl": "zsturman.github.io/ZSDynamics-V1.1"
         },
         "iconUrl": "/icons/favicons/zsturman.github.io.png"
+      },
+      {
+        "type": "github",
+        "label": "Repo",
+        "url": "https://github.com/ZSturman/ZSDynamics-v1.1"
       }
     ],
     "assets": [],

@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
   "kind": "site",
-  "generated_at": "2026-05-06T02:07:33.260538+00:00",
+  "generated_at": "2026-05-12T12:25:11.739735+00:00",
   "data": {
     "name": "Zachary Sturman",
     "url": "https://zacharysturman.com",
     "counts": {
-      "projects": 38,
+      "projects": 40,
       "articles": 9
     }
   }

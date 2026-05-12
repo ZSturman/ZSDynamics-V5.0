@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "articles.detail",
-  "generated_at": "2026-05-06T02:07:33.259448+00:00",
+  "generated_at": "2026-05-12T12:25:11.738463+00:00",
   "data": {
     "slug": "the-wolf-project-reworking-a-real-world-project",
     "title": "The Wolf Project - Reworking a Real-World Project",
@@ -41,12 +41,12 @@
         "url": "https://www.instagram.com/_wolf_project/",
         "kind": "card",
         "provider": "instagram",
-        "title": "The Wolf Project (@_wolf_project) • Instagram photos and videos",
+        "title": "Instagram",
         "siteName": "Instagram",
         "hostname": "www.instagram.com",
         "displayUrl": "instagram.com/_wolf_project",
-        "description": "9,422 Followers, 55 Following, 40 Posts - See Instagram photos and videos from The Wolf Project (@_wolf_project)",
-        "image": "https://scontent-sea5-1.cdninstagram.com/v/t51.82787-19/669995688_17855811255634945_8055336562483547172_n.jpg?stp=dst-jpg_s100x100_tt6&_nc_cat=105&ccb=7-5&_nc_sid=bf7eb4&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy4xMDgwLkMzIn0%3D&_nc_ohc=mw4UyJRrXYoQ7kNvwE7JrVO&_nc_oc=AdqGBbA48IXCW7mSJJPltvQwLtvBbooUbq3_VtOVZcvOjaJMrrmmM277ZJGl4T4O9iNHo2PvHPYaaGHwyQlw5quB&_nc_zt=24&_nc_ht=scontent-sea5-1.cdninstagram.com&_nc_gid=oS6YxUfBXdOIKiNlwu-l-A&_nc_ss=7860f&oh=00_Af6knIl49S0-xTGmQ_FcWqiWk8t-JQ1P5AiwVNRU2nXV-A&oe=6A008531"
+        "description": "Create an account or log in to Instagram - Share what you're into with the people who get you.",
+        "image": "https://static.cdninstagram.com/rsrc.php/v4/yD/r/R0fBIMurK8v.png"
       },
       {
         "url": "https://the-wolf-project-14stqkkgr-zsturmans-projects.vercel.app/",
