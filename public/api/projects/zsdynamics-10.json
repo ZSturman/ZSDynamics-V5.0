@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-05-12T16:02:32.736123+00:00",
+  "generated_at": "2026-05-18T22:57:35.228906+00:00",
   "data": {
     "id": "306aec94-4d3c-803d-8230-fe06337c4a51",
     "slug": "zsdynamics-10",
@@ -32,8 +32,8 @@
     "story": "",
     "images": {
       "thumbnail": "thumbnail.png",
-      "banner": "banner.png",
-      "icon": "poster.png"
+      "icon": "poster.png",
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -47,8 +47,8 @@
           "hostname": "zsturman.github.io",
           "displayUrl": "zsturman.github.io/ZSDynamics-V1.0",
           "description": "Explore my data science portfolio, showcasing projects in machine learning, data visualization, and analytics. Learn how I leverage data-driven insights to solve real-world problems.",
-          "image": "https://www.ZSdynamics.com/static/images/og_img.png",
-          "imageSource": "metadata"
+          "image": "/projects/zsdynamics_10_306aec94-4d3c-803d-8230-fe06337c4a51/previews/zsturman.github.io-a017dada2068.png",
+          "imageSource": "capture"
         },
         "iconUrl": "/icons/favicons/zsturman.github.io.png"
       },

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-05-12T16:02:32.728120+00:00",
+  "generated_at": "2026-05-18T22:57:35.221080+00:00",
   "data": {
     "id": "35eaec94-4d3c-809c-a0f4-ff355a7a6d21",
     "slug": "marina-departure-noaa-risk-checker",
@@ -36,9 +36,9 @@
     "story": "",
     "images": {
       "thumbnail": "thumb.png",
-      "hero": "hero.png",
+      "icon": "icon.png",
       "banner": "banner.png",
-      "icon": "icon.png"
+      "hero": "hero.png"
     },
     "resources": [
       {
@@ -52,8 +52,8 @@
           "hostname": "marina-departure-noaa-risk-checker.vercel.app",
           "displayUrl": "marina-departure-noaa-risk-checker.vercel.app",
           "description": "NOAA-powered go/no-go decision support for recreational boaters, charters, and marinas.",
-          "image": "https://marina-risk.example.com/opengraph-image?cd0c36d3e1d3b76c",
-          "imageSource": "metadata"
+          "image": "/projects/marina_departure_noaa_risk_checker_35eaec94-4d3c-809c-a0f4-ff355a7a6d21/previews/marina-departure-noaa-risk-checker.vercel.app-9ce9f7588d03.png",
+          "imageSource": "capture"
         }
       },
       {

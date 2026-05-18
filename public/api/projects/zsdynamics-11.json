@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-05-12T16:02:32.735762+00:00",
+  "generated_at": "2026-05-18T22:57:35.228585+00:00",
   "data": {
     "id": "306aec94-4d3c-80ff-a96a-c3c51900e249",
     "slug": "zsdynamics-11",
@@ -44,7 +44,9 @@
           "title": "Zachary Sturman Home",
           "siteName": "Zsturman Github Io",
           "hostname": "zsturman.github.io",
-          "displayUrl": "zsturman.github.io/ZSDynamics-V1.1"
+          "displayUrl": "zsturman.github.io/ZSDynamics-V1.1",
+          "image": "/projects/zsdynamics_11_306aec94-4d3c-80ff-a96a-c3c51900e249/previews/zsturman.github.io-ee7e4a65aa78.png",
+          "imageSource": "capture"
         },
         "iconUrl": "/icons/favicons/zsturman.github.io.png"
       },
