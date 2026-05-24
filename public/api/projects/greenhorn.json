@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-05-18T22:57:35.228756+00:00",
+  "generated_at": "2026-05-24T01:48:18.467372+00:00",
   "data": {
     "id": "306aec94-4d3c-80b0-b478-e070bcd1d517",
     "slug": "greenhorn",
@@ -31,9 +31,9 @@
     "story": "",
     "images": {
       "thumbnail": "thumbnail.tiff",
+      "banner": "banner.png",
       "icon": "thumbnail.tiff",
-      "poster": "poster.tiff",
-      "banner": "banner.png"
+      "poster": "poster.tiff"
     },
     "resources": [],
     "assets": [],

@@ -8,3 +8,9 @@ firebase-admin>=6.0.0
 
 # AWS SDK for Python (optional - for S3 or Cloudflare R2 uploads)
 boto3>=1.28.0
+
+# Notion API client (required for notion_projects_export.py)
+notion-client>=2.2.1
+
+# .env.local loading for Python build scripts
+python-dotenv>=1.0.0

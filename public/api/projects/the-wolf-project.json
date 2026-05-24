@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-05-18T22:57:35.222689+00:00",
+  "generated_at": "2026-05-24T01:48:18.463588+00:00",
   "data": {
     "id": "346aec94-4d3c-801e-851f-c7e727f0e186",
     "slug": "the-wolf-project",
@@ -49,8 +49,8 @@
           "hostname": "yourdogcanstay.com",
           "displayUrl": "yourdogcanstay.com",
           "description": "Access to Care Lifeline for families whose dog requires lifesaving medical care, but the upfront costs stand in the way.",
-          "image": "/projects/the_wolf_project_346aec94-4d3c-801e-851f-c7e727f0e186/previews/yourdogcanstay.com-98da4ec0bcac.png",
-          "imageSource": "capture"
+          "image": "http://yourdogcanstay.com/cdn/shop/files/3AC01483-E6E2-4011-833D-F6C8714C4FDC_dfbfda84-9ef0-49a6-be7e-7f1fa826400c.png?height=628&pad_color=ffffff&v=1776093581&width=1200",
+          "imageSource": "metadata"
         }
       },
       {
@@ -64,8 +64,8 @@
           "hostname": "the-wolf-pack.vercel.app",
           "displayUrl": "the-wolf-pack.vercel.app",
           "description": "When treatment exists but access to care doesn't, The Wolf Project exists to help families keep dogs where they belong - at home.",
-          "image": "/projects/the_wolf_project_346aec94-4d3c-801e-851f-c7e727f0e186/previews/the-wolf-pack.vercel.app-23526c25a9c2.png",
-          "imageSource": "capture"
+          "image": "https://yourdogcanstay.com/assets/brand/ydcs-logo.png",
+          "imageSource": "metadata"
         },
         "iconUrl": "/icons/favicons/the-wolf-pack.vercel.app.ico"
       },
@@ -91,10 +91,9 @@
           "hostname": "yourdogcanstay.com",
           "displayUrl": "yourdogcanstay.com",
           "description": "Access to Care Lifeline for families whose dog requires lifesaving medical care, but the upfront costs stand in the way.",
-          "image": "/projects/the_wolf_project_346aec94-4d3c-801e-851f-c7e727f0e186/previews/yourdogcanstay.com-98da4ec0bcac.png",
-          "imageSource": "capture"
-        },
-        "thumbnail": "/projects/the_wolf_project_346aec94-4d3c-801e-851f-c7e727f0e186/previews/yourdogcanstay.com-98da4ec0bcac.png"
+          "image": "http://yourdogcanstay.com/cdn/shop/files/3AC01483-E6E2-4011-833D-F6C8714C4FDC_dfbfda84-9ef0-49a6-be7e-7f1fa826400c.png?height=628&pad_color=ffffff&v=1776093581&width=1200",
+          "imageSource": "metadata"
+        }
       },
       {
         "id": "348aec94-4d3c-800c-aaad-c539680bc5b2",

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-05-18T22:57:35.230160+00:00",
+  "generated_at": "2026-05-24T01:48:18.468411+00:00",
   "data": {
     "id": "306aec94-4d3c-8008-9985-d94ba1780069",
     "slug": "top-note",
@@ -38,9 +38,9 @@
     "story": "",
     "images": {
       "thumbnail": "thumbnail.png",
+      "banner": "banner.png",
       "icon": "TopNote AppIcon v2-watchOS-Default-1088x1088@1x.png",
       "poster": "poster.png",
-      "banner": "banner.png",
       "hero": "hero.png"
     },
     "resources": [

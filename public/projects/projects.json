@@ -33,8 +33,8 @@
     "story": "",
     "images": {
       "thumbnail": "thumb.png",
-      "icon": "icon.png",
       "banner": "banner.png",
+      "icon": "icon.png",
       "hero": "hero.png"
     },
     "resources": [
@@ -49,8 +49,8 @@
           "hostname": "marina-departure-noaa-risk-checker.vercel.app",
           "displayUrl": "marina-departure-noaa-risk-checker.vercel.app",
           "description": "NOAA-powered go/no-go decision support for recreational boaters, charters, and marinas.",
-          "image": "/projects/marina_departure_noaa_risk_checker_35eaec94-4d3c-809c-a0f4-ff355a7a6d21/previews/marina-departure-noaa-risk-checker.vercel.app-9ce9f7588d03.png",
-          "imageSource": "capture"
+          "image": "https://marina-risk.example.com/opengraph-image?cd0c36d3e1d3b76c",
+          "imageSource": "metadata"
         }
       },
       {
@@ -139,8 +139,8 @@
     "story": "",
     "images": {
       "thumbnail": "thumb.png",
-      "icon": "icon.png",
       "banner": "banner.png",
+      "icon": "icon.png",
       "hero": "hero.png"
     },
     "resources": [
@@ -154,9 +154,7 @@
           "siteName": "Transactions-Lmct Vercel App",
           "hostname": "transactions-lmct.vercel.app",
           "displayUrl": "transactions-lmct.vercel.app/login",
-          "description": "Track shared transactions with anyone. Record payments, settle debts, and manage balances in real time.",
-          "image": "/projects/transactions_35eaec94-4d3c-80bc-9273-c1403b6c02ad/previews/transactions-lmct.vercel.app-d22838da070e.png",
-          "imageSource": "capture"
+          "description": "Track shared transactions with anyone. Record payments, settle debts, and manage balances in real time."
         }
       },
       {
@@ -244,8 +242,8 @@
     "story": "",
     "images": {
       "thumbnail": "thumb.png",
-      "icon": "icon.png",
       "banner": "banner.png",
+      "icon": "icon.png",
       "hero": "hero.png"
     },
     "resources": [
@@ -317,8 +315,8 @@
           "hostname": "yourdogcanstay.com",
           "displayUrl": "yourdogcanstay.com",
           "description": "Access to Care Lifeline for families whose dog requires lifesaving medical care, but the upfront costs stand in the way.",
-          "image": "/projects/the_wolf_project_346aec94-4d3c-801e-851f-c7e727f0e186/previews/yourdogcanstay.com-98da4ec0bcac.png",
-          "imageSource": "capture"
+          "image": "http://yourdogcanstay.com/cdn/shop/files/3AC01483-E6E2-4011-833D-F6C8714C4FDC_dfbfda84-9ef0-49a6-be7e-7f1fa826400c.png?height=628&pad_color=ffffff&v=1776093581&width=1200",
+          "imageSource": "metadata"
         }
       },
       {
@@ -332,8 +330,8 @@
           "hostname": "the-wolf-pack.vercel.app",
           "displayUrl": "the-wolf-pack.vercel.app",
           "description": "When treatment exists but access to care doesn't, The Wolf Project exists to help families keep dogs where they belong - at home.",
-          "image": "/projects/the_wolf_project_346aec94-4d3c-801e-851f-c7e727f0e186/previews/the-wolf-pack.vercel.app-23526c25a9c2.png",
-          "imageSource": "capture"
+          "image": "https://yourdogcanstay.com/assets/brand/ydcs-logo.png",
+          "imageSource": "metadata"
         },
         "iconUrl": "/icons/favicons/the-wolf-pack.vercel.app.ico"
       },
@@ -359,10 +357,9 @@
           "hostname": "yourdogcanstay.com",
           "displayUrl": "yourdogcanstay.com",
           "description": "Access to Care Lifeline for families whose dog requires lifesaving medical care, but the upfront costs stand in the way.",
-          "image": "/projects/the_wolf_project_346aec94-4d3c-801e-851f-c7e727f0e186/previews/yourdogcanstay.com-98da4ec0bcac.png",
-          "imageSource": "capture"
-        },
-        "thumbnail": "/projects/the_wolf_project_346aec94-4d3c-801e-851f-c7e727f0e186/previews/yourdogcanstay.com-98da4ec0bcac.png"
+          "image": "http://yourdogcanstay.com/cdn/shop/files/3AC01483-E6E2-4011-833D-F6C8714C4FDC_dfbfda84-9ef0-49a6-be7e-7f1fa826400c.png?height=628&pad_color=ffffff&v=1776093581&width=1200",
+          "imageSource": "metadata"
+        }
       },
       {
         "id": "348aec94-4d3c-800c-aaad-c539680bc5b2",
@@ -463,8 +460,8 @@
     "story": "",
     "images": {
       "thumbnail": "thumb.png",
-      "icon": "icon.png",
       "banner": "banner.png",
+      "icon": "icon.png",
       "hero": "hero.png"
     },
     "resources": [
@@ -606,9 +603,9 @@
     "story": "",
     "images": {
       "thumbnail": "thumbnail.png",
+      "banner": "banner.png",
       "icon": "icon.png",
       "poster": "poster.png",
-      "banner": "banner.png",
       "hero": "hero.png"
     },
     "resources": [
@@ -679,8 +676,8 @@
     "story": "",
     "images": {
       "thumbnail": "thumbnail.png",
-      "poster": "poster.png",
       "banner": "banner.png",
+      "poster": "poster.png",
       "hero": "hero.png"
     },
     "resources": [],
@@ -742,9 +739,9 @@
     "story": "",
     "images": {
       "thumbnail": "thumbnail.png",
+      "banner": "banner.png",
       "icon": "icon.png",
       "poster": "poster.png",
-      "banner": "banner.png",
       "hero": "hero.png"
     },
     "resources": [
@@ -814,9 +811,9 @@
     "story": "",
     "images": {
       "thumbnail": "thumbnail.png",
+      "banner": "banner.png",
       "icon": "icon.png",
       "poster": "poster.png",
-      "banner": "banner.png",
       "hero": "hero.png"
     },
     "resources": [
@@ -961,8 +958,8 @@
     "story": "",
     "images": {
       "thumbnail": "thumbnail.png",
-      "icon": "icon.png",
       "banner": "banner.png",
+      "icon": "icon.png",
       "hero": "hero.png"
     },
     "resources": [
@@ -1041,8 +1038,8 @@
     "story": "",
     "images": {
       "thumbnail": "thumbnail.png",
-      "poster": "poster.png",
       "banner": "banner.png",
+      "poster": "poster.png",
       "hero": "hero.png"
     },
     "resources": [
@@ -1114,8 +1111,8 @@
     "story": "",
     "images": {
       "thumbnail": "thumbnail.png",
-      "icon": "icon.png",
       "banner": "banner.png",
+      "icon": "icon.png",
       "hero": "hero.png"
     },
     "resources": [
@@ -1184,8 +1181,8 @@
     "story": "",
     "images": {
       "thumbnail": "thumbnail.png",
-      "icon": "AppIcon.png",
       "banner": "Concept_art_with_Logo.jpeg",
+      "icon": "AppIcon.png",
       "hero": "Ope_Hero.png"
     },
     "resources": [
@@ -1411,8 +1408,8 @@
     "story": "",
     "images": {
       "thumbnail": "thumbnail.png",
-      "icon": "icon.png",
       "banner": "banner.png",
+      "icon": "icon.png",
       "hero": "hero.png"
     },
     "resources": [
@@ -1549,9 +1546,9 @@
     "story": "",
     "images": {
       "thumbnail": "thumbnail.png",
+      "banner": "banner.png",
       "icon": "logo.png",
-      "poster": "poster.gif",
-      "banner": "banner.png"
+      "poster": "poster.gif"
     },
     "resources": [],
     "assets": [],
@@ -1586,9 +1583,7 @@
                   "siteName": "Zsturman Github Io",
                   "hostname": "zsturman.github.io",
                   "displayUrl": "zsturman.github.io/ZSDynamics-V4.0",
-                  "description": "Cross-Platform Development | Responsive and Mobile-First User Interfaces | Scalable Backend Architectures with Robust APIs | Real-Time Data Processing",
-                  "image": "/projects/zsdynamics_40_306aec94-4d3c-807e-a7ef-db0aa63a2ec7/previews/zsturman.github.io-bde3e5bc6f2e.png",
-                  "imageSource": "capture"
+                  "description": "Cross-Platform Development | Responsive and Mobile-First User Interfaces | Scalable Backend Architectures with Robust APIs | Real-Time Data Processing"
                 },
                 "iconUrl": "/icons/favicons/zsturman.github.io.png"
               },
@@ -1608,9 +1603,7 @@
                 "siteName": "Zsturman Github Io",
                 "hostname": "zsturman.github.io",
                 "displayUrl": "zsturman.github.io/ZSDynamics-V4.0",
-                "description": "Cross-Platform Development | Responsive and Mobile-First User Interfaces | Scalable Backend Architectures with Robust APIs | Real-Time Data Processing",
-                "image": "/projects/zsdynamics_40_306aec94-4d3c-807e-a7ef-db0aa63a2ec7/previews/zsturman.github.io-bde3e5bc6f2e.png",
-                "imageSource": "capture"
+                "description": "Cross-Platform Development | Responsive and Mobile-First User Interfaces | Scalable Backend Architectures with Robust APIs | Real-Time Data Processing"
               },
               "iconUrl": "/icons/favicons/zsturman.github.io.png"
             }
@@ -1635,8 +1628,8 @@
                   "hostname": "zsturman.github.io",
                   "displayUrl": "zsturman.github.io/TowardBetter-Announcement-Page",
                   "description": "Women Deserve Better",
-                  "image": "/projects/towardbetterme_announcement_page_306aec94-4d3c-8064-9e5a-c59f1df02bee/previews/zsturman.github.io-9abb1d1ecb48.png",
-                  "imageSource": "capture"
+                  "image": "https://zsturman.github.io/images/Sam Logo - Blush.svg",
+                  "imageSource": "metadata"
                 },
                 "iconUrl": "/icons/favicons/zsturman.github.io.png"
               },
@@ -1657,8 +1650,8 @@
                 "hostname": "zsturman.github.io",
                 "displayUrl": "zsturman.github.io/TowardBetter-Announcement-Page",
                 "description": "Women Deserve Better",
-                "image": "/projects/towardbetterme_announcement_page_306aec94-4d3c-8064-9e5a-c59f1df02bee/previews/zsturman.github.io-9abb1d1ecb48.png",
-                "imageSource": "capture"
+                "image": "https://zsturman.github.io/images/Sam Logo - Blush.svg",
+                "imageSource": "metadata"
               },
               "iconUrl": "/icons/favicons/zsturman.github.io.png"
             }
@@ -1704,8 +1697,8 @@
                   "hostname": "zsturman.github.io",
                   "displayUrl": "zsturman.github.io/ZSDynamics-V2.0",
                   "description": "Explore Zachary Sturman's Software Engineering portfolio.",
-                  "image": "/projects/zsdynamics_20_306aec94-4d3c-800b-9d7d-ed0c879ab5b3/previews/zsturman.github.io-f992a52961cf.png",
-                  "imageSource": "capture"
+                  "image": "https://www.ZSdynamics.com/og_img.png'",
+                  "imageSource": "metadata"
                 },
                 "iconUrl": "/icons/favicons/zsturman.github.io.png"
               },
@@ -1726,8 +1719,8 @@
                 "hostname": "zsturman.github.io",
                 "displayUrl": "zsturman.github.io/ZSDynamics-V2.0",
                 "description": "Explore Zachary Sturman's Software Engineering portfolio.",
-                "image": "/projects/zsdynamics_20_306aec94-4d3c-800b-9d7d-ed0c879ab5b3/previews/zsturman.github.io-f992a52961cf.png",
-                "imageSource": "capture"
+                "image": "https://www.ZSdynamics.com/og_img.png'",
+                "imageSource": "metadata"
               },
               "iconUrl": "/icons/favicons/zsturman.github.io.png"
             }
@@ -1750,9 +1743,7 @@
                   "title": "Zachary Sturman Home",
                   "siteName": "Zsturman Github Io",
                   "hostname": "zsturman.github.io",
-                  "displayUrl": "zsturman.github.io/ZSDynamics-V1.1",
-                  "image": "/projects/zsdynamics_11_306aec94-4d3c-80ff-a96a-c3c51900e249/previews/zsturman.github.io-ee7e4a65aa78.png",
-                  "imageSource": "capture"
+                  "displayUrl": "zsturman.github.io/ZSDynamics-V1.1"
                 },
                 "iconUrl": "/icons/favicons/zsturman.github.io.png"
               },
@@ -1771,9 +1762,7 @@
                 "title": "Zachary Sturman Home",
                 "siteName": "Zsturman Github Io",
                 "hostname": "zsturman.github.io",
-                "displayUrl": "zsturman.github.io/ZSDynamics-V1.1",
-                "image": "/projects/zsdynamics_11_306aec94-4d3c-80ff-a96a-c3c51900e249/previews/zsturman.github.io-ee7e4a65aa78.png",
-                "imageSource": "capture"
+                "displayUrl": "zsturman.github.io/ZSDynamics-V1.1"
               },
               "iconUrl": "/icons/favicons/zsturman.github.io.png"
             }
@@ -1798,8 +1787,8 @@
                   "hostname": "zsturman.github.io",
                   "displayUrl": "zsturman.github.io/ZSDynamics-V1.0",
                   "description": "Explore my data science portfolio, showcasing projects in machine learning, data visualization, and analytics. Learn how I leverage data-driven insights to solve real-world problems.",
-                  "image": "/projects/zsdynamics_10_306aec94-4d3c-803d-8230-fe06337c4a51/previews/zsturman.github.io-a017dada2068.png",
-                  "imageSource": "capture"
+                  "image": "https://www.ZSdynamics.com/static/images/og_img.png",
+                  "imageSource": "metadata"
                 },
                 "iconUrl": "/icons/favicons/zsturman.github.io.png"
               },
@@ -1820,8 +1809,8 @@
                 "hostname": "zsturman.github.io",
                 "displayUrl": "zsturman.github.io/ZSDynamics-V1.0",
                 "description": "Explore my data science portfolio, showcasing projects in machine learning, data visualization, and analytics. Learn how I leverage data-driven insights to solve real-world problems.",
-                "image": "/projects/zsdynamics_10_306aec94-4d3c-803d-8230-fe06337c4a51/previews/zsturman.github.io-a017dada2068.png",
-                "imageSource": "capture"
+                "image": "https://www.ZSdynamics.com/static/images/og_img.png",
+                "imageSource": "metadata"
               },
               "iconUrl": "/icons/favicons/zsturman.github.io.png"
             }
@@ -1886,9 +1875,9 @@
     "story": "",
     "images": {
       "thumbnail": "thumbnail.png",
+      "banner": "banner.png",
       "icon": "thumbnail.png",
-      "poster": "poster.png",
-      "banner": "banner.png"
+      "poster": "poster.png"
     },
     "resources": [
       {
@@ -1967,8 +1956,8 @@
     "story": "",
     "images": {
       "thumbnail": "thumbnail.png",
-      "icon": "banner.png",
-      "banner": "poster.png"
+      "banner": "poster.png",
+      "icon": "banner.png"
     },
     "resources": [
       {
@@ -1981,9 +1970,7 @@
           "siteName": "Zsturman Github Io",
           "hostname": "zsturman.github.io",
           "displayUrl": "zsturman.github.io/ZSDynamics-V4.0",
-          "description": "Cross-Platform Development | Responsive and Mobile-First User Interfaces | Scalable Backend Architectures with Robust APIs | Real-Time Data Processing",
-          "image": "/projects/zsdynamics_40_306aec94-4d3c-807e-a7ef-db0aa63a2ec7/previews/zsturman.github.io-bde3e5bc6f2e.png",
-          "imageSource": "capture"
+          "description": "Cross-Platform Development | Responsive and Mobile-First User Interfaces | Scalable Backend Architectures with Robust APIs | Real-Time Data Processing"
         },
         "iconUrl": "/icons/favicons/zsturman.github.io.png"
       },
@@ -2054,8 +2041,8 @@
     "story": "",
     "images": {
       "thumbnail": "thumbnail.png",
-      "icon": "Celestial Hands Holding Heart.png",
-      "banner": "Collaborative Effort with Green Ball.png"
+      "banner": "Collaborative Effort with Green Ball.png",
+      "icon": "Celestial Hands Holding Heart.png"
     },
     "resources": [
       {
@@ -2069,8 +2056,8 @@
           "hostname": "zsturman.github.io",
           "displayUrl": "zsturman.github.io/TowardBetter-Announcement-Page",
           "description": "Women Deserve Better",
-          "image": "/projects/towardbetterme_announcement_page_306aec94-4d3c-8064-9e5a-c59f1df02bee/previews/zsturman.github.io-9abb1d1ecb48.png",
-          "imageSource": "capture"
+          "image": "https://zsturman.github.io/images/Sam Logo - Blush.svg",
+          "imageSource": "metadata"
         },
         "iconUrl": "/icons/favicons/zsturman.github.io.png"
       },
@@ -2145,9 +2132,9 @@
     "story": "",
     "images": {
       "thumbnail": "thumbnail.png",
+      "banner": "banner.png",
       "icon": "icon.svg",
-      "poster": "poster.png",
-      "banner": "banner.png"
+      "poster": "poster.png"
     },
     "resources": [
       {
@@ -2215,8 +2202,8 @@
     "story": "",
     "images": {
       "thumbnail": "thumbnail.png",
-      "poster": "poster.gif",
       "banner": "banner.gif",
+      "poster": "poster.gif",
       "hero": "queueExample.png"
     },
     "resources": [
@@ -2370,8 +2357,8 @@
           "hostname": "zsturman.github.io",
           "displayUrl": "zsturman.github.io/ZSDynamics-V2.0",
           "description": "Explore Zachary Sturman's Software Engineering portfolio.",
-          "image": "/projects/zsdynamics_20_306aec94-4d3c-800b-9d7d-ed0c879ab5b3/previews/zsturman.github.io-f992a52961cf.png",
-          "imageSource": "capture"
+          "image": "https://www.ZSdynamics.com/og_img.png'",
+          "imageSource": "metadata"
         },
         "iconUrl": "/icons/favicons/zsturman.github.io.png"
       },
@@ -2449,9 +2436,7 @@
           "title": "Zachary Sturman Home",
           "siteName": "Zsturman Github Io",
           "hostname": "zsturman.github.io",
-          "displayUrl": "zsturman.github.io/ZSDynamics-V1.1",
-          "image": "/projects/zsdynamics_11_306aec94-4d3c-80ff-a96a-c3c51900e249/previews/zsturman.github.io-ee7e4a65aa78.png",
-          "imageSource": "capture"
+          "displayUrl": "zsturman.github.io/ZSDynamics-V1.1"
         },
         "iconUrl": "/icons/favicons/zsturman.github.io.png"
       },
@@ -2520,9 +2505,9 @@
     "story": "",
     "images": {
       "thumbnail": "thumbnail.tiff",
+      "banner": "banner.png",
       "icon": "thumbnail.tiff",
-      "poster": "poster.tiff",
-      "banner": "banner.png"
+      "poster": "poster.tiff"
     },
     "resources": [],
     "assets": [],
@@ -2581,8 +2566,8 @@
     "story": "",
     "images": {
       "thumbnail": "thumbnail.png",
-      "icon": "poster.png",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "icon": "poster.png"
     },
     "resources": [
       {
@@ -2596,8 +2581,8 @@
           "hostname": "zsturman.github.io",
           "displayUrl": "zsturman.github.io/ZSDynamics-V1.0",
           "description": "Explore my data science portfolio, showcasing projects in machine learning, data visualization, and analytics. Learn how I leverage data-driven insights to solve real-world problems.",
-          "image": "/projects/zsdynamics_10_306aec94-4d3c-803d-8230-fe06337c4a51/previews/zsturman.github.io-a017dada2068.png",
-          "imageSource": "capture"
+          "image": "https://www.ZSdynamics.com/static/images/og_img.png",
+          "imageSource": "metadata"
         },
         "iconUrl": "/icons/favicons/zsturman.github.io.png"
       },
@@ -2665,8 +2650,8 @@
     "story": "",
     "images": {
       "thumbnail": "collection thumbnail.png",
-      "icon": "icon.png",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "icon": "icon.png"
     },
     "resources": [],
     "assets": [],
@@ -2821,8 +2806,8 @@
     "story": "",
     "images": {
       "thumbnail": "thumbnail.png",
-      "icon": "banner.png",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "icon": "banner.png"
     },
     "resources": [],
     "assets": [],
@@ -3164,8 +3149,8 @@
     "story": "",
     "images": {
       "thumbnail": "thumbnail.png",
-      "icon": "thumbnail.png",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "icon": "thumbnail.png"
     },
     "resources": [
       {
@@ -3235,9 +3220,9 @@
     "story": "",
     "images": {
       "thumbnail": "thumbnail.png",
+      "banner": "banner.png",
       "icon": "icon.png",
       "poster": "poster.png",
-      "banner": "banner.png",
       "hero": "hero.png"
     },
     "resources": [
@@ -3372,9 +3357,9 @@
     "story": "",
     "images": {
       "thumbnail": "thumbnail.png",
+      "banner": "banner.png",
       "icon": "TopNote AppIcon v2-watchOS-Default-1088x1088@1x.png",
       "poster": "poster.png",
-      "banner": "banner.png",
       "hero": "hero.png"
     },
     "resources": [
@@ -3602,8 +3587,8 @@
     "story": "",
     "images": {
       "thumbnail": "thumbnail.png",
-      "icon": "icon.png",
       "banner": "banner.png",
+      "icon": "icon.png",
       "hero": "hero.png"
     },
     "resources": [],

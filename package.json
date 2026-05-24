@@ -21,7 +21,8 @@
     "hooks:pre-push": "bash .githooks/pre-push",
     "hooks:post-push": "bash .githooks/post-push",
     "generate-articles": "python3 lib/sync_articles.py",
-    "generate-projects": "python3 lib/folio-prebuild.py --input-json /Users/zacharysturman/n8n-files/exports/new_projects.json",
+    "fetch-notion-projects": "python3 lib/notion_projects_export.py",
+    "generate-projects": "npm run fetch-notion-projects && python3 lib/folio-prebuild.py --input-json tmp/new_projects.json",
     "optimize": "python3 lib/media-optimizer.py public/projects --delete-originals",
     "postprocess": "python3 lib/build_postprocess.py",
     "postprocess:hosted": "python3 lib/build_postprocess.py --enable-r2",
@@ -64,5 +65,8 @@
     "tailwindcss": "^4",
     "tw-animate-css": "^1.3.8",
     "typescript": "^5"
+  },
+  "optionalDependencies": {
+    "lightningcss-darwin-arm64": "^1.32.0"
   }
 }

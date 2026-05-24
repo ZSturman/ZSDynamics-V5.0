@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-05-18T22:57:35.227973+00:00",
+  "generated_at": "2026-05-24T01:48:18.466839+00:00",
   "data": {
     "id": "306aec94-4d3c-8085-a43d-f9ac3bec06ef",
     "slug": "obsidian-toolkit",
@@ -31,8 +31,8 @@
     "story": "",
     "images": {
       "thumbnail": "thumbnail.png",
-      "poster": "poster.gif",
       "banner": "banner.gif",
+      "poster": "poster.gif",
       "hero": "queueExample.png"
     },
     "resources": [

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-05-18T22:57:35.226826+00:00",
+  "generated_at": "2026-05-24T01:48:18.465986+00:00",
   "data": {
     "id": "306aec94-4d3c-803b-a895-e775003b0f5d",
     "slug": "frontend-collection",
@@ -35,9 +35,9 @@
     "story": "",
     "images": {
       "thumbnail": "thumbnail.png",
+      "banner": "banner.png",
       "icon": "logo.png",
-      "poster": "poster.gif",
-      "banner": "banner.png"
+      "poster": "poster.gif"
     },
     "resources": [],
     "assets": [],
@@ -72,9 +72,7 @@
                   "siteName": "Zsturman Github Io",
                   "hostname": "zsturman.github.io",
                   "displayUrl": "zsturman.github.io/ZSDynamics-V4.0",
-                  "description": "Cross-Platform Development | Responsive and Mobile-First User Interfaces | Scalable Backend Architectures with Robust APIs | Real-Time Data Processing",
-                  "image": "/projects/zsdynamics_40_306aec94-4d3c-807e-a7ef-db0aa63a2ec7/previews/zsturman.github.io-bde3e5bc6f2e.png",
-                  "imageSource": "capture"
+                  "description": "Cross-Platform Development | Responsive and Mobile-First User Interfaces | Scalable Backend Architectures with Robust APIs | Real-Time Data Processing"
                 },
                 "iconUrl": "/icons/favicons/zsturman.github.io.png"
               },
@@ -94,9 +92,7 @@
                 "siteName": "Zsturman Github Io",
                 "hostname": "zsturman.github.io",
                 "displayUrl": "zsturman.github.io/ZSDynamics-V4.0",
-                "description": "Cross-Platform Development | Responsive and Mobile-First User Interfaces | Scalable Backend Architectures with Robust APIs | Real-Time Data Processing",
-                "image": "/projects/zsdynamics_40_306aec94-4d3c-807e-a7ef-db0aa63a2ec7/previews/zsturman.github.io-bde3e5bc6f2e.png",
-                "imageSource": "capture"
+                "description": "Cross-Platform Development | Responsive and Mobile-First User Interfaces | Scalable Backend Architectures with Robust APIs | Real-Time Data Processing"
               },
               "iconUrl": "/icons/favicons/zsturman.github.io.png"
             }
@@ -121,8 +117,8 @@
                   "hostname": "zsturman.github.io",
                   "displayUrl": "zsturman.github.io/TowardBetter-Announcement-Page",
                   "description": "Women Deserve Better",
-                  "image": "/projects/towardbetterme_announcement_page_306aec94-4d3c-8064-9e5a-c59f1df02bee/previews/zsturman.github.io-9abb1d1ecb48.png",
-                  "imageSource": "capture"
+                  "image": "https://zsturman.github.io/images/Sam Logo - Blush.svg",
+                  "imageSource": "metadata"
                 },
                 "iconUrl": "/icons/favicons/zsturman.github.io.png"
               },
@@ -143,8 +139,8 @@
                 "hostname": "zsturman.github.io",
                 "displayUrl": "zsturman.github.io/TowardBetter-Announcement-Page",
                 "description": "Women Deserve Better",
-                "image": "/projects/towardbetterme_announcement_page_306aec94-4d3c-8064-9e5a-c59f1df02bee/previews/zsturman.github.io-9abb1d1ecb48.png",
-                "imageSource": "capture"
+                "image": "https://zsturman.github.io/images/Sam Logo - Blush.svg",
+                "imageSource": "metadata"
               },
               "iconUrl": "/icons/favicons/zsturman.github.io.png"
             }
@@ -190,8 +186,8 @@
                   "hostname": "zsturman.github.io",
                   "displayUrl": "zsturman.github.io/ZSDynamics-V2.0",
                   "description": "Explore Zachary Sturman's Software Engineering portfolio.",
-                  "image": "/projects/zsdynamics_20_306aec94-4d3c-800b-9d7d-ed0c879ab5b3/previews/zsturman.github.io-f992a52961cf.png",
-                  "imageSource": "capture"
+                  "image": "https://www.ZSdynamics.com/og_img.png'",
+                  "imageSource": "metadata"
                 },
                 "iconUrl": "/icons/favicons/zsturman.github.io.png"
               },
@@ -212,8 +208,8 @@
                 "hostname": "zsturman.github.io",
                 "displayUrl": "zsturman.github.io/ZSDynamics-V2.0",
                 "description": "Explore Zachary Sturman's Software Engineering portfolio.",
-                "image": "/projects/zsdynamics_20_306aec94-4d3c-800b-9d7d-ed0c879ab5b3/previews/zsturman.github.io-f992a52961cf.png",
-                "imageSource": "capture"
+                "image": "https://www.ZSdynamics.com/og_img.png'",
+                "imageSource": "metadata"
               },
               "iconUrl": "/icons/favicons/zsturman.github.io.png"
             }
@@ -236,9 +232,7 @@
                   "title": "Zachary Sturman Home",
                   "siteName": "Zsturman Github Io",
                   "hostname": "zsturman.github.io",
-                  "displayUrl": "zsturman.github.io/ZSDynamics-V1.1",
-                  "image": "/projects/zsdynamics_11_306aec94-4d3c-80ff-a96a-c3c51900e249/previews/zsturman.github.io-ee7e4a65aa78.png",
-                  "imageSource": "capture"
+                  "displayUrl": "zsturman.github.io/ZSDynamics-V1.1"
                 },
                 "iconUrl": "/icons/favicons/zsturman.github.io.png"
               },
@@ -257,9 +251,7 @@
                 "title": "Zachary Sturman Home",
                 "siteName": "Zsturman Github Io",
                 "hostname": "zsturman.github.io",
-                "displayUrl": "zsturman.github.io/ZSDynamics-V1.1",
-                "image": "/projects/zsdynamics_11_306aec94-4d3c-80ff-a96a-c3c51900e249/previews/zsturman.github.io-ee7e4a65aa78.png",
-                "imageSource": "capture"
+                "displayUrl": "zsturman.github.io/ZSDynamics-V1.1"
               },
               "iconUrl": "/icons/favicons/zsturman.github.io.png"
             }
@@ -284,8 +276,8 @@
                   "hostname": "zsturman.github.io",
                   "displayUrl": "zsturman.github.io/ZSDynamics-V1.0",
                   "description": "Explore my data science portfolio, showcasing projects in machine learning, data visualization, and analytics. Learn how I leverage data-driven insights to solve real-world problems.",
-                  "image": "/projects/zsdynamics_10_306aec94-4d3c-803d-8230-fe06337c4a51/previews/zsturman.github.io-a017dada2068.png",
-                  "imageSource": "capture"
+                  "image": "https://www.ZSdynamics.com/static/images/og_img.png",
+                  "imageSource": "metadata"
                 },
                 "iconUrl": "/icons/favicons/zsturman.github.io.png"
               },
@@ -306,8 +298,8 @@
                 "hostname": "zsturman.github.io",
                 "displayUrl": "zsturman.github.io/ZSDynamics-V1.0",
                 "description": "Explore my data science portfolio, showcasing projects in machine learning, data visualization, and analytics. Learn how I leverage data-driven insights to solve real-world problems.",
-                "image": "/projects/zsdynamics_10_306aec94-4d3c-803d-8230-fe06337c4a51/previews/zsturman.github.io-a017dada2068.png",
-                "imageSource": "capture"
+                "image": "https://www.ZSdynamics.com/static/images/og_img.png",
+                "imageSource": "metadata"
               },
               "iconUrl": "/icons/favicons/zsturman.github.io.png"
             }

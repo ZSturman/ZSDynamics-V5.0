@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "articles.detail",
-  "generated_at": "2026-05-18T22:57:35.231628+00:00",
+  "generated_at": "2026-05-24T01:48:18.469085+00:00",
   "data": {
     "slug": "the-wolf-project-reworking-a-real-world-project",
     "title": "The Wolf Project - Reworking a Real-World Project",
@@ -45,8 +45,8 @@
         "siteName": "Instagram",
         "hostname": "www.instagram.com",
         "displayUrl": "instagram.com/_wolf_project",
-        "description": "9,421 Followers, 56 Following, 44 Posts - See Instagram photos and videos from The Wolf Project (@_wolf_project)",
-        "image": "https://scontent-sea5-1.cdninstagram.com/v/t51.82787-19/669995688_17855811255634945_8055336562483547172_n.jpg?stp=dst-jpg_s100x100_tt6&_nc_cat=105&ccb=7-5&_nc_sid=bf7eb4&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy4xMDgwLkMzIn0%3D&_nc_ohc=rYt8Wo0X3OgQ7kNvwEUp4YU&_nc_oc=AdqH5vwT_KEMenQ4AhmqkGbsx9VHITX5saqjVhx37aRSPCzZfhG3sfqw7-DTvMP0ywVCGCNC_MWxbmGYZ1zpB7uM&_nc_zt=24&_nc_ht=scontent-sea5-1.cdninstagram.com&_nc_gid=sMoLfBx6sXv2woC1QAa1hQ&_nc_ss=7860f&oh=00_Af5eN0Uyek-H7Sg71kZG5SN_Jqzl3y66Sd0pv5TGcJzasQ&oe=6A117071"
+        "description": "9,418 Followers, 56 Following, 44 Posts - See Instagram photos and videos from The Wolf Project (@_wolf_project)",
+        "image": "https://scontent-sea5-1.cdninstagram.com/v/t51.82787-19/669995688_17855811255634945_8055336562483547172_n.jpg?stp=dst-jpg_s100x100_tt6&_nc_cat=105&ccb=7-5&_nc_sid=bf7eb4&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy4xMDgwLkMzIn0%3D&_nc_ohc=vJv9OBpYgfcQ7kNvwH2xa9k&_nc_oc=Adrr5OqVcZSsvRWHVALiS2PIXXHzKoDCgJcvLvDJe5lC4rSgcy4j7XVLlf-sd45vU0tq-Wn_zqEll35BRCKily9C&_nc_zt=24&_nc_ht=scontent-sea5-1.cdninstagram.com&_nc_gid=luuC60_82P88UaU6M8LxTw&_nc_ss=7060f&oh=00_Af5LLnQrhluf1KrSGUJl2NF5mu_HnCJiF34E5tsq-S_hmg&oe=6A184031"
       },
       {
         "url": "https://the-wolf-project-14stqkkgr-zsturmans-projects.vercel.app/",

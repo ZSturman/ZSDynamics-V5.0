@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-05-18T22:57:35.229854+00:00",
+  "generated_at": "2026-05-24T01:48:18.468166+00:00",
   "data": {
     "id": "306aec94-4d3c-806a-b191-f329f1efc1ae",
     "slug": "drifting-priorities",
@@ -33,9 +33,9 @@
     "story": "",
     "images": {
       "thumbnail": "thumbnail.png",
+      "banner": "banner.png",
       "icon": "icon.png",
       "poster": "poster.png",
-      "banner": "banner.png",
       "hero": "hero.png"
     },
     "resources": [
