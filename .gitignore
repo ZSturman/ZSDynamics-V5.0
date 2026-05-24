@@ -64,5 +64,6 @@ public/projects/**/*.avi
 !public/projects/**/*-optimized.*
 !public/projects/**/*-thumb.*
 !public/projects/**/*-placeholder.*
+!public/projects/**/*-preview-*.jpg
 
 n8n_projects_from_notion.json
