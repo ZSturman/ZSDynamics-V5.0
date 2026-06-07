@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "articles.list",
-  "generated_at": "2026-05-24T01:48:18.468922+00:00",
+  "generated_at": "2026-06-07T21:12:51.324277+00:00",
   "data": [
     {
       "slug": "the-wolf-project-reworking-a-real-world-project",
@@ -142,7 +142,7 @@
         "Web App"
       ],
       "series": "Using Google Sheets as an Application Database",
-      "publishedAt": null,
+      "publishedAt": "2026-06-07",
       "updatedAt": "2026-04-07",
       "href": "/articles/building-a-desktop-app-around-google-sheets",
       "sourceUrl": "https://github.com/ZSturman/Articles/blob/main/articles/building-a-desktop-app-around-google-sheets/index.md",

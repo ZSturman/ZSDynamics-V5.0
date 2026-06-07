@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-05-24T01:48:18.467931+00:00",
+  "generated_at": "2026-06-07T21:12:51.323339+00:00",
   "data": {
     "id": "306aec94-4d3c-801d-b601-cb6d0de3219e",
     "slug": "mind-adrift",
@@ -53,7 +53,7 @@
         "id": "339aec94-4d3c-804c-8243-fbc0df8b678e",
         "title": "Created new project entry for Mind Adrift",
         "entry": "Created new project entry for Mind Adrift",
-        "url": "https://www.notion.so/Created-new-project-entry-for-Mind-Adrift-339aec944d3c804c8243fbc0df8b678e",
+        "url": "https://app.notion.com/p/Created-new-project-entry-for-Mind-Adrift-339aec944d3c804c8243fbc0df8b678e",
         "startTime": "2013-09-01",
         "endTime": "2013-09-01T01:00:00.000-07:00",
         "date": "2026-04-05T04:37:00.000-07:00",

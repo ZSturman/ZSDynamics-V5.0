@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-05-24T01:48:18.468531+00:00",
+  "generated_at": "2026-06-07T21:12:51.323929+00:00",
   "data": {
     "id": "306aec94-4d3c-80a8-850e-df4dd020d452",
     "slug": "broken-time-machine",
@@ -49,7 +49,7 @@
         "id": "339aec94-4d3c-8094-9e6d-c17fa1333637",
         "title": "Created new project entry for Broken Time Machine",
         "entry": "Created new project entry for Broken Time Machine",
-        "url": "https://www.notion.so/Created-new-project-entry-for-Broken-Time-Machine-339aec944d3c80949e6dc17fa1333637",
+        "url": "https://app.notion.com/p/Created-new-project-entry-for-Broken-Time-Machine-339aec944d3c80949e6dc17fa1333637",
         "startTime": "2021-04-04",
         "endTime": "2021-04-04T01:00:00.000-07:00",
         "date": "2026-04-05T03:08:00.000-07:00",

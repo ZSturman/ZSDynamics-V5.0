@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-05-24T01:48:18.464786+00:00",
+  "generated_at": "2026-06-07T21:12:51.320089+00:00",
   "data": {
     "id": "332aec94-4d3c-80ea-8468-c3a18bc61258",
     "slug": "psyche-agent",
@@ -31,10 +31,10 @@
     "description": "",
     "story": "",
     "images": {
+      "poster": "poster.png",
+      "icon": "icon.png",
       "thumbnail": "thumbnail.png",
       "banner": "banner.png",
-      "icon": "icon.png",
-      "poster": "poster.png",
       "hero": "hero.png"
     },
     "resources": [
@@ -51,7 +51,7 @@
         "id": "339aec94-4d3c-807a-9dea-dc28a1d55383",
         "title": "Created new project entry for Psyche Agent",
         "entry": "Created new project entry for Psyche Agent",
-        "url": "https://www.notion.so/Created-new-project-entry-for-Psyche-Agent-339aec944d3c807a9deadc28a1d55383",
+        "url": "https://app.notion.com/p/Created-new-project-entry-for-Psyche-Agent-339aec944d3c807a9deadc28a1d55383",
         "startTime": "2026-03-31",
         "endTime": "2026-03-31T01:00:00.000-07:00",
         "date": "2026-04-05T04:42:00.000-07:00",

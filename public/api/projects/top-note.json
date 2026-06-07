@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-05-24T01:48:18.468411+00:00",
+  "generated_at": "2026-06-07T21:12:51.323830+00:00",
   "data": {
     "id": "306aec94-4d3c-8008-9985-d94ba1780069",
     "slug": "top-note",
@@ -37,10 +37,10 @@
     "description": "",
     "story": "",
     "images": {
+      "poster": "poster.png",
+      "icon": "TopNote AppIcon v2-watchOS-Default-1088x1088@1x.png",
       "thumbnail": "thumbnail.png",
       "banner": "banner.png",
-      "icon": "TopNote AppIcon v2-watchOS-Default-1088x1088@1x.png",
-      "poster": "poster.png",
       "hero": "hero.png"
     },
     "resources": [
@@ -63,7 +63,7 @@
         "id": "339aec94-4d3c-809c-bbbc-c398dd02d369",
         "title": "Created new project entry for Top Note",
         "entry": "Created new project entry for Top Note",
-        "url": "https://www.notion.so/Created-new-project-entry-for-Top-Note-339aec944d3c809cbbbcc398dd02d369",
+        "url": "https://app.notion.com/p/Created-new-project-entry-for-Top-Note-339aec944d3c809cbbbcc398dd02d369",
         "startTime": "2025-07-03",
         "endTime": "2025-07-03T01:00:00.000-07:00",
         "date": "2026-04-05T04:38:00.000-07:00",

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-05-24T01:48:18.462900+00:00",
+  "generated_at": "2026-06-07T21:12:51.318777+00:00",
   "data": {
     "id": "35eaec94-4d3c-809c-a0f4-ff355a7a6d21",
     "slug": "marina-departure-noaa-risk-checker",
@@ -35,9 +35,9 @@
     "description": "",
     "story": "",
     "images": {
+      "icon": "icon.png",
       "thumbnail": "thumb.png",
       "banner": "banner.png",
-      "icon": "icon.png",
       "hero": "hero.png"
     },
     "resources": [
@@ -52,8 +52,8 @@
           "hostname": "marina-departure-noaa-risk-checker.vercel.app",
           "displayUrl": "marina-departure-noaa-risk-checker.vercel.app",
           "description": "NOAA-powered go/no-go decision support for recreational boaters, charters, and marinas.",
-          "image": "https://marina-risk.example.com/opengraph-image?cd0c36d3e1d3b76c",
-          "imageSource": "metadata"
+          "image": "/projects/marina_departure_noaa_risk_checker_35eaec94-4d3c-809c-a0f4-ff355a7a6d21/previews/marina-departure-noaa-risk-checker.vercel.app-9ce9f7588d03.png",
+          "imageSource": "capture"
         }
       },
       {
@@ -69,7 +69,7 @@
         "id": "35eaec94-4d3c-8067-b8b5-dec63d3df99f",
         "title": "Complete Marina Departure NOAA Risk Checker. 'Occasional updates'",
         "entry": "Complete Marina Departure NOAA Risk Checker. 'Occasional updates'",
-        "url": "https://www.notion.so/Complete-Marina-Departure-NOAA-Risk-Checker-Occasional-updates-35eaec944d3c8067b8b5dec63d3df99f",
+        "url": "https://app.notion.com/p/Complete-Marina-Departure-NOAA-Risk-Checker-Occasional-updates-35eaec944d3c8067b8b5dec63d3df99f",
         "startTime": "2026-05-08",
         "endTime": "2026-05-08T01:00:00.000-07:00",
         "date": "2026-05-12T03:48:00.000-07:00",
@@ -85,7 +85,7 @@
         "id": "35eaec94-4d3c-8072-9b75-ef15310ba3de",
         "title": "Created new project entry for Marina Departure NOAA Risk Checker",
         "entry": "Created new project entry for Marina Departure NOAA Risk Checker",
-        "url": "https://www.notion.so/Created-new-project-entry-for-Marina-Departure-NOAA-Risk-Checker-35eaec944d3c80729b75ef15310ba3de",
+        "url": "https://app.notion.com/p/Created-new-project-entry-for-Marina-Departure-NOAA-Risk-Checker-35eaec944d3c80729b75ef15310ba3de",
         "startTime": "2026-04-30",
         "endTime": "2026-04-30T01:00:00.000-07:00",
         "date": "2026-05-12T03:48:00.000-07:00",

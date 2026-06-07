@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-05-24T01:48:18.466839+00:00",
+  "generated_at": "2026-06-07T21:12:51.322328+00:00",
   "data": {
     "id": "306aec94-4d3c-8085-a43d-f9ac3bec06ef",
     "slug": "obsidian-toolkit",
@@ -30,9 +30,9 @@
     "description": "",
     "story": "",
     "images": {
+      "poster": "poster.gif",
       "thumbnail": "thumbnail.png",
       "banner": "banner.gif",
-      "poster": "poster.gif",
       "hero": "queueExample.png"
     },
     "resources": [
@@ -49,7 +49,7 @@
         "id": "339aec94-4d3c-80f4-a5fc-da6eb64781d4",
         "title": "Created new project entry for Obsidian Toolkit",
         "entry": "Created new project entry for Obsidian Toolkit",
-        "url": "https://www.notion.so/Created-new-project-entry-for-Obsidian-Toolkit-339aec944d3c80f4a5fcda6eb64781d4",
+        "url": "https://app.notion.com/p/Created-new-project-entry-for-Obsidian-Toolkit-339aec944d3c80f4a5fcda6eb64781d4",
         "startTime": "2024-04-01",
         "endTime": "2024-04-01T01:00:00.000-07:00",
         "date": "2026-04-05T04:37:00.000-07:00",

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-05-24T01:48:18.468166+00:00",
+  "generated_at": "2026-06-07T21:12:51.323609+00:00",
   "data": {
     "id": "306aec94-4d3c-806a-b191-f329f1efc1ae",
     "slug": "drifting-priorities",
@@ -32,10 +32,10 @@
     "description": "",
     "story": "",
     "images": {
+      "poster": "poster.png",
+      "icon": "icon.png",
       "thumbnail": "thumbnail.png",
       "banner": "banner.png",
-      "icon": "icon.png",
-      "poster": "poster.png",
       "hero": "hero.png"
     },
     "resources": [
@@ -52,7 +52,7 @@
         "id": "339aec94-4d3c-80a8-ac75-c03427b3dc5b",
         "title": "Created new project entry for Drifting Priorities",
         "entry": "Created new project entry for Drifting Priorities",
-        "url": "https://www.notion.so/Created-new-project-entry-for-Drifting-Priorities-339aec944d3c80a8ac75c03427b3dc5b",
+        "url": "https://app.notion.com/p/Created-new-project-entry-for-Drifting-Priorities-339aec944d3c80a8ac75c03427b3dc5b",
         "startTime": "2023-02-09",
         "endTime": "2023-02-09T01:00:00.000-08:00",
         "date": "2026-04-05T02:53:00.000-07:00",

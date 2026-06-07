@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-05-24T01:48:18.465485+00:00",
+  "generated_at": "2026-06-07T21:12:51.320978+00:00",
   "data": {
     "id": "324aec94-4d3c-8068-a8a7-ed6d1d4d1790",
     "slug": "folio",
@@ -30,9 +30,9 @@
     "description": "",
     "story": "",
     "images": {
+      "icon": "AppIcon.png",
       "thumbnail": "thumbnail.png",
       "banner": "Concept_art_with_Logo.jpeg",
-      "icon": "AppIcon.png",
       "hero": "Ope_Hero.png"
     },
     "resources": [
@@ -49,7 +49,7 @@
         "id": "324aec94-4d3c-809d-b816-f8ac0b5e3d94",
         "title": "Consolidating Folio Versions into a Documented Project History",
         "entry": "Consolidating Folio Versions into a Documented Project History",
-        "url": "https://www.notion.so/Consolidating-Folio-Versions-into-a-Documented-Project-History-324aec944d3c809db816f8ac0b5e3d94",
+        "url": "https://app.notion.com/p/Consolidating-Folio-Versions-into-a-Documented-Project-History-324aec944d3c809db816f8ac0b5e3d94",
         "startTime": "2026-03-14T03:00:00.000-07:00",
         "endTime": "2026-03-14T07:00:00.000-07:00",
         "date": "2026-03-14T20:29:00.000-07:00",

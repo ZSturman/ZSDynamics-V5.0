@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-05-24T01:48:18.465823+00:00",
+  "generated_at": "2026-06-07T21:12:51.321344+00:00",
   "data": {
     "id": "306aec94-4d3c-80c9-a6d4-f6362f15b981",
     "slug": "mass-and-time",
@@ -34,9 +34,9 @@
     "description": "",
     "story": "",
     "images": {
+      "icon": "icon.png",
       "thumbnail": "thumbnail.png",
       "banner": "banner.png",
-      "icon": "icon.png",
       "hero": "hero.png"
     },
     "resources": [
@@ -117,7 +117,7 @@
         "id": "339aec94-4d3c-8027-bf2b-cef7b6c5d4b1",
         "title": "Created new project entry for Mass and Time",
         "entry": "Created new project entry for Mass and Time",
-        "url": "https://www.notion.so/Created-new-project-entry-for-Mass-and-Time-339aec944d3c8027bf2bcef7b6c5d4b1",
+        "url": "https://app.notion.com/p/Created-new-project-entry-for-Mass-and-Time-339aec944d3c8027bf2bcef7b6c5d4b1",
         "startTime": "2025-12-23",
         "endTime": "2025-12-23T01:00:00.000-08:00",
         "date": "2026-04-05T03:46:00.000-07:00",

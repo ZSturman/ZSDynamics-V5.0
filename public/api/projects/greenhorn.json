@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-05-24T01:48:18.467372+00:00",
+  "generated_at": "2026-06-07T21:12:51.322825+00:00",
   "data": {
     "id": "306aec94-4d3c-80b0-b478-e070bcd1d517",
     "slug": "greenhorn",
@@ -30,10 +30,10 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "thumbnail.tiff",
-      "banner": "banner.png",
+      "poster": "poster.tiff",
       "icon": "thumbnail.tiff",
-      "poster": "poster.tiff"
+      "thumbnail": "thumbnail.tiff",
+      "banner": "banner.png"
     },
     "resources": [],
     "assets": [],
@@ -43,7 +43,7 @@
         "id": "339aec94-4d3c-8009-a0c5-cc97cf61bc0e",
         "title": "Created new project entry for Greenhorn",
         "entry": "Created new project entry for Greenhorn",
-        "url": "https://www.notion.so/Created-new-project-entry-for-Greenhorn-339aec944d3c8009a0c5cc97cf61bc0e",
+        "url": "https://app.notion.com/p/Created-new-project-entry-for-Greenhorn-339aec944d3c8009a0c5cc97cf61bc0e",
         "startTime": "2017-11-21",
         "endTime": "2017-11-21T01:00:00.000-08:00",
         "date": "2026-04-05T04:37:00.000-07:00",

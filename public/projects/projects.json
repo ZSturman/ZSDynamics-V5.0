@@ -32,9 +32,9 @@
     "description": "",
     "story": "",
     "images": {
+      "icon": "icon.png",
       "thumbnail": "thumb.png",
       "banner": "banner.png",
-      "icon": "icon.png",
       "hero": "hero.png"
     },
     "resources": [
@@ -49,8 +49,8 @@
           "hostname": "marina-departure-noaa-risk-checker.vercel.app",
           "displayUrl": "marina-departure-noaa-risk-checker.vercel.app",
           "description": "NOAA-powered go/no-go decision support for recreational boaters, charters, and marinas.",
-          "image": "https://marina-risk.example.com/opengraph-image?cd0c36d3e1d3b76c",
-          "imageSource": "metadata"
+          "image": "/projects/marina_departure_noaa_risk_checker_35eaec94-4d3c-809c-a0f4-ff355a7a6d21/previews/marina-departure-noaa-risk-checker.vercel.app-9ce9f7588d03.png",
+          "imageSource": "capture"
         }
       },
       {
@@ -66,7 +66,7 @@
         "id": "35eaec94-4d3c-8067-b8b5-dec63d3df99f",
         "title": "Complete Marina Departure NOAA Risk Checker. 'Occasional updates'",
         "entry": "Complete Marina Departure NOAA Risk Checker. 'Occasional updates'",
-        "url": "https://www.notion.so/Complete-Marina-Departure-NOAA-Risk-Checker-Occasional-updates-35eaec944d3c8067b8b5dec63d3df99f",
+        "url": "https://app.notion.com/p/Complete-Marina-Departure-NOAA-Risk-Checker-Occasional-updates-35eaec944d3c8067b8b5dec63d3df99f",
         "startTime": "2026-05-08",
         "endTime": "2026-05-08T01:00:00.000-07:00",
         "date": "2026-05-12T03:48:00.000-07:00",
@@ -82,7 +82,7 @@
         "id": "35eaec94-4d3c-8072-9b75-ef15310ba3de",
         "title": "Created new project entry for Marina Departure NOAA Risk Checker",
         "entry": "Created new project entry for Marina Departure NOAA Risk Checker",
-        "url": "https://www.notion.so/Created-new-project-entry-for-Marina-Departure-NOAA-Risk-Checker-35eaec944d3c80729b75ef15310ba3de",
+        "url": "https://app.notion.com/p/Created-new-project-entry-for-Marina-Departure-NOAA-Risk-Checker-35eaec944d3c80729b75ef15310ba3de",
         "startTime": "2026-04-30",
         "endTime": "2026-04-30T01:00:00.000-07:00",
         "date": "2026-05-12T03:48:00.000-07:00",
@@ -138,9 +138,9 @@
     "description": "",
     "story": "",
     "images": {
+      "icon": "icon.png",
       "thumbnail": "thumb.png",
       "banner": "banner.png",
-      "icon": "icon.png",
       "hero": "hero.png"
     },
     "resources": [
@@ -154,7 +154,9 @@
           "siteName": "Transactions-Lmct Vercel App",
           "hostname": "transactions-lmct.vercel.app",
           "displayUrl": "transactions-lmct.vercel.app/login",
-          "description": "Track shared transactions with anyone. Record payments, settle debts, and manage balances in real time."
+          "description": "Track shared transactions with anyone. Record payments, settle debts, and manage balances in real time.",
+          "image": "/projects/transactions_35eaec94-4d3c-80bc-9273-c1403b6c02ad/previews/transactions-lmct.vercel.app-d22838da070e.png",
+          "imageSource": "capture"
         }
       },
       {
@@ -170,7 +172,7 @@
         "id": "35eaec94-4d3c-808e-8146-c56272786a89",
         "title": "Complete Transactions. 'Occasional updates'",
         "entry": "Complete Transactions. 'Occasional updates'",
-        "url": "https://www.notion.so/Complete-Transactions-Occasional-updates-35eaec944d3c808e8146c56272786a89",
+        "url": "https://app.notion.com/p/Complete-Transactions-Occasional-updates-35eaec944d3c808e8146c56272786a89",
         "startTime": "2026-05-11",
         "endTime": "2026-05-11T01:00:00.000-07:00",
         "date": "2026-05-12T02:22:00.000-07:00",
@@ -186,7 +188,7 @@
         "id": "35eaec94-4d3c-80af-ae24-d5a0bce8e7aa",
         "title": "Created new project entry for Transactions",
         "entry": "Created new project entry for Transactions",
-        "url": "https://www.notion.so/Created-new-project-entry-for-Transactions-35eaec944d3c80afae24d5a0bce8e7aa",
+        "url": "https://app.notion.com/p/Created-new-project-entry-for-Transactions-35eaec944d3c80afae24d5a0bce8e7aa",
         "startTime": "2024-08-12",
         "endTime": "2024-08-12T01:00:00.000-07:00",
         "date": "2026-05-12T02:21:00.000-07:00",
@@ -241,9 +243,9 @@
     "description": "",
     "story": "",
     "images": {
+      "icon": "icon.png",
       "thumbnail": "thumb.png",
       "banner": "banner.png",
-      "icon": "icon.png",
       "hero": "hero.png"
     },
     "resources": [
@@ -299,8 +301,8 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "Wolf-hero.webp",
       "icon": "Wolf-hero.webp",
+      "thumbnail": "Wolf-hero.webp",
       "hero": "Screenshot_2026-04-18_at_17.29.59.png"
     },
     "resources": [
@@ -315,8 +317,8 @@
           "hostname": "yourdogcanstay.com",
           "displayUrl": "yourdogcanstay.com",
           "description": "Access to Care Lifeline for families whose dog requires lifesaving medical care, but the upfront costs stand in the way.",
-          "image": "http://yourdogcanstay.com/cdn/shop/files/3AC01483-E6E2-4011-833D-F6C8714C4FDC_dfbfda84-9ef0-49a6-be7e-7f1fa826400c.png?height=628&pad_color=ffffff&v=1776093581&width=1200",
-          "imageSource": "metadata"
+          "image": "/projects/the_wolf_project_346aec94-4d3c-801e-851f-c7e727f0e186/previews/yourdogcanstay.com-98da4ec0bcac.png",
+          "imageSource": "capture"
         }
       },
       {
@@ -330,8 +332,8 @@
           "hostname": "the-wolf-pack.vercel.app",
           "displayUrl": "the-wolf-pack.vercel.app",
           "description": "When treatment exists but access to care doesn't, The Wolf Project exists to help families keep dogs where they belong - at home.",
-          "image": "https://yourdogcanstay.com/assets/brand/ydcs-logo.png",
-          "imageSource": "metadata"
+          "image": "/projects/the_wolf_project_346aec94-4d3c-801e-851f-c7e727f0e186/previews/the-wolf-pack.vercel.app-23526c25a9c2.png",
+          "imageSource": "capture"
         },
         "iconUrl": "/icons/favicons/the-wolf-pack.vercel.app.ico"
       },
@@ -357,9 +359,10 @@
           "hostname": "yourdogcanstay.com",
           "displayUrl": "yourdogcanstay.com",
           "description": "Access to Care Lifeline for families whose dog requires lifesaving medical care, but the upfront costs stand in the way.",
-          "image": "http://yourdogcanstay.com/cdn/shop/files/3AC01483-E6E2-4011-833D-F6C8714C4FDC_dfbfda84-9ef0-49a6-be7e-7f1fa826400c.png?height=628&pad_color=ffffff&v=1776093581&width=1200",
-          "imageSource": "metadata"
-        }
+          "image": "/projects/the_wolf_project_346aec94-4d3c-801e-851f-c7e727f0e186/previews/yourdogcanstay.com-98da4ec0bcac.png",
+          "imageSource": "capture"
+        },
+        "thumbnail": "/projects/the_wolf_project_346aec94-4d3c-801e-851f-c7e727f0e186/previews/yourdogcanstay.com-98da4ec0bcac.png"
       },
       {
         "id": "348aec94-4d3c-800c-aaad-c539680bc5b2",
@@ -392,7 +395,7 @@
         "id": "346aec94-4d3c-80b5-8de8-df50825de900",
         "title": "Created new project entry for The Wolf Pack",
         "entry": "Created new project entry for The Wolf Pack",
-        "url": "https://www.notion.so/Created-new-project-entry-for-The-Wolf-Pack-346aec944d3c80b58de8df50825de900",
+        "url": "https://app.notion.com/p/Created-new-project-entry-for-The-Wolf-Pack-346aec944d3c80b58de8df50825de900",
         "startTime": "2026-04-17",
         "endTime": "2026-04-17T01:00:00.000-07:00",
         "date": "2026-04-18T01:51:00.000-07:00",
@@ -459,9 +462,9 @@
     "description": "",
     "story": "",
     "images": {
+      "icon": "icon.png",
       "thumbnail": "thumb.png",
       "banner": "banner.png",
-      "icon": "icon.png",
       "hero": "hero.png"
     },
     "resources": [
@@ -478,7 +481,7 @@
         "id": "34faec94-4d3c-80c1-98c7-c494b86f85a9",
         "title": "Created new project entry for Google Sheets Production Schedule Desktop App",
         "entry": "Created new project entry for Google Sheets Production Schedule Desktop App",
-        "url": "https://www.notion.so/Created-new-project-entry-for-Google-Sheets-Production-Schedule-Desktop-App-34faec944d3c80c198c7c494b86f85a9",
+        "url": "https://app.notion.com/p/Created-new-project-entry-for-Google-Sheets-Production-Schedule-Desktop-App-34faec944d3c80c198c7c494b86f85a9",
         "startTime": "2024-11-30",
         "endTime": "2024-11-30T01:00:00.000-08:00",
         "date": "2026-04-27T02:23:00.000-07:00",
@@ -497,7 +500,7 @@
         "id": "34faec94-4d3c-8094-bfa3-c742c549c04d",
         "title": "Project Completed",
         "entry": "Project Completed",
-        "url": "https://www.notion.so/Project-Completed-34faec944d3c8094bfa3c742c549c04d",
+        "url": "https://app.notion.com/p/Project-Completed-34faec944d3c8094bfa3c742c549c04d",
         "startTime": "2024-07-03",
         "endTime": "2024-07-03T14:23:00.000-07:00",
         "date": "2026-04-27T02:23:00.000-07:00",
@@ -602,10 +605,10 @@
     "description": "",
     "story": "",
     "images": {
+      "poster": "poster.png",
+      "icon": "icon.png",
       "thumbnail": "thumbnail.png",
       "banner": "banner.png",
-      "icon": "icon.png",
-      "poster": "poster.png",
       "hero": "hero.png"
     },
     "resources": [
@@ -622,7 +625,7 @@
         "id": "339aec94-4d3c-800c-82b4-dfe7c5f9ce11",
         "title": "Created new project entry for Media Organizer",
         "entry": "Created new project entry for Media Organizer",
-        "url": "https://www.notion.so/Created-new-project-entry-for-Media-Organizer-339aec944d3c800c82b4dfe7c5f9ce11",
+        "url": "https://app.notion.com/p/Created-new-project-entry-for-Media-Organizer-339aec944d3c800c82b4dfe7c5f9ce11",
         "startTime": "2026-04-03",
         "endTime": "2026-04-03T01:00:00.000-07:00",
         "date": "2026-04-05T03:18:00.000-07:00",
@@ -675,9 +678,9 @@
     "description": "",
     "story": "",
     "images": {
+      "poster": "poster.png",
       "thumbnail": "thumbnail.png",
       "banner": "banner.png",
-      "poster": "poster.png",
       "hero": "hero.png"
     },
     "resources": [],
@@ -688,7 +691,7 @@
         "id": "339aec94-4d3c-80a3-b0d2-d94c15a97f7f",
         "title": "Created new project entry for Democracy in the 21st Century",
         "entry": "Created new project entry for Democracy in the 21st Century",
-        "url": "https://www.notion.so/Created-new-project-entry-for-Democracy-in-the-21st-Century-339aec944d3c80a3b0d2d94c15a97f7f",
+        "url": "https://app.notion.com/p/Created-new-project-entry-for-Democracy-in-the-21st-Century-339aec944d3c80a3b0d2d94c15a97f7f",
         "startTime": "2024-08-27",
         "endTime": "2024-08-27T01:00:00.000-07:00",
         "date": "2026-04-05T03:13:00.000-07:00",
@@ -738,10 +741,10 @@
     "description": "",
     "story": "",
     "images": {
+      "poster": "poster.png",
+      "icon": "icon.png",
       "thumbnail": "thumbnail.png",
       "banner": "banner.png",
-      "icon": "icon.png",
-      "poster": "poster.png",
       "hero": "hero.png"
     },
     "resources": [
@@ -758,7 +761,7 @@
         "id": "339aec94-4d3c-80e1-9dff-c8b447537fab",
         "title": "Created new project entry for Testing Traits",
         "entry": "Created new project entry for Testing Traits",
-        "url": "https://www.notion.so/Created-new-project-entry-for-Testing-Traits-339aec944d3c80e19dffc8b447537fab",
+        "url": "https://app.notion.com/p/Created-new-project-entry-for-Testing-Traits-339aec944d3c80e19dffc8b447537fab",
         "startTime": "2022-12-28",
         "endTime": "2022-12-28T01:00:00.000-08:00",
         "date": "2026-04-05T03:26:00.000-07:00",
@@ -810,10 +813,10 @@
     "description": "",
     "story": "",
     "images": {
+      "poster": "poster.png",
+      "icon": "icon.png",
       "thumbnail": "thumbnail.png",
       "banner": "banner.png",
-      "icon": "icon.png",
-      "poster": "poster.png",
       "hero": "hero.png"
     },
     "resources": [
@@ -830,7 +833,7 @@
         "id": "339aec94-4d3c-807a-9dea-dc28a1d55383",
         "title": "Created new project entry for Psyche Agent",
         "entry": "Created new project entry for Psyche Agent",
-        "url": "https://www.notion.so/Created-new-project-entry-for-Psyche-Agent-339aec944d3c807a9deadc28a1d55383",
+        "url": "https://app.notion.com/p/Created-new-project-entry-for-Psyche-Agent-339aec944d3c807a9deadc28a1d55383",
         "startTime": "2026-03-31",
         "endTime": "2026-03-31T01:00:00.000-07:00",
         "date": "2026-04-05T04:42:00.000-07:00",
@@ -902,7 +905,7 @@
         "id": "339aec94-4d3c-8051-a421-f5ee1d30594a",
         "title": "Created new project entry for Bias Detecting AI",
         "entry": "Created new project entry for Bias Detecting AI",
-        "url": "https://www.notion.so/Created-new-project-entry-for-Bias-Detecting-AI-339aec944d3c8051a421f5ee1d30594a",
+        "url": "https://app.notion.com/p/Created-new-project-entry-for-Bias-Detecting-AI-339aec944d3c8051a421f5ee1d30594a",
         "startTime": "2025-09-16T16:35:00.000-07:00",
         "endTime": "2025-09-16T17:35:00.000-07:00",
         "date": "2026-04-04T17:35:00.000-07:00",
@@ -957,9 +960,9 @@
     "description": "",
     "story": "",
     "images": {
+      "icon": "icon.png",
       "thumbnail": "thumbnail.png",
       "banner": "banner.png",
-      "icon": "icon.png",
       "hero": "hero.png"
     },
     "resources": [
@@ -976,7 +979,7 @@
         "id": "339aec94-4d3c-8088-a5e1-e2334247b0de",
         "title": "Created new project entry for Train of Thought Agent",
         "entry": "Created new project entry for Train of Thought Agent",
-        "url": "https://www.notion.so/Created-new-project-entry-for-Train-of-Thought-Agent-339aec944d3c8088a5e1e2334247b0de",
+        "url": "https://app.notion.com/p/Created-new-project-entry-for-Train-of-Thought-Agent-339aec944d3c8088a5e1e2334247b0de",
         "startTime": "2026-03-30",
         "endTime": "2026-03-30T01:00:00.000-07:00",
         "date": "2026-04-05T02:48:00.000-07:00",
@@ -1037,9 +1040,9 @@
     "description": "",
     "story": "",
     "images": {
+      "poster": "poster.png",
       "thumbnail": "thumbnail.png",
       "banner": "banner.png",
-      "poster": "poster.png",
       "hero": "hero.png"
     },
     "resources": [
@@ -1056,7 +1059,7 @@
         "id": "339aec94-4d3c-80d3-9a8b-ec1e096ea00e",
         "title": "Created new project entry for Math and Happiness",
         "entry": "Created new project entry for Math and Happiness",
-        "url": "https://www.notion.so/Created-new-project-entry-for-Math-and-Happiness-339aec944d3c80d39a8bec1e096ea00e",
+        "url": "https://app.notion.com/p/Created-new-project-entry-for-Math-and-Happiness-339aec944d3c80d39a8bec1e096ea00e",
         "startTime": "2023-07-21",
         "endTime": "2023-07-21T01:00:00.000-07:00",
         "date": "2026-04-05T03:04:00.000-07:00",
@@ -1110,9 +1113,9 @@
     "description": "",
     "story": "",
     "images": {
+      "icon": "icon.png",
       "thumbnail": "thumbnail.png",
       "banner": "banner.png",
-      "icon": "icon.png",
       "hero": "hero.png"
     },
     "resources": [
@@ -1129,7 +1132,7 @@
         "id": "32eaec94-4d3c-8097-8c33-f093879d5316",
         "title": "Created new project entry for Runtime Storyboard Debugger",
         "entry": "Created new project entry for Runtime Storyboard Debugger",
-        "url": "https://www.notion.so/Created-new-project-entry-for-Runtime-Storyboard-Debugger-32eaec944d3c80978c33f093879d5316",
+        "url": "https://app.notion.com/p/Created-new-project-entry-for-Runtime-Storyboard-Debugger-32eaec944d3c80978c33f093879d5316",
         "startTime": "2026-03-25T15:08:00.000-07:00",
         "endTime": "2026-03-25T16:08:00.000-07:00",
         "date": "2026-03-25T16:08:00.000-07:00",
@@ -1180,9 +1183,9 @@
     "description": "",
     "story": "",
     "images": {
+      "icon": "AppIcon.png",
       "thumbnail": "thumbnail.png",
       "banner": "Concept_art_with_Logo.jpeg",
-      "icon": "AppIcon.png",
       "hero": "Ope_Hero.png"
     },
     "resources": [
@@ -1199,7 +1202,7 @@
         "id": "324aec94-4d3c-809d-b816-f8ac0b5e3d94",
         "title": "Consolidating Folio Versions into a Documented Project History",
         "entry": "Consolidating Folio Versions into a Documented Project History",
-        "url": "https://www.notion.so/Consolidating-Folio-Versions-into-a-Documented-Project-History-324aec944d3c809db816f8ac0b5e3d94",
+        "url": "https://app.notion.com/p/Consolidating-Folio-Versions-into-a-Documented-Project-History-324aec944d3c809db816f8ac0b5e3d94",
         "startTime": "2026-03-14T03:00:00.000-07:00",
         "endTime": "2026-03-14T07:00:00.000-07:00",
         "date": "2026-03-14T20:29:00.000-07:00",
@@ -1280,7 +1283,7 @@
         "id": "351aec94-4d3c-8076-a987-f095df9508a3",
         "title": "Complete Between Jobs. 'Archived'",
         "entry": "Complete Between Jobs. 'Archived'",
-        "url": "https://www.notion.so/Complete-Between-Jobs-Archived-351aec944d3c8076a987f095df9508a3",
+        "url": "https://app.notion.com/p/Complete-Between-Jobs-Archived-351aec944d3c8076a987f095df9508a3",
         "startTime": "2017-02-10",
         "endTime": "2017-02-10T01:00:00.000-08:00",
         "date": "2026-04-29T08:25:00.000-07:00",
@@ -1296,7 +1299,7 @@
         "id": "351aec94-4d3c-80e0-ba6f-d8c512768780",
         "title": "Created new project entry for Between Jobs",
         "entry": "Created new project entry for Between Jobs",
-        "url": "https://www.notion.so/Created-new-project-entry-for-Between-Jobs-351aec944d3c80e0ba6fd8c512768780",
+        "url": "https://app.notion.com/p/Created-new-project-entry-for-Between-Jobs-351aec944d3c80e0ba6fd8c512768780",
         "startTime": "2017-01-11",
         "endTime": "2017-01-11T01:00:00.000-08:00",
         "date": "2026-04-29T08:25:00.000-07:00",
@@ -1356,7 +1359,7 @@
         "id": "339aec94-4d3c-800e-8737-fa7c70fe859b",
         "title": "Created new project entry for 3D Models Collection",
         "entry": "Created new project entry for 3D Models Collection",
-        "url": "https://www.notion.so/Created-new-project-entry-for-3D-Models-Collection-339aec944d3c800e8737fa7c70fe859b",
+        "url": "https://app.notion.com/p/Created-new-project-entry-for-3D-Models-Collection-339aec944d3c800e8737fa7c70fe859b",
         "startTime": "2018-05-17",
         "endTime": "2018-05-17T01:00:00.000-07:00",
         "date": "2026-04-05T04:37:00.000-07:00",
@@ -1407,9 +1410,9 @@
     "description": "",
     "story": "",
     "images": {
+      "icon": "icon.png",
       "thumbnail": "thumbnail.png",
       "banner": "banner.png",
-      "icon": "icon.png",
       "hero": "hero.png"
     },
     "resources": [
@@ -1490,7 +1493,7 @@
         "id": "339aec94-4d3c-8027-bf2b-cef7b6c5d4b1",
         "title": "Created new project entry for Mass and Time",
         "entry": "Created new project entry for Mass and Time",
-        "url": "https://www.notion.so/Created-new-project-entry-for-Mass-and-Time-339aec944d3c8027bf2bcef7b6c5d4b1",
+        "url": "https://app.notion.com/p/Created-new-project-entry-for-Mass-and-Time-339aec944d3c8027bf2bcef7b6c5d4b1",
         "startTime": "2025-12-23",
         "endTime": "2025-12-23T01:00:00.000-08:00",
         "date": "2026-04-05T03:46:00.000-07:00",
@@ -1545,10 +1548,10 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "thumbnail.png",
-      "banner": "banner.png",
+      "poster": "poster.gif",
       "icon": "logo.png",
-      "poster": "poster.gif"
+      "thumbnail": "thumbnail.png",
+      "banner": "banner.png"
     },
     "resources": [],
     "assets": [],
@@ -1583,7 +1586,9 @@
                   "siteName": "Zsturman Github Io",
                   "hostname": "zsturman.github.io",
                   "displayUrl": "zsturman.github.io/ZSDynamics-V4.0",
-                  "description": "Cross-Platform Development | Responsive and Mobile-First User Interfaces | Scalable Backend Architectures with Robust APIs | Real-Time Data Processing"
+                  "description": "Cross-Platform Development | Responsive and Mobile-First User Interfaces | Scalable Backend Architectures with Robust APIs | Real-Time Data Processing",
+                  "image": "/projects/zsdynamics_40_306aec94-4d3c-807e-a7ef-db0aa63a2ec7/previews/zsturman.github.io-bde3e5bc6f2e.png",
+                  "imageSource": "capture"
                 },
                 "iconUrl": "/icons/favicons/zsturman.github.io.png"
               },
@@ -1603,7 +1608,9 @@
                 "siteName": "Zsturman Github Io",
                 "hostname": "zsturman.github.io",
                 "displayUrl": "zsturman.github.io/ZSDynamics-V4.0",
-                "description": "Cross-Platform Development | Responsive and Mobile-First User Interfaces | Scalable Backend Architectures with Robust APIs | Real-Time Data Processing"
+                "description": "Cross-Platform Development | Responsive and Mobile-First User Interfaces | Scalable Backend Architectures with Robust APIs | Real-Time Data Processing",
+                "image": "/projects/zsdynamics_40_306aec94-4d3c-807e-a7ef-db0aa63a2ec7/previews/zsturman.github.io-bde3e5bc6f2e.png",
+                "imageSource": "capture"
               },
               "iconUrl": "/icons/favicons/zsturman.github.io.png"
             }
@@ -1628,8 +1635,8 @@
                   "hostname": "zsturman.github.io",
                   "displayUrl": "zsturman.github.io/TowardBetter-Announcement-Page",
                   "description": "Women Deserve Better",
-                  "image": "https://zsturman.github.io/images/Sam Logo - Blush.svg",
-                  "imageSource": "metadata"
+                  "image": "/projects/towardbetterme_announcement_page_306aec94-4d3c-8064-9e5a-c59f1df02bee/previews/zsturman.github.io-9abb1d1ecb48.png",
+                  "imageSource": "capture"
                 },
                 "iconUrl": "/icons/favicons/zsturman.github.io.png"
               },
@@ -1650,8 +1657,8 @@
                 "hostname": "zsturman.github.io",
                 "displayUrl": "zsturman.github.io/TowardBetter-Announcement-Page",
                 "description": "Women Deserve Better",
-                "image": "https://zsturman.github.io/images/Sam Logo - Blush.svg",
-                "imageSource": "metadata"
+                "image": "/projects/towardbetterme_announcement_page_306aec94-4d3c-8064-9e5a-c59f1df02bee/previews/zsturman.github.io-9abb1d1ecb48.png",
+                "imageSource": "capture"
               },
               "iconUrl": "/icons/favicons/zsturman.github.io.png"
             }
@@ -1697,8 +1704,8 @@
                   "hostname": "zsturman.github.io",
                   "displayUrl": "zsturman.github.io/ZSDynamics-V2.0",
                   "description": "Explore Zachary Sturman's Software Engineering portfolio.",
-                  "image": "https://www.ZSdynamics.com/og_img.png'",
-                  "imageSource": "metadata"
+                  "image": "/projects/zsdynamics_20_306aec94-4d3c-800b-9d7d-ed0c879ab5b3/previews/zsturman.github.io-f992a52961cf.png",
+                  "imageSource": "capture"
                 },
                 "iconUrl": "/icons/favicons/zsturman.github.io.png"
               },
@@ -1719,8 +1726,8 @@
                 "hostname": "zsturman.github.io",
                 "displayUrl": "zsturman.github.io/ZSDynamics-V2.0",
                 "description": "Explore Zachary Sturman's Software Engineering portfolio.",
-                "image": "https://www.ZSdynamics.com/og_img.png'",
-                "imageSource": "metadata"
+                "image": "/projects/zsdynamics_20_306aec94-4d3c-800b-9d7d-ed0c879ab5b3/previews/zsturman.github.io-f992a52961cf.png",
+                "imageSource": "capture"
               },
               "iconUrl": "/icons/favicons/zsturman.github.io.png"
             }
@@ -1743,7 +1750,9 @@
                   "title": "Zachary Sturman Home",
                   "siteName": "Zsturman Github Io",
                   "hostname": "zsturman.github.io",
-                  "displayUrl": "zsturman.github.io/ZSDynamics-V1.1"
+                  "displayUrl": "zsturman.github.io/ZSDynamics-V1.1",
+                  "image": "/projects/zsdynamics_11_306aec94-4d3c-80ff-a96a-c3c51900e249/previews/zsturman.github.io-ee7e4a65aa78.png",
+                  "imageSource": "capture"
                 },
                 "iconUrl": "/icons/favicons/zsturman.github.io.png"
               },
@@ -1762,7 +1771,9 @@
                 "title": "Zachary Sturman Home",
                 "siteName": "Zsturman Github Io",
                 "hostname": "zsturman.github.io",
-                "displayUrl": "zsturman.github.io/ZSDynamics-V1.1"
+                "displayUrl": "zsturman.github.io/ZSDynamics-V1.1",
+                "image": "/projects/zsdynamics_11_306aec94-4d3c-80ff-a96a-c3c51900e249/previews/zsturman.github.io-ee7e4a65aa78.png",
+                "imageSource": "capture"
               },
               "iconUrl": "/icons/favicons/zsturman.github.io.png"
             }
@@ -1787,8 +1798,8 @@
                   "hostname": "zsturman.github.io",
                   "displayUrl": "zsturman.github.io/ZSDynamics-V1.0",
                   "description": "Explore my data science portfolio, showcasing projects in machine learning, data visualization, and analytics. Learn how I leverage data-driven insights to solve real-world problems.",
-                  "image": "https://www.ZSdynamics.com/static/images/og_img.png",
-                  "imageSource": "metadata"
+                  "image": "/projects/zsdynamics_10_306aec94-4d3c-803d-8230-fe06337c4a51/previews/zsturman.github.io-a017dada2068.png",
+                  "imageSource": "capture"
                 },
                 "iconUrl": "/icons/favicons/zsturman.github.io.png"
               },
@@ -1809,8 +1820,8 @@
                 "hostname": "zsturman.github.io",
                 "displayUrl": "zsturman.github.io/ZSDynamics-V1.0",
                 "description": "Explore my data science portfolio, showcasing projects in machine learning, data visualization, and analytics. Learn how I leverage data-driven insights to solve real-world problems.",
-                "image": "https://www.ZSdynamics.com/static/images/og_img.png",
-                "imageSource": "metadata"
+                "image": "/projects/zsdynamics_10_306aec94-4d3c-803d-8230-fe06337c4a51/previews/zsturman.github.io-a017dada2068.png",
+                "imageSource": "capture"
               },
               "iconUrl": "/icons/favicons/zsturman.github.io.png"
             }
@@ -1823,7 +1834,7 @@
         "id": "339aec94-4d3c-808d-a485-f7ac5875d7d3",
         "title": "Created new project entry for Frontend Collection",
         "entry": "Created new project entry for Frontend Collection",
-        "url": "https://www.notion.so/Created-new-project-entry-for-Frontend-Collection-339aec944d3c808da485f7ac5875d7d3",
+        "url": "https://app.notion.com/p/Created-new-project-entry-for-Frontend-Collection-339aec944d3c808da485f7ac5875d7d3",
         "startTime": "2020-12-01",
         "endTime": "2020-12-01T01:00:00.000-08:00",
         "date": "2026-04-05T04:37:00.000-07:00",
@@ -1874,10 +1885,10 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "thumbnail.png",
-      "banner": "banner.png",
+      "poster": "poster.png",
       "icon": "thumbnail.png",
-      "poster": "poster.png"
+      "thumbnail": "thumbnail.png",
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -1893,7 +1904,7 @@
         "id": "339aec94-4d3c-8065-b3e0-c0457622bded",
         "title": "Created new project entry for ChewSense",
         "entry": "Created new project entry for ChewSense",
-        "url": "https://www.notion.so/Created-new-project-entry-for-ChewSense-339aec944d3c8065b3e0c0457622bded",
+        "url": "https://app.notion.com/p/Created-new-project-entry-for-ChewSense-339aec944d3c8065b3e0c0457622bded",
         "startTime": "2025-10-15",
         "endTime": "2025-10-15T01:00:00.000-07:00",
         "date": "2026-04-05T04:38:00.000-07:00",
@@ -1955,9 +1966,9 @@
     "description": "",
     "story": "",
     "images": {
+      "icon": "banner.png",
       "thumbnail": "thumbnail.png",
-      "banner": "poster.png",
-      "icon": "banner.png"
+      "banner": "poster.png"
     },
     "resources": [
       {
@@ -1970,7 +1981,9 @@
           "siteName": "Zsturman Github Io",
           "hostname": "zsturman.github.io",
           "displayUrl": "zsturman.github.io/ZSDynamics-V4.0",
-          "description": "Cross-Platform Development | Responsive and Mobile-First User Interfaces | Scalable Backend Architectures with Robust APIs | Real-Time Data Processing"
+          "description": "Cross-Platform Development | Responsive and Mobile-First User Interfaces | Scalable Backend Architectures with Robust APIs | Real-Time Data Processing",
+          "image": "/projects/zsdynamics_40_306aec94-4d3c-807e-a7ef-db0aa63a2ec7/previews/zsturman.github.io-bde3e5bc6f2e.png",
+          "imageSource": "capture"
         },
         "iconUrl": "/icons/favicons/zsturman.github.io.png"
       },
@@ -1987,7 +2000,7 @@
         "id": "339aec94-4d3c-80ac-93bd-c49098345759",
         "title": "Created new project entry for ZSDynamics 4.0",
         "entry": "Created new project entry for ZSDynamics 4.0",
-        "url": "https://www.notion.so/Created-new-project-entry-for-ZSDynamics-4-0-339aec944d3c80ac93bdc49098345759",
+        "url": "https://app.notion.com/p/Created-new-project-entry-for-ZSDynamics-4-0-339aec944d3c80ac93bdc49098345759",
         "startTime": "2025-05-01",
         "endTime": "2025-05-01T01:00:00.000-07:00",
         "date": "2026-04-05T04:35:00.000-07:00",
@@ -2040,9 +2053,9 @@
     "description": "",
     "story": "",
     "images": {
+      "icon": "Celestial Hands Holding Heart.png",
       "thumbnail": "thumbnail.png",
-      "banner": "Collaborative Effort with Green Ball.png",
-      "icon": "Celestial Hands Holding Heart.png"
+      "banner": "Collaborative Effort with Green Ball.png"
     },
     "resources": [
       {
@@ -2056,8 +2069,8 @@
           "hostname": "zsturman.github.io",
           "displayUrl": "zsturman.github.io/TowardBetter-Announcement-Page",
           "description": "Women Deserve Better",
-          "image": "https://zsturman.github.io/images/Sam Logo - Blush.svg",
-          "imageSource": "metadata"
+          "image": "/projects/towardbetterme_announcement_page_306aec94-4d3c-8064-9e5a-c59f1df02bee/previews/zsturman.github.io-9abb1d1ecb48.png",
+          "imageSource": "capture"
         },
         "iconUrl": "/icons/favicons/zsturman.github.io.png"
       },
@@ -2074,7 +2087,7 @@
         "id": "339aec94-4d3c-8052-99c4-cbfc9727d649",
         "title": "Created new project entry for Towardbetter.me - Announcement Page",
         "entry": "Created new project entry for Towardbetter.me - Announcement Page",
-        "url": "https://www.notion.so/Created-new-project-entry-for-Towardbetter-me-Announcement-Page-339aec944d3c805299c4cbfc9727d649",
+        "url": "https://app.notion.com/p/Created-new-project-entry-for-Towardbetter-me-Announcement-Page-339aec944d3c805299c4cbfc9727d649",
         "startTime": "2024-11-29",
         "endTime": "2024-11-29T01:00:00.000-08:00",
         "date": "2026-04-05T04:36:00.000-07:00",
@@ -2131,10 +2144,10 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "thumbnail.png",
-      "banner": "banner.png",
+      "poster": "poster.png",
       "icon": "icon.svg",
-      "poster": "poster.png"
+      "thumbnail": "thumbnail.png",
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -2150,7 +2163,7 @@
         "id": "339aec94-4d3c-80f7-aa6a-efb006a4364a",
         "title": "Created new project entry for Lost & Hound",
         "entry": "Created new project entry for Lost & Hound",
-        "url": "https://www.notion.so/Created-new-project-entry-for-Lost-Hound-339aec944d3c80f7aa6aefb006a4364a",
+        "url": "https://app.notion.com/p/Created-new-project-entry-for-Lost-Hound-339aec944d3c80f7aa6aefb006a4364a",
         "startTime": "2024-06-01",
         "endTime": "2024-06-01T01:00:00.000-07:00",
         "date": "2026-04-05T04:37:00.000-07:00",
@@ -2201,9 +2214,9 @@
     "description": "",
     "story": "",
     "images": {
+      "poster": "poster.gif",
       "thumbnail": "thumbnail.png",
       "banner": "banner.gif",
-      "poster": "poster.gif",
       "hero": "queueExample.png"
     },
     "resources": [
@@ -2220,7 +2233,7 @@
         "id": "339aec94-4d3c-80f4-a5fc-da6eb64781d4",
         "title": "Created new project entry for Obsidian Toolkit",
         "entry": "Created new project entry for Obsidian Toolkit",
-        "url": "https://www.notion.so/Created-new-project-entry-for-Obsidian-Toolkit-339aec944d3c80f4a5fcda6eb64781d4",
+        "url": "https://app.notion.com/p/Created-new-project-entry-for-Obsidian-Toolkit-339aec944d3c80f4a5fcda6eb64781d4",
         "startTime": "2024-04-01",
         "endTime": "2024-04-01T01:00:00.000-07:00",
         "date": "2026-04-05T04:37:00.000-07:00",
@@ -2289,7 +2302,7 @@
         "id": "339aec94-4d3c-8062-9519-d6538c648d25",
         "title": "Created new project entry for ZSDynamics 3.0",
         "entry": "Created new project entry for ZSDynamics 3.0",
-        "url": "https://www.notion.so/Created-new-project-entry-for-ZSDynamics-3-0-339aec944d3c80629519d6538c648d25",
+        "url": "https://app.notion.com/p/Created-new-project-entry-for-ZSDynamics-3-0-339aec944d3c80629519d6538c648d25",
         "startTime": "2023-11-10",
         "endTime": "2023-11-10T01:00:00.000-08:00",
         "date": "2026-04-05T04:35:00.000-07:00",
@@ -2357,8 +2370,8 @@
           "hostname": "zsturman.github.io",
           "displayUrl": "zsturman.github.io/ZSDynamics-V2.0",
           "description": "Explore Zachary Sturman's Software Engineering portfolio.",
-          "image": "https://www.ZSdynamics.com/og_img.png'",
-          "imageSource": "metadata"
+          "image": "/projects/zsdynamics_20_306aec94-4d3c-800b-9d7d-ed0c879ab5b3/previews/zsturman.github.io-f992a52961cf.png",
+          "imageSource": "capture"
         },
         "iconUrl": "/icons/favicons/zsturman.github.io.png"
       },
@@ -2375,7 +2388,7 @@
         "id": "339aec94-4d3c-803f-ab98-c3c3c2ded455",
         "title": "Created new project entry for ZSDynamics 2.0",
         "entry": "Created new project entry for ZSDynamics 2.0",
-        "url": "https://www.notion.so/Created-new-project-entry-for-ZSDynamics-2-0-339aec944d3c803fab98c3c3c2ded455",
+        "url": "https://app.notion.com/p/Created-new-project-entry-for-ZSDynamics-2-0-339aec944d3c803fab98c3c3c2ded455",
         "startTime": "2022-04-10",
         "endTime": "2022-04-10T01:00:00.000-07:00",
         "date": "2026-04-05T04:36:00.000-07:00",
@@ -2436,7 +2449,9 @@
           "title": "Zachary Sturman Home",
           "siteName": "Zsturman Github Io",
           "hostname": "zsturman.github.io",
-          "displayUrl": "zsturman.github.io/ZSDynamics-V1.1"
+          "displayUrl": "zsturman.github.io/ZSDynamics-V1.1",
+          "image": "/projects/zsdynamics_11_306aec94-4d3c-80ff-a96a-c3c51900e249/previews/zsturman.github.io-ee7e4a65aa78.png",
+          "imageSource": "capture"
         },
         "iconUrl": "/icons/favicons/zsturman.github.io.png"
       },
@@ -2453,7 +2468,7 @@
         "id": "339aec94-4d3c-802c-a489-c5461b195777",
         "title": "Created new project entry for ZSDynamics 1.1",
         "entry": "Created new project entry for ZSDynamics 1.1",
-        "url": "https://www.notion.so/Created-new-project-entry-for-ZSDynamics-1-1-339aec944d3c802ca489c5461b195777",
+        "url": "https://app.notion.com/p/Created-new-project-entry-for-ZSDynamics-1-1-339aec944d3c802ca489c5461b195777",
         "startTime": "2021-07-10",
         "endTime": "2021-07-10T01:00:00.000-07:00",
         "date": "2026-04-05T04:36:00.000-07:00",
@@ -2504,10 +2519,10 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "thumbnail.tiff",
-      "banner": "banner.png",
+      "poster": "poster.tiff",
       "icon": "thumbnail.tiff",
-      "poster": "poster.tiff"
+      "thumbnail": "thumbnail.tiff",
+      "banner": "banner.png"
     },
     "resources": [],
     "assets": [],
@@ -2517,7 +2532,7 @@
         "id": "339aec94-4d3c-8009-a0c5-cc97cf61bc0e",
         "title": "Created new project entry for Greenhorn",
         "entry": "Created new project entry for Greenhorn",
-        "url": "https://www.notion.so/Created-new-project-entry-for-Greenhorn-339aec944d3c8009a0c5cc97cf61bc0e",
+        "url": "https://app.notion.com/p/Created-new-project-entry-for-Greenhorn-339aec944d3c8009a0c5cc97cf61bc0e",
         "startTime": "2017-11-21",
         "endTime": "2017-11-21T01:00:00.000-08:00",
         "date": "2026-04-05T04:37:00.000-07:00",
@@ -2565,9 +2580,9 @@
     "description": "",
     "story": "",
     "images": {
+      "icon": "poster.png",
       "thumbnail": "thumbnail.png",
-      "banner": "banner.png",
-      "icon": "poster.png"
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -2581,8 +2596,8 @@
           "hostname": "zsturman.github.io",
           "displayUrl": "zsturman.github.io/ZSDynamics-V1.0",
           "description": "Explore my data science portfolio, showcasing projects in machine learning, data visualization, and analytics. Learn how I leverage data-driven insights to solve real-world problems.",
-          "image": "https://www.ZSdynamics.com/static/images/og_img.png",
-          "imageSource": "metadata"
+          "image": "/projects/zsdynamics_10_306aec94-4d3c-803d-8230-fe06337c4a51/previews/zsturman.github.io-a017dada2068.png",
+          "imageSource": "capture"
         },
         "iconUrl": "/icons/favicons/zsturman.github.io.png"
       },
@@ -2599,7 +2614,7 @@
         "id": "339aec94-4d3c-8066-921c-c4647da281a9",
         "title": "Created new project entry for ZSDynamics 1.0",
         "entry": "Created new project entry for ZSDynamics 1.0",
-        "url": "https://www.notion.so/Created-new-project-entry-for-ZSDynamics-1-0-339aec944d3c8066921cc4647da281a9",
+        "url": "https://app.notion.com/p/Created-new-project-entry-for-ZSDynamics-1-0-339aec944d3c8066921cc4647da281a9",
         "startTime": "2020-12-01",
         "endTime": "2020-12-01T01:00:00.000-08:00",
         "date": "2026-04-05T04:36:00.000-07:00",
@@ -2649,9 +2664,9 @@
     "description": "",
     "story": "",
     "images": {
+      "icon": "icon.png",
       "thumbnail": "collection thumbnail.png",
-      "banner": "banner.png",
-      "icon": "icon.png"
+      "banner": "banner.png"
     },
     "resources": [],
     "assets": [],
@@ -2756,7 +2771,7 @@
         "id": "339aec94-4d3c-80ec-97ec-c3462692d599",
         "title": "Created new project entry for Animation Collection",
         "entry": "Created new project entry for Animation Collection",
-        "url": "https://www.notion.so/Created-new-project-entry-for-Animation-Collection-339aec944d3c80ec97ecc3462692d599",
+        "url": "https://app.notion.com/p/Created-new-project-entry-for-Animation-Collection-339aec944d3c80ec97ecc3462692d599",
         "startTime": "2020-12-28",
         "endTime": "2020-12-28T01:00:00.000-08:00",
         "date": "2026-04-05T04:37:00.000-07:00",
@@ -2805,9 +2820,9 @@
     "description": "",
     "story": "",
     "images": {
+      "icon": "banner.png",
       "thumbnail": "thumbnail.png",
-      "banner": "banner.png",
-      "icon": "banner.png"
+      "banner": "banner.png"
     },
     "resources": [],
     "assets": [],
@@ -3028,7 +3043,7 @@
         "id": "339aec94-4d3c-801c-badd-d27ca652cf0b",
         "title": "Created new project entry for History of Everything Coloring Book",
         "entry": "Created new project entry for History of Everything Coloring Book",
-        "url": "https://www.notion.so/Created-new-project-entry-for-History-of-Everything-Coloring-Book-339aec944d3c801cbaddd27ca652cf0b",
+        "url": "https://app.notion.com/p/Created-new-project-entry-for-History-of-Everything-Coloring-Book-339aec944d3c801cbaddd27ca652cf0b",
         "startTime": "2019-09-17",
         "endTime": "2019-09-17T01:00:00.000-07:00",
         "date": "2026-04-05T04:37:00.000-07:00",
@@ -3098,7 +3113,7 @@
         "id": "339aec94-4d3c-804c-8243-fbc0df8b678e",
         "title": "Created new project entry for Mind Adrift",
         "entry": "Created new project entry for Mind Adrift",
-        "url": "https://www.notion.so/Created-new-project-entry-for-Mind-Adrift-339aec944d3c804c8243fbc0df8b678e",
+        "url": "https://app.notion.com/p/Created-new-project-entry-for-Mind-Adrift-339aec944d3c804c8243fbc0df8b678e",
         "startTime": "2013-09-01",
         "endTime": "2013-09-01T01:00:00.000-07:00",
         "date": "2026-04-05T04:37:00.000-07:00",
@@ -3148,9 +3163,9 @@
     "description": "",
     "story": "",
     "images": {
+      "icon": "thumbnail.png",
       "thumbnail": "thumbnail.png",
-      "banner": "banner.png",
-      "icon": "thumbnail.png"
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -3166,7 +3181,7 @@
         "id": "339aec94-4d3c-8083-bc02-f2cedc4a098d",
         "title": "Created new project entry for MediLedger",
         "entry": "Created new project entry for MediLedger",
-        "url": "https://www.notion.so/Created-new-project-entry-for-MediLedger-339aec944d3c8083bc02f2cedc4a098d",
+        "url": "https://app.notion.com/p/Created-new-project-entry-for-MediLedger-339aec944d3c8083bc02f2cedc4a098d",
         "startTime": "2025-08-06",
         "endTime": "2025-08-06T01:00:00.000-07:00",
         "date": "2026-04-05T04:37:00.000-07:00",
@@ -3219,10 +3234,10 @@
     "description": "",
     "story": "",
     "images": {
+      "poster": "poster.png",
+      "icon": "icon.png",
       "thumbnail": "thumbnail.png",
       "banner": "banner.png",
-      "icon": "icon.png",
-      "poster": "poster.png",
       "hero": "hero.png"
     },
     "resources": [
@@ -3239,7 +3254,7 @@
         "id": "339aec94-4d3c-80a8-ac75-c03427b3dc5b",
         "title": "Created new project entry for Drifting Priorities",
         "entry": "Created new project entry for Drifting Priorities",
-        "url": "https://www.notion.so/Created-new-project-entry-for-Drifting-Priorities-339aec944d3c80a8ac75c03427b3dc5b",
+        "url": "https://app.notion.com/p/Created-new-project-entry-for-Drifting-Priorities-339aec944d3c80a8ac75c03427b3dc5b",
         "startTime": "2023-02-09",
         "endTime": "2023-02-09T01:00:00.000-08:00",
         "date": "2026-04-05T02:53:00.000-07:00",
@@ -3302,7 +3317,7 @@
         "id": "339aec94-4d3c-8051-9f86-e1373b244c9b",
         "title": "Created new project entry for Timeline 7",
         "entry": "Created new project entry for Timeline 7",
-        "url": "https://www.notion.so/Created-new-project-entry-for-Timeline-7-339aec944d3c80519f86e1373b244c9b",
+        "url": "https://app.notion.com/p/Created-new-project-entry-for-Timeline-7-339aec944d3c80519f86e1373b244c9b",
         "startTime": "2014-12-01",
         "endTime": "2014-12-01T01:00:00.000-08:00",
         "date": "2026-04-05T04:36:00.000-07:00",
@@ -3356,10 +3371,10 @@
     "description": "",
     "story": "",
     "images": {
+      "poster": "poster.png",
+      "icon": "TopNote AppIcon v2-watchOS-Default-1088x1088@1x.png",
       "thumbnail": "thumbnail.png",
       "banner": "banner.png",
-      "icon": "TopNote AppIcon v2-watchOS-Default-1088x1088@1x.png",
-      "poster": "poster.png",
       "hero": "hero.png"
     },
     "resources": [
@@ -3382,7 +3397,7 @@
         "id": "339aec94-4d3c-809c-bbbc-c398dd02d369",
         "title": "Created new project entry for Top Note",
         "entry": "Created new project entry for Top Note",
-        "url": "https://www.notion.so/Created-new-project-entry-for-Top-Note-339aec944d3c809cbbbcc398dd02d369",
+        "url": "https://app.notion.com/p/Created-new-project-entry-for-Top-Note-339aec944d3c809cbbbcc398dd02d369",
         "startTime": "2025-07-03",
         "endTime": "2025-07-03T01:00:00.000-07:00",
         "date": "2026-04-05T04:38:00.000-07:00",
@@ -3452,7 +3467,7 @@
         "id": "339aec94-4d3c-8094-9e6d-c17fa1333637",
         "title": "Created new project entry for Broken Time Machine",
         "entry": "Created new project entry for Broken Time Machine",
-        "url": "https://www.notion.so/Created-new-project-entry-for-Broken-Time-Machine-339aec944d3c80949e6dc17fa1333637",
+        "url": "https://app.notion.com/p/Created-new-project-entry-for-Broken-Time-Machine-339aec944d3c80949e6dc17fa1333637",
         "startTime": "2021-04-04",
         "endTime": "2021-04-04T01:00:00.000-07:00",
         "date": "2026-04-05T03:08:00.000-07:00",
@@ -3520,7 +3535,7 @@
         "id": "339aec94-4d3c-8068-b38f-f333edb8f183",
         "title": "Created new project entry for Episodic Memory Agent",
         "entry": "Created new project entry for Episodic Memory Agent",
-        "url": "https://www.notion.so/Created-new-project-entry-for-Episodic-Memory-Agent-339aec944d3c8068b38ff333edb8f183",
+        "url": "https://app.notion.com/p/Created-new-project-entry-for-Episodic-Memory-Agent-339aec944d3c8068b38ff333edb8f183",
         "startTime": "2026-01-18",
         "endTime": "2026-01-18T01:00:00.000-08:00",
         "date": "2026-04-05T04:37:00.000-07:00",
@@ -3586,9 +3601,9 @@
     "description": "",
     "story": "",
     "images": {
+      "icon": "icon.png",
       "thumbnail": "thumbnail.png",
       "banner": "banner.png",
-      "icon": "icon.png",
       "hero": "hero.png"
     },
     "resources": [],
@@ -3599,7 +3614,7 @@
         "id": "307aec94-4d3c-800e-81e4-e1756a399666",
         "title": "Built Test DB design for easier ingest of projects",
         "entry": "Built Test DB design for easier ingest of projects",
-        "url": "https://www.notion.so/Built-Test-DB-design-for-easier-ingest-of-projects-307aec944d3c800e81e4e1756a399666",
+        "url": "https://app.notion.com/p/Built-Test-DB-design-for-easier-ingest-of-projects-307aec944d3c800e81e4e1756a399666",
         "startTime": "2026-03-22T09:00:00.000-07:00",
         "endTime": "2026-03-22T11:30:00.000-07:00",
         "date": "2026-02-14T08:36:00.000-08:00",
@@ -3620,7 +3635,7 @@
         "id": "308aec94-4d3c-8038-802e-d88105de0427",
         "title": "Focused on getting n8n automation to work with notion",
         "entry": "Focused on getting n8n automation to work with notion",
-        "url": "https://www.notion.so/Focused-on-getting-n8n-automation-to-work-with-notion-308aec944d3c8038802ed88105de0427",
+        "url": "https://app.notion.com/p/Focused-on-getting-n8n-automation-to-work-with-notion-308aec944d3c8038802ed88105de0427",
         "startTime": "2026-03-21T17:00:00.000-07:00",
         "endTime": "2026-03-21T21:00:00.000-07:00",
         "date": "2026-02-15T09:36:00.000-08:00",
@@ -3639,7 +3654,7 @@
         "id": "306aec94-4d3c-807c-9a2e-d09d20b60275",
         "title": "Organized notes and created Dashboard system",
         "entry": "Organized notes and created Dashboard system",
-        "url": "https://www.notion.so/Organized-notes-and-created-Dashboard-system-306aec944d3c807c9a2ed09d20b60275",
+        "url": "https://app.notion.com/p/Organized-notes-and-created-Dashboard-system-306aec944d3c807c9a2ed09d20b60275",
         "startTime": "2026-03-19T09:00:00.000-07:00",
         "endTime": "2026-03-19T10:00:00.000-07:00",
         "date": "2026-02-13",
@@ -3657,7 +3672,7 @@
         "id": "30aaec94-4d3c-8056-bfda-ed4b11e44ddc",
         "title": "Designing the Notion–n8n Workflow System",
         "entry": "Designing the Notion–n8n Workflow System",
-        "url": "https://www.notion.so/Designing-the-Notion-n8n-Workflow-System-30aaec944d3c8056bfdaed4b11e44ddc",
+        "url": "https://app.notion.com/p/Designing-the-Notion-n8n-Workflow-System-30aaec944d3c8056bfdaed4b11e44ddc",
         "startTime": "2026-03-12T06:00:00.000-07:00",
         "endTime": "2026-03-12T09:00:00.000-07:00",
         "date": "2026-02-17T09:13:00.000-08:00",
@@ -3678,7 +3693,7 @@
         "id": "30caec94-4d3c-800c-96ef-e94a94bad09a",
         "title": "Created full automation and ingest system with project addition in Notion and n8n",
         "entry": "Created full automation and ingest system with project addition in Notion and n8n",
-        "url": "https://www.notion.so/Created-full-automation-and-ingest-system-with-project-addition-in-Notion-and-n8n-30caec944d3c800c96efe94a94bad09a",
+        "url": "https://app.notion.com/p/Created-full-automation-and-ingest-system-with-project-addition-in-Notion-and-n8n-30caec944d3c800c96efe94a94bad09a",
         "startTime": "2026-03-11T06:00:00.000-07:00",
         "endTime": "2026-03-11T11:00:00.000-07:00",
         "date": "2026-02-18T18:54:00.000-08:00",
@@ -3699,7 +3714,7 @@
         "id": "30aaec94-4d3c-80cd-839b-cc963a276876",
         "title": "Building n8n Automations and a Notion Dashboard",
         "entry": "Building n8n Automations and a Notion Dashboard",
-        "url": "https://www.notion.so/Building-n8n-Automations-and-a-Notion-Dashboard-30aaec944d3c80cd839bcc963a276876",
+        "url": "https://app.notion.com/p/Building-n8n-Automations-and-a-Notion-Dashboard-30aaec944d3c80cd839bcc963a276876",
         "startTime": "2026-03-10T02:00:00.000-07:00",
         "endTime": "2026-03-10T10:00:00.000-07:00",
         "date": "2026-02-16T19:38:00.000-08:00",
@@ -3717,7 +3732,7 @@
         "id": "309aec94-4d3c-80c2-a8dd-f4d35d94fcd4",
         "title": "Created automation for tasks and subtasks using n8n",
         "entry": "Created automation for tasks and subtasks using n8n",
-        "url": "https://www.notion.so/Created-automation-for-tasks-and-subtasks-using-n8n-309aec944d3c80c2a8ddf4d35d94fcd4",
+        "url": "https://app.notion.com/p/Created-automation-for-tasks-and-subtasks-using-n8n-309aec944d3c80c2a8ddf4d35d94fcd4",
         "startTime": "2026-03-08T08:00:00.000-07:00",
         "endTime": "2026-03-08T10:00:00.000-07:00",
         "date": "2026-02-16T08:00:00.000-08:00",
@@ -3735,7 +3750,7 @@
         "id": "306aec94-4d3c-800a-87d7-ce6fc1b59ba4",
         "title": "Added tables to notion",
         "entry": "Added tables to notion",
-        "url": "https://www.notion.so/Added-tables-to-notion-306aec944d3c800a87d7ce6fc1b59ba4",
+        "url": "https://app.notion.com/p/Added-tables-to-notion-306aec944d3c800a87d7ce6fc1b59ba4",
         "startTime": "2026-02-28T09:00:00.000-08:00",
         "endTime": "2026-02-28T13:00:00.000-08:00",
         "date": "2026-02-13",
@@ -3754,7 +3769,7 @@
         "id": "314aec94-4d3c-80c6-827f-c087302ac41c",
         "title": "Implemented full automation with n8n, Notion and linear",
         "entry": "Implemented full automation with n8n, Notion and linear",
-        "url": "https://www.notion.so/Implemented-full-automation-with-n8n-Notion-and-linear-314aec944d3c80c6827fc087302ac41c",
+        "url": "https://app.notion.com/p/Implemented-full-automation-with-n8n-Notion-and-linear-314aec944d3c80c6827fc087302ac41c",
         "startTime": "2026-02-26T06:00:00.000-08:00",
         "endTime": "2026-02-26T22:00:00.000-08:00",
         "date": "2026-02-27T01:01:00.000-08:00",
@@ -3774,7 +3789,7 @@
         "id": "310aec94-4d3c-809a-a4e0-d5a3dac0c67f",
         "title": "Created full work flow for Notion tasks, projects and milestones",
         "entry": "Created full work flow for Notion tasks, projects and milestones",
-        "url": "https://www.notion.so/Created-full-work-flow-for-Notion-tasks-projects-and-milestones-310aec944d3c809aa4e0d5a3dac0c67f",
+        "url": "https://app.notion.com/p/Created-full-work-flow-for-Notion-tasks-projects-and-milestones-310aec944d3c809aa4e0d5a3dac0c67f",
         "startTime": "2026-02-23T03:00:00.000-08:00",
         "endTime": "2026-02-23T08:00:00.000-08:00",
         "date": "2026-02-23T07:42:00.000-08:00",

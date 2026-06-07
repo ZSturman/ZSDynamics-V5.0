@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-05-24T01:48:18.463116+00:00",
+  "generated_at": "2026-06-07T21:12:51.318989+00:00",
   "data": {
     "id": "35eaec94-4d3c-80bc-9273-c1403b6c02ad",
     "slug": "transactions",
@@ -35,9 +35,9 @@
     "description": "",
     "story": "",
     "images": {
+      "icon": "icon.png",
       "thumbnail": "thumb.png",
       "banner": "banner.png",
-      "icon": "icon.png",
       "hero": "hero.png"
     },
     "resources": [
@@ -51,7 +51,9 @@
           "siteName": "Transactions-Lmct Vercel App",
           "hostname": "transactions-lmct.vercel.app",
           "displayUrl": "transactions-lmct.vercel.app/login",
-          "description": "Track shared transactions with anyone. Record payments, settle debts, and manage balances in real time."
+          "description": "Track shared transactions with anyone. Record payments, settle debts, and manage balances in real time.",
+          "image": "/projects/transactions_35eaec94-4d3c-80bc-9273-c1403b6c02ad/previews/transactions-lmct.vercel.app-d22838da070e.png",
+          "imageSource": "capture"
         }
       },
       {
@@ -67,7 +69,7 @@
         "id": "35eaec94-4d3c-808e-8146-c56272786a89",
         "title": "Complete Transactions. 'Occasional updates'",
         "entry": "Complete Transactions. 'Occasional updates'",
-        "url": "https://www.notion.so/Complete-Transactions-Occasional-updates-35eaec944d3c808e8146c56272786a89",
+        "url": "https://app.notion.com/p/Complete-Transactions-Occasional-updates-35eaec944d3c808e8146c56272786a89",
         "startTime": "2026-05-11",
         "endTime": "2026-05-11T01:00:00.000-07:00",
         "date": "2026-05-12T02:22:00.000-07:00",
@@ -83,7 +85,7 @@
         "id": "35eaec94-4d3c-80af-ae24-d5a0bce8e7aa",
         "title": "Created new project entry for Transactions",
         "entry": "Created new project entry for Transactions",
-        "url": "https://www.notion.so/Created-new-project-entry-for-Transactions-35eaec944d3c80afae24d5a0bce8e7aa",
+        "url": "https://app.notion.com/p/Created-new-project-entry-for-Transactions-35eaec944d3c80afae24d5a0bce8e7aa",
         "startTime": "2024-08-12",
         "endTime": "2024-08-12T01:00:00.000-07:00",
         "date": "2026-05-12T02:21:00.000-07:00",

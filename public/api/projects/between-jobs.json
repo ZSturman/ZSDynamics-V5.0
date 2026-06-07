@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-05-24T01:48:18.465621+00:00",
+  "generated_at": "2026-06-07T21:12:51.321117+00:00",
   "data": {
     "id": "31faec94-4d3c-80a8-9ab6-e791da057b67",
     "slug": "between-jobs",
@@ -53,7 +53,7 @@
         "id": "351aec94-4d3c-8076-a987-f095df9508a3",
         "title": "Complete Between Jobs. 'Archived'",
         "entry": "Complete Between Jobs. 'Archived'",
-        "url": "https://www.notion.so/Complete-Between-Jobs-Archived-351aec944d3c8076a987f095df9508a3",
+        "url": "https://app.notion.com/p/Complete-Between-Jobs-Archived-351aec944d3c8076a987f095df9508a3",
         "startTime": "2017-02-10",
         "endTime": "2017-02-10T01:00:00.000-08:00",
         "date": "2026-04-29T08:25:00.000-07:00",
@@ -69,7 +69,7 @@
         "id": "351aec94-4d3c-80e0-ba6f-d8c512768780",
         "title": "Created new project entry for Between Jobs",
         "entry": "Created new project entry for Between Jobs",
-        "url": "https://www.notion.so/Created-new-project-entry-for-Between-Jobs-351aec944d3c80e0ba6fd8c512768780",
+        "url": "https://app.notion.com/p/Created-new-project-entry-for-Between-Jobs-351aec944d3c80e0ba6fd8c512768780",
         "startTime": "2017-01-11",
         "endTime": "2017-01-11T01:00:00.000-08:00",
         "date": "2026-04-29T08:25:00.000-07:00",

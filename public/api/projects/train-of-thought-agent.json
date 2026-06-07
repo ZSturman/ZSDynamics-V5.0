@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-05-24T01:48:18.465046+00:00",
+  "generated_at": "2026-06-07T21:12:51.320360+00:00",
   "data": {
     "id": "332aec94-4d3c-807a-ba3b-d0950cd03a66",
     "slug": "train-of-thought-agent",
@@ -34,9 +34,9 @@
     "description": "",
     "story": "",
     "images": {
+      "icon": "icon.png",
       "thumbnail": "thumbnail.png",
       "banner": "banner.png",
-      "icon": "icon.png",
       "hero": "hero.png"
     },
     "resources": [
@@ -53,7 +53,7 @@
         "id": "339aec94-4d3c-8088-a5e1-e2334247b0de",
         "title": "Created new project entry for Train of Thought Agent",
         "entry": "Created new project entry for Train of Thought Agent",
-        "url": "https://www.notion.so/Created-new-project-entry-for-Train-of-Thought-Agent-339aec944d3c8088a5e1e2334247b0de",
+        "url": "https://app.notion.com/p/Created-new-project-entry-for-Train-of-Thought-Agent-339aec944d3c8088a5e1e2334247b0de",
         "startTime": "2026-03-30",
         "endTime": "2026-03-30T01:00:00.000-07:00",
         "date": "2026-04-05T02:48:00.000-07:00",

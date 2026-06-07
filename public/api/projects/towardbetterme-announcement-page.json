@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-05-24T01:48:18.466571+00:00",
+  "generated_at": "2026-06-07T21:12:51.322068+00:00",
   "data": {
     "id": "306aec94-4d3c-8064-9e5a-c59f1df02bee",
     "slug": "towardbetterme-announcement-page",
@@ -32,9 +32,9 @@
     "description": "",
     "story": "",
     "images": {
+      "icon": "Celestial Hands Holding Heart.png",
       "thumbnail": "thumbnail.png",
-      "banner": "Collaborative Effort with Green Ball.png",
-      "icon": "Celestial Hands Holding Heart.png"
+      "banner": "Collaborative Effort with Green Ball.png"
     },
     "resources": [
       {
@@ -48,8 +48,8 @@
           "hostname": "zsturman.github.io",
           "displayUrl": "zsturman.github.io/TowardBetter-Announcement-Page",
           "description": "Women Deserve Better",
-          "image": "https://zsturman.github.io/images/Sam Logo - Blush.svg",
-          "imageSource": "metadata"
+          "image": "/projects/towardbetterme_announcement_page_306aec94-4d3c-8064-9e5a-c59f1df02bee/previews/zsturman.github.io-9abb1d1ecb48.png",
+          "imageSource": "capture"
         },
         "iconUrl": "/icons/favicons/zsturman.github.io.png"
       },
@@ -66,7 +66,7 @@
         "id": "339aec94-4d3c-8052-99c4-cbfc9727d649",
         "title": "Created new project entry for Towardbetter.me - Announcement Page",
         "entry": "Created new project entry for Towardbetter.me - Announcement Page",
-        "url": "https://www.notion.so/Created-new-project-entry-for-Towardbetter-me-Announcement-Page-339aec944d3c805299c4cbfc9727d649",
+        "url": "https://app.notion.com/p/Created-new-project-entry-for-Towardbetter-me-Announcement-Page-339aec944d3c805299c4cbfc9727d649",
         "startTime": "2024-11-29",
         "endTime": "2024-11-29T01:00:00.000-08:00",
         "date": "2026-04-05T04:36:00.000-07:00",

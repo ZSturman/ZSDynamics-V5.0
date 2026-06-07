@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-05-24T01:48:18.468629+00:00",
+  "generated_at": "2026-06-07T21:12:51.324018+00:00",
   "data": {
     "id": "306aec94-4d3c-8005-97ab-d4572f1ab679",
     "slug": "episodic-memory-agent",
@@ -47,7 +47,7 @@
         "id": "339aec94-4d3c-8068-b38f-f333edb8f183",
         "title": "Created new project entry for Episodic Memory Agent",
         "entry": "Created new project entry for Episodic Memory Agent",
-        "url": "https://www.notion.so/Created-new-project-entry-for-Episodic-Memory-Agent-339aec944d3c8068b38ff333edb8f183",
+        "url": "https://app.notion.com/p/Created-new-project-entry-for-Episodic-Memory-Agent-339aec944d3c8068b38ff333edb8f183",
         "startTime": "2026-01-18",
         "endTime": "2026-01-18T01:00:00.000-08:00",
         "date": "2026-04-05T04:37:00.000-07:00",

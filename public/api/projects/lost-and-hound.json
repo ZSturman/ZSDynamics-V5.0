@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-05-24T01:48:18.466711+00:00",
+  "generated_at": "2026-06-07T21:12:51.322199+00:00",
   "data": {
     "id": "306aec94-4d3c-80a5-b00e-f67cc4ff5901",
     "slug": "lost-and-hound",
@@ -36,10 +36,10 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "thumbnail.png",
-      "banner": "banner.png",
+      "poster": "poster.png",
       "icon": "icon.svg",
-      "poster": "poster.png"
+      "thumbnail": "thumbnail.png",
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -55,7 +55,7 @@
         "id": "339aec94-4d3c-80f7-aa6a-efb006a4364a",
         "title": "Created new project entry for Lost & Hound",
         "entry": "Created new project entry for Lost & Hound",
-        "url": "https://www.notion.so/Created-new-project-entry-for-Lost-Hound-339aec944d3c80f7aa6aefb006a4364a",
+        "url": "https://app.notion.com/p/Created-new-project-entry-for-Lost-Hound-339aec944d3c80f7aa6aefb006a4364a",
         "startTime": "2024-06-01",
         "endTime": "2024-06-01T01:00:00.000-07:00",
         "date": "2026-04-05T04:37:00.000-07:00",

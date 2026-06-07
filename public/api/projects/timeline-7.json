@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-05-24T01:48:18.468304+00:00",
+  "generated_at": "2026-06-07T21:12:51.323737+00:00",
   "data": {
     "id": "306aec94-4d3c-805d-b085-e4252d4601b3",
     "slug": "timeline-7",
@@ -42,7 +42,7 @@
         "id": "339aec94-4d3c-8051-9f86-e1373b244c9b",
         "title": "Created new project entry for Timeline 7",
         "entry": "Created new project entry for Timeline 7",
-        "url": "https://www.notion.so/Created-new-project-entry-for-Timeline-7-339aec944d3c80519f86e1373b244c9b",
+        "url": "https://app.notion.com/p/Created-new-project-entry-for-Timeline-7-339aec944d3c80519f86e1373b244c9b",
         "startTime": "2014-12-01",
         "endTime": "2014-12-01T01:00:00.000-08:00",
         "date": "2026-04-05T04:36:00.000-07:00",

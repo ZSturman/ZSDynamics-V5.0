@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-05-24T01:48:18.465986+00:00",
+  "generated_at": "2026-06-07T21:12:51.321511+00:00",
   "data": {
     "id": "306aec94-4d3c-803b-a895-e775003b0f5d",
     "slug": "frontend-collection",
@@ -34,10 +34,10 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "thumbnail.png",
-      "banner": "banner.png",
+      "poster": "poster.gif",
       "icon": "logo.png",
-      "poster": "poster.gif"
+      "thumbnail": "thumbnail.png",
+      "banner": "banner.png"
     },
     "resources": [],
     "assets": [],
@@ -72,7 +72,9 @@
                   "siteName": "Zsturman Github Io",
                   "hostname": "zsturman.github.io",
                   "displayUrl": "zsturman.github.io/ZSDynamics-V4.0",
-                  "description": "Cross-Platform Development | Responsive and Mobile-First User Interfaces | Scalable Backend Architectures with Robust APIs | Real-Time Data Processing"
+                  "description": "Cross-Platform Development | Responsive and Mobile-First User Interfaces | Scalable Backend Architectures with Robust APIs | Real-Time Data Processing",
+                  "image": "/projects/zsdynamics_40_306aec94-4d3c-807e-a7ef-db0aa63a2ec7/previews/zsturman.github.io-bde3e5bc6f2e.png",
+                  "imageSource": "capture"
                 },
                 "iconUrl": "/icons/favicons/zsturman.github.io.png"
               },
@@ -92,7 +94,9 @@
                 "siteName": "Zsturman Github Io",
                 "hostname": "zsturman.github.io",
                 "displayUrl": "zsturman.github.io/ZSDynamics-V4.0",
-                "description": "Cross-Platform Development | Responsive and Mobile-First User Interfaces | Scalable Backend Architectures with Robust APIs | Real-Time Data Processing"
+                "description": "Cross-Platform Development | Responsive and Mobile-First User Interfaces | Scalable Backend Architectures with Robust APIs | Real-Time Data Processing",
+                "image": "/projects/zsdynamics_40_306aec94-4d3c-807e-a7ef-db0aa63a2ec7/previews/zsturman.github.io-bde3e5bc6f2e.png",
+                "imageSource": "capture"
               },
               "iconUrl": "/icons/favicons/zsturman.github.io.png"
             }
@@ -117,8 +121,8 @@
                   "hostname": "zsturman.github.io",
                   "displayUrl": "zsturman.github.io/TowardBetter-Announcement-Page",
                   "description": "Women Deserve Better",
-                  "image": "https://zsturman.github.io/images/Sam Logo - Blush.svg",
-                  "imageSource": "metadata"
+                  "image": "/projects/towardbetterme_announcement_page_306aec94-4d3c-8064-9e5a-c59f1df02bee/previews/zsturman.github.io-9abb1d1ecb48.png",
+                  "imageSource": "capture"
                 },
                 "iconUrl": "/icons/favicons/zsturman.github.io.png"
               },
@@ -139,8 +143,8 @@
                 "hostname": "zsturman.github.io",
                 "displayUrl": "zsturman.github.io/TowardBetter-Announcement-Page",
                 "description": "Women Deserve Better",
-                "image": "https://zsturman.github.io/images/Sam Logo - Blush.svg",
-                "imageSource": "metadata"
+                "image": "/projects/towardbetterme_announcement_page_306aec94-4d3c-8064-9e5a-c59f1df02bee/previews/zsturman.github.io-9abb1d1ecb48.png",
+                "imageSource": "capture"
               },
               "iconUrl": "/icons/favicons/zsturman.github.io.png"
             }
@@ -186,8 +190,8 @@
                   "hostname": "zsturman.github.io",
                   "displayUrl": "zsturman.github.io/ZSDynamics-V2.0",
                   "description": "Explore Zachary Sturman's Software Engineering portfolio.",
-                  "image": "https://www.ZSdynamics.com/og_img.png'",
-                  "imageSource": "metadata"
+                  "image": "/projects/zsdynamics_20_306aec94-4d3c-800b-9d7d-ed0c879ab5b3/previews/zsturman.github.io-f992a52961cf.png",
+                  "imageSource": "capture"
                 },
                 "iconUrl": "/icons/favicons/zsturman.github.io.png"
               },
@@ -208,8 +212,8 @@
                 "hostname": "zsturman.github.io",
                 "displayUrl": "zsturman.github.io/ZSDynamics-V2.0",
                 "description": "Explore Zachary Sturman's Software Engineering portfolio.",
-                "image": "https://www.ZSdynamics.com/og_img.png'",
-                "imageSource": "metadata"
+                "image": "/projects/zsdynamics_20_306aec94-4d3c-800b-9d7d-ed0c879ab5b3/previews/zsturman.github.io-f992a52961cf.png",
+                "imageSource": "capture"
               },
               "iconUrl": "/icons/favicons/zsturman.github.io.png"
             }
@@ -232,7 +236,9 @@
                   "title": "Zachary Sturman Home",
                   "siteName": "Zsturman Github Io",
                   "hostname": "zsturman.github.io",
-                  "displayUrl": "zsturman.github.io/ZSDynamics-V1.1"
+                  "displayUrl": "zsturman.github.io/ZSDynamics-V1.1",
+                  "image": "/projects/zsdynamics_11_306aec94-4d3c-80ff-a96a-c3c51900e249/previews/zsturman.github.io-ee7e4a65aa78.png",
+                  "imageSource": "capture"
                 },
                 "iconUrl": "/icons/favicons/zsturman.github.io.png"
               },
@@ -251,7 +257,9 @@
                 "title": "Zachary Sturman Home",
                 "siteName": "Zsturman Github Io",
                 "hostname": "zsturman.github.io",
-                "displayUrl": "zsturman.github.io/ZSDynamics-V1.1"
+                "displayUrl": "zsturman.github.io/ZSDynamics-V1.1",
+                "image": "/projects/zsdynamics_11_306aec94-4d3c-80ff-a96a-c3c51900e249/previews/zsturman.github.io-ee7e4a65aa78.png",
+                "imageSource": "capture"
               },
               "iconUrl": "/icons/favicons/zsturman.github.io.png"
             }
@@ -276,8 +284,8 @@
                   "hostname": "zsturman.github.io",
                   "displayUrl": "zsturman.github.io/ZSDynamics-V1.0",
                   "description": "Explore my data science portfolio, showcasing projects in machine learning, data visualization, and analytics. Learn how I leverage data-driven insights to solve real-world problems.",
-                  "image": "https://www.ZSdynamics.com/static/images/og_img.png",
-                  "imageSource": "metadata"
+                  "image": "/projects/zsdynamics_10_306aec94-4d3c-803d-8230-fe06337c4a51/previews/zsturman.github.io-a017dada2068.png",
+                  "imageSource": "capture"
                 },
                 "iconUrl": "/icons/favicons/zsturman.github.io.png"
               },
@@ -298,8 +306,8 @@
                 "hostname": "zsturman.github.io",
                 "displayUrl": "zsturman.github.io/ZSDynamics-V1.0",
                 "description": "Explore my data science portfolio, showcasing projects in machine learning, data visualization, and analytics. Learn how I leverage data-driven insights to solve real-world problems.",
-                "image": "https://www.ZSdynamics.com/static/images/og_img.png",
-                "imageSource": "metadata"
+                "image": "/projects/zsdynamics_10_306aec94-4d3c-803d-8230-fe06337c4a51/previews/zsturman.github.io-a017dada2068.png",
+                "imageSource": "capture"
               },
               "iconUrl": "/icons/favicons/zsturman.github.io.png"
             }
@@ -312,7 +320,7 @@
         "id": "339aec94-4d3c-808d-a485-f7ac5875d7d3",
         "title": "Created new project entry for Frontend Collection",
         "entry": "Created new project entry for Frontend Collection",
-        "url": "https://www.notion.so/Created-new-project-entry-for-Frontend-Collection-339aec944d3c808da485f7ac5875d7d3",
+        "url": "https://app.notion.com/p/Created-new-project-entry-for-Frontend-Collection-339aec944d3c808da485f7ac5875d7d3",
         "startTime": "2020-12-01",
         "endTime": "2020-12-01T01:00:00.000-08:00",
         "date": "2026-04-05T04:37:00.000-07:00",

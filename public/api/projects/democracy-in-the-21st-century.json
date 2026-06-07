@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-05-24T01:48:18.464509+00:00",
+  "generated_at": "2026-06-07T21:12:51.319870+00:00",
   "data": {
     "id": "333aec94-4d3c-8036-82e4-d96b64b15c6c",
     "slug": "democracy-in-the-21st-century",
@@ -32,9 +32,9 @@
     "description": "",
     "story": "",
     "images": {
+      "poster": "poster.png",
       "thumbnail": "thumbnail.png",
       "banner": "banner.png",
-      "poster": "poster.png",
       "hero": "hero.png"
     },
     "resources": [],
@@ -45,7 +45,7 @@
         "id": "339aec94-4d3c-80a3-b0d2-d94c15a97f7f",
         "title": "Created new project entry for Democracy in the 21st Century",
         "entry": "Created new project entry for Democracy in the 21st Century",
-        "url": "https://www.notion.so/Created-new-project-entry-for-Democracy-in-the-21st-Century-339aec944d3c80a3b0d2d94c15a97f7f",
+        "url": "https://app.notion.com/p/Created-new-project-entry-for-Democracy-in-the-21st-Century-339aec944d3c80a3b0d2d94c15a97f7f",
         "startTime": "2024-08-27",
         "endTime": "2024-08-27T01:00:00.000-07:00",
         "date": "2026-04-05T03:13:00.000-07:00",

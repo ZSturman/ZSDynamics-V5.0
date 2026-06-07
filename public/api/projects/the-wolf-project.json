@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-05-24T01:48:18.463588+00:00",
+  "generated_at": "2026-06-07T21:12:51.319287+00:00",
   "data": {
     "id": "346aec94-4d3c-801e-851f-c7e727f0e186",
     "slug": "the-wolf-project",
@@ -33,8 +33,8 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "Wolf-hero.webp",
       "icon": "Wolf-hero.webp",
+      "thumbnail": "Wolf-hero.webp",
       "hero": "Screenshot_2026-04-18_at_17.29.59.png"
     },
     "resources": [
@@ -49,8 +49,8 @@
           "hostname": "yourdogcanstay.com",
           "displayUrl": "yourdogcanstay.com",
           "description": "Access to Care Lifeline for families whose dog requires lifesaving medical care, but the upfront costs stand in the way.",
-          "image": "http://yourdogcanstay.com/cdn/shop/files/3AC01483-E6E2-4011-833D-F6C8714C4FDC_dfbfda84-9ef0-49a6-be7e-7f1fa826400c.png?height=628&pad_color=ffffff&v=1776093581&width=1200",
-          "imageSource": "metadata"
+          "image": "/projects/the_wolf_project_346aec94-4d3c-801e-851f-c7e727f0e186/previews/yourdogcanstay.com-98da4ec0bcac.png",
+          "imageSource": "capture"
         }
       },
       {
@@ -64,8 +64,8 @@
           "hostname": "the-wolf-pack.vercel.app",
           "displayUrl": "the-wolf-pack.vercel.app",
           "description": "When treatment exists but access to care doesn't, The Wolf Project exists to help families keep dogs where they belong - at home.",
-          "image": "https://yourdogcanstay.com/assets/brand/ydcs-logo.png",
-          "imageSource": "metadata"
+          "image": "/projects/the_wolf_project_346aec94-4d3c-801e-851f-c7e727f0e186/previews/the-wolf-pack.vercel.app-23526c25a9c2.png",
+          "imageSource": "capture"
         },
         "iconUrl": "/icons/favicons/the-wolf-pack.vercel.app.ico"
       },
@@ -91,9 +91,10 @@
           "hostname": "yourdogcanstay.com",
           "displayUrl": "yourdogcanstay.com",
           "description": "Access to Care Lifeline for families whose dog requires lifesaving medical care, but the upfront costs stand in the way.",
-          "image": "http://yourdogcanstay.com/cdn/shop/files/3AC01483-E6E2-4011-833D-F6C8714C4FDC_dfbfda84-9ef0-49a6-be7e-7f1fa826400c.png?height=628&pad_color=ffffff&v=1776093581&width=1200",
-          "imageSource": "metadata"
-        }
+          "image": "/projects/the_wolf_project_346aec94-4d3c-801e-851f-c7e727f0e186/previews/yourdogcanstay.com-98da4ec0bcac.png",
+          "imageSource": "capture"
+        },
+        "thumbnail": "/projects/the_wolf_project_346aec94-4d3c-801e-851f-c7e727f0e186/previews/yourdogcanstay.com-98da4ec0bcac.png"
       },
       {
         "id": "348aec94-4d3c-800c-aaad-c539680bc5b2",
@@ -126,7 +127,7 @@
         "id": "346aec94-4d3c-80b5-8de8-df50825de900",
         "title": "Created new project entry for The Wolf Pack",
         "entry": "Created new project entry for The Wolf Pack",
-        "url": "https://www.notion.so/Created-new-project-entry-for-The-Wolf-Pack-346aec944d3c80b58de8df50825de900",
+        "url": "https://app.notion.com/p/Created-new-project-entry-for-The-Wolf-Pack-346aec944d3c80b58de8df50825de900",
         "startTime": "2026-04-17",
         "endTime": "2026-04-17T01:00:00.000-07:00",
         "date": "2026-04-18T01:51:00.000-07:00",

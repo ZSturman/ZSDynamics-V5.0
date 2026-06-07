@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-05-24T01:48:18.465353+00:00",
+  "generated_at": "2026-06-07T21:12:51.320786+00:00",
   "data": {
     "id": "32eaec94-4d3c-80c9-b238-c8a9f0b1990e",
     "slug": "runtime-storyboard-debugger",
@@ -33,9 +33,9 @@
     "description": "",
     "story": "",
     "images": {
+      "icon": "icon.png",
       "thumbnail": "thumbnail.png",
       "banner": "banner.png",
-      "icon": "icon.png",
       "hero": "hero.png"
     },
     "resources": [
@@ -52,7 +52,7 @@
         "id": "32eaec94-4d3c-8097-8c33-f093879d5316",
         "title": "Created new project entry for Runtime Storyboard Debugger",
         "entry": "Created new project entry for Runtime Storyboard Debugger",
-        "url": "https://www.notion.so/Created-new-project-entry-for-Runtime-Storyboard-Debugger-32eaec944d3c80978c33f093879d5316",
+        "url": "https://app.notion.com/p/Created-new-project-entry-for-Runtime-Storyboard-Debugger-32eaec944d3c80978c33f093879d5316",
         "startTime": "2026-03-25T15:08:00.000-07:00",
         "endTime": "2026-03-25T16:08:00.000-07:00",
         "date": "2026-03-25T16:08:00.000-07:00",

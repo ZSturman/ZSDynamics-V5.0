@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-05-24T01:48:18.466289+00:00",
+  "generated_at": "2026-06-07T21:12:51.321794+00:00",
   "data": {
     "id": "306aec94-4d3c-808d-9ada-f0ccca484d3b",
     "slug": "chewsense",
@@ -34,10 +34,10 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "thumbnail.png",
-      "banner": "banner.png",
+      "poster": "poster.png",
       "icon": "thumbnail.png",
-      "poster": "poster.png"
+      "thumbnail": "thumbnail.png",
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -53,7 +53,7 @@
         "id": "339aec94-4d3c-8065-b3e0-c0457622bded",
         "title": "Created new project entry for ChewSense",
         "entry": "Created new project entry for ChewSense",
-        "url": "https://www.notion.so/Created-new-project-entry-for-ChewSense-339aec944d3c8065b3e0c0457622bded",
+        "url": "https://app.notion.com/p/Created-new-project-entry-for-ChewSense-339aec944d3c8065b3e0c0457622bded",
         "startTime": "2025-10-15",
         "endTime": "2025-10-15T01:00:00.000-07:00",
         "date": "2026-04-05T04:38:00.000-07:00",

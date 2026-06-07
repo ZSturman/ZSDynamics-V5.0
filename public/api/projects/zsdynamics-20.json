@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-05-24T01:48:18.467125+00:00",
+  "generated_at": "2026-06-07T21:12:51.322631+00:00",
   "data": {
     "id": "306aec94-4d3c-800b-9d7d-ed0c879ab5b3",
     "slug": "zsdynamics-20",
@@ -47,8 +47,8 @@
           "hostname": "zsturman.github.io",
           "displayUrl": "zsturman.github.io/ZSDynamics-V2.0",
           "description": "Explore Zachary Sturman's Software Engineering portfolio.",
-          "image": "https://www.ZSdynamics.com/og_img.png'",
-          "imageSource": "metadata"
+          "image": "/projects/zsdynamics_20_306aec94-4d3c-800b-9d7d-ed0c879ab5b3/previews/zsturman.github.io-f992a52961cf.png",
+          "imageSource": "capture"
         },
         "iconUrl": "/icons/favicons/zsturman.github.io.png"
       },
@@ -65,7 +65,7 @@
         "id": "339aec94-4d3c-803f-ab98-c3c3c2ded455",
         "title": "Created new project entry for ZSDynamics 2.0",
         "entry": "Created new project entry for ZSDynamics 2.0",
-        "url": "https://www.notion.so/Created-new-project-entry-for-ZSDynamics-2-0-339aec944d3c803fab98c3c3c2ded455",
+        "url": "https://app.notion.com/p/Created-new-project-entry-for-ZSDynamics-2-0-339aec944d3c803fab98c3c3c2ded455",
         "startTime": "2022-04-10",
         "endTime": "2022-04-10T01:00:00.000-07:00",
         "date": "2026-04-05T04:36:00.000-07:00",

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-05-24T01:48:18.467737+00:00",
+  "generated_at": "2026-06-07T21:12:51.323144+00:00",
   "data": {
     "id": "306aec94-4d3c-8067-909b-da087d8b0c26",
     "slug": "history-of-everything-coloring-book",
@@ -32,9 +32,9 @@
     "description": "",
     "story": "",
     "images": {
+      "icon": "banner.png",
       "thumbnail": "thumbnail.png",
-      "banner": "banner.png",
-      "icon": "banner.png"
+      "banner": "banner.png"
     },
     "resources": [],
     "assets": [],
@@ -255,7 +255,7 @@
         "id": "339aec94-4d3c-801c-badd-d27ca652cf0b",
         "title": "Created new project entry for History of Everything Coloring Book",
         "entry": "Created new project entry for History of Everything Coloring Book",
-        "url": "https://www.notion.so/Created-new-project-entry-for-History-of-Everything-Coloring-Book-339aec944d3c801cbaddd27ca652cf0b",
+        "url": "https://app.notion.com/p/Created-new-project-entry-for-History-of-Everything-Coloring-Book-339aec944d3c801cbaddd27ca652cf0b",
         "startTime": "2019-09-17",
         "endTime": "2019-09-17T01:00:00.000-07:00",
         "date": "2026-04-05T04:37:00.000-07:00",
