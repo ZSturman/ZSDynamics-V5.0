@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "articles.list",
-  "generated_at": "2026-06-07T21:12:51.324277+00:00",
+  "generated_at": "2026-06-22T01:12:23.672123+00:00",
   "data": [
     {
       "slug": "the-wolf-project-reworking-a-real-world-project",
@@ -22,9 +22,7 @@
       "href": "/articles/the-wolf-project-reworking-a-real-world-project",
       "sourceUrl": "https://github.com/ZSturman/Articles/blob/main/articles/the-wolf-project-reworking-a-real-world-project/index.md",
       "coverImage": "/articles/the-wolf-project-reworking-a-real-world-project/imgaes/Wolf-hero.webp",
-      "projectIds": [
-        "346aec94-4d3c-801e-851f-c7e727f0e186"
-      ]
+      "projectIds": []
     },
     {
       "slug": "consolidating-an-offline-first-episodic-memory-system",
@@ -39,7 +37,7 @@
         "Thousand Brains Projects"
       ],
       "series": "Engineering AI for Recognition and Memory",
-      "publishedAt": null,
+      "publishedAt": "2026-06-21",
       "updatedAt": "2026-04-11",
       "href": "/articles/consolidating-an-offline-first-episodic-memory-system",
       "sourceUrl": "https://github.com/ZSturman/Articles/blob/main/articles/consolidating-an-offline-first-episodic-memory-system/index.md",
@@ -65,7 +63,7 @@
         "macOS"
       ],
       "series": "My Notion Pipeline",
-      "publishedAt": null,
+      "publishedAt": "2026-06-21",
       "updatedAt": "2026-04-08",
       "href": "/articles/the-art-of-turning-a-90-minute-task-into-a-2-month",
       "sourceUrl": "https://github.com/ZSturman/Articles/blob/main/articles/the-art-of-turning-a-90-minute-task-into-a-2-month/index.md",
@@ -117,7 +115,7 @@
         "iOS"
       ],
       "series": "ChewSense",
-      "publishedAt": null,
+      "publishedAt": "2026-06-21",
       "updatedAt": "2026-04-07",
       "href": "/articles/building-chewsense-using-motion-data-for-an-on-device-ai-health-agent",
       "sourceUrl": "https://github.com/ZSturman/Articles/blob/main/articles/building-chewsense-using-motion-data-for-an-on-device-ai-health-agent/index.md",
@@ -189,7 +187,7 @@
         "Productivity"
       ],
       "series": "My Notion Pipeline",
-      "publishedAt": null,
+      "publishedAt": "2026-06-21",
       "updatedAt": "2026-04-01",
       "href": "/articles/how-i-use-notion-to-track-my-projects",
       "sourceUrl": "https://github.com/ZSturman/Articles/blob/main/articles/how-i-use-notion-to-track-my-projects/index.md",

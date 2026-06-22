@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-06-07T21:12:51.321344+00:00",
+  "generated_at": "2026-06-22T01:12:23.668822+00:00",
   "data": {
     "id": "306aec94-4d3c-80c9-a6d4-f6362f15b981",
     "slug": "mass-and-time",
@@ -34,10 +34,10 @@
     "description": "",
     "story": "",
     "images": {
-      "icon": "icon.png",
       "thumbnail": "thumbnail.png",
-      "banner": "banner.png",
-      "hero": "hero.png"
+      "hero": "hero.png",
+      "icon": "icon.png",
+      "banner": "banner.png"
     },
     "resources": [
       {

@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
   "kind": "articles.detail",
-  "generated_at": "2026-06-07T21:12:51.324769+00:00",
+  "generated_at": "2026-06-22T01:12:23.672744+00:00",
   "data": {
     "slug": "building-chewsense-using-motion-data-for-an-on-device-ai-health-agent",
     "title": "Building ChewSense - Using Motion Data For An On-Device AI Health Agent",
     "summary": "This article traces how ChewSense evolved from early experiments with raw AirPods motion signals into a structured pipeline for session collection, video-assisted labeling, feature extraction, model training, and on-device inference. The core lesson is that the hardest part of applied ML was not just training a model, but building the surrounding system needed to collect trustworthy data, preserve feature parity, and make runtime behavior believable.",
     "oneLiner": "A first-person build story about turning AirPods motion data, synchronized video, and disciplined tooling into a believable on-device chewing-detection ML pipeline.",
-    "publishedAt": null,
+    "publishedAt": "2026-06-21",
     "updatedAt": "2026-04-07",
     "series": "ChewSense",
     "tags": [

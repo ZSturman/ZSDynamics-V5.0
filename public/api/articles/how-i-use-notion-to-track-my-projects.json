@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
   "kind": "articles.detail",
-  "generated_at": "2026-06-07T21:12:51.325101+00:00",
+  "generated_at": "2026-06-22T01:12:23.673013+00:00",
   "data": {
     "slug": "how-i-use-notion-to-track-my-projects",
     "title": "How I Use Notion to Ingest, Organize, and Track My Projects",
     "summary": "This Notion setup is a guided project intake workflow rather than a simple notes system: each project starts from a template, highlights the highest-priority next step, and builds toward execution, portfolio readiness, and future automation. By checking key setup steps automatically and separating projects, tasks, assets, resources, and milestones into linked systems, it reduces friction and makes the workflow easier to manage as it scales.",
     "oneLiner": null,
-    "publishedAt": null,
+    "publishedAt": "2026-06-21",
     "updatedAt": "2026-04-01",
     "series": "My Notion Pipeline",
     "tags": [

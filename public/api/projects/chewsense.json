@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-06-07T21:12:51.321794+00:00",
+  "generated_at": "2026-06-22T01:12:23.669198+00:00",
   "data": {
     "id": "306aec94-4d3c-808d-9ada-f0ccca484d3b",
     "slug": "chewsense",
@@ -35,8 +35,8 @@
     "story": "",
     "images": {
       "poster": "poster.png",
-      "icon": "thumbnail.png",
       "thumbnail": "thumbnail.png",
+      "icon": "thumbnail.png",
       "banner": "banner.png"
     },
     "resources": [

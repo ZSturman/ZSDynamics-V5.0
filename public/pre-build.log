@@ -165,3 +165,5 @@
 1779586950: SUCCESS: replaced projects with new build; wrote 39 projects
 1780866419: SUCCESS: replaced projects with new build; wrote 39 projects
 1780867986: SUCCESS: replaced projects with new build; wrote 39 projects
+1782059683: ERROR: build failed: Resolved root path is not a readable directory: /Users/zacharysturman/Downloads/PORTFOLIO
+1782090343: SUCCESS: replaced projects with new build; wrote 39 projects

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-06-07T21:12:51.322631+00:00",
+  "generated_at": "2026-06-22T01:12:23.670030+00:00",
   "data": {
     "id": "306aec94-4d3c-800b-9d7d-ed0c879ab5b3",
     "slug": "zsdynamics-20",
@@ -47,8 +47,8 @@
           "hostname": "zsturman.github.io",
           "displayUrl": "zsturman.github.io/ZSDynamics-V2.0",
           "description": "Explore Zachary Sturman's Software Engineering portfolio.",
-          "image": "/projects/zsdynamics_20_306aec94-4d3c-800b-9d7d-ed0c879ab5b3/previews/zsturman.github.io-f992a52961cf.png",
-          "imageSource": "capture"
+          "image": "https://www.ZSdynamics.com/og_img.png'",
+          "imageSource": "metadata"
         },
         "iconUrl": "/icons/favicons/zsturman.github.io.png"
       },

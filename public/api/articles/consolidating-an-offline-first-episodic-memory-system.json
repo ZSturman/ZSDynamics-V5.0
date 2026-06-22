@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
   "kind": "articles.detail",
-  "generated_at": "2026-06-07T21:12:51.324533+00:00",
+  "generated_at": "2026-06-22T01:12:23.672435+00:00",
   "data": {
     "slug": "consolidating-an-offline-first-episodic-memory-system",
     "title": "Consolidating an Offline-First Episodic Memory System",
     "summary": "This piece traces the consolidation of several related experiments into one canonical episodic memory project, built around a single Python package, a shared artifact contract, and a dashboard and notebook workflow that inspect the same persisted runs. It argues that memory systems become more useful when they are transparent, offline-first, and structured around evidence, decision traces, and revisitable artifacts rather than hidden runtime state. Running through all of it is a broader research view, that location and whereabouts are not secondary details, but central signals in how a system interprets scenes, updates memory, and reasons about revisitation.",
     "oneLiner": "This project is becoming a single offline-first episodic memory system that brings runtime, artifacts, and inspection into one coherent architecture, with location playing a central role in how memory is formed and understood.",
-    "publishedAt": null,
+    "publishedAt": "2026-06-21",
     "updatedAt": "2026-04-11",
     "series": "Engineering AI for Recognition and Memory",
     "tags": [

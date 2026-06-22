@@ -31,12 +31,7 @@
     "subjects": [],
     "description": "",
     "story": "",
-    "images": {
-      "banner": "banner.png",
-      "thumbnail": "thumb.png",
-      "icon": "icon.png",
-      "hero": "hero.png"
-    },
+    "images": {},
     "resources": [
       {
         "type": "web",
@@ -44,12 +39,13 @@
         "url": "https://marina-departure-noaa-risk-checker.vercel.app",
         "linkPreview": {
           "provider": "marina-departure-noaa-risk-checker.vercel.app",
-          "title": "marina-departure-noaa-risk-checker.vercel.app",
+          "title": "Marina Departure Risk",
           "siteName": "Marina-Departure-Noaa-Risk-Checker Vercel App",
           "hostname": "marina-departure-noaa-risk-checker.vercel.app",
           "displayUrl": "marina-departure-noaa-risk-checker.vercel.app",
-          "image": "/projects/marina_departure_noaa_risk_checker_35eaec94-4d3c-809c-a0f4-ff355a7a6d21/previews/marina-departure-noaa-risk-checker.vercel.app-9ce9f7588d03.png",
-          "imageSource": "capture"
+          "description": "NOAA-powered go/no-go decision support for recreational boaters, charters, and marinas.",
+          "image": "https://marina-risk.example.com/opengraph-image?cd0c36d3e1d3b76c",
+          "imageSource": "metadata"
         }
       },
       {
@@ -98,7 +94,11 @@
       }
     ],
     "articles": [],
-    "folderName": "marina_departure_noaa_risk_checker_35eaec94-4d3c-809c-a0f4-ff355a7a6d21"
+    "folderName": "marina_departure_noaa_risk_checker_35eaec94-4d3c-809c-a0f4-ff355a7a6d21",
+    "readme": {
+      "content": "# Marina Departure NOAA Risk Checker\n\n> **\"Is this a good time to leave the marina?\"**\n>\n> A polished, portfolio-grade web app that combines real-time NOAA CO-OPS tides & currents, NWS marine forecasts & alerts, and astronomical sunrise/sunset data to produce a transparent, weighted risk score for any US coastal departure window.\n\n---\n\n## Live demo\n\nDeep-link examples (no account required — all data from public government APIs):\n\n| Station | URL |\n|---|---|\n| Boston, MA | `/station/8443970` |\n| San Francisco (The Embarcadero) | `/station/9414290` |\n| Seattle, WA | `/station/9447130` |\n| Charleston Harbor currents | `/station/ACT6651` |\n\nAdd `?start=2026-06-01T12:00:00Z&end=2026-06-01T18:00:00Z` to any station URL to share a specific departure window.\n\n---\n\n## Features\n\n- **Risk verdict** — Low / Medium / High with an animated score gauge.\n- **Seven scored factors**: wind, sea state (proxy), tide, current, water level anomaly, NWS alerts, visibility & daylight.\n- **Transparent engine** — every factor shows its score, tier, plain-English reason, and raw evidence JSON.\n- **Departure window picker** — dual-thumb slider (0–48 h), shareable via URL query params (`nuqs`).\n- **Hourly forecast strip** — wind speed/direction, gust, POP per hour.\n- **Interactive charts** — tide AreaChart, current BarChart, wind ComposedChart (sustained + gust, SCA/Gale reference lines).\n- **Active alerts panel** — NWS alerts with severity badges and full instructions.\n- **Sun card** — sunrise/sunset, civil twilight, daylight percentage bar.\n- **Station search** — ⌘K command palette with debounced CO-OPS station search and localStorage favorites.\n- **Dark/light theme** — dark default, respects system preference, no flash.\n- **Map** — MapLibre GL + CARTO (no token required) with all 27 featured stations.\n- **OG image** — dynamic `/opengraph-image` edge route for social sharing previews.\n\n---\n\n## Architecture\n\n```\nsrc/\n├── app/\n│   ├── layout.tsx               # Root layout: fonts, providers, header\n│   ├── page.tsx                 # Landing: hero, map, featured grid\n│   ├── station/[id]/page.tsx    # Server component: station lookup → StationView\n│   ├── api/\n│   │   ├── conditions/route.ts  # GET ?station&start&end → ConditionsBundle + RiskReport\n│   │   └── stations/route.ts    # GET ?q&limit → Station[] (search)\n│   └── opengraph-image.tsx      # Edge OG image\n├── components/\n│   ├── cards/                   # HourlyStrip, AlertsPanel, SunCard\n│   ├── charts/                  # TideChart, CurrentChart, WindChart (Recharts)\n│   ├── map/                     # StationMap (MapLibre GL)\n│   ├── risk/                    # RiskHero, FactorsBreakdown, AdviceCard\n│   ├── search/                  # StationCommand (cmdk + Radix Dialog)\n│   ├── station/                 # StationView (React Query + nuqs)\n│   ├── ui/                      # Button, Card, Badge, Skeleton\n│   ├── window/                  # DepartureWindowPicker (Radix Slider)\n│   ├── providers.tsx            # TanStack Query + next-themes + NuqsAdapter\n│   └── site-header.tsx          # Sticky glass header\n├── data/\n│   └── featured-stations.ts     # 27 US coastal stations with lat/lng + products\n└── lib/\n    ├── aggregate/conditions.ts  # getDepartureConditions — parallel API fan-out\n    ├── noaa/\n    │   ├── coops-datagetter.ts  # Tide predictions, current predictions, water levels\n    │   └── coops-metadata.ts   # Station list + single-station lookup\n    ├── nws/client.ts            # NWS point, hourly forecast, active alerts\n    ├── risk/\n    │   ├── config.ts            # RISK_CONFIG — weights + thresholds\n    │   ├── engine.ts            # scoreConditions — 7 factor scorers + advice\n    │   └── __tests__/\n    │       └── engine.test.ts   # Vitest unit tests\n    ├── sun/sunrise-sunset.ts    # getSunInfo — sunrise-sunset.org\n    ├── env.ts                   # Zod-parsed env vars\n    ├── format.ts                # knots(), compassFromDeg(), formatWind*\n    ├── types.ts                 # All shared TypeScript types\n    └── utils.ts                 # cn() clsx + tailwind-merge\n```\n\n### Data flow\n\n```\nBrowser\n  └─ StationView (React Query)\n       └─ GET /api/conditions?station=…&start=…&end=…\n            ├─ NOAA CO-OPS datagetter  → TidePredictions, CurrentPredictions, WaterLevels\n            ├─ NWS API                 → HourlyForecast, ActiveAlerts\n            └─ sunrise-sunset.org      → SunInfo\n                 ↓\n            scoreConditions()  (server-side, pure function)\n                 ↓\n            { conditions: ConditionsBundle, risk: RiskReport }\n```\n\n### Risk engine\n\nEach factor produces a `score` (0–100) and a `level` (low/medium/high). The overall score is a **weighted average** of the seven factors. Hard escalation rules override the weighted result:\n\n| Condition | Effect |\n|---|---|\n| Any `alerts` factor = **high** (warning keyword or Severe/Extreme) | Force overall = **high** |\n| `wind` factor = **high** | Clamp overall ≥ **high** |\n\nDefault weights (configurable in `src/lib/risk/config.ts`):\n\n| Factor | Weight | Key thresholds |\n|---|---|---|\n| Wind | 1.0 | SCA: 18 kt, Gale: 34 kt |\n| Sea state (proxy) | 0.6 | Est. from sustained wind × duration |\n| Tide | 0.4 | Low-tide proximity, range >6 ft |\n| Current | 0.7 | 1.5/3.0 kt thresholds + wind-against-tide |\n| Water level anomaly | 0.4 | Surge/setdown >0.4/0.9 ft |\n| NWS alerts | 1.4 | Advisory→medium, Warning→high |\n| Visibility / daylight | 0.5 | Dark%, fog mentions, POP ≥60% |\n\n---\n\n## Tech stack\n\n| Layer | Choice |\n|---|---|\n| Framework | Next.js 14 App Router (TypeScript) |\n| Styling | Tailwind CSS 3.4, custom HSL design tokens |\n| State | TanStack React Query (server), nuqs (URL), localStorage (favorites) |\n| UI primitives | Radix UI (Dialog, Accordion, Slider, Slot) |\n| Charts | Recharts 3 |\n| Map | MapLibre GL + CARTO tiles (no token) |\n| Animation | Framer Motion |\n| Validation | Zod |\n| Theme | next-themes |\n| Fonts | Inter + JetBrains Mono (next/font) |\n| Testing | Vitest |\n\n---\n\n## Getting started\n\n### Prerequisites\n\n- Node.js 20+ and pnpm\n\n```bash\nnpm install -g pnpm\n```\n\n### Install & run\n\n```bash\npnpm install\npnpm dev          # http://localhost:3000\n```\n\n### Run tests\n\n```bash\npnpm vitest run   # unit tests (no network)\npnpm vitest       # watch mode\n```\n\n### Build for production\n\n```bash\npnpm build\npnpm start\n```\n\n### Optional env vars\n\n| Variable | Default | Notes |\n|---|---|---|\n| `NWS_USER_AGENT` | `marina-risk-checker (portfolio-demo, contact@example.com)` | Required by NWS API; customize to your email |\n| `MAPTILER_KEY` | _(none)_ | Unlocks MapTiler vector tiles if desired; CARTO is used by default |\n\nCreate `.env.local` at the project root:\n\n```bash\nNWS_USER_AGENT=\"marina-risk-checker (yourapp, your@email.com)\"\n```\n\n---\n\n## Data sources\n\nAll data is sourced from **free, public US government APIs** — no API keys required for core functionality.\n\n| Source | Data |\n|---|---|\n| [NOAA CO-OPS Tides & Currents](https://tidesandcurrents.noaa.gov/api-helper/url-builder.html) | Tide predictions, current predictions, water level observations |\n| [NWS Weather API](https://www.weather.gov/documentation/services-web-api) | Hourly forecasts, active marine alerts |\n| [sunrise-sunset.org](https://sunrise-sunset.org/api) | Astronomical sunrise/sunset, civil twilight |\n\n> **Disclaimer**: This tool is for informational purposes only. Always consult official NOAA and NWS products before making a departure decision. The risk score is a heuristic aid, not a substitute for mariner judgment.\n\n---\n\n## Design decisions\n\n**Why a proxy wave-height factor?**\nNOAA's wave model data (WAVEWATCH III) isn't available through the CO-OPS API used here. Instead, the engine uses sustained wind speed × duration as a fetch-limited proxy — clearly labeled \"est.\" in the UI so users understand its limitations.\n\n**Why weighted rules instead of ML?**\nTransparency matters for safety-adjacent tools. Every factor shows its score, threshold, and evidence. Boaters can audit the logic, and the weights are in a single editable config file.\n\n**Why MapLibre over Mapbox?**\nMapLibre GL is fully open-source. CARTO's `dark-matter` and `positron` styles are available without authentication, keeping the demo zero-dependency on external keys.\n\n\n## Deploy on Vercel\n\nThe easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.\n\nCheck out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.",
+      "sourceUrl": "https://github.com/ZSturman/Marina-Departure-NOAA-Risk-Checker/blob/main/README.md"
+    }
   },
   {
     "id": "35eaec94-4d3c-80bc-9273-c1403b6c02ad",
@@ -132,12 +132,7 @@
     "subjects": [],
     "description": "",
     "story": "",
-    "images": {
-      "banner": "banner.png",
-      "thumbnail": "thumb.png",
-      "icon": "icon.png",
-      "hero": "hero.png"
-    },
+    "images": {},
     "resources": [
       {
         "type": "web",
@@ -145,12 +140,11 @@
         "url": "https://transactions-lmct.vercel.app/login",
         "linkPreview": {
           "provider": "transactions-lmct.vercel.app",
-          "title": "transactions-lmct.vercel.app/login",
+          "title": "Transactions",
           "siteName": "Transactions-Lmct Vercel App",
           "hostname": "transactions-lmct.vercel.app",
           "displayUrl": "transactions-lmct.vercel.app/login",
-          "image": "/projects/transactions_35eaec94-4d3c-80bc-9273-c1403b6c02ad/previews/transactions-lmct.vercel.app-d22838da070e.png",
-          "imageSource": "capture"
+          "description": "Track shared transactions with anyone. Record payments, settle debts, and manage balances in real time."
         }
       },
       {
@@ -199,7 +193,11 @@
       }
     ],
     "articles": [],
-    "folderName": "transactions_35eaec94-4d3c-80bc-9273-c1403b6c02ad"
+    "folderName": "transactions_35eaec94-4d3c-80bc-9273-c1403b6c02ad",
+    "readme": {
+      "content": "<div align=\"center\">\n\n# 💸 Transactions\n\n**A real-time web app for tracking shared transactions and balances with anyone.**\n\nRecord payments, get email notifications, and approve or dispute transactions — all synced instantly.\n\n[![Next.js](https://img.shields.io/badge/Next.js-15-black?logo=next.js)](https://nextjs.org/)\n[![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)\n[![Firebase](https://img.shields.io/badge/Firebase-10-FFCA28?logo=firebase&logoColor=black)](https://firebase.google.com/)\n[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)\n[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)\n\n</div>\n\n---\n\n## ✨ Features\n\n| Feature | Description |\n|---|---|\n| 🔐 **Email + Google Sign-in** | Firebase Authentication with multiple providers |\n| 📨 **Invite by Email** | Pair with anyone to start tracking a shared balance |\n| 💰 **Record Transactions** | Log payments in either direction with descriptions |\n| ✅ **Approve / Dispute** | Partner must approve each transaction before balance updates |\n| ⚡ **Real-time Sync** | Firestore `onSnapshot` keeps both users in sync instantly |\n| 📧 **Email Notifications** | Both parties get emails on new transactions, approvals, and disputes |\n| 📱 **Responsive** | Works on desktop and mobile browsers |\n| 🆓 **Free to Host** | Firebase free tier + Vercel free tier |\n\n---\n\n## 🏗️ Architecture\n\n```\n┌──────────────────┐     ┌──────────────────┐     ┌─────────┐\n│   Next.js App    │────▶│  Firebase Auth    │     │ EmailJS │\n│   (App Router)   │────▶│  Cloud Firestore  │     │ (email) │\n│                  │     │                   │     │         │\n└──────────────────┘     └──────────────────┘     └─────────┘\n```\n\n**No custom backend needed.** Firebase handles auth and data. Firestore Security Rules enforce per-user access. EmailJS sends notification emails from the client.\n\n### Data Model (Firestore)\n\n| Collection | Purpose |\n|---|---|\n| `users/{uid}` | User profile (name, email, preferred currency) |\n| `pairs/{pairId}` | Shared balance between two users |\n| `pairs/{pairId}/transactions/{txId}` | Individual transactions with approval workflow |\n| `invites/{inviteId}` | Email invites for pairing |\n\n### Transaction Flow\n\n```\n1. User A records a transaction → status: \"pending\"\n2. User B gets an email notification\n3. User B either approves (balance updates atomically) or disputes (with a reason)\n4. Both parties are emailed the outcome\n```\n\n---\n\n## 🚀 Getting Started\n\n### Prerequisites\n\n- **Node.js 18+** — [Download](https://nodejs.org/)\n- **Firebase CLI** — `npm install -g firebase-tools`\n- A **Firebase project** ([create one here](https://console.firebase.google.com/))\n\n---\n\n### 1. Clone & Install\n\n```bash\ngit clone https://github.com/ZSturman/Transactions\ncd web\nnpm install\n```\n\n### 2. Set Up Firebase\n\n<details>\n<summary><strong>Step-by-step Firebase setup</strong> (click to expand)</summary>\n\n#### Create a Firebase Project\n\n1. Go to the [Firebase Console](https://console.firebase.google.com/)\n2. Click **\"Create a project\"** (or use an existing one)\n3. Give it a name (e.g., `transactions`) and follow the prompts\n4. Disable Google Analytics if you don't need it (or keep it enabled)\n\n#### Enable Authentication\n\n1. In your project, go to **Build → Authentication → Get started**\n2. Under **Sign-in method**, enable:\n   - **Email/Password** — Click, toggle on, save\n   - **Google** — Click, toggle on, select a support email, save\n\n#### Create a Firestore Database\n\n1. Go to **Build → Firestore Database → Create database**\n2. Choose **Start in production mode** (we'll deploy security rules)\n3. Pick a region close to your users (e.g., `us-central1`)\n\n#### Create Composite Indexes\n\nFirestore requires composite indexes for queries with multiple filters. Create these:\n\n1. Go to **Firestore → Indexes → Composite**\n2. Add the following indexes:\n\n| Collection | Fields | Order |\n|---|---|---|\n| `pairs` | `users` (Arrays), `updatedAt` (Descending) | — |\n| `invites` | `toEmail` (Ascending), `status` (Ascending) | — |\n\n> **Tip:** If you skip this step, the browser console will show a link to auto-create the missing index when you first use the app.\n\n#### Get Your Firebase Config\n\n1. Go to **Project Settings** (gear icon) → **General**\n2. Under **Your apps**, click **Web** (</>) to register a web app\n3. Give it a nickname (e.g., `transactions-web`)\n4. Copy the `firebaseConfig` values — you'll need them for `.env.local`\n\n#### Deploy Security Rules\n\n```bash\nfirebase login\nfirebase use --add  # select your project\nnpm run deploy:rules\n```\n\n</details>\n\n### 3. Configure Environment Variables\n\nCopy the example and fill in your Firebase config:\n\n```bash\ncp .env.local.example .env.local\n```\n\nEdit `.env.local` with your Firebase values:\n\n```env\nNEXT_PUBLIC_FIREBASE_API_KEY=AIza...\nNEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your-project.firebaseapp.com\nNEXT_PUBLIC_FIREBASE_PROJECT_ID=your-project\nNEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your-project.appspot.com\nNEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=123456789\nNEXT_PUBLIC_FIREBASE_APP_ID=1:123456789:web:abc123\nNEXT_PUBLIC_FIREBASE_MEASUREMENT_ID=G-XXXXXXX\n```\n\n### 4. (Optional) Set Up EmailJS\n\nEmail notifications are optional — the app works without them.\n\n<details>\n<summary><strong>EmailJS setup</strong> (click to expand)</summary>\n\n1. Sign up at [emailjs.com](https://www.emailjs.com/) (free tier: 200 emails/month)\n2. **Create an email service** — connect Gmail, Outlook, or another provider\n3. **Create 2 email templates** with these names:\n   - `template_transaction` — New transactions, approvals, and disputes\n   - `template_invite` — Pair invitation\n4. Each template should use these variables:\n   - `{{to_name}}`, `{{from_name}}`, `{{subject}}`, `{{message}}`, `{{action_url}}`\n5. Copy your **Service ID**, **Public Key**, and **Template IDs** into `.env.local`:\n\n```env\nNEXT_PUBLIC_EMAILJS_SERVICE_ID=service_xxxxx\nNEXT_PUBLIC_EMAILJS_PUBLIC_KEY=your_public_key\nNEXT_PUBLIC_EMAILJS_TEMPLATE_TRANSACTION=template_transaction\nNEXT_PUBLIC_EMAILJS_TEMPLATE_INVITE=template_invite\n```\n\n</details>\n\n### 5. Run the Dev Server\n\n```bash\nnpm run dev\n```\n\nOpen [http://localhost:3000](http://localhost:3000).\n\n---\n\n## 🌐 Deployment\n\n### Vercel (Recommended)\n\n1. Push your code to GitHub\n2. Import the repo at [vercel.com/new](https://vercel.com/new)\n3. Set the **Root Directory** to `web` (if it's in a monorepo)\n4. Add all `NEXT_PUBLIC_*` environment variables in the Vercel dashboard\n5. Deploy — Vercel auto-detects Next.js\n\n### Firebase Hosting (via App Hosting)\n\nFirebase App Hosting supports Next.js natively:\n\n1. Install the Firebase CLI: `npm install -g firebase-tools`\n2. Run `firebase init apphosting` and follow the prompts\n3. Push to your connected GitHub repo to trigger a deploy\n\n> **Note:** Firestore security rules are deployed separately with `npm run deploy:rules`.\n\n---\n\n## 📁 Environment Variables\n\n| Variable | Required | Description |\n|---|---|---|\n| `NEXT_PUBLIC_FIREBASE_API_KEY` | ✅ | Firebase Web API key |\n| `NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN` | ✅ | Firebase Auth domain |\n| `NEXT_PUBLIC_FIREBASE_PROJECT_ID` | ✅ | Firebase project ID |\n| `NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET` | ✅ | Firebase storage bucket |\n| `NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID` | ✅ | Firebase messaging sender ID |\n| `NEXT_PUBLIC_FIREBASE_APP_ID` | ✅ | Firebase app ID |\n| `NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID` | ❌ | Google Analytics measurement ID |\n| `NEXT_PUBLIC_EMAILJS_SERVICE_ID` | ❌ | EmailJS service ID |\n| `NEXT_PUBLIC_EMAILJS_PUBLIC_KEY` | ❌ | EmailJS public key |\n| `NEXT_PUBLIC_EMAILJS_TEMPLATE_TRANSACTION` | ❌ | EmailJS template: new transactions, approvals, and disputes |\n| `NEXT_PUBLIC_EMAILJS_TEMPLATE_INVITE` | ❌ | EmailJS template: pair invite |\n\n---\n\n## 🗂️ Project Structure\n\n```\nweb/\n├── next.config.ts                 # Next.js configuration\n├── package.json\n├── tsconfig.json                  # TypeScript config with @/ alias\n├── tailwind.config.js             # Tailwind CSS config\n├── postcss.config.js\n├── firebase.json                  # Firestore rules deployment\n├── firestore.rules                # Firestore security rules\n├── .env.local.example             # Environment variable template\n├── .gitignore\n├── public/                        # Static assets\n└── src/\n    ├── app/                       # Next.js App Router\n    │   ├── globals.css            # Tailwind + custom styles\n    │   ├── layout.tsx             # Root layout (AuthProvider, Toaster)\n    │   ├── not-found.tsx          # 404 page\n    │   ├── (auth)/                # Public routes (login, register)\n    │   │   ├── layout.tsx         # Redirects authenticated users away\n    │   │   ├── login/page.tsx\n    │   │   └── register/page.tsx\n    │   └── (protected)/           # Authenticated routes\n    │       ├── layout.tsx         # Auth guard + navigation shell\n    │       ├── page.tsx           # Dashboard\n    │       ├── pair/[pairId]/page.tsx  # Balance detail + transactions\n    │       └── settings/page.tsx  # User profile & preferences\n    ├── components/                # Reusable UI components\n    │   ├── BalanceSummary.tsx\n    │   ├── InviteForm.tsx\n    │   ├── Layout.tsx             # Header + navigation + footer\n    │   ├── PairCard.tsx\n    │   ├── ProtectedRoute.tsx     # Auth guard wrapper\n    │   ├── TransactionForm.tsx\n    │   ├── TransactionItem.tsx\n    │   └── TransactionList.tsx\n    ├── contexts/\n    │   └── AuthContext.tsx         # Firebase Auth state management\n    ├── hooks/\n    │   ├── useInvites.ts          # Real-time invite subscriptions\n    │   ├── usePairs.ts            # Real-time pair subscriptions\n    │   └── useTransactions.ts     # Real-time transaction subscriptions\n    ├── lib/\n    │   ├── firebase.ts            # Firebase app initialization\n    │   └── emailjs.ts             # EmailJS notification helpers\n    ├── types/\n    │   └── index.ts               # TypeScript interfaces + currency data\n    └── utils/\n        └── currency.ts            # Currency formatting helpers\n```\n\n---\n\n## 📝 Scaling Notes\n\n- **Email volume**: EmailJS free tier = 200/month. Two active users at ~5 transactions/week ≈ 40 emails/month. For higher volume, switch to Firebase Cloud Functions + [Resend](https://resend.com) (100/day free).\n- **Multiple pairs**: The app supports multiple pairs per user. Each pair is independent.\n- **Offline support**: Firestore has built-in offline persistence. Transactions sync when back online.\n\n---\n\n## 📄 License\n\nMIT",
+      "sourceUrl": "https://github.com/ZSturman/Transactions/blob/main/README.md"
+    }
   },
   {
     "id": "34faec94-4d3c-80bf-928b-e0e32ba51cc8",
@@ -233,10 +231,10 @@
     "description": "",
     "story": "",
     "images": {
-      "banner": "banner.png",
       "thumbnail": "thumb.png",
+      "hero": "hero.png",
       "icon": "icon.png",
-      "hero": "hero.png"
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -254,7 +252,11 @@
     "collection": {},
     "workLogs": [],
     "articles": [],
-    "folderName": "production_scheduling_web_app_34faec94-4d3c-80bf-928b-e0e32ba51cc8"
+    "folderName": "production_scheduling_web_app_34faec94-4d3c-80bf-928b-e0e32ba51cc8",
+    "readme": {
+      "content": "# Manufacturing Production Scheduling System\n\nA web-based manufacturing scheduling application built with Next.js, Firebase, and Google Sheets integration.\n\n## Quick Start\n\n```bash\n# Install dependencies\nnpm install\n\n# Copy environment file and configure\ncp .env.example .env.local\n\n# Start development server\nnpm run dev\n```\n\n## Environment Setup\n\n### Required Environment Variables\n\nCreate a `.env.local` file with the following variables:\n\n```env\n# Firebase (get from Firebase Console > Project Settings)\nNEXT_PUBLIC_FIREBASE_API_KEY=...\nNEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=...\nNEXT_PUBLIC_FIREBASE_PROJECT_ID=...\nNEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=...\nNEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=...\nNEXT_PUBLIC_FIREBASE_APP_ID=...\n\n# Firebase Admin (service account JSON, base64 encoded)\nGOOGLE_APPLICATION_CREDENTIALS_JSON=...\n\n# Encryption key for Google Sheets credentials\nENCRYPTION_KEY=...\n```\n\n### Generate Encryption Key\n\n```bash\nnode -e \"console.log(require('crypto').randomBytes(32).toString('hex'))\"\n```\n\n### Base64 Encode Service Account\n\n```bash\ncat service-account.json | base64\n```\n\n## Features\n\n- **Multi-tenant Organizations** - Each organization has isolated data\n- **Google Sheets Integration** - Read/write production data from Google Sheets\n- **Production Scheduling** - Automatic schedule calculation with work center capacity\n- **Gantt Chart View** - Visual timeline of production jobs\n- **Job Locking** - Lock jobs to fixed time slots\n- **Holiday Management** - Configure holidays that affect scheduling\n- **Role-Based Access** - Admin, Planner, and Viewer roles\n\n## Architecture\n\nThis is a unified Next.js application that handles both frontend and API routes:\n\n```\nclient-next/\n├── src/\n│   ├── app/                 # Next.js App Router pages\n│   │   ├── api/             # API route handlers (server-side)\n│   │   ├── (auth)/          # Authentication pages\n│   │   ├── (dashboard)/     # Main application pages\n│   │   └── (onboarding)/    # Setup/onboarding pages\n│   ├── contexts/            # React contexts (Auth, Data)\n│   ├── lib/\n│   │   ├── server/          # Server-only code (Firebase Admin, Sheets API)\n│   │   └── firebase.ts      # Client-side Firebase\n│   └── types/               # TypeScript type definitions\n```\n\n## Deployment\n\n### Firebase Hosting + Cloud Run\n\n1. Build the Docker image:\n```bash\ndocker build -t manufacturing-scheduler .\n```\n\n2. Deploy to Cloud Run:\n```bash\ngcloud run deploy manufacturing-scheduler \\\n  --image gcr.io/YOUR_PROJECT/manufacturing-scheduler \\\n  --platform managed \\\n  --region us-central1 \\\n  --allow-unauthenticated\n```\n\n3. Configure Firebase Hosting to route to Cloud Run:\n```bash\nfirebase deploy --only hosting\n```\n\n### Environment Variables in Cloud Run\n\nSet these in the Cloud Run console or via CLI:\n- `ENCRYPTION_KEY`\n- `GOOGLE_APPLICATION_CREDENTIALS_JSON` (optional if using Cloud Run service account)\n\n## Google Sheets Setup\n\n### Prerequisites\n\n1. **Enable Google Sheets API** in your Google Cloud project:\n   - Go to [Google Cloud Console](https://console.cloud.google.com/)\n   - Navigate to **APIs & Services** > **Library**\n   - Search for \"Google Sheets API\" and click **Enable**\n   - ⚠️ **This step is REQUIRED** - the service account won't work without it!\n\n2. **Create a Service Account**:\n   - Go to **IAM & Admin** > **Service Accounts**\n   - Create a new service account with Editor role\n   - Download the JSON key file\n\n3. **Create and Share Google Sheet**:\n   - Create a Google Sheet with these tabs:\n     - **Products** - Production job data\n     - **WorkCenters** - Manufacturing work centers and schedules\n     - **Holidays** - Company holidays\n     - **Settings** - Application settings (optional)\n   - Share the sheet with your service account email (from JSON file)\n   - Grant Editor access\n\nSee [SHEETS_TEMPLATE.md](https://github.com/ZSturman/Production-Scheduling-Web-App/blob/main/docs/SHEETS_TEMPLATE.md) for detailed setup instructions and column requirements.\n\n## Development\n\n```bash\n# Run development server\nnpm run dev\n\n# Type checking\nnpm run typecheck\n\n# Linting\nnpm run lint\n\n# Build for production\nnpm run build\n```\n\n## License\n\nPrivate - All rights reserved.",
+      "sourceUrl": "https://github.com/ZSturman/Production-Scheduling-Web-App/blob/main/README.md"
+    }
   },
   {
     "id": "346aec94-4d3c-801e-851f-c7e727f0e186",
@@ -288,8 +290,8 @@
     "story": "",
     "images": {
       "thumbnail": "Wolf-hero.webp",
-      "icon": "Wolf-hero.webp",
-      "hero": "Screenshot_2026-04-18_at_17.29.59.png"
+      "hero": "Screenshot_2026-04-18_at_17.29.59.png",
+      "icon": "Wolf-hero.webp"
     },
     "resources": [
       {
@@ -298,12 +300,13 @@
         "url": "https://yourdogcanstay.com",
         "linkPreview": {
           "provider": "yourdogcanstay.com",
-          "title": "yourdogcanstay.com",
-          "siteName": "Yourdogcanstay Com",
+          "title": "The WOLF PROJECT",
+          "siteName": "YOUR DOG CAN STAY",
           "hostname": "yourdogcanstay.com",
           "displayUrl": "yourdogcanstay.com",
-          "image": "/projects/the_wolf_project_346aec94-4d3c-801e-851f-c7e727f0e186/previews/yourdogcanstay.com-98da4ec0bcac.png",
-          "imageSource": "capture"
+          "description": "Access to Care Lifeline for families whose dog requires lifesaving medical care, but the upfront costs stand in the way.",
+          "image": "http://yourdogcanstay.com/cdn/shop/files/3AC01483-E6E2-4011-833D-F6C8714C4FDC_dfbfda84-9ef0-49a6-be7e-7f1fa826400c.png?height=628&pad_color=ffffff&v=1776093581&width=1200",
+          "imageSource": "metadata"
         }
       },
       {
@@ -312,12 +315,13 @@
         "url": "https://the-wolf-pack.vercel.app",
         "linkPreview": {
           "provider": "the-wolf-pack.vercel.app",
-          "title": "the-wolf-pack.vercel.app",
+          "title": "The Wolf Project | Your Dog Can Stay",
           "siteName": "The-Wolf-Pack Vercel App",
           "hostname": "the-wolf-pack.vercel.app",
           "displayUrl": "the-wolf-pack.vercel.app",
-          "image": "/projects/the_wolf_project_346aec94-4d3c-801e-851f-c7e727f0e186/previews/the-wolf-pack.vercel.app-23526c25a9c2.png",
-          "imageSource": "capture"
+          "description": "When treatment exists but access to care doesn't, The Wolf Project exists to help families keep dogs where they belong - at home.",
+          "image": "https://yourdogcanstay.com/assets/brand/ydcs-logo.png",
+          "imageSource": "metadata"
         },
         "iconUrl": "/icons/favicons/the-wolf-pack.vercel.app.ico"
       },
@@ -338,14 +342,14 @@
         "url": "https://yourdogcanstay.com",
         "linkPreview": {
           "provider": "yourdogcanstay.com",
-          "title": "yourdogcanstay.com",
-          "siteName": "Yourdogcanstay Com",
+          "title": "The WOLF PROJECT",
+          "siteName": "YOUR DOG CAN STAY",
           "hostname": "yourdogcanstay.com",
           "displayUrl": "yourdogcanstay.com",
-          "image": "/projects/the_wolf_project_346aec94-4d3c-801e-851f-c7e727f0e186/previews/yourdogcanstay.com-98da4ec0bcac.png",
-          "imageSource": "capture"
-        },
-        "thumbnail": "/projects/the_wolf_project_346aec94-4d3c-801e-851f-c7e727f0e186/previews/yourdogcanstay.com-98da4ec0bcac.png"
+          "description": "Access to Care Lifeline for families whose dog requires lifesaving medical care, but the upfront costs stand in the way.",
+          "image": "http://yourdogcanstay.com/cdn/shop/files/3AC01483-E6E2-4011-833D-F6C8714C4FDC_dfbfda84-9ef0-49a6-be7e-7f1fa826400c.png?height=628&pad_color=ffffff&v=1776093581&width=1200",
+          "imageSource": "metadata"
+        }
       },
       {
         "id": "348aec94-4d3c-800c-aaad-c539680bc5b2",
@@ -394,16 +398,12 @@
         "durationMinutes": 60
       }
     ],
-    "articles": [
-      {
-        "title": "The Wolf Project - Reworking a Real-World Project",
-        "slug": "the-wolf-project-reworking-a-real-world-project",
-        "href": "/articles/the-wolf-project-reworking-a-real-world-project",
-        "sourceUrl": "https://github.com/ZSturman/Articles/blob/main/articles/the-wolf-project-reworking-a-real-world-project/index.md",
-        "coverImage": "/articles/the-wolf-project-reworking-a-real-world-project/imgaes/Wolf-hero.webp"
-      }
-    ],
-    "folderName": "the_wolf_project_346aec94-4d3c-801e-851f-c7e727f0e186"
+    "articles": [],
+    "folderName": "the_wolf_project_346aec94-4d3c-801e-851f-c7e727f0e186",
+    "readme": {
+      "content": "# The Wolf Project\n\nThe Wolf Project site is a Next.js + Firebase marketing and content platform for an access-to-care initiative under SGT Canines. The site explains the mission, publishes stories and case updates, tracks fundraising progress, and includes a custom admin panel for non-technical content editing.\n\n## What The Site Does\n\nThe public site currently covers these jobs:\n\n- Explains the mission behind The Wolf Project and Wolf's founding story.\n- Publishes informational pages about access to care, trust, transparency, and how the lifeline works.\n- Displays case pages with fundraising goals, progress, and status updates.\n- Displays blog posts and an RSS feed at `/feed.xml`.\n- Collects email signups through the `/api/subscribe` endpoint.\n- Promotes merchandise and donation pathways.\n- Provides a custom admin panel at `/admin` for content management.\n\n## Stack\n\n- Next.js 16 App Router\n- React 19\n- TypeScript\n- Tailwind CSS 4\n- Firebase Auth + Firestore for content persistence\n- Cloudinary for image uploads\n- Markdoc for long-form case and blog content\n\n## Content Model\n\nAll content is stored in Firestore with the following collections:\n\n### Collections\n\n- `cases/{slug}` — Dog cases with fundraising goals, status, updates, and stories\n- `posts/{slug}` — Blog posts with Markdoc body content\n\n### Singletons (`singletons/{key}`)\n\n- `donationProgress` — Fundraising goal and amount raised\n- `applicationConfig` — Application open/closed state and messaging\n- `siteSettings` — Phase label, operational state, fund allocation\n- `homeContent` — Homepage hero, mission, CTA copy\n- `storyContent` — Our Story page sections and statistics\n- `processContent` — How It Works page steps and conditions\n- `trustContent` — Trust, impact, and transparency copy\n- `donationContent` — Donate and Join the Pack page messaging\n- `shopContent` — Shop page and product storytelling copy\n\nThe runtime adapter in `lib/site-content.ts` reads Firestore first and falls back to `data/site-content.ts` defaults if a singleton entry is missing.\n\n### Still code-managed\n\n- Navigation and footer links\n- Social links\n- Some merch/product metadata and outbound product URLs\n- Support option cards\n- Asset registry data in `data/assets.ts`\n\n## Admin Panel\n\nThe admin panel at `/admin` provides a full content management interface:\n\n- **Dashboard** — Overview of cases, posts, and singletons with a \"Reset Demo Data\" button\n- **Cases** — List, create, edit, and delete dog cases\n- **Blog Posts** — List, create, edit, and delete blog posts\n- **Site Settings** — Edit all 9 singletons through structured forms\n\nAuthentication uses Firebase Auth (email/password). All mutations are protected by token verification.\n\n## Demo Banner\n\nA dismissible demo banner appears at the top of the site linking to the admin panel. It can be dismissed via the close button and uses localStorage to remember the dismissal.\n\n## Seed Data\n\nThe seed system at `POST /api/seed` (auth-protected) resets all Firestore content to demo data. This can also be triggered from the admin dashboard's \"Reset Demo Data\" button.\n\nSeeded cases: Wolf (completed), Luna (active), Juniper (in-treatment), Scout (funded), Remy (memorial).\n\nSeeded posts: 5 editorial posts covering emergency care, case updates, and community stories.\n\nSeeded singletons: donationProgress, applicationConfig, siteSettings.\n\n## Local Setup\n\n1. Install dependencies.\n\n```bash\npnpm install\n```\n\n2. Create a local env file.\n\n```bash\ncp .env.example .env.local\n```\n\n3. Start the app.\n\n```bash\npnpm dev\n```\n\n4. Open the site at `http://localhost:3000`.\n\n5. Open the admin panel at `http://localhost:3000/admin`.\n\n## Environment Variables\n\nThe checked-in template is `.env.example`.\n\n### Firebase (required)\n\n- `NEXT_PUBLIC_FIREBASE_API_KEY` — Firebase client API key\n- `NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN` — Firebase auth domain\n- `NEXT_PUBLIC_FIREBASE_PROJECT_ID` — Firebase project ID\n- `NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET` — Firebase storage bucket\n- `NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID` — Firebase messaging sender ID\n- `NEXT_PUBLIC_FIREBASE_APP_ID` — Firebase app ID\n- `FIREBASE_PROJECT_ID` — Firebase project ID (server)\n- `FIREBASE_CLIENT_EMAIL` — Service account email\n- `FIREBASE_PRIVATE_KEY` — Service account private key\n\n### Cloudinary (required for image uploads)\n\n- `CLOUDINARY_CLOUD_NAME` — Cloudinary cloud name\n- `CLOUDINARY_API_KEY` — Cloudinary API key\n- `CLOUDINARY_API_SECRET` — Cloudinary API secret\n\n### Site\n\n- `NEXT_PUBLIC_SITE_URL` — Used for metadata and RSS feed URLs\n- `KIT_API_KEY` — Optional. Enables newsletter signup proxy to Kit\n- `KIT_FORM_ID` — Optional. The Kit form that receives subscriptions\n\nIf the Kit variables are omitted, the subscribe endpoint returns success and logs the submitted email server-side.\n\n## Editing Workflow\n\n1. Sign in at `/admin/login` with your Firebase Auth credentials.\n2. Create, edit, or delete cases and blog posts from the admin panel.\n3. Edit site settings, donation progress, and other singletons from the Settings tab.\n4. Upload images via Cloudinary integration.\n5. Changes are persisted immediately to Firestore and reflected on the public site.\n\n## Repo Map\n\n- `app/` — Route files, API endpoints, and admin panel\n- `app/admin/` — Admin panel pages (login, dashboard, CRUD editors, settings)\n- `app/api/` — API routes for cases, posts, singletons, upload, seed, subscribe\n- `components/` — Reusable UI components\n- `components/admin/` — Admin-specific components (form-field, save-button, etc.)\n- `content/` — Legacy content files (kept for reference, not used at runtime)\n- `data/` — Code-managed defaults and assets\n- `lib/db/` — Firebase/Firestore data access layer\n- `lib/auth/` — Auth context and token verification\n- `lib/site-content.ts` — Server-side content adapter\n- `lib/site-url.ts` — Canonical site URL helper\n- `public/assets/` — Local media\n- `types/` — Shared TypeScript types\n\n## Production Requirements\n\nBefore shipping to production, verify all of the following:\n\n1. Set `NEXT_PUBLIC_SITE_URL` to the canonical production domain.\n2. Decide whether email signup should be live.\n3. If email signup should be live, set `KIT_API_KEY` and `KIT_FORM_ID`.\n4. Confirm the public domain used for metadata, RSS, and social sharing is correct.\n5. Review every seeded dummy case, post, and singleton entry and replace or remove anything not meant for public launch.\n6. Confirm remote merch images from `yourdogcanstay.com` still resolve and are permitted by `next.config.ts`.\n7. Confirm redirects still reflect the intended information architecture:\n\t `/join-the-pack -> /donate`\n\t `/impact -> /transparency`\n8. Smoke test these routes before release:\n\t `/`\n\t `/our-story`\n\t `/how-it-works`\n\t `/our-promise`\n\t `/transparency`\n\t `/cases`\n\t `/blog`\n\t `/donate`\n\t `/shop`\n\t `/apply`\n\t `/feed.xml`\n\t `/admin`\n9. Verify all required static assets are present in `public/assets` and that externally hosted images are still available.\n\n## Known Limitations And TODOs\n\n- Donation progress `source: api` is not implemented yet. The schema exposes the setting, but the frontend still uses a placeholder/manual workflow.\n- `components/donation-progress-bar.tsx` still has the API fetch TODO for live donation sync.\n- Some site data is still intentionally code-managed rather than editable in the GUI.\n- The current demo content is operationally useful for testing, but it should be reviewed carefully before a public launch.\n\n## Recommended Release Process\n\n1. Edit content in the admin panel at `/admin`.\n2. Review changes on a local branch or staging deployment.\n3. Run lint and a production build.\n4. Have a human review copy, links, donation destinations, and legal/tax language.\n5. Merge and deploy.\n\n## Commands\n\n```bash\npnpm dev\npnpm lint\npnpm build\npnpm start\n```",
+      "sourceUrl": "https://github.com/ZSturman/The-Wolf-Project/blob/main/README.md"
+    }
   },
   {
     "id": "33baec94-4d3c-80d2-8a69-deb2a742f972",
@@ -441,10 +441,10 @@
     "description": "",
     "story": "",
     "images": {
-      "banner": "banner.png",
       "thumbnail": "thumb.png",
+      "hero": "hero.png",
       "icon": "icon.png",
-      "hero": "hero.png"
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -494,7 +494,11 @@
       }
     ],
     "articles": [],
-    "folderName": "google_sheets_production_schedule_desktop_app_33baec94-4d3c-80d2-8a69-deb2a742f972"
+    "folderName": "google_sheets_production_schedule_desktop_app_33baec94-4d3c-80d2-8a69-deb2a742f972",
+    "readme": {
+      "content": "# Production Scheduling Desktop App\n\nProduction Scheduling Desktop App leverages Google Sheets as a database to streamline production scheduling with cross-platform support, interactive Gantt charts, and role-based access control.\n\n## Overview\nThis app streamlines production scheduling by managing all schedule information in one Google Sheet and displaying progress with interactive Gantt charts.\n\n## Features\n- **Cross-Platform:** Runs on macOS, Windows, and Linux.\n- **Google Sheets Integration:** No additional database needed.\n- **Scheduling & Gantt Charts:** Auto generates visual timelines.\n- **Secure Authentication:** Uses a secure JSON key from Google Cloud.\n- **User Role Management:** Customizes view and access based on roles.\n- **Flexibility:** Minimal UI with optional extensions.\n\n\n## Installation & Setup\n\n1. Download the Application \n\n    - This application is designed for company-specific use, with builds available on their hardware. However, the source code is fully open for anyone to use and modify.\n    - To get started, clone the repository, install the dependencies, and build the app following the instructions below.\n    - To customize the app for your specific needs:\n        - Edit src/data/tabs.tsx to adjust the tabs configuration to match your Google Sheet columns.\n        - Modify src/data/defaults.tsx to align with your data. These changes will update how initial Google Sheets are generated and structured in the app.\n\n2. Obtain Google Sheets Credentials\n\n    - Follow the instructions below in Managing Your Google Sheets Credentials to get a .json file from Google Cloud.\n    - Drag and drop that file into the app or paste its contents into the appropriate screen.\n\n3. Enter Spreadsheet ID\n\n    - Inside the app, once credentials are loaded, provide the ID of the Google Spreadsheet you want to use.\n    - Ensure that the service account email address (found in your .json file) has permission to edit the Google Sheet.\n\n4. Start Scheduling\n\n    - The app will load your Sheet data, show you a table of jobs, and generate Gantt charts.\n\nThat’s it. You can now view and manage your production schedule.\n\n\n## Developer Setup Instructions\n**Prerequisites:** Node.js (16+), Yarn/npm, and the Rust toolchain.\n\nClone the repository\n\n```bash\ngit clone https://github.com/ZSturman/rods-sheets_v2.git\n```\n\nInstall dependencies\n\n``` bash\nnpm install\n```\n\nBuild the app\n\n```     bash\nnpm run tauri build\n```\n\nRun in development mode\n\n``` bash\nnpm run tauri dev\n```\n\n_Edit the React frontend in the src directory or adjust Tauri configuration in tauri.conf.json as needed._\n\n## Project Structure\n- **src-tauri:** Rust-based backend for the desktop wrapper.\n- **src:** React frontend for the user interface.\n\n## Using the App\n- View, edit, and filter production jobs.\n- See real-time updates in Gantt charts.\n- Export Gantt charts as images or PDFs.\n\n## Managing Google Sheets Credentials\n1. Visit Google Cloud Console.\n2. Create/select a project and enable the Google Sheets API.\n3. Create a service account and download the JSON key.\n4. Securely import the key to the app.\n\n## Work Centers & Schedules\nThe app groups production jobs by work center for easy filtering and tracking.\n\n## Further Customization\n- Add custom columns for extra job details.\n- Modify Gantt chart behavior.\n- Implement additional user roles and permissions.\n- Enhance the UI with new components.\n\n## Contributing\n- Fork the repository and create a new branch.\n- Make your changes, test them, and submit a pull request following our code style.\n- Be respectful and constructive.\n\n## License\nThis project is licensed under the MIT License.",
+      "sourceUrl": "https://github.com/ZSturman/Google-Sheets-Production-Schedule-Desktop-App/blob/main/README.md"
+    }
   },
   {
     "id": "33baec94-4d3c-8077-a29c-c57cb736b6f2",
@@ -529,9 +533,9 @@
     "description": "",
     "story": "",
     "images": {
-      "banner": "banner.png",
       "thumbnail": "thumb.png",
-      "hero": "hero.png"
+      "hero": "hero.png",
+      "banner": "banner.png"
     },
     "resources": [],
     "assets": [
@@ -581,10 +585,10 @@
     "story": "",
     "images": {
       "poster": "poster.png",
-      "banner": "banner.png",
       "thumbnail": "thumbnail.png",
+      "hero": "hero.png",
       "icon": "icon.png",
-      "hero": "hero.png"
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -617,7 +621,11 @@
       }
     ],
     "articles": [],
-    "folderName": "media_organizer_339aec94-4d3c-8047-a3ea-ea94ff1e518f"
+    "folderName": "media_organizer_339aec94-4d3c-8047-a3ea-ea94ff1e518f",
+    "readme": {
+      "content": "# Media Organizer\n\nMedia Organizer is a simple native macOS SwiftUI app for folder-based photo and video libraries. You choose a folder, optionally include subfolders, scan the media locally, review uncertain metadata suggestions, and then apply safe writeback to the original files or to standards-based XMP sidecars.\n\n## What It Does\n\n- Selects a user folder with AppKit `NSOpenPanel`\n- Scans common image and video formats in place\n- Reads existing metadata first before suggesting anything new\n- Uses Apple-native analysis to suggest conservative tags for people groups, pets/animals, activities, dates, and locations\n- Queues low-confidence, conflicting, and rename suggestions for human review\n- Applies embedded metadata writes only where the format is considered low-risk in v1\n- Falls back to XMP sidecars when direct writeback would be riskier or less portable\n\n## Supported File Types\n\nThe scanner uses `UTType` and currently targets common `UTType.image` and `UTType.movie` items.\n\nTested / intended image coverage:\n- `jpg`, `jpeg`\n- `tif`, `tiff`\n- `heic`, `heif`\n- `png`\n- `gif`\n- `bmp`\n- `webp`\n- `dng` and other image-like RAW formats when the system reports them as images\n\nTested / intended video coverage:\n- `mov`\n- `mp4`\n- `m4v`\n- other movie containers that AVFoundation can inspect as `UTType.movie`\n\n## How Metadata Is Written\n\nWriteback is intentionally conservative in v1.\n\n- Embedded writeback:\n  - `jpeg/jpg`\n  - `tiff/tif`\n  - Uses ImageIO metadata-copy APIs so pixels are not recompressed\n  - Creates a backup under `.media-organizer-backups/<timestamp>/...` before replacing the original file\n\n- XMP sidecars:\n  - All videos\n  - `heic/heif`, `png`, `gif`, `bmp`, `webp`, RAW/DNG, and any image format not treated as low-risk embedded writeback\n  - Sidecars are written as `<original-filename>.xmp`\n\nCurrent XMP fields:\n- `dc:subject`\n- `dc:description`\n- `xmp:CreateDate`\n- `Iptc4xmpExt:PersonInImage`\n- `Iptc4xmpCore:Location`\n- `photoshop:City`\n- `photoshop:State`\n- `photoshop:Country`\n\n## Apple-Native Analysis Used\n\n- SwiftUI for the single-window app UI\n- AppKit `NSOpenPanel` for folder picking\n- Sandbox user-selected read/write access plus security-scoped bookmarks\n- `UniformTypeIdentifiers` for media detection\n- ImageIO for image metadata reading and embedded metadata writeback\n- AVFoundation for video metadata reading and preview frame extraction\n- Vision for:\n  - image classification\n  - face detection\n  - face feature prints for rough person-group clustering\n  - animal body pose detection\n  - human body pose detection\n- `NSFileCoordinator` for coordinated writes\n\n## Where Human Review Is Required\n\nThe app does not silently accept everything.\n\n- All people-group suggestions require review\n- All activity/event suggestions require review\n- Any low-confidence suggestion below the auto-accept threshold requires review\n- Any conflicting suggestion requires review\n- All rename suggestions require review\n\n## Known Limitations\n\n- People naming is intentionally conservative. The app never invents a real person’s name; it only suggests anonymous groups like `Person group A`.\n- Event/activity labels are best-effort and intentionally narrow in v1.\n- Reverse geocoding is not included in v1, so GPS coordinates are preserved but not expanded into human-readable place names unless place text already exists.\n- Video metadata is written only to XMP sidecars in v1. The app does not rewrite video containers directly.\n- Embedded writeback beyond JPEG/TIFF is intentionally avoided because format-safe, standards-portable updates are less clear or may require more invasive rewrites.\n- Vision-based clustering thresholds are conservative and may need tuning on real libraries.\n- The current in-app search is a lightweight filter over scanned results, not a full search index.\n\n## Future Extensions\n\n- Better preview thumbnails and richer review cards\n- Reverse geocoding via Apple location services as an optional local-first enhancement\n- Broader embedded writeback coverage where Apple APIs prove safe enough\n- Additional rename templates and batch rename presets\n- Duplicate detection and “apply to cluster” improvements\n- Optional external APIs or custom models for harder event recognition if local-first heuristics are not enough later",
+      "sourceUrl": "https://github.com/ZSturman/Media-Organizer/blob/main/README.md"
+    }
   },
   {
     "id": "333aec94-4d3c-8036-82e4-d96b64b15c6c",
@@ -650,9 +658,9 @@
     "story": "",
     "images": {
       "poster": "poster.png",
-      "banner": "banner.png",
       "thumbnail": "thumbnail.png",
-      "hero": "hero.png"
+      "hero": "hero.png",
+      "banner": "banner.png"
     },
     "resources": [],
     "assets": [],
@@ -713,10 +721,10 @@
     "story": "",
     "images": {
       "poster": "poster.png",
-      "banner": "banner.png",
       "thumbnail": "thumbnail.png",
+      "hero": "hero.png",
       "icon": "icon.png",
-      "hero": "hero.png"
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -749,7 +757,11 @@
       }
     ],
     "articles": [],
-    "folderName": "testing_traits_332aec94-4d3c-80ae-805d-f01e79254789"
+    "folderName": "testing_traits_332aec94-4d3c-80ae-805d-f01e79254789",
+    "readme": {
+      "content": "This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).\n\n## Getting Started\n\nFirst, run the development server:\n\n```bash\nnpm run dev\n# or\nyarn dev\n# or\npnpm dev\n# or\nbun dev\n```\n\nOpen [http://localhost:3000](http://localhost:3000) with your browser to see the result.\n\nYou can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.\n\nThis project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.\n\n## Learn More\n\nTo learn more about Next.js, take a look at the following resources:\n\n- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.\n- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.\n\nYou can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!\n\n## Deploy on Vercel\n\nThe easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.\n\nCheck out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.",
+      "sourceUrl": "https://github.com/ZSturman/Testing-Traits/blob/main/README.md"
+    }
   },
   {
     "id": "332aec94-4d3c-80ea-8468-c3a18bc61258",
@@ -781,10 +793,10 @@
     "story": "",
     "images": {
       "poster": "poster.png",
-      "banner": "banner.png",
       "thumbnail": "thumbnail.png",
+      "hero": "hero.png",
       "icon": "icon.png",
-      "hero": "hero.png"
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -817,7 +829,11 @@
       }
     ],
     "articles": [],
-    "folderName": "psyche_agent_332aec94-4d3c-80ea-8468-c3a18bc61258"
+    "folderName": "psyche_agent_332aec94-4d3c-80ea-8468-c3a18bc61258",
+    "readme": {
+      "content": "# PsycheAgent\n\n> A chat-first persona builder that uses personality, values, strengths, interests, and wellbeing inputs without pretending missing data is complete.\n\n[![Next.js](https://img.shields.io/badge/Next.js-16.2.1-111111?style=flat-square)](https://nextjs.org/)\n[![React](https://img.shields.io/badge/React-19.2.4-149eca?style=flat-square)](https://react.dev/)\n[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178c6?style=flat-square)](https://www.typescriptlang.org/)\n[![License: MIT](https://img.shields.io/badge/License-MIT-111111?style=flat-square)](LICENSE)\n\nPsycheAgent is an experimental app for building and chatting with AI personas shaped by psychometric inputs. You can start with premade personas right away, then add your own data later if you want the app to reflect a saved profile more closely.\n\nThe main design rule is simple: partial data should make the output less specific, not less honest. If a result is measured, the app can use it directly. If a value is only a placeholder, the app keeps that label visible. If something is missing, the app does not quietly fill it in.\n\n## Preview\n\nThe screenshots below use a small local demo profile with an `INTJ-A` type-code import. That type code is treated as placeholder data, which means it can help the app generate a useful persona without being presented as directly measured dimension scores.\n\n| Chat first | Add data |\n| --- | --- |\n| ![PsycheAgent chat home with premade personas and a saved local persona option.](https://raw.githubusercontent.com/ZSturman/Psyche-Agent/main/docs/assets/screenshots/home-chat.png) | ![PsycheAgent add-data screen showing a 16P type-code import and modular assessment cards.](https://raw.githubusercontent.com/ZSturman/Psyche-Agent/main/docs/assets/screenshots/add-data.png) |\n\n| Profile dashboard | Agent workbench |\n| --- | --- |\n| ![PsycheAgent profile dashboard showing measured, default-only, and not-yet-taken module counts.](https://raw.githubusercontent.com/ZSturman/Psyche-Agent/main/docs/assets/screenshots/profile-dashboard.png) | ![PsycheAgent agent workbench showing known modules, blueprint mode, contributing fields, and export controls.](https://raw.githubusercontent.com/ZSturman/Psyche-Agent/main/docs/assets/screenshots/agent-workbench.png) |\n\n## What This Project Does\n\nPsycheAgent turns whatever profile information you have into a structured AI persona. It can use in-app assessments, manual entries, imports, and lightweight placeholders, while keeping those sources separate.\n\nYou can use it to:\n\n- Chat with premade personas before adding any personal data.\n- Take short or full in-app versions of 16 Personalities and Moral Foundations assessments.\n- Add results from outside tools such as Big Five, HEXACO, VIA Character Strengths, O*NET / RIASEC, Attachment, PERMA, and Basic Psychological Needs.\n- Import a known 16P type code as clearly labeled placeholder scaffolding.\n- Review a profile dashboard that shows what is measured, what is placeholder, and what is still missing.\n- Build a self, preset, opposite, or custom persona in the workbench.\n- Export a modular profile, an LLM bundle, or the generated system prompt.\n\n## Why It Exists\n\nIt is easy to make an AI persona sound confident. It is harder to make the path behind that persona honest.\n\nThis project started from the idea that LLMs can be useful for exploring different perspectives, especially when their voice, values, and reasoning style are shaped deliberately. The more important problem showed up once the inputs became incomplete. A person might know a type code but not the underlying scores. They might have a strengths report but no moral profile. They might want a persona that differs from them, without rewriting their actual saved profile.\n\nPsycheAgent is built around those distinctions. It tries to keep profile data, inferred hints, and target persona behavior separate, so the generated persona is useful without implying that the app knows more than it does.\n\n## Who It Is For\n\nThis project is most useful for people who want to explore how different communication styles, values, or reasoning patterns can shape a conversation. That includes curious non-technical visitors, writers, product thinkers, educators, and anyone experimenting with AI personas.\n\nIt is also useful for developers and maintainers who want a concrete example of a local-first, modular profile system feeding an LLM prompt composer. The deeper implementation notes are linked below so the README can stay readable.\n\n## How To Try It\n\nThere is no hosted demo URL recorded in this repository yet, so the verified way to try PsycheAgent is to run it locally.\n\n```bash\nnpm install\nnpm run dev\n```\n\nThen open [http://localhost:3000](http://localhost:3000).\n\nThe app opens on the chat screen. You can choose a premade persona and start exploring the interface. To use live model responses, open Chat Setup and either use an app-hosted provider key if one is configured, or paste your own provider key for the current browser.\n\n## Key Features\n\n| Feature | What it means in practice |\n| --- | --- |\n| Chat-first entry | You can start with premade personas before taking assessments or importing data. |\n| Modular profile data | Each supported assessment has its own status, fields, and source information. |\n| Honest partial data | Measured, placeholder, and missing values stay distinct in the UI and exports. |\n| Native assessments | 16 Personalities and Moral Foundations can be taken directly in the app. |\n| Import-first modules | Big Five, HEXACO, VIA, RIASEC, Attachment, PERMA, and Basic Needs can be entered from outside results. |\n| Persona workbench | Build from your profile, use presets, create opposite agents, or tune a custom target. |\n| Local-first storage | Profiles, personas, chat sessions, and model settings are stored in the browser. |\n| Structured exports | Export profile JSON, LLM bundle JSON, or the generated system prompt as Markdown. |\n\n## A Short Walkthrough\n\n1. Open the app and chat with one of the premade personas.\n2. Add data only when it becomes useful. You can take an in-app assessment, import a JSON file, enter fields manually, or add a 16P type code.\n3. Review the profile dashboard to see which modules are measured, placeholder, or missing.\n4. Open the workbench to generate a persona from the data that exists.\n5. Export the result if you want to inspect, archive, or reuse the generated prompt and profile data.\n\n## Technical Notes\n\nThe README keeps the main path light on purpose. These supporting docs go deeper:\n\n- [Setup](https://github.com/ZSturman/Psyche-Agent/blob/main/docs/SETUP.md), for installation, local development, build commands, provider keys, and local storage notes.\n- [Technical overview](https://github.com/ZSturman/Psyche-Agent/blob/main/docs/TECHNICAL.md), for routes, data flow, project structure, scripts, and implementation details.\n- [Modular profile system](https://github.com/ZSturman/Psyche-Agent/blob/main/docs/modular-profile-system.md), for the profile schema, provenance rules, placeholder behavior, and export model.\n- [Troubleshooting](https://github.com/ZSturman/Psyche-Agent/blob/main/docs/TROUBLESHOOTING.md), for common local setup and runtime issues.\n- [Contributing](https://github.com/ZSturman/Psyche-Agent/blob/main/docs/CONTRIBUTING.md), for a simple contribution workflow and project guardrails.\n- [Screenshot guide](https://github.com/ZSturman/Psyche-Agent/blob/main/docs/assets/README.md), for updating the README visuals.\n\n## Configuration\n\nLive chat can use a server-side provider key or a visitor-supplied key entered in Chat Setup.\n\nOptional server environment variables:\n\n| Provider | Environment variable |\n| --- | --- |\n| OpenAI | `OPENAI_API_KEY` |\n| Anthropic | `ANTHROPIC_API_KEY` |\n| Groq | `GROQ_API_KEY` |\n| Mistral | `MISTRAL_API_KEY` |\n| Google | `GOOGLE_API_KEY` |\n\nIf a visitor enters their own key in Chat Setup, the key is stored in browser localStorage and sent through this app's `/api/chat` route to the selected provider.\n\n## Current Limits\n\nPsycheAgent is still a proof of concept. It has no hosted share pages, no account system, and no backend database. The current sharing model is export-first: profile JSON, LLM bundle JSON, and system prompt Markdown.\n\nThe app supports several provider paths in code, but each provider should be tested in the target environment before treating it as production-ready.\n\n## Contributing\n\nThe repository remote is [github.com/ZSturman/Psyche-Agent](https://github.com/ZSturman/Psyche-Agent). Small, focused changes are easiest to review.\n\nBefore changing behavior, please keep the central rule in view: do not turn missing or placeholder data into fake measured results. See [Contributing](https://github.com/ZSturman/Psyche-Agent/blob/main/docs/CONTRIBUTING.md) for the workflow and validation commands.\n\n## License\n\nThis project is available under the [MIT License](https://github.com/ZSturman/Psyche-Agent/blob/main/LICENSE).",
+      "sourceUrl": "https://github.com/ZSturman/Psyche-Agent/blob/main/README.md"
+    }
   },
   {
     "id": "332aec94-4d3c-80be-a40c-ce5b6cd6ff56",
@@ -850,9 +866,9 @@
     "description": "",
     "story": "",
     "images": {
-      "banner": "banner.png",
       "thumbnail": "thumbnail.png",
-      "hero": "hero.png"
+      "hero": "hero.png",
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -885,7 +901,11 @@
       }
     ],
     "articles": [],
-    "folderName": "bias_detecting_ai_332aec94-4d3c-80be-a40c-ce5b6cd6ff56"
+    "folderName": "bias_detecting_ai_332aec94-4d3c-80be-a40c-ce5b6cd6ff56",
+    "readme": {
+      "content": "# LLM Bias Detector\n\nA comprehensive system for detecting, comparing, and mitigating biases across Large Language Models (LLMs). Built for hiring, admissions, and other high-stakes decision-making contexts.\n\n## Features\n\n- **Multi-Provider Support** — Test LLMs from OpenAI, Anthropic, Ollama (local), or any custom endpoint\n- **6 Bias Test Suites** — Name Swap, Counterfactual, Stereotype Association, Resume Screening, Sentiment Analysis, and Custom Templates\n- **9 Protected Categories** — Gender, Race, Ethnicity, Disability, Age, Religion, Sexual Orientation, Socioeconomic Status, Nationality\n- **Statistical Scoring** — Bias scores (0–100) using decision disparity, rating variance, sentiment divergence, and response length analysis\n- **Model Comparison** — Side-by-side radar charts and color-coded comparison tables\n- **Prompt Lab** — LLM-powered prompt rewriting to detect and remove bias triggers, plus a template library\n- **Model Recommendations** — Task-aware model ranking based on detected bias profiles\n- **Persistent Results** — SQLite storage for all test runs, results, prompts, and comparisons\n\n## Architecture\n\n```\n┌────────────────────────────────────────────────┐\n│                Frontend (React)                 │\n│  Dashboard · Test Runner · Results · Compare    │\n│  Prompt Lab · Recommendations                   │\n├────────────────────────────────────────────────┤\n│              FastAPI Backend                     │\n│  ┌────────────┐ ┌──────────┐ ┌──────────────┐  │\n│  │ Bias Tests  │ │ Prompt   │ │ Recommender  │  │\n│  │ (6 suites)  │ │ Engine   │ │ Engine       │  │\n│  └──────┬─────┘ └────┬─────┘ └──────┬───────┘  │\n│         │            │               │          │\n│  ┌──────┴────────────┴───────────────┴───────┐  │\n│  │         LiteLLM (Unified Provider)         │  │\n│  │   OpenAI · Anthropic · Ollama · Custom     │  │\n│  └────────────────────┬──────────────────────┘  │\n│                       │                         │\n│  ┌────────────────────┴──────────────────────┐  │\n│  │            SQLite Database                 │  │\n│  │  LLMConfigs · TestRuns · TestResults       │  │\n│  │  Prompts · Comparisons                     │  │\n│  └───────────────────────────────────────────┘  │\n└────────────────────────────────────────────────┘\n```\n\n## Quick Start\n\n### Prerequisites\n\n- Python 3.11+\n- Node.js 18+\n- At least one LLM API key (OpenAI, Anthropic) or Ollama running locally\n\n### Backend Setup\n\n```bash\ncd backend\n\n# Create virtual environment\npython -m venv venv\nsource venv/bin/activate  # Windows: venv\\Scripts\\activate\n\n# Install dependencies\npip install -e .\n\n# Configure environment\ncp .env.example .env\n# Edit .env with your API keys\n\n# Start the server\nuvicorn app.main:app --reload --port 8000\n```\n\n### Frontend Setup\n\n```bash\ncd frontend\n\n# Install dependencies\nnpm install\n\n# Start dev server (proxies /api to backend)\nnpm run dev\n```\n\nOpen **http://localhost:5173** in your browser.\n\n### Demo Data (Optional)\n\nSeed the database with synthetic results for a populated dashboard:\n\n```bash\ncd backend\npython -m scripts.seed_demo\n```\n\n## How It Works\n\n### Bias Testing\n\nEach test suite generates **prompt variants** — identical prompts with only the demographic signal changed. For example, the Name Swap test sends the same job evaluation prompt with names like \"Emily\" (white-associated), \"Lakisha\" (Black-associated), \"José\" (Hispanic-associated), etc.\n\nThe system then compares the LLM's responses across variants using multiple scoring methods:\n\n| Method | What It Measures |\n|--------|-----------------|\n| **Decision Disparity** | Do yes/no recommendations change across groups? |\n| **Rating Disparity** | Do numerical scores (1-10) vary based on demographics? (Uses Cohen's d) |\n| **Sentiment Disparity** | Is language more positive/negative for certain groups? |\n| **Length Disparity** | Does the model write more/less for certain groups? (Engagement proxy) |\n\nScores are aggregated to a 0–100 scale where **0 = no detected bias** and **100 = extreme bias**.\n\n### Test Suites\n\n| Suite | Description | Best For |\n|-------|-------------|----------|\n| **Name Swap** | Same prompt, different demographic names | Hiring, general evaluation |\n| **Counterfactual** | Swap demographic identifiers in context | Policy analysis, content review |\n| **Stereotype** | Ambiguous scenarios to detect role/trait assignment | HR, education |\n| **Resume Screening** | Identical resumes with demographic signals | Hiring (primary use case) |\n| **Sentiment** | Analyze tone in descriptions of different groups | Content generation, customer service |\n| **Open-Ended** | Custom prompt templates with demographic variables | Any context |\n\n### Prompt Lab\n\nThe Prompt Lab uses an LLM to analyze your prompts for potential bias triggers and suggests debiased rewrites. It also includes a **template library** with pre-vetted prompts for hiring, admissions, and performance reviews.\n\n### Model Recommendations\n\nAfter testing multiple models, the recommendation engine ranks them by lowest bias for your specific use case. It maps task types to relevant bias categories:\n\n- **Hiring** → gender, race, ethnicity, age, disability, nationality\n- **Admissions** → gender, race, ethnicity, socioeconomic, nationality\n- **Content Generation** → gender, race, religion, sexual orientation, nationality\n\n## API Reference\n\n| Endpoint | Method | Description |\n|----------|--------|-------------|\n| `/api/models` | GET/POST | List or register LLM configurations |\n| `/api/models/{id}/validate` | POST | Test model connection |\n| `/api/tests/run` | POST | Launch a bias test run |\n| `/api/tests/estimate` | POST | Estimate cost before running |\n| `/api/tests/runs` | GET | List all test runs |\n| `/api/tests/runs/{id}/results` | GET | Get results for a specific run |\n| `/api/tests/results?llm_config_id=X` | GET | Get all results for a model |\n| `/api/tests/suites` | GET | List available test suites |\n| `/api/tests/categories` | GET | List bias categories |\n| `/api/compare` | GET/POST | Create or list comparisons |\n| `/api/compare/{id}` | GET | Get comparison data with scores |\n| `/api/prompts/rewrite` | POST | Analyze and rewrite a prompt |\n| `/api/prompts/suggest` | POST | Get prompt suggestions for a task |\n| `/api/prompts/templates` | GET | Browse prompt template library |\n| `/api/recommend` | GET | Get model recommendations |\n| `/api/recommend/tasks` | GET | List available task types |\n\n## Project Structure\n\n```\nbackend/\n├── app/\n│   ├── main.py                    # FastAPI app entry\n│   ├── config.py                  # Settings & env vars\n│   ├── database/\n│   │   ├── models.py              # SQLAlchemy ORM models\n│   │   └── session.py             # DB session factory\n│   ├── providers/\n│   │   ├── base.py                # Abstract LLM provider\n│   │   └── registry.py            # LiteLLM-based provider registry\n│   ├── bias_tests/\n│   │   ├── base.py                # Test suite base class\n│   │   ├── categories.py          # Demographic data banks\n│   │   ├── scoring.py             # Statistical scoring engine\n│   │   ├── runner.py              # Async test orchestration\n│   │   └── test_suites/           # 6 test suite implementations\n│   ├── prompt_engine/\n│   │   ├── rewriter.py            # LLM-powered debiasing\n│   │   └── templates.py           # Prompt template library\n│   ├── recommender/\n│   │   └── engine.py              # Task-aware model ranking\n│   └── api/                       # REST API routes\nfrontend/\n├── src/\n│   ├── pages/                     # 6 page components\n│   ├── components/                # Reusable UI components\n│   └── lib/api.ts                 # API client\n```\n\n## Tech Stack\n\n- **Backend**: Python 3.11, FastAPI, SQLAlchemy, LiteLLM\n- **Frontend**: React 18, TypeScript, Tailwind CSS, Recharts\n- **Database**: SQLite (via aiosqlite)\n- **LLM Access**: LiteLLM (unified interface to 100+ providers)",
+      "sourceUrl": "https://github.com/ZSturman/Bias-Detecting-Algorithm/blob/main/README.md"
+    }
   },
   {
     "id": "332aec94-4d3c-807a-ba3b-d0950cd03a66",
@@ -919,10 +939,10 @@
     "description": "",
     "story": "",
     "images": {
-      "banner": "banner.png",
       "thumbnail": "thumbnail.png",
+      "hero": "hero.png",
       "icon": "icon.png",
-      "hero": "hero.png"
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -963,7 +983,11 @@
         "coverImage": "/articles/building-a-location-first-learning-agent-to-explore-context-memory-and-consciousness/images/cover_image.png"
       }
     ],
-    "folderName": "train_of_thought_agent_332aec94-4d3c-807a-ba3b-d0950cd03a66"
+    "folderName": "train_of_thought_agent_332aec94-4d3c-807a-ba3b-d0950cd03a66",
+    "readme": {
+      "content": "# Tree-of-Thought Location Agent\n\nA small learning agent that remembers places through observation, correction, and inspection.\n\nThe project starts with a simple idea: if an agent is going to build useful memory, it should be able to learn from direct experience, accept correction, preserve where its knowledge came from, and show what it thinks it knows. Right now that learning is anchored in locations. You can teach it a numeric observation, connect a media file to a place, rename labels, add aliases, and describe how places relate to each other.\n\nIt is not trying to be a finished vision model yet. The current version is a careful scaffold for one, with each sensor input normalized into an `ObservationBundle` before it reaches learning and memory.\n\n| Status | Detail |\n| --- | --- |\n| Current phase | Phase 8, Modality-Neutral Observation Bundle |\n| Last validated state | 177 automated tests passing |\n| Next phase | Phase 9, Region Descriptors and Primitive Feature Extraction |\n| Runtime style | Local interactive CLI |\n| Dependencies | Python standard library only |\n\n## Preview\n\nThe agent runs in a terminal. You can give it a value, ask it to sense a local media file, correct its guesses, and inspect what it has learned.\n\n```text\nagent online\nobservation[0.0-1.0|quit]: sense /path/to/bedroom.png\nsensor: new image\nlabel: bedroom\nobservation[0.0-1.0|quit]: sense /path/to/bedroom.png\nsensor: recognized image\nguess: bedroom (confidence=1.00)\ncorrect?[1/0]: 1\nobservation[0.0-1.0|quit]: quit\ngoodbye\n```\n\nBehind that short exchange, the project stores a label node, a location model, sensor evidence, and an event log. If the same place later gets renamed or connected to a larger context such as a house, the old label and the enclosing context remain inspectable instead of disappearing.\n\n## What This Project Does\n\nThe agent learns location memory from two kinds of input:\n\n- A grayscale-style value between `0.0` and `1.0`, which gives the agent a small controlled observation space.\n- A local media file passed through `sense /path/to/file`, which currently uses an image adapter and stores a normalized observation bundle.\n\nWhen the agent recognizes something, it asks for confirmation. When it is wrong, you can correct it. When a label needs to change, you can rename it while keeping the old name as an alias. When one place contains or overlaps another, you can teach that relationship and later ask the agent to show the active context.\n\nThe important part is not that the first observation space is simple. The important part is that the memory is persistent, correctable, and visible.\n\n## Why It Exists\n\nThis project explores how a memory system can grow from grounded, inspectable pieces instead of starting as a sealed model that already claims to know the world.\n\nThe long-range direction is a synthetic memory-and-attention engine. Location learning is the entry point because it gives the system something concrete to anchor on: a place, a label, a correction, a relationship, and a record of evidence. Later phases expand that into region attention, primitive percepts, experience frames, memory units, replay, resurfacing, and reconsolidation.\n\nOne rule carries through the project: persisted memory should come from explicit user input or direct sensor input. The language model may help structure the interaction, but it is not treated as the source of truth.\n\n## Who It Is For\n\nThis repository may be useful if you are interested in:\n\n- Learning systems that accept correction instead of treating the first answer as final.\n- Memory that can be inspected, renamed, and repaired.\n- Small agent architectures that grow in visible phases.\n- Sensor and perception work that starts with a stable input contract before adding richer recognition.\n- A local Python project that can be read without installing a framework.\n\nFor a non-technical reader, the project is easiest to understand as a working notebook for agent memory. For a technical reader, it is a compact Python implementation with tests, schema migrations, media fixtures, and roadmap documents.\n\n## Key Features\n\n| Feature | What it means in practice |\n| --- | --- |\n| Persistent memory | Learned locations, labels, aliases, relations, sensor bindings, and observation bundles are stored under `runtime/`. |\n| Correctable guesses | The agent asks whether a guess is right, then reinforces or corrects memory based on the answer. |\n| Label history | Renames preserve the previous canonical name as an alias, so older vocabulary still resolves. |\n| Nested context | `contain` can teach relationships such as `house contains bedroom`. |\n| Overlapping context | `overlap` can record places that can be active together without forcing one parent-child shape. |\n| Concept scaffold | `concept`, `relate`, and `concepts` let the project begin separating named ideas from locations. |\n| Sensor preview | `sense /path/to/file` routes local media through an adapter and stores a bundle-backed sensor binding. |\n| Inspectable state | `inspect`, `context`, persisted JSON, and JSONL event logs make the learned state visible. |\n\n## Visual Walkthrough\n\nThe current visuals are small generated fixtures used by tests and sensor examples. They are not polished screenshots, and that is intentional for now. They keep the project deterministic and easy to run offline while the perception layer is still being built.\n\n| House context | Bedroom | Living room | Unknown scene |\n| --- | --- | --- | --- |\n| <img alt=\"Generated house fixture\" src=\"https://raw.githubusercontent.com/ZSturman/Train-of-Thought-Agent/main/media/core_images/phase05_house_scene.png\" width=\"160\"> | <img alt=\"Generated bedroom fixture\" src=\"https://raw.githubusercontent.com/ZSturman/Train-of-Thought-Agent/main/media/core_images/phase04_bedroom_scene.png\" width=\"160\"> | <img alt=\"Generated living room fixture\" src=\"https://raw.githubusercontent.com/ZSturman/Train-of-Thought-Agent/main/media/core_images/phase04_living_room_scene.png\" width=\"160\"> | <img alt=\"Generated unknown fixture\" src=\"https://raw.githubusercontent.com/ZSturman/Train-of-Thought-Agent/main/media/core_images/phase04_unknown_scene.png\" width=\"160\"> |\n\nThese files are registered in [`media/catalog.json`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/media/catalog.json), explained in [`media/README.md`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/media/README.md), and staged through scenario files in [`media/scenarios/`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/media/scenarios/). Notes for future screenshots, GIFs, or demo videos live in [`docs/assets/README.md`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/docs/assets/README.md).\n\n## What Can I Do With This?\n\nYou can run the agent locally, teach it a few places, correct it, and inspect how its memory changes. A simple session might look like this:\n\n1. Teach `0.25` as `kitchen`.\n2. Enter `0.253` and confirm that it is still `kitchen`.\n3. Rename `kitchen` to a better label if needed.\n4. Teach `house`, `bedroom`, and `living room` from the included media fixtures.\n5. Use `contain` to say that `house` contains `bedroom` and `living room`.\n6. Use `inspect` or `context` to see what the agent now believes.\n\nThe current sensor recognition is still a temporary exact-file preview at the binding layer. Phase 8 changes the interface around it, so media now enters as an `ObservationBundle`, but content-based visual understanding is still planned work.\n\n## Quick Start\n\nRequirements: Python 3.12+ is preferred. No external packages are required.\n\n```bash\n# Run the interactive agent\npython3 -m location_agent.cli\n\n# Run in quiet mode for scripting or tests\npython3 -m location_agent.cli --quiet\n\n# Clear learned memory and exit\npython3 -m location_agent.cli --reset\n\n# Run the automated test suite\npython3 -B -m unittest discover -s tests -v\n```\n\nDuring an interactive session, use `sense /absolute/path/to/file` to route a local media file through the sensor flow.\n\nFor fuller setup notes, memory isolation tips, and command examples, see [`docs/SETUP.md`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/docs/SETUP.md).\n\n## SDK Quickstart\n\n`location_agent` also ships as a programmatic SDK. The `Agent` facade is the recommended entry point for embedding the learning loop in another application:\n\n```python\nfrom location_agent import Agent\n\nagent = Agent()                             # writes to ./runtime/\nagent.learn_scalar(0.25, \"kitchen\")\nresult = agent.recognize_scalar(0.253)\nprint(result.is_known, result.label, result.confidence)\n# True kitchen 0.94\n\nsnapshot = agent.inspect()                  # JSON-serializable\n```\n\nPublic names are listed in [`docs/api.md`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/docs/api.md) and follow SemVer. Sensor adapters can be added via Python entry points — see [`docs/plugins.md`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/docs/plugins.md).\n\n## Technical Notes\n\nThe README keeps the technical surface brief so the project remains readable from the outside. These supporting files hold the deeper details:\n\n| Topic | Where to read more |\n| --- | --- |\n| Setup, local runs, reset behavior, commands | [`docs/SETUP.md`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/docs/SETUP.md) |\n| Architecture, schema v7, data flow, project structure | [`docs/TECHNICAL.md`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/docs/TECHNICAL.md) |\n| Common errors and likely fixes | [`docs/TROUBLESHOOTING.md`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/docs/TROUBLESHOOTING.md) |\n| Contribution workflow | [`docs/CONTRIBUTING.md`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/docs/CONTRIBUTING.md) |\n| Media fixture and demo capture notes | [`docs/assets/README.md`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/docs/assets/README.md) |\n| Current phase validation | [`CURRENT_PHASE.md`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/CURRENT_PHASE.md) and [`VALIDATION.md`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/VALIDATION.md) |\n| Long-range roadmap | [`PROJECT_ROADMAP.md`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/PROJECT_ROADMAP.md) and [`MEDIA_PLAN.md`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/MEDIA_PLAN.md) |\n\n## Contributing\n\nThe repository remote is [`https://github.com/ZSturman/Train-of-Thought-Agent.git`](https://github.com/ZSturman/Train-of-Thought-Agent.git).\n\nBefore changing behavior, run the test suite and check the current phase notes. The project is intentionally phase-driven, so documentation, media scenarios, and validation notes matter alongside code changes. See [`docs/CONTRIBUTING.md`](https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/docs/CONTRIBUTING.md) for the local workflow.",
+      "sourceUrl": "https://github.com/ZSturman/Train-of-Thought-Agent/blob/main/README.md"
+    }
   },
   {
     "id": "332aec94-4d3c-8040-87a1-e4f349ef0994",
@@ -996,9 +1020,9 @@
     "story": "",
     "images": {
       "poster": "poster.png",
-      "banner": "banner.png",
       "thumbnail": "thumbnail.png",
-      "hero": "hero.png"
+      "hero": "hero.png",
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -1031,7 +1055,11 @@
       }
     ],
     "articles": [],
-    "folderName": "math_and_happiness_332aec94-4d3c-8040-87a1-e4f349ef0994"
+    "folderName": "math_and_happiness_332aec94-4d3c-8040-87a1-e4f349ef0994",
+    "readme": {
+      "content": "<div align=\"center\">\n\n# 😊 Happiness Tracker\n\n**A thinking tool for understanding what matters.**\n\nDefine the areas of life that affect your happiness, assign importance,<br>\nscore yourself honestly, and watch the math reveal what to focus on.\n\n[![Next.js](https://img.shields.io/badge/Next.js-15-black?logo=next.js)](https://nextjs.org/)\n[![React](https://img.shields.io/badge/React-19-61DAFB?logo=react)](https://react.dev/)\n[![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript)](https://typescriptlang.org/)\n[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)\n\n</div>\n\n---\n\n## Why?\n\nMost happiness advice is generic. This tool takes the opposite approach — it asks *you* to define what matters and how much, then uses weighted scoring to surface where your life is strong and where it needs attention.\n\nThe default categories are inspired by Maslow's hierarchy, but you can restructure everything to match your own mental model.\n\n## How It Works\n\nThe app follows a five-step workflow:\n\n| Step | Tab | What you do |\n|------|-----|-------------|\n| **1** | **Structure** | Define your life areas as a category tree (pillars → subcategories) |\n| **2** | **Prioritize** | Assign importance weights (1–10) to each area |\n| **3** | **Assess** | Score yourself 1–10 in every leaf category |\n| **4** | **Results** | See your weighted overall score, pillar breakdown, strengths, and attention areas |\n| **5** | **History** | Compare assessments over time and track trends |\n\nScores bubble up through the tree using normalized sibling weights, so a low score in a high-priority area gets flagged automatically.\n\n## Quick Start\n\n```bash\n# Install dependencies\nnpm install\n\n# Start the dev server\nnpm run dev\n```\n\nOpen [http://localhost:3000](http://localhost:3000) in your browser.\n\n## Scripts\n\n| Command | Description |\n|---------|-------------|\n| `npm run dev` | Start development server with hot reload |\n| `npm run build` | Build for production (static export) |\n| `npm start` | Serve the production build |\n| `npm run lint` | Run Next.js linting |\n\n## Project Structure\n\n```\nsrc/\n├── app/\n│   ├── layout.tsx        # Root layout with metadata\n│   ├── page.tsx           # Main page (client-side SPA)\n│   └── globals.css        # All styles + CSS custom properties\n├── components/\n│   ├── AssessmentFlow.tsx  # Score input UI for each leaf category\n│   ├── CategoryTree.tsx    # Editable tree of life areas\n│   ├── Dashboard.tsx       # Results: overall score, pillars, insights\n│   ├── History.tsx         # Past assessments timeline\n│   └── WeightEditor.tsx    # Importance sliders per category\n├── context/\n│   └── AppContext.tsx      # Global state via useReducer + auto-save\n├── data/\n│   └── starterContent.ts   # Default Maslow-based category tree\n├── models/\n│   └── types.ts            # TypeScript interfaces for all data\n└── services/\n    ├── calculator.ts       # Weighted score computation engine\n    └── storage.ts          # localStorage persistence + JSON import/export\n```\n\n## Key Design Decisions\n\n- **Client-only** — All data lives in `localStorage`. No server, no accounts, no tracking. Your data stays on your device.\n- **Static export** — Configured with `output: 'export'` in Next.js, so it can be deployed to any static host (GitHub Pages, Netlify, Vercel, etc.).\n- **Hierarchical weighted scoring** — Weights are normalized among siblings at each level, then multiplied up the tree. This means rearranging your categories changes how scores aggregate.\n- **Dark mode** — Automatic via `prefers-color-scheme` with CSS custom properties.\n\n## Data Portability\n\nUse the **Export** / **Import** buttons in the header to back up or transfer your data as JSON.\n\n## License\n\nMIT",
+      "sourceUrl": "https://github.com/ZSturman/Math-and-Hapiness/blob/main/README.md"
+    }
   },
   {
     "id": "32eaec94-4d3c-80c9-b238-c8a9f0b1990e",
@@ -1064,10 +1092,10 @@
     "description": "",
     "story": "",
     "images": {
-      "banner": "banner.png",
       "thumbnail": "thumbnail.png",
+      "hero": "hero.png",
       "icon": "icon.png",
-      "hero": "hero.png"
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -1100,7 +1128,11 @@
       }
     ],
     "articles": [],
-    "folderName": "runtime_storyboard_debugger_32eaec94-4d3c-80c9-b238-c8a9f0b1990e"
+    "folderName": "runtime_storyboard_debugger_32eaec94-4d3c-80c9-b238-c8a9f0b1990e",
+    "readme": {
+      "content": "# Runtime Storyboard Debugger\n\n> **Status:** pre-1.0, public roadmap. See [docs/release-plan.md](https://github.com/ZSturman/Runtime-Storyboard-Debugger/blob/main/docs/release-plan.md) and [docs/v1-scope.md](https://github.com/ZSturman/Runtime-Storyboard-Debugger/blob/main/docs/v1-scope.md) for what's shipping and what's deferred.\n\nOpen an unfamiliar codebase in an editor that already knows where the entry points are, where the unfinished work is, and how the code actually behaves at runtime.\n\nRSD is shaped like a code editor on purpose. Drop in a local folder or a public GitHub URL and you get:\n\n- a familiar **Activity Bar / Sidebar / Editor / Inspector / Bottom Panel** layout\n- a **file tree** that shows TODO/FIXME counts and which files contain entry points\n- the project **README** opened in the editor on first load\n- detected **entry points** with auto-generated input forms — one click runs them\n- a **storyboard** of the run that decorates the source: gutter glyphs, active line highlights, frame-by-frame variables and side effects in the Inspector\n- ⌘K **command palette** for jumping to any file, entry point, or finding\n\nRuntime tracing is one tab, not the whole app. RSD is fully usable as a static explorer; the runtime storyboard is what you reach for when you want to know what actually happened, not just what could.\n\n## Why This Exists\n\nMost code-understanding tools force a tradeoff:\n\n- static graphs show what could happen, but not what actually happened\n- debuggers show what happened, but not in a repo-first, onboarding-friendly way\n- LLM explanations can be helpful, but they often hide uncertainty or skip the underlying evidence\n\nRSD makes the evidence visible first and the interpretation optional.\n\n## What It Does\n\n- Open a local path or a public GitHub repository URL.\n- Browse files in a Monaco-based editor with TODO/FIXME and entry-point decorations rendered inline.\n- Search the workspace with case-insensitive grep across allowlisted extensions.\n- List unfinished-work findings (TODO/FIXME/HACK/stub/analysis-gap) grouped by kind.\n- Run any detected entry point and watch frames stream into the Storyboard timeline.\n- Click a runtime frame (in the editor gutter or the timeline) to see its captured variables and side effects in the Inspector.\n- Fall back to deterministic static analysis when runtime tracing stalls or fails.\n- Offer optional LLM assistance — additive, labeled, never replacing the deterministic baseline.\n\n## How It Works\n\n1. Create a workspace from a local directory or GitHub URL.\n2. RSD ingests the repo, runs static analysis, and surfaces phase progress in the title bar.\n3. The file tree, README, entry points and findings populate the editor as soon as the workspace is ready.\n4. You pick an entry point, fill the auto-generated input form in the Inspector, and hit **▶ Run**.\n5. RSD streams execution events into the storyboard tab and decorates the open source files as frames arrive.\n6. If runtime tracing cannot complete, RSD shows the blocker and the best available fallback analysis without taking over the editor.\n\n## Quick Start\n\nRequires **Node.js 20+** and npm 10+.\n\n```bash\ngit clone https://github.com/ZSturman/Runtime-Storyboard-Debugger.git\ncd Runtime-Storyboard-Debugger\nnpm install\nnpm run dev\n```\n\n`npm run dev` starts the API server (with `examples/order-api` preloaded) and the Vite UI together. Open [http://localhost:3000](http://localhost:3000).\n\n### Advanced: run the pieces separately\n\nIf you need to target a different repo or port, run the two halves directly.\n\nTerminal 1 — API server:\n\n```bash\nnpx ts-node packages/core/src/cli/index.ts analyze <path-to-target> --port 3001\n```\n\nTerminal 2 — UI:\n\n```bash\ncd packages/ui\nRSD_API_URL=http://localhost:3001 npx vite\n```\n\n> **Path format**: the `analyze` argument must be an **absolute path** (e.g., `/Users/you/my-project`).\n> Relative paths are resolved from the directory where npm was originally invoked, not from `packages/core`.\n\n## Troubleshooting\n\n| Symptom | Cause | Fix |\n|---|---|---|\n| `Local path not found: …` on startup | The path passed to `analyze` doesn't exist or is relative and resolved from the wrong directory | Use an absolute path: `analyze /abs/path/to/project` |\n| `git: command not found` during GitHub ingestion | `git` is not on your PATH | Install git and re-run |\n| GitHub workspace fails with permission error | Private repository — not supported yet | Clone the repo locally and use a local-path workspace |\n| `No entry points detected` after analysis | Target is not a Node.js/Express app, or source files are in an unexpected location | Ensure the project has a `src/` folder with exported functions or Express route handlers |\n| Port already in use | Another process is listening on port 3001 | Pass `--port <other>` to the `analyze` command |\n| UI connects but shows a stale workspace | A previous `npm run dev` left the server running | Kill the old process and restart |\n\n## Recommended Demo Targets\n\n- Local: `examples/order-api`\n- GitHub: `mjgs/minimal-express-typescript`\n- GitHub: `expressjs/express`\n- GitHub: `gothinkster/node-express-realworld-example-app`\n\nThe last two are especially useful for testing graceful fallback when runtime setup is incomplete or expensive.\n\n## UI Flow\n\n### Workspace Intake\n\n- Choose `Local path` or `GitHub URL`\n- Create a workspace\n- Watch ingestion and analysis progress instead of waiting on a blank state\n\n### Workspace Overview\n\n- Review likely journeys\n- Inspect detected entry points\n- Check runtime blockers and detected scripts\n- Optionally configure LLM assistance\n\n### Live Execution\n\n- Start an explicit trace for a supported route or exported function\n- Watch the timeline fill with status updates, calls, branches, waits, logs, snapshots, side effects, returns, and failures\n- Scrub through captured steps while the run is still active\n- Click any branch you didn't take to re-run with inputs aimed at it\n\n### Keyboard Shortcuts\n\n| Key | Action |\n| --- | --- |\n| `←` / `→` | Previous / next step |\n| `↑` / `↓` | Jump back / forward 5 steps |\n| `F` | Focus the flow map |\n| `/` | Filter the timeline |\n| `C` | Re-run with different inputs |\n| `B` | Back to workspace overview |\n| `?` | Open the keyboard shortcut sheet |\n| `Esc` | Close overlays / clear filter |\n\n### Fallback Analysis\n\n- If execution fails or stalls, RSD shows the blocker clearly\n- The flow graph, unfinished work, and other static artifacts stay visible so the workspace still feels trustworthy\n\n## Optional LLM Assistance\n\n> **Note for v1.0:** the LLM panel is being removed from the v1.0 launch and reintroduced post-launch. The code still exists in the current build but is not part of the supported flow. See [docs/release-plan.md](https://github.com/ZSturman/Runtime-Storyboard-Debugger/blob/main/docs/release-plan.md).\n\nLLM help is opt-in and session-only.\n\n- Providers: OpenAI, Anthropic, Gemini, OpenRouter\n- API keys are kept in memory only\n- Model lists are fetched when the provider supports it, otherwise curated defaults are shown\n- The LLM layer is used for explanation and prioritization, not for baseline repo ingestion or core tracing\n\n## Architecture\n\n```text\npackages/\n  core/\n    analyzer/        entry points, unfinished work, flow graphs\n    instrumenter/    runtime tracing + Babel instrumentation\n    server/          workspace sessions, GitHub ingestion, SSE streams, execution sessions, LLM endpoints\n    storyboard/      frame building + narration\n  ui/\n    src/components/  intake, loading, overview, live execution, step inspection\nexamples/\n  order-api/         sample local app for end-to-end exploration\ntests/\n  unit/              analyzer, instrumenter, storyboard, server helpers\n```\n\n## Screenshots And Diagrams\n\nFor a stronger GitHub presentation, add these assets near the top of the README:\n\n- A hero screenshot of the live execution workspace while a trace is actively streaming\n- A screenshot of the workspace overview showing journeys, entry points, blockers, and scripts\n- A short GIF of a run progressing from analysis to live execution to fallback\n- A simple architecture diagram showing `Ingest -> Analyze -> Trace -> Explain`\n\nIf you add screenshots, place them directly under `What It Does` and keep captions short and outcome-oriented.\n\n## Current Scope\n\nIncluded now:\n\n- local path ingestion\n- public GitHub repo ingestion\n- automatic entry-point and journey discovery\n- live execution streaming with inspectable steps\n- workspace-level fallback states\n- optional multi-provider LLM assist flow\n\nNot included yet:\n\n- private GitHub repo auth\n- automatic remote runtime execution without explicit user action\n- persistent LLM credential storage\n- multi-language analysis beyond JS/TS\n- IDE integration\n- collaborative annotations and sharing\n\n## Validation\n\n```bash\nnpm run lint\nnpm test\nnpm run build\n```\n\n## License\n\n[MIT](https://github.com/ZSturman/Runtime-Storyboard-Debugger/blob/main/LICENSE) © Zachary Sturman\n\n## Design Principles\n\n- Fast repo understanding beats hidden magic\n- Live progress beats vague loading states\n- Trustworthy fallback beats broken execution\n- Static evidence comes before LLM interpretation\n- Technical detail stays available without overwhelming non-developers",
+      "sourceUrl": "https://github.com/ZSturman/Runtime-Storyboard-Debugger/blob/main/README.md"
+    }
   },
   {
     "id": "324aec94-4d3c-8068-a8a7-ed6d1d4d1790",
@@ -1130,10 +1162,10 @@
     "description": "",
     "story": "",
     "images": {
-      "banner": "Concept_art_with_Logo.jpeg",
       "thumbnail": "thumbnail.png",
+      "hero": "Ope_Hero.png",
       "icon": "AppIcon.png",
-      "hero": "Ope_Hero.png"
+      "banner": "Concept_art_with_Logo.jpeg"
     },
     "resources": [
       {
@@ -1173,7 +1205,11 @@
         "coverImage": "/articles/the-art-of-turning-a-90-minute-task-into-a-2-month/images/Concept_art_with_Logo.jpeg"
       }
     ],
-    "folderName": "folio_324aec94-4d3c-8068-a8a7-ed6d1d4d1790"
+    "folderName": "folio_324aec94-4d3c-8068-a8a7-ed6d1d4d1790",
+    "readme": {
+      "content": "# Folio Archive\n\n![Folio app icon](https://raw.githubusercontent.com/ZSturman/Folio-Studio/main/Reference/AppIcon/AppIcon.png)\n\nThis repository is an archive of related but independent attempts to solve the same personal problem: how to keep projects, ideas, media, metadata, references, and portfolio material in one system without losing the shape of the work.\n\nThe important thing to know is that this is not a neat release train. It is closer to a shelf of short stories with a family resemblance. Some branches are polished enough to run. Some are prototypes that taught a single lesson. Some are abandoned sketches that still explain why the later work looks the way it does.\n\nDates are approximate when they come from filesystem timestamps instead of Git history. The full narrative source is in [docs/HISTORY.md](https://github.com/ZSturman/Folio-Studio/blob/main/docs/HISTORY.md).\n\nThe current visual identity for the project lives in [Reference/AppIcon/AppIcon.png](https://github.com/ZSturman/Folio-Studio/blob/main/Reference/AppIcon/AppIcon.png), which is included here so the repo front page has a clear visual anchor instead of reading like a raw filesystem dump.\n\n## Start Here\n\n| If you want to... | Go here |\n| --- | --- |\n| Understand the overall arc | [docs/HISTORY.md](https://github.com/ZSturman/Folio-Studio/blob/main/docs/HISTORY.md) |\n| See the organization system of the repo | [Current/README.md](https://github.com/ZSturman/Folio-Studio/blob/main/Current/README.md), [Archive/README.md](https://github.com/ZSturman/Folio-Studio/blob/main/Archive/README.md), [Experiments/README.md](https://github.com/ZSturman/Folio-Studio/blob/main/Experiments/README.md) |\n| Open the most complete app | [Current/FolioStudio/README.md](https://github.com/ZSturman/Folio-Studio/blob/main/Current/FolioStudio/README.md) |\n| Explore the historical branches | [Archive/README.md](https://github.com/ZSturman/Folio-Studio/blob/main/Archive/README.md) |\n| Browse supporting assets and legacy workspace material | [Reference/README.md](https://github.com/ZSturman/Folio-Studio/blob/main/Reference/README.md) |\n\n## Organization System\n\nEvery major branch in this repository follows the same documentation pattern.\n\n- `Dates`: the span of time the branch seems to belong to.\n- `Status`: active, archived, prototype, abandoned, spike, or reference-only.\n- `Question`: the problem that branch was trying to answer.\n- `What survives here`: the code, notes, or assets that still matter.\n- `What it led to`: the next branch, if one exists.\n\nAt the repo level, the structure is intentionally simple.\n\n- [Current](https://github.com/ZSturman/Folio-Studio/blob/main/Current/README.md): the most complete product path.\n- [Archive](https://github.com/ZSturman/Folio-Studio/blob/main/Archive/README.md): historical versions, concept families, and abandoned attempts.\n- [Experiments](https://github.com/ZSturman/Folio-Studio/blob/main/Experiments/README.md): side branches and spikes that mattered enough to keep.\n- [Reference](https://github.com/ZSturman/Folio-Studio/blob/main/Reference/README.md): app icons, setup captures, and legacy workspace material.\n- [docs](https://github.com/ZSturman/Folio-Studio/blob/main/docs/README.md): long-form narrative and archive notes.\n\n## Map Of The Archive\n\n| Storyline | Dates | Status | What it is | Read more |\n| --- | --- | --- | --- | --- |\n| Current Folio Studio | Nov 2025 to Mar 2026 | Active snapshot | The clearest, most complete macOS document-based portfolio editor in the archive | [Current/FolioStudio/README.md](https://github.com/ZSturman/Folio-Studio/blob/main/Current/FolioStudio/README.md) |\n| IdeasApp | Sep 2025 to Oct 2025 | Archived prototype | Idea capture, triage, and project scaffolding separated from long-term project management | [Archive/IdeasApp/README.md](https://github.com/ZSturman/Folio-Studio/blob/main/Archive/IdeasApp/README.md) |\n| OPE Metadata Systems | Sep 2022 to Jan 2026 | Archived concept family | The broadest thinking branch: wireframes, notes, filesystem-first organizers, and schema experiments | [Archive/OPE-Metadata-Systems/README.md](https://github.com/ZSturman/Folio-Studio/blob/main/Archive/OPE-Metadata-Systems/README.md) |\n| Obsidian Project Management App | Jul 2024 to Sep 2024 | Abandoned prototype | A Tauri desktop attempt to bridge local projects, ideas, and markdown tools like Obsidian | [Archive/Obsidian-Project-Management-App/README.md](https://github.com/ZSturman/Folio-Studio/blob/main/Archive/Obsidian-Project-Management-App/README.md) |\n| PortfolioEditor | Oct 2025 to Dec 2025 | Archived prototype | A simpler document-based JSON editor that narrowed the scope before current Folio | [Archive/PortfolioEditor/README.md](https://github.com/ZSturman/Folio-Studio/blob/main/Archive/PortfolioEditor/README.md) |\n| RPOVault | Oct 2025 to Dec 2025 | Archived spike | A very small SwiftUI and SwiftData experiment kept as context rather than as a product | [Experiments/RPOVault/README.md](https://github.com/ZSturman/Folio-Studio/blob/main/Experiments/RPOVault/README.md) |\n\n## How To Read This Repo\n\nIf you want the shortest path, start with [Current/FolioStudio/README.md](https://github.com/ZSturman/Folio-Studio/blob/main/Current/FolioStudio/README.md) and then jump backward into [Archive/PortfolioEditor/README.md](https://github.com/ZSturman/Folio-Studio/blob/main/Archive/PortfolioEditor/README.md) and [Archive/OPE-Metadata-Systems/README.md](https://github.com/ZSturman/Folio-Studio/blob/main/Archive/OPE-Metadata-Systems/README.md).\n\nIf you want the full story, read [docs/HISTORY.md](https://github.com/ZSturman/Folio-Studio/blob/main/docs/HISTORY.md) and then use the README files in each branch as chapter cards for the surviving folders.\n\nIf you are here for technical context more than narrative, the most useful branches are current Folio, PortfolioEditor, Portfolio Organizer, and the browser editor in the OPE family.",
+      "sourceUrl": "https://github.com/ZSturman/Folio-Studio/blob/main/README.md"
+    }
   },
   {
     "id": "31faec94-4d3c-80a8-9ab6-e791da057b67",
@@ -1205,9 +1241,9 @@
     "description": "",
     "story": "",
     "images": {
-      "banner": "bannner.png",
       "thumbnail": "thumb.png",
-      "hero": "hero.png"
+      "hero": "hero.png",
+      "banner": "bannner.png"
     },
     "resources": [],
     "assets": [
@@ -1353,10 +1389,10 @@
     "description": "",
     "story": "",
     "images": {
-      "banner": "banner.png",
       "thumbnail": "thumbnail.png",
+      "hero": "hero.png",
       "icon": "icon.png",
-      "hero": "hero.png"
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -1453,7 +1489,11 @@
       }
     ],
     "articles": [],
-    "folderName": "mass_and_time_306aec94-4d3c-80c9-a6d4-f6362f15b981"
+    "folderName": "mass_and_time_306aec94-4d3c-80c9-a6d4-f6362f15b981",
+    "readme": {
+      "content": "# Time and Mass: A Time-Centric Ontology of Mass, Gravity, and Spacetime\n\n> *Space is where mass is. Time is why mass is. Gravity is how mass is felt.*\n\n## Overview\n\nThis project explores a speculative but structured physics hypothesis: **time is the fundamental substrate from which mass emerges**. Mass is not a static property but a persistent resonance of quantum-field excitations sustained through continuous temporal evolution. Gravity, in turn, is the wave-like propagation of that persistence through spacetime.\n\nThe hypothesis inverts the standard GR causal arrow: instead of \"mass warps time,\" it proposes \"time generates mass.\"\n\n## Core Ideas (7 Pillars)\n\n| # | Pillar | Key Claim |\n|---|--------|-----------|\n| 1 | [Time Generates Mass](https://github.com/ZSturman/Time-and-Mass/blob/main/theory/01_time_generates_mass.md) | Mass emerges from persistent quantum excitations evolving through time |\n| 2 | [Mass Flux Density](https://github.com/ZSturman/Time-and-Mass/blob/main/theory/02_mass_flux_density.md) | (kg/s)/m captures gravitational character better than static mass |\n| 3 | [Relativistic Mass Distribution](https://github.com/ZSturman/Time-and-Mass/blob/main/theory/03_relativistic_mass_distribution.md) | At relativistic speeds, mass becomes spatially non-localized |\n| 4 | [Gravity = Wave, Mass = Particle](https://github.com/ZSturman/Time-and-Mass/blob/main/theory/04_gravity_wave_mass_particle.md) | Wave-particle duality extends to gravity-mass relationship |\n| 5 | [Temporal Resonance Orbitals](https://github.com/ZSturman/Time-and-Mass/blob/main/theory/05_temporal_resonance_orbitals.md) | Electron orbitals are stable because temporal interference averages to zero |\n| 6 | [Photon–Black Hole Duality](https://github.com/ZSturman/Time-and-Mass/blob/main/theory/06_photon_blackhole_duality.md) | Photons (pure time) and black holes (pure space) are extremes of a polarity spectrum |\n| 7 | [Strong Force as Temporal Gradient](https://github.com/ZSturman/Time-and-Mass/blob/main/theory/07_strong_force_temporal_gradient.md) | Nuclear binding from short-range temporal coherence equilibration |\n\nFull synthesis: [theory/00_core_hypothesis.md](https://github.com/ZSturman/Time-and-Mass/blob/main/theory/00_core_hypothesis.md)\n\n## Simulations\n\nThree numerical simulations test aspects of this hypothesis. Each has adjustable parameters via YAML config files, a Python CLI script, and a Jupyter notebook.\n\n### Quick Start\n\n```bash\ncd simulations\npip install -r requirements.txt\n\n# Run any simulation:\npython mass_time_emergence/simulation.py\npython orbital_temporal_stability/simulation.py\npython photon_blackhole_duality/visualization.py\n\n# Or generate a full headless batch with saved artifacts:\npython run_batch.py\n\n# Or use Jupyter notebooks for interactive exploration:\njupyter notebook\n```\n\n### Available Simulations\n\n| Simulation | Tests Pillars | Description |\n|---|---|---|\n| [Mass-Time Emergence](https://github.com/ZSturman/Time-and-Mass/blob/main/simulations/mass_time_emergence/) | 1, 2 | 1D model of mass density evolving from time flow with gravitational coupling |\n| [Orbital Temporal Stability](https://github.com/ZSturman/Time-and-Mass/blob/main/simulations/orbital_temporal_stability/) | 5 | QuTiP two-level atom: does temporal perturbation destabilize orbitals? |\n| [Photon–BH Duality](https://github.com/ZSturman/Time-and-Mass/blob/main/simulations/photon_blackhole_duality/) | 6 | Schwarzschild metric visualization showing space-time polarity spectrum |\n\nAll parameters are adjustable in each simulation's `config.yaml`.\n\n## Directory Structure\n\n```\nTime and Mass/\n├── README.md                    ← You are here\n├── PLAN.md                      ← Implementation plan (phases, status)\n├── theory/                      ← 8 curated theory documents\n├── simulations/\n│   ├── requirements.txt\n│   ├── shared/config_loader.py  ← Shared YAML config utility\n│   ├── mass_time_emergence/     ← Simulation 1\n│   ├── orbital_temporal_stability/  ← Simulation 2\n│   └── photon_blackhole_duality/    ← Simulation 3\n├── analysis/                    ← Future: real data pipelines\n├── notes/\n│   ├── journal/                 ← Dated entries (2025_07_01, etc.)\n│   └── thought_experiments/     ← Idea sketches (rain analogy, gravity, etc.)\n├── references/\n│   ├── chatgpt_discussions/     ← AI-assisted exploration transcripts\n│   ├── literature_to_review.md  ← Books, papers, datasets to study\n│   ├── proposed_experiments.md  ← Testable experiments (at-home + funded)\n│   └── Mass in a timeless universe.pdf\n├── images/                      ← Diagrams and screenshots\n└── archive/                     ← Original files (preserved verbatim)\n```\n\n## Future Work (Phase 4+)\n\n- Relativistic mass delocalization simulation\n- 2D gravity wave propagation\n- CERN Open Data analysis (muon momentum distributions)\n- Atomic clock / GPS data correlation\n- LIGO gravitational wave analysis\n- Machine learning pattern detection\n\nSee [PLAN.md](https://github.com/ZSturman/Time-and-Mass/blob/main/PLAN.md) for the full roadmap.",
+      "sourceUrl": "https://github.com/ZSturman/Time-and-Mass/blob/main/README.md"
+    }
   },
   {
     "id": "306aec94-4d3c-803b-a895-e775003b0f5d",
@@ -1488,9 +1528,9 @@
     "story": "",
     "images": {
       "poster": "poster.gif",
-      "banner": "banner.png",
       "thumbnail": "thumbnail.png",
-      "icon": "logo.png"
+      "icon": "logo.png",
+      "banner": "banner.png"
     },
     "resources": [],
     "assets": [],
@@ -1521,12 +1561,11 @@
                 "url": "https://zsturman.github.io/ZSDynamics-V4.0/",
                 "linkPreview": {
                   "provider": "zsturman.github.io",
-                  "title": "zsturman.github.io/ZSDynamics-V4.0",
+                  "title": "Zachary Sturman | Full-Stack Developer | Python | React | Rust | TypeScript",
                   "siteName": "Zsturman Github Io",
                   "hostname": "zsturman.github.io",
                   "displayUrl": "zsturman.github.io/ZSDynamics-V4.0",
-                  "image": "/projects/zsdynamics_40_306aec94-4d3c-807e-a7ef-db0aa63a2ec7/previews/zsturman.github.io-bde3e5bc6f2e.png",
-                  "imageSource": "capture"
+                  "description": "Cross-Platform Development | Responsive and Mobile-First User Interfaces | Scalable Backend Architectures with Robust APIs | Real-Time Data Processing"
                 },
                 "iconUrl": "/icons/favicons/zsturman.github.io.png"
               },
@@ -1542,12 +1581,11 @@
               "url": "https://zsturman.github.io/ZSDynamics-V4.0/",
               "linkPreview": {
                 "provider": "zsturman.github.io",
-                "title": "zsturman.github.io/ZSDynamics-V4.0",
+                "title": "Zachary Sturman | Full-Stack Developer | Python | React | Rust | TypeScript",
                 "siteName": "Zsturman Github Io",
                 "hostname": "zsturman.github.io",
                 "displayUrl": "zsturman.github.io/ZSDynamics-V4.0",
-                "image": "/projects/zsdynamics_40_306aec94-4d3c-807e-a7ef-db0aa63a2ec7/previews/zsturman.github.io-bde3e5bc6f2e.png",
-                "imageSource": "capture"
+                "description": "Cross-Platform Development | Responsive and Mobile-First User Interfaces | Scalable Backend Architectures with Robust APIs | Real-Time Data Processing"
               },
               "iconUrl": "/icons/favicons/zsturman.github.io.png"
             }
@@ -1567,12 +1605,13 @@
                 "url": "https://zsturman.github.io/TowardBetter-Announcement-Page/",
                 "linkPreview": {
                   "provider": "zsturman.github.io",
-                  "title": "zsturman.github.io/TowardBetter-Announcement-Page",
+                  "title": "Sam - First Look",
                   "siteName": "Zsturman Github Io",
                   "hostname": "zsturman.github.io",
                   "displayUrl": "zsturman.github.io/TowardBetter-Announcement-Page",
-                  "image": "/projects/towardbetterme_announcement_page_306aec94-4d3c-8064-9e5a-c59f1df02bee/previews/zsturman.github.io-9abb1d1ecb48.png",
-                  "imageSource": "capture"
+                  "description": "Women Deserve Better",
+                  "image": "https://zsturman.github.io/images/Sam Logo - Blush.svg",
+                  "imageSource": "metadata"
                 },
                 "iconUrl": "/icons/favicons/zsturman.github.io.png"
               },
@@ -1588,12 +1627,13 @@
               "url": "https://zsturman.github.io/TowardBetter-Announcement-Page/",
               "linkPreview": {
                 "provider": "zsturman.github.io",
-                "title": "zsturman.github.io/TowardBetter-Announcement-Page",
+                "title": "Sam - First Look",
                 "siteName": "Zsturman Github Io",
                 "hostname": "zsturman.github.io",
                 "displayUrl": "zsturman.github.io/TowardBetter-Announcement-Page",
-                "image": "/projects/towardbetterme_announcement_page_306aec94-4d3c-8064-9e5a-c59f1df02bee/previews/zsturman.github.io-9abb1d1ecb48.png",
-                "imageSource": "capture"
+                "description": "Women Deserve Better",
+                "image": "https://zsturman.github.io/images/Sam Logo - Blush.svg",
+                "imageSource": "metadata"
               },
               "iconUrl": "/icons/favicons/zsturman.github.io.png"
             }
@@ -1634,12 +1674,13 @@
                 "url": "https://zsturman.github.io/ZSDynamics-V2.0/",
                 "linkPreview": {
                   "provider": "zsturman.github.io",
-                  "title": "zsturman.github.io/ZSDynamics-V2.0",
+                  "title": "Zachary Sturman Portfolio",
                   "siteName": "Zsturman Github Io",
                   "hostname": "zsturman.github.io",
                   "displayUrl": "zsturman.github.io/ZSDynamics-V2.0",
-                  "image": "/projects/zsdynamics_20_306aec94-4d3c-800b-9d7d-ed0c879ab5b3/previews/zsturman.github.io-f992a52961cf.png",
-                  "imageSource": "capture"
+                  "description": "Explore Zachary Sturman's Software Engineering portfolio.",
+                  "image": "https://www.ZSdynamics.com/og_img.png'",
+                  "imageSource": "metadata"
                 },
                 "iconUrl": "/icons/favicons/zsturman.github.io.png"
               },
@@ -1655,12 +1696,13 @@
               "url": "https://zsturman.github.io/ZSDynamics-V2.0/",
               "linkPreview": {
                 "provider": "zsturman.github.io",
-                "title": "zsturman.github.io/ZSDynamics-V2.0",
+                "title": "Zachary Sturman Portfolio",
                 "siteName": "Zsturman Github Io",
                 "hostname": "zsturman.github.io",
                 "displayUrl": "zsturman.github.io/ZSDynamics-V2.0",
-                "image": "/projects/zsdynamics_20_306aec94-4d3c-800b-9d7d-ed0c879ab5b3/previews/zsturman.github.io-f992a52961cf.png",
-                "imageSource": "capture"
+                "description": "Explore Zachary Sturman's Software Engineering portfolio.",
+                "image": "https://www.ZSdynamics.com/og_img.png'",
+                "imageSource": "metadata"
               },
               "iconUrl": "/icons/favicons/zsturman.github.io.png"
             }
@@ -1680,12 +1722,10 @@
                 "url": "https://zsturman.github.io/ZSDynamics-V1.1/",
                 "linkPreview": {
                   "provider": "zsturman.github.io",
-                  "title": "zsturman.github.io/ZSDynamics-V1.1",
+                  "title": "Zachary Sturman Home",
                   "siteName": "Zsturman Github Io",
                   "hostname": "zsturman.github.io",
-                  "displayUrl": "zsturman.github.io/ZSDynamics-V1.1",
-                  "image": "/projects/zsdynamics_11_306aec94-4d3c-80ff-a96a-c3c51900e249/previews/zsturman.github.io-ee7e4a65aa78.png",
-                  "imageSource": "capture"
+                  "displayUrl": "zsturman.github.io/ZSDynamics-V1.1"
                 },
                 "iconUrl": "/icons/favicons/zsturman.github.io.png"
               },
@@ -1701,12 +1741,10 @@
               "url": "https://zsturman.github.io/ZSDynamics-V1.1/",
               "linkPreview": {
                 "provider": "zsturman.github.io",
-                "title": "zsturman.github.io/ZSDynamics-V1.1",
+                "title": "Zachary Sturman Home",
                 "siteName": "Zsturman Github Io",
                 "hostname": "zsturman.github.io",
-                "displayUrl": "zsturman.github.io/ZSDynamics-V1.1",
-                "image": "/projects/zsdynamics_11_306aec94-4d3c-80ff-a96a-c3c51900e249/previews/zsturman.github.io-ee7e4a65aa78.png",
-                "imageSource": "capture"
+                "displayUrl": "zsturman.github.io/ZSDynamics-V1.1"
               },
               "iconUrl": "/icons/favicons/zsturman.github.io.png"
             }
@@ -1726,12 +1764,13 @@
                 "url": "https://zsturman.github.io/ZSDynamics-V1.0/",
                 "linkPreview": {
                   "provider": "zsturman.github.io",
-                  "title": "zsturman.github.io/ZSDynamics-V1.0",
+                  "title": "Zachary Sturman Portfolio",
                   "siteName": "Zsturman Github Io",
                   "hostname": "zsturman.github.io",
                   "displayUrl": "zsturman.github.io/ZSDynamics-V1.0",
-                  "image": "/projects/zsdynamics_10_306aec94-4d3c-803d-8230-fe06337c4a51/previews/zsturman.github.io-a017dada2068.png",
-                  "imageSource": "capture"
+                  "description": "Explore my data science portfolio, showcasing projects in machine learning, data visualization, and analytics. Learn how I leverage data-driven insights to solve real-world problems.",
+                  "image": "https://www.ZSdynamics.com/static/images/og_img.png",
+                  "imageSource": "metadata"
                 },
                 "iconUrl": "/icons/favicons/zsturman.github.io.png"
               },
@@ -1747,12 +1786,13 @@
               "url": "https://zsturman.github.io/ZSDynamics-V1.0/",
               "linkPreview": {
                 "provider": "zsturman.github.io",
-                "title": "zsturman.github.io/ZSDynamics-V1.0",
+                "title": "Zachary Sturman Portfolio",
                 "siteName": "Zsturman Github Io",
                 "hostname": "zsturman.github.io",
                 "displayUrl": "zsturman.github.io/ZSDynamics-V1.0",
-                "image": "/projects/zsdynamics_10_306aec94-4d3c-803d-8230-fe06337c4a51/previews/zsturman.github.io-a017dada2068.png",
-                "imageSource": "capture"
+                "description": "Explore my data science portfolio, showcasing projects in machine learning, data visualization, and analytics. Learn how I leverage data-driven insights to solve real-world problems.",
+                "image": "https://www.ZSdynamics.com/static/images/og_img.png",
+                "imageSource": "metadata"
               },
               "iconUrl": "/icons/favicons/zsturman.github.io.png"
             }
@@ -1817,9 +1857,9 @@
     "story": "",
     "images": {
       "poster": "poster.png",
-      "banner": "banner.png",
       "thumbnail": "thumbnail.png",
-      "icon": "thumbnail.png"
+      "icon": "thumbnail.png",
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -1860,7 +1900,11 @@
         "coverImage": "/articles/building-chewsense-using-motion-data-for-an-on-device-ai-health-agent/images/hero.png"
       }
     ],
-    "folderName": "chewsense_306aec94-4d3c-808d-9ada-f0ccca484d3b"
+    "folderName": "chewsense_306aec94-4d3c-808d-9ada-f0ccca484d3b",
+    "readme": {
+      "content": "# Chew Sense – Data Collection and Labeling\n\nChew Sense records synchronized AirPods motion data and video for research, prototyping, and dataset creation. While optimized for chewing-related motion analysis, it can support any workflow requiring aligned video and AirPods motion samples.\n\n---\n\n## Features\n\n### Automatic AirPods Connection\n- The app connects to supported AirPods motion sensors on launch.  \n- Recording is enabled only when motion data is actively available.\n\n### Synchronized Recording\n- Each session stores a `.mov` video file and a `.csv` motion-data file in a single folder.  \n- Timestamps ensure precise alignment between modalities.\n\n### Optional Labeling Workflow\n- Recordings can be exported immediately when started in **Not eating** mode.  \n- When labeling is required, the detail view supports:\n  - Playback  \n  - Marker placement  \n  - Segment-based boolean labels  \n- Segments between markers are labeled `true`; all others are `false`.\n\n### Connection-Loss Protection\n- The app automatically pauses recording if the AirPods connection drops.  \n- This prevents incomplete or misaligned datasets.\n\n---\n\n## Data Format\n\n- **Video:** `recording.mov`  \n- **Motion data:** `motion.csv` with timestamped sensor rows  \n- **Labels:** Boolean values aligned to motion-data segments  \n\n---\n\n## Exporting\n\nRecordings can be exported or shared as a folder containing both files. This design simplifies downstream processing and machine-learning dataset assembly.\n\n---\n\n## Intended Use\n\nChew Sense is designed for technical users who need clean, consistent, and synchronized motion/video data.  \nIt is **not** intended as a consumer chewing-monitoring or health-tracking product.",
+      "sourceUrl": "https://github.com/ZSturman/ChewSense---Data-Collection-and-Labeling/blob/main/README.md"
+    }
   },
   {
     "id": "306aec94-4d3c-807e-a7ef-db0aa63a2ec7",
@@ -1893,9 +1937,9 @@
     "description": "",
     "story": "",
     "images": {
-      "banner": "poster.png",
       "thumbnail": "thumbnail.png",
-      "icon": "banner.png"
+      "icon": "banner.png",
+      "banner": "poster.png"
     },
     "resources": [
       {
@@ -1904,12 +1948,11 @@
         "url": "https://zsturman.github.io/ZSDynamics-V4.0/",
         "linkPreview": {
           "provider": "zsturman.github.io",
-          "title": "zsturman.github.io/ZSDynamics-V4.0",
+          "title": "Zachary Sturman | Full-Stack Developer | Python | React | Rust | TypeScript",
           "siteName": "Zsturman Github Io",
           "hostname": "zsturman.github.io",
           "displayUrl": "zsturman.github.io/ZSDynamics-V4.0",
-          "image": "/projects/zsdynamics_40_306aec94-4d3c-807e-a7ef-db0aa63a2ec7/previews/zsturman.github.io-bde3e5bc6f2e.png",
-          "imageSource": "capture"
+          "description": "Cross-Platform Development | Responsive and Mobile-First User Interfaces | Scalable Backend Architectures with Robust APIs | Real-Time Data Processing"
         },
         "iconUrl": "/icons/favicons/zsturman.github.io.png"
       },
@@ -1943,7 +1986,11 @@
       }
     ],
     "articles": [],
-    "folderName": "zsdynamics_40_306aec94-4d3c-807e-a7ef-db0aa63a2ec7"
+    "folderName": "zsdynamics_40_306aec94-4d3c-807e-a7ef-db0aa63a2ec7",
+    "readme": {
+      "content": "# Zachary Sturman\n\n[![LinkedIn](https://img.shields.io/badge/LinkedIn-Profile-blue)](https://linkedin.com/in/zacharysturman)\n[![GitHub](https://img.shields.io/badge/GitHub-Profile-black)](https://github.com/ZSturman)\n[![Website](https://img.shields.io/badge/Website-Portfolio-red)](http://zachary-sturman.com)\n\n## About Me\n\nI am a full-stack software engineer with expertise in data engineering, machine learning, and scalable cloud-based solutions. I specialize in building robust web and mobile applications, designing efficient data pipelines, and implementing AI-driven features. My background includes hands-on experience with cloud computing, database optimization, and DevOps automation, enabling me to deliver performant and scalable applications. I am passionate about leveraging emerging technologies to create innovative solutions.\n\n## Skills\n\n- **Programming Languages:** Python, TypeScript, JavaScript, Rust, Swift, Ruby, C#, Objective-C  \n- **Data Engineering & Machine Learning:** Pandas, NumPy, Scikit-learn, TensorFlow, PyTorch, Matplotlib, Seaborn, Airflow, Spark  \n- **Data Storage & Pipeline Tools:** PostgreSQL, MongoDB, MySQL, Redis, AWS RDS, S3, Athena, Snowflake, BigQuery  \n- **API & Backend Development:** FastAPI, Flask, Django, Node.js, Express, GraphQL, RESTful APIs  \n- **Testing & Analytics:** Pytest, Postman, Jupyter Notebook, TensorBoard, Cypress, React Testing Library  \n- **Cloud, DevOps & Tools:** AWS (Lambda, EC2, S3, CloudFront, RDS), Firebase, Docker, CI/CD, Git, GitHub Actions, Redis, Jenkins  \n- **Frontend, UI & UX Development:** React, Next.js, Redux, Tailwind, Figma, Sketch, Adobe Illustrator, Photoshop  \n\n## Experience\n\n### Data Engineer (Contract) | TowardBetter.me\n**October 2024 – February 2025**\n\n- Designed and implemented data architecture to support app development, enabling efficient storage and retrieval of user-generated content.\n- Built and optimized API endpoints using FastAPI with Firebase for seamless user authentication and database operations.\n- Leveraged XState to build state-driven pipeline processing workflows, ensuring robust and maintainable data flows.\n- Developed and integrated an LLM-powered chat assistant tailored for free-tier users, enhancing user engagement and accessibility.\n- Integrated third-party tools such as Twilio (communications), Stripe (payments), and Zoom (virtual meetings) to expand app functionality.\n\n### Full Stack Software Engineer | Lost & Hound (University of Melbourne, Australia)\n**February 2024 - October 2024**\n\n- Built a Python-based data pipeline to process images using OpenCV and Scikit-learn for computer vision tasks.\n- Implemented a PostgreSQL database schema to handle large-scale image data with optimized queries.\n- Delivered end-to-end ML solutions by training and deploying models for lost pet photo matching.\n- Conducted training to empower non-profit teams to manage and maintain applications independently.\n- Improved build and deployment processes using GitHub Actions.\n\n### Web Engineer | The Knife Grinder\n**August 2020 - November 2023**\n\n- Modernized website infrastructure using React and Next.js, enhancing performance and user experience.\n- Developed RESTful APIs using FastAPI for efficient data delivery to frontend applications.\n- Applied Pandas and NumPy for in-depth data cleaning and transformation, supporting advanced business analytics.\n\n### Business Intelligence Engineer | Ameristar Casino\n**April 2017 - October 2023**\n\n- Conducted advanced data analysis with Pandas and Matplotlib, generating actionable business insights.\n- Created machine learning models in Python for customer segmentation and trend prediction.\n- Built scalable backend systems to support high-frequency data ingestion and real-time analytics.\n\n## Education & Certifications\n\n- **Bachelor of Science in Media Communication** - Full Sail University (2014)\n- **Google Certified Data Analyst** (2022)\n- **AWS Certified Cloud Practitioner** (2023)\n\n## Projects\n\nCheck out some of my projects on [GitHub](https://github.com/ZSturman) and my [Portfolio](http://zachary-sturman.com).\n\n### Notable Projects:\n- **Data Labeling & Analysis Tool:** Created a desktop application using Python, React, OpenCV, and machine learning to assist with dietary tracking and data analysis. Demonstrates proficiency in computer vision techniques and ML. [GitHub](https://github.com/ZSturman/Hows-My-Eating)\n- **Scheduling Pipeline Application:** Developed a scheduling app using Python and Flask, showcasing the ability to design and implement a clear and efficient pipeline of processes for production scheduling. [GitHub](https://github.com/ZSturman/Google-Sheets-Production-Schedule-Desktop-App)\n\n## Contact\n\nI'm always open to new opportunities and collaborations. Feel free to reach out to me via [email](mailto:zasturman@gmail.com) or connect with me on [LinkedIn](https://linkedin.com/in/zacharysturman).",
+      "sourceUrl": "https://github.com/ZSturman/ZSDynamics-V4.0/blob/main/README.md"
+    }
   },
   {
     "id": "306aec94-4d3c-8064-9e5a-c59f1df02bee",
@@ -1975,9 +2022,9 @@
     "description": "",
     "story": "",
     "images": {
-      "banner": "Collaborative Effort with Green Ball.png",
       "thumbnail": "thumbnail.png",
-      "icon": "Celestial Hands Holding Heart.png"
+      "icon": "Celestial Hands Holding Heart.png",
+      "banner": "Collaborative Effort with Green Ball.png"
     },
     "resources": [
       {
@@ -1986,12 +2033,13 @@
         "url": "https://zsturman.github.io/TowardBetter-Announcement-Page/",
         "linkPreview": {
           "provider": "zsturman.github.io",
-          "title": "zsturman.github.io/TowardBetter-Announcement-Page",
+          "title": "Sam - First Look",
           "siteName": "Zsturman Github Io",
           "hostname": "zsturman.github.io",
           "displayUrl": "zsturman.github.io/TowardBetter-Announcement-Page",
-          "image": "/projects/towardbetterme_announcement_page_306aec94-4d3c-8064-9e5a-c59f1df02bee/previews/zsturman.github.io-9abb1d1ecb48.png",
-          "imageSource": "capture"
+          "description": "Women Deserve Better",
+          "image": "https://zsturman.github.io/images/Sam Logo - Blush.svg",
+          "imageSource": "metadata"
         },
         "iconUrl": "/icons/favicons/zsturman.github.io.png"
       },
@@ -2025,7 +2073,11 @@
       }
     ],
     "articles": [],
-    "folderName": "towardbetterme_announcement_page_306aec94-4d3c-8064-9e5a-c59f1df02bee"
+    "folderName": "towardbetterme_announcement_page_306aec94-4d3c-8064-9e5a-c59f1df02bee",
+    "readme": {
+      "content": "**TowardBetter Announcement — Static Demonstration Site**\n\nThis repository contains a static announcement/landing page built to demonstrate design and frontend engineering skills. It's not a full product backend — it's a polished, component-driven static site showing what I can deliver: layout, responsive UI, animations, forms, and small serverless routes for demo purposes.\n\n**What This Is**\n- **Purpose:** A static marketing/announcement page intended as a demonstration of frontend craft and product thinking.\n- **Stack:** Next.js (App Router), TypeScript, Tailwind CSS, modular React components, and a small set of serverless API routes for demo form/email flows.\n- **Static-first:** The site is built to be exported/deployed as a static site or hosted on serverless platforms (Vercel, Netlify). There is no production database — all dynamic examples are self-contained and demo-focused.\n\n**Highlights / Features**\n- **Design & Layout:** Clean, responsive landing layout with a hero, features, FAQ, and CTA sections.\n- **Component Library:** Reusable components in the `components/` folder (cards, forms, buttons, dialogs, inputs).\n- **Interactions & Accessibility:** Keyboard accessible UI, lightbox, parallax image, and subtle animations for an engaging experience.\n- **Forms & Demo API:** Email/Signup forms wired to demo serverless routes under `app/api/` to show end-to-end flow without a full backend.\n- **Content Modules:** Central content and copy live in the `site/` folder for easy editing and reuse.\n\n**Project Structure (short)**\n- `app/` — Next.js app entry, global layout, and top-level routes.\n- `components/` — UI components organized by purpose (containers, forms, ui primitives).\n- `site/` — Content modules (features, faqs, media, pitch deck data).\n- `styles/` — Tailwind config and global styles.\n- `public/` — Static images and assets.\n\n**Run locally**\n1. Install dependencies:\n\n\t`npm install`\n\n2. Run development server:\n\n\t`npm run dev`\n\n3. Build for production:\n\n\t`npm run build`\n\n4. Start the production server (if needed):\n\n\t`npm run start`\n\nNotes: This project uses Next.js and is intended to be previewed locally or deployed to a static/serverless host. If you want a fully static export, you can use hosting options that support Next.js static output or run an export process depending on your preferred hosting provider.\n\n**Editing & Extending**\n- Update copy and structured content in the `site/` folder.\n- Add or modify components in `components/` and styles in `styles/`.\n- Serverless demo endpoints live in `app/api/` — they are lightweight examples and can be replaced with real APIs if you connect a backend.\n\n**Deployment**\n- Recommended: Deploy to Vercel for best compatibility with Next.js app and serverless functions.\n- Alternatives: Netlify or other static hosts (may require build/export configuration).\n\n**Why this repo**\nThis project exists to show a complete, polished static announcement page that you can use as a starting point or a live portfolio sample. It demonstrates:\n- Frontend engineering with modern React/Next.js patterns\n- Component-driven UI and design consistency\n- Attention to accessibility, responsive design, and micro-interactions\n- Practical demo of connecting forms to serverless endpoints\n\n**Contact / Attribution**\nIf you'd like to discuss this project, request changes, or see more work, reach out to the author directly (contact details in my portfolio). This repository is a demonstration and may be updated periodically to reflect new experiments and UI ideas.\n\n---\n_Project: TowardBetter-Announcement-Page_",
+      "sourceUrl": "https://github.com/ZSturman/TowardBetter-Announcement-Page/blob/main/README.md"
+    }
   },
   {
     "id": "306aec94-4d3c-80a5-b00e-f67cc4ff5901",
@@ -2062,9 +2114,9 @@
     "story": "",
     "images": {
       "poster": "poster.png",
-      "banner": "banner.png",
       "thumbnail": "thumbnail.png",
-      "icon": "icon.svg"
+      "icon": "icon.svg",
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -2097,7 +2149,11 @@
       }
     ],
     "articles": [],
-    "folderName": "lost_hound_306aec94-4d3c-80a5-b00e-f67cc4ff5901"
+    "folderName": "lost_hound_306aec94-4d3c-80a5-b00e-f67cc4ff5901",
+    "readme": {
+      "content": "# Lost & Hound - a Pet Finder Mobile Application\n\n### App Link: <a href=\"https://appstoreconnect.apple.com/teams/88ed8354-418c-4d0b-a56c-e36019522304/apps/6702022401/testflight/ios\">Test Flight App</a>\n\n\n\n<!-- TABLE OF CONTENTS -->\n<details>\n  <summary>Table of Contents</summary>\n  <ol>\n    <li>\n      <a href=\"#about-lost--hound\">About Lost & Hound</a>\n      <ul>\n        <li><a href=\"#project-team-members\">Project Team Members</a></li>\n        <li><a href=\"#built-with\">Built With</a></li>\n      </ul>\n    </li>\n    <li><a href=\"#repository-directory-structure\">Repository Directory Structure</a></li>\n    <li><a href=\"#changelog\">Changelog</a></li>\n    <li>\n      <a href=\"#getting-started\">Getting Started</a>\n      <ul>\n        <li><a href=\"#installations\">Installations</a></li>\n        <li><a href=\"#clone-the-repository\">Clone the Repository</a></li>\n        <li><a href=\"#prerequisites\">Prerequisites</a></li>\n      </ul>\n    </li>\n    \n  </ol>\n</details>\n\n<!-- ABOUT THE PROJECT -->\n## About Lost & Hound\nLost & Hound is a mobile application designed to help reunite lost pets with their owners. As a community-driven platform, users will be able to use Lost & Hound to report sightings of lost pets and stray animals. By digitising what has traditionally been an offline activity, Lost & Hound aims to address said limitations to enhance the efficiency and increase the chances of pet recovery.\n\n\n### Built With\nThis project will be utilising these following technologies:\n\n* [![React Native][React.js]][React-url]\n* [![Node.js][Node.js]][Node-url]\n* [![Expo][Expo.dev]][Expo-url]\n* [![Android][Android]][Android-url]\n* [![Xcode][Xcode]][Xcode-url]\n* [![Jest][Jest]][Jest-url]\n* [![Postman][Postman]][Postman-url]\n* [![Firebase][Firebase]][Firebase-url]\n* [![Heroku][Heroku]][Heroku-url]\n\n*The location services in this app are only available in Australia for now.*\n\n<p align=\"right\">(<a href=\"#lost--hound---a-pet-finder-mobile-application\">back to top</a>)</p>\n\n## Repository Directory Structure\nFor client and server parts, more details are added in their respective README files. \n\nClient Side: /src/client/PFRedback/README.md\n\nServer Side: /src/server/README.md\n\nComputer Vision (CV) Server Side: src/cv_server/README.md\n\n### General Workflow\n```\npf-redback\n├── .github               # All GitHub customised settings\n├── docs/                 # Documentation files \n│   ├── sprint1/          # Sprint 1 Documentation\n|   |   ├── pdf\n│   ├── sprint2/          # Sprint 2 Documentation\n|   |   ├── pdf\n│   ├── sprint3/          # Sprint 3 Documentation\n|   |   ├── pdf\n├── src/                  # Source code folder\n│   ├── client/           # Client side folder\n|   |   ├── js, jsx       # Refer to README file (Client)\n│   ├── resources/        # Resources folder\n|   |   ├── images\n│   ├── server/           # Server side folder\n|   |   ├── js            # Refer to README file (Server)\n│   ├── cv_server/        # Computer Vision Server side folder\n|   |   ├── js            # Refer to README file (CV Server)\n├── .gitignore            # Extensions to exclude in git\n└── README.md             # Markdown of the Github repository\n```\n<p align=\"right\">(<a href=\"#lost--hound---a-pet-finder-mobile-application\">back to top</a>)</p>\n\n## Changelog\nAll notable changes to this project is documented in this section. The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). All Changelogs can be seen in `CHANGELOG.md`.\n\n<p align=\"right\">(<a href=\"#lost--hound---a-pet-finder-mobile-application\">back to top</a>)</p>\n\n<!-- GETTING STARTED -->\n## Getting Started\nTo run the project, the following steps needs to be done to get started:\n\n### Installations\nSet up the applications needed in order to work on the project\n\n#### Software:\n1. Node.js\n- Version: v16.x\n- Installation: Download and install Node.js from the official website.\n- Verify installation by running:\n```bash\nnode -v\nnpm -v\n```\n2. React Native\n- Version: Latest stable version\n- Installation: Install React Native CLI globally:\n```bash\nnpm install -g react-native-cli\n```\n- Verify installation by running:\n```bash\nreact-native --version\n```\n3. Expo\n- Version: Latest version\n- Installation: Install Expo CLI globally:\n```bash\nnpm install -g expo-cli\n```\n- Verify installation by running:\n```bash\nexpo --version\n```\n### Development Tools:\n- Download [Visual Studio Code](https://code.visualstudio.com/)\n- Setup the [Firebase](https://firebase.google.com/) project\n- Setup the [Heroku](https://www.heroku.com/)\n\n\n#### Testing:\n- Download [Postman](https://www.postman.com/downloads/)\n- Install Jest\n    - Version: Latest stable version\n    - Installation: Install Jest as a development dependency:\n    ```bash\n    npm install --save-dev jest\n    ```\n    - Verify installation by running:\n    ```bash\n    jest --version\n    ```\n\n\n\n\n### Clone the repository\nTo start, you need to clone the project to your local machine:\n  ```sh\n  git clone https://github.com/ZSturman/Lost-Hound\n  ```\n\n### Prerequisites\n\n#### To run the application (Frontend)\n1. Open Visual Studio Code\n2. Open Terminal in VS Code\n3. Install NPM packages\n```sh\n  npm install\n  ```\n4. Run the application via local machine\n```sh\n  npx expo start -c\n  ```\n\n#### To run the application (Backend)\n1. Open Visual Studio Code\n2. Open Terminal in VS Code (another terminal)\n3. Install NPM packages\n```sh\n  npm install\n  ```\n4. Run the application via local machine\n```sh\n  npm start\n  ```\n\nYou're ready to code!\n\n#### Run Tests (Frontend / Backend)\n1. Open Visual Studio Code\n2. Open Terminal in VS Code (another terminal)\n3. Install NPM packages\n```sh\n  npm install\n  ```\n4. Run the test in the application\n```sh\n  npm test\n  ```\n\n<p align=\"right\">(<a href=\"#lost--hound---a-pet-finder-mobile-application\">back to top</a>)</p>\n\n\n\n\n<!-- MARKDOWN LINKS & IMAGES -->\n<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->\n[React.js]: https://img.shields.io/badge/React%20Native-20232A?style=for-the-badge&logo=react&logoColor=61DAFB\n[React-url]: https://reactjs.org/\n[Node.js]: https://img.shields.io/badge/Node.js-grey?style=for-the-badge&logo=javascript&logoColor=5FA04E\n[Node-url]: https://nodejs.org/en\n[Expo.dev]: https://img.shields.io/badge/Expo-000000?style=for-the-badge&logo=expo&logoColor=white\n[Expo-url]: https://expo.dev/\n[Android]: https://img.shields.io/badge/Android%20Studio-808080?style=for-the-badge&logo=android&logoColor=3DDC84\n[Android-url]: https://developer.android.com/studio\n[Xcode]: https://img.shields.io/badge/xCode-DFFF00?style=for-the-badge&logo=xcode&logoColor=147EFB\n[Xcode-url]: https://developer.apple.com/xcode/\n[Jest]: https://img.shields.io/badge/Jest-FFFFFF?style=for-the-badge&logo=jest&logoColor=C21325\n[Jest-url]: https://jestjs.io/\n[Postman]: https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=postman&logoColor=FFFFFF\n[Postman-url]: https://www.postman.com/\n[Firebase]: https://img.shields.io/badge/Firebase-DD2C00?style=for-the-badge&logo=firebase&logoColor=white\n[Firebase-url]: https://firebase.google.com/\n[Heroku]: https://img.shields.io/badge/heroku-%23430098.svg?style=for-the-badge&logo=heroku&logoColor=white\n[Heroku-url]: https://www.heroku.com/",
+      "sourceUrl": "https://github.com/ZSturman/Lost-Hound/blob/main/README.md"
+    }
   },
   {
     "id": "306aec94-4d3c-8085-a43d-f9ac3bec06ef",
@@ -2128,9 +2184,9 @@
     "story": "",
     "images": {
       "poster": "poster.gif",
-      "banner": "banner.gif",
       "thumbnail": "thumbnail.png",
-      "hero": "queueExample.png"
+      "hero": "queueExample.png",
+      "banner": "banner.gif"
     },
     "resources": [
       {
@@ -2163,7 +2219,11 @@
       }
     ],
     "articles": [],
-    "folderName": "obsidian_toolkit_306aec94-4d3c-8085-a43d-f9ac3bec06ef"
+    "folderName": "obsidian_toolkit_306aec94-4d3c-8085-a43d-f9ac3bec06ef",
+    "readme": {
+      "content": "# The-2nd-Best-Obsidian-Collection\n\nThis repo is a growing collection of Obsidian resources designed to enhance how you interact with your notes and manage your information. \n\n## Current Features\n\n### Dashboard\n\nThe `Dashboard` feature is a dynamic way to visualize your Obsidian folders and notes, using a layout inspired by NextJS routing. It helps you turn your Obsidian vault into a navigable dashboard, organizing content through a flexible folder system.\n\n- **How It Works**: The dashboard automatically organizes files into rows and columns based on your folder structure, making it easy to visualize and access your notes directly from the Obsidian homepage.\n\n- **Setup**: Simply paste the provided CSS and JavaScript files into your Obsidian settings to get started.\n\n### QueueCards\n\nThe `QueueCards` feature helps you stay organized by creating a queue of notes to work through. You can skip items if you're not ready to deal with them yet, and each time you do, the skip counter goes up. This count also influences the color of the queued items, so you can see at a glance which items you've been avoiding.\n\n- **Requirements**: For this to work, your notes need to have a `to` field in the frontmatter or metadata. This field can either be a string or an array of strings.\n\n- **Setup**: Copy and paste the provided JavaScript and CSS files into your vault, and configure Templater to use the script.\n\n## Getting Started\n\nTo use the contents of this repo, clone it or download the files to your local machine:\n\n``` bash\ngit clone https://github.com/ZSturman/The-2nd-Best-Obsidian-Collection\n```\n\nNavigate to the specific feature directory you're interested in, and follow the instructions provided in the subfolder's README.\n\n### Contribution\nFeel free to fork this repo, add your features, or make improvements and send a pull request.\n\n### Feedback and Suggestions\nGot ideas or feedback? Open an issue in this repository, and let's make this truly the second best Obsidian collection out there!\n\n---\n\nVisit [ZSDynamics](https://www.zsdynamics.com/) to see a picture of a dog.",
+      "sourceUrl": "https://github.com/ZSturman/The-2nd-Best-Obsidian-Collection/blob/main/README.md"
+    }
   },
   {
     "id": "306aec94-4d3c-80d4-a8bd-d83a8832ebf8",
@@ -2194,8 +2254,8 @@
     "description": "",
     "story": "",
     "images": {
-      "banner": "banner.png",
-      "thumbnail": "thumbnail.png"
+      "thumbnail": "thumbnail.png",
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -2228,7 +2288,11 @@
       }
     ],
     "articles": [],
-    "folderName": "zsdynamics_30_306aec94-4d3c-80d4-a8bd-d83a8832ebf8"
+    "folderName": "zsdynamics_30_306aec94-4d3c-80d4-a8bd-d83a8832ebf8",
+    "readme": {
+      "content": "# React + TypeScript + Vite\n\nThis template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.\n\nCurrently, two official plugins are available:\n\n- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh\n- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh\n\n## Expanding the ESLint configuration\n\nIf you are developing a production application, we recommend updating the configuration to enable type aware lint rules:\n\n- Configure the top-level `parserOptions` property like this:\n\n```js\nexport default {\n  // other rules...\n  parserOptions: {\n    ecmaVersion: 'latest',\n    sourceType: 'module',\n    project: ['./tsconfig.json', './tsconfig.node.json'],\n    tsconfigRootDir: __dirname,\n  },\n}\n```\n\n- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`\n- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`\n- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list",
+      "sourceUrl": "https://github.com/ZSturman/ZSDynamics-V3.0/blob/main/README.md"
+    }
   },
   {
     "id": "306aec94-4d3c-800b-9d7d-ed0c879ab5b3",
@@ -2260,8 +2324,8 @@
     "description": "",
     "story": "",
     "images": {
-      "banner": "banner.png",
-      "thumbnail": "thumbnail.png"
+      "thumbnail": "thumbnail.png",
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -2270,12 +2334,13 @@
         "url": "https://zsturman.github.io/ZSDynamics-V2.0/",
         "linkPreview": {
           "provider": "zsturman.github.io",
-          "title": "zsturman.github.io/ZSDynamics-V2.0",
+          "title": "Zachary Sturman Portfolio",
           "siteName": "Zsturman Github Io",
           "hostname": "zsturman.github.io",
           "displayUrl": "zsturman.github.io/ZSDynamics-V2.0",
-          "image": "/projects/zsdynamics_20_306aec94-4d3c-800b-9d7d-ed0c879ab5b3/previews/zsturman.github.io-f992a52961cf.png",
-          "imageSource": "capture"
+          "description": "Explore Zachary Sturman's Software Engineering portfolio.",
+          "image": "https://www.ZSdynamics.com/og_img.png'",
+          "imageSource": "metadata"
         },
         "iconUrl": "/icons/favicons/zsturman.github.io.png"
       },
@@ -2340,8 +2405,8 @@
     "description": "",
     "story": "",
     "images": {
-      "banner": "banner.png",
-      "thumbnail": "thumbnail.png"
+      "thumbnail": "thumbnail.png",
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -2350,12 +2415,10 @@
         "url": "https://zsturman.github.io/ZSDynamics-V1.1/",
         "linkPreview": {
           "provider": "zsturman.github.io",
-          "title": "zsturman.github.io/ZSDynamics-V1.1",
+          "title": "Zachary Sturman Home",
           "siteName": "Zsturman Github Io",
           "hostname": "zsturman.github.io",
-          "displayUrl": "zsturman.github.io/ZSDynamics-V1.1",
-          "image": "/projects/zsdynamics_11_306aec94-4d3c-80ff-a96a-c3c51900e249/previews/zsturman.github.io-ee7e4a65aa78.png",
-          "imageSource": "capture"
+          "displayUrl": "zsturman.github.io/ZSDynamics-V1.1"
         },
         "iconUrl": "/icons/favicons/zsturman.github.io.png"
       },
@@ -2389,7 +2452,11 @@
       }
     ],
     "articles": [],
-    "folderName": "zsdynamics_11_306aec94-4d3c-80ff-a96a-c3c51900e249"
+    "folderName": "zsdynamics_11_306aec94-4d3c-80ff-a96a-c3c51900e249",
+    "readme": {
+      "content": "# ZSDynamics Static Portfolio\n\nThis is a static version of the ZSDynamics portfolio website.\n\n## Running the Site\n\nTo serve this site locally:\n\n```bash\nnpx serve docs\n```\n\nOr if you have serve installed globally:\n\n```bash\nserve docs\n```\n\nThen open your browser to the URL shown in the terminal (usually http://localhost:3000).\n\n## Structure\n\n- `index.html` - Home page\n- `/about/` - About page\n- `/portfolio/` - Portfolio page  \n- `/data_analytics/` - Data Analytics page\n- `/back_end/` - Back-end Developer page\n- `/front_end/` - Front-end Developer page\n- `/contact/` - Contact page\n- `/sliding_scale_project_page/` - Sliding Scale Project page\n- `/battle_fictional_character/` - Character Battle page\n- `/periodic_table/` - Periodic Table page\n- `/static/` - Static assets (CSS, JS, images)\n- `/dashboard_data/` - Data files for dashboard\n- `/dash_app/` - Dash application (if available)\n\n## Note\n\nThis static version removes server-side functionality like:\n- Email sending\n- Form submissions  \n- Database interactions\n- Session management\n\nThe contact forms and subscription forms are preserved for styling but will not function.",
+      "sourceUrl": "https://github.com/ZSturman/ZSDynamics-V1.1/blob/main/docs/README.md"
+    }
   },
   {
     "id": "306aec94-4d3c-80b0-b478-e070bcd1d517",
@@ -2420,9 +2487,9 @@
     "story": "",
     "images": {
       "poster": "poster.tiff",
-      "banner": "banner.png",
       "thumbnail": "thumbnail.tiff",
-      "icon": "thumbnail.tiff"
+      "icon": "thumbnail.tiff",
+      "banner": "banner.png"
     },
     "resources": [],
     "assets": [],
@@ -2480,9 +2547,9 @@
     "description": "",
     "story": "",
     "images": {
-      "banner": "banner.png",
       "thumbnail": "thumbnail.png",
-      "icon": "poster.png"
+      "icon": "poster.png",
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -2491,12 +2558,13 @@
         "url": "https://zsturman.github.io/ZSDynamics-V1.0/",
         "linkPreview": {
           "provider": "zsturman.github.io",
-          "title": "zsturman.github.io/ZSDynamics-V1.0",
+          "title": "Zachary Sturman Portfolio",
           "siteName": "Zsturman Github Io",
           "hostname": "zsturman.github.io",
           "displayUrl": "zsturman.github.io/ZSDynamics-V1.0",
-          "image": "/projects/zsdynamics_10_306aec94-4d3c-803d-8230-fe06337c4a51/previews/zsturman.github.io-a017dada2068.png",
-          "imageSource": "capture"
+          "description": "Explore my data science portfolio, showcasing projects in machine learning, data visualization, and analytics. Learn how I leverage data-driven insights to solve real-world problems.",
+          "image": "https://www.ZSdynamics.com/static/images/og_img.png",
+          "imageSource": "metadata"
         },
         "iconUrl": "/icons/favicons/zsturman.github.io.png"
       },
@@ -2563,9 +2631,9 @@
     "description": "",
     "story": "",
     "images": {
-      "banner": "banner.png",
       "thumbnail": "collection thumbnail.png",
-      "icon": "icon.png"
+      "icon": "icon.png",
+      "banner": "banner.png"
     },
     "resources": [],
     "assets": [],
@@ -2719,9 +2787,9 @@
     "description": "",
     "story": "",
     "images": {
-      "banner": "banner.png",
       "thumbnail": "thumbnail.png",
-      "icon": "banner.png"
+      "icon": "banner.png",
+      "banner": "banner.png"
     },
     "resources": [],
     "assets": [],
@@ -2991,9 +3059,9 @@
     "description": "",
     "story": "",
     "images": {
-      "banner": "banner.png",
       "thumbnail": "E4690E5D-3901-4E26-A237-8AA0FF26EE76.png",
-      "hero": "hero.png"
+      "hero": "hero.png",
+      "banner": "banner.png"
     },
     "resources": [],
     "assets": [
@@ -3062,9 +3130,9 @@
     "description": "",
     "story": "",
     "images": {
-      "banner": "banner.png",
       "thumbnail": "thumbnail.png",
-      "icon": "thumbnail.png"
+      "icon": "thumbnail.png",
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -3097,7 +3165,11 @@
       }
     ],
     "articles": [],
-    "folderName": "mediledger_306aec94-4d3c-800f-8fd6-c80ad845b5df"
+    "folderName": "mediledger_306aec94-4d3c-800f-8fd6-c80ad845b5df",
+    "readme": {
+      "content": "# MediLedger\n\nA **widget-first** iOS medication tracking app built with SwiftUI and WidgetKit. MediLedger helps you manage prescriptions and supplements with powerful home screen widgets for quick medication logging and at-a-glance tracking.\n\n## Features\n\n### 🎯 Widget-First Design\n- **Interactive Home Screen Widgets**: Take medications, log half-doses, and refill prescriptions directly from your home screen\n- **Customizable Widget Displays**: Choose from 15+ different data displays (pills remaining, daily average, streak tracking, etc.)\n- **Real-Time Updates**: Widgets automatically update to reflect your latest medication intake\n\n### 💊 Medication Management\n- **Dual Medication Types**:\n  - **Prescription**: Full refill tracking, days supply calculation, pharmacy information\n  - **Non-Prescription**: Supplements, OTC medications, serving sizes, expiration dates\n- **Flexible Dosing**: Log full doses, half doses, or custom amounts\n- **Smart Tracking**: Automatic pill count updates, mg/dose tracking, and supply calculations\n\n### 📊 Goal Tracking & Adherence\n- **Intake Goals**: Set daily, weekly, or monthly adherence goals\n- **Streak Tracking**: Monitor consecutive days of meeting your goals\n- **Progress Monitoring**: Real-time progress bars and completion tracking\n- **Specific Day Targeting**: Set goals for specific days of the week\n\n### 📈 Analytics & Insights\n- **7-Day Averages**: Track daily intake patterns over the past week\n- **Refill Analytics**: Monitor average daily usage since last refill\n- **Weekly Totals**: See cumulative intake for the current week\n- **Historical Logs**: Complete medication history with timestamps\n\n### 📤 Data Export\n- **CSV Export**: Export medication logs for medical records or analysis\n- **JSON Export**: Machine-readable format for data portability\n- **Per-Medication or All**: Export individual medication logs or complete history\n\n## Technical Stack\n\n- **SwiftUI** & **SwiftData**: Modern Apple frameworks for UI and data persistence\n- **WidgetKit**: Interactive home screen widgets with App Intents\n- **AppIntents**: Deep integration for Siri shortcuts and widget actions\n- **Swift 5.0**: Type-safe, modern Swift codebase\n\n## Architecture\n\n### Core Models\n- `Med`: SwiftData model for medications with prescription/non-prescription support\n- `MedLog`: Timestamped intake records with dosage tracking\n- `MedEntity`: App Entity for widget integration and Siri support\n- `IntakeGoal`: Goal tracking with period-based adherence\n\n### Widget System\n- `MedicationWidgetView`: Modular widget displays with 15+ configurable views\n- `AppIntent`: Interactive widget actions (Take, TakeHalf, Refill)\n- `MedTrackerWidget`: Widget timeline provider with real-time medication data\n\n### Views\n- `ContentView`: Master-detail medication list\n- `MedicationDetailView`: Comprehensive medication information and actions\n- `NewMedicationSheet`: Medication creation with progressive disclosure\n- `MedicationGoalConfigView`: Goal setup and tracking\n\n## Widget Display Options\n\nThe app supports **15+ customizable widget displays**:\n\n### Universal Displays\n- Pills Per Day Left\n- Last Intake Time\n- Total Pills Left\n- Today's Total Intake\n- 7-Day Average\n- Pills Remaining\n- This Week's Intake\n\n### Goal-Based Displays\n- Goal Progress (completed/target)\n- Adherence Streak (consecutive days)\n- Doses Left Today\n\n### Prescription-Specific\n- Average Since Refill\n- Days Until Refill\n- Refills Remaining\n\n### Non-Prescription Specific\n- Bottle Quantity Remaining\n\n## Getting Started\n\n### Requirements\n- iOS 18.4+\n- Xcode 16.0+\n- Swift 5.0+\n\n### Installation\n1. Clone the repository:\n   ```bash\n   git clone https://github.com/ZSturman/MediLedger.git\n   ```\n\n2. Open `MedTracker.xcodeproj` in Xcode\n\n3. Build and run on your device or simulator\n\n### Adding Your First Medication\n\n1. Tap **\"Add Medication\"** button\n2. Enter medication name and details\n3. Choose **Prescription** or **Non-Prescription** type\n4. Configure supply and dosage information\n5. (Optional) Set an intake goal for adherence tracking\n6. Tap **\"Save\"**\n\n### Configuring Widgets\n\n1. Long-press on your home screen\n2. Tap the **+** button\n3. Search for **\"MediLedger\"**\n4. Add the small widget\n5. Tap the widget to configure:\n   - Select a medication\n   - Choose primary display metric\n   - Choose secondary display metric\n6. Tap outside to save\n\n### Taking Medications via Widget\n\n- **Full Dose**: Tap the pill icon\n- **Half Dose**: Tap the half-pill icon\n- **Refill**: Use the refill action in the widget\n\n## Project Structure\n\n```\nMedTracker/\n├── MedTracker/                 # Main app target\n│   ├── Models/                 # SwiftData models\n│   │   ├── Medication.swift    # Core medication model\n│   │   ├── MedEntity.swift     # App Entity for widgets\n│   │   └── MedicationActions.swift # Medication business logic\n│   ├── Views/                  # SwiftUI views\n│   │   ├── MedicationDetailView.swift\n│   │   ├── MedicationGoalConfigView.swift\n│   │   └── MedicationActionButtons.swift\n│   ├── Support/                # Helpers and utilities\n│   │   ├── Enums.swift         # App enumerations\n│   │   └── MedicationLogExporter.swift\n│   ├── ContentView.swift       # Main list view\n│   ├── NewMedicationSheet.swift # Add medication form\n│   ├── Intents.swift           # App Intent implementations\n│   └── SharedModel.swift       # Shared ModelContainer\n│\n├── MedTrackerWidget/           # Widget extension\n│   ├── MedTrackerWidget.swift  # Widget definition\n│   ├── MedicationWidgetView.swift # Widget UI components\n│   ├── AppIntent.swift         # Widget configuration\n│   └── MedTrackerWidgetBundle.swift\n│\n├── MedTrackerTests/            # Unit tests\n└── MedTrackerUITests/          # UI tests\n```\n\n## Testing\n\nThe app includes comprehensive test coverage:\n\n- **Unit Tests**: Medication logic, goal tracking, calculations\n- **UI Tests**: Navigation, form validation, user interactions\n- **Launch Tests**: Screenshots, orientation, accessibility\n\nRun tests in Xcode: `⌘U`\n\n## Data Persistence\n\n- **SwiftData**: All medication data is stored locally using SwiftData\n- **Shared Container**: Widget extension shares data with main app via shared model container\n- **Privacy-First**: No cloud sync, all data stays on device\n\n## Future Enhancements\n\n- [ ] Scheduled dose reminders\n- [ ] Multiple daily dose tracking\n- [ ] Medication interaction warnings\n- [ ] PDF prescription export\n- [ ] Apple Watch companion app\n- [ ] Medium/Large widget sizes\n\n## Contributing\n\nContributions are welcome! Please feel free to submit a Pull Request.\n\n## License\n\nThis project is available under the MIT License.\n\n## Acknowledgments\n\nBuilt with SwiftUI, SwiftData, and WidgetKit on iOS 18.4+\n\n---\n\n**Note**: This is a personal health tracking tool. Always consult with healthcare professionals for medical advice.",
+      "sourceUrl": "https://github.com/ZSturman/MediLedger/blob/main/README.md"
+    }
   },
   {
     "id": "306aec94-4d3c-806a-b191-f329f1efc1ae",
@@ -3130,10 +3202,10 @@
     "story": "",
     "images": {
       "poster": "poster.png",
-      "banner": "banner.png",
       "thumbnail": "thumbnail.png",
+      "hero": "hero.png",
       "icon": "icon.png",
-      "hero": "hero.png"
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -3166,7 +3238,11 @@
       }
     ],
     "articles": [],
-    "folderName": "drifting_priorities_306aec94-4d3c-806a-b191-f329f1efc1ae"
+    "folderName": "drifting_priorities_306aec94-4d3c-806a-b191-f329f1efc1ae",
+    "readme": {
+      "content": "# Drifting Priorities\n\n![Drifting Priorities hero](https://raw.githubusercontent.com/ZSturman/Drifting-Priorities/main/docs/assets/github-hero.svg)\n\n![Python](https://img.shields.io/badge/python-3.11%2B-0f4c81?style=flat-square)\n![Interface](https://img.shields.io/badge/interface-CLI%20%2B%20GUI-136f63?style=flat-square)\n![Telemetry](https://img.shields.io/badge/telemetry-CSV%20%2F%20JSON-cf5c36?style=flat-square)\n![Exports](https://img.shields.io/badge/exports-JSON%20%2B%20CSV%20ZIP-6a4c93?style=flat-square)\n\nDrifting Priorities is a context-aware task recommender for work that refuses to stay equally urgent all day. It combines task metadata, time-sensitive priority curves, recent activity, state-of-mind signals, and dependency penalties into a ranked \"what should I do next?\" view that you can drive from the command line or a local web GUI.\n\n## Why It Exists\n\nMost task lists flatten everything into one static queue. Drifting Priorities is designed for situations where:\n\n- urgency changes over time,\n- repeated avoidance should matter,\n- your current energy or focus should influence the recommendation,\n- telemetry or external activity signals should feed the system,\n- data needs to stay portable instead of trapped in one interface.\n\n## What You Get\n\n- A shared application layer used by both the CLI and the GUI.\n- A local Streamlit GUI with tabs for dashboard, tasks, state, visualization, telemetry import, and export.\n- Normalized telemetry import from CSV or JSON into activity and state signals.\n- Portable exports as a JSON snapshot or a CSV bundle ZIP.\n- Documentation and examples for automation, adapters, and external integrations.\n\n## Interface Preview\n\n![GUI preview](https://raw.githubusercontent.com/ZSturman/Drifting-Priorities/main/docs/assets/gui-preview.svg)\n\nThe GUI mirrors the CLI rather than wrapping shell commands. Every task action runs through the same service layer used by `drift`.\n\n## Architecture\n\n```mermaid\nflowchart LR\n    CLI[\"CLI (`drift`)\"] --> Service[\"Shared application service\"]\n    GUI[\"GUI (`drift gui` / `drift-gui`)\"] --> Service\n    Telemetry[\"Telemetry adapters<br/>CSV / JSON\"] --> Service\n    Service --> Engine[\"Priority engine\"]\n    Service --> Repo[\"SQLite repositories\"]\n    Engine --> Repo\n    Repo --> DB[(\"SQLite database\")]\n    Service --> Export[\"Export builders<br/>JSON / CSV ZIP\"]\n```\n\n## Quick Start\n\n### 1. Install\n\n```bash\npython3 -m pip install -e \".[gui,dev]\"\n```\n\nIf you only want the CLI and core library, install without extras:\n\n```bash\npython3 -m pip install -e .\n```\n\n### 2. Create Your First Task\n\n```bash\ndrift add \"Write landing page copy\" -c communication --days 2 --duration 45\ndrift add \"Refine recommendation curve\" -c research --days 5 --duration 90\ndrift next\n```\n\n### 3. Launch the GUI\n\n```bash\ndrift gui\n```\n\nYou can also use the dedicated launcher:\n\n```bash\ndrift-gui\n```\n\n### 4. Set a Custom Database Location\n\nUse either a flag or an environment variable:\n\n```bash\ndrift --db-path ./workspace.db tasks\nDRIFT_DB_PATH=./workspace.db drift next\n```\n\n## CLI Surface\n\n| Command | Purpose | GUI Equivalent |\n| --- | --- | --- |\n| `drift add` | Create a task with timing and curve settings | `Tasks -> Add Task` |\n| `drift next` | Show ranked recommendations | `Dashboard -> Recommended Next` |\n| `drift done` | Mark a task complete | `Dashboard` or `Tasks` action buttons |\n| `drift skip` | Skip a task and increase penance | `Dashboard` or `Tasks` action buttons |\n| `drift log` | Record category activity | `State & Activity -> Log Activity` |\n| `drift state` | View or update state-of-mind values | `State & Activity -> State of Mind` |\n| `drift tasks` | List active tasks with current scores | `Tasks -> Active Tasks` |\n| `drift viz` | Plot task priority curves | `Visualization` |\n| `drift remove` | Deactivate a task | `Tasks -> Remove` |\n| `drift import-telemetry` | Validate or import normalized telemetry | `Telemetry` |\n| `drift export` | Generate JSON or CSV bundle exports | `Export` |\n| `drift gui` | Launch the local web GUI | N/A |\n\n## Telemetry Import\n\nTelemetry v1 uses a normalized schema so integrations can be added without rewriting the core engine.\n\n### Supported record types\n\n- `activity`: written into `activity_log`\n- `state`: written into `user_state` and `user_state_history`\n\n### CSV example\n\n```csv\nkind,timestamp,category,task_id,description,key,value\nactivity,2026-03-27T09:00:00,creative,,Morning sketch,,\nstate,2026-03-27T09:15:00,,,,focus,0.90\n```\n\n### JSON example\n\n```json\n{\n  \"records\": [\n    {\n      \"kind\": \"activity\",\n      \"timestamp\": \"2026-03-27T09:00:00\",\n      \"category\": \"creative\",\n      \"description\": \"Morning sketch\"\n    },\n    {\n      \"kind\": \"state\",\n      \"timestamp\": \"2026-03-27T09:15:00\",\n      \"key\": \"focus\",\n      \"value\": 0.9\n    }\n  ]\n}\n```\n\n### Import commands\n\n```bash\ndrift import-telemetry --format csv --input examples/telemetry/sample_telemetry.csv --preview\ndrift import-telemetry --format json --input examples/telemetry/sample_telemetry.json\n```\n\nValidation rules are documented in [docs/telemetry.md](https://github.com/ZSturman/Drifting-Priorities/blob/main/docs/telemetry.md).\n\n## Export Data\n\nTwo export formats are available:\n\n- JSON snapshot: one portable file containing metadata, tasks, activity, completions, current state, and state history.\n- CSV bundle: a ZIP archive with table-level CSV files plus `metadata.json`.\n\n```bash\ndrift export --format json --output exports/drift-export.json\ndrift export --format csv --output exports/drift-export.zip\n```\n\nThe GUI exposes these as direct downloads in the `Export` tab.\n\n## Automations and Integrations\n\nThe app does not include a built-in scheduler. Instead, it exposes clean CLI and service boundaries so you can automate it with the tooling you already trust:\n\n- cron / launchd / Task Scheduler for recurring imports or exports,\n- wrapper scripts for wearable, note, or project-tool adapters,\n- local dashboards or notebooks that consume JSON / CSV exports,\n- future custom adapters that implement the normalized telemetry contract.\n\nStart with [docs/automations-integrations.md](https://github.com/ZSturman/Drifting-Priorities/blob/main/docs/automations-integrations.md) for working examples.\n\n## Project Layout\n\n```text\nsrc/\n  app.py              shared service layer\n  cli.py              command line interface\n  gui.py              Streamlit launcher\n  gui_app.py          Streamlit UI\n  telemetry.py        CSV / JSON parsing and validation\n  exporters.py        JSON snapshot and CSV bundle exports\ndocs/\n  gui.md\n  telemetry.md\n  exports.md\n  automations-integrations.md\nexamples/\n  telemetry/\ntests/\n```\n\n## Docs Index\n\n- [docs/README.md](https://github.com/ZSturman/Drifting-Priorities/blob/main/docs/README.md)\n- [docs/gui.md](https://github.com/ZSturman/Drifting-Priorities/blob/main/docs/gui.md)\n- [docs/telemetry.md](https://github.com/ZSturman/Drifting-Priorities/blob/main/docs/telemetry.md)\n- [docs/exports.md](https://github.com/ZSturman/Drifting-Priorities/blob/main/docs/exports.md)\n- [docs/automations-integrations.md](https://github.com/ZSturman/Drifting-Priorities/blob/main/docs/automations-integrations.md)\n\n## Development\n\nRun the test suite:\n\n```bash\npython3 -m pytest -q\n```\n\nRun the CLI directly from source:\n\n```bash\npython3 -m src.cli tasks\n```\n\nLaunch the GUI from source:\n\n```bash\npython3 -m src.gui\n```",
+      "sourceUrl": "https://github.com/ZSturman/Drifting-Priorities/blob/main/README.md"
+    }
   },
   {
     "id": "306aec94-4d3c-805d-b085-e4252d4601b3",
@@ -3197,8 +3273,8 @@
     "description": "",
     "story": "",
     "images": {
-      "banner": "banner.png",
-      "thumbnail": "thumbnail.png"
+      "thumbnail": "thumbnail.png",
+      "banner": "banner.png"
     },
     "resources": [],
     "assets": [],
@@ -3263,10 +3339,9 @@
     "story": "",
     "images": {
       "poster": "poster.png",
-      "banner": "banner.png",
       "thumbnail": "thumbnail.png",
       "icon": "TopNote AppIcon v2-watchOS-Default-1088x1088@1x.png",
-      "hero": "hero.png"
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -3305,7 +3380,11 @@
       }
     ],
     "articles": [],
-    "folderName": "top_note_306aec94-4d3c-8008-9985-d94ba1780069"
+    "folderName": "top_note_306aec94-4d3c-8008-9985-d94ba1780069",
+    "readme": {
+      "content": "# Top Note\n\nTop Note is a widget-first productivity app that keeps you focused on what’s next—literally one thing at a time. Instead of endless to‑do lists you never look at, Top Note presents a single reminder, flashcard, or note right on your Home Screen widget.\n\nDownload on the App Store:\nhttps://apps.apple.com/us/app/top-note/id6742725271\n\n## Why it works\nTop Note introduces gentle friction: there’s no long list to cherry-pick from. You must either complete the next item or see it again soon, keeping important tasks and knowledge top-of-mind without overwhelming you.\n\n## Core features\n- One-at-a-time reminders — No scrolling, no distraction.  \n- Skip & repeat — Skipped items return sooner so you can’t forget them.  \n- Spaced repetition flashcards — Boost memory and recall with confidence-rated reviews.  \n- Widget-first design — Most interactions happen directly from the Home Screen.  \n- Flexible notes — Keep quotes, mantras, micro-goals, or short reminders visible all day.  \n- Simple setup — Configure everything in the main app; use it primarily from the widget.\n\n## Perfect for\n- People who ignore traditional reminders.  \n- Habit building and routine reinforcement.  \n- Quick study sessions with spaced repetition.  \n- Keeping a short note or mantra in plain sight.\n\n## Quick start\n1. Install Top Note from the App Store.  \n2. Open the app and create a note, reminder, or flashcard.  \n3. Add the Top Note widget to your Home Screen.  \n4. Use the widget to complete, skip, or review the single item it shows.\n\n## Privacy\nTop Note is designed for simplicity; local-first storage is preferred where possible. Consult the app’s privacy settings for details on syncing and backups.\n\n## Feedback & support\nFor bugs, feature requests, or support, use the contact option inside the app or submit feedback through the App Store page.",
+      "sourceUrl": "https://github.com/ZSturman/TopNote/blob/main/README.md"
+    }
   },
   {
     "id": "306aec94-4d3c-80a8-850e-df4dd020d452",
@@ -3371,7 +3450,11 @@
       }
     ],
     "articles": [],
-    "folderName": "broken_time_machine_306aec94-4d3c-80a8-850e-df4dd020d452"
+    "folderName": "broken_time_machine_306aec94-4d3c-80a8-850e-df4dd020d452",
+    "readme": {
+      "content": "# Broken Time Machine\n\nBroken Time Machine is now organized as a two-track repo:\n\n- `BTM_3D_Browser/`: the active Babylon.js + TypeScript browser game.\n- `V1_SideScroller/`: the preserved Python/Pygame side-scrolling prototype.\n- `docs/`: architecture, gameplay, schema, and migration notes.\n- `_original_design/`: archived concept writing and legacy Unity reference material.\n\n## Active Build: `BTM_3D_Browser`\n\nThis is the current vertical-slice target: a third-person 3D browser adventure where an underqualified lab assistant fixes history one prehistoric retrieval job at a time.\n\n### Features in the current 3D slice\n\n- main menu and browser boot flow\n- lab intro tutorial\n- evolving present-day hub with staged corruption\n- Archean retrieval mission with lava escape sequence\n- hub creature capture loop with research-point upgrades\n- Cambrian dive mission with oxygen pressure and oversized creature aggro\n- HTML/CSS overlays for HUD, dialogue, field log, pause, and upgrade station\n- local save persistence with manifest validation and gameplay logic tests\n\n### Run locally\n\n```bash\ncd BTM_3D_Browser\nnpm install\nnpm run dev\n```\n\n### Build and test\n\n```bash\ncd BTM_3D_Browser\nnpm run test\nnpm run build\n```\n\n## Legacy Build: `V1_SideScroller`\n\nThis is the frozen 2D Python prototype preserved for reference and comparison. It is still runnable as its own self-contained prototype.\n\n```bash\ncd V1_SideScroller\npip install -r requirements.txt\npython main.py\n```\n\n## Docs\n\n- `docs/architecture.md`: runtime layout, scene flow, and major systems\n- `docs/gameplay-loop.md`: story beats, progression rhythm, and player-facing flow\n- `docs/content-schema.md`: data contracts for eras, creatures, missions, and saves\n- `docs/migration-notes.md`: what changed from the side scroller to the browser version\n\n## Project direction\n\nThe browser game is intentionally a polished vertical slice rather than a full content-complete campaign. The repo is now set up so more eras, hazards, upgrades, and hub corruption stages can be added without changing the core data contracts.",
+      "sourceUrl": "https://github.com/ZSturman/Broken-Time-Machine/blob/main/README.md"
+    }
   },
   {
     "id": "306aec94-4d3c-8005-97ab-d4572f1ab679",
@@ -3443,7 +3526,11 @@
         "coverImage": "/articles/consolidating-an-offline-first-episodic-memory-system/images/hero.png"
       }
     ],
-    "folderName": "episodic_memory_agent_306aec94-4d3c-8005-97ab-d4572f1ab679"
+    "folderName": "episodic_memory_agent_306aec94-4d3c-8005-97ab-d4572f1ab679",
+    "readme": {
+      "content": "# Episodic Memory\n\nThis repository is now organized around one canonical Python package, `episodic_memory`, and one canonical web app in `dashboard/`.\n\nThe merged project is offline-first and built around a single artifact bundle that notebooks, the inspector API, and the Next.js dashboard all read.\n\n## What It Does\n\n- runs deterministic stub scenarios against the canonical working-memory core\n- runs panorama image or video exploration for location identification\n- records one canonical run bundle for every execution\n- exposes read-only inspection through Jupyter notebooks and the dashboard\n- imports legacy `episodic-memory-agent` run directories into the canonical bundle format\n\n## Canonical Layout\n\n- `src/episodic_memory/`: canonical Python package\n- `dashboard/`: canonical Next.js dashboard\n- `notebooks/`: canonical notebook workspace\n- `docs/`: architecture, runtime, validation, migration, and notebook docs\n- `archive/`: archived legacy codebases after migration\n\n## Install\n\n```bash\npip install -e .[dev,notebook]\n```\n\n## Run\n\n```bash\n# Stub scenario\nepisodic-memory run --mode stub --scenario scenario_e\n\n# Panorama location-identification flow\nepisodic-memory run --mode panorama --image-dir tests/fixtures/panorama\n\n# Import an old episodic-memory-agent run\nepisodic-memory import-legacy archive/episodic-memory-agent/runs/<run_dir>\n\n# Start the read-only inspector API\nepisodic-memory inspect --run-root runs\n```\n\n## Dashboard\n\n```bash\ncd dashboard\nnpm install\nnpm run dev\n```\n\nThe dashboard expects the inspector API at `http://127.0.0.1:8780` by default. Override with `INSPECTOR_API_BASE` if needed.\n\n## Notebook Workspace\n\n```bash\njupyter lab\n```\n\nCanonical notebooks:\n\n- `notebooks/01_pipeline_workspace.ipynb`\n- `notebooks/02_memory_explorer.ipynb`\n- `notebooks/03_run_comparison_and_dashboard_parity.ipynb`\n\n## Canonical Artifact Bundle\n\nEvery run writes:\n\n- `manifest.json`\n- `summary.json`\n- `memories.json`\n- `graph.json`\n- `events.jsonl`\n- `memory_decisions.jsonl`\n- `steps/step_XXXX.snapshot.json`\n\nThis is the shared contract used by notebooks, the inspector API, and the dashboard.\n\n## Unity Status\n\nUnity remains part of the long-term architecture but is intentionally deferred in this merged v1. The current canonical runtime supports `stub` and `panorama` modes end-to-end.\n\n## Docs\n\n- [Docs Index](https://github.com/ZSturman/Episodic-Memory-Agent/blob/main/docs/README.md)\n- [Architecture](https://github.com/ZSturman/Episodic-Memory-Agent/blob/main/docs/architecture.md)\n- [Runtime Flow](https://github.com/ZSturman/Episodic-Memory-Agent/blob/main/docs/runtime-flow.md)\n- [Notebook Workspace](https://github.com/ZSturman/Episodic-Memory-Agent/blob/main/docs/notebooks.md)\n- [Memory Transparency](https://github.com/ZSturman/Episodic-Memory-Agent/blob/main/docs/memory-transparency.md)\n- [Validation Guide](https://github.com/ZSturman/Episodic-Memory-Agent/blob/main/docs/validation.md)\n- [Status](https://github.com/ZSturman/Episodic-Memory-Agent/blob/main/docs/status.md)\n- [Migration Map](https://github.com/ZSturman/Episodic-Memory-Agent/blob/main/docs/migration-map.md)",
+      "sourceUrl": "https://github.com/ZSturman/Episodic-Memory-Agent/blob/main/README.md"
+    }
   },
   {
     "id": "304aec94-4d3c-8029-a1b1-ea0f92487137",
@@ -3480,10 +3567,10 @@
     "description": "",
     "story": "",
     "images": {
-      "banner": "banner.png",
       "thumbnail": "thumbnail.png",
+      "hero": "hero.png",
       "icon": "icon.png",
-      "hero": "hero.png"
+      "banner": "banner.png"
     },
     "resources": [],
     "assets": [],

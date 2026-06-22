@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-06-07T21:12:51.319587+00:00",
+  "generated_at": "2026-06-22T01:12:23.667155+00:00",
   "data": {
     "id": "33baec94-4d3c-8077-a29c-c57cb736b6f2",
     "slug": "down-n-out",
@@ -36,8 +36,8 @@
     "story": "",
     "images": {
       "thumbnail": "thumb.png",
-      "banner": "banner.png",
-      "hero": "hero.png"
+      "hero": "hero.png",
+      "banner": "banner.png"
     },
     "resources": [],
     "assets": [

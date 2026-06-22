@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
   "kind": "articles.detail",
-  "generated_at": "2026-06-07T21:12:51.324612+00:00",
+  "generated_at": "2026-06-22T01:12:23.672536+00:00",
   "data": {
     "slug": "the-art-of-turning-a-90-minute-task-into-a-2-month",
     "title": "The Art of Turning a 90-Minute Task Into a 2-Month Automation Project",
     "summary": "The article traces the evolution of four systems - Obsidian + Project Management App, OPE, RPOVault, and Folio - built to keep project metadata, files, and a public portfolio in sync without constant duplication. Each version clarified the value of structured project records, but also exposed the growing maintenance cost of owning every layer, especially around files, media, and editing workflows. The final takeaway is that integrating existing tools like Notion, n8n, GitHub Actions, and Firebase solves the real problem more effectively than continuing to maintain a complex custom application.",
     "oneLiner": "A reflection on building four generations of project-and-portfolio management tools, and why a simpler integrated workflow ultimately beat a fully custom app.",
-    "publishedAt": null,
+    "publishedAt": "2026-06-21",
     "updatedAt": "2026-04-08",
     "series": "My Notion Pipeline",
     "tags": [

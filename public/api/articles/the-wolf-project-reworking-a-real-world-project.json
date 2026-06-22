@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "articles.detail",
-  "generated_at": "2026-06-07T21:12:51.324437+00:00",
+  "generated_at": "2026-06-22T01:12:23.672299+00:00",
   "data": {
     "slug": "the-wolf-project-reworking-a-real-world-project",
     "title": "The Wolf Project - Reworking a Real-World Project",
@@ -18,9 +18,7 @@
       "Web App",
       "Welfare"
     ],
-    "projectIds": [
-      "346aec94-4d3c-801e-851f-c7e727f0e186"
-    ],
+    "projectIds": [],
     "sourceUrl": "https://github.com/ZSturman/Articles/blob/main/articles/the-wolf-project-reworking-a-real-world-project/index.md",
     "href": "/articles/the-wolf-project-reworking-a-real-world-project",
     "coverImage": "/articles/the-wolf-project-reworking-a-real-world-project/imgaes/Wolf-hero.webp",
@@ -45,8 +43,8 @@
         "siteName": "Instagram",
         "hostname": "www.instagram.com",
         "displayUrl": "instagram.com/_wolf_project",
-        "description": "9,690 Followers, 56 Following, 46 Posts - See Instagram photos and videos from The Wolf Project (@_wolf_project)",
-        "image": "https://scontent-sea5-1.cdninstagram.com/v/t51.82787-19/669995688_17855811255634945_8055336562483547172_n.jpg?stp=dst-jpg_s100x100_tt6&_nc_cat=105&ccb=7-5&_nc_sid=bf7eb4&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy4xMDgwLkMzIn0%3D&_nc_ohc=BrlEiU_1VpcQ7kNvwF24ocP&_nc_oc=Adpy4Zm55o1sdc9k3YKdWtkIbWfbd6SPB9Khw2c9BOsDpok19uDRAICNgK-XyoG9O5i_XFEEQJ0ECzLm0wC7zHK4&_nc_zt=24&_nc_ht=scontent-sea5-1.cdninstagram.com&_nc_gid=kGzzABCFKYwdjJ3yTQTaBQ&_nc_ss=7060f&oh=00_Af9PteAi99OzCsLvm14BjzZ36WLy-pum25ldT3nWZS5Lhw&oe=6A2B9631"
+        "description": "9,710 Followers, 65 Following, 51 Posts - See Instagram photos and videos from The Wolf Project (@_wolf_project)",
+        "image": "https://scontent-sea5-1.cdninstagram.com/v/t51.82787-19/669995688_17855811255634945_8055336562483547172_n.jpg?stp=dst-jpg_s100x100_tt6&_nc_cat=105&ccb=7-5&_nc_sid=bf7eb4&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy4xMDgwLkMzIn0%3D&_nc_ohc=6_bFHyM3qtUQ7kNvwF6H_gR&_nc_oc=Adrpr42FyDlgrF9WB6i9wPmCrRLhPpoPTMa-1sCf9TBXvb-lbiQh8tXqdwAGF4Ix6ygAUfOWzFiE1WkT-8kzrt8x&_nc_zt=24&_nc_ht=scontent-sea5-1.cdninstagram.com&_nc_gid=tt3xpflgqSpL9lfV2HbjiQ&_nc_ss=7b60f&oh=00_Af-mk7Xwaz5oc8CW9cRMH3d2gR9bSaVRoL8USr6eniTlGQ&oe=6A3E4371"
       },
       {
         "url": "https://the-wolf-project-14stqkkgr-zsturmans-projects.vercel.app/",

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-06-07T21:12:51.322068+00:00",
+  "generated_at": "2026-06-22T01:12:23.669490+00:00",
   "data": {
     "id": "306aec94-4d3c-8064-9e5a-c59f1df02bee",
     "slug": "towardbetterme-announcement-page",
@@ -32,8 +32,8 @@
     "description": "",
     "story": "",
     "images": {
-      "icon": "Celestial Hands Holding Heart.png",
       "thumbnail": "thumbnail.png",
+      "icon": "Celestial Hands Holding Heart.png",
       "banner": "Collaborative Effort with Green Ball.png"
     },
     "resources": [
@@ -48,8 +48,8 @@
           "hostname": "zsturman.github.io",
           "displayUrl": "zsturman.github.io/TowardBetter-Announcement-Page",
           "description": "Women Deserve Better",
-          "image": "/projects/towardbetterme_announcement_page_306aec94-4d3c-8064-9e5a-c59f1df02bee/previews/zsturman.github.io-9abb1d1ecb48.png",
-          "imageSource": "capture"
+          "image": "https://zsturman.github.io/images/Sam Logo - Blush.svg",
+          "imageSource": "metadata"
         },
         "iconUrl": "/icons/favicons/zsturman.github.io.png"
       },

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-06-07T21:12:51.324107+00:00",
+  "generated_at": "2026-06-22T01:12:23.671923+00:00",
   "data": {
     "id": "304aec94-4d3c-8029-a1b1-ea0f92487137",
     "slug": "my-notion-pipeline",
@@ -37,10 +37,10 @@
     "description": "",
     "story": "",
     "images": {
-      "icon": "icon.png",
       "thumbnail": "thumbnail.png",
-      "banner": "banner.png",
-      "hero": "hero.png"
+      "hero": "hero.png",
+      "icon": "icon.png",
+      "banner": "banner.png"
     },
     "resources": [],
     "assets": [],

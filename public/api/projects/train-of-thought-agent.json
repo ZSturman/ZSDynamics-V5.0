@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-06-07T21:12:51.320360+00:00",
+  "generated_at": "2026-06-22T01:12:23.667964+00:00",
   "data": {
     "id": "332aec94-4d3c-807a-ba3b-d0950cd03a66",
     "slug": "train-of-thought-agent",
@@ -34,10 +34,10 @@
     "description": "",
     "story": "",
     "images": {
-      "icon": "icon.png",
       "thumbnail": "thumbnail.png",
-      "banner": "banner.png",
-      "hero": "hero.png"
+      "hero": "hero.png",
+      "icon": "icon.png",
+      "banner": "banner.png"
     },
     "resources": [
       {
