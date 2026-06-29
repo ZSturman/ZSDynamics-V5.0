@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-06-22T01:12:23.666833+00:00",
+  "generated_at": "2026-06-29T13:34:21.659540+00:00",
   "data": {
     "id": "346aec94-4d3c-801e-851f-c7e727f0e186",
     "slug": "the-wolf-project",
@@ -33,9 +33,9 @@
     "description": "",
     "story": "",
     "images": {
+      "icon": "Wolf-hero.webp",
       "thumbnail": "Wolf-hero.webp",
-      "hero": "Screenshot_2026-04-18_at_17.29.59.png",
-      "icon": "Wolf-hero.webp"
+      "hero": "Screenshot_2026-04-18_at_17.29.59.png"
     },
     "resources": [
       {
@@ -49,8 +49,8 @@
           "hostname": "yourdogcanstay.com",
           "displayUrl": "yourdogcanstay.com",
           "description": "Access to Care Lifeline for families whose dog requires lifesaving medical care, but the upfront costs stand in the way.",
-          "image": "http://yourdogcanstay.com/cdn/shop/files/3AC01483-E6E2-4011-833D-F6C8714C4FDC_dfbfda84-9ef0-49a6-be7e-7f1fa826400c.png?height=628&pad_color=ffffff&v=1776093581&width=1200",
-          "imageSource": "metadata"
+          "image": "/projects/the_wolf_project_346aec94-4d3c-801e-851f-c7e727f0e186/previews/yourdogcanstay.com-98da4ec0bcac.png",
+          "imageSource": "capture"
         }
       },
       {
@@ -64,8 +64,8 @@
           "hostname": "the-wolf-pack.vercel.app",
           "displayUrl": "the-wolf-pack.vercel.app",
           "description": "When treatment exists but access to care doesn't, The Wolf Project exists to help families keep dogs where they belong - at home.",
-          "image": "https://yourdogcanstay.com/assets/brand/ydcs-logo.png",
-          "imageSource": "metadata"
+          "image": "/projects/the_wolf_project_346aec94-4d3c-801e-851f-c7e727f0e186/previews/the-wolf-pack.vercel.app-23526c25a9c2.png",
+          "imageSource": "capture"
         },
         "iconUrl": "/icons/favicons/the-wolf-pack.vercel.app.ico"
       },
@@ -91,9 +91,10 @@
           "hostname": "yourdogcanstay.com",
           "displayUrl": "yourdogcanstay.com",
           "description": "Access to Care Lifeline for families whose dog requires lifesaving medical care, but the upfront costs stand in the way.",
-          "image": "http://yourdogcanstay.com/cdn/shop/files/3AC01483-E6E2-4011-833D-F6C8714C4FDC_dfbfda84-9ef0-49a6-be7e-7f1fa826400c.png?height=628&pad_color=ffffff&v=1776093581&width=1200",
-          "imageSource": "metadata"
-        }
+          "image": "/projects/the_wolf_project_346aec94-4d3c-801e-851f-c7e727f0e186/previews/yourdogcanstay.com-98da4ec0bcac.png",
+          "imageSource": "capture"
+        },
+        "thumbnail": "/projects/the_wolf_project_346aec94-4d3c-801e-851f-c7e727f0e186/previews/yourdogcanstay.com-98da4ec0bcac.png"
       },
       {
         "id": "348aec94-4d3c-800c-aaad-c539680bc5b2",
@@ -106,10 +107,12 @@
         "url": "https://the-wolf-project-14stqkkgr-zsturmans-projects.vercel.app",
         "linkPreview": {
           "provider": "the-wolf-project-14stqkkgr-zsturmans-projects.vercel.app",
-          "title": "the-wolf-project-14stqkkgr-zsturmans-projects.vercel.app",
+          "title": "Overview – Vercel",
           "siteName": "The-Wolf-Project-14Stqkkgr-Zsturmans-Projects Vercel App",
           "hostname": "the-wolf-project-14stqkkgr-zsturmans-projects.vercel.app",
-          "displayUrl": "the-wolf-project-14stqkkgr-zsturmans-projects.vercel.app"
+          "displayUrl": "the-wolf-project-14stqkkgr-zsturmans-projects.vercel.app",
+          "image": "https://vercel.com/api/product-og?product=overview",
+          "imageSource": "metadata"
         }
       }
     ],
@@ -142,7 +145,15 @@
         "durationMinutes": 60
       }
     ],
-    "articles": [],
+    "articles": [
+      {
+        "title": "The Wolf Project - Reworking a Real-World Project",
+        "slug": "the-wolf-project-reworking-a-real-world-project",
+        "href": "/articles/the-wolf-project-reworking-a-real-world-project",
+        "sourceUrl": "https://github.com/ZSturman/Articles/blob/main/articles/the-wolf-project-reworking-a-real-world-project/index.md",
+        "coverImage": "/articles/the-wolf-project-reworking-a-real-world-project/imgaes/Wolf-hero.webp"
+      }
+    ],
     "folderName": "the_wolf_project_346aec94-4d3c-801e-851f-c7e727f0e186",
     "readme": {
       "content": "# The Wolf Project\n\nThe Wolf Project site is a Next.js + Firebase marketing and content platform for an access-to-care initiative under SGT Canines. The site explains the mission, publishes stories and case updates, tracks fundraising progress, and includes a custom admin panel for non-technical content editing.\n\n## What The Site Does\n\nThe public site currently covers these jobs:\n\n- Explains the mission behind The Wolf Project and Wolf's founding story.\n- Publishes informational pages about access to care, trust, transparency, and how the lifeline works.\n- Displays case pages with fundraising goals, progress, and status updates.\n- Displays blog posts and an RSS feed at `/feed.xml`.\n- Collects email signups through the `/api/subscribe` endpoint.\n- Promotes merchandise and donation pathways.\n- Provides a custom admin panel at `/admin` for content management.\n\n## Stack\n\n- Next.js 16 App Router\n- React 19\n- TypeScript\n- Tailwind CSS 4\n- Firebase Auth + Firestore for content persistence\n- Cloudinary for image uploads\n- Markdoc for long-form case and blog content\n\n## Content Model\n\nAll content is stored in Firestore with the following collections:\n\n### Collections\n\n- `cases/{slug}` — Dog cases with fundraising goals, status, updates, and stories\n- `posts/{slug}` — Blog posts with Markdoc body content\n\n### Singletons (`singletons/{key}`)\n\n- `donationProgress` — Fundraising goal and amount raised\n- `applicationConfig` — Application open/closed state and messaging\n- `siteSettings` — Phase label, operational state, fund allocation\n- `homeContent` — Homepage hero, mission, CTA copy\n- `storyContent` — Our Story page sections and statistics\n- `processContent` — How It Works page steps and conditions\n- `trustContent` — Trust, impact, and transparency copy\n- `donationContent` — Donate and Join the Pack page messaging\n- `shopContent` — Shop page and product storytelling copy\n\nThe runtime adapter in `lib/site-content.ts` reads Firestore first and falls back to `data/site-content.ts` defaults if a singleton entry is missing.\n\n### Still code-managed\n\n- Navigation and footer links\n- Social links\n- Some merch/product metadata and outbound product URLs\n- Support option cards\n- Asset registry data in `data/assets.ts`\n\n## Admin Panel\n\nThe admin panel at `/admin` provides a full content management interface:\n\n- **Dashboard** — Overview of cases, posts, and singletons with a \"Reset Demo Data\" button\n- **Cases** — List, create, edit, and delete dog cases\n- **Blog Posts** — List, create, edit, and delete blog posts\n- **Site Settings** — Edit all 9 singletons through structured forms\n\nAuthentication uses Firebase Auth (email/password). All mutations are protected by token verification.\n\n## Demo Banner\n\nA dismissible demo banner appears at the top of the site linking to the admin panel. It can be dismissed via the close button and uses localStorage to remember the dismissal.\n\n## Seed Data\n\nThe seed system at `POST /api/seed` (auth-protected) resets all Firestore content to demo data. This can also be triggered from the admin dashboard's \"Reset Demo Data\" button.\n\nSeeded cases: Wolf (completed), Luna (active), Juniper (in-treatment), Scout (funded), Remy (memorial).\n\nSeeded posts: 5 editorial posts covering emergency care, case updates, and community stories.\n\nSeeded singletons: donationProgress, applicationConfig, siteSettings.\n\n## Local Setup\n\n1. Install dependencies.\n\n```bash\npnpm install\n```\n\n2. Create a local env file.\n\n```bash\ncp .env.example .env.local\n```\n\n3. Start the app.\n\n```bash\npnpm dev\n```\n\n4. Open the site at `http://localhost:3000`.\n\n5. Open the admin panel at `http://localhost:3000/admin`.\n\n## Environment Variables\n\nThe checked-in template is `.env.example`.\n\n### Firebase (required)\n\n- `NEXT_PUBLIC_FIREBASE_API_KEY` — Firebase client API key\n- `NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN` — Firebase auth domain\n- `NEXT_PUBLIC_FIREBASE_PROJECT_ID` — Firebase project ID\n- `NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET` — Firebase storage bucket\n- `NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID` — Firebase messaging sender ID\n- `NEXT_PUBLIC_FIREBASE_APP_ID` — Firebase app ID\n- `FIREBASE_PROJECT_ID` — Firebase project ID (server)\n- `FIREBASE_CLIENT_EMAIL` — Service account email\n- `FIREBASE_PRIVATE_KEY` — Service account private key\n\n### Cloudinary (required for image uploads)\n\n- `CLOUDINARY_CLOUD_NAME` — Cloudinary cloud name\n- `CLOUDINARY_API_KEY` — Cloudinary API key\n- `CLOUDINARY_API_SECRET` — Cloudinary API secret\n\n### Site\n\n- `NEXT_PUBLIC_SITE_URL` — Used for metadata and RSS feed URLs\n- `KIT_API_KEY` — Optional. Enables newsletter signup proxy to Kit\n- `KIT_FORM_ID` — Optional. The Kit form that receives subscriptions\n\nIf the Kit variables are omitted, the subscribe endpoint returns success and logs the submitted email server-side.\n\n## Editing Workflow\n\n1. Sign in at `/admin/login` with your Firebase Auth credentials.\n2. Create, edit, or delete cases and blog posts from the admin panel.\n3. Edit site settings, donation progress, and other singletons from the Settings tab.\n4. Upload images via Cloudinary integration.\n5. Changes are persisted immediately to Firestore and reflected on the public site.\n\n## Repo Map\n\n- `app/` — Route files, API endpoints, and admin panel\n- `app/admin/` — Admin panel pages (login, dashboard, CRUD editors, settings)\n- `app/api/` — API routes for cases, posts, singletons, upload, seed, subscribe\n- `components/` — Reusable UI components\n- `components/admin/` — Admin-specific components (form-field, save-button, etc.)\n- `content/` — Legacy content files (kept for reference, not used at runtime)\n- `data/` — Code-managed defaults and assets\n- `lib/db/` — Firebase/Firestore data access layer\n- `lib/auth/` — Auth context and token verification\n- `lib/site-content.ts` — Server-side content adapter\n- `lib/site-url.ts` — Canonical site URL helper\n- `public/assets/` — Local media\n- `types/` — Shared TypeScript types\n\n## Production Requirements\n\nBefore shipping to production, verify all of the following:\n\n1. Set `NEXT_PUBLIC_SITE_URL` to the canonical production domain.\n2. Decide whether email signup should be live.\n3. If email signup should be live, set `KIT_API_KEY` and `KIT_FORM_ID`.\n4. Confirm the public domain used for metadata, RSS, and social sharing is correct.\n5. Review every seeded dummy case, post, and singleton entry and replace or remove anything not meant for public launch.\n6. Confirm remote merch images from `yourdogcanstay.com` still resolve and are permitted by `next.config.ts`.\n7. Confirm redirects still reflect the intended information architecture:\n\t `/join-the-pack -> /donate`\n\t `/impact -> /transparency`\n8. Smoke test these routes before release:\n\t `/`\n\t `/our-story`\n\t `/how-it-works`\n\t `/our-promise`\n\t `/transparency`\n\t `/cases`\n\t `/blog`\n\t `/donate`\n\t `/shop`\n\t `/apply`\n\t `/feed.xml`\n\t `/admin`\n9. Verify all required static assets are present in `public/assets` and that externally hosted images are still available.\n\n## Known Limitations And TODOs\n\n- Donation progress `source: api` is not implemented yet. The schema exposes the setting, but the frontend still uses a placeholder/manual workflow.\n- `components/donation-progress-bar.tsx` still has the API fetch TODO for live donation sync.\n- Some site data is still intentionally code-managed rather than editable in the GUI.\n- The current demo content is operationally useful for testing, but it should be reviewed carefully before a public launch.\n\n## Recommended Release Process\n\n1. Edit content in the admin panel at `/admin`.\n2. Review changes on a local branch or staging deployment.\n3. Run lint and a production build.\n4. Have a human review copy, links, donation destinations, and legal/tax language.\n5. Merge and deploy.\n\n## Commands\n\n```bash\npnpm dev\npnpm lint\npnpm build\npnpm start\n```",

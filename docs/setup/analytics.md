@@ -40,9 +40,30 @@ NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID=...
 
 When `NEXT_PUBLIC_FIREBASE_ANALYTICS_ENABLED` is `false` (default in `.env.example`) the SDK never initializes — useful for local development.
 
-## Daily summary email
+## Daily analytics email
 
-See [worker.md](./worker.md) and the cron in `.github/workflows/daily-analytics.yml`. The script `scripts/daily-analytics-summary.mjs` queries GA4 via the Data API and POSTs the rendered HTML to the Worker, which mails it via Resend.
+See [worker.md](./worker.md) and the cron in `.github/workflows/daily-analytics.yml`. The script `scripts/daily-analytics-summary.mjs` queries GA4 via the Data API, enriches page rows with the local project/article manifests, renders a dashboard-style HTML + text email, and POSTs the rendered content to the Worker, which mails it via Resend.
+
+The Worker contract is intentionally unchanged:
+
+```json
+{
+  "subject": "zacharysturman.com analytics - Jun 28, 2026 - 42 sessions / 11 key actions",
+  "html": "...",
+  "text": "..."
+}
+```
+
+The report includes:
+
+- KPI scorecards for users, new users, sessions, engaged sessions, engagement rate, views, views/session, average session duration, and event count.
+- Previous-day and prior 7-day daily-average deltas.
+- Acquisition breakdowns by channel group, source/medium, campaign, and available manual UTM dimensions.
+- Top pages enriched with local content type, title, domain/category/status/series, and tags from `public/projects/projects.json` and `public/articles/articles.json`.
+- Top content tags aggregated from page views, so tag insight still works even before GA4 custom dimensions are registered.
+- Portfolio event groups with professional labels and key-action counts.
+- Audience and tech context for country, city, device, browser, and operating system.
+- Data-quality notes and clear fallback messages when optional custom dimensions are unavailable.
 
 GitHub Actions secrets:
 
@@ -52,3 +73,31 @@ GitHub Actions secrets:
 | `GA_SERVICE_ACCOUNT_JSON` | Full JSON for a service account with `Viewer` access to the GA4 property. |
 | `API_BASE_URL` | Worker base URL (e.g. `https://api.zacharysturman.com`). |
 | `INTERNAL_TOKEN` | Bearer token shared with the Worker. |
+
+Optional env vars:
+
+| Variable | Default | Description |
+| --- | --- | --- |
+| `SITE_NAME` | `zacharysturman.com` | Display name used in the subject/header. |
+| `ANALYTICS_TIME_ZONE` | `America/Los_Angeles` | Time zone used to select "yesterday" for the report. |
+| `ANALYTICS_DRY_RUN` | `false` | Set to `true` to render and log the email without POSTing to the Worker. |
+
+Local dry run:
+
+```bash
+ANALYTICS_DRY_RUN=true npm run daily-analytics
+```
+
+## Recommended GA4 custom dimensions
+
+The site forwards event parameters with every custom analytics event, but GA4 Data API can only break them out if they are registered as event-scoped custom dimensions. Register these parameter names in GA4 Admin -> Custom definitions for the richest daily email:
+
+| Parameter | Why it helps |
+| --- | --- |
+| `utm_source`, `utm_medium`, `utm_campaign`, `utm_content`, `utm_term`, `utm_referrer` | Campaign and referrer attribution on custom events. |
+| `page_group`, `page_slug` | Route-view grouping for home, project, article, work-log, and other surfaces. |
+| `project_slug`, `article_slug` | Project/article action detail. |
+| `resource_type`, `destination_domain`, `surface`, `open_surface` | Resource clicks, outbound clicks, and UI surface analysis. |
+| `social_network`, `status`, `media_kind` | Social, form-result, and media-interaction breakdowns. |
+
+If these dimensions are missing, the daily email still sends. It will show built-in acquisition, local content tags, and a data-quality note listing the unavailable custom dimensions.

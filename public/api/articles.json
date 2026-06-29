@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "articles.list",
-  "generated_at": "2026-06-22T01:12:23.672123+00:00",
+  "generated_at": "2026-06-29T13:34:21.662863+00:00",
   "data": [
     {
       "slug": "the-wolf-project-reworking-a-real-world-project",
@@ -22,7 +22,9 @@
       "href": "/articles/the-wolf-project-reworking-a-real-world-project",
       "sourceUrl": "https://github.com/ZSturman/Articles/blob/main/articles/the-wolf-project-reworking-a-real-world-project/index.md",
       "coverImage": "/articles/the-wolf-project-reworking-a-real-world-project/imgaes/Wolf-hero.webp",
-      "projectIds": []
+      "projectIds": [
+        "346aec94-4d3c-801e-851f-c7e727f0e186"
+      ]
     },
     {
       "slug": "consolidating-an-offline-first-episodic-memory-system",

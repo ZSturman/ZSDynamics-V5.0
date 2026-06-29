@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-06-22T01:12:23.669623+00:00",
+  "generated_at": "2026-06-29T13:34:21.661426+00:00",
   "data": {
     "id": "306aec94-4d3c-80a5-b00e-f67cc4ff5901",
     "slug": "lost-and-hound",
@@ -36,10 +36,10 @@
     "description": "",
     "story": "",
     "images": {
-      "poster": "poster.png",
-      "thumbnail": "thumbnail.png",
+      "banner": "banner.png",
       "icon": "icon.svg",
-      "banner": "banner.png"
+      "thumbnail": "thumbnail.png",
+      "poster": "poster.png"
     },
     "resources": [
       {

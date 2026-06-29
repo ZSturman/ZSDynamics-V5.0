@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-06-22T01:12:23.670865+00:00",
+  "generated_at": "2026-06-29T13:34:21.662115+00:00",
   "data": {
     "id": "306aec94-4d3c-801d-b601-cb6d0de3219e",
     "slug": "mind-adrift",
@@ -32,9 +32,9 @@
     "description": "",
     "story": "",
     "images": {
+      "banner": "banner.png",
       "thumbnail": "E4690E5D-3901-4E26-A237-8AA0FF26EE76.png",
-      "hero": "hero.png",
-      "banner": "banner.png"
+      "hero": "hero.png"
     },
     "resources": [],
     "assets": [

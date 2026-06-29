@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-06-22T01:12:23.667399+00:00",
+  "generated_at": "2026-06-29T13:34:21.659891+00:00",
   "data": {
     "id": "333aec94-4d3c-8036-82e4-d96b64b15c6c",
     "slug": "democracy-in-the-21st-century",
@@ -32,10 +32,10 @@
     "description": "",
     "story": "",
     "images": {
-      "poster": "poster.png",
+      "banner": "banner.png",
       "thumbnail": "thumbnail.png",
       "hero": "hero.png",
-      "banner": "banner.png"
+      "poster": "poster.png"
     },
     "resources": [],
     "assets": [],

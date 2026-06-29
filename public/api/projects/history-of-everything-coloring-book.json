@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-06-22T01:12:23.670698+00:00",
+  "generated_at": "2026-06-29T13:34:21.662012+00:00",
   "data": {
     "id": "306aec94-4d3c-8067-909b-da087d8b0c26",
     "slug": "history-of-everything-coloring-book",
@@ -32,9 +32,9 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "thumbnail.png",
+      "banner": "banner.png",
       "icon": "banner.png",
-      "banner": "banner.png"
+      "thumbnail": "thumbnail.png"
     },
     "resources": [],
     "assets": [],

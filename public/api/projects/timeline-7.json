@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-06-22T01:12:23.671300+00:00",
+  "generated_at": "2026-06-29T13:34:21.662457+00:00",
   "data": {
     "id": "306aec94-4d3c-805d-b085-e4252d4601b3",
     "slug": "timeline-7",
@@ -31,8 +31,8 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "thumbnail.png",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "thumbnail": "thumbnail.png"
     },
     "resources": [],
     "assets": [],

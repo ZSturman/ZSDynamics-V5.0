@@ -3,7 +3,7 @@ import { readFileSync, existsSync } from "fs";
 import { join } from "path";
 
 // Read external image hostnames from the pre-build script output
-let remotePatterns: { protocol: "https"; hostname: string }[] = [];
+const remotePatterns: { protocol: "https"; hostname: string }[] = [];
 
 function pushHostname(hostname: string, set: Set<string>) {
   const trimmed = hostname?.trim();

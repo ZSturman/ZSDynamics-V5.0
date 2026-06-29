@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-06-22T01:12:23.666487+00:00",
+  "generated_at": "2026-06-29T13:34:21.659311+00:00",
   "data": {
     "id": "35eaec94-4d3c-80bc-9273-c1403b6c02ad",
     "slug": "transactions",
@@ -46,7 +46,9 @@
           "siteName": "Transactions-Lmct Vercel App",
           "hostname": "transactions-lmct.vercel.app",
           "displayUrl": "transactions-lmct.vercel.app/login",
-          "description": "Track shared transactions with anyone. Record payments, settle debts, and manage balances in real time."
+          "description": "Track shared transactions with anyone. Record payments, settle debts, and manage balances in real time.",
+          "image": "/projects/transactions_35eaec94-4d3c-80bc-9273-c1403b6c02ad/previews/transactions-lmct.vercel.app-d22838da070e.png",
+          "imageSource": "capture"
         }
       },
       {

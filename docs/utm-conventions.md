@@ -14,6 +14,18 @@ The site captures UTM parameters on first visit, persists them in `sessionStorag
 
 Keep values lowercase, hyphenated, and short. Re-use existing campaigns when posting follow-ups so the dashboard groups them.
 
+## Naming rules for cleaner analytics emails
+
+The daily analytics email groups UTM values, local project/article tags, and registered GA4 custom dimensions. Cleaner input makes the email read like a dashboard instead of a pile of one-off labels.
+
+- Use lowercase kebab-case: `portfolio-launch`, not `Portfolio Launch`.
+- Keep `utm_source` to the platform or domain: `linkedin`, `github`, `newsletter`, `email`.
+- Keep `utm_medium` to the channel mechanism: `social`, `referral`, `email`, `community`, `direct`.
+- Use `utm_campaign` for the actual initiative: `2026-portfolio-relaunch`, `chewsense-writeup`, `resume-push`.
+- Use `utm_content` for placement or variant: `bio-link`, `post-2026-06`, `footer`, `hero-cta`, `thread-reply`.
+- Reuse campaign names for follow-up posts so the daily email can show cumulative campaign performance instead of fragmented rows.
+- Do not put dates in `utm_source` or `utm_medium`; dates belong in `utm_content` only when they identify a specific post or variant.
+
 ## Paste-ready URLs
 
 LinkedIn profile bio link:
@@ -58,3 +70,29 @@ https://zacharysturman.com/?utm_source=email&utm_medium=email&utm_campaign=signa
 2. The current URL is rewritten via `history.replaceState` to remove the query params (so the address bar stays clean).
 3. Every analytics event spreads those stored values into its parameters first, so `utm_source` etc. show up on `outbound_click`, `contact_submit`, and so on.
 4. If no UTM is present, the referrer hostname is captured as `utm_referrer` for soft attribution.
+
+## GA4 custom dimensions
+
+GA4 receives the event parameters automatically, but the Data API can only report event-level detail when parameters are registered as custom dimensions. For the richest daily email, register these as event-scoped custom dimensions in GA4:
+
+```text
+utm_source
+utm_medium
+utm_campaign
+utm_content
+utm_term
+utm_referrer
+page_group
+page_slug
+project_slug
+article_slug
+resource_type
+social_network
+destination_domain
+surface
+status
+media_kind
+open_surface
+```
+
+The email has a fallback: if a dimension is not registered, it still reports built-in acquisition and enriches top pages with local project/article tags from the site manifests.
