@@ -36,6 +36,13 @@ export function ArticleListItem({ article }: ArticleListItemProps) {
   return (
     <article
       data-testid="article-list-item-root"
+      data-analytics-item="article_list_item"
+      data-analytics-item-id={article.slug}
+      data-analytics-item-type="article"
+      data-analytics-item-label={article.title}
+      data-analytics-article-slug={article.slug}
+      data-analytics-article-title={article.title}
+      data-analytics-surface="article_list"
       className={`group relative overflow-hidden rounded-3xl border bg-card p-3 shadow-sm transition-all duration-200 hover:shadow-md md:p-4 ${
         isDraft
           ? "border-amber-300/60 hover:border-amber-400/80 dark:border-amber-700/50 dark:hover:border-amber-600/70"

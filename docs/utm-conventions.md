@@ -93,6 +93,24 @@ surface
 status
 media_kind
 open_surface
+previous_page_group
+previous_page_slug
+route_step
+viewport_category
+route_surface
+modal_context
+section_key
+section_label
+item_id
+item_type
+item_label
+collection_key
+media_role
+scroll_percent
+engagement_bucket
+visible_time_sec
+progress_percent
+interaction_type
 ```
 
 The email has a fallback: if a dimension is not registered, it still reports built-in acquisition and enriches top pages with local project/article tags from the site manifests.

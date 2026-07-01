@@ -16,7 +16,13 @@ export function ProjectArticles({ project }: ProjectArticlesProps) {
   }
 
   return (
-    <section className="min-w-0 max-w-full space-y-3 overflow-x-clip">
+    <section
+      className="min-w-0 max-w-full space-y-3 overflow-x-clip"
+      data-analytics-section="project_articles"
+      data-analytics-section-label="Project articles"
+      data-analytics-project-slug={project.slug || project.id}
+      data-analytics-project-title={project.title}
+    >
       <div className="flex items-center justify-between gap-3">
         <h3 className="text-sm font-medium text-muted-foreground">Articles</h3>
       </div>
@@ -26,6 +32,14 @@ export function ProjectArticles({ project }: ProjectArticlesProps) {
           <Link
             key={`${project.id}-${article.slug}`}
             href={article.href}
+            data-analytics-item="project_article"
+            data-analytics-item-id={article.slug}
+            data-analytics-item-type="article"
+            data-analytics-item-label={article.title}
+            data-analytics-article-slug={article.slug}
+            data-analytics-article-title={article.title}
+            data-analytics-project-slug={project.slug || project.id}
+            data-analytics-project-title={project.title}
             className="group flex w-full min-w-0 items-center gap-3 overflow-hidden rounded-md border border-border/35 bg-card/35 p-2.5 transition-colors hover:border-primary/30 hover:bg-accent/25 md:p-3"
             title={article.title}
           >

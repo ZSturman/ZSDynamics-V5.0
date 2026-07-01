@@ -145,6 +145,13 @@ export function FeaturedCarousel({
                   key={project.id}
                   data-testid="featured-carousel-slide"
                   data-project-id={project.id}
+                  data-analytics-item="featured_project_slide"
+                  data-analytics-item-id={project.slug || project.id}
+                  data-analytics-item-type="project"
+                  data-analytics-item-label={project.title}
+                  data-analytics-project-slug={project.slug || project.id}
+                  data-analytics-project-title={project.title}
+                  data-analytics-surface="featured_carousel"
                   className="flex-[0_0_100%] min-w-0"
                 >
                   <div 

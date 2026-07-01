@@ -106,6 +106,7 @@ function hasSubstantialContent(project: Project): boolean {
 export function ProjectDetails({ project }: ProjectDetailsProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const headerRef = useRef<HTMLDivElement>(null);
+  const projectSlug = project.slug || project.id;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -129,13 +130,18 @@ export function ProjectDetails({ project }: ProjectDetailsProps) {
   const useTwoColumnLayout = hasSubstantialContent(project);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div
+      className="min-h-screen bg-background"
+      data-analytics-project-slug={projectSlug}
+      data-analytics-project-title={project.title}
+      data-analytics-surface="project_page"
+    >
       <HomeLink projectTitle={project.title} isScrolled={isScrolled} />
 
       {/* Main Content Container */}
       <main className="container mx-auto px-3 md:px-6 lg:px-8 py-6 md:py-12 lg:py-16">
         {/* Header Section - Always Full Width */}
-        <div ref={headerRef}>
+        <div ref={headerRef} data-analytics-section="project_header" data-analytics-section-label="Project header">
           <ProjectHeader project={project} />
         </div>
 
@@ -149,50 +155,50 @@ export function ProjectDetails({ project }: ProjectDetailsProps) {
             <div className="space-y-8 md:space-y-10">
               {/* 1. Resource Buttons - Primary CTA */}
               {hasResources && (
-                <section>
+                <section data-analytics-section="project_resources" data-analytics-section-label="Project resources">
                   <h3 className="text-sm font-medium text-muted-foreground mb-3">Resources</h3>
                   <ResourceButtons project={project} showMessage={false} />
                 </section>
               )}
 
               {/* 2. Project Hero/Media */}
-              <section>
+              <section data-analytics-section="project_hero" data-analytics-section-label="Project hero">
                 <ProjectHero project={project} />
               </section>
 
-              <section className="lg:hidden">
+              <section className="lg:hidden" data-analytics-section="project_assets_preview" data-analytics-section-label="Project assets preview">
                 <ProjectDetailsMediaDisplay project={project} />
               </section>
 
               {/* 3. Embedded preview for embeddable resources */}
               {embeddableResource && (
-                <section>
+                <section data-analytics-section="project_embed" data-analytics-section-label="Project embedded resource">
                   <ResourceEmbed resource={embeddableResource} projectTitle={project.title} />
                 </section>
               )}
 
               {/* 4. Collections */}
               {hasCollection && (
-                <section>
+                <section data-analytics-section="project_collection" data-analytics-section-label="Project collection">
                   <Collection project={project} inModal={false} />
                 </section>
               )}
 
               {/* 5. Description & Story */}
-              <section>
+              <section data-analytics-section="project_description_story" data-analytics-section-label="Project description and story">
                 <ProjectDescriptionAndStory project={project} />
               </section>
 
               {/* 6. Standalone project assets */}
               {hasAssets && (
-                <section>
+                <section data-analytics-section="project_standalone_assets" data-analytics-section-label="Standalone project assets">
                   <ProjectStandaloneAssets project={project} />
                 </section>
               )}
 
               {/* 7. Footer area — dashboard on lg+, stacked on mobile */}
               {(hasArticles || hasWorkLogs) && (
-                <section>
+                <section data-analytics-section="project_related_detail" data-analytics-section-label="Project related detail">
                   {/* Desktop: side-by-side dashboard layout */}
                   <div className="hidden lg:grid lg:grid-cols-[1fr_280px] lg:gap-8">
                     <div className="space-y-8">
@@ -234,59 +240,59 @@ export function ProjectDetails({ project }: ProjectDetailsProps) {
           <div className="mt-6 md:mt-8 max-w-3xl mx-auto space-y-8 md:space-y-10">
             {/* 1. Resource Buttons */}
             {hasResources && (
-              <section>
+              <section data-analytics-section="project_resources" data-analytics-section-label="Project resources">
                 <h3 className="text-sm font-medium text-muted-foreground mb-3">Resources</h3>
                 <ResourceButtons project={project} showMessage={false} />
               </section>
             )}
 
             {/* 2. Project Hero/Media */}
-            <section>
+            <section data-analytics-section="project_hero" data-analytics-section-label="Project hero">
               <ProjectHero project={project} />
             </section>
 
-            <section>
+            <section data-analytics-section="project_assets_preview" data-analytics-section-label="Project assets preview">
               <ProjectDetailsMediaDisplay project={project} />
             </section>
 
             {/* 3. Embedded preview for embeddable resources */}
             {embeddableResource && (
-              <section>
+              <section data-analytics-section="project_embed" data-analytics-section-label="Project embedded resource">
                 <ResourceEmbed resource={embeddableResource} projectTitle={project.title} />
               </section>
             )}
 
             {/* 4. Collections */}
             {hasCollection && (
-              <section>
+              <section data-analytics-section="project_collection" data-analytics-section-label="Project collection">
                 <Collection project={project} inModal={false} />
               </section>
             )}
 
             {/* 5. Description & Story */}
-            <section>
+            <section data-analytics-section="project_description_story" data-analytics-section-label="Project description and story">
               <ProjectDescriptionAndStory project={project} />
             </section>
 
             {/* 6. Standalone project assets */}
             {hasAssets && (
-              <section>
+              <section data-analytics-section="project_standalone_assets" data-analytics-section-label="Standalone project assets">
                 <ProjectStandaloneAssets project={project} />
               </section>
             )}
 
             {/* 7. Footer: articles → work logs → metadata */}
             {hasArticles && (
-              <section>
+              <section data-analytics-section="project_articles" data-analytics-section-label="Project articles">
                 <ProjectArticles project={project} />
               </section>
             )}
             {hasWorkLogs && (
-              <section>
+              <section data-analytics-section="project_work_logs" data-analytics-section-label="Project work logs">
                 <ProjectWorkLogs project={project} />
               </section>
             )}
-            <section>
+            <section data-analytics-section="project_metadata" data-analytics-section-label="Project metadata">
               <ProjectMetadata project={project} />
             </section>
           </div>

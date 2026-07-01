@@ -15,6 +15,7 @@ import {
 import ResourceButton from "../resource-button";
 import { CollectionItem, Project } from "@/types";
 import { ContentViewer } from "./content-viewer";
+import { trackProjectItemOpen } from "@/lib/firebase-analytics";
 
 interface CollectionFullscreenProps {
   item: CollectionItem;
@@ -87,6 +88,19 @@ export function CollectionFullscreen({
 }: CollectionFullscreenProps) {
   const [showSidebar, setShowSidebar] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    trackProjectItemOpen({
+      projectSlug: project.slug || project.id,
+      projectTitle: project.title,
+      itemId: item.id,
+      itemType: item.type,
+      itemLabel: item.label,
+      collectionKey: collectionName,
+      surface: inModal ? "project_modal_fullscreen" : "project_page_fullscreen",
+      interactionType: "fullscreen_open",
+    });
+  }, [collectionName, inModal, item.id, item.label, item.type, project.id, project.slug, project.title]);
 
   // Detect mobile screen size
   useEffect(() => {
@@ -178,6 +192,14 @@ export function CollectionFullscreen({
       data-testid="collection-fullscreen"
       data-collection-item-id={item.id}
       data-collection-item-type={item.type}
+      data-analytics-item="collection_fullscreen"
+      data-analytics-item-id={item.id}
+      data-analytics-item-type={item.type}
+      data-analytics-item-label={item.label}
+      data-analytics-project-slug={project.slug || project.id}
+      data-analytics-project-title={project.title}
+      data-analytics-collection-key={collectionName}
+      data-analytics-surface={inModal ? "project_modal_fullscreen" : "project_page_fullscreen"}
     >
       {/* Header */}
       <div className="flex-shrink-0 flex items-center justify-between p-4 bg-background/95 backdrop-blur border-b">
@@ -228,7 +250,7 @@ export function CollectionFullscreen({
           showSidebar && !isMobile && "md:pr-80"
         )}>
           <div className="min-h-full flex items-center justify-center p-4">
-            <ContentViewer item={item} folderName={folderName} collectionName={collectionName} />
+            <ContentViewer item={item} project={project} folderName={folderName} collectionName={collectionName} />
           </div>
         </div>
 

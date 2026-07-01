@@ -44,6 +44,53 @@ type SocialClickInput = {
   destinationUrl: string;
 };
 
+type ContentContextInput = {
+  projectSlug?: string;
+  projectTitle?: string;
+  articleSlug?: string;
+  articleTitle?: string;
+};
+
+type SectionAnalyticsInput = ContentContextInput & {
+  sectionKey: string;
+  sectionLabel?: string;
+  itemId?: string;
+  itemType?: string;
+  collectionKey?: string;
+  mediaRole?: string;
+  surface?: string;
+};
+
+type SectionEngagementInput = SectionAnalyticsInput & {
+  engagementBucket: string;
+  visibleTimeSec: number;
+};
+
+type ScrollDepthInput = {
+  scrollPercent: number;
+};
+
+type ProjectItemOpenInput = ContentContextInput & {
+  itemId: string;
+  itemType?: string;
+  itemLabel?: string;
+  collectionKey?: string;
+  surface?: string;
+  interactionType?: string;
+};
+
+type ProjectMediaProgressInput = ContentContextInput & {
+  mediaKind: "image" | "video" | "3d_model" | "audio" | "game" | "text" | "other";
+  mediaRole?: string;
+  mediaUrl?: string;
+  progressPercent?: number;
+  itemId?: string;
+  itemType?: string;
+  collectionKey?: string;
+  surface?: string;
+  interactionType: string;
+};
+
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
   authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
@@ -61,6 +108,9 @@ const automationSignalSessionKey = "portfolio.analytics.automation-signal.v1";
 let appInstance: FirebaseApp | null = null;
 let analyticsPromise: Promise<Analytics | null> | null = null;
 let lastRouteViewKey = "";
+let routeStep = 0;
+let activePageContext: AnalyticsParams = {};
+let activeAttentionContext: AnalyticsParams = {};
 let missingConfigWarned = false;
 
 function canUseBrowser(): boolean {
@@ -91,6 +141,24 @@ function warnMissingConfigOnce(): void {
 
 function toStringFlag(value: boolean): string {
   return value ? "true" : "false";
+}
+
+function sanitizeAnalyticsText(value: string | undefined, maxLength = 100): string | undefined {
+  const text = String(value ?? "")
+    .replace(/\s+/g, " ")
+    .trim();
+  return text ? text.slice(0, maxLength) : undefined;
+}
+
+function getViewportCategory(): string {
+  if (!canUseBrowser()) {
+    return "unknown";
+  }
+
+  const width = window.innerWidth;
+  if (width < 768) return "mobile";
+  if (width < 1024) return "tablet";
+  return "desktop";
 }
 
 function normalizeDomain(url: string): string {
@@ -124,48 +192,56 @@ function getRouteDetails({ pathname, search }: RouteViewInput): AnalyticsParams 
   const normalizedPath = pathname || "/";
   const searchParams = new URLSearchParams(search);
   const segments = normalizedPath.split("/").filter(Boolean);
+  const hasQuery = toStringFlag(searchParams.size > 0);
+  const modalProjectSlug = normalizedPath === "/" ? searchParams.get("project") || undefined : undefined;
+  const baseDetails = {
+    has_query: hasQuery,
+    page_path: normalizedPath,
+    viewport_category: getViewportCategory(),
+    route_surface: modalProjectSlug ? "home_project_modal" : "page",
+    modal_context: modalProjectSlug ? "project_modal" : "none",
+  };
 
   if (normalizedPath === "/") {
     return {
+      ...baseDetails,
       page_group: "home",
-      page_slug: searchParams.get("project") || "home",
-      has_query: toStringFlag(searchParams.size > 0),
-      page_path: normalizedPath,
+      page_slug: modalProjectSlug || "home",
+      project_slug: modalProjectSlug,
     };
   }
 
   if (segments[0] === "articles") {
     return {
+      ...baseDetails,
       page_group: segments[1] ? "article" : "articles",
       page_slug: segments[1] || "articles",
-      has_query: toStringFlag(searchParams.size > 0),
-      page_path: normalizedPath,
+      article_slug: segments[1],
     };
   }
 
   if (segments[0] === "projects") {
     return {
+      ...baseDetails,
       page_group: "project",
       page_slug: segments[1] || "projects",
-      has_query: toStringFlag(searchParams.size > 0),
-      page_path: normalizedPath,
+      project_slug: segments[1],
     };
   }
 
   if (segments[0] === "work-logs") {
     return {
+      ...baseDetails,
       page_group: "work_logs",
       page_slug: searchParams.get("project") || "work-logs",
-      has_query: toStringFlag(searchParams.size > 0),
-      page_path: normalizedPath,
+      project_slug: searchParams.get("project") || undefined,
     };
   }
 
   return {
+    ...baseDetails,
     page_group: "other",
     page_slug: segments.join("/") || "other",
-    has_query: toStringFlag(searchParams.size > 0),
-    page_path: normalizedPath,
   };
 }
 
@@ -214,7 +290,12 @@ async function logAnalyticsEvent(name: string, params: AnalyticsParams = {}): Pr
   }
 
   const utm = getStoredUtm();
-  const merged: AnalyticsParams = { ...utm, ...params };
+  const merged: AnalyticsParams = {
+    ...utm,
+    ...activePageContext,
+    ...activeAttentionContext,
+    ...params,
+  };
 
   const analyticsModule = await import("firebase/analytics");
   analyticsModule.logEvent(analytics, name, sanitizeParams(merged));
@@ -230,8 +311,20 @@ export function trackRouteView(input: RouteViewInput): void {
     return;
   }
 
+  const previousPageGroup = activePageContext.page_group;
+  const previousPageSlug = activePageContext.page_slug;
+  const routeDetails = getRouteDetails(input);
+  routeStep += 1;
   lastRouteViewKey = routeKey;
-  void logAnalyticsEvent("portfolio_route_view", getRouteDetails(input));
+  activePageContext = routeDetails;
+  activeAttentionContext = {};
+
+  void logAnalyticsEvent("portfolio_route_view", {
+    ...routeDetails,
+    previous_page_group: typeof previousPageGroup === "string" ? previousPageGroup : "entry",
+    previous_page_slug: typeof previousPageSlug === "string" ? previousPageSlug : "entry",
+    route_step: routeStep,
+  });
 }
 
 export function trackProjectOpen(input: ProjectOpenInput): void {
@@ -369,5 +462,96 @@ export function trackGitHubClick(input: { destinationUrl: string; surface: strin
   void logAnalyticsEvent("github_click", {
     destination_domain: normalizeDomain(input.destinationUrl),
     surface: input.surface,
+  });
+}
+
+export function setActiveAnalyticsSection(input: SectionAnalyticsInput): void {
+  activeAttentionContext = {
+    section_key: sanitizeAnalyticsText(input.sectionKey),
+    section_label: sanitizeAnalyticsText(input.sectionLabel, 120),
+    project_slug: sanitizeAnalyticsText(input.projectSlug),
+    project_title: sanitizeAnalyticsText(input.projectTitle, 120),
+    article_slug: sanitizeAnalyticsText(input.articleSlug),
+    article_title: sanitizeAnalyticsText(input.articleTitle, 120),
+    item_id: sanitizeAnalyticsText(input.itemId),
+    item_type: sanitizeAnalyticsText(input.itemType),
+    collection_key: sanitizeAnalyticsText(input.collectionKey),
+    media_role: sanitizeAnalyticsText(input.mediaRole),
+    surface: sanitizeAnalyticsText(input.surface),
+  };
+}
+
+export function trackScrollDepth(input: ScrollDepthInput): void {
+  void logAnalyticsEvent("portfolio_scroll_depth", {
+    scroll_percent: input.scrollPercent,
+  });
+}
+
+export function trackSectionView(input: SectionAnalyticsInput): void {
+  setActiveAnalyticsSection(input);
+  void logAnalyticsEvent("portfolio_section_view", {
+    section_key: sanitizeAnalyticsText(input.sectionKey),
+    section_label: sanitizeAnalyticsText(input.sectionLabel, 120),
+    project_slug: sanitizeAnalyticsText(input.projectSlug),
+    project_title: sanitizeAnalyticsText(input.projectTitle, 120),
+    article_slug: sanitizeAnalyticsText(input.articleSlug),
+    article_title: sanitizeAnalyticsText(input.articleTitle, 120),
+    item_id: sanitizeAnalyticsText(input.itemId),
+    item_type: sanitizeAnalyticsText(input.itemType),
+    collection_key: sanitizeAnalyticsText(input.collectionKey),
+    media_role: sanitizeAnalyticsText(input.mediaRole),
+    surface: sanitizeAnalyticsText(input.surface),
+  });
+}
+
+export function trackSectionEngaged(input: SectionEngagementInput): void {
+  setActiveAnalyticsSection(input);
+  void logAnalyticsEvent("portfolio_section_engaged", {
+    section_key: sanitizeAnalyticsText(input.sectionKey),
+    section_label: sanitizeAnalyticsText(input.sectionLabel, 120),
+    project_slug: sanitizeAnalyticsText(input.projectSlug),
+    project_title: sanitizeAnalyticsText(input.projectTitle, 120),
+    article_slug: sanitizeAnalyticsText(input.articleSlug),
+    article_title: sanitizeAnalyticsText(input.articleTitle, 120),
+    item_id: sanitizeAnalyticsText(input.itemId),
+    item_type: sanitizeAnalyticsText(input.itemType),
+    collection_key: sanitizeAnalyticsText(input.collectionKey),
+    media_role: sanitizeAnalyticsText(input.mediaRole),
+    surface: sanitizeAnalyticsText(input.surface),
+    engagement_bucket: sanitizeAnalyticsText(input.engagementBucket),
+    visible_time_sec: input.visibleTimeSec,
+  });
+}
+
+export function trackProjectItemOpen(input: ProjectItemOpenInput): void {
+  void logAnalyticsEvent("project_item_open", {
+    project_slug: sanitizeAnalyticsText(input.projectSlug),
+    project_title: sanitizeAnalyticsText(input.projectTitle, 120),
+    article_slug: sanitizeAnalyticsText(input.articleSlug),
+    article_title: sanitizeAnalyticsText(input.articleTitle, 120),
+    item_id: sanitizeAnalyticsText(input.itemId),
+    item_type: sanitizeAnalyticsText(input.itemType),
+    item_label: sanitizeAnalyticsText(input.itemLabel, 120),
+    collection_key: sanitizeAnalyticsText(input.collectionKey),
+    surface: sanitizeAnalyticsText(input.surface),
+    interaction_type: sanitizeAnalyticsText(input.interactionType || "open"),
+  });
+}
+
+export function trackProjectMediaProgress(input: ProjectMediaProgressInput): void {
+  void logAnalyticsEvent("project_media_progress", {
+    project_slug: sanitizeAnalyticsText(input.projectSlug),
+    project_title: sanitizeAnalyticsText(input.projectTitle, 120),
+    article_slug: sanitizeAnalyticsText(input.articleSlug),
+    article_title: sanitizeAnalyticsText(input.articleTitle, 120),
+    media_kind: input.mediaKind,
+    media_role: sanitizeAnalyticsText(input.mediaRole),
+    destination_domain: input.mediaUrl ? normalizeDomain(input.mediaUrl) : undefined,
+    progress_percent: input.progressPercent,
+    item_id: sanitizeAnalyticsText(input.itemId),
+    item_type: sanitizeAnalyticsText(input.itemType),
+    collection_key: sanitizeAnalyticsText(input.collectionKey),
+    surface: sanitizeAnalyticsText(input.surface),
+    interaction_type: sanitizeAnalyticsText(input.interactionType),
   });
 }

@@ -38,6 +38,13 @@ export function ProjectListItem({ project, onClick, sortField = "updatedAt" }: P
     <Card
       data-testid="project-list-item-root"
       data-project-id={project.id}
+      data-analytics-item="project_list_item"
+      data-analytics-item-id={project.slug || project.id}
+      data-analytics-item-type="project"
+      data-analytics-item-label={project.title}
+      data-analytics-project-slug={project.slug || project.id}
+      data-analytics-project-title={project.title}
+      data-analytics-surface="project_list"
       className="mb-2 max-w-full cursor-pointer overflow-hidden rounded-lg border-border/35 bg-card/35 p-2 shadow-none transition-colors duration-200 hover:border-primary/25 md:px-6 md:pb-4 md:pt-3"
       onClick={onClick}
     >

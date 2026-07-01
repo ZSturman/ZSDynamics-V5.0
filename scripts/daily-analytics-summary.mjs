@@ -68,6 +68,24 @@ export const OPTIONAL_CUSTOM_PARAMETERS = [
   "status",
   "media_kind",
   "open_surface",
+  "previous_page_group",
+  "previous_page_slug",
+  "route_step",
+  "viewport_category",
+  "route_surface",
+  "modal_context",
+  "section_key",
+  "section_label",
+  "item_id",
+  "item_type",
+  "item_label",
+  "collection_key",
+  "media_role",
+  "scroll_percent",
+  "engagement_bucket",
+  "visible_time_sec",
+  "progress_percent",
+  "interaction_type",
 ];
 
 const MANUAL_UTM_DIMENSIONS = [
@@ -180,6 +198,36 @@ export const EVENT_CATALOG = {
     group: "Data quality",
     intent: "Diagnostic",
     keyAction: false,
+  },
+  portfolio_scroll_depth: {
+    label: "Scroll depth milestone",
+    group: "Attention",
+    intent: "Engagement",
+    keyAction: false,
+  },
+  portfolio_section_view: {
+    label: "Section viewed",
+    group: "Attention",
+    intent: "Engagement",
+    keyAction: false,
+  },
+  portfolio_section_engaged: {
+    label: "Section engaged",
+    group: "Attention",
+    intent: "Engagement",
+    keyAction: true,
+  },
+  project_item_open: {
+    label: "Project item opened",
+    group: "Content engagement",
+    intent: "Engagement",
+    keyAction: true,
+  },
+  project_media_progress: {
+    label: "Project media progress",
+    group: "Content engagement",
+    intent: "Engagement",
+    keyAction: true,
   },
 };
 
@@ -674,6 +722,20 @@ function canQueryDimensions(metadata, dimensions, options = {}) {
   return dimensions.every((dimension) => metadata.dimensions.has(dimension));
 }
 
+function customDimension(param) {
+  return `customEvent:${param}`;
+}
+
+function eventNameFilter(eventNames) {
+  const values = Array.isArray(eventNames) ? eventNames : [eventNames];
+  return {
+    filter: {
+      fieldName: "eventName",
+      inListFilter: { values },
+    },
+  };
+}
+
 async function runReport(client, propertyId, input) {
   const {
     metrics,
@@ -744,6 +806,7 @@ async function fetchBreakdown(client, propertyId, input, metadata, warnings) {
     requireMetadata = false,
     skipUnattributed = false,
     warnMissing = true,
+    dimensionFilter,
   } = input;
 
   if (!canQueryDimensions(metadata, dimensions, { requireMetadata })) {
@@ -758,6 +821,7 @@ async function fetchBreakdown(client, propertyId, input, metadata, warnings) {
     metrics,
     orderBy,
     limit,
+    dimensionFilter,
     dateRanges: dateRange(dateIso),
   }));
   return mapBreakdownRows(rows, dimensions, metrics, { limit, skipUnattributed });
@@ -846,6 +910,9 @@ function buildHighlights(report) {
   const topPage = report.content.pages[0];
   const topTag = report.tagInsights.tags[0];
   const topEvent = report.events.rows.find((event) => event.keyAction) || report.events.rows[0];
+  const topTransition = report.journeys?.transitions?.[0];
+  const topEngagedSection = report.attention?.sectionEngagement?.[0];
+  const topMedia = report.media?.mediaProgress?.[0] || report.media?.itemOpens?.[0];
 
   if (sessions) {
     highlights.push(`Sessions were ${sessions.previousDelta} vs. the previous day and ${sessions.prior7Delta} vs. the prior 7-day daily average.`);
@@ -864,6 +931,16 @@ function buildHighlights(report) {
   }
   if (topEvent) {
     highlights.push(`${topEvent.label} was the top tracked action with ${formatInteger(topEvent.count)} events.`);
+  }
+  if (topTransition) {
+    highlights.push(`The leading journey path was ${topTransition.from} -> ${topTransition.to} with ${formatInteger(topTransition.count)} route events.`);
+  }
+  if (topEngagedSection) {
+    highlights.push(`${topEngagedSection.sectionLabel} had the strongest section attention with ${formatInteger(topEngagedSection.count)} ${topEngagedSection.bucket} engagement events.`);
+  }
+  if (topMedia) {
+    const mediaLabel = topMedia.itemId || topMedia.projectSlug || topMedia.mediaKind || topMedia.itemType || "media";
+    highlights.push(`${mediaLabel} led media/detail interaction with ${formatInteger(topMedia.count)} events.`);
   }
 
   return highlights.slice(0, 5);
@@ -994,6 +1071,270 @@ async function fetchEvents(client, propertyId, dateIso, warnings) {
   };
 }
 
+function metricCount(row, metricName = "eventCount") {
+  return numberOrZero(row.metrics?.[metricName]);
+}
+
+function compactBreakdownLabel(parts) {
+  return parts
+    .map((part) => cleanDimension(part, ""))
+    .filter(Boolean)
+    .join(" / ") || "Unattributed";
+}
+
+async function fetchJourneyInsights(client, propertyId, dateIso, metadata, warnings) {
+  const routeDims = [
+    customDimension("previous_page_group"),
+    customDimension("previous_page_slug"),
+    customDimension("page_group"),
+    customDimension("page_slug"),
+    customDimension("route_surface"),
+    customDimension("viewport_category"),
+  ];
+
+  const transitionRows = await fetchBreakdown(client, propertyId, {
+    label: "Visitor journey transitions",
+    dateIso,
+    dimensions: routeDims,
+    metrics: ["eventCount"],
+    orderBy: "eventCount",
+    limit: 12,
+    requireMetadata: true,
+    warnMissing: false,
+    dimensionFilter: eventNameFilter("portfolio_route_view"),
+  }, metadata, warnings);
+
+  const surfaceRows = await fetchBreakdown(client, propertyId, {
+    label: "Route surfaces",
+    dateIso,
+    dimensions: [customDimension("route_surface"), customDimension("viewport_category")],
+    metrics: ["eventCount"],
+    orderBy: "eventCount",
+    limit: 8,
+    requireMetadata: true,
+    warnMissing: false,
+    dimensionFilter: eventNameFilter("portfolio_route_view"),
+  }, metadata, warnings);
+
+  return {
+    transitions: transitionRows.map((row) => ({
+      from: compactBreakdownLabel([row.dimensions[routeDims[0]], row.dimensions[routeDims[1]]]),
+      to: compactBreakdownLabel([row.dimensions[routeDims[2]], row.dimensions[routeDims[3]]]),
+      surface: cleanDimension(row.dimensions[routeDims[4]], "page"),
+      viewport: cleanDimension(row.dimensions[routeDims[5]], "unknown"),
+      count: metricCount(row),
+    })),
+    surfaces: surfaceRows.map((row) => ({
+      surface: cleanDimension(row.dimensions[customDimension("route_surface")], "page"),
+      viewport: cleanDimension(row.dimensions[customDimension("viewport_category")], "unknown"),
+      count: metricCount(row),
+    })),
+  };
+}
+
+async function fetchAttentionInsights(client, propertyId, dateIso, metadata, warnings) {
+  const scrollDims = [
+    customDimension("page_group"),
+    customDimension("page_slug"),
+    customDimension("scroll_percent"),
+  ];
+  const sectionDims = [
+    customDimension("section_key"),
+    customDimension("section_label"),
+    customDimension("project_slug"),
+    customDimension("article_slug"),
+    customDimension("item_type"),
+    customDimension("surface"),
+  ];
+  const engagementDims = [
+    customDimension("section_key"),
+    customDimension("section_label"),
+    customDimension("project_slug"),
+    customDimension("article_slug"),
+    customDimension("engagement_bucket"),
+  ];
+
+  const [scrollRows, sectionRows, engagementRows] = await Promise.all([
+    fetchBreakdown(client, propertyId, {
+      label: "Scroll depth milestones",
+      dateIso,
+      dimensions: scrollDims,
+      metrics: ["eventCount"],
+      orderBy: "eventCount",
+      limit: 12,
+      requireMetadata: true,
+      warnMissing: false,
+      dimensionFilter: eventNameFilter("portfolio_scroll_depth"),
+    }, metadata, warnings),
+    fetchBreakdown(client, propertyId, {
+      label: "Section views",
+      dateIso,
+      dimensions: sectionDims,
+      metrics: ["eventCount"],
+      orderBy: "eventCount",
+      limit: 18,
+      requireMetadata: true,
+      warnMissing: false,
+      dimensionFilter: eventNameFilter("portfolio_section_view"),
+    }, metadata, warnings),
+    fetchBreakdown(client, propertyId, {
+      label: "Section engagement",
+      dateIso,
+      dimensions: engagementDims,
+      metrics: ["eventCount"],
+      orderBy: "eventCount",
+      limit: 18,
+      requireMetadata: true,
+      warnMissing: false,
+      dimensionFilter: eventNameFilter("portfolio_section_engaged"),
+    }, metadata, warnings),
+  ]);
+
+  const sectionViews = sectionRows.map((row) => ({
+    sectionKey: cleanDimension(row.dimensions[sectionDims[0]], "unknown"),
+    sectionLabel: cleanDimension(row.dimensions[sectionDims[1]], cleanDimension(row.dimensions[sectionDims[0]], "unknown")),
+    projectSlug: cleanDimension(row.dimensions[sectionDims[2]], ""),
+    articleSlug: cleanDimension(row.dimensions[sectionDims[3]], ""),
+    itemType: cleanDimension(row.dimensions[sectionDims[4]], ""),
+    surface: cleanDimension(row.dimensions[sectionDims[5]], ""),
+    count: metricCount(row),
+  }));
+
+  return {
+    scrollDepth: scrollRows.map((row) => ({
+      page: compactBreakdownLabel([row.dimensions[scrollDims[0]], row.dimensions[scrollDims[1]]]),
+      percent: cleanDimension(row.dimensions[scrollDims[2]], "0"),
+      count: metricCount(row),
+    })),
+    sectionViews,
+    sectionEngagement: engagementRows.map((row) => ({
+      sectionKey: cleanDimension(row.dimensions[engagementDims[0]], "unknown"),
+      sectionLabel: cleanDimension(row.dimensions[engagementDims[1]], cleanDimension(row.dimensions[engagementDims[0]], "unknown")),
+      projectSlug: cleanDimension(row.dimensions[engagementDims[2]], ""),
+      articleSlug: cleanDimension(row.dimensions[engagementDims[3]], ""),
+      bucket: cleanDimension(row.dimensions[engagementDims[4]], ""),
+      count: metricCount(row),
+    })),
+  };
+}
+
+async function fetchMediaInsights(client, propertyId, dateIso, metadata, warnings) {
+  const mediaDims = [
+    customDimension("interaction_type"),
+    customDimension("media_kind"),
+    customDimension("project_slug"),
+    customDimension("item_id"),
+    customDimension("item_type"),
+    customDimension("collection_key"),
+    customDimension("progress_percent"),
+  ];
+  const itemDims = [
+    customDimension("interaction_type"),
+    customDimension("project_slug"),
+    customDimension("item_id"),
+    customDimension("item_type"),
+    customDimension("collection_key"),
+    customDimension("surface"),
+  ];
+
+  const [mediaRows, itemRows] = await Promise.all([
+    fetchBreakdown(client, propertyId, {
+      label: "Media progress",
+      dateIso,
+      dimensions: mediaDims,
+      metrics: ["eventCount"],
+      orderBy: "eventCount",
+      limit: 16,
+      requireMetadata: true,
+      warnMissing: false,
+      dimensionFilter: eventNameFilter("project_media_progress"),
+    }, metadata, warnings),
+    fetchBreakdown(client, propertyId, {
+      label: "Project item opens",
+      dateIso,
+      dimensions: itemDims,
+      metrics: ["eventCount"],
+      orderBy: "eventCount",
+      limit: 16,
+      requireMetadata: true,
+      warnMissing: false,
+      dimensionFilter: eventNameFilter("project_item_open"),
+    }, metadata, warnings),
+  ]);
+
+  return {
+    mediaProgress: mediaRows.map((row) => ({
+      interaction: cleanDimension(row.dimensions[mediaDims[0]], ""),
+      mediaKind: cleanDimension(row.dimensions[mediaDims[1]], ""),
+      projectSlug: cleanDimension(row.dimensions[mediaDims[2]], ""),
+      itemId: cleanDimension(row.dimensions[mediaDims[3]], ""),
+      itemType: cleanDimension(row.dimensions[mediaDims[4]], ""),
+      collectionKey: cleanDimension(row.dimensions[mediaDims[5]], ""),
+      progress: cleanDimension(row.dimensions[mediaDims[6]], ""),
+      count: metricCount(row),
+    })),
+    itemOpens: itemRows.map((row) => ({
+      interaction: cleanDimension(row.dimensions[itemDims[0]], ""),
+      projectSlug: cleanDimension(row.dimensions[itemDims[1]], ""),
+      itemId: cleanDimension(row.dimensions[itemDims[2]], ""),
+      itemType: cleanDimension(row.dimensions[itemDims[3]], ""),
+      collectionKey: cleanDimension(row.dimensions[itemDims[4]], ""),
+      surface: cleanDimension(row.dimensions[itemDims[5]], ""),
+      count: metricCount(row),
+    })),
+  };
+}
+
+async function fetchActionFlowInsights(client, propertyId, dateIso, metadata, warnings) {
+  const actionDims = [
+    "eventName",
+    customDimension("project_slug"),
+    customDimension("section_key"),
+    customDimension("section_label"),
+    customDimension("item_id"),
+    customDimension("surface"),
+  ];
+  const actionEvents = [
+    "project_resource_click",
+    "project_demo_click",
+    "project_github_click",
+    "github_click",
+    "article_source_click",
+    "outbound_click",
+    "social_click",
+    "resume_view",
+    "resume_download",
+    "contact_click",
+    "contact_submit",
+    "newsletter_interest",
+  ];
+
+  const rows = await fetchBreakdown(client, propertyId, {
+    label: "Content to action flow",
+    dateIso,
+    dimensions: actionDims,
+    metrics: ["eventCount"],
+    orderBy: "eventCount",
+    limit: 18,
+    requireMetadata: true,
+    warnMissing: false,
+    dimensionFilter: eventNameFilter(actionEvents),
+  }, metadata, warnings);
+
+  return {
+    rows: rows.map((row) => ({
+      eventName: row.dimensions.eventName,
+      eventLabel: getEventDefinition(row.dimensions.eventName).label,
+      projectSlug: cleanDimension(row.dimensions[customDimension("project_slug")], ""),
+      sectionKey: cleanDimension(row.dimensions[customDimension("section_key")], ""),
+      sectionLabel: cleanDimension(row.dimensions[customDimension("section_label")], ""),
+      itemId: cleanDimension(row.dimensions[customDimension("item_id")], ""),
+      surface: cleanDimension(row.dimensions[customDimension("surface")], ""),
+      count: metricCount(row),
+    })),
+  };
+}
+
 async function fetchAudience(client, propertyId, dateIso, metadata, warnings) {
   const [countries, cities, devices, browsers, operatingSystems] = await Promise.all([
     fetchBreakdown(client, propertyId, {
@@ -1072,6 +1413,10 @@ export async function buildDailyAnalyticsReport(options) {
     events,
     audience,
     customDimensions,
+    journeys,
+    attention,
+    media,
+    actionFlow,
   ] = await Promise.all([
     fetchOverview(client, propertyId, dateIso, warnings, "Overview"),
     fetchOverview(client, propertyId, previousDate, warnings, "Previous-day overview"),
@@ -1081,6 +1426,10 @@ export async function buildDailyAnalyticsReport(options) {
     fetchEvents(client, propertyId, dateIso, warnings),
     fetchAudience(client, propertyId, dateIso, metadata, warnings),
     fetchCustomDimensionBreakdowns(client, propertyId, dateIso, metadata, warnings),
+    fetchJourneyInsights(client, propertyId, dateIso, metadata, warnings),
+    fetchAttentionInsights(client, propertyId, dateIso, metadata, warnings),
+    fetchMediaInsights(client, propertyId, dateIso, metadata, warnings),
+    fetchActionFlowInsights(client, propertyId, dateIso, metadata, warnings),
   ]);
 
   const scorecards = buildScorecards(current, previous, prior7);
@@ -1109,6 +1458,10 @@ export async function buildDailyAnalyticsReport(options) {
     traffic,
     content,
     events,
+    journeys,
+    attention,
+    media,
+    actionFlow,
     tagInsights,
     audience,
     qualityNotes: [
@@ -1264,6 +1617,173 @@ function renderContentSection(report) {
   </td></tr>`;
 }
 
+function renderJourneySection(report) {
+  const transitionRows = (report.journeys?.transitions || []).map((row) => [
+    { value: row.from },
+    { value: row.to },
+    { value: row.surface },
+    { value: row.viewport },
+    { value: formatInteger(row.count), align: "right" },
+  ]);
+  const surfaceRows = (report.journeys?.surfaces || []).map((row) => [
+    { value: row.surface },
+    { value: row.viewport },
+    { value: formatInteger(row.count), align: "right" },
+  ]);
+
+  return `${renderSectionTitle("Visitor Journeys", "Aggregate route paths and modal/full-page browsing context.")}
+  <tr><td style="padding:0 28px 14px">
+    ${renderTable(
+      [
+        { label: "From" },
+        { label: "To" },
+        { label: "Surface" },
+        { label: "Viewport" },
+        { label: "Events", align: "right" },
+      ],
+      transitionRows,
+    )}
+  </td></tr>
+  <tr><td style="padding:0 28px">
+    ${renderTable(
+      [
+        { label: "Surface" },
+        { label: "Viewport" },
+        { label: "Route views", align: "right" },
+      ],
+      surfaceRows,
+    )}
+  </td></tr>`;
+}
+
+function renderAttentionSection(report) {
+  const scrollRows = (report.attention?.scrollDepth || []).map((row) => [
+    { value: row.page },
+    { value: `${row.percent}%`, align: "right" },
+    { value: formatInteger(row.count), align: "right" },
+  ]);
+  const engagementRows = (report.attention?.sectionEngagement || []).map((row) => [
+    { value: row.sectionLabel },
+    { value: row.projectSlug || row.articleSlug || "Site" },
+    { value: row.bucket },
+    { value: formatInteger(row.count), align: "right" },
+  ]);
+
+  return `${renderSectionTitle("Scroll & Attention", "Depth milestones and sections that stayed meaningfully visible.")}
+  <tr><td style="padding:0 28px 14px">
+    ${renderTable(
+      [
+        { label: "Page" },
+        { label: "Depth", align: "right" },
+        { label: "Events", align: "right" },
+      ],
+      scrollRows,
+    )}
+  </td></tr>
+  <tr><td style="padding:0 28px">
+    ${renderTable(
+      [
+        { label: "Section" },
+        { label: "Content" },
+        { label: "Visible" },
+        { label: "Events", align: "right" },
+      ],
+      engagementRows,
+    )}
+  </td></tr>`;
+}
+
+function renderProjectDetailSection(report) {
+  const detailRows = (report.attention?.sectionViews || [])
+    .filter((row) => row.projectSlug || row.itemType || row.surface?.includes("project"))
+    .map((row) => [
+      { value: row.sectionLabel },
+      { value: row.projectSlug || "Project surface" },
+      { value: row.itemType || row.surface || "section" },
+      { value: formatInteger(row.count), align: "right" },
+    ]);
+
+  return `${renderSectionTitle("Project Detail Engagement", "Project sections, collection items, assets, work logs, and related detail that entered view.")}
+  <tr><td style="padding:0 28px">
+    ${renderTable(
+      [
+        { label: "Detail" },
+        { label: "Project" },
+        { label: "Kind" },
+        { label: "Views", align: "right" },
+      ],
+      detailRows,
+    )}
+  </td></tr>`;
+}
+
+function renderMediaSection(report) {
+  const openRows = (report.media?.itemOpens || []).map((row) => [
+    { value: row.projectSlug || "Project" },
+    { value: row.itemId || "Item" },
+    { value: row.itemType || row.collectionKey || "item" },
+    { value: row.interaction || row.surface || "open" },
+    { value: formatInteger(row.count), align: "right" },
+  ]);
+  const progressRows = (report.media?.mediaProgress || []).map((row) => [
+    { value: row.projectSlug || "Project" },
+    { value: row.mediaKind || row.itemType || "media" },
+    { value: row.interaction || "interaction" },
+    { value: row.progress ? `${row.progress}%` : "n/a", align: "right" },
+    { value: formatInteger(row.count), align: "right" },
+  ]);
+
+  return `${renderSectionTitle("Media & Fullscreen Activity", "Collection/fullscreen opens plus video, audio, model, game, and link-preview interactions.")}
+  <tr><td style="padding:0 28px 14px">
+    ${renderTable(
+      [
+        { label: "Project" },
+        { label: "Item" },
+        { label: "Kind" },
+        { label: "Interaction" },
+        { label: "Events", align: "right" },
+      ],
+      openRows,
+    )}
+  </td></tr>
+  <tr><td style="padding:0 28px">
+    ${renderTable(
+      [
+        { label: "Project" },
+        { label: "Media" },
+        { label: "Interaction" },
+        { label: "Progress", align: "right" },
+        { label: "Events", align: "right" },
+      ],
+      progressRows,
+    )}
+  </td></tr>`;
+}
+
+function renderActionFlowSection(report) {
+  const rows = (report.actionFlow?.rows || []).map((row) => [
+    { value: row.eventLabel },
+    { value: row.projectSlug || "Site" },
+    { value: row.sectionLabel || row.sectionKey || "Unknown section" },
+    { value: row.itemId || row.surface || "n/a" },
+    { value: formatInteger(row.count), align: "right" },
+  ]);
+
+  return `${renderSectionTitle("Content-To-Action Flow", "Which visible project/article context preceded high-intent actions.")}
+  <tr><td style="padding:0 28px">
+    ${renderTable(
+      [
+        { label: "Action" },
+        { label: "Content" },
+        { label: "Section" },
+        { label: "Item / surface" },
+        { label: "Events", align: "right" },
+      ],
+      rows,
+    )}
+  </td></tr>`;
+}
+
 function renderTagInsights(report) {
   const tagRows = report.tagInsights.tags.map((tag) => [
     { value: tag.tag },
@@ -1412,6 +1932,11 @@ export function renderReportHtml(report) {
         <tr><td style="padding:0 28px">${renderHighlights(report.highlights)}</td></tr>
         ${renderTrafficSection(report)}
         ${renderContentSection(report)}
+        ${renderJourneySection(report)}
+        ${renderAttentionSection(report)}
+        ${renderProjectDetailSection(report)}
+        ${renderMediaSection(report)}
+        ${renderActionFlowSection(report)}
         ${renderTagInsights(report)}
         ${renderEventsSection(report)}
         ${renderAudienceSection(report)}
@@ -1466,6 +1991,86 @@ export function renderReportText(report) {
         page.tags.slice(0, 4).join(", ") || "No local tags",
         formatInteger(page.views),
         formatPercent(page.engagementRate),
+      ]),
+    ),
+    "",
+    "## Visitor journeys",
+    renderTextRows(
+      ["From", "To", "Surface", "Viewport", "Events"],
+      (report.journeys?.transitions || []).map((row) => [
+        row.from,
+        row.to,
+        row.surface,
+        row.viewport,
+        formatInteger(row.count),
+      ]),
+    ),
+    "",
+    "## Scroll and attention",
+    renderTextRows(
+      ["Page", "Depth", "Events"],
+      (report.attention?.scrollDepth || []).map((row) => [
+        row.page,
+        `${row.percent}%`,
+        formatInteger(row.count),
+      ]),
+    ),
+    "",
+    renderTextRows(
+      ["Section", "Content", "Visible", "Events"],
+      (report.attention?.sectionEngagement || []).map((row) => [
+        row.sectionLabel,
+        row.projectSlug || row.articleSlug || "Site",
+        row.bucket,
+        formatInteger(row.count),
+      ]),
+    ),
+    "",
+    "## Project detail engagement",
+    renderTextRows(
+      ["Detail", "Project", "Kind", "Views"],
+      (report.attention?.sectionViews || [])
+        .filter((row) => row.projectSlug || row.itemType || row.surface?.includes("project"))
+        .map((row) => [
+          row.sectionLabel,
+          row.projectSlug || "Project surface",
+          row.itemType || row.surface || "section",
+          formatInteger(row.count),
+        ]),
+    ),
+    "",
+    "## Media and fullscreen activity",
+    renderTextRows(
+      ["Project", "Item", "Kind", "Interaction", "Events"],
+      (report.media?.itemOpens || []).map((row) => [
+        row.projectSlug || "Project",
+        row.itemId || "Item",
+        row.itemType || row.collectionKey || "item",
+        row.interaction || row.surface || "open",
+        formatInteger(row.count),
+      ]),
+    ),
+    "",
+    renderTextRows(
+      ["Project", "Media", "Interaction", "Progress", "Events"],
+      (report.media?.mediaProgress || []).map((row) => [
+        row.projectSlug || "Project",
+        row.mediaKind || row.itemType || "media",
+        row.interaction || "interaction",
+        row.progress ? `${row.progress}%` : "n/a",
+        formatInteger(row.count),
+      ]),
+    ),
+    "",
+    "## Content-to-action flow",
+    renderTextRows(
+      ["Action", "Content", "Section", "Item / surface", "Events"],
+      (report.actionFlow?.rows || []).map((row) => [
+        row.eventLabel,
+        row.projectSlug || "Site",
+        row.sectionLabel || row.sectionKey || "Unknown section",
+        row.itemId || row.surface || "n/a",
+        formatInteger(row.count),
       ]),
     ),
     "",

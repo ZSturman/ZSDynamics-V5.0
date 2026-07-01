@@ -29,6 +29,7 @@ import ResourceButton from "../resource-button"
 import { useBreadcrumb } from "@/lib/breadcrumb-context"
 import { LinkPreviewSurface } from "../link-preview-surface"
 import { CollectionVideoPreview } from "./collection-video-preview"
+import { trackProjectItemOpen } from "@/lib/firebase-analytics"
 
 // Helper function to extract thumbnail path from various formats (string or object)
 function getThumbnailPath(item: CollectionItem): string | undefined {
@@ -166,6 +167,12 @@ function CollectionItemWrapper({ item, onRequestFullscreen, children, className,
       data-testid="collection-item-card"
       data-collection-item-id={item.id}
       data-collection-item-type={item.type}
+      data-analytics-item="collection_item"
+      data-analytics-item-id={item.id}
+      data-analytics-item-type={item.type}
+      data-analytics-item-label={item.label}
+      data-analytics-project-slug={project?.slug || project?.id}
+      data-analytics-project-title={project?.title}
       className={cn(
         "relative flex h-full max-w-full flex-col overflow-hidden rounded-lg border-border/35 bg-card/35 p-0 shadow-none transition-colors hover:border-primary/25",
         onRequestFullscreen && !disableClickToFullscreen && "cursor-pointer",
@@ -294,6 +301,19 @@ export default function CollectionItemCard({
   // Handle project-link items - redirect directly to the page
   const handleFolioClick = () => {
     if (itemPath && typeof itemPath === 'string') {
+      if (project) {
+        trackProjectItemOpen({
+          projectSlug: project.slug || project.id,
+          projectTitle: project.title,
+          itemId: item.id,
+          itemType: item.type,
+          itemLabel: item.label,
+          collectionKey: collectionName,
+          surface: inModal ? "project_modal_collection" : "project_page_collection",
+          interactionType: "project_link",
+        });
+      }
+
       // Check if it's a local path or external URL
       if (itemPath.startsWith('http://') || itemPath.startsWith('https://')) {
         // Check if it's the same host

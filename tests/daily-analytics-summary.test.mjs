@@ -217,6 +217,173 @@ test("builds a report with local tags when custom dimensions are missing", async
   assert.match(renderReportText(report), /Custom detail unavailable/);
 });
 
+test("builds journey, attention, media, and action-flow sections from custom dimensions", async () => {
+  const root = await fs.mkdtemp(path.join(os.tmpdir(), "analytics-journey-report-"));
+  await fs.mkdir(path.join(root, "public", "projects"), { recursive: true });
+  await fs.mkdir(path.join(root, "public", "articles"), { recursive: true });
+  await fs.writeFile(
+    path.join(root, "public", "projects", "projects.json"),
+    JSON.stringify([
+      {
+        slug: "chewsense",
+        href: "/projects/chewsense",
+        title: "ChewSense",
+        domain: "Technology",
+        category: "Application",
+        status: "Complete",
+        tags: ["AI", "Health"],
+      },
+    ]),
+  );
+  await fs.writeFile(path.join(root, "public", "articles", "articles.json"), "[]");
+
+  const standardDimensions = [
+    "sessionDefaultChannelGroup",
+    "sessionSource",
+    "sessionMedium",
+    "sessionCampaignName",
+    "pagePath",
+    "pageTitle",
+    "eventName",
+    "country",
+    "city",
+    "deviceCategory",
+    "browser",
+    "operatingSystem",
+  ];
+  const customParams = [
+    "previous_page_group",
+    "previous_page_slug",
+    "page_group",
+    "page_slug",
+    "route_surface",
+    "viewport_category",
+    "scroll_percent",
+    "section_key",
+    "section_label",
+    "project_slug",
+    "article_slug",
+    "item_type",
+    "surface",
+    "engagement_bucket",
+    "interaction_type",
+    "media_kind",
+    "item_id",
+    "collection_key",
+    "progress_percent",
+  ];
+
+  const client = {
+    async getMetadata() {
+      return [{
+        dimensions: [
+          ...standardDimensions,
+          ...customParams.map((param) => `customEvent:${param}`),
+        ].map((apiName) => ({ apiName })),
+      }];
+    },
+    async runReport(request) {
+      const dimensions = (request.dimensions || []).map((dimension) => dimension.name);
+
+      if (dimensions.length === 0) {
+        return [{ rows: [metricRow([4, 3, 5, 4, 0.8, 12, 90, 24])] }];
+      }
+      if (dimensions.includes("sessionDefaultChannelGroup")) {
+        return [{ rows: [dimensionMetricRow(["Organic Social"], [3, 2])] }];
+      }
+      if (dimensions.includes("sessionSource") && dimensions.includes("sessionMedium")) {
+        return [{ rows: [dimensionMetricRow(["linkedin", "social"], [3, 2])] }];
+      }
+      if (dimensions.includes("pagePath")) {
+        return [{ rows: [dimensionMetricRow(["/projects/chewsense", "ChewSense"], [8, 4, 0.8, 90])] }];
+      }
+      if (dimensions.includes("eventName") && dimensions.length === 1) {
+        return [{ rows: [
+          dimensionMetricRow(["portfolio_section_engaged"], [4]),
+          dimensionMetricRow(["project_media_progress"], [3]),
+          dimensionMetricRow(["project_resource_click"], [2]),
+        ] }];
+      }
+      if (dimensions.includes("country")) {
+        return [{ rows: [dimensionMetricRow(["United States"], [4, 3])] }];
+      }
+      if (dimensions.includes("deviceCategory")) {
+        return [{ rows: [dimensionMetricRow(["desktop"], [4])] }];
+      }
+      if (dimensions.includes("browser")) {
+        return [{ rows: [dimensionMetricRow(["Chrome"], [4])] }];
+      }
+      if (dimensions.includes("operatingSystem")) {
+        return [{ rows: [dimensionMetricRow(["macOS"], [4])] }];
+      }
+      if (dimensions.includes("customEvent:previous_page_group")) {
+        return [{ rows: [dimensionMetricRow(["home", "home", "project", "chewsense", "page", "desktop"], [3])] }];
+      }
+      if (
+        dimensions.includes("customEvent:route_surface") &&
+        dimensions.includes("customEvent:viewport_category") &&
+        dimensions.length === 2
+      ) {
+        return [{ rows: [dimensionMetricRow(["page", "desktop"], [5])] }];
+      }
+      if (dimensions.includes("customEvent:scroll_percent")) {
+        return [{ rows: [dimensionMetricRow(["project", "chewsense", "90"], [4])] }];
+      }
+      if (dimensions.includes("customEvent:engagement_bucket")) {
+        return [{ rows: [dimensionMetricRow(["project_collection", "Project collection", "chewsense", "", "15s"], [4])] }];
+      }
+      if (
+        dimensions.includes("customEvent:section_key") &&
+        dimensions.includes("customEvent:item_type") &&
+        dimensions.includes("customEvent:surface") &&
+        !dimensions.includes("eventName")
+      ) {
+        return [{ rows: [dimensionMetricRow(["collection_item", "Demo clip", "chewsense", "", "video", "project_page"], [6])] }];
+      }
+      if (dimensions.includes("customEvent:media_kind")) {
+        return [{ rows: [dimensionMetricRow(["progress", "video", "chewsense", "demo-clip", "video", "clips", "50"], [3])] }];
+      }
+      if (
+        dimensions.includes("customEvent:interaction_type") &&
+        dimensions.includes("customEvent:item_id") &&
+        dimensions.includes("customEvent:surface") &&
+        !dimensions.includes("customEvent:media_kind") &&
+        !dimensions.includes("eventName")
+      ) {
+        return [{ rows: [dimensionMetricRow(["fullscreen_open", "chewsense", "demo-clip", "video", "clips", "project_page_fullscreen"], [2])] }];
+      }
+      if (dimensions.includes("eventName") && dimensions.includes("customEvent:section_key")) {
+        return [{ rows: [dimensionMetricRow(["project_resource_click", "chewsense", "project_collection", "Project collection", "demo-clip", "project_page"], [2])] }];
+      }
+      return [{ rows: [] }];
+    },
+  };
+
+  const report = await buildDailyAnalyticsReport({
+    client,
+    propertyId: "123456",
+    siteName: "example.test",
+    now: new Date("2026-06-29T15:00:00Z"),
+    rootDir: root,
+  });
+
+  assert.equal(report.journeys.transitions[0].from, "home / home");
+  assert.equal(report.journeys.transitions[0].to, "project / chewsense");
+  assert.equal(report.attention.scrollDepth[0].percent, "90");
+  assert.equal(report.attention.sectionEngagement[0].sectionLabel, "Project collection");
+  assert.equal(report.attention.sectionViews[0].itemType, "video");
+  assert.equal(report.media.mediaProgress[0].progress, "50");
+  assert.equal(report.media.itemOpens[0].interaction, "fullscreen_open");
+  assert.equal(report.actionFlow.rows[0].eventLabel, "Project resource click");
+
+  const html = renderReportHtml(report);
+  assert.match(html, /Visitor Journeys/);
+  assert.match(html, /Scroll &amp; Attention/);
+  assert.match(html, /Project Detail Engagement/);
+  assert.match(html, /Media &amp; Fullscreen Activity/);
+  assert.match(html, /Content-To-Action Flow/);
+});
+
 test("renders all major email sections and custom-dimension fallback", () => {
   const report = {
     meta: {
@@ -323,6 +490,11 @@ test("renders all major email sections and custom-dimension fallback", () => {
     "What Changed",
     "Acquisition Tags",
     "Top Content",
+    "Visitor Journeys",
+    "Scroll &amp; Attention",
+    "Project Detail Engagement",
+    "Media &amp; Fullscreen Activity",
+    "Content-To-Action Flow",
     "Content Tags &amp; Custom Detail",
     "Key Actions",
     "Audience &amp; Tech",
@@ -336,6 +508,11 @@ test("renders all major email sections and custom-dimension fallback", () => {
     "## Scorecards",
     "## Acquisition tags",
     "## Top content",
+    "## Visitor journeys",
+    "## Scroll and attention",
+    "## Project detail engagement",
+    "## Media and fullscreen activity",
+    "## Content-to-action flow",
     "## Content tags",
     "## Custom detail availability",
     "## Key actions",

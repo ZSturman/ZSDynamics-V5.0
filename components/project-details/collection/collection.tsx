@@ -199,7 +199,12 @@ function CollectionItemGrid({
   folderName: string;
 }) {
   return (
-    <div className="grid min-w-0 max-w-full grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 lg:grid-cols-3">
+    <div
+      className="grid min-w-0 max-w-full grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 lg:grid-cols-3"
+      data-analytics-section="collection_item_grid"
+      data-analytics-section-label={`${collection.label} item grid`}
+      data-analytics-collection-key={collection.key}
+    >
       {collection.items.map((item, idx) => (
         <CollectionItemCard
           key={item.id || idx}
@@ -292,7 +297,12 @@ export function Collection({ project, inModal, requestedCollectionItemId: initia
   if (collections.length === 1) {
     const collection = collections[0];
     return (
-      <div className="min-w-0 max-w-full space-y-5 overflow-x-clip md:space-y-6">
+      <div
+        className="min-w-0 max-w-full space-y-5 overflow-x-clip md:space-y-6"
+        data-analytics-section="collection"
+        data-analytics-section-label={collection.label}
+        data-analytics-collection-key={collection.key}
+      >
         <CollectionHeader
           label={collection.label}
           summary={collection.summary}
@@ -313,9 +323,12 @@ export function Collection({ project, inModal, requestedCollectionItemId: initia
       <Tabs value={selectedCollectionKey} onValueChange={setSelectedCollectionKey} className="w-full max-w-full overflow-x-clip">
         <TabsList className="h-auto w-full justify-start gap-1 overflow-x-auto rounded-lg bg-muted/50 p-1">
           {collections.map((collection) => (
-            <TabsTrigger
+          <TabsTrigger
               key={collection.key}
               value={collection.key}
+              data-analytics-section="collection_tab"
+              data-analytics-section-label={collection.label}
+              data-analytics-collection-key={collection.key}
               className="rounded-md px-4 py-2 text-sm font-medium transition-colors data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm data-[state=inactive]:text-muted-foreground data-[state=inactive]:hover:text-foreground"
             >
               {collection.label}
@@ -324,7 +337,14 @@ export function Collection({ project, inModal, requestedCollectionItemId: initia
         </TabsList>
 
         {collections.map((collection) => (
-          <TabsContent key={collection.key} value={collection.key} className="mt-4 min-w-0 max-w-full space-y-5 overflow-x-clip md:space-y-6">
+          <TabsContent
+            key={collection.key}
+            value={collection.key}
+            className="mt-4 min-w-0 max-w-full space-y-5 overflow-x-clip md:space-y-6"
+            data-analytics-section="collection"
+            data-analytics-section-label={collection.label}
+            data-analytics-collection-key={collection.key}
+          >
             <CollectionHeader
               label={collection.label}
               summary={collection.summary}

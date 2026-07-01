@@ -47,6 +47,10 @@ function ArticleLinkPreviewCard({ preview }: { preview: ArticleLinkPreview }) {
   return (
     <a
       data-testid="article-link-preview-card"
+      data-analytics-item="article_link_preview"
+      data-analytics-item-id={preview.url}
+      data-analytics-item-type="link_preview"
+      data-analytics-item-label={title}
       href={preview.url}
       target="_blank"
       rel="noopener noreferrer"
@@ -98,6 +102,10 @@ function YouTubePreview({ preview }: { preview: ArticleLinkPreview }) {
   return (
     <div
       data-testid="article-youtube-embed"
+      data-analytics-item="article_youtube_embed"
+      data-analytics-item-id={preview.url}
+      data-analytics-item-type="youtube"
+      data-analytics-item-label={title}
       className="mx-auto max-w-3xl overflow-hidden rounded-[1.75rem] border border-border/70 bg-card shadow-sm"
     >
       <div className="aspect-video bg-black">
@@ -158,9 +166,9 @@ export function ArticleMarkdown({ content, slug, linkPreviews = [] }: ArticleMar
             const preview = getPreviewForParagraph(children, previewsByUrl);
             if (preview) {
               return (
-                <div className="article-markdown-embed-wrapper">
-                  <ArticleStandaloneLinkPreview preview={preview} />
-                </div>
+              <div className="article-markdown-embed-wrapper">
+                <ArticleStandaloneLinkPreview preview={preview} />
+              </div>
               );
             }
 
@@ -219,7 +227,13 @@ export function ArticleMarkdown({ content, slug, linkPreviews = [] }: ArticleMar
 
             return (
               <div className="article-markdown-image-wrapper">
-                <div className="mx-auto my-8 max-w-3xl overflow-hidden rounded-[1.75rem] border border-border/70 bg-card/50 p-2 sm:p-3">
+                <div
+                  className="mx-auto my-8 max-w-3xl overflow-hidden rounded-[1.75rem] border border-border/70 bg-card/50 p-2 sm:p-3"
+                  data-analytics-item="article_image"
+                  data-analytics-item-id={resolvedSrc}
+                  data-analytics-item-type="image"
+                  data-analytics-item-label={alt || resolvedSrc}
+                >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={resolvedSrc}

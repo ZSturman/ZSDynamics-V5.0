@@ -379,6 +379,11 @@ export function ProjectStandaloneAssets({ project, inModal }: ProjectStandaloneA
       id={inModal ? undefined : "assets"}
       data-testid="project-standalone-assets"
       data-project-id={project.id}
+      data-analytics-section="standalone_assets"
+      data-analytics-section-label="Standalone assets"
+      data-analytics-project-slug={project.slug || project.id}
+      data-analytics-project-title={project.title}
+      data-analytics-surface={inModal ? "project_modal" : "project_page"}
       className="min-w-0 max-w-full scroll-mt-24 space-y-5 overflow-x-clip md:space-y-6"
     >
       <div className="min-w-0 max-w-full space-y-4 md:space-y-5">
@@ -388,6 +393,14 @@ export function ProjectStandaloneAssets({ project, inModal }: ProjectStandaloneA
             id={inModal ? undefined : getProjectAssetSectionId(item, idx)}
             data-testid="project-standalone-asset"
             data-asset-id={item.id}
+            data-analytics-item="standalone_asset"
+            data-analytics-item-id={item.id}
+            data-analytics-item-type={item.type}
+            data-analytics-item-label={item.label}
+            data-analytics-project-slug={project.slug || project.id}
+            data-analytics-project-title={project.title}
+            data-analytics-collection-key="assets"
+            data-analytics-surface={inModal ? "project_modal_assets" : "project_page_assets"}
             className="min-w-0 max-w-full scroll-mt-24"
           >
             <StandaloneAssetItem

@@ -26,6 +26,13 @@ export function ArticleCard({ article }: ArticleCardProps) {
   return (
     <article
       data-testid="article-card-root"
+      data-analytics-item="article_card"
+      data-analytics-item-id={article.slug}
+      data-analytics-item-type="article"
+      data-analytics-item-label={article.title}
+      data-analytics-article-slug={article.slug}
+      data-analytics-article-title={article.title}
+      data-analytics-surface="article_grid"
       className="group relative flex h-full min-w-0 flex-col overflow-hidden rounded-[1.75rem] border border-border/70 bg-card shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-foreground/20 hover:shadow-xl"
     >
       <Link href={article.href} aria-label={article.title} className="absolute inset-0 z-10 rounded-[1.75rem]" />

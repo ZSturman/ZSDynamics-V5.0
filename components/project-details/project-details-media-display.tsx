@@ -208,6 +208,14 @@ const ProjectDetailsMediaDisplay = ({ project }: ProjectDetailsMediaDisplayProps
             data-testid="project-asset-card"
             data-project-id={project.id}
             data-media-role={media.mediaRole}
+            data-analytics-item="project_asset_preview"
+            data-analytics-item-id={media.id}
+            data-analytics-item-type="project_asset"
+            data-analytics-item-label={media.label}
+            data-analytics-project-slug={project.slug || project.id}
+            data-analytics-project-title={project.title}
+            data-analytics-media-role={media.mediaRole}
+            data-analytics-surface="project_assets_preview"
             className="rounded-lg border border-border bg-card/50 p-2.5"
           >
             <p className="mb-2 text-[11px] font-medium uppercase tracking-wide text-muted-foreground">

@@ -47,6 +47,7 @@ export function ProjectModal({ project, isOpen, onClose }: ProjectModalProps) {
   };
 
   if (!project) return null;
+  const projectSlug = project.slug || project.id;
   const hasContent = Boolean(
     (project.description && String(project.description).trim()) ||
       (project.story && String(project.story).trim())
@@ -122,6 +123,9 @@ export function ProjectModal({ project, isOpen, onClose }: ProjectModalProps) {
       <DialogContent
         data-testid="project-modal-content"
         data-project-id={project.id}
+        data-analytics-project-slug={projectSlug}
+        data-analytics-project-title={project.title}
+        data-analytics-surface="project_modal"
         className="max-h-[92vh] max-w-7xl p-0 flex flex-col overflow-hidden"
       >
         <div className="relative flex-1 min-h-0 overflow-y-auto">
@@ -145,36 +149,44 @@ export function ProjectModal({ project, isOpen, onClose }: ProjectModalProps) {
           )}
 
           <div className="px-4 pt-6 pb-12 md:px-6 space-y-8">
-            <ProjectHeader
-              project={project}
-              hideBanner
-              showResourceRow={false}
-              resourceRow={
-                hasResources ? (
-                  <div data-testid="project-modal-resources">
-                    <ResourceButtons project={project} showMessage={false} />
+            <div data-analytics-section="project_modal_header" data-analytics-section-label="Project modal header">
+              <ProjectHeader
+                project={project}
+                hideBanner
+                showResourceRow={false}
+                resourceRow={
+                  hasResources ? (
+                    <div
+                      data-testid="project-modal-resources"
+                      data-analytics-section="project_modal_resources"
+                      data-analytics-section-label="Project modal resources"
+                    >
+                      <ResourceButtons project={project} showMessage={false} />
+                    </div>
+                  ) : undefined
+                }
+                headerActions={
+                  <div className="flex justify-end">
+                    <Button
+                      data-testid="project-modal-open-project-button"
+                      onClick={goToProjectPage}
+                      className="w-full gap-2 md:w-auto"
+                      size="sm"
+                    >
+                      Open Full Project Page
+                      <ArrowUpRight className="size-4" />
+                    </Button>
                   </div>
-                ) : undefined
-              }
-              headerActions={
-                <div className="flex justify-end">
-                  <Button
-                    data-testid="project-modal-open-project-button"
-                    onClick={goToProjectPage}
-                    className="w-full gap-2 md:w-auto"
-                    size="sm"
-                  >
-                    Open Full Project Page
-                    <ArrowUpRight className="size-4" />
-                  </Button>
-                </div>
-              }
-            />
+                }
+              />
+            </div>
 
             <div>
               {sections.map((section, index) => (
                 <section
                   key={section.key}
+                  data-analytics-section={`project_modal_${section.key}`}
+                  data-analytics-section-label={`Project modal ${section.key.replace(/-/g, " ")}`}
                   className={cn(
                     index > 0 && "pt-6",
                     index < sections.length - 1 && "pb-6",
@@ -190,7 +202,11 @@ export function ProjectModal({ project, isOpen, onClose }: ProjectModalProps) {
                 <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_18rem]">
                   <div className="space-y-6">
                     {supportingSections.map((section) => (
-                      <section key={section.key}>
+                      <section
+                        key={section.key}
+                        data-analytics-section={`project_modal_${section.key}`}
+                        data-analytics-section-label={`Project modal ${section.key.replace(/-/g, " ")}`}
+                      >
                         {section.content}
                       </section>
                     ))}

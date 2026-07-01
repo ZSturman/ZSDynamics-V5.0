@@ -43,7 +43,11 @@ export default function ProjectDescriptionAndStory({ project }: Props) {
   }) {
     return (
       <Card>
-        <CardContent className="p-3 md:p-6">
+        <CardContent
+          className="p-3 md:p-6"
+          data-analytics-section={`project_${title.toLowerCase().replace(/\s+/g, "_")}`}
+          data-analytics-section-label={title}
+        >
           {title && (
             <h2 className="text-base md:text-xl font-semibold mb-2">{title}</h2>
           )}
@@ -121,7 +125,12 @@ export function ProjectContent({ project, showReadme = true }: ProjectContentPro
   return (
     <article className="min-w-0 max-w-full space-y-7 overflow-x-clip md:space-y-8">
       {hasDescription && (
-        <section id="description" className="min-w-0 max-w-full scroll-mt-24">
+        <section
+          id="description"
+          className="min-w-0 max-w-full scroll-mt-24"
+          data-analytics-section="project_description"
+          data-analytics-section-label="Project description"
+        >
           <h2 className="mb-3 text-xl font-bold text-foreground md:mb-4 md:text-3xl">Description</h2>
           <div className="max-w-full whitespace-pre-wrap break-words text-sm leading-relaxed text-foreground/90 md:text-lg">
             {formatTextWithNewlines(description)}
@@ -130,7 +139,12 @@ export function ProjectContent({ project, showReadme = true }: ProjectContentPro
       )}
 
       {hasStory && (
-        <section id="story" className="min-w-0 max-w-full scroll-mt-24">
+        <section
+          id="story"
+          className="min-w-0 max-w-full scroll-mt-24"
+          data-analytics-section="project_story"
+          data-analytics-section-label="Project story"
+        >
           <h2 className="mb-3 text-xl font-bold text-foreground md:mb-4 md:text-3xl">Story</h2>
           <div className="max-w-full whitespace-pre-wrap border-l-2 border-primary/20 pl-4 text-sm leading-relaxed text-foreground/90 md:pl-6 md:text-lg">
             {formatTextWithNewlines(story)}
@@ -139,7 +153,13 @@ export function ProjectContent({ project, showReadme = true }: ProjectContentPro
       )}
 
       {hasReadme && (
-        <section id="readme" data-testid="project-readme" className="min-w-0 max-w-full scroll-mt-24 overflow-x-clip">
+        <section
+          id="readme"
+          data-testid="project-readme"
+          data-analytics-section="project_readme"
+          data-analytics-section-label="Project readme"
+          className="min-w-0 max-w-full scroll-mt-24 overflow-x-clip"
+        >
           <div className="rounded-lg border border-border/30 bg-card/25 p-3 md:p-6">
             {readmeSourceUrl ? (
               <div className="mb-4 flex justify-end">

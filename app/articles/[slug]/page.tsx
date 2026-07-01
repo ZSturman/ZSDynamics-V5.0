@@ -94,6 +94,10 @@ function ArticleRecommendationCard({
     <Link
       href={href}
       data-testid="recommended-article-card"
+      data-analytics-item="recommended_article"
+      data-analytics-item-id={href}
+      data-analytics-item-type="article"
+      data-analytics-item-label={title}
       className="group flex items-start gap-4 rounded-[1.5rem] border border-border/70 bg-background px-4 py-4 transition-colors hover:border-primary/40"
     >
       <CompactMediaSlot
@@ -117,6 +121,12 @@ function ConnectedProjectCard({ project }: { project: Project }) {
     <Link
       href={getProjectHref(project)}
       data-testid="article-connected-project-card"
+      data-analytics-item="article_connected_project"
+      data-analytics-item-id={project.slug || project.id}
+      data-analytics-item-type="project"
+      data-analytics-item-label={project.title}
+      data-analytics-project-slug={project.slug || project.id}
+      data-analytics-project-title={project.title}
       className="group flex items-start gap-4 rounded-[1.5rem] border border-border/70 bg-card/45 px-4 py-4 transition-colors hover:border-primary/40 hover:bg-card"
     >
       <CompactMediaSlot
@@ -231,7 +241,12 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
       : null;
 
   return (
-    <div className="min-h-screen bg-background">
+    <div
+      className="min-h-screen bg-background"
+      data-analytics-article-slug={article.slug}
+      data-analytics-article-title={article.title}
+      data-analytics-surface="article_page"
+    >
       <PageFrame as="main" data-testid="site-page-frame" className="py-8 md:py-12">
         <ArticleAnalyticsTracker slug={article.slug} title={article.title} />
 
@@ -245,7 +260,11 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           />
 
           {article.coverImage && (
-            <div className="overflow-hidden rounded-[2rem] border border-border/70 bg-muted/40 shadow-sm">
+            <div
+              className="overflow-hidden rounded-[2rem] border border-border/70 bg-muted/40 shadow-sm"
+              data-analytics-section="article_cover"
+              data-analytics-section-label="Article cover"
+            >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={article.coverImage}
@@ -258,6 +277,8 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           <PageColumn data-testid="article-content-column" className="space-y-8">
             <div
               data-testid="article-header-block"
+              data-analytics-section="article_header"
+              data-analytics-section-label="Article header"
               className="space-y-4 border-b border-border/70 pb-8 md:pb-10"
             >
               <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
@@ -271,13 +292,19 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
               </div>
             </div>
 
-            <div className="pt-1">
+            <div
+              className="pt-1"
+              data-analytics-section="article_body"
+              data-analytics-section-label="Article body"
+            >
               <ArticleMarkdown content={content} slug={article.slug} linkPreviews={article.linkPreviews} />
             </div>
 
             {hasPostMetadata && (
               <section
                 data-testid="article-post-metadata"
+                data-analytics-section="article_metadata"
+                data-analytics-section-label="Article metadata"
                 className="space-y-6 border-t border-border/70 pt-8"
               >
                 {(article.series || article.tags?.length) && (

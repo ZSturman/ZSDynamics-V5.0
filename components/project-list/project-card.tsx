@@ -37,6 +37,13 @@ export function ProjectCard({
     <Card
       data-testid="project-card-root"
       data-project-id={project.id}
+      data-analytics-item="project_card"
+      data-analytics-item-id={project.slug || project.id}
+      data-analytics-item-type="project"
+      data-analytics-item-label={project.title}
+      data-analytics-project-slug={project.slug || project.id}
+      data-analytics-project-title={project.title}
+      data-analytics-surface="project_grid"
       className="group flex h-full max-w-full cursor-pointer flex-col overflow-hidden rounded-lg border-border/35 bg-card/35 p-0 shadow-none transition-colors duration-200 hover:border-primary/25"
       onClick={onClick}
     >

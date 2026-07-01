@@ -63,6 +63,12 @@ export default function ResourceButton({
       <Button
         variant="outline"
         size="icon"
+        data-analytics-item="project_resource"
+        data-analytics-item-id={resource.id || resource.url}
+        data-analytics-item-type={resource.type}
+        data-analytics-item-label={resource.label}
+        data-analytics-project-slug={currentProject?.slug || currentProject?.id}
+        data-analytics-project-title={currentProject?.title || currentProject?.name}
         className={cn(
           "h-9 w-9 shrink-0 rounded-full border-border/70 bg-background/85 text-foreground shadow-sm transition-colors hover:border-primary/40 hover:bg-accent/50",
           className
@@ -87,6 +93,12 @@ export default function ResourceButton({
     return (
       <Button
         variant="ghost"
+        data-analytics-item="project_resource"
+        data-analytics-item-id={resource.id || resource.url}
+        data-analytics-item-type={resource.type}
+        data-analytics-item-label={resource.label}
+        data-analytics-project-slug={currentProject?.slug || currentProject?.id}
+        data-analytics-project-title={currentProject?.title || currentProject?.name}
         className={className || "h-8 w-8 md:h-auto md:w-auto md:px-3 md:py-1.5 shrink-0 "}
         onClick={handleClick}
         title={resource.label}
@@ -108,6 +120,12 @@ export default function ResourceButton({
   return (
     <Button
       variant="outline"
+      data-analytics-item="project_resource"
+      data-analytics-item-id={resource.id || resource.url}
+      data-analytics-item-type={resource.type}
+      data-analytics-item-label={resource.label}
+      data-analytics-project-slug={currentProject?.slug || currentProject?.id}
+      data-analytics-project-title={currentProject?.title || currentProject?.name}
       className={className || "h-auto min-h-[22px] max-w-full justify-start bg-transparent px-3 py-1 opacity-70 hover:cursor-pointer hover:opacity-100 md:min-h-[36px] md:gap-3 md:px-4"}
       onClick={handleClick}
     >

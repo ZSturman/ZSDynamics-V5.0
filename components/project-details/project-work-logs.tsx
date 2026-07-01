@@ -48,7 +48,14 @@ export function ProjectWorkLogs({ project, limit }: ProjectWorkLogsProps) {
   }
 
   return (
-    <section data-testid="project-work-logs" className="min-w-0 max-w-full space-y-4 overflow-x-clip md:space-y-5">
+    <section
+      data-testid="project-work-logs"
+      data-analytics-section="project_work_logs"
+      data-analytics-section-label="Project work logs"
+      data-analytics-project-slug={project.slug || project.id}
+      data-analytics-project-title={project.title}
+      className="min-w-0 max-w-full space-y-4 overflow-x-clip md:space-y-5"
+    >
       <div className="flex items-center justify-between gap-3">
         <h3 className="text-base font-semibold tracking-tight text-foreground">Work Logs</h3>
         <Link
@@ -69,6 +76,12 @@ export function ProjectWorkLogs({ project, limit }: ProjectWorkLogsProps) {
             <Card
               key={key}
               data-testid="project-work-log-card"
+              data-analytics-item="work_log"
+              data-analytics-item-id={key}
+              data-analytics-item-type="work_log"
+              data-analytics-item-label={getWorkLogTitle(workLog)}
+              data-analytics-project-slug={project.slug || project.id}
+              data-analytics-project-title={project.title}
               className="max-w-full overflow-hidden rounded-lg border-border/35 bg-card/30 shadow-none"
             >
               <CardContent className="min-w-0 space-y-3 p-3 md:space-y-4 md:p-5">

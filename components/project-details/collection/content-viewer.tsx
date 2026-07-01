@@ -11,7 +11,7 @@ import { Canvas } from "@react-three/fiber"
 import { OrbitControls, useGLTF, useAnimations } from "@react-three/drei"
 import * as THREE from "three"
 import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader.js"
-import { CollectionItem } from "@/types"
+import { CollectionItem, Project } from "@/types"
 import Image from "next/image"
 import {
   getCollectionItemOptimizedPath,
@@ -19,14 +19,16 @@ import {
   getCollectionItemResolvedPath,
 } from "@/lib/collection-item-media"
 import { LinkPreviewSurface } from "../link-preview-surface"
+import { trackProjectMediaProgress } from "@/lib/firebase-analytics"
 
 interface ContentViewerProps {
   item: CollectionItem
+  project: Project
   folderName?: string
   collectionName?: string
 }
 
-export function ContentViewer({ item, folderName, collectionName }: ContentViewerProps) {
+export function ContentViewer({ item, project, folderName, collectionName }: ContentViewerProps) {
   const pathOptions = { folderName, collectionName };
   const rawPath = getCollectionItemResolvedPath(item, pathOptions);
   const itemPath = getCollectionItemOptimizedPath(item, pathOptions);
@@ -38,23 +40,23 @@ export function ContentViewer({ item, folderName, collectionName }: ContentViewe
     case "image":
       return <ImageContent path={itemPath || ""} />
     case "video":
-      return <VideoContent item={item} folderName={folderName} collectionName={collectionName} />
+      return <VideoContent item={item} project={project} folderName={folderName} collectionName={collectionName} />
     case "3d-model":
-      return <ModelContent item={item} folderName={folderName} collectionName={collectionName} />
+      return <ModelContent item={item} project={project} folderName={folderName} collectionName={collectionName} />
     case "game":
-      return <GameContent path={itemPath || ""} />
+      return <GameContent path={itemPath || ""} item={item} project={project} collectionName={collectionName} />
     case "url-link":
     case "local-link":
     case "folio":
-      return <UrlLinkContent path={itemPath || ""} item={item} />
+      return <UrlLinkContent path={itemPath || ""} item={item} project={project} collectionName={collectionName} />
     case "text":
       // PDFs should be displayed in an iframe, not as text
       if (isPDF) {
         return <PDFContent path={rawPath || ""} />
       }
-      return <TextContent path={itemPath || ""} />
+      return <TextContent path={itemPath || ""} item={item} project={project} collectionName={collectionName} />
     case "audio":
-      return <AudioContent path={itemPath || ""} />
+      return <AudioContent path={itemPath || ""} item={item} project={project} collectionName={collectionName} />
     default:
       return <div className="text-muted-foreground">Unsupported content type</div>
   }
@@ -75,7 +77,21 @@ function ImageContent({ path }: { path: string }) {
   )
 }
 
-function UrlLinkContent({ path, item }: { path: string; item: CollectionItem }) {
+function UrlLinkContent({ path, item, project, collectionName }: { path: string; item: CollectionItem; project: Project; collectionName?: string }) {
+  useEffect(() => {
+    trackProjectMediaProgress({
+      projectSlug: project.slug || project.id,
+      projectTitle: project.title,
+      mediaKind: "other",
+      mediaUrl: path,
+      itemId: item.id,
+      itemType: item.type,
+      collectionKey: collectionName,
+      surface: "collection_fullscreen",
+      interactionType: "link_preview_view",
+    });
+  }, [collectionName, item.id, item.type, path, project.id, project.slug, project.title]);
+
   return (
     <div className="w-full max-w-6xl">
       <LinkPreviewSurface
@@ -91,11 +107,12 @@ function UrlLinkContent({ path, item }: { path: string; item: CollectionItem }) 
   )
 }
 
-function VideoContent({ item, folderName, collectionName }: { item: CollectionItem; folderName?: string; collectionName?: string }) {
+function VideoContent({ item, project, folderName, collectionName }: { item: CollectionItem; project: Project; folderName?: string; collectionName?: string }) {
   const videoRef = useRef<HTMLVideoElement>(null)
   const [isPlaying, setIsPlaying] = useState(false)
   const [isMuted, setIsMuted] = useState(false)
   const [hasVideoError, setHasVideoError] = useState(false)
+  const progressMilestones = useRef<Set<number>>(new Set())
   
   const pathOptions = { folderName, collectionName };
   const rawPath = getCollectionItemResolvedPath(item, pathOptions);
@@ -145,6 +162,33 @@ function VideoContent({ item, folderName, collectionName }: { item: CollectionIt
 
   const poster = getCollectionItemPosterPath(item, pathOptions);
 
+  const trackVideoProgress = (interactionType: string, progressPercent?: number) => {
+    trackProjectMediaProgress({
+      projectSlug: project.slug || project.id,
+      projectTitle: project.title,
+      mediaKind: "video",
+      mediaUrl: itemPath,
+      progressPercent,
+      itemId: item.id,
+      itemType: item.type,
+      collectionKey: collectionName,
+      surface: "collection_fullscreen",
+      interactionType,
+    });
+  };
+
+  const handleVideoTimeUpdate = () => {
+    const video = videoRef.current;
+    if (!video || !Number.isFinite(video.duration) || video.duration <= 0) return;
+    const percent = Math.floor((video.currentTime / video.duration) * 100);
+    for (const milestone of [25, 50, 75]) {
+      if (percent >= milestone && !progressMilestones.current.has(milestone)) {
+        progressMilestones.current.add(milestone);
+        trackVideoProgress("progress", milestone);
+      }
+    }
+  };
+
   if (!itemPath || hasVideoError) {
     return (
       <div
@@ -192,8 +236,22 @@ function VideoContent({ item, folderName, collectionName }: { item: CollectionIt
         loop={shouldLoop}
         muted={shouldAutoPlay}
         playsInline // Critical for iOS - prevents fullscreen takeover
-        onPlay={() => setIsPlaying(true)}
+        onPlay={() => {
+          setIsPlaying(true)
+          if (!progressMilestones.current.has(0)) {
+            progressMilestones.current.add(0)
+            trackVideoProgress("play", 0)
+          }
+        }}
         onPause={() => setIsPlaying(false)}
+        onTimeUpdate={handleVideoTimeUpdate}
+        onEnded={() => {
+          setIsPlaying(false)
+          if (!progressMilestones.current.has(100)) {
+            progressMilestones.current.add(100)
+            trackVideoProgress("complete", 100)
+          }
+        }}
         onError={() => setHasVideoError(true)}
       >
         Your browser does not support the video tag.
@@ -210,7 +268,7 @@ function VideoContent({ item, folderName, collectionName }: { item: CollectionIt
   )
 }
 
-function ModelContent({ item, folderName, collectionName }: { item: CollectionItem; folderName?: string; collectionName?: string }) {
+function ModelContent({ item, project, folderName, collectionName }: { item: CollectionItem; project: Project; folderName?: string; collectionName?: string }) {
   const shouldAutoPlay = item.autoPlay === true
   const shouldLoop = item.loop === true
   const [isPlaying, setIsPlaying] = useState(shouldAutoPlay)
@@ -218,6 +276,20 @@ function ModelContent({ item, folderName, collectionName }: { item: CollectionIt
   
   const pathOptions = { folderName, collectionName };
   const itemPath = getCollectionItemOptimizedPath(item, pathOptions);
+
+  useEffect(() => {
+    trackProjectMediaProgress({
+      projectSlug: project.slug || project.id,
+      projectTitle: project.title,
+      mediaKind: "3d_model",
+      mediaUrl: itemPath,
+      itemId: item.id,
+      itemType: item.type,
+      collectionKey: collectionName,
+      surface: "collection_fullscreen",
+      interactionType: "model_view",
+    });
+  }, [collectionName, item.id, item.type, itemPath, project.id, project.slug, project.title]);
 
   return (
     <div className="w-full max-w-4xl aspect-square relative border-2 border-white">
@@ -339,7 +411,21 @@ function OBJModel({ path, onAnimationsDetected }: Omit<Model3DProps, 'isPlaying'
   return <primitive ref={group} object={model} />
 }
 
-function GameContent({ path }: { path: string }) {
+function GameContent({ path, item, project, collectionName }: { path: string; item: CollectionItem; project: Project; collectionName?: string }) {
+  useEffect(() => {
+    trackProjectMediaProgress({
+      projectSlug: project.slug || project.id,
+      projectTitle: project.title,
+      mediaKind: "game",
+      mediaUrl: path,
+      itemId: item.id,
+      itemType: item.type,
+      collectionKey: collectionName,
+      surface: "collection_fullscreen",
+      interactionType: "game_view",
+    });
+  }, [collectionName, item.id, item.type, path, project.id, project.slug, project.title]);
+
   return (
     <div className="w-full max-w-4xl aspect-video">
       <iframe
@@ -352,12 +438,24 @@ function GameContent({ path }: { path: string }) {
   )
 }
 
-function TextContent({ path }: { path: string }) {
+function TextContent({ path, item, project, collectionName }: { path: string; item: CollectionItem; project: Project; collectionName?: string }) {
   const [content, setContent] = useState<string>("")
   const [isLoading, setIsLoading] = useState(true)
   const [fileExists, setFileExists] = useState(true)
 
   useEffect(() => {
+    trackProjectMediaProgress({
+      projectSlug: project.slug || project.id,
+      projectTitle: project.title,
+      mediaKind: "text",
+      mediaUrl: path,
+      itemId: item.id,
+      itemType: item.type,
+      collectionKey: collectionName,
+      surface: "collection_fullscreen",
+      interactionType: "text_view",
+    });
+
     fetch(path)
       .then((res) => {
         if (!res.ok) {
@@ -376,7 +474,7 @@ function TextContent({ path }: { path: string }) {
         setIsLoading(false)
         setFileExists(false)
       })
-  }, [path])
+  }, [collectionName, item.id, item.type, path, project.id, project.slug, project.title])
 
   return (
     <Card className="p-6 max-w-4xl w-full">
@@ -423,12 +521,28 @@ function PDFContent({ path }: { path: string }) {
   )
 }
 
-function AudioContent({ path }: { path: string }) {
+function AudioContent({ path, item, project, collectionName }: { path: string; item: CollectionItem; project: Project; collectionName?: string }) {
   const audioRef = useRef<HTMLAudioElement>(null)
   const [isPlaying, setIsPlaying] = useState(false)
   const [currentTime, setCurrentTime] = useState(0)
   const [duration, setDuration] = useState(0)
   const [isMuted, setIsMuted] = useState(false)
+  const progressMilestones = useRef<Set<number>>(new Set())
+
+  const trackAudioProgress = (interactionType: string, progressPercent?: number) => {
+    trackProjectMediaProgress({
+      projectSlug: project.slug || project.id,
+      projectTitle: project.title,
+      mediaKind: "audio",
+      mediaUrl: path,
+      progressPercent,
+      itemId: item.id,
+      itemType: item.type,
+      collectionKey: collectionName,
+      surface: "collection_fullscreen",
+      interactionType,
+    });
+  };
 
   const togglePlay = () => {
     if (audioRef.current) {
@@ -436,6 +550,10 @@ function AudioContent({ path }: { path: string }) {
         audioRef.current.pause()
       } else {
         audioRef.current.play()
+        if (!progressMilestones.current.has(0)) {
+          progressMilestones.current.add(0)
+          trackAudioProgress("play", 0)
+        }
       }
       setIsPlaying(!isPlaying)
     }
@@ -451,6 +569,15 @@ function AudioContent({ path }: { path: string }) {
   const handleTimeUpdate = () => {
     if (audioRef.current) {
       setCurrentTime(audioRef.current.currentTime)
+      if (duration > 0) {
+        const percent = Math.floor((audioRef.current.currentTime / duration) * 100)
+        for (const milestone of [25, 50, 75]) {
+          if (percent >= milestone && !progressMilestones.current.has(milestone)) {
+            progressMilestones.current.add(milestone)
+            trackAudioProgress("progress", milestone)
+          }
+        }
+      }
     }
   }
 
@@ -481,7 +608,13 @@ function AudioContent({ path }: { path: string }) {
         src={path}
         onTimeUpdate={handleTimeUpdate}
         onLoadedMetadata={handleLoadedMetadata}
-        onEnded={() => setIsPlaying(false)}
+        onEnded={() => {
+          setIsPlaying(false)
+          if (!progressMilestones.current.has(100)) {
+            progressMilestones.current.add(100)
+            trackAudioProgress("complete", 100)
+          }
+        }}
       />
       <div className="space-y-6">
         <div className="flex items-center gap-4">

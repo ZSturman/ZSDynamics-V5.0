@@ -20,8 +20,15 @@ Google Analytics 4 (via Firebase Analytics SDK) plus first-party UTM capture.
   | `project_open`, `project_demo_click`, `project_github_click` | Project surface interactions. |
   | `project_media_play` | Image/video/3D model interaction. |
   | `article_open` | Article surface interactions. |
+  | `portfolio_scroll_depth` | First time a route reaches 25%, 50%, 75%, 90%, and 100% vertical depth. |
+  | `portfolio_section_view` | First meaningful exposure of tagged sections and items. |
+  | `portfolio_section_engaged` | Tagged sections/items visible for 5s, 15s, 30s, or 60s. |
+  | `project_item_open` | Collection/fullscreen project artifacts opened or navigated. |
+  | `project_media_progress` | Video/audio progress and fullscreen media/model/game/link/text interactions. |
 
 Every event automatically merges the captured UTM dimensions, so attribution is preserved across the session.
+
+The enriched journey events stay aggregate and privacy-conscious. They do not collect screenshots, typed content, form messages, email addresses, raw IPs, session replay, or a per-user playback ID.
 
 ## Configuration
 
@@ -62,6 +69,7 @@ The report includes:
 - Top pages enriched with local content type, title, domain/category/status/series, and tags from `public/projects/projects.json` and `public/articles/articles.json`.
 - Top content tags aggregated from page views, so tag insight still works even before GA4 custom dimensions are registered.
 - Portfolio event groups with professional labels and key-action counts.
+- Visitor journey transitions, route surfaces, modal/full-page context, viewport category, scroll depth, visible section engagement, project detail/item attention, media/fullscreen activity, and content-to-action flow when the relevant GA4 custom dimensions are registered.
 - Audience and tech context for country, city, device, browser, and operating system.
 - Data-quality notes and clear fallback messages when optional custom dimensions are unavailable.
 
@@ -99,5 +107,8 @@ The site forwards event parameters with every custom analytics event, but GA4 Da
 | `project_slug`, `article_slug` | Project/article action detail. |
 | `resource_type`, `destination_domain`, `surface`, `open_surface` | Resource clicks, outbound clicks, and UI surface analysis. |
 | `social_network`, `status`, `media_kind` | Social, form-result, and media-interaction breakdowns. |
+| `previous_page_group`, `previous_page_slug`, `route_step`, `viewport_category`, `route_surface`, `modal_context` | Aggregate visitor journey paths and modal/full-page browsing context. |
+| `section_key`, `section_label`, `item_id`, `item_type`, `item_label`, `collection_key`, `media_role` | Section, collection item, asset, work-log, related article, and media exposure. |
+| `scroll_percent`, `engagement_bucket`, `visible_time_sec`, `progress_percent`, `interaction_type` | Scroll depth, dwell-time buckets, media progress, and action-flow detail. |
 
 If these dimensions are missing, the daily email still sends. It will show built-in acquisition, local content tags, and a data-quality note listing the unavailable custom dimensions.
