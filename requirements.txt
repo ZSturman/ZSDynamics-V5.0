@@ -14,3 +14,6 @@ notion-client>=2.2.1
 
 # .env.local loading for Python build scripts
 python-dotenv>=1.0.0
+
+# Test runner for the existing Python pipeline test suite.
+pytest>=8.0.0

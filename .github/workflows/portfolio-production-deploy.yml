@@ -1,0 +1,289 @@
+name: Reusable portfolio production deploy
+
+on:
+  workflow_call:
+    inputs:
+      commit_sha:
+        required: true
+        type: string
+      base_sha:
+        required: false
+        default: ""
+        type: string
+    secrets:
+      FIREBASE_SERVICE_ACCOUNT_ZACHARY_STURMAN_PORTFOLIO:
+        required: true
+      API_BASE_URL:
+        required: true
+      INTERNAL_TOKEN:
+        required: true
+
+concurrency:
+  group: portfolio-production
+  cancel-in-progress: false
+  queue: max
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    name: Build and deploy ${{ inputs.commit_sha }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      DEPLOY_COMMIT_SHA: ${{ inputs.commit_sha }}
+      NEXT_PUBLIC_FIREBASE_ANALYTICS_ENABLED: ${{ vars.NEXT_PUBLIC_FIREBASE_ANALYTICS_ENABLED }}
+      NEXT_PUBLIC_FIREBASE_API_KEY: ${{ vars.NEXT_PUBLIC_FIREBASE_API_KEY }}
+      NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN: ${{ vars.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN }}
+      NEXT_PUBLIC_FIREBASE_PROJECT_ID: ${{ vars.NEXT_PUBLIC_FIREBASE_PROJECT_ID }}
+      NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET: ${{ vars.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET }}
+      NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID: ${{ vars.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID }}
+      NEXT_PUBLIC_FIREBASE_APP_ID: ${{ vars.NEXT_PUBLIC_FIREBASE_APP_ID }}
+      NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID: ${{ vars.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.commit_sha }}
+          fetch-depth: 1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund
+      - name: Build static production release
+        run: npm run build
+      - name: Deploy to Firebase Hosting live channel
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: ${{ github.token }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_ZACHARY_STURMAN_PORTFOLIO }}
+          channelId: live
+          projectId: zachary-sturman-portfolio
+
+  confirm_production:
+    name: Confirm exact production release
+    needs: deploy
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.commit_sha }}
+          fetch-depth: 2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund
+      - name: Confirm Firebase and custom-domain markers
+        run: node scripts/confirm-production.mjs --commit "${{ inputs.commit_sha }}" --output artifacts/deployment-metadata.json
+      - name: Upload production confirmation evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: portfolio-production-confirmation-${{ inputs.commit_sha }}
+          path: artifacts/deployment-metadata.json
+          if-no-files-found: warn
+          retention-days: 30
+
+  playwright_qa:
+    name: Run live Playwright QA
+    needs: confirm_production
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      PORTFOLIO_QA_BASE_URL: https://zacharysturman.com
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.commit_sha }}
+          fetch-depth: 2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund
+      - name: Resolve comparison base
+        id: base
+        shell: bash
+        run: |
+          candidate='${{ inputs.base_sha }}'
+          if ! git cat-file -e "${candidate}^{commit}" 2>/dev/null; then
+            candidate="$(git rev-parse '${{ inputs.commit_sha }}^')"
+          fi
+          echo "sha=${candidate}" >> "$GITHUB_OUTPUT"
+      - name: Generate deployment change summary
+        run: node scripts/portfolio-change-summary.mjs --base "${{ steps.base.outputs.sha }}" --output artifacts/change-summary.json
+      - name: Install Chromium and WebKit
+        run: npx playwright install --with-deps chromium webkit
+      - name: Test the live custom domain
+        env:
+          PORTFOLIO_CHANGED_ROUTES_FILE: ${{ github.workspace }}/artifacts/change-summary.json
+        run: npx playwright test -c playwright.production.config.ts
+      - name: Upload live QA evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: portfolio-live-qa-${{ inputs.commit_sha }}
+          path: |
+            artifacts/change-summary.json
+            artifacts/playwright-production.json
+            artifacts/playwright-production-html
+            test-results/production
+          if-no-files-found: warn
+          retention-days: 30
+
+  visual_capture:
+    name: Capture production previews
+    needs: playwright_qa
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.commit_sha }}
+          fetch-depth: 1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund
+      - name: Download QA summary
+        uses: actions/download-artifact@v4
+        with:
+          name: portfolio-live-qa-${{ inputs.commit_sha }}
+          path: artifacts/downloaded-qa
+      - name: Install Chromium and WebKit
+        run: npx playwright install --with-deps chromium webkit
+      - name: Capture compact cross-browser previews
+        run: node scripts/capture-production-previews.mjs --summary artifacts/downloaded-qa/change-summary.json --output artifacts/previews
+      - name: Upload visual previews
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: portfolio-production-previews-${{ inputs.commit_sha }}
+          path: artifacts/previews
+          if-no-files-found: warn
+          retention-days: 30
+
+  success_report:
+    name: Send successful deployment report
+    needs: [confirm_production, playwright_qa, visual_capture]
+    if: ${{ needs.confirm_production.result == 'success' && needs.playwright_qa.result == 'success' && needs.visual_capture.result == 'success' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    env:
+      API_BASE_URL: ${{ secrets.API_BASE_URL }}
+      INTERNAL_TOKEN: ${{ secrets.INTERNAL_TOKEN }}
+      DEPLOY_COMMIT_SHA: ${{ inputs.commit_sha }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.commit_sha }}
+          fetch-depth: 1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund
+      - name: Download report metadata and previews
+        uses: actions/download-artifact@v4
+        with:
+          pattern: portfolio-*
+          path: artifacts/reports
+          merge-multiple: true
+      - name: Send success email
+        id: email
+        continue-on-error: true
+        run: node scripts/send-portfolio-report.mjs --status success --stage playwright_qa --summary artifacts/reports/change-summary.json --metadata artifacts/reports/deployment-metadata.json --attachments-dir artifacts/reports --production-healthy true
+      - name: Record email warning without masking deployment result
+        if: always()
+        run: |
+          mkdir -p artifacts
+          if [[ '${{ steps.email.outcome }}' == 'failure' ]]; then
+            echo '{"delivered":false,"status":"success","stage":"playwright_qa"}' > artifacts/report-delivery.json
+            echo "::warning::Production deployment succeeded, but the email report could not be delivered. Review this job's logs and artifacts."
+          else
+            echo '{"delivered":true,"status":"success","stage":"playwright_qa"}' > artifacts/report-delivery.json
+          fi
+      - name: Upload report-delivery status
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: portfolio-report-delivery-${{ inputs.commit_sha }}
+          path: artifacts/report-delivery.json
+          if-no-files-found: warn
+          retention-days: 30
+
+  failure_report:
+    name: Send prioritized failure report
+    needs: [deploy, confirm_production, playwright_qa, visual_capture]
+    if: ${{ always() && (needs.deploy.result == 'failure' || needs.confirm_production.result == 'failure' || needs.playwright_qa.result == 'failure' || needs.visual_capture.result == 'failure') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      API_BASE_URL: ${{ secrets.API_BASE_URL }}
+      INTERNAL_TOKEN: ${{ secrets.INTERNAL_TOKEN }}
+      DEPLOY_COMMIT_SHA: ${{ inputs.commit_sha }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.commit_sha }}
+          fetch-depth: 2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund
+      - name: Determine failed stage and current production health
+        id: failure
+        shell: bash
+        run: |
+          if [[ '${{ needs.deploy.result }}' == 'failure' ]]; then stage='firebase_deploy';
+          elif [[ '${{ needs.confirm_production.result }}' == 'failure' ]]; then stage='confirm_production';
+          elif [[ '${{ needs.playwright_qa.result }}' == 'failure' ]]; then stage='playwright_qa';
+          else stage='visual_capture'; fi
+          if curl --fail --silent --show-error --max-time 15 https://zacharysturman.com/ >/dev/null; then healthy=true; else healthy=false; fi
+          echo "stage=${stage}" >> "$GITHUB_OUTPUT"
+          echo "healthy=${healthy}" >> "$GITHUB_OUTPUT"
+      - name: Resolve comparison base and write change summary
+        shell: bash
+        run: |
+          candidate='${{ inputs.base_sha }}'
+          if ! git cat-file -e "${candidate}^{commit}" 2>/dev/null; then candidate="$(git rev-parse '${{ inputs.commit_sha }}^')"; fi
+          node scripts/portfolio-change-summary.mjs --base "$candidate" --output artifacts/change-summary.json
+      - name: Download failed live QA evidence when available
+        continue-on-error: true
+        uses: actions/download-artifact@v4
+        with:
+          name: portfolio-live-qa-${{ inputs.commit_sha }}
+          path: artifacts/qa-evidence
+      - name: Send failure email
+        id: email
+        continue-on-error: true
+        run: node scripts/send-portfolio-report.mjs --status failure --stage "${{ steps.failure.outputs.stage }}" --summary artifacts/change-summary.json --attachments-dir artifacts/qa-evidence --production-healthy "${{ steps.failure.outputs.healthy }}" --error "The deployment workflow did not complete this stage. Use the linked GitHub Action logs and attached QA evidence to identify the exact failing command."
+      - name: Record email warning without masking deployment result
+        if: always()
+        run: |
+          mkdir -p artifacts
+          if [[ '${{ steps.email.outcome }}' == 'failure' ]]; then
+            echo '{"delivered":false,"status":"failure","stage":"${{ steps.failure.outputs.stage }}"}' > artifacts/report-delivery.json
+            echo "::warning::The portfolio failure report could not be delivered; inspect this workflow immediately."
+          else
+            echo '{"delivered":true,"status":"failure","stage":"${{ steps.failure.outputs.stage }}"}' > artifacts/report-delivery.json
+          fi
+      - name: Upload report-delivery status
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: portfolio-report-delivery-${{ inputs.commit_sha }}
+          path: artifacts/report-delivery.json
+          if-no-files-found: warn
+          retention-days: 30

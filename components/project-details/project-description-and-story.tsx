@@ -189,6 +189,7 @@ export function ProjectContent({ project, showReadme = true }: ProjectContentPro
                 <ArticleMarkdown
                   content={readmeContent}
                   slug={`${project.slug || project.id}-readme`}
+                  relativeLinkBaseUrl={readmeSourceUrl}
                 />
               </div>
             </ExpandableCardContent>

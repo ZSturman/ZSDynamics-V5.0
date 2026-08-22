@@ -1,12 +1,12 @@
 # Setup: Cloudflare Worker
 
-The `worker/` directory contains a Cloudflare Worker exposing three endpoints used by the static site and the GitHub Actions cron:
+The `worker/` directory contains a Cloudflare Worker exposing three endpoints used by the static site, the GitHub Actions analytics cron, and the local Hammerspoon portfolio publisher:
 
 | Method | Path | Purpose |
 | --- | --- | --- |
 | `POST` | `/contact` | Contact-form submissions. |
 | `POST` | `/newsletter-interest` | Opt-in email collection. |
-| `POST` | `/internal/daily-summary` | Bearer-protected; relays a daily GA4 summary email. |
+| `POST` | `/internal/daily-summary` | Bearer-protected; relays a daily report email, with optional image attachments. |
 | `GET`  | `/health` | Liveness probe. |
 
 Spam controls: honeypot field (`hp`), Cloudflare Turnstile token verification, per-IP KV rate limit (default 5 / hour).
@@ -40,6 +40,10 @@ Deploy:
 ```bash
 npx wrangler deploy
 ```
+
+The daily portfolio workflow requires this Worker deployment once so reports can
+include JPEG/PNG previews. Existing Worker secrets remain in Cloudflare; do not
+put them in the repository.
 
 In the Cloudflare dashboard → **Workers & Pages → zacharysturman-api → Triggers**, add the custom domain `api.zacharysturman.com`. Update the `NEXT_PUBLIC_API_BASE_URL` env var in your build environment to point at this URL.
 

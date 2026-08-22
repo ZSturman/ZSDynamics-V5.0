@@ -2,6 +2,9 @@ import { defineConfig } from '@playwright/test';
 
 export default defineConfig({
   testDir: 'tests',
+  // Production and media matrix suites have their own explicit configs. Keep
+  // pre-push browser validation local and independent of a live deployment.
+  testIgnore: ['media/**', 'production/**'],
   timeout: 30000,
   expect: {
     timeout: 5000,

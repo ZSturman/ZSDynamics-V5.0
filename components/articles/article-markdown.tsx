@@ -11,6 +11,24 @@ interface ArticleMarkdownProps {
   content: string;
   slug: string;
   linkPreviews?: ArticleLinkPreview[];
+  /** Resolve relative links from an embedded project README against its source. */
+  relativeLinkBaseUrl?: string;
+}
+
+function resolveMarkdownHref(
+  href: string | null | undefined,
+  slug: string,
+  relativeLinkBaseUrl?: string,
+): string {
+  const value = (href || "").trim();
+  if (relativeLinkBaseUrl && value && !value.startsWith("/") && !value.startsWith("#") && !/^[a-zA-Z][a-zA-Z0-9+.-]*:/.test(value)) {
+    try {
+      return new URL(value, relativeLinkBaseUrl).toString();
+    } catch {
+      // Preserve the normal article resolver as the safe fallback.
+    }
+  }
+  return resolveArticleHref(href, slug);
 }
 
 function getPreviewForParagraph(
@@ -154,7 +172,7 @@ function ArticleStandaloneLinkPreview({ preview }: { preview: ArticleLinkPreview
   return <ArticleLinkPreviewCard preview={preview} />;
 }
 
-export function ArticleMarkdown({ content, slug, linkPreviews = [] }: ArticleMarkdownProps) {
+export function ArticleMarkdown({ content, slug, linkPreviews = [], relativeLinkBaseUrl }: ArticleMarkdownProps) {
   const previewsByUrl = new Map(linkPreviews.map((preview) => [preview.url, preview]));
 
   return (
@@ -191,7 +209,7 @@ export function ArticleMarkdown({ content, slug, linkPreviews = [] }: ArticleMar
             return <p>{children}</p>;
           },
           a: ({ href, children, ...props }) => {
-            const resolvedHref = resolveArticleHref(href, slug);
+            const resolvedHref = resolveMarkdownHref(href, slug, relativeLinkBaseUrl);
             if (!resolvedHref) {
               return <span {...props}>{children}</span>;
             }

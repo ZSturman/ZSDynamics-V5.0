@@ -31,6 +31,21 @@ export interface Env {
   INTERNAL_TOKEN: string;
 }
 
+type ReportAttachment = {
+  filename?: unknown;
+  content?: unknown;
+  contentType?: unknown;
+};
+
+const MAX_REPORT_ATTACHMENTS = 8;
+const MAX_REPORT_ATTACHMENT_BYTES = 2 * 1024 * 1024;
+const MAX_REPORT_ATTACHMENT_TOTAL_BYTES = 15 * 1024 * 1024;
+const REPORT_IMAGE_FILE_RE = /^[a-zA-Z0-9][a-zA-Z0-9._-]*\.(?:jpg|jpeg|png)$/i;
+
+function expectedReportAttachmentMime(filename: string): string {
+  return /\.png$/i.test(filename) ? "image/png" : "image/jpeg";
+}
+
 // ---------------------------------------------------------------------------
 // HTTP helpers
 // ---------------------------------------------------------------------------
@@ -81,15 +96,19 @@ async function checkRateLimit(
   bucket: string,
   ip: string,
 ): Promise<{ ok: true } | { ok: false; retryAfter: number }> {
+  const rateLimit = env.RATE_LIMIT;
+  // KV is optional for the current production Worker configuration. When it is
+  // not bound, retain form availability instead of throwing at runtime.
+  if (!rateLimit) return { ok: true };
   const max = Number(env.RATE_LIMIT_MAX) || 5;
   const windowSeconds = Number(env.RATE_LIMIT_WINDOW_SECONDS) || 3600;
   const key = `rl:${bucket}:${ip}`;
-  const raw = await env.RATE_LIMIT.get(key);
+  const raw = await rateLimit.get(key);
   const count = raw ? Number(raw) : 0;
   if (count >= max) {
     return { ok: false, retryAfter: windowSeconds };
   }
-  await env.RATE_LIMIT.put(key, String(count + 1), { expirationTtl: windowSeconds });
+  await rateLimit.put(key, String(count + 1), { expirationTtl: windowSeconds });
   return { ok: true };
 }
 
@@ -177,7 +196,15 @@ function escapeHtml(s: string): string {
 
 async function sendEmail(
   env: Env,
-  payload: { to: string; subject: string; html: string; text: string; replyTo?: string },
+  payload: {
+    to: string;
+    subject: string;
+    html: string;
+    text: string;
+    replyTo?: string;
+    attachments?: Array<{ filename: string; content: string }>;
+    idempotencyKey?: string;
+  },
 ): Promise<boolean> {
   if (!env.RESEND_API_KEY) return false;
   try {
@@ -186,6 +213,7 @@ async function sendEmail(
       headers: {
         Authorization: `Bearer ${env.RESEND_API_KEY}`,
         "Content-Type": "application/json",
+        ...(payload.idempotencyKey ? { "Idempotency-Key": payload.idempotencyKey } : {}),
       },
       body: JSON.stringify({
         from: env.CONTACT_FROM_EMAIL,
@@ -194,12 +222,48 @@ async function sendEmail(
         html: payload.html,
         text: payload.text,
         reply_to: payload.replyTo,
+        ...(payload.attachments?.length ? { attachments: payload.attachments } : {}),
       }),
     });
     return res.ok;
   } catch {
     return false;
   }
+}
+
+function decodedBase64ByteLength(value: string): number {
+  const padding = value.endsWith("==") ? 2 : value.endsWith("=") ? 1 : 0;
+  return Math.floor((value.length * 3) / 4) - padding;
+}
+
+function validateReportAttachments(rawAttachments: unknown): { attachments: Array<{ filename: string; content: string }> } | { error: string } {
+  if (rawAttachments === undefined) return { attachments: [] };
+  if (!Array.isArray(rawAttachments) || rawAttachments.length > MAX_REPORT_ATTACHMENTS) {
+    return { error: "invalid_attachments" };
+  }
+
+  const attachments: Array<{ filename: string; content: string }> = [];
+  let totalBytes = 0;
+  for (const rawAttachment of rawAttachments as ReportAttachment[]) {
+    const filename = typeof rawAttachment?.filename === "string" ? rawAttachment.filename : "";
+    const content = typeof rawAttachment?.content === "string" ? rawAttachment.content : "";
+    const contentType = typeof rawAttachment?.contentType === "string" ? rawAttachment.contentType : undefined;
+    if (!REPORT_IMAGE_FILE_RE.test(filename) || (contentType && contentType !== expectedReportAttachmentMime(filename)) || !content || content.length % 4 !== 0 || !/^[A-Za-z0-9+/]+={0,2}$/.test(content)) {
+      return { error: "invalid_attachments" };
+    }
+    try {
+      atob(content);
+    } catch {
+      return { error: "invalid_attachments" };
+    }
+    const bytes = decodedBase64ByteLength(content);
+    if (bytes <= 0 || bytes > MAX_REPORT_ATTACHMENT_BYTES || totalBytes + bytes > MAX_REPORT_ATTACHMENT_TOTAL_BYTES) {
+      return { error: "attachments_too_large" };
+    }
+    totalBytes += bytes;
+    attachments.push({ filename, content });
+  }
+  return { attachments };
 }
 
 // ---------------------------------------------------------------------------
@@ -282,10 +346,14 @@ async function handleNewsletter(
   if (!human) {
     return jsonResponse({ ok: false, error: "turnstile_failed" }, { status: 400, origin, env });
   }
+  const newsletter = env.NEWSLETTER;
+  if (!newsletter) {
+    return jsonResponse({ ok: false, error: "newsletter_unavailable" }, { status: 503, origin, env });
+  }
   const key = `email:${parsed.data.email.toLowerCase()}`;
-  const existing = await env.NEWSLETTER.get(key);
+  const existing = await newsletter.get(key);
   if (!existing) {
-    await env.NEWSLETTER.put(
+    await newsletter.put(
       key,
       JSON.stringify({ email: parsed.data.email, addedAt: new Date().toISOString(), ip }),
     );
@@ -303,7 +371,7 @@ async function handleDailySummary(
   if (!env.INTERNAL_TOKEN || auth !== expected) {
     return jsonResponse({ ok: false, error: "unauthorized" }, { status: 401, origin, env });
   }
-  let body: { subject?: string; html?: string; text?: string };
+  let body: { subject?: string; html?: string; text?: string; idempotencyKey?: string; attachments?: unknown };
   try {
     body = (await request.json()) as typeof body;
   } catch {
@@ -315,11 +383,20 @@ async function handleDailySummary(
   if (!html && !text) {
     return jsonResponse({ ok: false, error: "empty_body" }, { status: 400, origin, env });
   }
+  const validatedAttachments = validateReportAttachments(body.attachments);
+  if ("error" in validatedAttachments) {
+    return jsonResponse({ ok: false, error: validatedAttachments.error }, { status: 400, origin, env });
+  }
+  const idempotencyKey = typeof body.idempotencyKey === "string" && /^[A-Za-z0-9._:-]{1,256}$/.test(body.idempotencyKey)
+    ? body.idempotencyKey
+    : undefined;
   const sent = await sendEmail(env, {
     to: env.CONTACT_TO_EMAIL,
     subject,
     html: html || `<pre>${escapeHtml(text)}</pre>`,
     text: text || subject,
+    attachments: validatedAttachments.attachments,
+    idempotencyKey,
   });
   if (!sent) {
     return jsonResponse({ ok: false, error: "send_failed" }, { status: 502, origin, env });

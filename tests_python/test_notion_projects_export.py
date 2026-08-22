@@ -100,14 +100,14 @@ def _number_prop(value: float) -> Dict[str, Any]:
 
 
 def _make_mock_notion_client(pages_by_call: List[List[Dict[str, Any]]]) -> MagicMock:
-    """Return a MagicMock notion client whose .databases.query() returns the
+    """Return a MagicMock notion client whose REST request() returns the
     given list of page-lists in order (one list per call)."""
     mock = MagicMock()
     responses = [
         {"results": pages, "has_more": False, "next_cursor": None}
         for pages in pages_by_call
     ]
-    mock.databases.query.side_effect = responses
+    mock.request.side_effect = responses
     return mock
 
 
@@ -856,21 +856,21 @@ class TestQueryDatabase(unittest.TestCase):
         page2 = _make_notion_page("p-2", {"Name": _title_prop("Second")})
 
         mock = MagicMock()
-        mock.databases.query.side_effect = [
+        mock.request.side_effect = [
             {"results": [page1], "has_more": True, "next_cursor": "cursor-abc"},
             {"results": [page2], "has_more": False, "next_cursor": None},
         ]
         result = query_database(mock, "db-123")
         self.assertEqual(len(result), 2)
         # Second call should have passed the cursor.
-        second_call_kwargs = mock.databases.query.call_args_list[1][1]
-        self.assertEqual(second_call_kwargs["start_cursor"], "cursor-abc")
+        second_call_kwargs = mock.request.call_args_list[1][1]
+        self.assertEqual(second_call_kwargs["body"]["start_cursor"], "cursor-abc")
 
     def test_applies_single_checkbox_filter(self) -> None:
         client = _make_mock_notion_client([[]])
         query_database(client, "db-1", [{"property": "public", "checkbox": {"equals": True}}])
-        call_kwargs = client.databases.query.call_args[1]
-        self.assertEqual(call_kwargs["filter"], {"property": "public", "checkbox": {"equals": True}})
+        call_kwargs = client.request.call_args[1]
+        self.assertEqual(call_kwargs["body"]["filter"], {"property": "public", "checkbox": {"equals": True}})
 
     def test_applies_and_filter_for_multiple_conditions(self) -> None:
         client = _make_mock_notion_client([[]])
@@ -879,19 +879,32 @@ class TestQueryDatabase(unittest.TestCase):
             {"property": "public", "checkbox": {"equals": True}},
         ]
         query_database(client, "db-1", filter_conditions)
-        call_kwargs = client.databases.query.call_args[1]
-        self.assertEqual(call_kwargs["filter"], {"and": filter_conditions})
+        call_kwargs = client.request.call_args[1]
+        self.assertEqual(call_kwargs["body"]["filter"], {"and": filter_conditions})
 
     def test_no_filter_when_none(self) -> None:
         client = _make_mock_notion_client([[]])
         query_database(client, "db-1", None)
-        call_kwargs = client.databases.query.call_args[1]
-        self.assertNotIn("filter", call_kwargs)
+        call_kwargs = client.request.call_args[1]
+        self.assertNotIn("filter", call_kwargs["body"])
 
     def test_empty_database_returns_empty_list(self) -> None:
         client = _make_mock_notion_client([[]])
         result = query_database(client, "db-1")
         self.assertEqual(result, [])
+
+    def test_retries_rate_limited_request_with_bounded_backoff(self) -> None:
+        class RetryableNotionError(Exception):
+            status = 429
+
+        page = _make_notion_page("p-1", {"Name": _title_prop("Recovered")})
+        client = MagicMock()
+        client.request.side_effect = [RetryableNotionError("slow down"), {"results": [page], "has_more": False}]
+        with patch("notion_projects_export.APIResponseError", RetryableNotionError), patch("notion_projects_export.time.sleep") as sleep:
+            result = query_database(client, "db-1")
+        self.assertEqual(result[0]["name"], "Recovered")
+        self.assertEqual(client.request.call_count, 2)
+        sleep.assert_called_once_with(2)
 
 
 # ===========================================================================

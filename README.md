@@ -42,6 +42,7 @@ Per-feature setup docs:
 - [docs/setup/worker.md](docs/setup/worker.md) — Cloudflare Worker (contact, newsletter, daily summary relay).
 - [docs/setup/email.md](docs/setup/email.md) — Resend domain + API key.
 - [docs/setup/r2-media.md](docs/setup/r2-media.md) — opt-in R2 media hosting.
+- [docs/setup/portfolio-daily-publish.md](docs/setup/portfolio-daily-publish.md) — Hammerspoon-scheduled Notion-to-production publishing, live QA, previews, and reports.
 - [docs/api.md](docs/api.md) — read-only `/api/*.json` endpoints.
 - [docs/utm-conventions.md](docs/utm-conventions.md) — paste-ready UTM URLs.
 

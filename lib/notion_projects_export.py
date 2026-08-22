@@ -38,6 +38,7 @@ import logging
 import os
 import re
 import sys
+import time
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, List, Optional
@@ -67,6 +68,8 @@ except ImportError as exc:  # pragma: no cover
 # ---------------------------------------------------------------------------
 _PROJECT_ROOT = Path(__file__).resolve().parent.parent
 _DEFAULT_OUTPUT = _PROJECT_ROOT / "tmp" / "new_projects.json"
+_NOTION_MAX_ATTEMPTS = 3
+_NOTION_RETRYABLE_STATUS_CODES = frozenset({429, 500, 502, 503, 504})
 
 _REQUIRED_ENV_VARS = [
     "NOTION_API_KEY",
@@ -316,18 +319,32 @@ def query_database(
         if cursor:
             body["start_cursor"] = cursor
 
-        try:
-            # notion-client v3 removed databases.query() as a method, but
-            # the REST endpoint POST databases/{id}/query still exists in
-            # API version 2022-06-28, so we call it directly via request().
-            response = client.request(
-                path=f"databases/{db_id}/query",
-                method="POST",
-                body=body,
-            )
-        except APIResponseError as exc:
-            logger.error("Notion API error querying database %s: %s", db_id, exc)
-            raise
+        for attempt in range(1, _NOTION_MAX_ATTEMPTS + 1):
+            try:
+                # notion-client v3 removed databases.query() as a method, but
+                # the REST endpoint POST databases/{id}/query still exists in
+                # API version 2022-06-28, so we call it directly via request().
+                response = client.request(
+                    path=f"databases/{db_id}/query",
+                    method="POST",
+                    body=body,
+                )
+                break
+            except APIResponseError as exc:
+                status = getattr(exc, "status", None)
+                if status in _NOTION_RETRYABLE_STATUS_CODES and attempt < _NOTION_MAX_ATTEMPTS:
+                    delay_seconds = 2 ** attempt
+                    logger.warning(
+                        "Notion API request failed with HTTP %s; retrying %s/%s in %ss.",
+                        status,
+                        attempt,
+                        _NOTION_MAX_ATTEMPTS,
+                        delay_seconds,
+                    )
+                    time.sleep(delay_seconds)
+                    continue
+                logger.error("Notion API error querying database %s: %s", db_id, exc)
+                raise
 
         for page in response.get("results", []):
             pages.append(map_page(page))

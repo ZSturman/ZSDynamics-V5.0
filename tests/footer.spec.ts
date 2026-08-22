@@ -24,12 +24,6 @@ type ArticleFixture = {
 
 const defaultPersonalLinks: PersonalLinkFixture[] = [
   {
-    key: "portfolio",
-    label: "Portfolio",
-    href: "https://zacharysturman.com",
-    iconPattern: /portfolio\.svg/i,
-  },
-  {
     key: "linkedin",
     label: "LinkedIn",
     href: "https://linkedin.com/in/zacharysturman",
@@ -48,12 +42,6 @@ const defaultPersonalLinks: PersonalLinkFixture[] = [
     iconPattern: /github\.svg/i,
   },
   {
-    key: "instagram",
-    label: "Instagram",
-    href: "https://www.instagram.com/zachary.sturman/",
-    iconPattern: /instagram\.svg/i,
-  },
-  {
     key: "bluesky",
     label: "Bluesky",
     href: "https://bsky.app/profile/zacharysturman.bsky.social",
@@ -64,12 +52,6 @@ const defaultPersonalLinks: PersonalLinkFixture[] = [
     label: "Email",
     href: "mailto:zasturman@gmail.com",
     iconPattern: /email\.svg/i,
-  },
-  {
-    key: "threads",
-    label: "Threads",
-    href: "https://www.threads.com/@zachary.sturman",
-    iconPattern: /threads\.svg/i,
   },
   {
     key: "imdb",
@@ -206,21 +188,18 @@ test.describe("Site Footer", () => {
     await expect(footer.getByRole("link", { name: "Work Logs" })).toHaveAttribute("href", "/work-logs");
 
     for (const link of personalLinks) {
-      const footerLink = footer.getByTestId(`site-footer-link-${link.key}`);
+      const footerLink = footer.getByTestId(`site-footer-profile-link-${link.key}`);
       await expect(footerLink).toBeVisible();
       await expect(footerLink).toHaveAttribute("href", link.href);
       await expect(footerLink.locator("img")).toHaveAttribute("src", link.iconPattern);
     }
 
-    await expect(footer.getByTestId("site-footer-link-email")).not.toHaveAttribute("target", "_blank");
-    await expect(footer.getByTestId("site-footer-link-portfolio")).toHaveAttribute("target", "_blank");
-    await expect(footer.getByTestId("site-footer-link-github")).toHaveAttribute("target", "_blank");
-    await expect(footer.getByTestId("site-footer-link-linkedin")).toHaveAttribute("target", "_blank");
-    await expect(footer.getByTestId("site-footer-link-x")).toHaveAttribute("target", "_blank");
-    await expect(footer.getByTestId("site-footer-link-instagram")).toHaveAttribute("target", "_blank");
-    await expect(footer.getByTestId("site-footer-link-bluesky")).toHaveAttribute("target", "_blank");
-    await expect(footer.getByTestId("site-footer-link-threads")).toHaveAttribute("target", "_blank");
-    await expect(footer.getByTestId("site-footer-link-imdb")).toHaveAttribute("target", "_blank");
+    await expect(footer.getByTestId("site-footer-profile-link-email")).not.toHaveAttribute("target", "_blank");
+    await expect(footer.getByTestId("site-footer-profile-link-github")).toHaveAttribute("target", "_blank");
+    await expect(footer.getByTestId("site-footer-profile-link-linkedin")).toHaveAttribute("target", "_blank");
+    await expect(footer.getByTestId("site-footer-profile-link-x")).toHaveAttribute("target", "_blank");
+    await expect(footer.getByTestId("site-footer-profile-link-bluesky")).toHaveAttribute("target", "_blank");
+    await expect(footer.getByTestId("site-footer-profile-link-imdb")).toHaveAttribute("target", "_blank");
 
     const resumeView = footer.getByTestId("site-footer-resume-view");
     const resumeDownload = footer.getByTestId("site-footer-resume-download");

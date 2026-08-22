@@ -254,7 +254,10 @@ test.describe("@smoke @matrix media resilience", () => {
     );
 
     const { project, item, itemId, videoUrl } = collectionVideoProject!;
-    test.skip(!videoUrl, "Collection video item does not expose a predictable source path.");
+    if (!videoUrl) {
+      test.skip(true, "Collection video item does not expose a predictable source path.");
+      return;
+    }
 
     await page.route((url) => mediaRequestMatches(url.toString(), videoUrl), async (route) => {
       await route.fulfill({
