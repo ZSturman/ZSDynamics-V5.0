@@ -56,6 +56,83 @@ class TestProjectsPipeline(unittest.TestCase):
             with self.subTest(raw_type=raw_type, path_val=path_val):
                 self.assertEqual(determine_collection_item_type(raw_type, path_val), expected)
 
+    def test_missing_local_notion_image_is_refreshed_and_restored(self) -> None:
+        """A Notion asset restores its declared local source path before copying."""
+        with tempfile.TemporaryDirectory() as temp_root_str, tempfile.TemporaryDirectory() as out_str:
+            temp_root = Path(temp_root_str)
+            out_dir = Path(out_str)
+            missing_path = temp_root / "Assets" / "NOAA" / "hero.png"
+            input_json = temp_root / "new_projects.json"
+            input_json.write_text(
+                json.dumps(
+                    {
+                        "config": {"root_path": str(temp_root)},
+                        "projects": [
+                            {
+                                "id": "project-noaa",
+                                "title": "NOAA",
+                                "summary": "Weather decision support.",
+                                "thumbnail": {
+                                    "id": "asset-hero-id",
+                                    "filename": "hero.png",
+                                    "relativePath": str(missing_path),
+                                    "raw": {
+                                        # This expired URL is intentionally present to
+                                        # prove that the API response is preferred.
+                                        "property_preview": [
+                                            {"name": "hero.png", "url": "https://expired.example/hero.png"}
+                                        ]
+                                    },
+                                },
+                            }
+                        ],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            def fake_urlopen(request, timeout=0):
+                url = request.full_url
+                if url == "https://api.notion.com/v1/pages/asset-hero-id":
+                    self.assertEqual(request.get_header("Authorization"), "Bearer test-notion-key")
+                    self.assertEqual(request.get_header("Notion-version"), "2022-06-28")
+                    return FakeUrlopenResponse(
+                        json.dumps(
+                            {
+                                "properties": {
+                                    "Preview": {
+                                        "type": "files",
+                                        "files": [
+                                            {
+                                                "name": "hero.png",
+                                                "type": "file",
+                                                "file": {"url": "https://cdn.notion.test/noaa-hero.png"},
+                                            }
+                                        ],
+                                    }
+                                }
+                            }
+                        ).encode("utf-8"),
+                        url=url,
+                        content_type="application/json",
+                    )
+                if url == "https://cdn.notion.test/noaa-hero.png":
+                    self.assertIsNone(request.get_header("Authorization"))
+                    return FakeUrlopenResponse(b"notion-image", url=url, content_type="image/png")
+                raise AssertionError(f"Unexpected request: {url}")
+
+            with patch.dict("projects_pipeline.os.environ", {"NOTION_API_KEY": "test-notion-key"}, clear=False), patch(
+                "projects_pipeline.urlopen", side_effect=fake_urlopen
+            ):
+                result = build_projects_from_json(
+                    input_json_path=input_json,
+                    temp_public_projects_root=out_dir,
+                )
+
+            self.assertEqual(missing_path.read_bytes(), b"notion-image")
+            self.assertEqual(result["projects"][0]["images"]["thumbnail"], "hero.png")
+            self.assertEqual((out_dir / "noaa_project-noaa" / "hero.png").read_bytes(), b"notion-image")
+
     def test_build_pipeline_schema_copy_rewrite_and_determinism(self) -> None:
         with tempfile.TemporaryDirectory() as temp_root_str, tempfile.TemporaryDirectory() as out1_str, tempfile.TemporaryDirectory() as out2_str:
             temp_root = Path(temp_root_str)

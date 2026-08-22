@@ -11,10 +11,12 @@ from __future__ import annotations
 import base64
 import json
 import hashlib
+import os
 import posixpath
 import re
 import shutil
 import subprocess
+import tempfile
 import unicodedata
 from datetime import datetime
 from html import unescape
@@ -83,8 +85,12 @@ ARTICLE_RAW_PATH_FILE_RE = re.compile(
 )
 LINK_PREVIEW_CAPTURE_SCRIPT = Path(__file__).parent.parent / "scripts" / "capture-url-preview.mjs"
 LINK_PREVIEW_CAPTURE_TIMEOUT_MS = 12000
+NOTION_API_URL = "https://api.notion.com/v1"
+# Keep this in step with the API version used by notion_projects_export.py.
+NOTION_API_VERSION = "2022-06-28"
 
 _FILENAME_SEARCH_CACHE: Dict[Tuple[str, str], Optional[Path]] = {}
+_NOTION_ASSET_PAGE_CACHE: Dict[str, Optional[Dict[str, Any]]] = {}
 
 
 def determine_collection_item_type(raw_type: Optional[str], path_val: Optional[str]) -> str:
@@ -700,6 +706,168 @@ def _resolve_source_path_fallback(path_value: Any, root_path: Path) -> Optional[
     return None
 
 
+def _notion_file_entries(value: Any) -> List[Dict[str, str]]:
+    """Extract downloadable file entries from a Notion files property value."""
+    if not isinstance(value, list):
+        return []
+
+    entries: List[Dict[str, str]] = []
+    for item in value:
+        if not isinstance(item, dict):
+            continue
+
+        name = _as_str(item.get("name")) or ""
+        url = _as_str(item.get("url"))
+        if not url:
+            item_type = _as_str(item.get("type"))
+            if item_type in {"file", "external"}:
+                url = _as_str((item.get(item_type) or {}).get("url"))
+
+        if url and url.startswith(("http://", "https://")):
+            entries.append({"name": name, "url": url})
+
+    return entries
+
+
+def _notion_file_entries_from_page(page: Dict[str, Any]) -> List[Dict[str, str]]:
+    """Return every file attached to a fetched Notion asset page."""
+    properties = page.get("properties")
+    if not isinstance(properties, dict):
+        return []
+
+    entries: List[Dict[str, str]] = []
+    for property_value in properties.values():
+        if not isinstance(property_value, dict) or property_value.get("type") != "files":
+            continue
+        entries.extend(_notion_file_entries(property_value.get("files")))
+    return entries
+
+
+def _notion_file_entries_from_exported_asset(asset_like: Any) -> List[Dict[str, str]]:
+    """Read file URLs that were included in the previous Notion export.
+
+    These URLs are deliberately a fallback: Notion-hosted file URLs expire, so
+    callers should prefer re-fetching the page with the integration token.
+    """
+    if not isinstance(asset_like, dict):
+        return []
+
+    raw = asset_like.get("raw")
+    if not isinstance(raw, dict):
+        return []
+
+    entries: List[Dict[str, str]] = []
+    for key, value in raw.items():
+        if key.startswith("property_"):
+            entries.extend(_notion_file_entries(value))
+    return entries
+
+
+def _choose_notion_file_url(entries: List[Dict[str, str]], expected_filename: Optional[str]) -> Optional[str]:
+    """Prefer the file whose Notion name matches the missing local filename."""
+    if not entries:
+        return None
+
+    if expected_filename:
+        expected = expected_filename.casefold()
+        for entry in entries:
+            if entry["name"].casefold() == expected:
+                return entry["url"]
+
+    return entries[0]["url"]
+
+
+def _fetch_notion_asset_page(asset_id: str, api_key: str) -> Optional[Dict[str, Any]]:
+    """Fetch an asset page so its short-lived Notion file URLs are refreshed."""
+    if asset_id in _NOTION_ASSET_PAGE_CACHE:
+        return _NOTION_ASSET_PAGE_CACHE[asset_id]
+
+    request = Request(
+        f"{NOTION_API_URL}/pages/{quote(asset_id, safe='')}",
+        headers={
+            "Authorization": f"Bearer {api_key}",
+            "Notion-Version": NOTION_API_VERSION,
+            "Accept": "application/json",
+        },
+    )
+    try:
+        with urlopen(request, timeout=20) as response:
+            payload = json.loads(response.read().decode("utf-8"))
+    except Exception:
+        _NOTION_ASSET_PAGE_CACHE[asset_id] = None
+        return None
+
+    result = payload if isinstance(payload, dict) else None
+    _NOTION_ASSET_PAGE_CACHE[asset_id] = result
+    return result
+
+
+def _download_notion_file(url: str, destination: Path) -> bool:
+    """Download a Notion file atomically without forwarding the API token."""
+    if not url.startswith(("http://", "https://")):
+        return False
+
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    temp_name: Optional[str] = None
+    try:
+        # The returned Notion URL is a signed storage URL. Do not attach the
+        # integration token to this second request, where it could be exposed.
+        request = Request(url, headers={"Accept": "image/*,*/*;q=0.8"})
+        with urlopen(request, timeout=60) as response:
+            contents = response.read()
+
+        if not contents:
+            return False
+
+        with tempfile.NamedTemporaryFile(dir=destination.parent, prefix=f".{destination.name}.", delete=False) as temp_file:
+            temp_file.write(contents)
+            temp_name = temp_file.name
+
+        Path(temp_name).replace(destination)
+        return True
+    except Exception:
+        return False
+    finally:
+        if temp_name:
+            try:
+                Path(temp_name).unlink(missing_ok=True)
+            except Exception:
+                pass
+
+
+def _restore_missing_notion_asset(path_value: Any, candidates: List[Path]) -> Optional[Path]:
+    """Restore a missing local asset from the corresponding Notion asset page."""
+    if not candidates or not isinstance(path_value, dict):
+        return None
+
+    destination = candidates[0]
+    if destination.exists() and destination.is_file():
+        return destination
+
+    expected_filename = _extract_filename_candidate(path_value)
+    asset_id = _as_str(path_value.get("id"))
+    api_key = os.environ.get("NOTION_API_KEY", "").strip()
+
+    # Fetching the asset page with the integration token refreshes Notion's
+    # expiring file URL. The previously exported URL is used only if the page
+    # cannot be refreshed (for example, while working offline).
+    entries: List[Dict[str, str]] = []
+    if asset_id and api_key:
+        page = _fetch_notion_asset_page(asset_id, api_key)
+        if page:
+            entries = _notion_file_entries_from_page(page)
+
+    if not entries:
+        entries = _notion_file_entries_from_exported_asset(path_value)
+
+    source_url = _choose_notion_file_url(entries, expected_filename)
+    if source_url and _download_notion_file(source_url, destination):
+        print(f"Downloaded missing Notion asset to: {destination}")
+        return destination
+
+    return None
+
+
 def resolve_source_path(path_value: Any, root_path: Path) -> Optional[Path]:
     candidates = _build_source_candidates(path_value, root_path)
     if not candidates:
@@ -712,6 +880,10 @@ def resolve_source_path(path_value: Any, root_path: Path) -> Optional[Path]:
     fallback = _resolve_source_path_fallback(path_value, root_path)
     if fallback and fallback.exists() and fallback.is_file():
         return fallback
+
+    restored = _restore_missing_notion_asset(path_value, candidates)
+    if restored:
+        return restored
 
     print(f"⚠️ Missing source file. Tried: {', '.join(str(c) for c in candidates)}")
     return candidates[0]

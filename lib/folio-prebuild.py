@@ -23,6 +23,21 @@ from projects_pipeline import build_projects_from_json
 DEFAULT_INPUT_JSON = Path("/Users/zacharysturman/n8n-files/exports/new_projects.json")
 
 
+def load_build_environment() -> None:
+    """Make the Notion token available to asset restoration during direct builds."""
+    try:
+        from dotenv import load_dotenv
+    except ImportError:
+        return
+
+    project_root = Path(__file__).resolve().parent.parent
+    for env_path in (project_root / ".env.local", project_root / ".env"):
+        if env_path.exists():
+            # Values explicitly provided by CI or a calling process remain the
+            # source of truth; this only fills in values for local builds.
+            load_dotenv(env_path, override=False)
+
+
 # Logging setup
 log_dir = Path(__file__).parent.parent / "logs"
 log_dir.mkdir(exist_ok=True)
@@ -208,6 +223,8 @@ def main() -> None:
     if args.repair:
         repair_projects_dir(paths.public_root)
         return
+
+    load_build_environment()
 
     try:
         if not paths.target_public_projects.exists():

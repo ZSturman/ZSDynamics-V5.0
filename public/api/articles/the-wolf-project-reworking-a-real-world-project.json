@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "articles.detail",
-  "generated_at": "2026-06-29T13:34:21.662988+00:00",
+  "generated_at": "2026-08-22T22:12:15.862044+00:00",
   "data": {
     "slug": "the-wolf-project-reworking-a-real-world-project",
     "title": "The Wolf Project - Reworking a Real-World Project",
@@ -45,18 +45,18 @@
         "siteName": "Instagram",
         "hostname": "www.instagram.com",
         "displayUrl": "instagram.com/_wolf_project",
-        "description": "9,711 Followers, 65 Following, 52 Posts - See Instagram photos and videos from The Wolf Project (@_wolf_project)",
-        "image": "https://scontent-sea5-1.cdninstagram.com/v/t51.82787-19/669995688_17855811255634945_8055336562483547172_n.jpg?stp=dst-jpg_s100x100_tt6&_nc_cat=105&ccb=7-5&_nc_sid=bf7eb4&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy4xMDgwLkMzIn0%3D&_nc_ohc=PGjLAaT-AJMQ7kNvwGGDoca&_nc_oc=AdrXH0wDm22JvoDcP2DLO5BOMSFCkX1FA3s5I0RUueUHMpn_zijDP6QgzJ-LJO6yo-nkbbeqVfol_PNhO4Sya97A&_nc_zt=24&_nc_ht=scontent-sea5-1.cdninstagram.com&_nc_gid=9s2aSgYSdx9neSSqwi4OpQ&_nc_ss=7b60f&oh=00_Af92TznoFri9qbkOVsQYwResa24SMHa3Hvo0ba4I20KuxQ&oe=6A485EF1"
+        "description": "9,781 Followers, 67 Following, 57 Posts - See Instagram photos and videos from The Wolf Project (@_wolf_project)",
+        "image": "https://scontent-sea5-1.cdninstagram.com/v/t51.82787-19/669995688_17855811255634945_8055336562483547172_n.jpg?stp=dst-jpg_s100x100_tt6&_nc_cat=105&ccb=7-5&_nc_sid=bf7eb4&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy4xMDgwLkMzIn0%3D&_nc_ohc=t-uRHM5FHKQQ7kNvwGgGiGj&_nc_oc=AdpShQcMZoqLYOawRcPjybLa7hu1OK9B7UQfomRF7iVLVQEY3VKZquRXmDnBRyP0Vvm7T-K7ihYdXDre6NdHEAjH&_nc_zt=24&_nc_ht=scontent-sea5-1.cdninstagram.com&_nc_gid=CQV-vVxfyl2Afuk-aFze6Q&_nc_ss=7b60f&oh=00_AQH5Ecx_kRdMOVY_ew5JswksXFNOAQw1KBozLssmWLAzJA&oe=6A900071"
       },
       {
         "url": "https://the-wolf-project-14stqkkgr-zsturmans-projects.vercel.app/",
         "kind": "card",
         "provider": "the-wolf-project-14stqkkgr-zsturmans-projects.vercel.app",
-        "title": "Overview – Vercel",
+        "title": "Protected Deployment – Vercel",
         "siteName": "The-Wolf-Project-14Stqkkgr-Zsturmans-Projects Vercel App",
         "hostname": "the-wolf-project-14stqkkgr-zsturmans-projects.vercel.app",
         "displayUrl": "the-wolf-project-14stqkkgr-zsturmans-projects.vercel.app",
-        "image": "https://vercel.com/api/product-og?product=overview"
+        "image": "https://vercel.com/api/product-og?product=protected-deployment"
       },
       {
         "url": "https://yourdogcanstay.com/",

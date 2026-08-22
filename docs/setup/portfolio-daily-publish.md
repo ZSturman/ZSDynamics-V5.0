@@ -43,8 +43,7 @@ refuses a second simultaneous process.
 
 ## One-time local setup
 
-1. Rotate any credential that was exposed in local terminal history before
-   enabling this automation. Update every owner together: portfolio
+1. Update every owner together: portfolio
    `.env.local`, relevant GitHub secret, and/or Cloudflare Worker secret.
 2. In the portfolio checkout, set these server-side values in `.env.local`:
 

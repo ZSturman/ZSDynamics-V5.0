@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-06-29T13:34:21.659658+00:00",
+  "generated_at": "2026-08-22T22:12:15.857572+00:00",
   "data": {
     "id": "33baec94-4d3c-80d2-8a69-deb2a742f972",
     "slug": "google-sheets-production-schedule-desktop-app",
@@ -39,9 +39,9 @@
     "story": "",
     "images": {
       "banner": "banner.png",
-      "icon": "icon.png",
+      "hero": "hero.png",
       "thumbnail": "thumb.png",
-      "hero": "hero.png"
+      "icon": "icon.png"
     },
     "resources": [
       {

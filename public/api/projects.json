@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.list",
-  "generated_at": "2026-06-29T13:34:21.658751+00:00",
+  "generated_at": "2026-08-22T22:12:15.856231+00:00",
   "data": [
     {
       "id": "35eaec94-4d3c-809c-a0f4-ff355a7a6d21",
@@ -23,7 +23,7 @@
       "domain": "Technology",
       "category": "Application",
       "href": "/projects/marina-departure-noaa-risk-checker",
-      "primaryImageUrl": null,
+      "primaryImageUrl": "/projects/marina_departure_noaa_risk_checker_35eaec94-4d3c-809c-a0f4-ff355a7a6d21/thumb.png",
       "updatedAt": "2026-05-08"
     },
     {
@@ -45,7 +45,7 @@
       "domain": "Technology",
       "category": "Application",
       "href": "/projects/transactions",
-      "primaryImageUrl": null,
+      "primaryImageUrl": "/projects/transactions_35eaec94-4d3c-80bc-9273-c1403b6c02ad/thumb.png",
       "updatedAt": "2026-05-11"
     },
     {
