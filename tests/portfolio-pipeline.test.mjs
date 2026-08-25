@@ -78,6 +78,14 @@ test("check-only report is clearly non-publishing", () => {
   assert.match(report.text, /no commit, Firebase deployment, or live QA was requested/i);
 });
 
+test("deployment report renders an email-safe release dashboard", () => {
+  const report = buildReport({ status: "success", stage: "local_playwright_qa", "production-healthy": "true" });
+  assert.match(report.html, /Portfolio release dashboard/i);
+  assert.match(report.html, /Release verified/i);
+  assert.match(report.html, /Release details/i);
+  assert.match(report.html, /Playwright completed locally/i);
+});
+
 test("validator rejects missing generated assets and routes", () => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), "portfolio-validate-"));
   const publicDir = path.join(root, "public");

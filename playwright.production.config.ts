@@ -1,5 +1,7 @@
 import { defineConfig, devices } from "@playwright/test";
 
+const artifactDirectory = process.env.PORTFOLIO_QA_ARTIFACTS_DIR || "artifacts";
+
 export default defineConfig({
   testDir: "tests/production",
   timeout: 45_000,
@@ -7,10 +9,10 @@ export default defineConfig({
   fullyParallel: false,
   reporter: [
     ["list"],
-    ["json", { outputFile: "artifacts/playwright-production.json" }],
-    ["html", { outputFolder: "artifacts/playwright-production-html", open: "never" }],
+    ["json", { outputFile: `${artifactDirectory}/playwright-production.json` }],
+    ["html", { outputFolder: `${artifactDirectory}/playwright-production-html`, open: "never" }],
   ],
-  outputDir: "test-results/production",
+  outputDir: `${artifactDirectory}/test-results`,
   use: {
     baseURL: process.env.PORTFOLIO_QA_BASE_URL || "https://zacharysturman.com",
     headless: true,

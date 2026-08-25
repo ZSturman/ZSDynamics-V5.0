@@ -13,12 +13,13 @@ Hammerspoon → Notion/article sync → generation/validation → normal git pus
                                                        ↓
                                       GitHub push workflow → Firebase Hosting
                                                        ↓
-                         exact deployment marker → live Playwright QA → email
+                 this Mac confirms exact marker → local Playwright → previews → email
 ```
 
-GitHub remains responsible for the existing Firebase deployment, exact-SHA
-confirmation, production Playwright runs, previews, and the final live-site
-email. It no longer schedules or performs the Notion/content generation.
+GitHub remains responsible only for the Firebase Hosting deployment. Once the
+new release is visible, this Mac confirms its exact SHA, runs the production
+Playwright suite against the live custom domain, captures the previews, and
+sends the final dashboard email with those local screenshots attached.
 
 ## What the local publisher does
 
@@ -33,9 +34,11 @@ email. It no longer schedules or performs the Notion/content generation.
    during generation; it refuses a second race.
 5. Commits only approved generated `public/` paths as `Portfolio Publisher`.
    A normal credentialed `git push` triggers the existing Firebase workflow.
-6. Sends a no-change, check-only, or pre-deployment-failure report through the
-   existing Worker/Resend endpoint. Successful publish reports are sent later
-   by the GitHub deployment workflow, after live QA and preview capture.
+6. After a push, waits for Firebase to expose the exact release marker, then
+   runs live Playwright QA and preview capture **on this Mac**. It sends the
+   final dashboard email only after those local checks and captures finish. The
+   marker wait is allowed to span the Firebase deployment queue (up to about
+   100 minutes) before it reports a failure.
 
 The Hammerspoon menu and a local artifact-directory lock prevent overlapping
 Mac-side executions. Hammerspoon applies a two-hour ceiling; the command also
@@ -113,10 +116,10 @@ output, and run metadata in `artifacts/hammerspoon-runs/` for 30 days. The
 `PP` menu opens both that directory and the current log at
 `~/Library/Logs/portfolio-publish.log`.
 
-After a push, GitHub Actions retains deployment-marker evidence, live
-Playwright HTML/JSON reports, traces, screenshots, previews, and email-delivery
-status for 30 days. Find them under the `Deploy to Firebase Hosting on merge`
-run that corresponds to the pushed SHA.
+After a push, GitHub Actions contains the Firebase deployment only. This Mac
+retains the deployment-marker evidence, Playwright HTML/JSON reports, traces,
+screenshots, previews, and delivery metadata in the matching directory under
+`artifacts/hammerspoon-runs/` for 30 days.
 
 - No meaningful public change: generated timestamp/format-only output is
   restored; there is no commit, Firebase deployment, or live QA; a short
@@ -126,9 +129,9 @@ run that corresponds to the pushed SHA.
   does not. An email-delivery problem is retained in local run metadata and
   does not hide the original failure.
 - Firebase, marker confirmation, live QA, or preview failure after a push: the
-  GitHub deployment workflow sends the prioritized report and retains its
-  evidence. A custom-domain/live QA failure is **CRITICAL**; a user-visible QA
-  problem after the exact deployment is confirmed is **MEDIUM**.
+  local publisher sends the prioritized report with any captured local evidence.
+  A custom-domain/live QA failure is **CRITICAL**; a user-visible QA problem
+  after the exact deployment is confirmed is **MEDIUM**.
 
 ## One-time Worker update
 

@@ -43,7 +43,10 @@ async function main() {
   const expectedSha = args.commit || process.env.DEPLOY_COMMIT_SHA || process.env.GITHUB_SHA;
   if (!expectedSha) throw new Error("Expected commit SHA is required via --commit or DEPLOY_COMMIT_SHA.");
   const domains = String(args.domains || "https://zachary-sturman-portfolio.web.app,https://zacharysturman.com").split(",").map((value) => value.trim()).filter(Boolean);
-  const attempts = Math.min(Math.max(Number(args.attempts || 30), 1), 60);
+  // Local publishing may be waiting behind Firebase's serialized production
+  // deployment queue, so allow a caller to wait for the Hammerspoon job's
+  // full two-hour window without changing the short default for ad-hoc checks.
+  const attempts = Math.min(Math.max(Number(args.attempts || 30), 1), 720);
   const intervalMs = Math.min(Math.max(Number(args["interval-ms"] || 10_000), 1_000), 60_000);
   let results = [];
   for (let attempt = 1; attempt <= attempts; attempt += 1) {

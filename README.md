@@ -24,7 +24,7 @@ This repository is the source for [zacharysturman.com](https://zachary-sturman.c
 | Forms & mail | Cloudflare Worker + Resend | Handles contact, newsletter interest, delivery reports, and analytics email. |
 | Analytics | Firebase Analytics / GA4 | Privacy-conscious event and UTM attribution tracking. |
 | Media | Repository files, optional Cloudflare R2 | Keeps media local by default; R2 adds long-lived cached URLs when enabled. |
-| Quality gates | GitHub Actions + Playwright | Confirms the exact live release, tests it, and stores evidence. |
+| Quality gates | Firebase deploy + local Playwright | Confirms the exact live release from this Mac, tests it, and stores evidence. |
 
 ## Quick start
 
@@ -86,15 +86,15 @@ Optional: Cloudflare R2 at media.zacharysturman.com serves hash-versioned media.
 | `npm run test:all` | You want the full project test suite. |
 | `npm run hooks:install` | You want Git to run the repository’s pre-push and post-push checks. |
 
-Run `npx playwright install chromium` before the first local browser/media run. The [operations guide](docs/development-and-deployment.md#testing) explains what each check covers and how production verification works.
+Run `npx playwright install chromium webkit` before the first local browser/media run. The [operations guide](docs/development-and-deployment.md#testing) explains what each check covers and how production verification works.
 
 ## Publishing flow
 
 1. Make and review a change locally.
 2. Run the relevant tests, then commit and push it to `main`.
 3. The **Deploy to Firebase Hosting on merge** workflow builds that exact commit and deploys it to Firebase’s live channel.
-4. GitHub Actions confirms the deployment marker on Firebase and the custom domain, runs live Playwright QA against `https://zacharysturman.com`, and captures cross-browser previews.
-5. The workflow stores reports, screenshots/traces, and deployment evidence for 30 days. It sends a Resend report when the release succeeds or when a deployment stage fails.
+4. After Firebase updates, the local publisher confirms the deployment marker on Firebase and the custom domain, runs live Playwright QA against `https://zacharysturman.com`, and captures cross-browser previews.
+5. The local publisher stores reports, screenshots/traces, and deployment evidence for 30 days, then sends a Resend dashboard report with the local captures attached.
 
 Pushes from a feature branch do not publish production. A pull request from this repository receives a Firebase Hosting preview. Read the **[full publishing checklist and post-push behavior](docs/development-and-deployment.md#publish-to-github-and-production)** before your first release.
 
@@ -116,7 +116,7 @@ The site itself is static—email is deliberately handled outside Firebase:
 
 - **Visitor forms:** the browser sends contact and newsletter-interest requests to the Cloudflare Worker. Turnstile, a honeypot, and KV-backed rate limiting help protect these endpoints; the Worker then sends through Resend.
 - **Daily analytics:** GitHub Actions queries GA4 each day at 14:00 UTC, sends the rendered summary to the Worker, and the Worker sends it through Resend.
-- **Deployment reports:** after a `main` deployment, the workflow emails a success report only after live QA and preview capture pass. On a failure, it sends a prioritized report with the affected stage and retained evidence. An email-delivery problem is reported separately and never turns a successful deployment into a failed one.
+- **Deployment reports:** after Firebase updates a `main` deployment, this Mac emails a success report only after local live QA and preview capture pass. On a failure, it sends a prioritized report with the affected stage and retained evidence. An email-delivery problem is reported separately and never turns a successful deployment into a failed one.
 
 ## Documentation map
 

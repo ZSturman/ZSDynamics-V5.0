@@ -73,10 +73,11 @@ For a content refresh, first configure the required Notion values in `.env.local
 
 ## Testing
 
-Install the browser once before running Playwright-based checks:
+Install the browsers once before running Playwright-based checks. The local
+post-deployment verifier uses both Chromium and WebKit:
 
 ```bash
-npx playwright install chromium
+npx playwright install chromium webkit
 ```
 
 Run the smallest useful check first:
@@ -95,7 +96,7 @@ For media-specific checks, use `npm run test:media:smoke`; it exercises desktop 
 npm run test:all
 ```
 
-`test:all` includes unit tests, Python pipeline tests, local browser tests, and the Playwright media matrix, so it is slower and needs the relevant browsers installed. The production workflow additionally uses Chromium and WebKit against the live custom domain after deployment.
+`test:all` includes unit tests, Python pipeline tests, local browser tests, and the Playwright media matrix, so it is slower and needs the relevant browsers installed. After Firebase deploys, the local Hammerspoon publisher uses Chromium and WebKit against the live custom domain.
 
 ## Publish to GitHub and production
 
@@ -125,13 +126,12 @@ push to main
   → install exact lockfile dependencies
   → npm run build
   → deploy that commit to Firebase Hosting (live)
-  → confirm Firebase + custom-domain deployment markers
-  → run live Playwright QA at https://zacharysturman.com
-  → capture production previews
-  → email a success report, or a prioritized failure report
+  → local publisher confirms Firebase + custom-domain deployment markers
+  → local publisher runs live Playwright QA at https://zacharysturman.com
+  → local publisher captures production previews and emails the dashboard report
 ```
 
-The workflow locks production deployments into a queue, so releases do not overlap. Its built-in checks compare the deployed marker with the pushed commit, verify the custom domain, run cross-browser live tests, and retain JSON/HTML reports, screenshots, traces, previews, and deployment evidence for 30 days as GitHub Actions artifacts.
+The workflow locks production deployments into a queue. The local publisher waits for the deployed marker before it starts cross-browser live tests, then retains its JSON/HTML reports, screenshots, traces, previews, and deployment evidence under `artifacts/hammerspoon-runs/` for 30 days.
 
 For a pull request opened from this repository, GitHub also creates a Firebase Hosting preview. A feature-branch push alone does not publish the live site.
 
@@ -139,8 +139,8 @@ For a pull request opened from this repository, GitHub also creates a Firebase H
 
 1. Open the GitHub Actions run named **Deploy to Firebase Hosting on merge** for the pushed commit and confirm all jobs are green.
 2. Visit [zacharysturman.com](https://zacharysturman.com) and check the changed route on the custom domain.
-3. Download the `portfolio-live-qa-*` and `portfolio-production-previews-*` artifacts if you need the full QA report, screenshots, trace, or visual evidence.
-4. Check the deployment email. If email delivery is unavailable, the workflow preserves a delivery-status artifact and still reports the real deployment result accurately.
+3. Open the matching directory under `artifacts/hammerspoon-runs/` for the local QA report, screenshots, trace, and visual evidence.
+4. Check the dashboard deployment email; it includes the locally captured screenshots as attachments.
 
 ## Configure the connected services
 
@@ -168,9 +168,9 @@ It rejects disallowed origins, uses a honeypot and Cloudflare Turnstile for form
 | Contact-form notification | A visitor successfully submits the contact form. | Browser → Worker → Resend → configured contact inbox. |
 | Newsletter-interest notification | A visitor submits the newsletter-interest form. | Browser → Worker → Resend. |
 | Daily analytics summary | GitHub Actions schedule at 14:00 UTC. | GA4 Data API → GitHub Action → Worker → Resend. |
-| Production deployment report | A `main` push finishes production QA, or a deploy stage fails. | GitHub Action → authenticated Worker endpoint → Resend. |
+| Production deployment report | A `main` push is visible on Firebase and local production QA finishes, or a deploy/QA stage fails. | This Mac → authenticated Worker endpoint → Resend. |
 
-Successful deployment reports wait until the static release, exact-release confirmation, live Playwright QA, and preview capture all succeed. Failure reports identify the failing stage and include retained evidence where available. A mail-delivery failure creates a visible warning/artifact but does not hide or alter the actual deployment status.
+Successful deployment reports wait until the static release, exact-release confirmation, local live Playwright QA, and local preview capture all succeed. Failure reports identify the failing stage and include retained evidence where available. A mail-delivery failure creates a visible warning/artifact but does not hide or alter the actual deployment status.
 
 ### Optional R2 media
 
