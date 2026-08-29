@@ -89,6 +89,12 @@ function buildReport(args) {
   const severity = severityFor(status, stage, productionHealthy);
   const timestamp = new Date().toLocaleString("en-US", { timeZone: "America/Los_Angeles", timeZoneName: "short" });
   const commit = metadata.commitSha || process.env.DEPLOY_COMMIT_SHA || process.env.GITHUB_SHA || "not committed";
+  const publication = metadata.publication || {};
+  const publishing = publication.pushed
+    ? `Committed and pushed to ${publication.target || "origin/main"}.`
+    : publication.committed
+      ? `Committed locally, but not pushed to ${publication.target || "origin/main"}.`
+      : "No commit was created.";
   const actionUrl = metadata.actionUrl || `${process.env.GITHUB_SERVER_URL || "https://github.com"}/${process.env.GITHUB_REPOSITORY || "ZSturman/ZSDynamics-V5.0"}/actions/runs/${process.env.GITHUB_RUN_ID || ""}`;
   const subject = status === "success"
     ? "Portfolio Release Dashboard — Verified"
@@ -105,6 +111,7 @@ function buildReport(args) {
     `Date/time: ${timestamp}`,
     `Stage: ${stage.replaceAll("_", " ")}`,
     `Commit: ${commit}`,
+    `Publishing: ${publishing}`,
     `Production: ${productionHealthy ? "reachable" : "not confirmed"}`,
     `Workflow: ${actionUrl}`,
     ...(status === "success" ? [
@@ -145,7 +152,7 @@ function buildReport(args) {
         </tr></table>
       </td></tr>
       <tr><td style="padding:4px 32px 24px"><div style="padding:16px 18px;background:#f8fafc;border-left:4px solid ${statusColor};border-radius:8px;font-size:14px;line-height:21px;color:#334155">${escapeHtml(verification)}</div></td></tr>
-      <tr><td style="padding:0 32px 24px"><div style="font-size:16px;font-weight:750;margin-bottom:10px">Release details</div><table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="border:1px solid #dbe3ee;border-radius:10px;overflow:hidden"><tr><td style="width:126px;padding:11px 14px;background:#f8fafc;color:#64748b;font-size:13px">Stage</td><td style="padding:11px 14px;font-size:13px;font-weight:600">${escapeHtml(stage.replaceAll("_", " "))}</td></tr><tr><td style="width:126px;padding:11px 14px;background:#f8fafc;color:#64748b;font-size:13px">Commit</td><td style="padding:11px 14px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;word-break:break-all">${escapeHtml(commit)}</td></tr><tr><td style="width:126px;padding:11px 14px;background:#f8fafc;color:#64748b;font-size:13px">Evidence</td><td style="padding:11px 14px;font-size:13px">${attachments.length ? `${attachments.length} local screenshot${attachments.length === 1 ? "" : "s"} attached` : "No screenshot attachments"}</td></tr></table></td></tr>
+      <tr><td style="padding:0 32px 24px"><div style="font-size:16px;font-weight:750;margin-bottom:10px">Release details</div><table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="border:1px solid #dbe3ee;border-radius:10px;overflow:hidden"><tr><td style="width:126px;padding:11px 14px;background:#f8fafc;color:#64748b;font-size:13px">Stage</td><td style="padding:11px 14px;font-size:13px;font-weight:600">${escapeHtml(stage.replaceAll("_", " "))}</td></tr><tr><td style="width:126px;padding:11px 14px;background:#f8fafc;color:#64748b;font-size:13px">Commit</td><td style="padding:11px 14px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;word-break:break-all">${escapeHtml(commit)}</td></tr><tr><td style="width:126px;padding:11px 14px;background:#f8fafc;color:#64748b;font-size:13px">Publishing</td><td style="padding:11px 14px;font-size:13px">${escapeHtml(publishing)}</td></tr><tr><td style="width:126px;padding:11px 14px;background:#f8fafc;color:#64748b;font-size:13px">Evidence</td><td style="padding:11px 14px;font-size:13px">${attachments.length ? `${attachments.length} local screenshot${attachments.length === 1 ? "" : "s"} attached` : "No screenshot attachments"}</td></tr></table></td></tr>
       <tr><td style="padding:0 32px 24px"><div style="font-size:16px;font-weight:750;margin-bottom:10px">What changed</div>${htmlList(changeLines)}</td></tr>
       ${error ? `<tr><td style="padding:0 32px 24px"><div style="padding:16px 18px;background:#fef2f2;border:1px solid #fecaca;border-radius:10px;color:#991b1b;font-size:13px;line-height:20px"><strong>Action needed</strong><br>${escapeHtml(error)}</div></td></tr>` : ""}
       <tr><td style="padding:18px 32px;background:#f8fafc;border-top:1px solid #e2e8f0;color:#64748b;font-size:12px;line-height:18px">Workflow: <a href="${escapeHtml(actionUrl)}" style="color:#2563eb">open deployment activity</a></td></tr>

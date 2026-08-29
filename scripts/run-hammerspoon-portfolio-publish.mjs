@@ -77,6 +77,15 @@ function gitQuiet(args) {
   return { ok: result.status === 0, output: redact(`${result.stdout || ""}${result.stderr || ""}`).trim() };
 }
 
+function gitFiles(args) {
+  const result = spawnSync("git", args, { cwd: ROOT, encoding: "utf8", maxBuffer: 20 * 1024 * 1024 });
+  if (result.error || result.status !== 0) {
+    const output = redact(`${result.stdout || ""}${result.stderr || ""}`).trim();
+    throw new Error(`git ${args.join(" ")} failed${result.error ? `: ${result.error.message}` : output ? `: ${output}` : ""}`);
+  }
+  return String(result.stdout || "").split("\0").filter(Boolean);
+}
+
 function writeJson(target, value) {
   fs.mkdirSync(path.dirname(target), { recursive: true });
   fs.writeFileSync(target, `${JSON.stringify(value, null, 2)}\n`);
@@ -154,21 +163,32 @@ function pruneEvidence(retentionDays) {
   }
 }
 
-function assertCleanMain() {
-  const dirty = gitQuiet(["status", "--porcelain", "--untracked-files=all"]);
-  if (dirty.output) throw new Error("Refusing to run in a dirty worktree. Commit, stash, or remove local changes first.");
+export function classifyWorkspaceChanges(files) {
+  const generated = files.filter((file) => GENERATED_FILE.test(file));
+  const unexpected = files.filter((file) => !GENERATED_FILE.test(file));
+  return { generated, unexpected };
+}
+
+function assertPublishableMain() {
   const branch = git(["branch", "--show-current"]);
   if (branch !== "main") throw new Error(`Refusing to publish from ${branch || "a detached HEAD"}; switch to main first.`);
   git(["fetch", "origin", "main"]);
   const head = git(["rev-parse", "HEAD"]);
   const remote = git(["rev-parse", "origin/main"]);
   if (head !== remote) throw new Error("Local main is not identical to origin/main. Fast-forward it before running the publisher.");
-  return head;
+  const workspace = classifyWorkspaceChanges(changedFiles(head));
+  if (workspace.unexpected.length) {
+    throw new Error(`Refusing to publish with uncommitted files outside publisher-managed generated output: ${workspace.unexpected.join(", ")}. Commit, stash, or remove those source changes first.`);
+  }
+  if (workspace.generated.length) {
+    console.log(`Continuing with ${workspace.generated.length} expected generated file change(s); the validated output will be committed if it is meaningful.`);
+  }
+  return { baseSha: head, initialGeneratedChanges: workspace.generated };
 }
 
 function changedFiles(baseSha) {
-  const tracked = git(["diff", "--name-only", baseSha, "--"]).split("\n").filter(Boolean);
-  const untracked = git(["ls-files", "--others", "--exclude-standard"]).split("\n").filter(Boolean);
+  const tracked = gitFiles(["diff", "--name-only", "-z", baseSha, "--"]);
+  const untracked = gitFiles(["ls-files", "--others", "--exclude-standard", "-z"]);
   return [...new Set([...tracked, ...untracked])].sort();
 }
 
@@ -178,13 +198,13 @@ function assertGeneratedPaths(baseSha) {
 }
 
 function restoreGeneratedPaths() {
-  // This is only called after this command established a clean worktree and
-  // only targets the explicitly approved generated output paths.
+  // Only publisher-managed generated output is ever reset. Source edits stay
+  // untouched, and preflight rejects them before a publish can begin.
   const restore = gitQuiet(["restore", "--source=HEAD", "--staged", "--worktree", "--", ...GENERATED_PATHS]);
   if (!restore.ok && !restore.output.includes("did not match any file")) {
     throw new Error(`Could not restore generated output: ${restore.output}`);
   }
-  const untracked = git(["ls-files", "--others", "--exclude-standard", "--", ...GENERATED_PATHS]).split("\n").filter(Boolean);
+  const untracked = gitFiles(["ls-files", "--others", "--exclude-standard", "-z", "--", ...GENERATED_PATHS]);
   if (untracked.length) run("git", ["clean", "-f", "--", ...untracked]);
 }
 
@@ -247,17 +267,27 @@ function runPostDeploymentVerification(commitSha, summaryPath, setStage) {
   run(process.execPath, ["scripts/capture-production-previews.mjs", "--summary", summaryPath, "--output", LOCAL_PRODUCTION_PREVIEWS]);
 }
 
-function commitAndPush(baseSha) {
+function commitAndPush(baseSha, onCommitted) {
   assertGeneratedPaths(baseSha);
   run("git", ["add", "-A", "--", ...GENERATED_PATHS]);
   const staged = gitQuiet(["diff", "--cached", "--quiet"]);
   if (staged.ok) return null;
+  const generatedFiles = gitFiles(["diff", "--cached", "--name-only", "-z", "--"]);
   const currentRemote = git(["rev-parse", "origin/main"]);
   if (currentRemote !== baseSha) throw new Error("origin/main advanced before commit; refusing to push a stale generated result.");
   git(["-c", "user.name=Portfolio Publisher", "-c", "user.email=portfolio-publisher@zacharysturman.com", "commit", "-m", "chore(portfolio): daily content sync"]);
   const commitSha = git(["rev-parse", "HEAD"]);
+  const publication = {
+    commitSha,
+    committed: true,
+    pushed: false,
+    target: "origin/main",
+    generatedFiles,
+    committedAt: new Date().toISOString(),
+  };
+  onCommitted?.(publication);
   git(["push", "origin", "HEAD:main"]);
-  return commitSha;
+  return { ...publication, pushed: true, pushedAt: new Date().toISOString() };
 }
 
 async function main() {
@@ -284,15 +314,14 @@ async function main() {
   pruneEvidence(retentionDays);
 
   let baseSha;
-  let published = false;
-  let cleanWorkspaceEstablished = false;
   let currentStage = "preflight";
   try {
     acquireLock(runId);
     prepareRunArtifacts();
-    baseSha = assertCleanMain();
-    cleanWorkspaceEstablished = true;
+    const preflight = assertPublishableMain();
+    baseSha = preflight.baseSha;
     metadata.baseSha = baseSha;
+    metadata.initialGeneratedChanges = preflight.initialGeneratedChanges;
     for (let attempt = 1; attempt <= 2; attempt += 1) {
       currentStage = "sync_validate";
       runPipeline(baseSha);
@@ -339,10 +368,18 @@ async function main() {
     }
 
     currentStage = "commit_and_push";
-    const commitSha = commitAndPush(baseSha);
-    if (!commitSha) throw new Error("Semantic changes were reported, but no approved generated files were staged.");
-    published = true;
+    const publication = commitAndPush(baseSha, (committedPublication) => {
+      // Persist this before pushing so a failure report can accurately say
+      // whether a local commit exists but still needs to be pushed.
+      metadata.commitSha = committedPublication.commitSha;
+      metadata.publication = committedPublication;
+      metadata.stage = "commit_and_push";
+      writeJson(metadataPath, metadata);
+    });
+    if (!publication) throw new Error("Semantic changes were reported, but no approved generated files were staged.");
+    const commitSha = publication.commitSha;
     metadata.commitSha = commitSha;
+    metadata.publication = publication;
     metadata.stage = "commit_and_push";
     metadata.completedAt = new Date().toISOString();
     metadata.productionWorkflow = "GitHub deployed Firebase Hosting. This Mac confirmed the exact live release, ran Playwright QA, captured previews, and sent the final email.";
@@ -378,9 +415,8 @@ async function main() {
   } catch (error) {
     const reportedPipelineStage = currentStage === "sync_validate" ? pipelineStage() : currentStage;
     const message = errorExcerpt(error);
-    if (!published && cleanWorkspaceEstablished) {
-      try { restoreGeneratedPaths(); } catch (restoreError) { console.error(`Could not restore generated output: ${errorExcerpt(restoreError)}`); }
-    }
+    // Preserve generated output after a failure. It may be the content the
+    // local sync just collected, and it is safe to review or retry from it.
     const healthy = await productionHealthy();
     metadata.stage = reportedPipelineStage === "complete" ? "commit_and_push" : reportedPipelineStage;
     metadata.error = message;
@@ -404,7 +440,9 @@ async function main() {
   }
 }
 
-main().catch((error) => {
-  console.error(`Hammerspoon portfolio publisher failed before startup: ${errorExcerpt(error)}`);
-  process.exit(1);
-});
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  main().catch((error) => {
+    console.error(`Hammerspoon portfolio publisher failed before startup: ${errorExcerpt(error)}`);
+    process.exit(1);
+  });
+}

@@ -11,6 +11,7 @@ import { loadProjectEnvironment } from "./project-env.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const ARTIFACTS = path.join(ROOT, "artifacts");
+const VIRTUALENV_BIN = path.join(ROOT, ".venv", "bin");
 const REQUIRED_NOTION = ["NOTION_API_KEY", "NOTION_PROJECTS_DB_ID", "NOTION_COLLECTIONS_DB_ID", "NOTION_ASSETS_DB_ID", "NOTION_RESOURCES_DB_ID", "NOTION_CONFIG_DB_ID", "NOTION_WORK_LOGS_DB_ID"];
 const REQUIRED_REPORTING = ["API_BASE_URL", "INTERNAL_TOKEN"];
 const SECRET_KEYS = ["NOTION_API_KEY", "INTERNAL_TOKEN", "R2_SECRET_ACCESS_KEY", "R2_ACCESS_KEY_ID", "GITHUB_TOKEN", "GH_TOKEN"];
@@ -39,6 +40,18 @@ function assertEnvironment() {
   if (missing.length) throw new Error(`Missing required environment variables: ${missing.join(", ")}`);
 }
 
+function preferProjectVirtualenv() {
+  // npm scripts invoke `python3`. Prefer the project environment when it
+  // exists so scheduled Hammerspoon runs use the same dependencies as local
+  // development instead of whichever Python happens to be on its PATH.
+  if (!fs.existsSync(path.join(VIRTUALENV_BIN, "python3"))) return;
+  const pathEntries = (process.env.PATH || "").split(path.delimiter);
+  if (!pathEntries.includes(VIRTUALENV_BIN)) {
+    process.env.PATH = [VIRTUALENV_BIN, ...pathEntries].filter(Boolean).join(path.delimiter);
+  }
+  console.log("Using the portfolio project's Python virtual environment.");
+}
+
 function run(stage, command, args) {
   const result = spawnSync(command, args, { cwd: ROOT, env: process.env, encoding: "utf8", maxBuffer: 20 * 1024 * 1024 });
   const output = redact(`${result.stdout || ""}${result.stderr || ""}`);
@@ -51,6 +64,7 @@ function main() {
   // GitHub Actions supplies its own environment. Loading locally makes the
   // same pipeline callable from Hammerspoon without putting credentials in Lua.
   loadProjectEnvironment(ROOT);
+  preferProjectVirtualenv();
   fs.mkdirSync(ARTIFACTS, { recursive: true });
   let stage = "environment";
   try {

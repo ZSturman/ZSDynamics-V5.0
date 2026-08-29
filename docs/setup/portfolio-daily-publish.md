@@ -23,8 +23,10 @@ sends the final dashboard email with those local screenshots attached.
 
 ## What the local publisher does
 
-1. Refuses to start if the portfolio checkout is dirty, not on `main`, or not
-   fast-forwarded to `origin/main`.
+1. Requires `main` to match `origin/main`, but accepts pending changes in the
+   publisher-managed generated `public/` output. It still stops for uncommitted
+   source, configuration, or workflow edits so a release can never validate
+   one version of the code and push another.
 2. Loads `.env.local` (without printing its values), fetches the six Notion
    databases, synchronizes `ZSturman/Articles`, generates projects and media,
    post-processes API output, and writes a semantic change summary.
@@ -70,6 +72,10 @@ refuses a second simultaneous process.
    ```bash
    git -C /Users/zacharysturman/Projects/zacharysturman.com/zacharysturman fetch origin main
    ```
+
+   The publisher automatically uses `.venv/bin/python3` when that project
+   environment exists. Refresh it after dependency changes with
+   `.venv/bin/python -m pip install -r requirements.txt`.
 
 4. Enable the Hammerspoon module in
    `/Users/zacharysturman/.hammerspoon/config.local.lua`:
@@ -126,8 +132,10 @@ screenshots, previews, and delivery metadata in the matching directory under
   no-change email is sent.
 - Local sync, build, validation, Git, or push failure: the local report is
   emailed as **HIGH** when the current site responds, or **CRITICAL** when it
-  does not. An email-delivery problem is retained in local run metadata and
-  does not hide the original failure.
+  does not. Generated output is retained for review or a retry; an
+  uncommitted source/configuration edit is the only preflight condition that
+  blocks the publisher. An email-delivery problem is retained in local run
+  metadata and does not hide the original failure.
 - Firebase, marker confirmation, live QA, or preview failure after a push: the
   local publisher sends the prioritized report with any captured local evidence.
   A custom-domain/live QA failure is **CRITICAL**; a user-visible QA problem

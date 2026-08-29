@@ -6,8 +6,24 @@ import test from "node:test";
 
 import { buildChangeSummary, semanticValuesEqual } from "../scripts/portfolio-change-summary.mjs";
 import { loadProjectEnvironment } from "../scripts/project-env.mjs";
+import { classifyWorkspaceChanges } from "../scripts/run-hammerspoon-portfolio-publish.mjs";
 import { buildReport, severityFor } from "../scripts/send-portfolio-report.mjs";
 import { validatePortfolio } from "../scripts/validate-portfolio-output.mjs";
+
+test("publisher accepts expected generated changes but protects uncommitted source edits", () => {
+  const expected = classifyWorkspaceChanges([
+    "public/articles/articles.json",
+    "public/projects/new-project/thumbnail-optimized.webp",
+    "public/api/projects.json",
+    "public/media-urls.json",
+  ]);
+  assert.deepEqual(expected.unexpected, []);
+  assert.equal(expected.generated.length, 4);
+
+  const unsafe = classifyWorkspaceChanges(["public/articles/articles.json", "components/portfolio-page-client.tsx", ".github/workflows/deploy.yml"]);
+  assert.deepEqual(unsafe.generated, ["public/articles/articles.json"]);
+  assert.deepEqual(unsafe.unexpected, ["components/portfolio-page-client.tsx", ".github/workflows/deploy.yml"]);
+});
 
 test("change summary groups project changes without treating updatedAt as public content", () => {
   const before = [{ id: "p1", slug: "one", href: "/projects/one", title: "One", summary: "Old", domain: "technology", status: "Active", updatedAt: "2026-01-01" }];
@@ -79,11 +95,21 @@ test("check-only report is clearly non-publishing", () => {
 });
 
 test("deployment report renders an email-safe release dashboard", () => {
-  const report = buildReport({ status: "success", stage: "local_playwright_qa", "production-healthy": "true" });
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), "portfolio-report-"));
+  const metadataPath = path.join(root, "run.json");
+  fs.writeFileSync(metadataPath, JSON.stringify({
+    commitSha: "abc123",
+    publication: { committed: true, pushed: true, target: "origin/main" },
+  }));
+  const report = buildReport({ status: "success", stage: "local_playwright_qa", "production-healthy": "true", metadata: metadataPath });
   assert.match(report.html, /Portfolio release dashboard/i);
   assert.match(report.html, /Release verified/i);
   assert.match(report.html, /Release details/i);
+  assert.match(report.html, /Committed and pushed to origin\/main/i);
+  assert.match(report.text, /Commit: abc123/);
+  assert.match(report.text, /Publishing: Committed and pushed to origin\/main/);
   assert.match(report.html, /Playwright completed locally/i);
+  fs.rmSync(root, { recursive: true, force: true });
 });
 
 test("validator rejects missing generated assets and routes", () => {
