@@ -267,9 +267,18 @@ function runPostDeploymentVerification(commitSha, summaryPath, setStage) {
   run(process.execPath, ["scripts/capture-production-previews.mjs", "--summary", summaryPath, "--output", LOCAL_PRODUCTION_PREVIEWS]);
 }
 
+function generatedPathsToStage() {
+  return GENERATED_PATHS.filter((relativePath) => (
+    fs.existsSync(path.join(ROOT, relativePath))
+    || gitQuiet(["ls-files", "--error-unmatch", "--", relativePath]).ok
+  ));
+}
+
 function commitAndPush(baseSha, onCommitted) {
   assertGeneratedPaths(baseSha);
-  run("git", ["add", "-A", "--", ...GENERATED_PATHS]);
+  const paths = generatedPathsToStage();
+  if (!paths.length) throw new Error("No publisher-managed generated paths are available to stage.");
+  run("git", ["add", "-A", "--", ...paths]);
   const staged = gitQuiet(["diff", "--cached", "--quiet"]);
   if (staged.ok) return null;
   const generatedFiles = gitFiles(["diff", "--cached", "--name-only", "-z", "--"]);
