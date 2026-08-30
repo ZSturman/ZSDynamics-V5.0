@@ -258,6 +258,16 @@ export type DateFormatPreset = "year" | "shortMonthYear" | "long" | "iso"
 // Apple/Cocoa epoch starts on January 1, 2001 (in Unix seconds)
 const APPLE_EPOCH_OFFSET = 978307200
 
+// The site is statically rendered in CI and subsequently hydrated in a
+// visitor's browser. Date-only values (for example, "2026-04-27") are parsed
+// as midnight UTC, so formatting them in the runtime's local time zone can
+// render a different calendar day on each side of hydration. Keep portfolio
+// content dates in UTC unless a caller deliberately supplies another zone.
+const withStableTimeZone = (options: Intl.DateTimeFormatOptions = {}) => ({
+  ...options,
+  timeZone: options.timeZone ?? "UTC",
+})
+
 export const formatDate = (
   s?: string | number | null,
   formatter?: Intl.DateTimeFormatOptions | ((date: Date) => string) | DateFormatPreset | string
@@ -288,25 +298,25 @@ export const formatDate = (
     const preset = formatter as DateFormatPreset
     switch (preset) {
       case "year":
-        return date.getFullYear().toString()
+        return date.getUTCFullYear().toString()
       case "shortMonthYear":
-        return date.toLocaleDateString("en-US", { month: "short", year: "numeric" })
+        return date.toLocaleDateString("en-US", withStableTimeZone({ month: "short", year: "numeric" }))
       case "iso":
         return date.toISOString()
       case "long":
-        return date.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })
+        return date.toLocaleDateString("en-US", withStableTimeZone({ year: "numeric", month: "long", day: "numeric" }))
     }
 
     // If not a preset, treat as a pattern string (tokens)
     const tokens: Record<string, string> = {
-      DD: String(date.getDate()).padStart(2, "0"),
-      D: String(date.getDate()),
-      MM: String(date.getMonth() + 1).padStart(2, "0"),
-      M: String(date.getMonth() + 1),
-      YYYY: String(date.getFullYear()),
-      YY: String(date.getFullYear()).slice(-2),
-      MMM: date.toLocaleString("en-US", { month: "short" }),
-      MMMM: date.toLocaleString("en-US", { month: "long" }),
+      DD: String(date.getUTCDate()).padStart(2, "0"),
+      D: String(date.getUTCDate()),
+      MM: String(date.getUTCMonth() + 1).padStart(2, "0"),
+      M: String(date.getUTCMonth() + 1),
+      YYYY: String(date.getUTCFullYear()),
+      YY: String(date.getUTCFullYear()).slice(-2),
+      MMM: date.toLocaleString("en-US", withStableTimeZone({ month: "short" })),
+      MMMM: date.toLocaleString("en-US", withStableTimeZone({ month: "long" })),
     }
 
     // Replace token occurrences (prefer longer tokens first)
@@ -319,7 +329,10 @@ export const formatDate = (
   }
 
   // Intl options (or default)
-  return date.toLocaleDateString("en-US", (formatter as Intl.DateTimeFormatOptions) ?? { year: "numeric", month: "long", day: "numeric" })
+  return date.toLocaleDateString(
+    "en-US",
+    withStableTimeZone((formatter as Intl.DateTimeFormatOptions) ?? { year: "numeric", month: "long", day: "numeric" }),
+  )
 }
 
 /**

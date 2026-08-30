@@ -2,6 +2,7 @@
 
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { formatDate } from "@/lib/utils"
 import { useState } from "react"
 import { PerspectivesSection } from "../personal-tabs"
 
@@ -69,7 +70,7 @@ export function PerspectivesComponent({ data }: PerspectivesSectionProps) {
                   )}
                   {entry.updatedAt && (
                     <span className="text-xs  ml-auto">
-                      Updated {new Date(entry.updatedAt).toLocaleDateString()}
+                      Updated {formatDate(entry.updatedAt)}
                     </span>
                   )}
                 </div>
