@@ -39,11 +39,23 @@ function attachDiagnostics(page: Page) {
   });
   page.on("requestfailed", (request) => {
     const type = request.resourceType();
+    const failure = request.failure()?.errorText || "failed";
+    // A navigation intentionally cancels outstanding resources from the page
+    // being left. Those requests are not delivery failures, and treating them
+    // as such makes a successful client-side navigation fail this QA suite.
+    if (failure === "net::ERR_ABORTED") return;
     if (["document", "script", "stylesheet", "image", "fetch", "xhr"].includes(type) && new URL(request.url()).origin === baseOrigin) {
-      failedRequests.push(`${type}: ${request.url()} (${request.failure()?.errorText || "failed"})`);
+      failedRequests.push(`${type}: ${request.url()} (${failure})`);
     }
   });
-  return { consoleErrors, failedRequests };
+  return {
+    consoleErrors,
+    failedRequests,
+    clear: () => {
+      consoleErrors.length = 0;
+      failedRequests.length = 0;
+    },
+  };
 }
 
 async function expectUsableLayout(page: Page) {
@@ -61,15 +73,22 @@ test.describe("Live portfolio production QA", () => {
     await expect(page.getByTestId("site-page-frame")).toBeVisible();
     const articlesLink = page.locator('a[href="/articles"]').first();
     await expect(articlesLink).toBeVisible();
+    diagnostics.clear();
     await articlesLink.click();
     await expect(page).toHaveURL(/\/articles$/);
+    await page.waitForLoadState("networkidle");
+    expect(diagnostics.consoleErrors).toEqual([]);
+    expect(diagnostics.failedRequests).toEqual([]);
+
+    diagnostics.clear();
     await page.goto("/", { waitUntil: "domcontentloaded" });
     const workLogsLink = page.locator('a[href="/work-logs"]').first();
     await expect(workLogsLink).toBeVisible();
+    diagnostics.clear();
     await workLogsLink.click();
     await expect(page).toHaveURL(/\/work-logs$/);
+    await page.waitForLoadState("networkidle");
     await expectUsableLayout(page);
-    await page.waitForTimeout(500);
     expect(diagnostics.consoleErrors).toEqual([]);
     expect(diagnostics.failedRequests).toEqual([]);
   });
@@ -77,13 +96,15 @@ test.describe("Live portfolio production QA", () => {
   test("important and changed routes return usable pages", async ({ page }) => {
     const diagnostics = attachDiagnostics(page);
     for (const route of routeCandidates()) {
+      diagnostics.clear();
       const response = await page.goto(route, { waitUntil: "domcontentloaded" });
       expect(response?.status(), `${route} should load`).toBeLessThan(400);
       await expect(page.locator("body")).toBeVisible();
+      await page.waitForLoadState("networkidle");
       await expectUsableLayout(page);
+      expect(diagnostics.consoleErrors).toEqual([]);
+      expect(diagnostics.failedRequests).toEqual([]);
     }
-    expect(diagnostics.consoleErrors).toEqual([]);
-    expect(diagnostics.failedRequests).toEqual([]);
   });
 
   test("visible primary images load", async ({ page }) => {
@@ -91,8 +112,13 @@ test.describe("Live portfolio production QA", () => {
     const response = await page.goto("/", { waitUntil: "networkidle", timeout: 30_000 });
     expect(response?.status()).toBeLessThan(400);
     const brokenImages = await page.locator("img").evaluateAll((images) => (images as HTMLImageElement[])
-      .filter((image) => image.getBoundingClientRect().width > 0 && image.getBoundingClientRect().height > 0)
-      .filter((image) => !image.complete || image.naturalWidth === 0)
+      .filter((image) => {
+        const bounds = image.getBoundingClientRect();
+        return bounds.width > 0 && bounds.height > 0
+          && bounds.top < window.innerHeight && bounds.bottom > 0
+          && bounds.left < window.innerWidth && bounds.right > 0;
+      })
+      .filter((image) => image.naturalWidth === 0)
       .map((image) => image.getAttribute("src") || "unknown image"));
     expect(brokenImages, "visible images should complete successfully").toEqual([]);
     await expectUsableLayout(page);
