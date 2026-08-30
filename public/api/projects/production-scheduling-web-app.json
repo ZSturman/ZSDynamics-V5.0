@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-08-30T22:36:35.322547+00:00",
+  "generated_at": "2026-08-30T23:06:19.661389+00:00",
   "data": {
     "id": "34faec94-4d3c-80bf-928b-e0e32ba51cc8",
     "slug": "production-scheduling-web-app",
@@ -34,10 +34,10 @@
     "description": "",
     "story": "",
     "images": {
+      "thumbnail": "thumb.png",
       "icon": "icon.png",
       "banner": "banner.png",
-      "hero": "hero.png",
-      "thumbnail": "thumb.png"
+      "hero": "hero.png"
     },
     "resources": [
       {
