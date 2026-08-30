@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-08-22T22:12:15.859609+00:00",
+  "generated_at": "2026-08-30T22:36:35.324751+00:00",
   "data": {
     "id": "306aec94-4d3c-807e-a7ef-db0aa63a2ec7",
     "slug": "zsdynamics-40",
@@ -33,9 +33,9 @@
     "description": "",
     "story": "",
     "images": {
+      "icon": "banner.png",
       "banner": "poster.png",
-      "thumbnail": "thumbnail.png",
-      "icon": "banner.png"
+      "thumbnail": "thumbnail.png"
     },
     "resources": [
       {
