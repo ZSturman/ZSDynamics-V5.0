@@ -67,7 +67,9 @@ test.describe("Project Details Page", () => {
   test("should normalize a legacy UUID route to the canonical slug route", async ({ page }) => {
     await gotoProjectReady(page, defaultProject.id, defaultProject.title);
     await expect(page).toHaveURL(new RegExp(`${getProjectRoute(defaultProject)}$`));
-    await expect(page.getByRole("heading", { name: defaultProject.title })).toBeVisible();
+    await expect(
+      page.getByTestId("project-header-title-row").getByRole("heading", { name: defaultProject.title, exact: true })
+    ).toBeVisible();
   });
 
   test("project resource buttons stay labeled above the hero and title actions stay clean", async ({ page }) => {
