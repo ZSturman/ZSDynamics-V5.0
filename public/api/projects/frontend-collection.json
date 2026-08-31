@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-08-30T23:06:19.663173+00:00",
+  "generated_at": "2026-08-31T14:08:13.053190+00:00",
   "data": {
     "id": "306aec94-4d3c-803b-a895-e775003b0f5d",
     "slug": "frontend-collection",
@@ -34,10 +34,10 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "thumbnail.png",
-      "icon": "logo.png",
       "banner": "banner.png",
-      "poster": "poster.gif"
+      "icon": "logo.png",
+      "poster": "poster.gif",
+      "thumbnail": "thumbnail.png"
     },
     "resources": [],
     "assets": [],

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-08-30T23:06:19.663545+00:00",
+  "generated_at": "2026-08-31T14:08:13.053530+00:00",
   "data": {
     "id": "306aec94-4d3c-8064-9e5a-c59f1df02bee",
     "slug": "towardbetterme-announcement-page",
@@ -32,9 +32,9 @@
     "description": "",
     "story": "",
     "images": {
-      "thumbnail": "thumbnail.png",
+      "banner": "Collaborative Effort with Green Ball.png",
       "icon": "Celestial Hands Holding Heart.png",
-      "banner": "Collaborative Effort with Green Ball.png"
+      "thumbnail": "thumbnail.png"
     },
     "resources": [
       {
