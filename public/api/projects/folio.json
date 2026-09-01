@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-08-31T14:08:13.052736+00:00",
+  "generated_at": "2026-09-01T14:08:41.953076+00:00",
   "data": {
     "id": "324aec94-4d3c-8068-a8a7-ed6d1d4d1790",
     "slug": "folio",
@@ -30,8 +30,8 @@
     "description": "",
     "story": "",
     "images": {
-      "banner": "Concept_art_with_Logo.jpeg",
       "icon": "AppIcon.png",
+      "banner": "Concept_art_with_Logo.jpeg",
       "thumbnail": "thumbnail.png",
       "hero": "Ope_Hero.png"
     },

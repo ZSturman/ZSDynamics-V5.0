@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-08-31T14:08:13.051171+00:00",
+  "generated_at": "2026-09-01T14:08:41.951544+00:00",
   "data": {
     "id": "35eaec94-4d3c-80bc-9273-c1403b6c02ad",
     "slug": "transactions",
@@ -35,8 +35,8 @@
     "description": "",
     "story": "",
     "images": {
-      "banner": "banner.png",
       "icon": "icon.png",
+      "banner": "banner.png",
       "thumbnail": "thumb.png",
       "hero": "hero.png"
     },

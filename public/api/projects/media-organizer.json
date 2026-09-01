@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-08-31T14:08:13.051868+00:00",
+  "generated_at": "2026-09-01T14:08:41.952097+00:00",
   "data": {
     "id": "339aec94-4d3c-8047-a3ea-ea94ff1e518f",
     "slug": "media-organizer",
@@ -34,8 +34,8 @@
     "description": "",
     "story": "",
     "images": {
-      "banner": "banner.png",
       "icon": "icon.png",
+      "banner": "banner.png",
       "poster": "poster.png",
       "thumbnail": "thumbnail.png",
       "hero": "hero.png"

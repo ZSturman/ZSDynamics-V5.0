@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-08-31T14:08:13.052629+00:00",
+  "generated_at": "2026-09-01T14:08:41.952949+00:00",
   "data": {
     "id": "32eaec94-4d3c-80c9-b238-c8a9f0b1990e",
     "slug": "runtime-storyboard-debugger",
@@ -33,8 +33,8 @@
     "description": "",
     "story": "",
     "images": {
-      "banner": "banner.png",
       "icon": "icon.png",
+      "banner": "banner.png",
       "thumbnail": "thumbnail.png",
       "hero": "hero.png"
     },
