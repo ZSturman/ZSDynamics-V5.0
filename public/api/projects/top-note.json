@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-09-01T14:08:41.955583+00:00",
+  "generated_at": "2026-09-02T00:13:21.675178+00:00",
   "data": {
     "id": "306aec94-4d3c-8008-9985-d94ba1780069",
     "slug": "top-note",
@@ -38,9 +38,9 @@
     "story": "",
     "images": {
       "icon": "TopNote AppIcon v2-watchOS-Default-1088x1088@1x.png",
-      "banner": "banner.png",
       "poster": "poster.png",
       "thumbnail": "thumbnail.png",
+      "banner": "banner.png",
       "hero": "hero.png"
     },
     "resources": [
@@ -80,10 +80,6 @@
       }
     ],
     "articles": [],
-    "folderName": "top_note_306aec94-4d3c-8008-9985-d94ba1780069",
-    "readme": {
-      "content": "# Top Note\n\nTop Note is a widget-first productivity app that keeps you focused on what’s next—literally one thing at a time. Instead of endless to‑do lists you never look at, Top Note presents a single reminder, flashcard, or note right on your Home Screen widget.\n\nDownload on the App Store:\nhttps://apps.apple.com/us/app/top-note/id6742725271\n\n## Why it works\nTop Note introduces gentle friction: there’s no long list to cherry-pick from. You must either complete the next item or see it again soon, keeping important tasks and knowledge top-of-mind without overwhelming you.\n\n## Core features\n- One-at-a-time reminders — No scrolling, no distraction.  \n- Skip & repeat — Skipped items return sooner so you can’t forget them.  \n- Spaced repetition flashcards — Boost memory and recall with confidence-rated reviews.  \n- Widget-first design — Most interactions happen directly from the Home Screen.  \n- Flexible notes — Keep quotes, mantras, micro-goals, or short reminders visible all day.  \n- Simple setup — Configure everything in the main app; use it primarily from the widget.\n\n## Perfect for\n- People who ignore traditional reminders.  \n- Habit building and routine reinforcement.  \n- Quick study sessions with spaced repetition.  \n- Keeping a short note or mantra in plain sight.\n\n## Quick start\n1. Install Top Note from the App Store.  \n2. Open the app and create a note, reminder, or flashcard.  \n3. Add the Top Note widget to your Home Screen.  \n4. Use the widget to complete, skip, or review the single item it shows.\n\n## Privacy\nTop Note is designed for simplicity; local-first storage is preferred where possible. Consult the app’s privacy settings for details on syncing and backups.\n\n## Feedback & support\nFor bugs, feature requests, or support, use the contact option inside the app or submit feedback through the App Store page.",
-      "sourceUrl": "https://github.com/ZSturman/TopNote/blob/main/README.md"
-    }
+    "folderName": "top_note_306aec94-4d3c-8008-9985-d94ba1780069"
   }
 }

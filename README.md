@@ -22,7 +22,7 @@ This repository is the source for [zacharysturman.com](https://zachary-sturman.c
 | Hosting | Firebase Hosting | Serves the production site at `zacharysturman.com`. |
 | Content | Notion + local files | Optional build-time synchronization for projects, articles, and media. |
 | Forms & mail | Cloudflare Worker + Resend | Handles contact, newsletter interest, delivery reports, and analytics email. |
-| Analytics | Firebase Analytics / GA4 | Privacy-conscious event and UTM attribution tracking. |
+| Analytics | Firebase Analytics / GA4 | Privacy-conscious human-interest reporting; local, preview, and automated browsing are excluded before GA4 loads. |
 | Media | Repository files, optional Cloudflare R2 | Keeps media local by default; R2 adds long-lived cached URLs when enabled. |
 | Quality gates | Firebase deploy + local Playwright | Confirms the exact live release from this Mac, tests it, and stores evidence. |
 
@@ -121,6 +121,9 @@ The site itself is static—email is deliberately handled outside Firebase:
 ## Documentation map
 
 - **[Run, build & publish](docs/development-and-deployment.md)** — the practical end-to-end guide.
+- [Notion schema & storage architecture](docs/notion-and-storage-architecture.md) — the six Notion
+  databases, project/asset schema mapping, and the Project/Workspace/legacy media resolution model
+  shared conceptually with the Better Projects app.
 - [Analytics](docs/setup/analytics.md) — GA4, Firebase Analytics, custom dimensions, and daily reporting.
 - [Email](docs/setup/email.md) — Resend domain verification and sending behavior.
 - [Worker](docs/setup/worker.md) — endpoints, Turnstile, KV namespaces, and Worker secrets.

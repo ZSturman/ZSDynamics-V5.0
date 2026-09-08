@@ -92,6 +92,15 @@ NOTION_API_VERSION = "2022-06-28"
 _FILENAME_SEARCH_CACHE: Dict[Tuple[str, str], Optional[Path]] = {}
 _NOTION_ASSET_PAGE_CACHE: Dict[str, Optional[Dict[str, Any]]] = {}
 
+# Per-run map of {Notion project page id: local directory root}, built once by
+# configure_storage_project_roots() at the start of build_projects_from_json().
+# Assets tagged storage="Project" resolve their relativePath against the root
+# named here (their storageProjectId) instead of the shared root_path/workspace
+# root. A module-level map (rather than threading a new parameter through the
+# ~10 normalize_* functions that call resolve_source_path) mirrors the existing
+# per-run caches below and keeps this an additive, low-risk change.
+_STORAGE_PROJECT_ROOTS: Dict[str, Path] = {}
+
 
 def determine_collection_item_type(raw_type: Optional[str], path_val: Optional[str]) -> str:
     """Return a canonical collection item type."""
@@ -614,7 +623,32 @@ def _extract_filename_candidate(value: Any) -> Optional[str]:
     return None
 
 
-def _build_source_candidates(path_value: Any, root_path: Path) -> List[Path]:
+def _asset_storage_extra_roots(path_value: Any) -> List[Path]:
+    """Resolve extra candidate roots to try before ``root_path``.
+
+    An Assets-DB record tagged ``storage: "Project"`` stores relativePath
+    relative to its own storage project's local directory, not the shared
+    workspace root_path. _STORAGE_PROJECT_ROOTS is populated once per run by
+    configure_storage_project_roots(). Anything else (Workspace, Local
+    (legacy), unset, or an unrecognized storage value) yields no extra roots
+    and falls through to the existing root_path-only behavior unchanged.
+    """
+    if not isinstance(path_value, dict) or not _STORAGE_PROJECT_ROOTS:
+        return []
+
+    storage = _as_str(path_value.get("storage"))
+    if not storage or storage.strip().casefold() != "project":
+        return []
+
+    storage_project_id = _as_str(path_value.get("storageProjectId"))
+    if not storage_project_id:
+        return []
+
+    project_root = _STORAGE_PROJECT_ROOTS.get(storage_project_id)
+    return [project_root] if project_root else []
+
+
+def _build_source_candidates(path_value: Any, root_path: Path, extra_roots: Optional[List[Path]] = None) -> List[Path]:
     candidate = _extract_path_candidate(path_value)
     if not candidate:
         return []
@@ -633,6 +667,10 @@ def _build_source_candidates(path_value: Any, root_path: Path) -> List[Path]:
     if " // " in decoded_value:
         candidate_values.append(decoded_value.replace(" // ", " :: "))
 
+    # Project-storage roots are tried first (most specific/authoritative),
+    # then the shared root_path (workspace root / legacy shared root).
+    roots_to_try = [*(extra_roots or []), root_path]
+
     def add_path(p: Path) -> None:
         if p not in candidates:
             candidates.append(p)
@@ -645,11 +683,13 @@ def _build_source_candidates(path_value: Any, root_path: Path) -> List[Path]:
                 add_path(base_path / filename)
             continue
 
-        add_path(root_path / base_path)
+        for root in roots_to_try:
+            add_path(root / base_path)
         add_path(base_path)
 
         if filename and base_path.name != filename:
-            add_path(root_path / base_path / filename)
+            for root in roots_to_try:
+                add_path(root / base_path / filename)
             add_path(base_path / filename)
 
     return candidates
@@ -685,7 +725,7 @@ def _find_unique_file_by_name(root_path: Path, filename: str) -> Optional[Path]:
     return resolved
 
 
-def _resolve_source_path_fallback(path_value: Any, root_path: Path) -> Optional[Path]:
+def _resolve_source_path_fallback(path_value: Any, root_path: Path, extra_roots: Optional[List[Path]] = None) -> Optional[Path]:
     raw_candidate = _extract_path_candidate(path_value)
     if not raw_candidate:
         return None
@@ -699,9 +739,15 @@ def _resolve_source_path_fallback(path_value: Any, root_path: Path) -> Optional[
     if not filename:
         return None
 
-    # If we only got a bare filename (no folder), recover by unique filename lookup under root_path.
+    # If we only got a bare filename (no folder), recover by unique filename
+    # lookup, trying the most specific root (e.g. a Project-storage asset's
+    # own project root) before the shared root_path.
     if len(parsed_path.parts) <= 1:
-        return _find_unique_file_by_name(root_path, filename)
+        for root in [*(extra_roots or []), root_path]:
+            found = _find_unique_file_by_name(root, filename)
+            if found:
+                return found
+        return None
 
     return None
 
@@ -869,15 +915,18 @@ def _restore_missing_notion_asset(path_value: Any, candidates: List[Path]) -> Op
 
 
 def resolve_source_path(path_value: Any, root_path: Path) -> Optional[Path]:
-    candidates = _build_source_candidates(path_value, root_path)
+    extra_roots = _asset_storage_extra_roots(path_value)
+    candidates = _build_source_candidates(path_value, root_path, extra_roots)
     if not candidates:
         return None
 
     for candidate in candidates:
         if candidate.exists() and candidate.is_file():
+            if extra_roots and candidate.is_relative_to(extra_roots[0]):
+                print(f"[asset] {candidate.name} -> storage=Project -> project-relative -> {candidate}")
             return candidate
 
-    fallback = _resolve_source_path_fallback(path_value, root_path)
+    fallback = _resolve_source_path_fallback(path_value, root_path, extra_roots)
     if fallback and fallback.exists() and fallback.is_file():
         return fallback
 
@@ -885,7 +934,13 @@ def resolve_source_path(path_value: Any, root_path: Path) -> Optional[Path]:
     if restored:
         return restored
 
-    print(f"⚠️ Missing source file. Tried: {', '.join(str(c) for c in candidates)}")
+    if extra_roots:
+        print(
+            f"⚠️ Missing source file for Project-storage asset (storage project root: {extra_roots[0]}). "
+            f"Tried: {', '.join(str(c) for c in candidates)}"
+        )
+    else:
+        print(f"⚠️ Missing source file. Tried: {', '.join(str(c) for c in candidates)}")
     return candidates[0]
 
 
@@ -930,7 +985,7 @@ def _asset_reference_fingerprint(value: Any, root_path: Path) -> Optional[str]:
     if normalized_url and normalized_url.startswith(("http://", "https://", "ftp://")):
         return f"url:{normalized_url}"
 
-    candidates = _build_source_candidates(value, root_path)
+    candidates = _build_source_candidates(value, root_path, _asset_storage_extra_roots(value))
     if not candidates:
         return None
 
@@ -2807,6 +2862,51 @@ def _load_and_validate_input(
     return root_path, projects, normalized_work_logs
 
 
+def configure_storage_project_roots(source_projects: Iterable[Dict[str, Any]]) -> Dict[str, Path]:
+    """Build and install the per-run {project id: local root} map.
+
+    Mirrors Better Projects' ProjectStorageResolution.resolveRoot:
+      - storage == "Remote": never usable as a root, even if a stray
+        localDirectory value is present (never silently guessed).
+      - storage == "Local", or storage is unset/empty but localDirectory is
+        present (legacy-implied Local): usable if the directory actually
+        exists on this machine.
+      - anything else (missing localDirectory, nonexistent directory,
+        unrecognized storage value): not included; callers fall back to the
+        shared root_path, exactly like the pre-existing behavior.
+
+    Populates the module-level _STORAGE_PROJECT_ROOTS used by
+    resolve_source_path() for storage="Project" assets, keyed by both a
+    project's Notion page id and its projectPageId (an Assets record's
+    "storage project" relation can point at either, mirroring _find_project
+    elsewhere in this module). Returns the same map for callers that want to
+    report it (e.g. dry-run diagnostics).
+    """
+    roots: Dict[str, Path] = {}
+    for project in source_projects:
+        if not isinstance(project, dict):
+            continue
+        storage = _as_str(project.get("storage"))
+        local_directory = _as_str(project.get("localDirectory"))
+        if not local_directory:
+            continue
+        if storage and storage.strip().casefold() == "remote":
+            continue  # Remote is authoritative: never fall back to a stray directory value.
+
+        candidate_root = Path(local_directory).expanduser()
+        if not candidate_root.is_dir():
+            continue
+
+        for key in (project.get("id"), project.get("projectPageId")):
+            key_str = _as_str(key)
+            if key_str:
+                roots[key_str] = candidate_root
+
+    _STORAGE_PROJECT_ROOTS.clear()
+    _STORAGE_PROJECT_ROOTS.update(roots)
+    return roots
+
+
 def _build_alias_map(
     projects: Iterable[Dict[str, Any]],
     project_slug_map: Dict[str, str],
@@ -2844,6 +2944,9 @@ def build_projects_from_json(
 ) -> Dict[str, Any]:
     """Build normalized project data and copy assets into temp_public_projects_root."""
     root_path, source_projects, global_work_logs = _load_and_validate_input(input_json_path, root_path_override)
+    storage_project_roots = configure_storage_project_roots(source_projects)
+    if storage_project_roots:
+        print(f"[storage] {len(storage_project_roots)} project(s) have a resolvable local directory root")
     articles_by_slug = _load_articles_manifest(articles_manifest_path)
 
     project_slug_map = _build_project_slug_map(source_projects)

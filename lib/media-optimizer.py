@@ -18,7 +18,9 @@ Dependencies:
 - ffmpeg (via system command) for video processing
 """
 
+import hashlib
 import os
+import re
 import sys
 import subprocess
 from pathlib import Path
@@ -60,6 +62,187 @@ PLACEHOLDER_SIZE = 20    # Size of blur placeholder (very small)
 
 # Threshold for using cloud storage (in MB)
 CLOUD_STORAGE_THRESHOLD_MB = 5
+
+# ---------------------------------------------------------------------------
+# Content-hash cache
+# ---------------------------------------------------------------------------
+# folio-prebuild.py deletes and rebuilds the entire public/projects tree from
+# scratch on every run (see docs/notion-and-storage-architecture.md), so a
+# freshly-copied source file is byte-identical to the one optimized on a
+# previous run far more often than not — but its *directory* is brand new
+# each time. This cache lives outside public/projects (so it survives that
+# wipe) and is keyed by the source file's own content hash (not its path or
+# mtime, which are not stable across the rebuild), mirroring the sha256-keyed
+# manifest pattern lib/r2_uploader.py already uses for R2 uploads. A cache
+# miss (new file, changed content, or a missing/corrupt cache entry) always
+# falls through to full reprocessing — this is a pure performance
+# optimization and never changes what a from-scratch run would produce.
+_OPTIMIZER_CACHE_ROOT = Path(__file__).resolve().parent.parent / "tmp" / "media-optimizer-cache"
+# Set by main() when --no-media-cache is passed; forces every file through
+# full reprocessing without needing to delete the cache directory.
+_OPTIMIZER_CACHE_DISABLED = False
+
+
+def _sha256_file(path: Path, chunk_size: int = 1024 * 1024) -> str:
+    hasher = hashlib.sha256()
+    with path.open("rb") as fh:
+        for chunk in iter(lambda: fh.read(chunk_size), b""):
+            hasher.update(chunk)
+    return hasher.hexdigest()
+
+
+def _optimizer_cache_dir(content_hash: str, kind: str) -> Path:
+    # Namespaced by kind (image/svg/video/3d-model) and sharded by the first
+    # two hash characters to avoid an enormous flat directory over time.
+    return _OPTIMIZER_CACHE_ROOT / kind / content_hash[:2] / content_hash
+
+
+# Reset at the start of each batch_optimize_directory() run; read afterward
+# to report how much work the cache actually skipped.
+_OPTIMIZER_CACHE_STATS = {"hits": 0, "misses": 0}
+
+
+def _load_from_optimizer_cache(src: Path, output_dir: Path, kind: str) -> Optional[Dict[str, Any]]:
+    """Track hit/miss stats around the real cache lookup (_load_from_optimizer_cache_impl)."""
+    result = _load_from_optimizer_cache_impl(src, output_dir, kind)
+    _OPTIMIZER_CACHE_STATS["hits" if result is not None else "misses"] += 1
+    return result
+
+
+def _load_from_optimizer_cache_impl(src: Path, output_dir: Path, kind: str) -> Optional[Dict[str, Any]]:
+    """Return a results dict identical in shape to optimize_*_full()'s return
+    value, with every variant file copied into output_dir, if a cache entry
+    exists for src's *current* byte content. Returns None on any cache miss
+    or corrupt/incomplete entry so the caller transparently falls through to
+    full reprocessing.
+    """
+    if _OPTIMIZER_CACHE_DISABLED:
+        return None
+
+    try:
+        content_hash = _sha256_file(src)
+    except OSError:
+        return None
+
+    cache_dir = _optimizer_cache_dir(content_hash, kind)
+    manifest_path = cache_dir / "manifest.json"
+    if not manifest_path.exists():
+        return None
+
+    try:
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return None
+
+    stem = src.stem
+    results: Dict[str, Any] = dict(manifest.get("scalar_fields", {}))
+    results["original"] = src.name
+
+    for variant_key, info in manifest.get("files", {}).items():
+        cached_file = cache_dir / info["cached_name"]
+        if not cached_file.exists():
+            return None
+        target_name = f"{stem}{info['suffix']}"
+        try:
+            shutil.copy2(cached_file, output_dir / target_name)
+        except OSError:
+            return None
+        results[variant_key] = target_name
+
+    preview = manifest.get("preview_frames")
+    if preview:
+        frame_names = []
+        for idx, cached_name in enumerate(preview["cached_names"], 1):
+            cached_file = cache_dir / cached_name
+            if not cached_file.exists():
+                return None
+            target_name = f"{stem}{preview['suffix_template'].format(idx=idx)}"
+            try:
+                shutil.copy2(cached_file, output_dir / target_name)
+            except OSError:
+                return None
+            frame_names.append(target_name)
+        results["previewFrames"] = frame_names
+
+    print(f"  [cache] {kind} unchanged, reused cached variants: {src.name}")
+    return results
+
+
+def _save_to_optimizer_cache(src: Path, output_dir: Path, kind: str, results: Dict[str, Any]) -> None:
+    """Best-effort: persist this run's freshly generated variants into the
+    content-hash cache for future runs. Derives each variant's filename
+    *suffix* directly from the actual output filenames (e.g. "-optimized.webp"
+    for images, ".glb" for 3D models) rather than hardcoding per-kind naming
+    rules, so it stays correct if optimize_*_full()'s naming ever changes.
+    Never raises: a caching failure must never fail, or even warn during, an
+    otherwise-successful build — it only costs the reprocessing time a full
+    run would have cost anyway.
+    """
+    if results.get("issues"):
+        # A partial/failed result (e.g. ffmpeg unavailable at the time) is
+        # never cached — it may well be a transient/environmental failure
+        # unrelated to this file's content, and caching it would silently
+        # keep reproducing that failure on every future run even after the
+        # underlying cause is fixed.
+        return
+    try:
+        stem = src.stem
+        content_hash = _sha256_file(src)
+        cache_dir = _optimizer_cache_dir(content_hash, kind)
+        cache_dir.mkdir(parents=True, exist_ok=True)
+
+        manifest: Dict[str, Any] = {"scalar_fields": {}, "files": {}}
+        for field in ("useCloudStorage", "issues", "fallbacks", "previewIntervalMs"):
+            if field in results:
+                manifest["scalar_fields"][field] = results[field]
+
+        for variant_key in ("optimized", "thumbnail", "placeholder"):
+            filename = results.get(variant_key)
+            if not filename or not filename.startswith(stem):
+                continue
+            source_file = output_dir / filename
+            if not source_file.exists():
+                continue
+            suffix = filename[len(stem):]
+            cached_name = f"{variant_key}{Path(filename).suffix}"
+            shutil.copy2(source_file, cache_dir / cached_name)
+            manifest["files"][variant_key] = {"suffix": suffix, "cached_name": cached_name}
+
+        preview_frames = results.get("previewFrames") or []
+        if preview_frames:
+            cached_names = []
+            suffix_template = None
+            for idx, filename in enumerate(preview_frames, 1):
+                if not filename.startswith(stem):
+                    continue
+                source_file = output_dir / filename
+                if not source_file.exists():
+                    continue
+                suffix = filename[len(stem):]
+                if suffix_template is None:
+                    # e.g. "-preview-01.jpg" -> "-preview-{idx:02d}.jpg"
+                    digits = re.search(r"(\d+)(?=\.\w+$)", suffix)
+                    if digits:
+                        suffix_template = (
+                            suffix[: digits.start()] + f"{{idx:0{len(digits.group(1))}d}}" + suffix[digits.end():]
+                        )
+                cached_name = f"preview-{idx:02d}{Path(filename).suffix}"
+                shutil.copy2(source_file, cache_dir / cached_name)
+                cached_names.append(cached_name)
+            if cached_names and suffix_template:
+                manifest["preview_frames"] = {"suffix_template": suffix_template, "cached_names": cached_names}
+
+        if not manifest["files"] and "preview_frames" not in manifest:
+            # Nothing was actually produced (e.g. optimize_3d_model() failed
+            # with no dedicated issues/fallbacks tracking to catch it above).
+            # Caching an empty result would permanently freeze that outcome
+            # even after a transient/environmental cause (a missing tool,
+            # say) is fixed, so skip writing a manifest entirely.
+            return
+
+        (cache_dir / "manifest.json").write_text(json.dumps(manifest), encoding="utf-8")
+    except Exception:
+        pass
 
 
 def check_ffmpeg() -> bool:
@@ -126,6 +309,10 @@ def optimize_svg_full(src: Path, output_dir: Optional[Path] = None) -> Dict[str,
 
     output_dir.mkdir(parents=True, exist_ok=True)
 
+    cached = _load_from_optimizer_cache(src, output_dir, "svg")
+    if cached is not None:
+        return cached
+
     stem = src.stem
     original_path = output_dir / src.name
     optimized_path = output_dir / f"{stem}-optimized.svg"
@@ -147,6 +334,7 @@ def optimize_svg_full(src: Path, output_dir: Optional[Path] = None) -> Dict[str,
         'useCloudStorage': should_use_cloud_storage(original_path)
     }
 
+    _save_to_optimizer_cache(src, output_dir, "svg", results)
     return results
 
 
@@ -392,7 +580,11 @@ def optimize_image_full(src: Path, output_dir: Optional[Path] = None) -> Dict[st
     is_gif = src.suffix.lower() == '.gif'
     if src.suffix.lower() == '.svg':
         return optimize_svg_full(src, output_dir)
-    
+
+    cached = _load_from_optimizer_cache(src, output_dir, "image")
+    if cached is not None:
+        return cached
+
     results = {
         'original': src.name,
         'useCloudStorage': should_use_cloud_storage(src)
@@ -424,7 +616,8 @@ def optimize_image_full(src: Path, output_dir: Optional[Path] = None) -> Dict[st
     placeholder_path = output_dir / f"{stem}-placeholder.jpg"
     if generate_blur_placeholder(src, placeholder_path):
         results['placeholder'] = placeholder_path.name
-    
+
+    _save_to_optimizer_cache(src, output_dir, "image", results)
     return results
 
 
@@ -650,14 +843,18 @@ def optimize_video_full(src: Path, output_dir: Optional[Path] = None) -> Dict[st
     
     output_dir.mkdir(parents=True, exist_ok=True)
     stem = src.stem
-    
+
+    cached = _load_from_optimizer_cache(src, output_dir, "video")
+    if cached is not None:
+        return cached
+
     results: Dict[str, Any] = {
         'original': src.name,
         'useCloudStorage': should_use_cloud_storage(src)
     }
     issues: List[str] = []
     fallbacks: List[str] = []
-    
+
     # Generate optimized video
     optimized_path = output_dir / f"{stem}-optimized.mp4"
     if optimize_video(src, optimized_path):
@@ -696,7 +893,8 @@ def optimize_video_full(src: Path, output_dir: Optional[Path] = None) -> Dict[st
     if issues:
         results['issues'] = issues
         results['fallbacks'] = list(dict.fromkeys(fallbacks))
-    
+
+    _save_to_optimizer_cache(src, output_dir, "video", results)
     return results
 
 
@@ -801,12 +999,16 @@ def optimize_3d_model_full(src: Path, output_dir: Optional[Path] = None) -> Dict
     
     output_dir.mkdir(parents=True, exist_ok=True)
     stem = src.stem
-    
+
+    cached = _load_from_optimizer_cache(src, output_dir, "model")
+    if cached is not None:
+        return cached
+
     results = {
         'original': src.name,
         'useCloudStorage': should_use_cloud_storage(src)
     }
-    
+
     # Generate optimized GLB
     optimized_path = output_dir / f"{stem}.glb"
     if optimize_3d_model(src, optimized_path):
@@ -814,7 +1016,8 @@ def optimize_3d_model_full(src: Path, output_dir: Optional[Path] = None) -> Dict
         # Update cloud storage check for optimized version
         if optimized_path.exists():
             results['useCloudStorage'] = should_use_cloud_storage(optimized_path)
-    
+
+    _save_to_optimizer_cache(src, output_dir, "model", results)
     return results
 
 
@@ -837,7 +1040,9 @@ def batch_optimize_directory(
         Dictionary mapping original filenames to their variant info
     """
     results: Dict[str, Dict[str, Any]] = {}
-    
+    _OPTIMIZER_CACHE_STATS["hits"] = 0
+    _OPTIMIZER_CACHE_STATS["misses"] = 0
+
     # First, scan recursively to find all media files
     print(f"Scanning {directory} for media files...")
     all_images = []
@@ -885,7 +1090,12 @@ def batch_optimize_directory(
     for i, file in enumerate(all_models, 1):
         print(f"[{i}/{len(all_models)}] Optimizing 3D model: {file.relative_to(directory)}")
         results[str(file.relative_to(directory))] = optimize_3d_model_full(file)
-    
+
+    hits = _OPTIMIZER_CACHE_STATS["hits"]
+    misses = _OPTIMIZER_CACHE_STATS["misses"]
+    if hits or misses:
+        print(f"Media cache: {hits} unchanged (skipped reprocessing), {misses} new/changed (reprocessed)")
+
     return results
 
 
@@ -939,9 +1149,21 @@ if __name__ == "__main__":
     parser.add_argument("--output", "-o", help="Output directory (default: same as input)")
     parser.add_argument("--json", action="store_true", help="Output results as JSON")
     parser.add_argument("--delete-originals", action="store_true", help="Delete original files after optimization")
-    
+    parser.add_argument(
+        "--no-media-cache",
+        action="store_true",
+        help=(
+            "Disable the content-hash reprocessing cache (tmp/media-optimizer-cache) and "
+            "force every file through full Pillow/ffmpeg reprocessing, regardless of whether "
+            "its content already has a cached result from a previous run."
+        ),
+    )
+
     args = parser.parse_args()
-    
+
+    if args.no_media_cache:
+        _OPTIMIZER_CACHE_DISABLED = True
+
     path = Path(args.path)
     output_dir = Path(args.output) if args.output else None
     

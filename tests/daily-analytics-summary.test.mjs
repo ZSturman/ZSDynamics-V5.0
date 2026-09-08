@@ -7,8 +7,12 @@ import test from "node:test";
 import {
   aggregateContentTags,
   buildContentCatalog,
+  buildDeterministicAnalysis,
   buildEmail,
   buildDailyAnalyticsReport,
+  buildTrafficQuality,
+  createResilientGa4Client,
+  enhanceWithLocalAnalysis,
   formatDelta,
   getContentForPath,
   getCustomDimensionAvailability,
@@ -123,6 +127,98 @@ test("detects available and missing GA4 custom dimensions", () => {
   assert.deepEqual(availability.missing, [
     { param: "resource_type", dimension: "customEvent:resource_type" },
   ]);
+});
+
+test("classifies a low-engagement, symmetric direct spike as suspicious rather than human growth", () => {
+  const quality = buildTrafficQuality(
+    {
+      sessions: 102,
+      totalUsers: 103,
+      newUsers: 102,
+      engagedSessions: 8,
+      engagementRate: 0.078,
+      averageSessionDuration: 0,
+      eventCount: 360,
+    },
+    { sourceMedium: [{ label: "(direct) / (none)", metrics: { sessions: 102 } }] },
+    { keyActionCount: 1 },
+    { devices: [{ label: "desktop", metrics: { sessions: 51 } }, { label: "mobile", metrics: { sessions: 51 } }] },
+    { sessionsAt10Seconds: 8, routeViewEvents: 250, knownSyntheticSessions: 0, automationSignals: 0 },
+  );
+
+  assert.equal(quality.likelyHumanSessions, 8);
+  assert.equal(quality.likelyAutomatedSessions, 94);
+  assert.equal(quality.suspicious, true);
+  assert.match(quality.reasons.join(" "), /mechanically even/);
+});
+
+test("deterministic analysis avoids a misleading percentage when the baseline is tiny", () => {
+  const analysis = buildDeterministicAnalysis({
+    current: { sessions: 102, totalUsers: 103, screenPageViews: 150, engagedSessions: 8, engagementRate: 0.078 },
+    previous: { sessions: 1 },
+    trafficQuality: { rawSessions: 102, likelyHumanSessions: 8, suspicious: true, reasons: ["engagement was unusually low"] },
+    traffic: { sourceMedium: [{ label: "(direct) / (none)", metrics: { sessions: 102 }, actions: 0 }] },
+    content: { pages: [{ title: "Articles", views: 30, engagementRate: 0.2 }] },
+    events: { highIntentActions: [] },
+  });
+  assert.match(analysis[0], /moved from 1 to 102/);
+  assert.match(analysis[0], /percentage change is intentionally not emphasized/);
+});
+
+test("LM Studio failure preserves deterministic analysis without a paid API", async () => {
+  const report = {
+    meta: { dateIso: "2026-06-28" },
+    current: { sessions: 1, totalUsers: 1, screenPageViews: 1, engagedSessions: 1 },
+    previous: { sessions: 1 },
+    scorecards: [],
+    trafficQuality: { rawSessions: 1, likelyHumanSessions: 1, engagedSessions: 1, reasons: [] },
+    traffic: { sourceMedium: [] }, content: { pages: [] }, events: { highIntentActions: [] }, warnings: [], analysis: ["Fallback analysis"],
+  };
+  const result = await enhanceWithLocalAnalysis(report, {
+    endpoint: "http://127.0.0.1:1234",
+    fetchImpl: async () => { throw new Error("offline"); },
+  });
+  assert.deepEqual(result.analysis, ["Fallback analysis"]);
+  assert.match(result.warnings[0], /LM Studio unavailable/);
+});
+
+test("serializes and retries temporary GA4 quota failures", async () => {
+  let attempts = 0;
+  let active = 0;
+  let maxActive = 0;
+  const client = createResilientGa4Client({
+    async getMetadata() { return [{}]; },
+    async runReport() {
+      active += 1;
+      maxActive = Math.max(maxActive, active);
+      attempts += 1;
+      active -= 1;
+      if (attempts === 1) throw new Error("RESOURCE_EXHAUSTED: concurrent quota");
+      return [{ rows: [] }];
+    },
+  }, { retryDelayMs: 0 });
+  await Promise.all([client.runReport({ request: "one" }), client.runReport({ request: "two" })]);
+  assert.equal(attempts, 3);
+  assert.equal(maxActive, 1);
+});
+
+test("keeps GA4 country, region, and city aggregates privacy-preserving and separate", async () => {
+  const dimensions = ["country", "region", "city", "deviceCategory", "eventName", "sessionDefaultChannelGroup", "sessionSource", "sessionMedium", "sessionCampaignName", "landingPagePlusQueryString", "pagePath", "pageTitle"];
+  const client = {
+    async getMetadata() { return [{ dimensions: dimensions.map((apiName) => ({ apiName })) }]; },
+    async runReport(request) {
+      const names = (request.dimensions || []).map((dimension) => dimension.name);
+      if (names.length === 0) return [{ rows: [metricRow([3, 2, 3, 2, 0.67, 4, 14, 20])] }];
+      if (names.includes("city")) return [{ rows: [dimensionMetricRow(["Seattle", "Washington"], [2, 2, 1, 0.5])] }];
+      if (names.includes("region")) return [{ rows: [dimensionMetricRow(["Washington"], [2, 2, 1, 0.5])] }];
+      if (names.includes("country")) return [{ rows: [dimensionMetricRow(["United States"], [3, 2, 2, 0.67])] }];
+      return [{ rows: [] }];
+    },
+  };
+  const report = await buildDailyAnalyticsReport({ client, propertyId: "123", rootDir: await fs.mkdtemp(path.join(os.tmpdir(), "analytics-geo-")), retryDelayMs: 0 });
+  assert.equal(report.audience.countries[0].label, "United States");
+  assert.equal(report.audience.regions[0].label, "Washington");
+  assert.equal(report.audience.cities[0].label, "Seattle / Washington");
 });
 
 test("builds a report with local tags when custom dimensions are missing", async () => {
@@ -487,8 +583,11 @@ test("renders all major email sections and custom-dimension fallback", () => {
   const email = buildEmail(report);
 
   for (const section of [
-    "What Changed",
-    "Acquisition Tags",
+    "Daily Analytics Summary",
+    "What Actually Happened",
+    "Traffic Quality",
+    "Acquisition",
+    "Geography",
     "Top Content",
     "Visitor Journeys",
     "Scroll &amp; Attention",
@@ -496,8 +595,8 @@ test("renders all major email sections and custom-dimension fallback", () => {
     "Media &amp; Fullscreen Activity",
     "Content-To-Action Flow",
     "Content Tags &amp; Custom Detail",
-    "Key Actions",
-    "Audience &amp; Tech",
+    "High-Intent Actions",
+    "Technical / Data Quality",
     "Data Quality",
     "Custom detail unavailable",
   ]) {
@@ -505,9 +604,12 @@ test("renders all major email sections and custom-dimension fallback", () => {
   }
 
   for (const section of [
-    "## Scorecards",
-    "## Acquisition tags",
-    "## Top content",
+    "## Daily analytics summary",
+    "## What actually happened",
+    "## Traffic quality",
+    "## Acquisition",
+    "## Geography",
+    "## Content performance",
     "## Visitor journeys",
     "## Scroll and attention",
     "## Project detail engagement",
@@ -515,8 +617,8 @@ test("renders all major email sections and custom-dimension fallback", () => {
     "## Content-to-action flow",
     "## Content tags",
     "## Custom detail availability",
-    "## Key actions",
-    "## Audience and tech",
+    "## High-intent actions",
+    "## Technical / data quality",
     "## Data quality",
   ]) {
     assert.match(text, new RegExp(section));

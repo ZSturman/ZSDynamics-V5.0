@@ -17,6 +17,23 @@ export const DEFAULT_TIME_ZONE = "America/Los_Angeles";
 export const DEFAULT_SITE_NAME = "zacharysturman.com";
 export const REPORT_SOURCE = "Google Analytics 4 Data API + local content manifest";
 
+const HIGH_INTENT_EVENTS = new Set([
+  "project_resource_click",
+  "project_demo_click",
+  "project_github_click",
+  "github_click",
+  "article_source_click",
+  "outbound_click",
+  "social_click",
+  "resume_view",
+  "resume_download",
+  "contact_click",
+  "contact_submit",
+  "newsletter_interest",
+]);
+
+const DIAGNOSTIC_EVENTS = new Set(["portfolio_route_view", "automation_signal"]);
+
 const DAY_MS = 24 * 60 * 60 * 1000;
 const STANDARD_GA_EVENTS = new Set([
   "click",
@@ -107,13 +124,13 @@ export const EVENT_CATALOG = {
     label: "Project opened",
     group: "Content engagement",
     intent: "Engagement",
-    keyAction: true,
+    keyAction: false,
   },
   article_open: {
     label: "Article opened",
     group: "Content engagement",
     intent: "Engagement",
-    keyAction: true,
+    keyAction: false,
   },
   project_resource_click: {
     label: "Project resource click",
@@ -143,7 +160,7 @@ export const EVENT_CATALOG = {
     label: "Project media interaction",
     group: "Content engagement",
     intent: "Engagement",
-    keyAction: true,
+    keyAction: false,
   },
   article_source_click: {
     label: "Article source click",
@@ -215,19 +232,19 @@ export const EVENT_CATALOG = {
     label: "Section engaged",
     group: "Attention",
     intent: "Engagement",
-    keyAction: true,
+    keyAction: false,
   },
   project_item_open: {
     label: "Project item opened",
     group: "Content engagement",
     intent: "Engagement",
-    keyAction: true,
+    keyAction: false,
   },
   project_media_progress: {
     label: "Project media progress",
     group: "Content engagement",
     intent: "Engagement",
-    keyAction: true,
+    keyAction: false,
   },
 };
 
@@ -736,6 +753,57 @@ function eventNameFilter(eventNames) {
   };
 }
 
+export function isRetryableGa4Error(error) {
+  const message = String(error?.message || error || "");
+  return /RESOURCE_EXHAUSTED|quota|rate limit|UNAVAILABLE|deadline exceeded|ECONNRESET/i.test(message);
+}
+
+function wait(ms) {
+  return new Promise((resolve) => setTimeout(resolve, Math.max(0, ms)));
+}
+
+/**
+ * The GA4 Data API has a small concurrent-request quota. This wrapper dedupes
+ * identical reports within one email, serializes requests, and retries only
+ * temporary quota/network failures. Each caller still receives an independent
+ * result so one optional breakdown cannot fail the report.
+ */
+export function createResilientGa4Client(client, options = {}) {
+  const { maxRetries = 3, retryDelayMs = 250 } = options;
+  const cache = new Map();
+  let queue = Promise.resolve();
+
+  const runWithRetry = async (request) => {
+    let lastError;
+    for (let attempt = 0; attempt <= maxRetries; attempt += 1) {
+      try {
+        return await client.runReport(request);
+      } catch (error) {
+        lastError = error;
+        if (!isRetryableGa4Error(error) || attempt === maxRetries) throw error;
+        await wait(retryDelayMs * (2 ** attempt));
+      }
+    }
+    throw lastError;
+  };
+
+  return {
+    async getMetadata(request) {
+      return client.getMetadata(request);
+    },
+    runReport(request) {
+      const key = JSON.stringify(request);
+      if (!cache.has(key)) {
+        const task = queue.then(() => runWithRetry(request));
+        // Keep the queue alive if an optional request ultimately fails.
+        queue = task.catch(() => undefined);
+        cache.set(key, task);
+      }
+      return cache.get(key);
+    },
+  };
+}
+
 async function runReport(client, propertyId, input) {
   const {
     metrics,
@@ -958,20 +1026,6 @@ async function fetchCustomDimensionBreakdowns(client, propertyId, dateIso, metad
     };
   }
 
-  for (const item of availability.available) {
-    const rows = await fetchBreakdown(client, propertyId, {
-      label: `Custom detail ${item.param}`,
-      dateIso,
-      dimensions: [item.dimension],
-      metrics: ["eventCount"],
-      orderBy: "eventCount",
-      limit: 8,
-      requireMetadata: true,
-      skipUnattributed: true,
-    }, metadata, warnings);
-    breakdowns[item.param] = rows;
-  }
-
   return {
     ...availability,
     breakdowns,
@@ -979,12 +1033,12 @@ async function fetchCustomDimensionBreakdowns(client, propertyId, dateIso, metad
 }
 
 async function fetchTraffic(client, propertyId, dateIso, metadata, warnings) {
-  const [channelGroups, sourceMedium, campaigns] = await Promise.all([
+  const [channelGroups, sourceMedium, campaigns, landingPages, actionSources] = await Promise.all([
     fetchBreakdown(client, propertyId, {
       label: "Channel groups",
       dateIso,
       dimensions: ["sessionDefaultChannelGroup"],
-      metrics: ["sessions", "totalUsers"],
+      metrics: ["sessions", "totalUsers", "engagedSessions", "engagementRate"],
       orderBy: "sessions",
       limit: 8,
     }, metadata, warnings),
@@ -992,7 +1046,7 @@ async function fetchTraffic(client, propertyId, dateIso, metadata, warnings) {
       label: "Source / medium",
       dateIso,
       dimensions: ["sessionSource", "sessionMedium"],
-      metrics: ["sessions", "totalUsers"],
+      metrics: ["sessions", "totalUsers", "engagedSessions", "engagementRate"],
       orderBy: "sessions",
       limit: 10,
     }, metadata, warnings),
@@ -1000,28 +1054,38 @@ async function fetchTraffic(client, propertyId, dateIso, metadata, warnings) {
       label: "Campaigns",
       dateIso,
       dimensions: ["sessionCampaignName"],
-      metrics: ["sessions"],
+      metrics: ["sessions", "engagedSessions"],
       orderBy: "sessions",
       limit: 10,
       skipUnattributed: true,
     }, metadata, warnings),
-  ]);
-
-  const manualUtm = {};
-  for (const item of MANUAL_UTM_DIMENSIONS) {
-    manualUtm[item.key] = await fetchBreakdown(client, propertyId, {
-      label: item.label,
+    fetchBreakdown(client, propertyId, {
+      label: "Landing pages by source",
       dateIso,
-      dimensions: [item.dimension],
-      metrics: ["sessions"],
+      dimensions: ["landingPagePlusQueryString", "sessionSource", "sessionMedium"],
+      metrics: ["sessions", "engagedSessions"],
       orderBy: "sessions",
       limit: 8,
-      skipUnattributed: true,
-      warnMissing: false,
-    }, metadata, warnings);
-  }
+    }, metadata, warnings),
+    fetchBreakdown(client, propertyId, {
+      label: "High-intent actions by source",
+      dateIso,
+      dimensions: ["sessionSource", "sessionMedium"],
+      metrics: ["eventCount"],
+      orderBy: "eventCount",
+      limit: 10,
+      dimensionFilter: eventNameFilter([...HIGH_INTENT_EVENTS]),
+    }, metadata, warnings),
+  ]);
 
-  return { channelGroups, sourceMedium, campaigns, manualUtm };
+  const actionBySource = new Map(actionSources.map((row) => [row.label, row.metrics.eventCount]));
+  return {
+    channelGroups,
+    sourceMedium: sourceMedium.map((row) => ({ ...row, actions: actionBySource.get(row.label) ?? 0 })),
+    campaigns,
+    landingPages,
+    manualUtm: {},
+  };
 }
 
 async function fetchContent(client, propertyId, dateIso, catalog, warnings) {
@@ -1068,11 +1132,217 @@ async function fetchEvents(client, propertyId, dateIso, warnings) {
     rows: eventRows,
     groups,
     keyActionCount: getKeyActionCount(eventRows),
+    highIntentActions: eventRows.filter((event) => HIGH_INTENT_EVENTS.has(event.name)),
+    engagementEvents: eventRows.filter((event) => !HIGH_INTENT_EVENTS.has(event.name) && !DIAGNOSTIC_EVENTS.has(event.name)),
+    diagnosticEvents: eventRows.filter((event) => DIAGNOSTIC_EVENTS.has(event.name)),
   };
 }
 
+async function fetchTrafficQualitySignals(client, propertyId, dateIso, metadata, warnings) {
+  const [engagementRows, routeRows, automationRows] = await Promise.all([
+    fetchBreakdown(client, propertyId, {
+      label: "Sessions with observed engagement",
+      dateIso,
+      dimensions: ["eventName"],
+      metrics: ["sessions", "eventCount"],
+      orderBy: "sessions",
+      limit: 1,
+      dimensionFilter: eventNameFilter("user_engagement"),
+    }, metadata, warnings),
+    fetchBreakdown(client, propertyId, {
+      label: "Route-view diagnostics",
+      dateIso,
+      dimensions: ["eventName"],
+      metrics: ["sessions", "eventCount"],
+      orderBy: "eventCount",
+      limit: 1,
+      dimensionFilter: eventNameFilter("portfolio_route_view"),
+    }, metadata, warnings),
+    fetchBreakdown(client, propertyId, {
+      label: "Known automation signals",
+      dateIso,
+      dimensions: ["eventName"],
+      metrics: ["sessions", "eventCount"],
+      orderBy: "eventCount",
+      limit: 1,
+      dimensionFilter: eventNameFilter("automation_signal"),
+    }, metadata, warnings),
+  ]);
+
+  return {
+    sessionsAt10Seconds: metricCount(engagementRows[0], "sessions"),
+    routeViewSessions: metricCount(routeRows[0], "sessions"),
+    routeViewEvents: metricCount(routeRows[0]),
+    knownSyntheticSessions: metricCount(automationRows[0], "sessions"),
+    automationSignals: metricCount(automationRows[0]),
+  };
+}
+
+export function buildTrafficQuality(current, traffic, events, audience, signals) {
+  const rawSessions = numberOrZero(current.sessions);
+  const engagedSessions = numberOrZero(current.engagedSessions);
+  const eventCount = numberOrZero(current.eventCount);
+  const routeViewEvents = numberOrZero(signals.routeViewEvents);
+  const knownSyntheticSessions = Math.min(rawSessions, numberOrZero(signals.knownSyntheticSessions));
+  const sessionsAt10Seconds = Math.min(rawSessions, numberOrZero(signals.sessionsAt10Seconds));
+  // GA4's standard report does not expose a per-session route count. This is
+  // a conservative aggregate proxy, never presented as an exact identity count.
+  const multiRouteSessionEstimate = Math.min(rawSessions, Math.max(0, routeViewEvents - rawSessions));
+  // Multi-route activity is useful context, but it is not by itself human
+  // evidence: scripted crawlers often traverse many routes very quickly.
+  const humanEvidence = Math.max(engagedSessions, sessionsAt10Seconds);
+  const sourceRows = traffic.sourceMedium || [];
+  const directSessions = sourceRows
+    .filter((row) => /\(direct\)|direct/i.test(row.label))
+    .reduce((sum, row) => sum + numberOrZero(row.metrics.sessions), 0);
+  const deviceRows = audience.devices || [];
+  const desktop = deviceRows.find((row) => row.label === "desktop")?.metrics.sessions ?? 0;
+  const mobile = deviceRows.find((row) => row.label === "mobile")?.metrics.sessions ?? 0;
+  const symmetricDevices = rawSessions >= 8 && desktop > 0 && mobile > 0 && Math.abs(desktop - mobile) <= 1;
+  const reasons = [];
+  if (knownSyntheticSessions || signals.automationSignals) reasons.push("known automation markers were recorded");
+  if (rawSessions >= 8 && current.engagementRate < 0.15) reasons.push("engagement was unusually low");
+  if (rawSessions >= 8 && current.averageSessionDuration < 3) reasons.push("average session duration was near zero");
+  if (rawSessions >= 8 && current.newUsers / rawSessions > 0.9) reasons.push("almost every session was a new identity");
+  if (rawSessions >= 8 && directSessions / rawSessions > 0.9) reasons.push("nearly all sessions were unattributed/Direct");
+  if (symmetricDevices) reasons.push("desktop and mobile activity was mechanically even");
+  if (rawSessions > 0 && eventCount / rawSessions > 12) reasons.push("events per session were unusually high");
+  if (rawSessions > 0 && routeViewEvents / rawSessions > 3 && engagedSessions / rawSessions < 0.2) reasons.push("many route views occurred without matching engagement");
+
+  const suspicious = reasons.length >= 2;
+  const likelyHumanSessions = Math.max(0, Math.min(rawSessions - knownSyntheticSessions, humanEvidence));
+  const likelyAutomatedSessions = Math.min(rawSessions, knownSyntheticSessions + (suspicious ? Math.max(0, rawSessions - knownSyntheticSessions - likelyHumanSessions) : 0));
+  const suspiciousSessions = Math.max(0, rawSessions - likelyHumanSessions - knownSyntheticSessions);
+  const highIntentActions = numberOrZero(events.keyActionCount);
+
+  return {
+    rawSessions,
+    likelyHumanSessions,
+    engagedSessions,
+    sessionsAt10Seconds,
+    multiRouteSessionEstimate,
+    returningUsers: Math.max(0, numberOrZero(current.totalUsers) - numberOrZero(current.newUsers)),
+    newUsers: numberOrZero(current.newUsers),
+    likelyAutomatedSessions,
+    knownSyntheticSessions,
+    suspiciousSessions,
+    suspicious,
+    reasons,
+    eventsPerSession: rawSessions ? eventCount / rawSessions : 0,
+    engagementRate: numberOrZero(current.engagementRate),
+    meaningfulActionsPerHumanSession: likelyHumanSessions ? highIntentActions / likelyHumanSessions : 0,
+    automationSignals: numberOrZero(signals.automationSignals),
+  };
+}
+
+function describeTrend(current, previous) {
+  const now = numberOrZero(current);
+  const then = numberOrZero(previous);
+  if (then < 5) return then === now ? "was broadly unchanged" : `moved from ${formatInteger(then)} to ${formatInteger(now)}`;
+  return `${formatInteger(now)} vs. ${formatInteger(then)} the previous day (${formatDelta(now, then)})`;
+}
+
+/** A compact, conservative analyst readout that never requires a remote API. */
+export function buildDeterministicAnalysis(report) {
+  const quality = report.trafficQuality;
+  const current = report.current;
+  const previous = report.previous;
+  const topSource = report.traffic.sourceMedium[0];
+  const topPage = report.content.pages[0];
+  const topAction = report.events.highIntentActions?.[0];
+  const paragraphs = [];
+
+  let opening = `GA4 recorded ${formatInteger(quality.rawSessions)} sessions and ${formatInteger(current.totalUsers)} users; the session count ${describeTrend(current.sessions, previous.sessions)}.`;
+  if (numberOrZero(previous.sessions) < 5 && current.sessions > previous.sessions) {
+    opening += " The percentage change is intentionally not emphasized because the previous baseline was tiny.";
+  }
+  if (quality.suspicious) {
+    opening += ` Only about ${formatInteger(quality.likelyHumanSessions)} session${quality.likelyHumanSessions === 1 ? "" : "s"} had clear human-engagement evidence, so this should not yet be read as a comparable increase in human visitors.`;
+  } else {
+    opening += ` About ${formatInteger(quality.likelyHumanSessions)} session${quality.likelyHumanSessions === 1 ? "" : "s"} showed clear engagement evidence.`;
+  }
+  paragraphs.push(opening);
+
+  const acquisition = topSource
+    ? `${topSource.label} led acquisition with ${formatInteger(topSource.metrics.sessions)} sessions${topSource.actions ? ` and ${formatInteger(topSource.actions)} high-intent action${topSource.actions === 1 ? "" : "s"}` : ""}.`
+    : "GA4 did not return an acquisition breakdown for this day.";
+  const directOnly = report.traffic.sourceMedium.length > 0 && report.traffic.sourceMedium.every((row) => /\(direct\)|direct/i.test(row.label));
+  paragraphs.push(`${acquisition}${directOnly ? " “Direct” means GA4 could not determine a referring source; it does not prove visitors typed the URL." : ""}`);
+
+  if (topPage || topAction) {
+    const content = topPage ? `${topPage.title} was the most-viewed content (${formatInteger(topPage.views)} views${topPage.engagementRate ? `, ${formatPercent(topPage.engagementRate)} engagement` : ""})` : "No content page stood out";
+    const action = topAction ? ` The strongest high-intent action was ${topAction.label.toLowerCase()} (${formatInteger(topAction.count)}).` : " No high-intent action was recorded.";
+    paragraphs.push(`${content}.${action}`);
+  }
+
+  if (quality.reasons.length) {
+    paragraphs.push(`Traffic-quality caution: ${quality.reasons.slice(0, 4).join("; ")}. These are transparent aggregate heuristics, not proof that any individual visitor was a bot.`);
+  } else if (current.engagedSessions === 0) {
+    paragraphs.push("No engaged sessions were recorded, so there is not enough evidence to describe this day as meaningful visitor interest.");
+  }
+  return paragraphs.slice(0, 4);
+}
+
+export function compactNarrativeInput(report) {
+  return {
+    date: report.meta.dateIso,
+    raw: { sessions: report.current.sessions, users: report.current.totalUsers, views: report.current.screenPageViews, engagedSessions: report.current.engagedSessions },
+    comparison: { previousSessions: report.previous.sessions, prior7DailyAverageSessions: report.scorecards.find((card) => card.key === "sessions")?.prior7Value },
+    quality: report.trafficQuality,
+    acquisition: report.traffic.sourceMedium.slice(0, 3).map((row) => ({ source: row.label, sessions: row.metrics.sessions, engagedSessions: row.metrics.engagedSessions, actions: row.actions })),
+    content: report.content.pages.slice(0, 3).map((page) => ({ title: page.title, path: page.path, views: page.views, engagementRate: page.engagementRate })),
+    actions: report.events.highIntentActions.slice(0, 4).map((event) => ({ name: event.label, count: event.count })),
+  };
+}
+
+export function isLocalLmStudioEndpoint(endpoint) {
+  try {
+    const url = new URL(endpoint);
+    return ["localhost", "127.0.0.1", "::1"].includes(url.hostname);
+  } catch {
+    return false;
+  }
+}
+
+export async function enhanceWithLocalAnalysis(report, options = {}) {
+  const { endpoint, model, fetchImpl = globalThis.fetch } = options;
+  if (!endpoint || typeof fetchImpl !== "function") return report;
+  if (!isLocalLmStudioEndpoint(endpoint)) {
+    return {
+      ...report,
+      warnings: unique([...report.warnings, "LM Studio endpoint was ignored because local analysis only permits localhost/loopback URLs."]),
+    };
+  }
+  try {
+    const response = await fetchImpl(`${endpoint.replace(/\/$/, "")}/v1/chat/completions`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      signal: AbortSignal.timeout(8_000),
+      body: JSON.stringify({
+        model: model || "local-model",
+        temperature: 0.1,
+        max_tokens: 260,
+        messages: [{
+          role: "user",
+          content: `Write 1-4 concise, cautious paragraphs answering what actually happened on this website. Do not invent facts, do not call suspected automation certain, and do not emphasize percentage changes from tiny baselines. Use only this JSON:\n${JSON.stringify(compactNarrativeInput(report))}`,
+        }],
+      }),
+    });
+    if (!response.ok) throw new Error(`LM Studio returned ${response.status}`);
+    const body = await response.json();
+    const content = String(body?.choices?.[0]?.message?.content || "").trim();
+    if (!content) throw new Error("LM Studio returned no analysis");
+    return { ...report, analysis: content.split(/\n\s*\n/).filter(Boolean).slice(0, 4), analysisSource: "LM Studio (local)" };
+  } catch (error) {
+    return {
+      ...report,
+      warnings: unique([...report.warnings, `LM Studio unavailable; used deterministic analysis: ${error.message}`]),
+    };
+  }
+}
+
 function metricCount(row, metricName = "eventCount") {
-  return numberOrZero(row.metrics?.[metricName]);
+  return numberOrZero(row?.metrics?.[metricName]);
 }
 
 function compactBreakdownLabel(parts) {
@@ -1336,20 +1606,30 @@ async function fetchActionFlowInsights(client, propertyId, dateIso, metadata, wa
 }
 
 async function fetchAudience(client, propertyId, dateIso, metadata, warnings) {
-  const [countries, cities, devices, browsers, operatingSystems] = await Promise.all([
+  const geographyMetrics = ["sessions", "totalUsers", "engagedSessions", "engagementRate"];
+  const [countries, regions, cities, devices, countryActions, regionActions, cityActions] = await Promise.all([
     fetchBreakdown(client, propertyId, {
       label: "Countries",
       dateIso,
       dimensions: ["country"],
-      metrics: ["sessions", "totalUsers"],
+      metrics: geographyMetrics,
       orderBy: "sessions",
       limit: 8,
     }, metadata, warnings),
     fetchBreakdown(client, propertyId, {
+      label: "US states and regions",
+      dateIso,
+      dimensions: ["region"],
+      metrics: geographyMetrics,
+      orderBy: "sessions",
+      limit: 10,
+      skipUnattributed: true,
+    }, metadata, warnings),
+    fetchBreakdown(client, propertyId, {
       label: "Cities",
       dateIso,
-      dimensions: ["city"],
-      metrics: ["sessions"],
+      dimensions: ["city", "region"],
+      metrics: geographyMetrics,
       orderBy: "sessions",
       limit: 8,
       skipUnattributed: true,
@@ -1358,29 +1638,51 @@ async function fetchAudience(client, propertyId, dateIso, metadata, warnings) {
       label: "Devices",
       dateIso,
       dimensions: ["deviceCategory"],
-      metrics: ["sessions"],
+      metrics: ["sessions", "totalUsers", "engagedSessions"],
       orderBy: "sessions",
       limit: 5,
     }, metadata, warnings),
     fetchBreakdown(client, propertyId, {
-      label: "Browsers",
+      label: "High-intent actions by country",
       dateIso,
-      dimensions: ["browser"],
-      metrics: ["sessions"],
-      orderBy: "sessions",
-      limit: 5,
+      dimensions: ["country"],
+      metrics: ["eventCount"],
+      orderBy: "eventCount",
+      limit: 8,
+      dimensionFilter: eventNameFilter([...HIGH_INTENT_EVENTS]),
     }, metadata, warnings),
     fetchBreakdown(client, propertyId, {
-      label: "Operating systems",
+      label: "High-intent actions by region",
       dateIso,
-      dimensions: ["operatingSystem"],
-      metrics: ["sessions"],
-      orderBy: "sessions",
-      limit: 5,
+      dimensions: ["region"],
+      metrics: ["eventCount"],
+      orderBy: "eventCount",
+      limit: 10,
+      dimensionFilter: eventNameFilter([...HIGH_INTENT_EVENTS]),
+    }, metadata, warnings),
+    fetchBreakdown(client, propertyId, {
+      label: "High-intent actions by city",
+      dateIso,
+      dimensions: ["city", "region"],
+      metrics: ["eventCount"],
+      orderBy: "eventCount",
+      limit: 8,
+      dimensionFilter: eventNameFilter([...HIGH_INTENT_EVENTS]),
     }, metadata, warnings),
   ]);
 
-  return { countries, cities, devices, browsers, operatingSystems };
+  const mergeActions = (rows, actionRows) => {
+    const actions = new Map(actionRows.map((row) => [row.label, row.metrics.eventCount]));
+    return rows.map((row) => ({ ...row, actions: actions.get(row.label) ?? 0 }));
+  };
+  return {
+    countries: mergeActions(countries, countryActions),
+    regions: mergeActions(regions, regionActions),
+    cities: mergeActions(cities, cityActions),
+    devices,
+    browsers: [],
+    operatingSystems: [],
+  };
 }
 
 export async function buildDailyAnalyticsReport(options) {
@@ -1392,16 +1694,18 @@ export async function buildDailyAnalyticsReport(options) {
     now = new Date(),
     rootDir = process.cwd(),
     dateIso = getReportDateIso(now, timeZone),
+    retryDelayMs,
   } = options;
 
   const warnings = [];
+  const resilientClient = createResilientGa4Client(client, { retryDelayMs });
   const previousDate = addDaysIso(dateIso, -1);
   const prior7Start = addDaysIso(dateIso, -7);
   const prior7End = addDaysIso(dateIso, -1);
 
   const [catalog, metadata] = await Promise.all([
     loadContentCatalog(rootDir, warnings),
-    getMetadata(client, propertyId, warnings),
+    getMetadata(resilientClient, propertyId, warnings),
   ]);
 
   const [
@@ -1417,19 +1721,21 @@ export async function buildDailyAnalyticsReport(options) {
     attention,
     media,
     actionFlow,
+    qualitySignals,
   ] = await Promise.all([
-    fetchOverview(client, propertyId, dateIso, warnings, "Overview"),
-    fetchOverview(client, propertyId, previousDate, warnings, "Previous-day overview"),
-    fetchOverviewRange(client, propertyId, prior7Start, prior7End, warnings, "Prior 7-day overview"),
-    fetchTraffic(client, propertyId, dateIso, metadata, warnings),
-    fetchContent(client, propertyId, dateIso, catalog, warnings),
-    fetchEvents(client, propertyId, dateIso, warnings),
-    fetchAudience(client, propertyId, dateIso, metadata, warnings),
-    fetchCustomDimensionBreakdowns(client, propertyId, dateIso, metadata, warnings),
-    fetchJourneyInsights(client, propertyId, dateIso, metadata, warnings),
-    fetchAttentionInsights(client, propertyId, dateIso, metadata, warnings),
-    fetchMediaInsights(client, propertyId, dateIso, metadata, warnings),
-    fetchActionFlowInsights(client, propertyId, dateIso, metadata, warnings),
+    fetchOverview(resilientClient, propertyId, dateIso, warnings, "Overview"),
+    fetchOverview(resilientClient, propertyId, previousDate, warnings, "Previous-day overview"),
+    fetchOverviewRange(resilientClient, propertyId, prior7Start, prior7End, warnings, "Prior 7-day overview"),
+    fetchTraffic(resilientClient, propertyId, dateIso, metadata, warnings),
+    fetchContent(resilientClient, propertyId, dateIso, catalog, warnings),
+    fetchEvents(resilientClient, propertyId, dateIso, warnings),
+    fetchAudience(resilientClient, propertyId, dateIso, metadata, warnings),
+    fetchCustomDimensionBreakdowns(resilientClient, propertyId, dateIso, metadata, warnings),
+    fetchJourneyInsights(resilientClient, propertyId, dateIso, metadata, warnings),
+    fetchAttentionInsights(resilientClient, propertyId, dateIso, metadata, warnings),
+    fetchMediaInsights(resilientClient, propertyId, dateIso, metadata, warnings),
+    fetchActionFlowInsights(resilientClient, propertyId, dateIso, metadata, warnings),
+    fetchTrafficQualitySignals(resilientClient, propertyId, dateIso, metadata, warnings),
   ]);
 
   const scorecards = buildScorecards(current, previous, prior7);
@@ -1441,6 +1747,7 @@ export async function buildDailyAnalyticsReport(options) {
     customDimensions,
   };
 
+  const trafficQuality = buildTrafficQuality(current, traffic, events, audience, qualitySignals);
   const report = {
     meta: {
       siteName,
@@ -1455,6 +1762,9 @@ export async function buildDailyAnalyticsReport(options) {
       source: REPORT_SOURCE,
     },
     scorecards,
+    current,
+    previous,
+    prior7,
     traffic,
     content,
     events,
@@ -1464,11 +1774,14 @@ export async function buildDailyAnalyticsReport(options) {
     actionFlow,
     tagInsights,
     audience,
+    trafficQuality,
     qualityNotes: [
       "Content tags, domains, categories, statuses, and series are enriched from the local portfolio manifests.",
       customDimensions.missing.length > 0
         ? "Some event-level custom details are not registered as GA4 custom dimensions yet, so the report shows available built-in attribution plus local content tags."
-        : "All recommended event-level custom dimensions are available in GA4 metadata.",
+      : "All recommended event-level custom dimensions are available in GA4 metadata.",
+      "Known automated browsing is suppressed before GA4 initializes. Traffic-quality estimates remain cautious because GA4 aggregate reports cannot perfectly identify bots or individual sessions.",
+      "City and region values come from GA4's privacy-preserving dimensions. Small counts are directional only; this report does not collect raw IP addresses.",
     ],
     warnings: unique(warnings),
   };
@@ -1476,6 +1789,8 @@ export async function buildDailyAnalyticsReport(options) {
   return {
     ...report,
     highlights: buildHighlights(report),
+    analysis: buildDeterministicAnalysis(report),
+    analysisSource: "Deterministic local analysis",
   };
 }
 
@@ -1538,31 +1853,103 @@ function renderHighlights(highlights) {
     .join("")}</ul>`;
 }
 
+function getRenderableTrafficQuality(report) {
+  if (report.trafficQuality) return report.trafficQuality;
+  const scorecardValue = (key) => report.scorecards?.find((card) => card.key === key)?.value ?? 0;
+  const rawSessions = scorecardValue("sessions");
+  const engagedSessions = scorecardValue("engagedSessions");
+  return {
+    rawSessions,
+    likelyHumanSessions: engagedSessions,
+    engagedSessions,
+    sessionsAt10Seconds: 0,
+    multiRouteSessionEstimate: 0,
+    returningUsers: Math.max(0, scorecardValue("totalUsers") - scorecardValue("newUsers")),
+    newUsers: scorecardValue("newUsers"),
+    knownSyntheticSessions: 0,
+    likelyAutomatedSessions: 0,
+    suspiciousSessions: 0,
+    eventsPerSession: rawSessions ? scorecardValue("eventCount") / rawSessions : 0,
+    meaningfulActionsPerHumanSession: engagedSessions ? numberOrZero(report.events?.keyActionCount) / engagedSessions : 0,
+    reasons: [],
+  };
+}
+
+function renderDailySummary(report) {
+  const quality = getRenderableTrafficQuality(report);
+  const cards = [
+    ["Likely human sessions", quality.likelyHumanSessions],
+    ["Raw sessions", quality.rawSessions],
+    ["Engaged sessions", quality.engagedSessions],
+    ["High-intent actions", report.events.keyActionCount],
+    ["Views", report.current?.screenPageViews ?? report.scorecards?.find((card) => card.key === "screenPageViews")?.value ?? 0],
+    ["Engagement", formatPercent(quality.engagementRate)],
+  ];
+  return `${renderSectionTitle("Daily Analytics Summary", "A quality-first readout. Raw GA4 totals remain available below.")}
+  <tr><td style="padding:0 20px">${renderTable(
+    [{ label: "Likely human" }, { label: "Raw" }, { label: "Engaged" }, { label: "High intent" }, { label: "Views" }, { label: "Engagement" }],
+    [[...cards.map(([, value]) => ({ value: typeof value === "string" ? value : formatInteger(value), align: "right" }))]],
+  )}</td></tr>`;
+}
+
+function renderNarrative(report) {
+  return `${renderSectionTitle("What Actually Happened", `Generated locally via ${report.analysisSource || "deterministic analysis"}.`)}
+  <tr><td style="padding:0 28px">${(report.analysis || []).map((paragraph) => `<p style="margin:0 0 12px;color:#334155;font-size:14px;line-height:21px">${escapeHtml(paragraph)}</p>`).join("") || renderEmpty("No interpretation available.")}</td></tr>`;
+}
+
+function renderTrafficQualitySection(report) {
+  const q = getRenderableTrafficQuality(report);
+  const rows = [
+    ["Raw GA4 sessions", q.rawSessions],
+    ["Likely human sessions", q.likelyHumanSessions],
+    ["Engaged sessions", q.engagedSessions],
+    ["Sessions with observed ≥10s engagement", q.sessionsAt10Seconds],
+    ["Estimated multi-route sessions", q.multiRouteSessionEstimate],
+    ["Returning users", q.returningUsers],
+    ["New users", q.newUsers],
+    ["Known synthetic/test sessions", q.knownSyntheticSessions],
+    ["Likely automated/test sessions", q.likelyAutomatedSessions],
+    ["Suspicious sessions", q.suspiciousSessions],
+    ["Events / session", formatDecimal(q.eventsPerSession)],
+    ["Meaningful actions / likely human session", formatDecimal(q.meaningfulActionsPerHumanSession)],
+  ].map(([label, value]) => [{ value: label }, { value: typeof value === "string" ? value : formatInteger(value), align: "right" }]);
+  const caution = q.reasons.length
+    ? `Suspicion signals: ${q.reasons.join("; ")}.`
+    : "No strong aggregate automation pattern was detected.";
+  return `${renderSectionTitle("Traffic Quality", "Likely-human and synthetic estimates use transparent aggregate heuristics; they are not a bot-identification claim.")}
+  <tr><td style="padding:0 28px 12px">${renderTable([{ label: "Metric" }, { label: "Value", align: "right" }], rows)}</td></tr>
+  <tr><td style="padding:0 28px"><p style="margin:0;color:#64748b;font-size:13px;line-height:19px">${escapeHtml(caution)} Multi-route is a conservative aggregate proxy because GA4's standard Data API does not expose individual session paths.</p></td></tr>`;
+}
+
 function renderTrafficSection(report) {
   const sourceRows = report.traffic.sourceMedium.map((row) => [
     { value: row.label },
     { value: formatInteger(row.metrics.sessions), align: "right" },
+    { value: formatInteger(row.metrics.engagedSessions), align: "right" },
     { value: formatInteger(row.metrics.totalUsers), align: "right" },
+    { value: formatInteger(row.actions), align: "right" },
   ]);
   const campaignRows = report.traffic.campaigns.map((row) => [
     { value: row.label },
     { value: formatInteger(row.metrics.sessions), align: "right" },
   ]);
 
-  const manualRows = Object.entries(report.traffic.manualUtm)
-    .flatMap(([key, rows]) => rows.slice(0, 5).map((row) => [
-      { value: toTitleCase(key) },
-      { value: row.label },
-      { value: formatInteger(row.metrics.sessions), align: "right" },
-    ]));
+  const landingRows = (report.traffic.landingPages || []).map((row) => [
+    { value: row.dimensions.landingPagePlusQueryString || row.label },
+    { value: `${row.dimensions.sessionSource || "Unattributed"} / ${row.dimensions.sessionMedium || "Unattributed"}` },
+    { value: formatInteger(row.metrics.sessions), align: "right" },
+    { value: formatInteger(row.metrics.engagedSessions), align: "right" },
+  ]);
 
-  return `${renderSectionTitle("Acquisition Tags", "Where the day came from, including built-in acquisition and any available UTM dimensions.")}
+  return `${renderSectionTitle("Acquisition", "“Direct” means GA4 did not receive a referrer or campaign; it does not prove visitors typed the URL.")}
   <tr><td style="padding:0 28px 14px">
     ${renderTable(
       [
         { label: "Source / medium" },
         { label: "Sessions", align: "right" },
+        { label: "Engaged", align: "right" },
         { label: "Users", align: "right" },
+        { label: "Actions", align: "right" },
       ],
       sourceRows,
     )}
@@ -1579,11 +1966,12 @@ function renderTrafficSection(report) {
   <tr><td style="padding:0 28px">
     ${renderTable(
       [
-        { label: "UTM field" },
-        { label: "Value" },
+        { label: "Landing page" },
+        { label: "Source / medium" },
         { label: "Sessions", align: "right" },
+        { label: "Engaged", align: "right" },
       ],
-      manualRows,
+      landingRows,
     )}
   </td></tr>`;
 }
@@ -1839,20 +2227,20 @@ function renderTagInsights(report) {
 }
 
 function renderEventsSection(report) {
-  const eventRows = report.events.rows.map((event) => [
+  const eventRows = (report.events.highIntentActions || report.events.rows.filter((event) => event.keyAction)).map((event) => [
     { value: event.label },
     { value: event.group },
     { value: event.intent },
     { value: formatInteger(event.count), align: "right" },
   ]);
 
-  const groupRows = report.events.groups.map((group) => [
+  const groupRows = report.events.groups.filter((group) => group.group === "High-intent actions" || group.group === "Outbound engagement" || group.group === "Conversion signals").map((group) => [
     { value: group.group },
     { value: group.events.slice(0, 3).map((event) => event.label).join(", "), muted: true },
     { value: formatInteger(group.count), align: "right" },
   ]);
 
-  return `${renderSectionTitle("Key Actions", `${formatInteger(report.events.keyActionCount)} key actions from tracked portfolio events.`)}
+  return `${renderSectionTitle("High-Intent Actions", `${formatInteger(report.events.keyActionCount)} actions that indicate genuine consideration or conversion. Diagnostic and attention instrumentation is intentionally excluded.`)}
   <tr><td style="padding:0 28px 14px">
     ${renderTable(
       [
@@ -1877,28 +2265,52 @@ function renderEventsSection(report) {
 }
 
 function renderAudienceSection(report) {
-  const audienceRows = [
-    ...report.audience.countries.slice(0, 5).map((row) => ["Country", row.label, row.metrics.sessions]),
-    ...report.audience.devices.slice(0, 5).map((row) => ["Device", row.label, row.metrics.sessions]),
-    ...report.audience.browsers.slice(0, 5).map((row) => ["Browser", row.label, row.metrics.sessions]),
-    ...report.audience.operatingSystems.slice(0, 5).map((row) => ["OS", row.label, row.metrics.sessions]),
-  ].map(([kind, label, sessions]) => [
+  const geographyRows = [
+    ...(report.audience.countries || []).slice(0, 8).map((row) => ["Country", row]),
+    ...(report.audience.regions || []).slice(0, 10).map((row) => ["Region", row]),
+    ...(report.audience.cities || []).slice(0, 8).map((row) => ["City", row]),
+  ].map(([kind, row]) => [
     { value: kind },
-    { value: label },
-    { value: formatInteger(sessions), align: "right" },
+    { value: row.label },
+    { value: formatInteger(row.metrics.sessions), align: "right" },
+    { value: formatInteger(row.metrics.engagedSessions), align: "right" },
+    { value: formatPercent(row.metrics.engagementRate), align: "right" },
+    { value: formatInteger(row.actions), align: "right" },
   ]);
 
-  return `${renderSectionTitle("Audience & Tech", "Geography, device, browser, and OS context.")}
+  return `${renderSectionTitle("Geography", "GA4-provided country, region, and city aggregates. Tiny counts are directional only; no raw IP geolocation is collected.")}
   <tr><td style="padding:0 28px">
     ${renderTable(
       [
         { label: "Kind" },
         { label: "Value" },
         { label: "Sessions", align: "right" },
+        { label: "Engaged", align: "right" },
+        { label: "Engagement", align: "right" },
+        { label: "Actions", align: "right" },
       ],
-      audienceRows,
+      geographyRows,
     )}
   </td></tr>`;
+}
+
+function renderTechnicalEventsSection(report) {
+  const rows = [
+    ...(report.events.engagementEvents || []).map((event) => ["Engagement", event]),
+    ...(report.events.diagnosticEvents || []).map((event) => ["Diagnostic", event]),
+  ].map(([kind, event]) => [
+    { value: kind },
+    { value: event.label },
+    { value: formatInteger(event.count), align: "right" },
+  ]);
+  const deviceRows = (report.audience.devices || []).map((row) => [
+    { value: "Device" },
+    { value: row.label },
+    { value: formatInteger(row.metrics.sessions), align: "right" },
+  ]);
+  return `${renderSectionTitle("Technical / Data Quality", "Diagnostic instrumentation is useful for interpretation but is never counted as a high-intent action.")}
+  <tr><td style="padding:0 28px 14px">${renderTable([{ label: "Type" }, { label: "Event" }, { label: "Count", align: "right" }], rows)}</td></tr>
+  <tr><td style="padding:0 28px">${renderTable([{ label: "Type" }, { label: "Device" }, { label: "Sessions", align: "right" }], deviceRows)}</td></tr>`;
 }
 
 function renderQualitySection(report) {
@@ -1912,7 +2324,8 @@ function renderQualitySection(report) {
 }
 
 export function renderReportHtml(report) {
-  const sessions = report.scorecards.find((card) => card.key === "sessions")?.display ?? "0";
+  const sessions = report.trafficQuality?.rawSessions ?? report.scorecards.find((card) => card.key === "sessions")?.display ?? "0";
+  const humanSessions = report.trafficQuality?.likelyHumanSessions;
   const keyActions = formatInteger(report.events.keyActionCount);
 
   return `<!doctype html>
@@ -1924,22 +2337,23 @@ export function renderReportHtml(report) {
         <tr><td style="padding:30px 28px;background:#0f172a;color:#ffffff">
           <div style="color:#cbd5e1;font-size:13px;line-height:18px">${escapeHtml(report.meta.dateLabel)} &middot; generated ${escapeHtml(report.meta.generatedAtLabel)}</div>
           <h1 style="margin:8px 0 0;font-size:28px;line-height:34px;font-weight:750">${escapeHtml(report.meta.siteName)} analytics</h1>
-          <p style="margin:8px 0 0;color:#dbeafe;font-size:15px;line-height:22px">${escapeHtml(sessions)} sessions / ${escapeHtml(keyActions)} key actions</p>
+          <p style="margin:8px 0 0;color:#dbeafe;font-size:15px;line-height:22px">${escapeHtml(humanSessions === undefined ? sessions : `${formatInteger(humanSessions)} likely human / ${formatInteger(sessions)} raw sessions`)} / ${escapeHtml(keyActions)} high-intent actions</p>
           <p style="margin:14px 0 0;color:#94a3b8;font-size:12px;line-height:18px">Source: ${escapeHtml(report.meta.source)}</p>
         </td></tr>
-        <tr><td style="padding:22px 20px 6px">${renderScorecards(report.scorecards)}</td></tr>
-        ${renderSectionTitle("What Changed", "A short readout before the detail tables.")}
-        <tr><td style="padding:0 28px">${renderHighlights(report.highlights)}</td></tr>
+        ${renderDailySummary(report)}
+        ${renderNarrative(report)}
+        ${renderTrafficQualitySection(report)}
         ${renderTrafficSection(report)}
+        ${renderAudienceSection(report)}
         ${renderContentSection(report)}
+        ${renderEventsSection(report)}
         ${renderJourneySection(report)}
         ${renderAttentionSection(report)}
         ${renderProjectDetailSection(report)}
         ${renderMediaSection(report)}
         ${renderActionFlowSection(report)}
+        ${renderTechnicalEventsSection(report)}
         ${renderTagInsights(report)}
-        ${renderEventsSection(report)}
-        ${renderAudienceSection(report)}
         ${renderQualitySection(report)}
       </table>
     </td></tr>
@@ -1963,26 +2377,53 @@ export function renderReportText(report) {
     `Generated: ${report.meta.generatedAtLabel}`,
     `Source: ${report.meta.source}`,
     "",
-    "## Scorecards",
+    "## Daily analytics summary",
     renderTextRows(
       ["Metric", "Value", "Prev day", "7-day avg"],
       report.scorecards.map((card) => [card.label, card.display, card.previousDelta, card.prior7Delta]),
     ),
     "",
-    "## What changed",
-    ...(report.highlights.length ? report.highlights.map((item) => `- ${item}`) : ["(no highlights)"]),
+    "## What actually happened",
+    ...(report.analysis || report.highlights || ["(no analysis)"]),
     "",
-    "## Acquisition tags",
+    "## Traffic quality",
     renderTextRows(
-      ["Source / medium", "Sessions", "Users"],
+      ["Metric", "Value"],
+      report.trafficQuality ? [
+        ["Raw GA4 sessions", formatInteger(report.trafficQuality.rawSessions)],
+        ["Likely human sessions", formatInteger(report.trafficQuality.likelyHumanSessions)],
+        ["Engaged sessions", formatInteger(report.trafficQuality.engagedSessions)],
+        ["Sessions with observed ≥10s engagement", formatInteger(report.trafficQuality.sessionsAt10Seconds)],
+        ["Known synthetic/test sessions", formatInteger(report.trafficQuality.knownSyntheticSessions)],
+        ["Likely automated/test sessions", formatInteger(report.trafficQuality.likelyAutomatedSessions)],
+        ["Suspicious sessions", formatInteger(report.trafficQuality.suspiciousSessions)],
+        ["Events / session", formatDecimal(report.trafficQuality.eventsPerSession)],
+      ] : [],
+    ),
+    "",
+    "## Acquisition",
+    renderTextRows(
+      ["Source / medium", "Sessions", "Engaged", "Users", "Actions"],
       report.traffic.sourceMedium.map((row) => [
         row.label,
         formatInteger(row.metrics.sessions),
+        formatInteger(row.metrics.engagedSessions),
         formatInteger(row.metrics.totalUsers),
+        formatInteger(row.actions),
       ]),
     ),
     "",
-    "## Top content",
+    "## Geography",
+    renderTextRows(
+      ["Kind", "Location", "Sessions", "Engaged", "Engagement", "Actions"],
+      [
+        ...((report.audience.countries || []).slice(0, 8).map((row) => ["Country", row])),
+        ...((report.audience.regions || []).slice(0, 10).map((row) => ["Region", row])),
+        ...((report.audience.cities || []).slice(0, 8).map((row) => ["City", row])),
+      ].map(([kind, row]) => [kind, row.label, formatInteger(row.metrics.sessions), formatInteger(row.metrics.engagedSessions), formatPercent(row.metrics.engagementRate), formatInteger(row.actions)]),
+    ),
+    "",
+    "## Content performance",
     renderTextRows(
       ["Page", "Type", "Tags", "Views", "Engagement"],
       report.content.pages.map((page) => [
@@ -2085,20 +2526,19 @@ export function renderReportText(report) {
       ? `Custom detail unavailable until registered in GA4: ${report.tagInsights.customDimensions.missing.map((item) => item.dimension).join(", ")}`
       : "All recommended custom dimensions are available.",
     "",
-    "## Key actions",
+    "## High-intent actions",
     renderTextRows(
       ["Event", "Group", "Intent", "Count"],
-      report.events.rows.map((event) => [event.label, event.group, event.intent, formatInteger(event.count)]),
+      (report.events.highIntentActions || report.events.rows.filter((event) => event.keyAction)).map((event) => [event.label, event.group, event.intent, formatInteger(event.count)]),
     ),
     "",
-    "## Audience and tech",
+    "## Technical / data quality",
     renderTextRows(
       ["Kind", "Value", "Sessions"],
       [
-        ...report.audience.countries.slice(0, 5).map((row) => ["Country", row.label, formatInteger(row.metrics.sessions)]),
-        ...report.audience.devices.slice(0, 5).map((row) => ["Device", row.label, formatInteger(row.metrics.sessions)]),
-        ...report.audience.browsers.slice(0, 5).map((row) => ["Browser", row.label, formatInteger(row.metrics.sessions)]),
-        ...report.audience.operatingSystems.slice(0, 5).map((row) => ["OS", row.label, formatInteger(row.metrics.sessions)]),
+        ...(report.events.engagementEvents || []).map((event) => ["Engagement event", event.label, formatInteger(event.count)]),
+        ...(report.events.diagnosticEvents || []).map((event) => ["Diagnostic event", event.label, formatInteger(event.count)]),
+        ...(report.audience.devices || []).slice(0, 5).map((row) => ["Device", row.label, formatInteger(row.metrics.sessions)]),
       ],
     ),
     "",
@@ -2165,6 +2605,8 @@ function readRuntimeConfig(env) {
     siteName: env.SITE_NAME || DEFAULT_SITE_NAME,
     timeZone: env.ANALYTICS_TIME_ZONE || DEFAULT_TIME_ZONE,
     dryRun,
+    lmStudioUrl: env.LM_STUDIO_BASE_URL,
+    lmStudioModel: env.LM_STUDIO_MODEL,
   };
 }
 
@@ -2172,13 +2614,14 @@ export async function main(env = process.env) {
   const config = readRuntimeConfig(env);
   const client = new BetaAnalyticsDataClient({ credentials: config.credentials });
   const now = new Date();
-  const report = await buildDailyAnalyticsReport({
+  let report = await buildDailyAnalyticsReport({
     client,
     propertyId: config.propertyId,
     siteName: config.siteName,
     timeZone: config.timeZone,
     now,
   });
+  report = await enhanceWithLocalAnalysis(report, { endpoint: config.lmStudioUrl, model: config.lmStudioModel });
   const email = buildEmail(report);
 
   if (config.dryRun) {

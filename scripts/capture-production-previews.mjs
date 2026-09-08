@@ -37,6 +37,9 @@ async function capture(browserType, device, url, output) {
   const browser = await browserType.launch({ headless: true });
   try {
     const context = await browser.newContext({ ...device, colorScheme: "light", locale: "en-US" });
+    await context.addInitScript(() => {
+      window.__ZS_DISABLE_ANALYTICS__ = true;
+    });
     const page = await context.newPage();
     const response = await page.goto(url, { waitUntil: "domcontentloaded", timeout: 30_000 });
     if (!response || response.status() >= 400) throw new Error(`${url} returned ${response?.status() || 0}`);

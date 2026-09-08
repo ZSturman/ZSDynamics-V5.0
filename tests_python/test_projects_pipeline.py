@@ -1,9 +1,11 @@
 import hashlib
 import json
+import shutil
 import sys
 import tempfile
 import unittest
 from pathlib import Path
+from typing import Tuple
 from urllib.error import URLError
 from urllib.parse import quote
 from unittest.mock import patch
@@ -13,6 +15,7 @@ sys.path.insert(0, str((Path(__file__).resolve().parent.parent / "lib")))
 
 from projects_pipeline import (  # noqa: E402
     build_projects_from_json,
+    configure_storage_project_roots,
     determine_collection_item_type,
     make_project_folder_name,
 )
@@ -132,6 +135,183 @@ class TestProjectsPipeline(unittest.TestCase):
             self.assertEqual(missing_path.read_bytes(), b"notion-image")
             self.assertEqual(result["projects"][0]["images"]["thumbnail"], "hero.png")
             self.assertEqual((out_dir / "noaa_project-noaa" / "hero.png").read_bytes(), b"notion-image")
+
+    # -- Better Projects storage-mode compatibility (Project/Workspace/Local) --
+    #
+    # These characterize resolve_source_path()'s storage-aware behavior, added
+    # so the website understands the same Project/Workspace asset-storage
+    # semantics as the Better Projects app instead of only ever resolving
+    # relativePath against a single shared root_path.
+
+    def test_configure_storage_project_roots_only_includes_available_local_projects(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_root_str:
+            temp_root = Path(temp_root_str)
+            local_dir = temp_root / "LocalProject"
+            local_dir.mkdir()
+            missing_dir = temp_root / "DoesNotExist"
+
+            source_projects = [
+                # Explicit storage="Local" with a directory that exists on this machine.
+                {"id": "p-local", "storage": "Local", "localDirectory": str(local_dir)},
+                # Legacy: no storage value at all, but a directory is set (implied Local).
+                {"id": "p-legacy", "projectPageId": "page-legacy", "localDirectory": str(local_dir)},
+                # storage="Remote" must never be used as a root, even though a stray
+                # localDirectory value is present (mirrors Better Projects' own rule).
+                {"id": "p-remote", "storage": "Remote", "localDirectory": str(local_dir)},
+                # storage="Local" but the directory does not exist on this machine.
+                {"id": "p-missing-dir", "storage": "Local", "localDirectory": str(missing_dir)},
+                # No localDirectory at all.
+                {"id": "p-no-dir", "storage": "Local"},
+            ]
+
+            roots = configure_storage_project_roots(source_projects)
+
+            self.assertEqual(roots.get("p-local"), local_dir)
+            self.assertEqual(roots.get("p-legacy"), local_dir)
+            self.assertEqual(roots.get("page-legacy"), local_dir)
+            self.assertNotIn("p-remote", roots)
+            self.assertNotIn("p-missing-dir", roots)
+            self.assertNotIn("p-no-dir", roots)
+
+    def test_project_storage_asset_resolves_against_its_storage_projects_root(self) -> None:
+        """storage="Project" assets resolve relativePath against the named
+        storage project's own local directory, not the shared workspace root_path,
+        and never cross-contaminate with a same-named file under the shared root."""
+        with tempfile.TemporaryDirectory() as temp_root_str, tempfile.TemporaryDirectory() as out_str:
+            temp_root = Path(temp_root_str)
+            out_dir = Path(out_str)
+
+            # The shared/workspace root_path has a *different* file at the same
+            # relative path, to prove the project-storage root wins and there is
+            # no accidental fallback to the wrong file.
+            (temp_root / "Assets").mkdir()
+            (temp_root / "Assets" / "hero.png").write_bytes(b"wrong-workspace-file")
+
+            storage_project_root = temp_root / "SomeOtherFolder" / "Signals"
+            (storage_project_root / "Assets").mkdir(parents=True)
+            (storage_project_root / "Assets" / "hero.png").write_bytes(b"correct-project-file")
+
+            input_json = temp_root / "new_projects.json"
+            input_json.write_text(
+                json.dumps(
+                    {
+                        "config": {"root_path": str(temp_root)},
+                        "projects": [
+                            {
+                                "id": "project-signals",
+                                "title": "Signals",
+                                "summary": "Uses Project-storage media.",
+                                "storage": "Local",
+                                "localDirectory": str(storage_project_root),
+                                "thumbnail": {
+                                    "id": "asset-hero-id",
+                                    "filename": "hero.png",
+                                    "relativePath": "Assets/hero.png",
+                                    "storage": "Project",
+                                    "storageProjectId": "project-signals",
+                                },
+                            }
+                        ],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = build_projects_from_json(input_json_path=input_json, temp_public_projects_root=out_dir)
+
+            copied = next(out_dir.glob("*/hero.png"))
+            self.assertEqual(copied.read_bytes(), b"correct-project-file")
+            self.assertEqual(result["projects"][0]["images"]["thumbnail"], "hero.png")
+
+    def test_workspace_and_legacy_assets_still_resolve_against_shared_root_path(self) -> None:
+        """Assets without storage="Project" (Workspace, legacy Local, or unset)
+        keep resolving against the shared root_path exactly as before — this is
+        the regression guard proving the storage-aware change is purely additive."""
+        with tempfile.TemporaryDirectory() as temp_root_str, tempfile.TemporaryDirectory() as out_str:
+            temp_root = Path(temp_root_str)
+            out_dir = Path(out_str)
+            (temp_root / "Assets").mkdir()
+            (temp_root / "Assets" / "hero.png").write_bytes(b"shared-workspace-file")
+
+            input_json = temp_root / "new_projects.json"
+            input_json.write_text(
+                json.dumps(
+                    {
+                        "config": {"root_path": str(temp_root)},
+                        "projects": [
+                            {
+                                "id": "project-a",
+                                "title": "Workspace Asset",
+                                "summary": "Uses Workspace-storage media.",
+                                "thumbnail": {
+                                    "filename": "hero.png",
+                                    "relativePath": "Assets/hero.png",
+                                    "storage": "Workspace",
+                                },
+                            },
+                            {
+                                "id": "project-b",
+                                "title": "Legacy Asset",
+                                "summary": "Predates the storage taxonomy entirely.",
+                                "hero": {
+                                    "filename": "hero.png",
+                                    "relativePath": "Assets/hero.png",
+                                },
+                            },
+                        ],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = build_projects_from_json(input_json_path=input_json, temp_public_projects_root=out_dir)
+
+            for project in result["projects"]:
+                image_key = "thumbnail" if project["id"] == "project-a" else "hero"
+                copied_dir = next(out_dir.glob(f"*{project['id']}"))
+                self.assertEqual((copied_dir / "hero.png").read_bytes(), b"shared-workspace-file")
+                self.assertEqual(project["images"][image_key], "hero.png")
+
+    def test_project_storage_asset_with_unresolvable_storage_project_falls_back_gracefully(self) -> None:
+        """A storage="Project" asset whose storage project has no resolvable
+        local directory (remote-only, missing, or simply absent from this
+        export) must not crash the build — it falls back to the shared
+        root_path exactly like a Workspace/legacy asset would."""
+        with tempfile.TemporaryDirectory() as temp_root_str, tempfile.TemporaryDirectory() as out_str:
+            temp_root = Path(temp_root_str)
+            out_dir = Path(out_str)
+            (temp_root / "Assets").mkdir()
+            (temp_root / "Assets" / "hero.png").write_bytes(b"shared-fallback-file")
+
+            input_json = temp_root / "new_projects.json"
+            input_json.write_text(
+                json.dumps(
+                    {
+                        "config": {"root_path": str(temp_root)},
+                        "projects": [
+                            {
+                                "id": "project-remote",
+                                "title": "Remote Only",
+                                "summary": "No local directory is resolvable for this project.",
+                                "storage": "Remote",
+                                "thumbnail": {
+                                    "filename": "hero.png",
+                                    "relativePath": "Assets/hero.png",
+                                    "storage": "Project",
+                                    "storageProjectId": "project-remote",
+                                },
+                            }
+                        ],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = build_projects_from_json(input_json_path=input_json, temp_public_projects_root=out_dir)
+
+            copied = next(out_dir.glob("*/hero.png"))
+            self.assertEqual(copied.read_bytes(), b"shared-fallback-file")
+            self.assertEqual(result["projects"][0]["images"]["thumbnail"], "hero.png")
 
     def test_build_pipeline_schema_copy_rewrite_and_determinism(self) -> None:
         with tempfile.TemporaryDirectory() as temp_root_str, tempfile.TemporaryDirectory() as out1_str, tempfile.TemporaryDirectory() as out2_str:
@@ -1528,8 +1708,11 @@ class TestProjectsPipeline(unittest.TestCase):
 class TestMediaOptimizer(unittest.TestCase):
     """Test the media optimizer SVG handling."""
 
-    @classmethod
-    def _import_media_optimizer(cls):
+    def _import_media_optimizer(self):
+        """Import a fresh media-optimizer module instance with its
+        content-hash cache redirected to an isolated temp directory — the
+        real module points at <repo>/tmp/media-optimizer-cache by default,
+        which must never be touched by a test run."""
         import importlib.util
         spec = importlib.util.spec_from_file_location(
             "media_optimizer",
@@ -1537,6 +1720,9 @@ class TestMediaOptimizer(unittest.TestCase):
         )
         mod = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(mod)
+        cache_dir = tempfile.mkdtemp(prefix="media-optimizer-cache-test-")
+        self.addCleanup(shutil.rmtree, cache_dir, ignore_errors=True)
+        mod._OPTIMIZER_CACHE_ROOT = Path(cache_dir)
         return mod
 
     def test_optimize_svg_full_creates_svg_variants(self) -> None:
@@ -1582,6 +1768,158 @@ class TestMediaOptimizer(unittest.TestCase):
             self.assertEqual(results["thumbnail"], "logo-thumb.svg")
             self.assertNotIn(".webp", results.get("optimized", ""))
             self.assertNotIn(".webp", results.get("thumbnail", ""))
+
+    # -- Content-hash reprocessing cache (tmp/media-optimizer-cache) --
+    #
+    # folio-prebuild.py deletes and rebuilds public/projects/ from scratch on
+    # every run, so these tests simulate that by writing byte-identical (or
+    # deliberately different) source content into a *second*, unrelated
+    # output directory rather than reusing the first — proving the cache
+    # survives across exactly the kind of directory replacement the real
+    # pipeline performs.
+
+    def _make_test_png(self, path: Path, color: Tuple[int, int, int] = (10, 20, 30)) -> None:
+        from PIL import Image
+
+        Image.new("RGB", (32, 32), color=color).save(path, format="PNG")
+
+    def test_unchanged_image_is_served_from_cache_without_reprocessing(self) -> None:
+        mod = self._import_media_optimizer()
+
+        with tempfile.TemporaryDirectory() as first_dir_str, tempfile.TemporaryDirectory() as second_dir_str:
+            first_dir = Path(first_dir_str)
+            second_dir = Path(second_dir_str)
+
+            src1 = first_dir / "hero.png"
+            self._make_test_png(src1)
+            first_results = mod.optimize_image_full(src1, first_dir)
+            self.assertIn("optimized", first_results)
+            self.assertIn("thumbnail", first_results)
+            self.assertIn("placeholder", first_results)
+
+            # Byte-identical content, written into a brand new directory
+            # (simulating folio-prebuild.py's wipe-and-recreate).
+            src2 = second_dir / "hero.png"
+            self._make_test_png(src2)
+
+            with patch.object(mod, "optimize_image") as spy_optimize, patch.object(
+                mod, "generate_blur_placeholder"
+            ) as spy_placeholder:
+                second_results = mod.optimize_image_full(src2, second_dir)
+
+            spy_optimize.assert_not_called()
+            spy_placeholder.assert_not_called()
+            self.assertEqual(second_results["optimized"], first_results["optimized"])
+            self.assertEqual(second_results["thumbnail"], first_results["thumbnail"])
+            self.assertEqual(second_results["placeholder"], first_results["placeholder"])
+
+            # The reused variant files must actually exist, with the exact
+            # bytes generated on the first (real) run — not just a filename match.
+            for variant in ("optimized", "thumbnail", "placeholder"):
+                self.assertEqual(
+                    (second_dir / second_results[variant]).read_bytes(),
+                    (first_dir / first_results[variant]).read_bytes(),
+                )
+
+    def test_changed_image_content_forces_full_reprocessing(self) -> None:
+        mod = self._import_media_optimizer()
+
+        with tempfile.TemporaryDirectory() as first_dir_str, tempfile.TemporaryDirectory() as second_dir_str:
+            first_dir = Path(first_dir_str)
+            second_dir = Path(second_dir_str)
+
+            src1 = first_dir / "hero.png"
+            self._make_test_png(src1, color=(10, 20, 30))
+            mod.optimize_image_full(src1, first_dir)
+
+            # Different pixel content -> different sha256 -> must not hit the
+            # first run's cache entry.
+            src2 = second_dir / "hero.png"
+            self._make_test_png(src2, color=(200, 100, 50))
+
+            with patch.object(mod, "optimize_image", wraps=mod.optimize_image) as spy_optimize:
+                mod.optimize_image_full(src2, second_dir)
+
+            # optimize_image() is called twice per full run (once for the
+            # -optimized variant, once for -thumb) — a non-zero call count
+            # here means the cache was correctly bypassed.
+            self.assertEqual(spy_optimize.call_count, 2)
+
+    def test_no_media_cache_flag_forces_reprocessing_even_when_unchanged(self) -> None:
+        mod = self._import_media_optimizer()
+        mod._OPTIMIZER_CACHE_DISABLED = True
+
+        with tempfile.TemporaryDirectory() as first_dir_str, tempfile.TemporaryDirectory() as second_dir_str:
+            first_dir = Path(first_dir_str)
+            second_dir = Path(second_dir_str)
+
+            src1 = first_dir / "hero.png"
+            self._make_test_png(src1)
+            mod.optimize_image_full(src1, first_dir)
+
+            src2 = second_dir / "hero.png"
+            self._make_test_png(src2)
+
+            with patch.object(mod, "optimize_image", wraps=mod.optimize_image) as spy_optimize:
+                mod.optimize_image_full(src2, second_dir)
+
+            self.assertEqual(spy_optimize.call_count, 2)
+
+    def test_failed_video_optimization_is_never_cached(self) -> None:
+        """A partial/failed result (e.g. ffmpeg unavailable) must never be
+        cached — caching it would permanently freeze that failure even after
+        the underlying cause (a missing tool, say) is fixed."""
+        mod = self._import_media_optimizer()
+
+        with tempfile.TemporaryDirectory() as first_dir_str, tempfile.TemporaryDirectory() as second_dir_str:
+            first_dir = Path(first_dir_str)
+            second_dir = Path(second_dir_str)
+
+            src1 = first_dir / "clip.mp4"
+            src1.write_bytes(b"not a real video, but content-addressable")
+            src2 = second_dir / "clip.mp4"
+            src2.write_bytes(b"not a real video, but content-addressable")
+
+            with patch.object(mod, "optimize_video", return_value=False), patch.object(
+                mod, "generate_video_thumbnail", return_value=False
+            ), patch.object(mod, "generate_video_preview_frames", return_value=([], "ffmpeg unavailable")):
+                first_results = mod.optimize_video_full(src1, first_dir)
+                self.assertIn("issues", first_results)
+
+                with patch.object(mod, "optimize_video", return_value=False) as spy_optimize:
+                    second_results = mod.optimize_video_full(src2, second_dir)
+
+            spy_optimize.assert_called_once()
+            self.assertIn("issues", second_results)
+
+    def test_corrupted_cache_entry_falls_back_to_reprocessing_instead_of_crashing(self) -> None:
+        mod = self._import_media_optimizer()
+
+        with tempfile.TemporaryDirectory() as first_dir_str, tempfile.TemporaryDirectory() as second_dir_str:
+            first_dir = Path(first_dir_str)
+            second_dir = Path(second_dir_str)
+
+            src1 = first_dir / "hero.png"
+            self._make_test_png(src1)
+            first_results = mod.optimize_image_full(src1, first_dir)
+
+            # Corrupt the cache by deleting one of the cached variant files
+            # without touching manifest.json, simulating a partially-written
+            # or externally-tampered cache entry.
+            content_hash = mod._sha256_file(src1)
+            cache_dir = mod._optimizer_cache_dir(content_hash, "image")
+            manifest = json.loads((cache_dir / "manifest.json").read_text())
+            cached_optimized_name = manifest["files"]["optimized"]["cached_name"]
+            (cache_dir / cached_optimized_name).unlink()
+
+            src2 = second_dir / "hero.png"
+            self._make_test_png(src2)
+
+            # Must not raise, and must still produce a complete, correct result.
+            second_results = mod.optimize_image_full(src2, second_dir)
+            self.assertIn("optimized", second_results)
+            self.assertTrue((second_dir / second_results["optimized"]).exists())
+            self.assertEqual(second_results["optimized"], first_results["optimized"])
 
 
 if __name__ == "__main__":

@@ -196,6 +196,102 @@ def verify_and_repair_post_build(public_root: Path) -> bool:
         return False
 
 
+def run_dry_run(input_json: Path, root_override: Path | None, *, as_json: bool = False) -> None:
+    """Exercise the exact same normalization + media-resolution pipeline a
+    real build would run, but never touch public/ at all.
+
+    Unlike a real build, this: takes no lock, never deletes or renames
+    public/projects, never writes public/image-hostnames.json, and builds
+    into a throwaway temp directory (outside public/ entirely) that is
+    removed when this function returns regardless of success or failure.
+    """
+    load_build_environment()
+
+    with tempfile.TemporaryDirectory(prefix="folio-dry-run-") as tmp_dir_str:
+        temp_public_projects_root = Path(tmp_dir_str)
+
+        try:
+            result = build_projects_from_json(
+                input_json_path=input_json,
+                temp_public_projects_root=temp_public_projects_root,
+                root_path_override=root_override,
+            )
+        except Exception as exc:
+            if as_json:
+                print(json.dumps({"ok": False, "error": str(exc)}, indent=2))
+            else:
+                print(f"\n❌ Dry run failed: {exc}")
+            raise SystemExit(1) from exc
+
+        projects = result.get("projects", [])
+        warnings = result.get("warnings", [])
+        missing_thumbnail_projects = result.get("missing_thumbnail_projects", [])
+        missing_summary_projects = result.get("missing_summary_projects", [])
+        readme_fetched_projects = result.get("readme_fetched_projects", [])
+        readme_failed_projects = result.get("readme_failed_projects", [])
+
+        generated_files = [p for p in temp_public_projects_root.rglob("*") if p.is_file()]
+        projects_missing_media = sorted(
+            {*missing_thumbnail_projects} | {*missing_summary_projects}
+        )
+
+        report: dict = {
+            "ok": True,
+            "dryRun": True,
+            "wroteToPublicProjects": False,
+            "projectCount": len(projects),
+            "generatedFileCount": len(generated_files),
+            "warningCount": len(warnings),
+            "warnings": warnings,
+            "missingThumbnailProjects": missing_thumbnail_projects,
+            "missingSummaryProjects": missing_summary_projects,
+            "readmeFetchedCount": len(readme_fetched_projects),
+            "readmeFailed": readme_failed_projects,
+            "projects": [
+                {
+                    "id": p.get("id"),
+                    "title": p.get("title"),
+                    "slug": p.get("slug"),
+                    "images": sorted(p.get("images", {}).keys()),
+                }
+                for p in projects
+            ],
+        }
+
+        if as_json:
+            print(json.dumps(report, indent=2, ensure_ascii=False))
+            return
+
+        print("\n=== DRY RUN — no files were written to public/projects/ or public/image-hostnames.json ===")
+        print(f"Projects that would be built: {report['projectCount']}")
+        print(f"Media files that would be generated: {report['generatedFileCount']} (written to a throwaway temp dir)")
+        print(f"Warnings: {report['warningCount']}")
+        for warning in warnings[:50]:
+            print(f"  - {warning}")
+        if len(warnings) > 50:
+            print(f"  ... and {len(warnings) - 50} more")
+
+        if missing_thumbnail_projects:
+            print(f"\nProjects that would be missing a thumbnail ({len(missing_thumbnail_projects)}):")
+            for project_id in missing_thumbnail_projects:
+                print(f"  - {project_id}")
+
+        if missing_summary_projects:
+            print(f"\nProjects that would be missing a summary ({len(missing_summary_projects)}):")
+            for project_id in missing_summary_projects:
+                print(f"  - {project_id}")
+
+        print(f"\nREADMEs that would be fetched: {len(readme_fetched_projects)}")
+        if readme_failed_projects:
+            print(f"READMEs that would fail to fetch ({len(readme_failed_projects)}):")
+            for failure in readme_failed_projects:
+                print(f"  - {failure}")
+
+        print(f"\n✓ Dry run complete — {report['projectCount']} projects, "
+              f"{report['generatedFileCount']} media files, {report['warningCount']} warnings, "
+              f"0 files written to public/.")
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Build projects JSON/assets from new_projects.json")
     parser.add_argument("legacy_root", nargs="?", default=None, help="Deprecated legacy folio root (ignored).")
@@ -205,6 +301,22 @@ def main() -> None:
         "--repair",
         action="store_true",
         help="Attempt to repair stray 'projects 2'/'projects 3' folders and exit.",
+    )
+    parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help=(
+            "Run the full normalization + media-resolution pipeline (identical to a real "
+            "build) and report what it would do, without writing, deleting, or renaming "
+            "anything under public/ — no lock is taken, public/projects/ and "
+            "public/image-hostnames.json are left completely untouched, and generated "
+            "media is written to a throwaway temp directory instead."
+        ),
+    )
+    parser.add_argument(
+        "--json",
+        action="store_true",
+        help="With --dry-run, print the dry-run report as JSON instead of human-readable text.",
     )
     args = parser.parse_args()
 
@@ -217,6 +329,10 @@ def main() -> None:
         raise SystemExit(f"Input JSON not found: {input_json}")
 
     root_override = Path(args.root_path) if args.root_path else None
+
+    if args.dry_run:
+        run_dry_run(input_json, root_override, as_json=args.json)
+        return
 
     paths = BuildPaths()
 

@@ -90,6 +90,12 @@ _PROJECT_MEDIA_HINT_RE = re.compile(
     re.IGNORECASE,
 )
 
+# Alias lists for resolve_checkbox_property(). Extend these (rather than
+# hardcoding a new literal name elsewhere) if a database's checkbox is
+# intentionally renamed.
+_PUBLIC_PROPERTY_ALIASES = ["public", "is public"]
+_SHOWCASE_PROPERTY_ALIASES = ["in showcase", "showcase", "is in showcase"]
+
 logger = logging.getLogger(__name__)
 
 
@@ -280,6 +286,126 @@ def map_page(page: Dict[str, Any]) -> Dict[str, Any]:
 # ===========================================================================
 
 
+class NotionSchemaError(RuntimeError):
+    """Raised when a database's live Notion schema cannot support a required
+    operation (e.g. a checkbox property the eligibility filter depends on has
+    been renamed, retyped, deleted, or has become ambiguous).
+
+    This is deliberately a *different* failure mode from a transient API
+    error: it means the export cannot proceed *correctly* even though Notion
+    answered successfully, so callers should fail loudly with an actionable
+    message rather than silently querying against the wrong property (or a
+    nonexistent one, which the API would reject anyway).
+    """
+
+
+def _normalize_property_label(name: str) -> str:
+    """Normalize a Notion property display name for alias comparison.
+
+    Case/punctuation-insensitive, matching the spirit of Better Projects'
+    own ``ProjectFieldKey``/``AssetFieldKey`` alias resolution (see
+    docs/notion-and-storage-architecture.md) — properties are matched by
+    normalized display name, not by opaque/unstable property ID.
+    """
+    return re.sub(r"[^a-z0-9]+", " ", name.lower()).strip()
+
+
+def _notion_request_with_retry(
+    client: NotionClient,
+    *,
+    path: str,
+    method: str = "GET",
+    body: Optional[Dict[str, Any]] = None,
+    context: str,
+) -> Dict[str, Any]:
+    """Call the Notion REST API with the shared retry/backoff policy.
+
+    Retries on the same transient status codes as query_database(); any other
+    APIResponseError (e.g. 400/401/403/404) is raised immediately since
+    retrying would not help.
+    """
+    for attempt in range(1, _NOTION_MAX_ATTEMPTS + 1):
+        try:
+            return client.request(path=path, method=method, body=body)
+        except APIResponseError as exc:
+            status = getattr(exc, "status", None)
+            if status in _NOTION_RETRYABLE_STATUS_CODES and attempt < _NOTION_MAX_ATTEMPTS:
+                delay_seconds = 2 ** attempt
+                logger.warning(
+                    "Notion API request failed with HTTP %s (%s); retrying %s/%s in %ss.",
+                    status,
+                    context,
+                    attempt,
+                    _NOTION_MAX_ATTEMPTS,
+                    delay_seconds,
+                )
+                time.sleep(delay_seconds)
+                continue
+            logger.error("Notion API error during %s: %s", context, exc)
+            raise
+    raise AssertionError("unreachable")  # pragma: no cover — loop always returns or raises
+
+
+def resolve_checkbox_property(
+    client: NotionClient,
+    db_id: str,
+    *,
+    db_label: str,
+    aliases: List[str],
+) -> str:
+    """Resolve a required checkbox property's *current* display name.
+
+    Portfolio eligibility depends on two checkbox properties ("public" and
+    "in showcase" on the Projects database, "public" alone elsewhere). Both
+    used to be referenced as hardcoded literal strings passed straight into
+    the Notion filter API — a harmless-looking Notion display-name rename
+    (e.g. "public" -> "Public" or "is public") would previously either crash
+    with a cryptic 400 from Notion (if the old name no longer exists at all)
+    or, worse, silently do nothing about it if some *other* unrelated
+    checkbox property happened to already be named exactly "public".
+
+    This resolves the property against the database's *live* schema every
+    run, matching by normalized display name against a small alias list
+    (mirroring Better Projects' own alias-resolution philosophy), and
+    requires the match to actually be a checkbox. Exactly one match is
+    required — zero or more than one is a loud, actionable NotionSchemaError
+    rather than a guess.
+    """
+    database = _notion_request_with_retry(
+        client,
+        path=f"databases/{db_id}",
+        method="GET",
+        context=f"retrieving {db_label} schema",
+    )
+    properties: Dict[str, Any] = database.get("properties", {}) or {}
+
+    normalized_aliases = {_normalize_property_label(a) for a in aliases}
+    checkbox_names = [name for name, prop in properties.items() if prop.get("type") == "checkbox"]
+    matches = [name for name in checkbox_names if _normalize_property_label(name) in normalized_aliases]
+
+    if len(matches) == 1:
+        resolved = matches[0]
+        logger.debug("Resolved %s eligibility property %r -> checkbox %r", db_label, aliases, resolved)
+        return resolved
+
+    available = ", ".join(repr(n) for n in checkbox_names) or "(none)"
+    if not matches:
+        raise NotionSchemaError(
+            f"Could not find a checkbox property on the {db_label} database matching any of "
+            f"{aliases!r}. Portfolio eligibility depends on this property, so the export is "
+            f"refusing to run rather than silently publishing nothing (or everything). "
+            f"Checkbox properties actually present: {available}. "
+            f"If this property was intentionally renamed, add its new name to the alias list "
+            f"in lib/notion_projects_export.py (resolve_checkbox_property callers)."
+        )
+    raise NotionSchemaError(
+        f"Found {len(matches)} checkbox properties on the {db_label} database matching "
+        f"{aliases!r} ({', '.join(repr(m) for m in matches)}) — refusing to guess which one "
+        f"governs portfolio eligibility. Rename one of them to disambiguate, or narrow the "
+        f"alias list in lib/notion_projects_export.py."
+    )
+
+
 def _build_checkbox_filter(property_name: str, value: bool = True) -> Dict[str, Any]:
     """Return a single Notion API checkbox filter object."""
     return {"property": property_name, "checkbox": {"equals": value}}
@@ -319,32 +445,16 @@ def query_database(
         if cursor:
             body["start_cursor"] = cursor
 
-        for attempt in range(1, _NOTION_MAX_ATTEMPTS + 1):
-            try:
-                # notion-client v3 removed databases.query() as a method, but
-                # the REST endpoint POST databases/{id}/query still exists in
-                # API version 2022-06-28, so we call it directly via request().
-                response = client.request(
-                    path=f"databases/{db_id}/query",
-                    method="POST",
-                    body=body,
-                )
-                break
-            except APIResponseError as exc:
-                status = getattr(exc, "status", None)
-                if status in _NOTION_RETRYABLE_STATUS_CODES and attempt < _NOTION_MAX_ATTEMPTS:
-                    delay_seconds = 2 ** attempt
-                    logger.warning(
-                        "Notion API request failed with HTTP %s; retrying %s/%s in %ss.",
-                        status,
-                        attempt,
-                        _NOTION_MAX_ATTEMPTS,
-                        delay_seconds,
-                    )
-                    time.sleep(delay_seconds)
-                    continue
-                logger.error("Notion API error querying database %s: %s", db_id, exc)
-                raise
+        # notion-client v3 removed databases.query() as a method, but the
+        # REST endpoint POST databases/{id}/query still exists in API version
+        # 2022-06-28, so we call it directly via request().
+        response = _notion_request_with_retry(
+            client,
+            path=f"databases/{db_id}/query",
+            method="POST",
+            body=body,
+            context=f"querying database {db_id}",
+        )
 
         for page in response.get("results", []):
             pages.append(map_page(page))
@@ -573,6 +683,13 @@ def _normalize_thumbnail(a: Dict[str, Any]) -> Dict[str, Any]:
         "type": a.get("property_type"),
         "filename": a.get("property_filename"),
         "relativePath": a.get("property_relative_path"),
+        # Better Projects' current storage architecture (see docs on the website
+        # repo). "storage" is one of Project/Workspace/Local(legacy); when it is
+        # "Project", storageProjectId names the Project whose local root the
+        # relativePath is relative to, instead of the shared workspace root.
+        "storage": a.get("property_storage"),
+        "storageProjectId": _get_first_relation_id(a.get("property_storage_project")),
+        "assetId": a.get("property_asset_id"),
         "projectIds": _uniq(a.get("property_projects")),
         "collectionIds": _uniq(a.get("property_collections")),
         "resources": [],  # populated later if resources reference this asset
@@ -592,6 +709,10 @@ def _normalize_asset(a: Dict[str, Any], asset_by_id: Dict[str, Any]) -> Dict[str
         "type": a.get("property_type"),
         "filename": a.get("property_filename"),
         "relativePath": a.get("property_relative_path"),
+        # See the matching comment in _normalize_thumbnail above.
+        "storage": a.get("property_storage"),
+        "storageProjectId": _get_first_relation_id(a.get("property_storage_project")),
+        "assetId": a.get("property_asset_id"),
         "projectIds": _uniq(a.get("property_projects")),
         "collectionIds": _uniq(a.get("property_collections")),
         "thumbnail": thumb,
@@ -712,6 +833,12 @@ def _normalize_project(
         "thumbnail": thumb,
         "singleAssetMedia": single_asset_media,
         "singleAssetRelationIds": single_asset_relation_ids,
+        # Better Projects' project-level storage mode: "Local" (has a usable
+        # localDirectory), "Remote" (no local root — never fall back to
+        # localDirectory even if one happens to be set), or unset (legacy
+        # projects are treated as implicitly Local when localDirectory is set).
+        "storage": _pick_first(p.get("property_storage")),
+        "localDirectory": _pick_first(p.get("property_local_directory")),
         # Lists populated during the attachment pass below.
         "collections": [],
         "assets": [],
@@ -984,12 +1111,44 @@ def main(argv: Optional[List[str]] = None) -> None:
     # databases/{id}/query endpoint.
     client = NotionClient(auth=env["NOTION_API_KEY"], notion_version="2022-06-28")
 
-    # 3. Query all six databases in sequence.
+    # 3. Resolve the eligibility checkbox properties against each database's
+    #    *live* schema before filtering on them. Portfolio eligibility used to
+    #    hardcode the literal property names "public" and "in showcase"
+    #    directly into the Notion filter — a harmless-looking Notion rename
+    #    would previously either crash with a cryptic 400 or, worse, silently
+    #    filter on the wrong property if some unrelated checkbox happened to
+    #    already have that exact name. See resolve_checkbox_property()'s
+    #    docstring and docs/notion-and-storage-architecture.md.
+    try:
+        projects_public_name = resolve_checkbox_property(
+            client, env["NOTION_PROJECTS_DB_ID"], db_label="Projects", aliases=_PUBLIC_PROPERTY_ALIASES
+        )
+        projects_showcase_name = resolve_checkbox_property(
+            client, env["NOTION_PROJECTS_DB_ID"], db_label="Projects", aliases=_SHOWCASE_PROPERTY_ALIASES
+        )
+        collections_public_name = resolve_checkbox_property(
+            client, env["NOTION_COLLECTIONS_DB_ID"], db_label="Collections", aliases=_PUBLIC_PROPERTY_ALIASES
+        )
+        assets_public_name = resolve_checkbox_property(
+            client, env["NOTION_ASSETS_DB_ID"], db_label="Assets", aliases=_PUBLIC_PROPERTY_ALIASES
+        )
+        resources_public_name = resolve_checkbox_property(
+            client, env["NOTION_RESOURCES_DB_ID"], db_label="Resources", aliases=_PUBLIC_PROPERTY_ALIASES
+        )
+        work_logs_public_name = resolve_checkbox_property(
+            client, env["NOTION_WORK_LOGS_DB_ID"], db_label="Work Log", aliases=_PUBLIC_PROPERTY_ALIASES
+        )
+    except NotionSchemaError as exc:
+        sys.exit(f"Notion schema error — refusing to run:\n\n{exc}")
+
+    # 4. Query all six databases in sequence.
     #    (Sequential is sufficient; the SDK handles retries + rate limiting.)
-    public_filter = [_build_checkbox_filter("public")]
+    #    Each database's "public" checkbox is resolved independently above —
+    #    they happen to share the display name "public" today, but are not
+    #    assumed to.
     showcase_filter = [
-        _build_checkbox_filter("in showcase"),
-        _build_checkbox_filter("public"),
+        _build_checkbox_filter(projects_showcase_name),
+        _build_checkbox_filter(projects_public_name),
     ]
 
     logger.info("Querying Config database...")
@@ -999,16 +1158,22 @@ def main(argv: Optional[List[str]] = None) -> None:
     projects_rows = query_database(client, env["NOTION_PROJECTS_DB_ID"], showcase_filter)
 
     logger.info("Querying Collections database...")
-    collections_rows = query_database(client, env["NOTION_COLLECTIONS_DB_ID"], public_filter)
+    collections_rows = query_database(
+        client, env["NOTION_COLLECTIONS_DB_ID"], [_build_checkbox_filter(collections_public_name)]
+    )
 
     logger.info("Querying Assets database...")
-    assets_rows = query_database(client, env["NOTION_ASSETS_DB_ID"], public_filter)
+    assets_rows = query_database(client, env["NOTION_ASSETS_DB_ID"], [_build_checkbox_filter(assets_public_name)])
 
     logger.info("Querying Resources database...")
-    resources_rows = query_database(client, env["NOTION_RESOURCES_DB_ID"], public_filter)
+    resources_rows = query_database(
+        client, env["NOTION_RESOURCES_DB_ID"], [_build_checkbox_filter(resources_public_name)]
+    )
 
     logger.info("Querying Work Logs database...")
-    work_logs_rows = query_database(client, env["NOTION_WORK_LOGS_DB_ID"], public_filter)
+    work_logs_rows = query_database(
+        client, env["NOTION_WORK_LOGS_DB_ID"], [_build_checkbox_filter(work_logs_public_name)]
+    )
 
     # 4. Assemble the nested payload.
     logger.info(

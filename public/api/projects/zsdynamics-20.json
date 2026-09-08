@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-09-01T14:08:41.954276+00:00",
+  "generated_at": "2026-09-02T00:13:21.674097+00:00",
   "data": {
     "id": "306aec94-4d3c-800b-9d7d-ed0c879ab5b3",
     "slug": "zsdynamics-20",
@@ -32,8 +32,8 @@
     "description": "",
     "story": "",
     "images": {
-      "banner": "banner.png",
-      "thumbnail": "thumbnail.png"
+      "thumbnail": "thumbnail.png",
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -42,11 +42,10 @@
         "url": "https://zsturman.github.io/ZSDynamics-V2.0/",
         "linkPreview": {
           "provider": "zsturman.github.io",
-          "title": "Zachary Sturman Portfolio",
+          "title": "zsturman.github.io/ZSDynamics-V2.0",
           "siteName": "Zsturman Github Io",
           "hostname": "zsturman.github.io",
           "displayUrl": "zsturman.github.io/ZSDynamics-V2.0",
-          "description": "Explore Zachary Sturman's Software Engineering portfolio.",
           "image": "/projects/zsdynamics_20_306aec94-4d3c-800b-9d7d-ed0c879ab5b3/previews/zsturman.github.io-f992a52961cf.png",
           "imageSource": "capture"
         },

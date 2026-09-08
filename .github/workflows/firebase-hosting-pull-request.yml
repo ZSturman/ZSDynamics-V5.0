@@ -12,7 +12,8 @@ jobs:
     if: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
     runs-on: ubuntu-latest
     env:
-      NEXT_PUBLIC_FIREBASE_ANALYTICS_ENABLED: ${{ vars.NEXT_PUBLIC_FIREBASE_ANALYTICS_ENABLED }}
+      NEXT_PUBLIC_FIREBASE_ANALYTICS_ENABLED: "false"
+      NEXT_PUBLIC_ANALYTICS_DISABLED: "true"
       NEXT_PUBLIC_FIREBASE_API_KEY: ${{ vars.NEXT_PUBLIC_FIREBASE_API_KEY }}
       NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN: ${{ vars.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN }}
       NEXT_PUBLIC_FIREBASE_PROJECT_ID: ${{ vars.NEXT_PUBLIC_FIREBASE_PROJECT_ID }}

@@ -4,6 +4,7 @@ import type { Analytics } from "firebase/analytics";
 import type { FirebaseApp } from "firebase/app";
 
 import { getStoredUtm } from "./analytics-utm";
+import { getAnalyticsSuppressionReason as evaluateAnalyticsSuppression } from "./analytics-suppression.mjs";
 
 type AnalyticsValue = string | number | undefined;
 type AnalyticsParams = Record<string, AnalyticsValue>;
@@ -103,7 +104,6 @@ const firebaseConfig = {
 
 const requiredConfigEntries = Object.entries(firebaseConfig);
 const analyticsEnabled = process.env.NEXT_PUBLIC_FIREBASE_ANALYTICS_ENABLED === "true";
-const automationSignalSessionKey = "portfolio.analytics.automation-signal.v1";
 
 let appInstance: FirebaseApp | null = null;
 let analyticsPromise: Promise<Analytics | null> | null = null;
@@ -115,6 +115,24 @@ let missingConfigWarned = false;
 
 function canUseBrowser(): boolean {
   return typeof window !== "undefined";
+}
+
+/**
+ * A fail-closed production guard.  It runs before Firebase Analytics is
+ * imported, which prevents automatic GA4 page_view/session events as well as
+ * the portfolio's custom events from automated and preview browsing.
+ */
+export function getAnalyticsSuppressionReason(): string | null {
+  if (!canUseBrowser()) return "not_a_browser";
+  return evaluateAnalyticsSuppression({
+    enabled: analyticsEnabled,
+    disabled: process.env.NEXT_PUBLIC_ANALYTICS_DISABLED,
+    automationFlag: (window as Window & { __ZS_DISABLE_ANALYTICS__?: boolean }).__ZS_DISABLE_ANALYTICS__,
+    hostname: window.location.hostname,
+    userAgent: navigator.userAgent,
+    webdriver: navigator.webdriver,
+    allowedHosts: process.env.NEXT_PUBLIC_ANALYTICS_ALLOWED_HOSTS,
+  });
 }
 
 function hasCompleteConfig(): boolean {
@@ -250,7 +268,7 @@ async function getAnalyticsInstance(): Promise<Analytics | null> {
     return null;
   }
 
-  if (!analyticsEnabled || !hasCompleteConfig()) {
+  if (getAnalyticsSuppressionReason() || !hasCompleteConfig()) {
     warnMissingConfigOnce();
     return null;
   }
@@ -376,23 +394,10 @@ export function trackResumeDownload(resumeUrl: string): void {
 }
 
 export function trackAutomationSignal(signalReason: string): void {
-  if (!canUseBrowser()) {
-    return;
-  }
-
-  try {
-    if (window.sessionStorage.getItem(automationSignalSessionKey) === signalReason) {
-      return;
-    }
-
-    window.sessionStorage.setItem(automationSignalSessionKey, signalReason);
-  } catch {
-    // Ignore storage failures and continue logging once.
-  }
-
-  void logAnalyticsEvent("automation_signal", {
-    signal_reason: signalReason,
-  });
+  // Kept as a no-op compatibility export. Automated browsers are now
+  // suppressed before Firebase initializes, so recording a diagnostic event
+  // can no longer contaminate the production property.
+  void signalReason;
 }
 
 // ---------------------------------------------------------------------------

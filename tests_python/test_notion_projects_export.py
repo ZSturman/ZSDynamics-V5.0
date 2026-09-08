@@ -22,6 +22,7 @@ from unittest.mock import MagicMock, call, patch
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "lib"))
 
 from notion_projects_export import (  # noqa: E402
+    NotionSchemaError,
     _build_config,
     _dedup_by_id,
     _detect_project_single_asset_relation_keys,
@@ -30,6 +31,7 @@ from notion_projects_export import (  # noqa: E402
     _normalize_asset,
     _normalize_collection,
     _normalize_project,
+    _normalize_property_label,
     _normalize_resource,
     _normalize_thumbnail,
     _normalize_work_log,
@@ -46,6 +48,7 @@ from notion_projects_export import (  # noqa: E402
     main,
     map_page,
     query_database,
+    resolve_checkbox_property,
 )
 
 
@@ -908,6 +911,98 @@ class TestQueryDatabase(unittest.TestCase):
 
 
 # ===========================================================================
+# TestResolveCheckboxProperty
+# ===========================================================================
+
+
+class TestResolveCheckboxProperty(unittest.TestCase):
+    """Tests for resolve_checkbox_property() — the schema-based hardening
+    that replaced hardcoded "public"/"in showcase" filter literals."""
+
+    def _client_with_schema(self, properties: Dict[str, Any]) -> MagicMock:
+        client = MagicMock()
+        client.request.return_value = {"properties": properties}
+        return client
+
+    def test_resolves_exact_name_match(self) -> None:
+        client = self._client_with_schema({"public": {"type": "checkbox"}})
+        name = resolve_checkbox_property(client, "db-1", db_label="Projects", aliases=["public", "is public"])
+        self.assertEqual(name, "public")
+
+    def test_resolves_case_and_punctuation_insensitive_alias(self) -> None:
+        # A harmless-looking rename ("public" -> "Is Public?") must still resolve.
+        client = self._client_with_schema({"Is Public?": {"type": "checkbox"}})
+        name = resolve_checkbox_property(client, "db-1", db_label="Projects", aliases=["public", "is public"])
+        self.assertEqual(name, "Is Public?")
+
+    def test_ignores_non_checkbox_properties_with_the_same_name(self) -> None:
+        # If "public" was retyped to select, it must not be treated as usable.
+        client = self._client_with_schema({"public": {"type": "select"}})
+        with self.assertRaises(NotionSchemaError) as ctx:
+            resolve_checkbox_property(client, "db-1", db_label="Projects", aliases=["public", "is public"])
+        self.assertIn("Projects", str(ctx.exception))
+
+    def test_missing_property_raises_notion_schema_error_with_available_checkboxes(self) -> None:
+        client = self._client_with_schema({"unrelated flag": {"type": "checkbox"}})
+        with self.assertRaises(NotionSchemaError) as ctx:
+            resolve_checkbox_property(client, "db-1", db_label="Projects", aliases=["public", "is public"])
+        message = str(ctx.exception)
+        self.assertIn("Projects", message)
+        self.assertIn("'unrelated flag'", message)
+
+    def test_ambiguous_match_raises_rather_than_guessing(self) -> None:
+        # Two checkboxes both plausibly matching "showcase" must not silently
+        # pick one.
+        client = self._client_with_schema(
+            {
+                "in showcase": {"type": "checkbox"},
+                "showcase": {"type": "checkbox"},
+            }
+        )
+        with self.assertRaises(NotionSchemaError) as ctx:
+            resolve_checkbox_property(
+                client, "db-1", db_label="Projects", aliases=["in showcase", "showcase", "is in showcase"]
+            )
+        self.assertIn("2 checkbox properties", str(ctx.exception))
+
+    def test_retries_transient_schema_fetch_failures(self) -> None:
+        class RetryableNotionError(Exception):
+            status = 503
+
+        client = MagicMock()
+        client.request.side_effect = [
+            RetryableNotionError("temporarily unavailable"),
+            {"properties": {"public": {"type": "checkbox"}}},
+        ]
+        with patch("notion_projects_export.APIResponseError", RetryableNotionError), patch(
+            "notion_projects_export.time.sleep"
+        ) as sleep:
+            name = resolve_checkbox_property(client, "db-1", db_label="Projects", aliases=["public"])
+        self.assertEqual(name, "public")
+        self.assertEqual(client.request.call_count, 2)
+        sleep.assert_called_once()
+
+    def test_non_retryable_schema_fetch_failure_propagates_immediately(self) -> None:
+        class NonRetryableNotionError(Exception):
+            status = 404
+
+        client = MagicMock()
+        client.request.side_effect = NonRetryableNotionError("database not found")
+        with patch("notion_projects_export.APIResponseError", NonRetryableNotionError):
+            with self.assertRaises(NonRetryableNotionError):
+                resolve_checkbox_property(client, "db-1", db_label="Projects", aliases=["public"])
+        self.assertEqual(client.request.call_count, 1)
+
+
+class TestNormalizePropertyLabel(unittest.TestCase):
+    def test_normalizes_case_and_punctuation(self) -> None:
+        self.assertEqual(_normalize_property_label("Is Public?"), "is public")
+        self.assertEqual(_normalize_property_label("in-showcase"), "in showcase")
+        self.assertEqual(_normalize_property_label("PUBLIC"), "public")
+        self.assertEqual(_normalize_property_label("public"), _normalize_property_label("  Public  "))
+
+
+# ===========================================================================
 # TestMainCLI
 # ===========================================================================
 
@@ -967,6 +1062,16 @@ class TestMainCLI(unittest.TestCase):
             "has_more": False,
             "next_cursor": None,
         }
+        # resolve_checkbox_property() retrieves each database's schema via
+        # client.request(path="databases/{id}") before query_database() is
+        # ever called (query_database itself is patched out below, so this is
+        # the only client.request() call main() makes in these tests).
+        mock_client.request.return_value = {
+            "properties": {
+                "public": {"type": "checkbox"},
+                "in showcase": {"type": "checkbox"},
+            }
+        }
 
         with patch.dict(os.environ, env, clear=False), \
              patch("notion_projects_export.load_dotenv"), \
@@ -989,6 +1094,26 @@ class TestMainCLI(unittest.TestCase):
         with tempfile.TemporaryDirectory() as td:
             out = Path(td) / "should_not_exist.json"
             self._run_main(["--output", str(out), "--dry-run"])
+            self.assertFalse(out.exists())
+
+    def test_main_exits_loudly_when_public_checkbox_is_renamed(self) -> None:
+        """A renamed/missing eligibility checkbox must abort the whole run
+        with a clear, actionable message — never silently query the wrong
+        property or publish an empty/unfiltered portfolio."""
+        env = {**_REQUIRED_ENV}
+        mock_client = MagicMock()
+        mock_client.request.return_value = {"properties": {"some other flag": {"type": "checkbox"}}}
+
+        with tempfile.TemporaryDirectory() as td:
+            out = Path(td) / "out.json"
+            with patch.dict(os.environ, env, clear=False), \
+                 patch("notion_projects_export.load_dotenv"), \
+                 patch("notion_projects_export.NotionClient", return_value=mock_client), \
+                 patch("notion_projects_export.query_database", side_effect=_make_mock_query_database()):
+                with self.assertRaises(SystemExit) as ctx:
+                    main(["--output", str(out)])
+            self.assertNotEqual(ctx.exception.code, 0)
+            self.assertIn("Notion schema error", str(ctx.exception.code))
             self.assertFalse(out.exists())
 
     def test_main_dry_run_prints_summary(self) -> None:

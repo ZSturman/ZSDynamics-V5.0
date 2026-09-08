@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-09-01T14:08:41.954566+00:00",
+  "generated_at": "2026-09-02T00:13:21.674182+00:00",
   "data": {
     "id": "306aec94-4d3c-80ff-a96a-c3c51900e249",
     "slug": "zsdynamics-11",
@@ -31,8 +31,8 @@
     "description": "",
     "story": "",
     "images": {
-      "banner": "banner.png",
-      "thumbnail": "thumbnail.png"
+      "thumbnail": "thumbnail.png",
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -41,12 +41,10 @@
         "url": "https://zsturman.github.io/ZSDynamics-V1.1/",
         "linkPreview": {
           "provider": "zsturman.github.io",
-          "title": "Zachary Sturman Home",
+          "title": "zsturman.github.io/ZSDynamics-V1.1",
           "siteName": "Zsturman Github Io",
           "hostname": "zsturman.github.io",
-          "displayUrl": "zsturman.github.io/ZSDynamics-V1.1",
-          "image": "/projects/zsdynamics_11_306aec94-4d3c-80ff-a96a-c3c51900e249/previews/zsturman.github.io-ee7e4a65aa78.png",
-          "imageSource": "capture"
+          "displayUrl": "zsturman.github.io/ZSDynamics-V1.1"
         },
         "iconUrl": "/icons/favicons/zsturman.github.io.png"
       },
@@ -80,10 +78,6 @@
       }
     ],
     "articles": [],
-    "folderName": "zsdynamics_11_306aec94-4d3c-80ff-a96a-c3c51900e249",
-    "readme": {
-      "content": "# ZSDynamics Static Portfolio\n\nThis is a static version of the ZSDynamics portfolio website.\n\n## Running the Site\n\nTo serve this site locally:\n\n```bash\nnpx serve docs\n```\n\nOr if you have serve installed globally:\n\n```bash\nserve docs\n```\n\nThen open your browser to the URL shown in the terminal (usually http://localhost:3000).\n\n## Structure\n\n- `index.html` - Home page\n- `/about/` - About page\n- `/portfolio/` - Portfolio page  \n- `/data_analytics/` - Data Analytics page\n- `/back_end/` - Back-end Developer page\n- `/front_end/` - Front-end Developer page\n- `/contact/` - Contact page\n- `/sliding_scale_project_page/` - Sliding Scale Project page\n- `/battle_fictional_character/` - Character Battle page\n- `/periodic_table/` - Periodic Table page\n- `/static/` - Static assets (CSS, JS, images)\n- `/dashboard_data/` - Data files for dashboard\n- `/dash_app/` - Dash application (if available)\n\n## Note\n\nThis static version removes server-side functionality like:\n- Email sending\n- Form submissions  \n- Database interactions\n- Session management\n\nThe contact forms and subscription forms are preserved for styling but will not function.",
-      "sourceUrl": "https://github.com/ZSturman/ZSDynamics-V1.1/blob/main/docs/README.md"
-    }
+    "folderName": "zsdynamics_11_306aec94-4d3c-80ff-a96a-c3c51900e249"
   }
 }

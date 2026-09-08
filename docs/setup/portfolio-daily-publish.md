@@ -77,8 +77,20 @@ refuses a second simultaneous process.
    environment exists. Refresh it after dependency changes with
    `.venv/bin/python -m pip install -r requirements.txt`.
 
-4. Enable the Hammerspoon module in
-   `/Users/zacharysturman/.hammerspoon/config.local.lua`:
+4. Confirm the module is enabled. The tracked `config.lua` defaults already
+   set `portfolio_publish.enabled = true` and `schedule.start_on_load = true`,
+   so on a checkout using those defaults unmodified there is nothing further
+   to do here — reloading Hammerspoon is enough to start the timer:
+
+   ```bash
+   hs -c 'hs.reload()'
+   ```
+
+   To enable (or override) it on a machine/checkout where the tracked default
+   has been changed, or to intentionally diverge from the tracked defaults
+   without editing them, create
+   `/Users/zacharysturman/.hammerspoon/config.local.lua`
+   (see `config.local.lua.example` for the template) with:
 
    ```lua
    return {
@@ -88,11 +100,10 @@ refuses a second simultaneous process.
    }
    ```
 
-   Then reload Hammerspoon:
-
-   ```bash
-   hs -c 'hs.reload()'
-   ```
+   then reload Hammerspoon the same way. `config.local.lua` is optional and
+   is not present on every machine — it only needs to exist when you want a
+   local override that differs from whatever `config.lua` currently ships
+   with.
 
 `PP` appears in the menu bar once enabled. Its timer starts automatically,
 shows **Daily at 14:00 UTC**, and retains the last attempted UTC date across
@@ -107,8 +118,9 @@ up after wake/reload later that same UTC day.
   semantic result, and restores generated files without committing or
   deploying.
 - **PP → Disable Daily Timer** stops scheduling until Hammerspoon reloads.
-- For a persistent disable, set
-  `modules.portfolio_publish.enabled = false` in `config.local.lua` and reload
+- For a persistent disable, set `modules.portfolio_publish.enabled = false`
+  either directly in `config.lua` (if you're editing the tracked defaults) or
+  in a local `config.local.lua` override (see step 4 above), then reload
   Hammerspoon. A disabled module creates no menu, timer, watcher, or task.
 
 There is intentionally no GitHub Actions schedule or manual-dispatch workflow

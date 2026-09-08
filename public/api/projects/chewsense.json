@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-09-01T14:08:41.953635+00:00",
+  "generated_at": "2026-09-02T00:13:21.673452+00:00",
   "data": {
     "id": "306aec94-4d3c-808d-9ada-f0ccca484d3b",
     "slug": "chewsense",
@@ -35,9 +35,9 @@
     "story": "",
     "images": {
       "icon": "thumbnail.png",
-      "banner": "banner.png",
       "poster": "poster.png",
-      "thumbnail": "thumbnail.png"
+      "thumbnail": "thumbnail.png",
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -78,10 +78,6 @@
         "coverImage": "/articles/building-chewsense-using-motion-data-for-an-on-device-ai-health-agent/images/hero.png"
       }
     ],
-    "folderName": "chewsense_306aec94-4d3c-808d-9ada-f0ccca484d3b",
-    "readme": {
-      "content": "# Chew Sense – Data Collection and Labeling\n\nChew Sense records synchronized AirPods motion data and video for research, prototyping, and dataset creation. While optimized for chewing-related motion analysis, it can support any workflow requiring aligned video and AirPods motion samples.\n\n---\n\n## Features\n\n### Automatic AirPods Connection\n- The app connects to supported AirPods motion sensors on launch.  \n- Recording is enabled only when motion data is actively available.\n\n### Synchronized Recording\n- Each session stores a `.mov` video file and a `.csv` motion-data file in a single folder.  \n- Timestamps ensure precise alignment between modalities.\n\n### Optional Labeling Workflow\n- Recordings can be exported immediately when started in **Not eating** mode.  \n- When labeling is required, the detail view supports:\n  - Playback  \n  - Marker placement  \n  - Segment-based boolean labels  \n- Segments between markers are labeled `true`; all others are `false`.\n\n### Connection-Loss Protection\n- The app automatically pauses recording if the AirPods connection drops.  \n- This prevents incomplete or misaligned datasets.\n\n---\n\n## Data Format\n\n- **Video:** `recording.mov`  \n- **Motion data:** `motion.csv` with timestamped sensor rows  \n- **Labels:** Boolean values aligned to motion-data segments  \n\n---\n\n## Exporting\n\nRecordings can be exported or shared as a folder containing both files. This design simplifies downstream processing and machine-learning dataset assembly.\n\n---\n\n## Intended Use\n\nChew Sense is designed for technical users who need clean, consistent, and synchronized motion/video data.  \nIt is **not** intended as a consumer chewing-monitoring or health-tracking product.",
-      "sourceUrl": "https://github.com/ZSturman/ChewSense---Data-Collection-and-Labeling/blob/main/README.md"
-    }
+    "folderName": "chewsense_306aec94-4d3c-808d-9ada-f0ccca484d3b"
   }
 }

@@ -56,6 +56,9 @@ async function main() {
       ignoreHTTPSErrors: true,
       userAgent: "Mozilla/5.0 (compatible; portfolio-prebuild/1.0; +https://zachary-sturman.com)",
     });
+    await context.addInitScript(() => {
+      window.__ZS_DISABLE_ANALYTICS__ = true;
+    });
     const page = await context.newPage();
 
     const response = await page.goto(url, {

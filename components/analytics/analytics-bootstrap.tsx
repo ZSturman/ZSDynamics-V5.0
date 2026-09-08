@@ -6,7 +6,6 @@ import { usePathname, useSearchParams } from "next/navigation";
 import {
   initializeAnalytics,
   setActiveAnalyticsSection,
-  trackAutomationSignal,
   trackOutboundLink,
   trackRouteView,
   trackScrollDepth,
@@ -22,30 +21,6 @@ const ENGAGEMENT_BUCKETS = [
   { seconds: 30, label: "30s" },
   { seconds: 60, label: "60s" },
 ] as const;
-
-function getAutomationSignalReason(): string | null {
-  if (typeof navigator === "undefined") {
-    return null;
-  }
-
-  const reasons: string[] = [];
-  const userAgent = navigator.userAgent.toLowerCase();
-
-  if (navigator.webdriver) {
-    reasons.push("webdriver");
-  }
-
-  if (
-    userAgent.includes("headless") ||
-    userAgent.includes("playwright") ||
-    userAgent.includes("puppeteer") ||
-    userAgent.includes("phantomjs")
-  ) {
-    reasons.push("headless_user_agent");
-  }
-
-  return reasons.length > 0 ? reasons.join(",") : null;
-}
 
 function isExternalAnchor(anchor: HTMLAnchorElement): boolean {
   const href = anchor.getAttribute("href");
@@ -137,11 +112,6 @@ export function AnalyticsBootstrap() {
   useEffect(() => {
     captureUtmOnLoad();
     initializeAnalytics();
-
-    const automationSignalReason = getAutomationSignalReason();
-    if (automationSignalReason) {
-      trackAutomationSignal(automationSignalReason);
-    }
 
     // Delegated outbound-link tracker. Specific trackers (social, project
     // resource, article source, resume) opt out via data-analytics-skip="true".
