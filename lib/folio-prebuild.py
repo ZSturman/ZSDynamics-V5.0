@@ -18,7 +18,7 @@ import time
 from datetime import datetime
 from pathlib import Path
 
-from projects_pipeline import build_projects_from_json
+from projects_pipeline import build_projects_from_json, root_path_health_warning
 
 DEFAULT_INPUT_JSON = Path("/Users/zacharysturman/n8n-files/exports/new_projects.json")
 
@@ -355,20 +355,15 @@ def main() -> None:
     try:
         lock_fd = acquire_lock(paths.lockfile)
 
-        if paths.target_public_projects.exists():
-            try:
-                shutil.rmtree(paths.target_public_projects)
-                print(f"Removed existing {paths.target_public_projects} before building new projects")
-            except Exception as remove_exc:
-                backup_path = paths.public_root / f"projects_backup_{int(time.time())}_{os.getpid()}"
-                try:
-                    paths.target_public_projects.rename(backup_path)
-                    print(f"Renamed existing {paths.target_public_projects} -> {backup_path} before build")
-                except Exception as rename_exc:
-                    raise SystemExit(
-                        f"Failed to prepare existing projects folder for rebuild: remove_error={remove_exc} rename_error={rename_exc}"
-                    )
-
+        # The existing public/projects/ is intentionally left untouched here.
+        # The new build is assembled entirely in a fresh temp directory below,
+        # and only swapped into place after build_projects_from_json() returns
+        # successfully (see the remove-then-rename a few dozen lines down).
+        # Deleting the live directory before validating the build could even
+        # start (e.g. before the Notion Config root path is confirmed
+        # readable) used to leave public/projects/ empty on disk for any
+        # precondition failure, with no automatic restore in the common case
+        # where the initial removal itself succeeded.
         temp_public_projects_root = Path(tempfile.mkdtemp(prefix="projects_tmp_", dir=str(paths.public_root)))
 
         result = build_projects_from_json(
@@ -382,6 +377,36 @@ def main() -> None:
         output_path.write_text(json.dumps(projects, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
         print(f"📄 Wrote {len(projects)} projects to projects.json")
         logger.info("Wrote %s projects to %s", len(projects), output_path)
+
+        # An unexpectedly small project set is exactly as dangerous as zero:
+        # it can silently replace a healthy live manifest with a partial one
+        # (an eligibility-flag regression, a bad Notion filter, a partial API
+        # failure). This never blocks the build — it's diagnostic, since a
+        # real bulk removal is a legitimate outcome — but it must not be silent.
+        existing_projects_json = paths.target_public_projects / "projects.json"
+        if existing_projects_json.exists():
+            try:
+                previous_count = len(json.loads(existing_projects_json.read_text(encoding="utf-8")))
+            except Exception:
+                previous_count = None
+            if previous_count and len(projects) < previous_count * 0.7:
+                print(
+                    f"⚠️  Project count dropped from {previous_count} to {len(projects)} "
+                    "(more than 30% fewer than the last build). Confirm this is intentional "
+                    "before publishing — it can indicate a Notion eligibility-flag regression "
+                    "or a partial query failure, not just real project removals."
+                )
+
+        root_path_warning = root_path_health_warning(Path(result["root_path"]), result["root_path_resolution_stats"])
+        if root_path_warning:
+            print(f"⚠️  {root_path_warning}")
+        else:
+            stats = result["root_path_resolution_stats"]
+            print(
+                f"[root_path] {stats['local']} local, {stats['redownloaded']} redownloaded, "
+                f"{stats['missing']} missing (of {stats['local'] + stats['redownloaded'] + stats['missing']} "
+                f"workspace-relative asset reference(s))"
+            )
 
         hostnames_config_path = paths.public_root / "image-hostnames.json"
         hostnames = result.get("external_hostnames", [])

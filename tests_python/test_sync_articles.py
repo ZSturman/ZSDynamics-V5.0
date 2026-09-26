@@ -7,7 +7,7 @@ from unittest.mock import patch
 
 sys.path.insert(0, str((Path(__file__).resolve().parent.parent / "lib")))
 
-from sync_articles import ArticleSyncError, build_articles_from_directory  # noqa: E402
+from sync_articles import build_articles_from_directory  # noqa: E402
 
 
 class FakeUrlopenResponse:
@@ -85,6 +85,7 @@ class TestSyncArticles(unittest.TestCase):
                         "---",
                         "title: Second Article",
                         "summary: Another summary.",
+                        "publishedAt: 2026-03-09",
                         "updatedAt: 2026-03-09",
                         "---",
                         "",
@@ -196,6 +197,7 @@ class TestSyncArticles(unittest.TestCase):
                         "---",
                         "title: Cover Article",
                         "summary: Article with explicit cover image.",
+                        "publishedAt: 2026-03-25",
                         "updatedAt: 2026-03-25",
                         "coverImage: ./cover.png",
                         "---",
@@ -233,6 +235,7 @@ class TestSyncArticles(unittest.TestCase):
                         "---",
                         "title: Series Article",
                         "summary: Article that belongs to a sequence.",
+                        "publishedAt: 2026-03-26",
                         "updatedAt: 2026-03-26",
                         "series: Folio Evolution",
                         "---",
@@ -281,6 +284,7 @@ class TestSyncArticles(unittest.TestCase):
                         "---",
                         "title: Linked Article",
                         "summary: Article with project links.",
+                        "publishedAt: 2026-04-01",
                         "updatedAt: 2026-04-01",
                         "projects:",
                         '  - "My Notion Pipeline (https://www.notion.so/My-Notion-Pipeline-304aec944d3c8029a1b1ea0f92487137?pvs=21)"',
@@ -332,6 +336,7 @@ class TestSyncArticles(unittest.TestCase):
                         "---",
                         "title: The Wolf Project - Reworking a Real-World Project",
                         "summary: Article linked by series.",
+                        "publishedAt: 2026-04-18",
                         "updatedAt: 2026-04-18",
                         "series: The Wolf Project",
                         "---",
@@ -366,6 +371,7 @@ class TestSyncArticles(unittest.TestCase):
                         "---",
                         "title: Preview Article",
                         "summary: Article with standalone previews.",
+                        "publishedAt: 2026-04-19",
                         "updatedAt: 2026-04-19",
                         "---",
                         "",
@@ -434,6 +440,7 @@ class TestSyncArticles(unittest.TestCase):
                         "---",
                         "title: Standalone Article",
                         "summary: Article without a series.",
+                        "publishedAt: 2026-03-26",
                         "updatedAt: 2026-03-26",
                         "---",
                         "",
@@ -453,7 +460,10 @@ class TestSyncArticles(unittest.TestCase):
             self.assertEqual(len(manifest), 1)
             self.assertIsNone(manifest[0]["series"])
 
-    def test_missing_required_frontmatter_field_raises(self) -> None:
+    def test_missing_required_frontmatter_field_is_skipped_not_raised(self) -> None:
+        # A single malformed article must not raise and abort the sync; it
+        # should be skipped and recorded, so the rest of the portfolio
+        # pipeline (and any sibling articles) can still succeed.
         with tempfile.TemporaryDirectory() as repo_root_str, tempfile.TemporaryDirectory() as output_root_str:
             repo_root = Path(repo_root_str)
             output_root = Path(output_root_str)
@@ -474,15 +484,94 @@ class TestSyncArticles(unittest.TestCase):
                 encoding="utf-8",
             )
 
-            with self.assertRaises(ArticleSyncError):
-                build_articles_from_directory(
-                    source_repo_root=repo_root,
-                    output_dir=output_root,
-                    repo="ZSturman/Articles",
-                    ref="main",
-                )
+            manifest = build_articles_from_directory(
+                source_repo_root=repo_root,
+                output_dir=output_root,
+                repo="ZSturman/Articles",
+                ref="main",
+            )
+
+            self.assertEqual(manifest, [])
+            report = json.loads((output_root / "sync-report.json").read_text(encoding="utf-8"))
+            self.assertEqual(report["discovered"], 1)
+            self.assertEqual(report["imported"], 0)
+            self.assertEqual(len(report["skipped"]), 1)
+            self.assertEqual(report["skipped"][0]["slug"], "broken-article")
+            self.assertIn("summary", report["skipped"][0]["reason"])
+
+    def test_one_broken_article_does_not_prevent_siblings_from_importing(self) -> None:
+        with tempfile.TemporaryDirectory() as repo_root_str, tempfile.TemporaryDirectory() as output_root_str:
+            repo_root = Path(repo_root_str)
+            output_root = Path(output_root_str)
+
+            good_dir = repo_root / "articles" / "good-article"
+            good_dir.mkdir(parents=True)
+            (good_dir / "index.md").write_text(
+                "\n".join(
+                    [
+                        "---",
+                        "title: Good Article",
+                        "summary: A perfectly fine article.",
+                        "publishedAt: 2026-05-01",
+                        "updatedAt: 2026-05-01",
+                        "---",
+                        "",
+                        "Body copy.",
+                    ]
+                ),
+                encoding="utf-8",
+            )
+
+            broken_dir = repo_root / "articles" / "broken-article"
+            broken_dir.mkdir(parents=True)
+            (broken_dir / "index.md").write_text(
+                "\n".join(
+                    [
+                        "---",
+                        "title: Broken Article",
+                        "---",
+                        "",
+                        "Missing summary and updatedAt.",
+                    ]
+                ),
+                encoding="utf-8",
+            )
+
+            another_good_dir = repo_root / "articles" / "another-good-article"
+            another_good_dir.mkdir(parents=True)
+            (another_good_dir / "index.md").write_text(
+                "\n".join(
+                    [
+                        "---",
+                        "title: Another Good Article",
+                        "summary: Also perfectly fine.",
+                        "publishedAt: 2026-05-02",
+                        "updatedAt: 2026-05-02",
+                        "---",
+                        "",
+                        "Body copy.",
+                    ]
+                ),
+                encoding="utf-8",
+            )
+
+            manifest = build_articles_from_directory(
+                source_repo_root=repo_root,
+                output_dir=output_root,
+                repo="ZSturman/Articles",
+                ref="main",
+            )
+
+            self.assertEqual({article["slug"] for article in manifest}, {"good-article", "another-good-article"})
+            report = json.loads((output_root / "sync-report.json").read_text(encoding="utf-8"))
+            self.assertEqual(report["discovered"], 3)
+            self.assertEqual(report["imported"], 2)
+            self.assertEqual([item["slug"] for item in report["skipped"]], ["broken-article"])
 
     def test_missing_published_at_does_not_raise(self) -> None:
+        # A missing publishedAt is valid frontmatter (it does not raise), but
+        # it is also the schema's only draft signal — see the two tests below
+        # for the resulting exclude-by-default / preview-opt-in behavior.
         with tempfile.TemporaryDirectory() as repo_root_str, tempfile.TemporaryDirectory() as output_root_str:
             repo_root = Path(repo_root_str)
             output_root = Path(output_root_str)
@@ -511,9 +600,105 @@ class TestSyncArticles(unittest.TestCase):
                 ref="main",
             )
 
-            self.assertEqual(len(manifest), 1)
+            self.assertEqual(len(manifest), 0, "an article with no publishedAt is a draft and must not be published")
+
+    def test_draft_article_is_excluded_from_public_manifest_and_output_by_default(self) -> None:
+        """A draft (no publishedAt — the same signal the on-site 'Draft'
+        badge uses) must not be reachable in production: not in
+        articles.json (which gates both the /articles listing and
+        generateStaticParams), and its content must not be written to
+        public/articles/<slug>/ either, since Next's static export copies
+        public/ verbatim regardless of routing."""
+        with tempfile.TemporaryDirectory() as repo_root_str, tempfile.TemporaryDirectory() as output_root_str:
+            repo_root = Path(repo_root_str)
+            output_root = Path(output_root_str)
+
+            published_dir = repo_root / "articles" / "published-article"
+            published_dir.mkdir(parents=True)
+            (published_dir / "index.md").write_text(
+                "\n".join(["---", "title: Published Article", "summary: Live.", "publishedAt: 2026-01-01", "updatedAt: 2026-01-02", "---", "", "Live content."]),
+                encoding="utf-8",
+            )
+            draft_dir = repo_root / "articles" / "draft-article"
+            draft_dir.mkdir(parents=True)
+            (draft_dir / "index.md").write_text(
+                "\n".join(["---", "title: Draft Article", "summary: Not ready.", "updatedAt: 2026-03-20", "---", "", "Draft content."]),
+                encoding="utf-8",
+            )
+
+            manifest = build_articles_from_directory(
+                source_repo_root=repo_root,
+                output_dir=output_root,
+                repo="ZSturman/Articles",
+                ref="main",
+            )
+
+            self.assertEqual([a["slug"] for a in manifest], ["published-article"])
+            self.assertFalse((output_root / "draft-article").exists(), "draft content must not be written to public output")
+            self.assertTrue((output_root / "published-article" / "index.md").exists())
+
+            report = json.loads((output_root / "sync-report.json").read_text(encoding="utf-8"))
+            self.assertEqual(report["draftsExcluded"], ["draft-article"])
+            self.assertEqual(report["imported"], 1)
+
+    def test_draft_article_is_included_with_preview_env_flag(self) -> None:
+        with tempfile.TemporaryDirectory() as repo_root_str, tempfile.TemporaryDirectory() as output_root_str:
+            repo_root = Path(repo_root_str)
+            output_root = Path(output_root_str)
+
+            draft_dir = repo_root / "articles" / "draft-article"
+            draft_dir.mkdir(parents=True)
+            (draft_dir / "index.md").write_text(
+                "\n".join(["---", "title: Draft Article", "summary: Not ready.", "updatedAt: 2026-03-20", "---", "", "Draft content."]),
+                encoding="utf-8",
+            )
+
+            with patch("sync_articles.INCLUDE_DRAFT_ARTICLES", True):
+                manifest = build_articles_from_directory(
+                    source_repo_root=repo_root,
+                    output_dir=output_root,
+                    repo="ZSturman/Articles",
+                    ref="main",
+                )
+
+            self.assertEqual([a["slug"] for a in manifest], ["draft-article"])
             self.assertIsNone(manifest[0]["publishedAt"])
-            self.assertEqual(manifest[0]["updatedAt"], "2026-03-20")
+            self.assertTrue((output_root / "draft-article" / "index.md").exists())
+
+    def test_self_domain_typo_is_corrected_in_links_and_text(self) -> None:
+        with tempfile.TemporaryDirectory() as repo_root_str, tempfile.TemporaryDirectory() as output_root_str:
+            repo_root = Path(repo_root_str)
+            output_root = Path(output_root_str)
+
+            article_dir = repo_root / "articles" / "typo-article"
+            article_dir.mkdir(parents=True)
+            (article_dir / "index.md").write_text(
+                "\n".join(
+                    [
+                        "---",
+                        "title: Typo Article",
+                        "summary: Has a self-referential domain typo.",
+                        "publishedAt: 2026-01-01",
+                        "updatedAt: 2026-01-02",
+                        "---",
+                        "",
+                        "More at [zachary-sturman.com](https://zachary-sturman.com/articles/other) and "
+                        "[https://zachary-sturman.com](https://zachary-sturman.com).",
+                    ]
+                ),
+                encoding="utf-8",
+            )
+
+            build_articles_from_directory(
+                source_repo_root=repo_root,
+                output_dir=output_root,
+                repo="ZSturman/Articles",
+                ref="main",
+            )
+
+            content = (output_root / "typo-article" / "index.md").read_text(encoding="utf-8")
+            self.assertNotIn("zachary-sturman.com", content)
+            self.assertIn("zacharysturman.com", content)
 
     def test_snake_case_cover_image_is_resolved(self) -> None:
         with tempfile.TemporaryDirectory() as repo_root_str, tempfile.TemporaryDirectory() as output_root_str:
@@ -529,6 +714,7 @@ class TestSyncArticles(unittest.TestCase):
                         "---",
                         "title: Snake Cover Article",
                         "summary: Article with snake_case cover_image key.",
+                        "publishedAt: 2026-04-10",
                         "updatedAt: 2026-04-10",
                         "cover_image: ./cover.png",
                         "---",
@@ -563,6 +749,7 @@ class TestSyncArticles(unittest.TestCase):
                         "---",
                         "title: Liner Article",
                         "summary: A longer summary for the article.",
+                        "publishedAt: 2026-04-12",
                         "updatedAt: 2026-04-12",
                         "one_liner: A short catchy description.",
                         "---",
@@ -596,6 +783,7 @@ class TestSyncArticles(unittest.TestCase):
                         "---",
                         "title: No Liner Article",
                         "summary: Just a summary.",
+                        "publishedAt: 2026-04-12",
                         "updatedAt: 2026-04-12",
                         "---",
                         "",

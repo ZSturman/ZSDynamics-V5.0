@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-09-02T00:13:21.674793+00:00",
+  "generated_at": "2026-09-26T10:41:02.314353+00:00",
   "data": {
     "id": "306aec94-4d3c-801d-b601-cb6d0de3219e",
     "slug": "mind-adrift",
@@ -12,9 +12,9 @@
     "summary": "Mind Adrift is a short-form narrative work centered on cognitive decline and disorientation, told from the inside rather than observed from a distance. It follows a person who is still present in the world—surrounded by family, routines, and familiar spaces—but increasingly unable to connect those pieces into a stable sense of reality. Time slips, relationships blur, and moments repeat or contradict one another without warning.The project is less about plot progression and more about structure and perspective. Scenes loop, reset, or fracture in ways that mirror how memory fails in real life. The goal is not to explain the condition or resolve it, but to place the audience inside that experience long enough to understand its logic and weight. It is designed for readers interested in character-driven narratives, psychological realism, and stories that prioritize internal experience over external action.",
     "oneLiner": "Mind Adrift is a narrative project about losing continuity with your own life while still moving through it, exploring memory, identity, and the quiet confusion of trying to stay oriented when your mind no longer cooperates.",
     "domain": "Narrative",
-    "category": "Short story",
+    "category": "Other",
     "status": "Complete",
-    "phase": "Published",
+    "phase": "Post-Release",
     "featured": false,
     "createdAt": "2013-09-01",
     "updatedAt": "2013-09-01",
@@ -32,9 +32,9 @@
     "description": "",
     "story": "",
     "images": {
+      "hero": "hero.png",
       "thumbnail": "E4690E5D-3901-4E26-A237-8AA0FF26EE76.png",
-      "banner": "banner.png",
-      "hero": "hero.png"
+      "banner": "banner.png"
     },
     "resources": [],
     "assets": [

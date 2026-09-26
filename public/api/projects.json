@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.list",
-  "generated_at": "2026-09-02T00:13:21.667920+00:00",
+  "generated_at": "2026-09-26T10:41:02.311277+00:00",
   "data": [
     {
       "id": "35eaec94-4d3c-809c-a0f4-ff355a7a6d21",
@@ -18,10 +18,10 @@
         "Recharts",
         "Tailwind CSS"
       ],
-      "status": "Complete",
+      "status": "Maintained",
       "featured": false,
       "domain": "Technology",
-      "category": "Application",
+      "category": "Other",
       "href": "/projects/marina-departure-noaa-risk-checker",
       "primaryImageUrl": "/projects/marina_departure_noaa_risk_checker_35eaec94-4d3c-809c-a0f4-ff355a7a6d21/thumb.png",
       "updatedAt": "2026-05-08"
@@ -40,10 +40,10 @@
         "Finances",
         "Dashboard"
       ],
-      "status": "Complete",
+      "status": "Maintained",
       "featured": true,
       "domain": "Technology",
-      "category": "Application",
+      "category": "Other",
       "href": "/projects/transactions",
       "primaryImageUrl": "/projects/transactions_35eaec94-4d3c-80bc-9273-c1403b6c02ad/thumb.png",
       "updatedAt": "2026-05-11"
@@ -62,10 +62,10 @@
         "Firebase",
         "Google Sheets"
       ],
-      "status": "Dormant",
+      "status": "Paused",
       "featured": false,
       "domain": "Technology",
-      "category": "Application",
+      "category": "Other",
       "href": "/projects/production-scheduling-web-app",
       "primaryImageUrl": "/projects/production_scheduling_web_app_34faec94-4d3c-80bf-928b-e0e32ba51cc8/thumb.png",
       "updatedAt": "2024-09-30"
@@ -85,7 +85,7 @@
       "status": "Active",
       "featured": true,
       "domain": "Technology",
-      "category": "Application",
+      "category": "Other",
       "href": "/projects/the-wolf-project",
       "primaryImageUrl": "/projects/the_wolf_project_346aec94-4d3c-801e-851f-c7e727f0e186/Wolf-hero.webp",
       "updatedAt": "2026-04-27"
@@ -108,10 +108,10 @@
         "Windows",
         "Machine Learning"
       ],
-      "status": "Complete",
+      "status": "Deprecated",
       "featured": false,
       "domain": "Technology",
-      "category": "Application",
+      "category": "Other",
       "href": "/projects/google-sheets-production-schedule-desktop-app",
       "primaryImageUrl": "/projects/google_sheets_production_schedule_desktop_app_33baec94-4d3c-80d2-8a69-deb2a742f972/thumb.png",
       "updatedAt": "2025-09-30"
@@ -131,10 +131,10 @@
         "Friendship",
         "Dark"
       ],
-      "status": "Complete",
+      "status": "Archived",
       "featured": false,
       "domain": "Narrative",
-      "category": "Comedy",
+      "category": "Other",
       "href": "/projects/down-n-out",
       "primaryImageUrl": "/projects/down_n_out_33baec94-4d3c-8077-a29c-c57cb736b6f2/thumb.png",
       "updatedAt": "2014-12-12"
@@ -156,7 +156,7 @@
       "status": "Active",
       "featured": false,
       "domain": "Technology",
-      "category": "Application",
+      "category": "Other",
       "href": "/projects/media-organizer",
       "primaryImageUrl": "/projects/media_organizer_339aec94-4d3c-8047-a3ea-ea94ff1e518f/thumbnail.png",
       "updatedAt": "2026-03-28"
@@ -176,7 +176,7 @@
       "status": "Active",
       "featured": false,
       "domain": "Expository",
-      "category": "Social Experiment",
+      "category": "Other",
       "href": "/projects/democracy-in-the-21st-century",
       "primaryImageUrl": "/projects/democracy_in_the_21st_century_333aec94-4d3c-8036-82e4-d96b64b15c6c/thumbnail.png",
       "updatedAt": "2026-03-09"
@@ -197,7 +197,7 @@
       "status": "Active",
       "featured": false,
       "domain": "Technology",
-      "category": "Application",
+      "category": "Other",
       "href": "/projects/testing-traits",
       "primaryImageUrl": "/projects/testing_traits_332aec94-4d3c-80ae-805d-f01e79254789/thumbnail.png",
       "updatedAt": "2025-12-22"
@@ -216,7 +216,7 @@
       "status": "Active",
       "featured": false,
       "domain": "Technology",
-      "category": "Application",
+      "category": "Other",
       "href": "/projects/psyche-agent",
       "primaryImageUrl": "/projects/psyche_agent_332aec94-4d3c-80ea-8468-c3a18bc61258/thumbnail.png",
       "updatedAt": "2026-04-04"
@@ -237,7 +237,7 @@
       "status": "Active",
       "featured": false,
       "domain": "Technology",
-      "category": "Tool",
+      "category": "Other",
       "href": "/projects/bias-detecting-ai",
       "primaryImageUrl": "/projects/bias_detecting_ai_332aec94-4d3c-80be-a40c-ce5b6cd6ff56/thumbnail.png",
       "updatedAt": "2026-04-01"
@@ -259,7 +259,7 @@
       "status": "Active",
       "featured": false,
       "domain": "Technology",
-      "category": "AI Model",
+      "category": "Other",
       "href": "/projects/train-of-thought-agent",
       "primaryImageUrl": "/projects/train_of_thought_agent_332aec94-4d3c-807a-ba3b-d0950cd03a66/thumbnail.png",
       "updatedAt": "2026-04-05"
@@ -279,7 +279,7 @@
       "status": "Active",
       "featured": false,
       "domain": "Expository",
-      "category": "Application",
+      "category": "Other",
       "href": "/projects/math-and-happiness",
       "primaryImageUrl": "/projects/math_and_happiness_332aec94-4d3c-8040-87a1-e4f349ef0994/thumbnail.png",
       "updatedAt": "2026-02-23"
@@ -300,7 +300,7 @@
       "status": "Active",
       "featured": false,
       "domain": "Technology",
-      "category": "Application",
+      "category": "Other",
       "href": "/projects/runtime-storyboard-debugger",
       "primaryImageUrl": "/projects/runtime_storyboard_debugger_32eaec94-4d3c-80c9-b238-c8a9f0b1990e/thumbnail.png",
       "updatedAt": "2026-04-25"
@@ -315,10 +315,10 @@
         "macOS",
         "Productivity"
       ],
-      "status": "Complete",
+      "status": "Deprecated",
       "featured": false,
       "domain": "Technology",
-      "category": "Application",
+      "category": "Other",
       "href": "/projects/folio",
       "primaryImageUrl": "/projects/folio_324aec94-4d3c-8068-a8a7-ed6d1d4d1790/thumbnail.png",
       "updatedAt": "2026-01-29"
@@ -335,10 +335,10 @@
         "Sitcom",
         "Roommates"
       ],
-      "status": "Complete",
+      "status": "Archived",
       "featured": false,
       "domain": "Narrative",
-      "category": "Screenplay",
+      "category": "Other",
       "href": "/projects/between-jobs",
       "primaryImageUrl": "/projects/between_jobs_31faec94-4d3c-80a8-9ab6-e791da057b67/thumb.png",
       "updatedAt": "2017-02-10"
@@ -358,13 +358,13 @@
         "C4D",
         "Simulations"
       ],
-      "status": "Active",
+      "status": "Maintained",
       "featured": false,
       "domain": "Artistic",
-      "category": "Animation",
+      "category": "Other",
       "href": "/projects/3d-models-collection",
       "primaryImageUrl": "/projects/3d_models_collection_312aec94-4d3c-817e-9295-e018716cf990/thumbnail.png",
-      "updatedAt": "2024-11-19"
+      "updatedAt": "2026-09-19"
     },
     {
       "id": "306aec94-4d3c-80c9-a6d4-f6362f15b981",
@@ -383,7 +383,7 @@
       "status": "Active",
       "featured": false,
       "domain": "Expository",
-      "category": "Physics",
+      "category": "Other",
       "href": "/projects/mass-and-time",
       "primaryImageUrl": "/projects/mass_and_time_306aec94-4d3c-80c9-a6d4-f6362f15b981/thumbnail.png",
       "updatedAt": "2025-11-18"
@@ -401,10 +401,10 @@
         "React",
         "TS"
       ],
-      "status": "Complete",
+      "status": "Maintained",
       "featured": false,
       "domain": "Technology",
-      "category": "Web",
+      "category": "Other",
       "href": "/projects/frontend-collection",
       "primaryImageUrl": "/projects/frontend_collection_306aec94-4d3c-803b-a895-e775003b0f5d/thumbnail.png",
       "updatedAt": "2026-03-24"
@@ -425,7 +425,7 @@
       "status": "Active",
       "featured": true,
       "domain": "Technology",
-      "category": "Application",
+      "category": "Other",
       "href": "/projects/chewsense",
       "primaryImageUrl": "/projects/chewsense_306aec94-4d3c-808d-9ada-f0ccca484d3b/thumbnail.png",
       "updatedAt": "2026-05-12"
@@ -443,10 +443,10 @@
         "TS",
         "Portfolio"
       ],
-      "status": "Complete",
+      "status": "Deprecated",
       "featured": false,
       "domain": "Technology",
-      "category": "Web",
+      "category": "Other",
       "href": "/projects/zsdynamics-40",
       "primaryImageUrl": "/projects/zsdynamics_40_306aec94-4d3c-807e-a7ef-db0aa63a2ec7/thumbnail.png",
       "updatedAt": "2025-11-07"
@@ -466,7 +466,7 @@
       "status": "Complete",
       "featured": false,
       "domain": "Technology",
-      "category": "Web",
+      "category": "Other",
       "href": "/projects/towardbetterme-announcement-page",
       "primaryImageUrl": "/projects/towardbetterme_announcement_page_306aec94-4d3c-8064-9e5a-c59f1df02bee/thumbnail.png",
       "updatedAt": "2025-02-06"
@@ -487,10 +487,10 @@
         "Machine Learning",
         "Mobile"
       ],
-      "status": "Complete",
+      "status": "Archived",
       "featured": false,
       "domain": "Technology",
-      "category": "Mobile App",
+      "category": "Other",
       "href": "/projects/lost-and-hound",
       "primaryImageUrl": "/projects/lost_hound_306aec94-4d3c-80a5-b00e-f67cc4ff5901/thumbnail.png",
       "updatedAt": "2024-10-10"
@@ -505,10 +505,10 @@
         "Obsidian",
         "JavaScript"
       ],
-      "status": "Complete",
+      "status": "Archived",
       "featured": false,
       "domain": "Technology",
-      "category": "Module",
+      "category": "Other",
       "href": "/projects/obsidian-toolkit",
       "primaryImageUrl": "/projects/obsidian_toolkit_306aec94-4d3c-8085-a43d-f9ac3bec06ef/thumbnail.png",
       "updatedAt": "2024-07-01"
@@ -524,10 +524,10 @@
         "React",
         "TS"
       ],
-      "status": "Complete",
+      "status": "Deprecated",
       "featured": false,
       "domain": "Technology",
-      "category": "Web",
+      "category": "Other",
       "href": "/projects/zsdynamics-30",
       "primaryImageUrl": "/projects/zsdynamics_30_306aec94-4d3c-80d4-a8bd-d83a8832ebf8/thumbnail.png",
       "updatedAt": "2024-07-23"
@@ -544,10 +544,10 @@
         "Next.js",
         "TS"
       ],
-      "status": "Complete",
+      "status": "Deprecated",
       "featured": false,
       "domain": "Technology",
-      "category": "Web",
+      "category": "Other",
       "href": "/projects/zsdynamics-20",
       "primaryImageUrl": "/projects/zsdynamics_20_306aec94-4d3c-800b-9d7d-ed0c879ab5b3/thumbnail.png",
       "updatedAt": "2023-11-13"
@@ -563,10 +563,10 @@
         "Portfolio",
         "Python"
       ],
-      "status": "Complete",
+      "status": "Deprecated",
       "featured": false,
       "domain": "Technology",
-      "category": "Web",
+      "category": "Other",
       "href": "/projects/zsdynamics-11",
       "primaryImageUrl": "/projects/zsdynamics_11_306aec94-4d3c-80ff-a96a-c3c51900e249/thumbnail.png",
       "updatedAt": "2022-04-10"
@@ -581,10 +581,10 @@
         "Adult Animation",
         "Comedy"
       ],
-      "status": "Complete",
+      "status": "Archived",
       "featured": false,
       "domain": "Narrative",
-      "category": "Television",
+      "category": "Other",
       "href": "/projects/greenhorn",
       "primaryImageUrl": "/projects/greenhorn_306aec94-4d3c-80b0-b478-e070bcd1d517/thumbnail.tiff",
       "updatedAt": "2021-11-05"
@@ -600,10 +600,10 @@
         "Python",
         "Portfolio"
       ],
-      "status": "Complete",
+      "status": "Deprecated",
       "featured": false,
       "domain": "Technology",
-      "category": "Web",
+      "category": "Other",
       "href": "/projects/zsdynamics-10",
       "primaryImageUrl": "/projects/zsdynamics_10_306aec94-4d3c-803d-8230-fe06337c4a51/thumbnail.png",
       "updatedAt": "2021-07-10"
@@ -621,10 +621,10 @@
         "Blender",
         "Anime"
       ],
-      "status": "Active",
+      "status": "Maintained",
       "featured": false,
       "domain": "Artistic",
-      "category": "Animation",
+      "category": "Other",
       "href": "/projects/animation-collection",
       "primaryImageUrl": "/projects/animation_collection_306aec94-4d3c-8091-876a-f028b4c582c4/collection thumbnail.png",
       "updatedAt": "2023-03-10"
@@ -644,7 +644,7 @@
       "status": "Abandoned",
       "featured": false,
       "domain": "Artistic",
-      "category": "Art",
+      "category": "Other",
       "href": "/projects/history-of-everything-coloring-book",
       "primaryImageUrl": "/projects/history_of_everything_coloring_book_306aec94-4d3c-8067-909b-da087d8b0c26/thumbnail.png",
       "updatedAt": "2020-08-17"
@@ -664,7 +664,7 @@
       "status": "Complete",
       "featured": false,
       "domain": "Narrative",
-      "category": "Short story",
+      "category": "Other",
       "href": "/projects/mind-adrift",
       "primaryImageUrl": "/projects/mind_adrift_306aec94-4d3c-801d-b601-cb6d0de3219e/E4690E5D-3901-4E26-A237-8AA0FF26EE76.png",
       "updatedAt": "2013-09-01"
@@ -681,10 +681,10 @@
         "Widgets",
         "Health"
       ],
-      "status": "Complete",
+      "status": "Maintained",
       "featured": false,
       "domain": "Technology",
-      "category": "Application",
+      "category": "Other",
       "href": "/projects/mediledger",
       "primaryImageUrl": "/projects/mediledger_306aec94-4d3c-800f-8fd6-c80ad845b5df/thumbnail.png",
       "updatedAt": "2026-03-08"
@@ -701,10 +701,10 @@
         "Telemetry",
         "Dynamic"
       ],
-      "status": "Dormant",
+      "status": "Paused",
       "featured": false,
       "domain": "Technology",
-      "category": "Application",
+      "category": "Other",
       "href": "/projects/drifting-priorities",
       "primaryImageUrl": "/projects/drifting_priorities_306aec94-4d3c-806a-b191-f329f1efc1ae/thumbnail.png",
       "updatedAt": "2026-01-29"
@@ -723,7 +723,7 @@
       "status": "Complete",
       "featured": false,
       "domain": "Narrative",
-      "category": "Novel",
+      "category": "Other",
       "href": "/projects/timeline-7",
       "primaryImageUrl": "/projects/timeline_7_306aec94-4d3c-805d-b085-e4252d4601b3/thumbnail.png",
       "updatedAt": "2016-11-01"
@@ -744,10 +744,10 @@
         "Learning",
         "Focus"
       ],
-      "status": "Complete",
+      "status": "Maintained",
       "featured": true,
       "domain": "Technology",
-      "category": "Application",
+      "category": "Other",
       "href": "/projects/top-note",
       "primaryImageUrl": "/projects/top_note_306aec94-4d3c-8008-9985-d94ba1780069/thumbnail.png",
       "updatedAt": "2026-03-08"
@@ -765,10 +765,10 @@
         "React",
         "Video Game"
       ],
-      "status": "Dormant",
+      "status": "Paused",
       "featured": false,
       "domain": "Technology",
-      "category": "Video Game",
+      "category": "Other",
       "href": "/projects/broken-time-machine",
       "primaryImageUrl": "/projects/broken_time_machine_306aec94-4d3c-80a8-850e-df4dd020d452/D5A4CF89-4891-4BFE-8BC3-0317AD20CF80.png",
       "updatedAt": "2026-02-19"
@@ -786,7 +786,7 @@
       "status": "Active",
       "featured": true,
       "domain": "Technology",
-      "category": "AI Model",
+      "category": "Other",
       "href": "/projects/episodic-memory-agent",
       "primaryImageUrl": "/projects/episodic_memory_agent_306aec94-4d3c-8005-97ab-d4572f1ab679/episodic memory thumbnail.png",
       "updatedAt": "2026-03-16"
@@ -810,7 +810,7 @@
       "status": "Active",
       "featured": true,
       "domain": "Personal",
-      "category": "Organization",
+      "category": "Other",
       "href": "/projects/my-notion-pipeline",
       "primaryImageUrl": "/projects/my_notion_pipeline_304aec94-4d3c-8029-a1b1-ea0f92487137/thumbnail.png",
       "updatedAt": "2026-04-12"

@@ -69,7 +69,7 @@ npx firebase-tools emulators:start --only hosting
 
 Then open `http://127.0.0.1:5033`.
 
-For a content refresh, first configure the required Notion values in `.env.local`; then use `npm run build:full`. See [the daily publisher guide](setup/portfolio-daily-publish.md) for the six required database IDs, local safeguards, and the automated Notion-to-production flow. R2 is optional—if its five `R2_*` variables are absent, the pipeline retains local media paths and does not upload anything.
+For a content refresh, first configure the required Notion values in `.env.local`; then use `npm run build:full`. See [the daily publisher guide](setup/portfolio-daily-publish.md) for the six required database IDs, local safeguards, and the automated Notion-to-production flow, and [article ingestion](setup/articles.md) for the separate GitHub-sourced article sync and draft handling. R2 is optional—if its five `R2_*` variables are absent, the pipeline retains local media paths and does not upload anything.
 
 ## Testing
 
@@ -181,6 +181,8 @@ Local files remain the default source for portfolio media. To serve versioned me
 | Symptom | First check |
 | --- | --- |
 | `next build` fails after a content refresh | Confirm the six Notion IDs and token are set in `.env.local`; use `npm run build` if you do not intend to refresh content. |
+| `generate-projects` fails with "Resolved root path is not a readable directory" | The Notion Config DB's `root path` value doesn't exist on this machine — it's read live from Notion every run, not cached. See [Notion architecture: Failure isolation and troubleshooting](notion-and-storage-architecture.md#failure-isolation-and-troubleshooting). `python3 lib/folio-prebuild.py --root-path /some/path` overrides it for one run without touching Notion. |
+| `generate-projects` succeeds but most assets show "Downloaded missing Notion asset" or "Missing source file" | The build now prints a `[root_path] N local, N redownloaded, N missing` summary and a warning when almost nothing resolves locally — that's the signal `root_path` itself may be pointed at the wrong directory, not just missing individual files. |
 | Browser/media tests cannot start | Run `npx playwright install chromium`; CI installs Chromium and WebKit itself. |
 | Contact form fails locally | Start the Worker, set `NEXT_PUBLIC_API_BASE_URL`, and configure its local variables/secrets. |
 | Contact form fails in production | Check the Worker `/health` endpoint, allowed origins, Turnstile keys, Worker secrets, and Resend domain verification. |

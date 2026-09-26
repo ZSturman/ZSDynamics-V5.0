@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-09-02T00:13:21.669331+00:00",
+  "generated_at": "2026-09-26T10:41:02.312155+00:00",
   "data": {
     "id": "339aec94-4d3c-8047-a3ea-ea94ff1e518f",
     "slug": "media-organizer",
@@ -12,9 +12,9 @@
     "summary": "A local-first media organizing app for macOS, built for people who still manage photo and video libraries as folders on disk instead of inside a closed catalog. You pick a folder, scan it, review conservative metadata suggestions, accept or reject rename proposals, and then apply changes with backups or XMP sidecars depending on how safe direct writeback is for that file type.\n\nWhat makes it useful is the posture more than the feature list. It is careful, reversible, and fairly modest about what it claims to know. Existing metadata is preserved, people suggestions stay anonymous unless someone names them, uncertain results stay in a review queue, and video handling falls back to sidecars rather than forcing direct container edits. The likely audience is photographers, family archivists, and small teams with messy folder-based libraries. What is less clear is the broader brand personality, because there are no explicit design assets or marketing materials in the repo, so the strongest visual cue is the product’s quiet, native, utility-first character.",
     "oneLiner": "A native macOS app for people who keep real folders of photos and videos, and want help cleaning up metadata, filenames, and review decisions without handing the library to a cloud service.",
     "domain": "Technology",
-    "category": "Application",
+    "category": "Other",
     "status": "Active",
-    "phase": "Development",
+    "phase": "Production",
     "featured": false,
     "createdAt": "2026-04-03",
     "updatedAt": "2026-03-28",
@@ -35,10 +35,10 @@
     "story": "",
     "images": {
       "icon": "icon.png",
-      "poster": "poster.png",
+      "hero": "hero.png",
       "thumbnail": "thumbnail.png",
       "banner": "banner.png",
-      "hero": "hero.png"
+      "poster": "poster.png"
     },
     "resources": [
       {

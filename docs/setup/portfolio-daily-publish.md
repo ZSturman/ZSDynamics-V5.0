@@ -23,17 +23,38 @@ sends the final dashboard email with those local screenshots attached.
 
 ## What the local publisher does
 
-1. Requires `main` to match `origin/main`, but accepts pending changes in the
-   publisher-managed generated `public/` output. It still stops for uncommitted
-   source, configuration, or workflow edits so a release can never validate
-   one version of the code and push another.
+Diagnostics and publishing are deliberately decoupled (see
+`scripts/git-workspace-health.mjs`). A dirty tree from ordinary local
+development is diagnostic information, not automatically an incident:
+
+- **diagnostics-safe** — Notion sync, article sync, generation, validation,
+  lint, and tests run unless the repository itself is in a genuinely broken
+  state (a merge/rebase in progress, or unresolved conflicts). Ordinary
+  uncommitted source, an unpushed local commit, or being behind
+  `origin/main` do **not** stop diagnostics.
+- **publish-safe** — committing and pushing generated output additionally
+  requires `main` to match `origin/main` exactly and no uncommitted tracked
+  source outside the publisher-managed `public/` output (so a release can
+  never validate one version of the code and push another). Documentation,
+  notes, and scratch files (`docs/`, `README.md`, `AGENTS.md`, `tmp/`,
+  `logs/`) are treated as informational and never block a publish.
+
+1. Assesses repository health first. Only an unresolved merge conflict or an
+   in-progress merge/rebase aborts the run entirely (reported as a
+   **blocking** condition). Everything else proceeds to diagnostics.
 2. Loads `.env.local` (without printing its values), fetches the six Notion
    databases, synchronizes `ZSturman/Articles`, generates projects and media,
-   post-processes API output, and writes a semantic change summary.
+   post-processes API output, and writes a semantic change summary — this
+   step always runs, regardless of local Git cleanliness.
 3. Runs the production build, generated-output validation, lint, unit tests,
-   Python tests, browser tests, and media matrix before it can commit.
-4. Retries once from a safely fast-forwarded `main` if `origin/main` advances
-   during generation; it refuses a second race.
+   Python tests, browser tests, and media matrix.
+4. If a publish is intended (`--mode publish`) and the tree is publish-safe,
+   retries once from a safely fast-forwarded `main` if `origin/main` advances
+   during generation; it refuses a second race. If the tree is **not**
+   publish-safe, the run stops here with a **publish-skipped** report: it
+   states plainly that diagnostics succeeded and why the publish was
+   deferred, at **ATTENTION** severity — not HIGH/CRITICAL, and not treated
+   as a failure. No commit, merge, or push is attempted in this case.
 5. Commits only approved generated `public/` paths as `Portfolio Publisher`.
    A normal credentialed `git push` triggers the existing Firebase workflow.
 6. After a push, waits for Firebase to expose the exact release marker, then
@@ -41,6 +62,36 @@ sends the final dashboard email with those local screenshots attached.
    final dashboard email only after those local checks and captures finish. The
    marker wait is allowed to span the Firebase deployment queue (up to about
    100 minutes) before it reports a failure.
+
+## Email severity and noise reduction
+
+`scripts/send-portfolio-report.mjs` classifies every report and keeps a
+small persisted state file (`artifacts/notification-state.json`, not
+cleared between runs) so repeated unresolved low-priority issues don't
+spam the inbox:
+
+- **SUCCESS** — release verified, no changes, check-only, or diagnostics
+  complete with nothing to report.
+- **ATTENTION** — a publish was deferred because of ordinary local
+  repository state (see above), or a low-priority finding. Deduplicated: an
+  unchanged ATTENTION issue is not re-sent more than once per ~20 hours.
+- **LOW / MEDIUM** — a post-deployment check (preview capture, live QA)
+  failed while production is otherwise healthy.
+- **HIGH / CRITICAL** — a real failure (sync, build, validation, deployment,
+  or a broken repository state). Never suppressed or deduplicated,
+  regardless of how often it repeats.
+
+An unresolved ATTENTION issue that persists for 3+ days is escalated to
+HIGH in the email (with an explicit "unresolved for N days" note) so a
+stale, ignored condition cannot stay quiet indefinitely. When a previously
+reported issue stops recurring, the next report is sent immediately and
+marked **Resolved**, even if it would otherwise have been a routine
+success email.
+
+Every report also includes a **Developer state** section (from Git health)
+and, when present, a **Needs attention** section (validation warnings, such
+as a project missing a description or an article missing an asset) —
+independent of whether the run succeeded, was deferred, or failed.
 
 The Hammerspoon menu and a local artifact-directory lock prevent overlapping
 Mac-side executions. Hammerspoon applies a two-hour ceiling; the command also

@@ -20,6 +20,14 @@ from urllib.request import Request, urlopen
 
 DEFAULT_REPO = "ZSturman/Articles"
 DEFAULT_REF = "main"
+# publishedAt is the only signal the source schema gives for draft status
+# today (components/articles/article-card.tsx and article-list-item.tsx
+# already treat its absence as "Draft" for the on-site badge). By default a
+# draft is excluded from the public manifest/static output entirely, not
+# just visually labeled. Set PORTFOLIO_INCLUDE_DRAFT_ARTICLES=true for a
+# local/dev sync to preview draft content, mirroring the ANALYTICS_DRY_RUN-
+# style boolean env var convention used elsewhere in this repo.
+INCLUDE_DRAFT_ARTICLES = os.environ.get("PORTFOLIO_INCLUDE_DRAFT_ARTICLES", "").strip().lower() in {"1", "true", "yes"}
 PUBLIC_ROOT = Path(__file__).parent.parent / "public"
 TARGET_ARTICLES_DIR = PUBLIC_ROOT / "articles"
 PROJECTS_MANIFEST = PUBLIC_ROOT / "projects" / "projects.json"
@@ -721,6 +729,27 @@ def _resolve_public_article_target(
     return f"/articles/{current_article_slug}/{encoded_path}{fragment}"
 
 
+# The author's own domain, confirmed from .env.example / docs/setup/analytics.md
+# / package.json across this repo, is zacharysturman.com (no hyphen). The
+# source articles repo (ZSturman/Articles, external to this repo) has the
+# same self-referential typo "zachary-sturman.com" (with a hyphen) baked into
+# nearly every article's own back-links to the author's site/other articles.
+# That string never occurs anywhere else in this codebase or as a real,
+# distinct registered domain the author uses, so correcting it here — at
+# ingestion, not by silently editing arbitrary content — is safe and narrow.
+_SELF_DOMAIN_TYPO_RE = re.compile(r"\bzachary-sturman\.com\b", re.IGNORECASE)
+
+
+def fix_self_domain_typo(markdown: str, *, slug: str, warnings: List[str]) -> str:
+    fixed, count = _SELF_DOMAIN_TYPO_RE.subn("zacharysturman.com", markdown)
+    if count:
+        warnings.append(
+            f"Article '{slug}': corrected {count} self-referential link(s) from the "
+            "source's 'zachary-sturman.com' typo to the real domain 'zacharysturman.com'."
+        )
+    return fixed
+
+
 def rewrite_article_markdown(
     markdown: str,
     *,
@@ -974,54 +1003,87 @@ def build_articles_from_directory(
             article_paths_to_slug[index_path.parent.resolve()] = article_source["slug"]
 
     manifest: List[Dict[str, Any]] = []
+    skipped: List[Dict[str, str]] = []
+    excluded_drafts: List[str] = []
     for article_source in article_sources:
         slug = article_source["slug"]
         source_index_path = Path(article_source["index_path"])
         asset_root = Path(article_source["asset_root"])
 
-        raw_text = source_index_path.read_text(encoding="utf-8")
-        metadata, body = split_frontmatter(raw_text)
-        normalized_metadata = _normalize_article_metadata(
-            metadata,
-            slug=slug,
-            repo=repo,
-            ref=ref,
-            current_markdown_path=source_index_path,
-            current_asset_root=asset_root,
-            article_paths_to_slug=article_paths_to_slug,
-            project_alias_map=project_alias_map,
-        )
-        rewritten_body = rewrite_article_markdown(
-            body,
-            slug=slug,
-            current_markdown_path=source_index_path,
-            current_asset_root=asset_root,
-            article_paths_to_slug=article_paths_to_slug,
-        )
-        link_previews = _build_article_link_previews(rewritten_body, warnings)
-        if link_previews:
-            normalized_metadata["linkPreviews"] = link_previews
-
-        article_output_dir = output_dir / slug
-        article_output_dir.mkdir(parents=True, exist_ok=True)
-        (article_output_dir / "index.md").write_text(rewritten_body.rstrip() + "\n", encoding="utf-8")
-        if article_source["layout"] == "directory":
-            _copy_article_assets(asset_root, article_output_dir)
-        else:
-            _copy_referenced_relative_assets(
+        try:
+            raw_text = source_index_path.read_text(encoding="utf-8")
+            metadata, body = split_frontmatter(raw_text)
+            normalized_metadata = _normalize_article_metadata(
+                metadata,
+                slug=slug,
+                repo=repo,
+                ref=ref,
+                current_markdown_path=source_index_path,
+                current_asset_root=asset_root,
+                article_paths_to_slug=article_paths_to_slug,
+                project_alias_map=project_alias_map,
+            )
+            rewritten_body = rewrite_article_markdown(
                 body,
+                slug=slug,
                 current_markdown_path=source_index_path,
-                asset_root=asset_root,
-                dest_dir=article_output_dir,
+                current_asset_root=asset_root,
+                article_paths_to_slug=article_paths_to_slug,
             )
-        raw_cover_image = metadata.get("cover_image") or metadata.get("coverImage")
-        if isinstance(raw_cover_image, str) and raw_cover_image.strip():
-            _copy_relative_asset_target(
-                raw_target=raw_cover_image,
-                current_markdown_path=source_index_path,
-                asset_root=asset_root,
-                dest_dir=article_output_dir,
-            )
+            rewritten_body = fix_self_domain_typo(rewritten_body, slug=slug, warnings=warnings)
+
+            is_draft = not normalized_metadata.get("publishedAt")
+            if is_draft and not INCLUDE_DRAFT_ARTICLES:
+                # A draft (no publishedAt — the same signal the on-site
+                # "Draft" badge already uses) must not be reachable on the
+                # public static export: not listed in articles.json (which
+                # gates both /articles and generateStaticParams for
+                # /articles/[slug]), and its content is never written under
+                # public/articles/<slug>/ either, since Next's static export
+                # copies public/ verbatim regardless of routing — an
+                # unlisted-but-present raw index.md would still be a public
+                # file. Re-run with PORTFOLIO_INCLUDE_DRAFT_ARTICLES=true to
+                # preview draft content locally.
+                excluded_drafts.append(slug)
+                warnings.append(f"Excluding draft article '{slug}' from public output (no publishedAt).")
+                continue
+
+            link_previews = _build_article_link_previews(rewritten_body, warnings)
+            if link_previews:
+                normalized_metadata["linkPreviews"] = link_previews
+
+            article_output_dir = output_dir / slug
+            article_output_dir.mkdir(parents=True, exist_ok=True)
+            (article_output_dir / "index.md").write_text(rewritten_body.rstrip() + "\n", encoding="utf-8")
+            if article_source["layout"] == "directory":
+                _copy_article_assets(asset_root, article_output_dir)
+            else:
+                _copy_referenced_relative_assets(
+                    body,
+                    current_markdown_path=source_index_path,
+                    asset_root=asset_root,
+                    dest_dir=article_output_dir,
+                )
+            raw_cover_image = metadata.get("cover_image") or metadata.get("coverImage")
+            if isinstance(raw_cover_image, str) and raw_cover_image.strip():
+                _copy_relative_asset_target(
+                    raw_target=raw_cover_image,
+                    current_markdown_path=source_index_path,
+                    asset_root=asset_root,
+                    dest_dir=article_output_dir,
+                )
+        except ArticleSyncError as exc:
+            # One malformed article (missing frontmatter, missing a required
+            # field) must not prevent every other article from importing, and
+            # must not abort the rest of the portfolio pipeline that depends
+            # on this step succeeding. Skip just this article and keep going.
+            skipped.append({"slug": slug, "reason": str(exc)})
+            warnings.append(f"Skipping article '{slug}': {exc}")
+            continue
+        except Exception as exc:  # noqa: BLE001 - isolate unexpected per-article failures too
+            skipped.append({"slug": slug, "reason": f"unexpected error: {exc}"})
+            warnings.append(f"Skipping article '{slug}' due to an unexpected error: {exc}")
+            continue
         manifest.append(normalized_metadata)
 
     manifest.sort(
@@ -1032,8 +1094,27 @@ def build_articles_from_directory(
         reverse=True,
     )
     (output_dir / "articles.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    (output_dir / "sync-report.json").write_text(
+        json.dumps(
+            {
+                "discovered": len(article_sources),
+                "imported": len(manifest),
+                "skipped": skipped,
+                "draftsExcluded": excluded_drafts,
+                "includeDraftArticles": INCLUDE_DRAFT_ARTICLES,
+            },
+            ensure_ascii=False,
+            indent=2,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
     for warning in warnings:
         print(f"⚠️ {warning}")
+    if skipped:
+        print(f"Imported {len(manifest)}/{len(article_sources)} article(s); skipped {len(skipped)}: {', '.join(item['slug'] for item in skipped)}")
+    if excluded_drafts:
+        print(f"Excluded {len(excluded_drafts)} draft article(s) from public output: {', '.join(excluded_drafts)}")
     return manifest
 
 

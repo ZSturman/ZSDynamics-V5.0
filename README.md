@@ -10,7 +10,7 @@
 
 <br />
 
-This repository is the source for [zacharysturman.com](https://zachary-sturman.com): a statically exported Next.js site with project collections, articles, accessible media, and a small public JSON API. Content can be maintained locally or synchronized from Notion through the optional publishing pipeline.
+This repository is the source for [zacharysturman.com](https://zacharysturman.com): a statically exported Next.js site with project collections, articles, accessible media, and a small public JSON API. Content can be maintained locally or synchronized from Notion through the optional publishing pipeline.
 
 > **Looking for the complete workflow?** Start with **[Run, build & publish the portfolio](docs/development-and-deployment.md)**. It covers local setup, builds, tests, GitHub pushes, the automatic production deployment, post-deploy verification, and the supporting email services.
 
@@ -128,7 +128,8 @@ The site itself is static—email is deliberately handled outside Firebase:
 - [Email](docs/setup/email.md) — Resend domain verification and sending behavior.
 - [Worker](docs/setup/worker.md) — endpoints, Turnstile, KV namespaces, and Worker secrets.
 - [R2 media](docs/setup/r2-media.md) — enabling media uploads and cache-safe URLs.
-- [Daily publisher](docs/setup/portfolio-daily-publish.md) — the Hammerspoon/Notion content-publishing automation.
+- [Daily publisher](docs/setup/portfolio-daily-publish.md) — the Hammerspoon/Notion content-publishing automation, Git-state handling, and email severity/deduplication rules.
+- [Article ingestion](docs/setup/articles.md) — the GitHub-sourced article pipeline, draft handling, and failure isolation.
 - [Static JSON API](docs/api.md) — public endpoint shapes and caching.
 - [UTM conventions](docs/utm-conventions.md) — campaign naming and ready-to-use URLs.
 

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "articles.detail",
-  "generated_at": "2026-09-02T00:13:21.676298+00:00",
+  "generated_at": "2026-09-26T10:41:02.315273+00:00",
   "data": {
     "slug": "how-i-sync-my-portfolio-using-notion",
     "title": "How I Sync My Portfolio Using Notion",
@@ -26,13 +26,15 @@
     "coverImage": "/articles/how-i-sync-my-portfolio-using-notion/images/Hero_image.png",
     "linkPreviews": [
       {
-        "url": "https://zachary-sturman.com/articles/how-i-use-notion-to-track-my-projects",
+        "url": "https://zacharysturman.com/articles/how-i-use-notion-to-track-my-projects",
         "kind": "card",
-        "provider": "zachary-sturman.com",
-        "title": "zachary-sturman.com/articles/how-i-use-notion-to-track-my-projects",
-        "siteName": "Zachary-Sturman Com",
-        "hostname": "zachary-sturman.com",
-        "displayUrl": "zachary-sturman.com/articles/how-i-use-notion-to-track-my-projects"
+        "provider": "zacharysturman.com",
+        "title": "How I Use Notion to Ingest, Organize, and Track My Projects",
+        "siteName": "Zachary Sturman",
+        "hostname": "zacharysturman.com",
+        "displayUrl": "zacharysturman.com/articles/how-i-use-notion-to-track-my-projects",
+        "description": "This Notion setup is a guided project intake workflow rather than a simple notes system: each project starts from a template, highlights the highest-priority next step, and builds toward execution, portfolio readiness, and future automation. By checking key setup steps automatically and separating projects, tasks, assets, resources, and milestones into linked systems, it reduces friction and makes the workflow easier to manage as it scales.",
+        "image": "https://zacharysturman.com/articles/how-i-use-notion-to-track-my-projects/images/cover_image.png"
       }
     ]
   }

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-09-02T00:13:21.673143+00:00",
+  "generated_at": "2026-09-26T10:41:02.313336+00:00",
   "data": {
     "id": "306aec94-4d3c-80c9-a6d4-f6362f15b981",
     "slug": "mass-and-time",
@@ -12,9 +12,9 @@
     "summary": "I’m treating this as a serious personal inquiry rather than a finished theory. The project turns a bold idea, that time may help generate or stabilize what we call mass, into three concrete modeling tracks: a feedback simulation, a minimal quantum stability model, and a relativistic conceptual visualization. The useful part is that the idea has to face equations, parameter choices, and saved outputs instead of staying at the level of language.\n\nThe audience is people who are comfortable with scientific reasoning and code, including technically curious readers, independent researchers, and physics-adjacent builders who value inspectable assumptions over polished certainty. What makes it distinct is the tone and structure: I keep the claim ambitious, then narrow it carefully, and I separate what is computed from what is interpretive. Some uncertainty is still central, especially around physical realism, conservation behavior, and how far these toy models can responsibly be taken.",
     "oneLiner": "A simulation-backed physics project that tests whether temporal persistence can help explain mass, orbital stability, and gravity, while staying honest about what is model output versus interpretation.",
     "domain": "Expository",
-    "category": "Physics",
+    "category": "Other",
     "status": "Active",
-    "phase": "Researching",
+    "phase": "Research",
     "featured": false,
     "createdAt": "2025-12-23",
     "updatedAt": "2025-11-18",
@@ -35,9 +35,9 @@
     "story": "",
     "images": {
       "icon": "icon.png",
+      "hero": "hero.png",
       "thumbnail": "thumbnail.png",
-      "banner": "banner.png",
-      "hero": "hero.png"
+      "banner": "banner.png"
     },
     "resources": [
       {

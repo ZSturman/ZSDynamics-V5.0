@@ -667,6 +667,21 @@ def _build_source_candidates(path_value: Any, root_path: Path, extra_roots: Opti
     if " // " in decoded_value:
         candidate_values.append(decoded_value.replace(" // ", " :: "))
 
+    # Notion's rich-text editor auto-converts straight quotes/apostrophes to
+    # their curly Unicode equivalents. A path typed once in Notion and a
+    # filesystem name typed separately (e.g. in a shell or a different app)
+    # commonly disagree on this even when they mean the same file. Try both
+    # directions so a single curly/straight mismatch doesn't read as a
+    # genuinely missing source file.
+    _SMART_QUOTE_PAIRS = (("’", "'"), ("‘", "'"), ("“", '"'), ("”", '"'))
+    for smart, plain in _SMART_QUOTE_PAIRS:
+        for value in list(candidate_values):
+            if smart in value:
+                candidate_values.append(value.replace(smart, plain))
+            if plain in value:
+                candidate_values.append(value.replace(plain, smart))
+    candidate_values = list(dict.fromkeys(candidate_values))
+
     # Project-storage roots are tried first (most specific/authoritative),
     # then the shared root_path (workspace root / legacy shared root).
     roots_to_try = [*(extra_roots or []), root_path]
@@ -914,26 +929,53 @@ def _restore_missing_notion_asset(path_value: Any, candidates: List[Path]) -> Op
     return None
 
 
+# Aggregate, per-run counters for how workspace-relative ("Workspace"/unset
+# storage) assets actually resolved. A high redownload/missing rate with
+# near-zero local hits is the clearest observable symptom of a misconfigured
+# config.root_path — see _print_root_path_health_summary().
+_ROOT_PATH_RESOLUTION_STATS = {"local": 0, "redownloaded": 0, "missing": 0}
+
+
+def reset_root_path_resolution_stats() -> None:
+    _ROOT_PATH_RESOLUTION_STATS["local"] = 0
+    _ROOT_PATH_RESOLUTION_STATS["redownloaded"] = 0
+    _ROOT_PATH_RESOLUTION_STATS["missing"] = 0
+
+
 def resolve_source_path(path_value: Any, root_path: Path) -> Optional[Path]:
     extra_roots = _asset_storage_extra_roots(path_value)
     candidates = _build_source_candidates(path_value, root_path, extra_roots)
     if not candidates:
         return None
 
+    # Only count assets that are actually root_path-relative (no per-project
+    # storage root) toward root-path health — Project-storage assets resolve
+    # against their own project's local directory and say nothing about
+    # whether the shared root_path is correctly configured.
+    track_root_path_health = not extra_roots
+
     for candidate in candidates:
         if candidate.exists() and candidate.is_file():
             if extra_roots and candidate.is_relative_to(extra_roots[0]):
                 print(f"[asset] {candidate.name} -> storage=Project -> project-relative -> {candidate}")
+            elif track_root_path_health:
+                _ROOT_PATH_RESOLUTION_STATS["local"] += 1
             return candidate
 
     fallback = _resolve_source_path_fallback(path_value, root_path, extra_roots)
     if fallback and fallback.exists() and fallback.is_file():
+        if track_root_path_health:
+            _ROOT_PATH_RESOLUTION_STATS["local"] += 1
         return fallback
 
     restored = _restore_missing_notion_asset(path_value, candidates)
     if restored:
+        if track_root_path_health:
+            _ROOT_PATH_RESOLUTION_STATS["redownloaded"] += 1
         return restored
 
+    if track_root_path_health:
+        _ROOT_PATH_RESOLUTION_STATS["missing"] += 1
     if extra_roots:
         print(
             f"⚠️ Missing source file for Project-storage asset (storage project root: {extra_roots[0]}). "
@@ -2824,6 +2866,13 @@ def _load_and_validate_input(
     projects = payload.get("projects")
     if not isinstance(projects, list):
         raise ValueError("Input JSON missing required array: projects")
+    if not projects:
+        # A silently empty projects.json is worse than a loud failure: it
+        # would overwrite a previously-populated live manifest with nothing.
+        # This can only mean the Notion query/filter returned zero eligible
+        # rows (credentials, database id, or eligibility-flag misconfiguration
+        # upstream in notion_projects_export.py) — never a normal outcome.
+        raise ValueError("Input JSON contains zero projects; refusing to build an empty portfolio.")
 
     work_logs = payload.get("workLogs")
     if not isinstance(work_logs, list):
@@ -2943,6 +2992,7 @@ def build_projects_from_json(
     articles_manifest_path: Optional[Path] = None,
 ) -> Dict[str, Any]:
     """Build normalized project data and copy assets into temp_public_projects_root."""
+    reset_root_path_resolution_stats()
     root_path, source_projects, global_work_logs = _load_and_validate_input(input_json_path, root_path_override)
     storage_project_roots = configure_storage_project_roots(source_projects)
     if storage_project_roots:
@@ -3031,4 +3081,38 @@ def build_projects_from_json(
         "readme_fetched_projects": sorted(set(readme_fetched_projects)),
         "readme_failed_projects": sorted(set(readme_failed_projects)),
         "external_hostnames": sorted(external_hostnames),
+        "root_path": str(root_path),
+        "root_path_resolution_stats": dict(_ROOT_PATH_RESOLUTION_STATS),
     }
+
+
+def root_path_health_warning(root_path: Path, stats: Dict[str, int]) -> Optional[str]:
+    """Return a human-readable warning if the resolution stats suggest
+    config.root_path is pointed at the wrong location, or None if they look
+    healthy. Only fires when there is real signal: some workspace-relative
+    assets were referenced, essentially none resolved locally, and a
+    meaningful share needed a live Notion redownload or are still missing.
+    A few scattered redownloads are normal (first-time local caching of an
+    asset); this only flags the "almost nothing resolves locally" pattern.
+    """
+    local = stats.get("local", 0)
+    redownloaded = stats.get("redownloaded", 0)
+    missing = stats.get("missing", 0)
+    total = local + redownloaded + missing
+    if total < 5:
+        return None
+    unresolved_locally = redownloaded + missing
+    if local == 0 and unresolved_locally >= 5:
+        return (
+            f"config.root_path ({root_path}) resolved 0 of {total} workspace-relative asset(s) locally "
+            f"({redownloaded} redownloaded from Notion, {missing} still missing). This usually means "
+            "root_path is pointed at the wrong directory level or an unrelated directory — verify it "
+            "against a few real relativePath values from the Assets database."
+        )
+    if unresolved_locally / total > 0.7:
+        return (
+            f"config.root_path ({root_path}) resolved only {local} of {total} workspace-relative asset(s) "
+            f"locally ({redownloaded} redownloaded, {missing} missing). If this doesn't improve on the next "
+            "run (assets are cached locally once redownloaded), root_path may be misconfigured."
+        )
+    return None

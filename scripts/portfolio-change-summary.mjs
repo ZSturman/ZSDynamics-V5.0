@@ -132,7 +132,7 @@ function meaningfulChangedFiles(changed, result, siteChanged) {
     if (/^public\/articles\/[^/]+\/index\.md$/.test(file)) return true;
     if (file.startsWith("public/projects/")) return true;
     if (file.startsWith("public/api/")) return true;
-    if (["public/image-hostnames.json", "public/media-urls.json", "public/media-manifest.lock.json"].includes(file)) return true;
+    if (["public/image-hostnames.json", "public/media-urls.json", "lib/media-manifest.lock.json"].includes(file)) return true;
     return true;
   });
 }

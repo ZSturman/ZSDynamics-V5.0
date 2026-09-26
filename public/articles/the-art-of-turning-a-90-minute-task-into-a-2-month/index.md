@@ -200,11 +200,11 @@ I wrote more specifically about the current system and how I use it now.
 
 If you want to see how I sync my portfolio using Notion, read:
 
-- [https://zachary-sturman.com/articles/how-i-sync-my-portfolio-using-notion](https://zachary-sturman.com/articles/how-i-sync-my-portfolio-using-notion)
+- [https://zacharysturman.com/articles/how-i-sync-my-portfolio-using-notion](https://zacharysturman.com/articles/how-i-sync-my-portfolio-using-notion)
 
 If you want to see how I use Notion to track my projects, read:
 
-- [https://zachary-sturman.com/articles/how-i-use-notion-to-track-my-projects](https://zachary-sturman.com/articles/how-i-use-notion-to-track-my-projects)
+- [https://zacharysturman.com/articles/how-i-use-notion-to-track-my-projects](https://zacharysturman.com/articles/how-i-use-notion-to-track-my-projects)
 
 If you want a more in-depth look at the original app and code, or want to use any of it yourself, the repository is here:
 

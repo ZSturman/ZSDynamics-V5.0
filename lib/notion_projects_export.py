@@ -900,6 +900,42 @@ def _build_config(config_rows: List[Dict[str, Any]]) -> Dict[str, Any]:
     }
 
 
+def _normalize_rows(
+    rows: List[Dict[str, Any]],
+    normalize_fn: Any,
+    label: str,
+    *extra_args: Any,
+) -> List[Dict[str, Any]]:
+    """Normalize each row independently so one malformed Notion page can't
+    drop the entire database's worth of content.
+
+    A page that raises during normalization (an unexpected property shape,
+    for example) is logged with its Notion page id/name and skipped; every
+    other page in the same database still makes it into the output. Without
+    this, a single bad row in a list comprehension would raise out of
+    ``assemble()`` and abort the whole export with zero output written.
+    """
+    normalized: List[Dict[str, Any]] = []
+    skipped = 0
+    for row in rows:
+        try:
+            normalized.append(normalize_fn(row, *extra_args))
+        except Exception as exc:  # noqa: BLE001 - deliberately broad: isolate any per-row failure
+            skipped += 1
+            page_id = (row or {}).get("id", "unknown")
+            page_name = (row or {}).get("name", "")
+            logger.warning(
+                "Skipping %s row %s (%r) — normalization failed: %s",
+                label,
+                page_id,
+                page_name,
+                exc,
+            )
+    if skipped:
+        logger.warning("%s: skipped %d of %d row(s) due to normalization errors", label, skipped, len(rows))
+    return normalized
+
+
 def assemble(
     config_rows: List[Dict[str, Any]],
     projects_rows: List[Dict[str, Any]],
@@ -939,19 +975,22 @@ def assemble(
     # ------------------------------------------------------------------
     # Normalize all rows into their canonical shapes.
     # ------------------------------------------------------------------
-    resources = [_normalize_resource(r) for r in resources_rows]
-    work_logs = [_normalize_work_log(w) for w in work_logs_rows]
+    resources = _normalize_rows(resources_rows, _normalize_resource, "Resources")
+    work_logs = _normalize_rows(work_logs_rows, _normalize_work_log, "Work Log")
 
-    normalized_assets = [_normalize_asset(a, asset_by_id) for a in assets_rows]
+    normalized_assets = _normalize_rows(assets_rows, _normalize_asset, "Assets", asset_by_id)
     asset_norm_by_id: Dict[str, Any] = {a["id"]: a for a in normalized_assets}
 
-    normalized_collections = [_normalize_collection(c, asset_by_id) for c in collections_rows]
+    normalized_collections = _normalize_rows(collections_rows, _normalize_collection, "Collections", asset_by_id)
     collection_norm_by_id: Dict[str, Any] = {c["id"]: c for c in normalized_collections}
 
-    normalized_projects = [
-        _normalize_project(p, asset_by_id, project_single_asset_relation_keys)
-        for p in projects_rows
-    ]
+    normalized_projects = _normalize_rows(
+        projects_rows,
+        _normalize_project,
+        "Projects",
+        asset_by_id,
+        project_single_asset_relation_keys,
+    )
     # Build a lookup by projectPageId OR id so both can find their record.
     project_norm_by_id: Dict[str, Any] = {}
     for proj in normalized_projects:

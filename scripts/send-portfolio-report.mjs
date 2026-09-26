@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 /** Render and deliver an idempotent portfolio pipeline report through the existing Worker. */
 
+import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import process from "node:process";
@@ -12,6 +13,15 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const MAX_ATTACHMENTS = 8;
 const MAX_ATTACHMENT_BYTES = 2 * 1024 * 1024;
 const MAX_TOTAL_BYTES = 15 * 1024 * 1024;
+// Persisted across runs (unlike pipeline-status.json/change-summary.json,
+// which are cleared per run) so repeated, unresolved, non-urgent issues can
+// be deduplicated instead of re-alerting on every scheduled or manual run.
+const NOTIFICATION_STATE_PATH = path.join(ROOT, "artifacts", "notification-state.json");
+// Below this severity, an unchanged issue is suppressed for this long after
+// it was last actually sent. True breakage (HIGH/CRITICAL) is never suppressed.
+const DEDUP_SEVERITIES = new Set(["ATTENTION", "LOW"]);
+const DEDUP_WINDOW_MS = 20 * 60 * 60 * 1000;
+const ESCALATE_AFTER_DAYS = 3;
 
 function parseArgs(argv) {
   const args = {};
@@ -33,9 +43,80 @@ function readJson(target, fallback = {}) {
 
 function severityFor(status, stage, productionHealthy) {
   if (status === "success" || status === "no-changes" || status === "check-only") return "SUCCESS";
+  // Ordinary local repository state (uncommitted source, an unpushed
+  // commit, being behind origin/main) deferring a publish is expected,
+  // reversible, developer-caused state — not an incident. Diagnostics
+  // (Notion/article sync, generation, validation) already completed
+  // successfully by the time this status is reported.
+  if (status === "publish-skipped") return "ATTENTION";
   if (["visual_capture", "email_report"].includes(stage) && productionHealthy) return "LOW";
   if (stage === "playwright_qa" && productionHealthy) return "MEDIUM";
   return productionHealthy ? "HIGH" : "CRITICAL";
+}
+
+function fingerprintFor(status, stage, error, gitHealth) {
+  const basis = JSON.stringify({
+    status,
+    stage,
+    error: error ? String(error).slice(0, 300) : undefined,
+    reasons: gitHealth?.reasons,
+  });
+  return crypto.createHash("sha256").update(basis).digest("hex").slice(0, 16);
+}
+
+function loadNotificationState() {
+  try { return JSON.parse(fs.readFileSync(NOTIFICATION_STATE_PATH, "utf8")); } catch { return null; }
+}
+
+function saveNotificationState(state) {
+  fs.mkdirSync(path.dirname(NOTIFICATION_STATE_PATH), { recursive: true });
+  fs.writeFileSync(NOTIFICATION_STATE_PATH, `${JSON.stringify(state, null, 2)}\n`);
+}
+
+/**
+ * Decide whether to actually deliver this report, independent of I/O, so the
+ * dedup/escalation/recovery rules are directly testable.
+ *
+ * - Recovery: the previous report was a real issue (ATTENTION or worse) and
+ *   this one is SUCCESS. Always sent, flagged as a recovery.
+ * - Suppression: this is the same unresolved low-priority issue reported
+ *   less than DEDUP_WINDOW_MS ago. Skipped, but state still advances so the
+ *   issue's age keeps accruing toward escalation.
+ * - Escalation: an unresolved ATTENTION-level issue has persisted for
+ *   ESCALATE_AFTER_DAYS or more. Always sent, with the displayed severity
+ *   raised so a stale unresolved condition cannot stay quiet indefinitely.
+ */
+export function planNotification({ severity, fingerprint, now = Date.now(), prior }) {
+  const recovered = Boolean(prior && prior.lastSeverity && prior.lastSeverity !== "SUCCESS" && severity === "SUCCESS");
+  const sameIssue = Boolean(prior && prior.lastFingerprint === fingerprint);
+  const firstSeenAt = sameIssue && prior.firstSeenAt ? prior.firstSeenAt : new Date(now).toISOString();
+  const ageDays = sameIssue ? Math.floor((now - Date.parse(firstSeenAt)) / (24 * 60 * 60 * 1000)) : 0;
+  const consecutiveCount = sameIssue ? (prior.consecutiveCount || 1) + 1 : 1;
+  const escalated = severity === "ATTENTION" && ageDays >= ESCALATE_AFTER_DAYS;
+  const displaySeverity = escalated ? "HIGH" : severity;
+
+  let send = true;
+  let reason = "new_or_changed";
+  if (!recovered && sameIssue && DEDUP_SEVERITIES.has(severity) && !escalated && prior.lastSentAt) {
+    const sinceLastSend = now - Date.parse(prior.lastSentAt);
+    if (Number.isFinite(sinceLastSend) && sinceLastSend < DEDUP_WINDOW_MS) {
+      send = false;
+      reason = "suppressed_unchanged";
+    }
+  }
+  if (recovered) reason = "recovered";
+  else if (!sameIssue) reason = "new_issue";
+  else if (send) reason = escalated ? "escalated" : "resent_unresolved";
+
+  const nextState = {
+    lastFingerprint: fingerprint,
+    lastSeverity: severity,
+    firstSeenAt,
+    consecutiveCount,
+    lastSentAt: send ? new Date(now).toISOString() : (prior?.lastSentAt || new Date(now).toISOString()),
+    lastCheckedAt: new Date(now).toISOString(),
+  };
+  return { send, recovered, escalated, displaySeverity, ageDays, consecutiveCount, reason, nextState };
 }
 
 function attachmentPayload(directory) {
@@ -68,11 +149,24 @@ function reportStatusLabel(status, severity) {
   if (status === "success") return "Release verified";
   if (status === "no-changes") return "No public changes";
   if (status === "check-only") return "Check completed";
+  if (status === "publish-skipped") return "Publish deferred · local changes present";
   return `${severity} · attention needed`;
 }
 
 function reportStatusColor(status) {
-  return status === "failure" ? "#dc2626" : status === "success" ? "#16a34a" : "#2563eb";
+  if (status === "failure") return "#dc2626";
+  if (status === "success") return "#16a34a";
+  if (status === "publish-skipped") return "#d97706";
+  return "#2563eb";
+}
+
+function developerStateLines(gitHealth) {
+  if (!gitHealth) return [];
+  const reasons = gitHealth.reasons || [];
+  const header = gitHealth.publishSafe
+    ? "Developer state: working tree differs from a clean publish target, but this does not block generation or diagnostics."
+    : "Developer state: publish is deferred until local repository state is resolved. This does not block Notion/article sync, generation, validation, or analytics.";
+  return [header, ...reasons.map((reason) => `  - ${reason}`)];
 }
 
 function htmlList(lines) {
@@ -96,17 +190,27 @@ function buildReport(args) {
       ? `Committed locally, but not pushed to ${publication.target || "origin/main"}.`
       : "No commit was created.";
   const actionUrl = metadata.actionUrl || `${process.env.GITHUB_SERVER_URL || "https://github.com"}/${process.env.GITHUB_REPOSITORY || "ZSturman/ZSDynamics-V5.0"}/actions/runs/${process.env.GITHUB_RUN_ID || ""}`;
-  const subject = status === "success"
-    ? "Portfolio Release Dashboard — Verified"
-    : status === "no-changes"
-      ? "Portfolio Daily Update — No public-site changes"
-      : status === "check-only"
-        ? "Portfolio Daily Check — Validated (not published)"
-      : `[${severity}] Portfolio automation — ${stage.replaceAll("_", " ")} failed`;
+  const displaySeverity = args["display-severity"] || severity;
+  const recovered = args.recovered === "true";
+  const escalatedNote = args["age-days"] && Number(args["age-days"]) > 0
+    ? `Unresolved for ${args["age-days"]} day(s) across ${args["consecutive-count"] || "multiple"} report(s).`
+    : null;
+  const subject = recovered
+    ? `Portfolio — Resolved: ${stage.replaceAll("_", " ")}`
+    : status === "success"
+      ? "Portfolio Release Dashboard — Verified"
+      : status === "no-changes"
+        ? "Portfolio Daily Update — No public-site changes"
+        : status === "check-only"
+          ? "Portfolio Daily Check — Validated (not published)"
+        : status === "publish-skipped"
+          ? `Portfolio Daily Check — Publish deferred (${escalatedNote ? "unresolved" : "local changes"})`
+        : `[${displaySeverity}] Portfolio automation — ${stage.replaceAll("_", " ")} failed`;
   const lines = status === "no-changes"
     ? ["Daily check completed successfully; no public-site changes were required."]
     : (summary.lines || []).slice(0, 20);
   const error = args.error ? String(args.error).slice(0, 1800) : metadata.error;
+  const needsAttention = Array.isArray(metadata.validationWarnings) ? metadata.validationWarnings.slice(0, 10) : [];
   const bodyLines = [
     `Date/time: ${timestamp}`,
     `Stage: ${stage.replaceAll("_", " ")}`,
@@ -121,14 +225,22 @@ function buildReport(args) {
     ] : status === "check-only" ? [
       "Publishing: check-only mode; no commit, Firebase deployment, or live QA was requested.",
       "Local generation and validation completed successfully.",
+    ] : status === "publish-skipped" ? [
+      "Diagnostics: Notion sync, article sync, generation, and validation all completed successfully.",
+      "Publishing: deferred; see Developer state below for why.",
     ] : []),
+    ...(recovered ? [`Resolved: the previously reported ${args["previous-severity"] || "issue"} condition is no longer present.`] : []),
+    ...(escalatedNote ? [`Escalation: ${escalatedNote}`] : []),
+    ...developerStateLines(metadata.gitHealth),
+    ...(needsAttention.length ? ["Needs attention:", ...needsAttention.map((item) => `  - ${item}`)] : []),
     ...lines.map((line) => `• ${line}`),
     ...(summary.changedFiles?.length ? [`Changed files: ${summary.changedFiles.slice(0, 12).join(", ")}${summary.changedFiles.length > 12 ? " …" : ""}`] : []),
     ...(error ? [`Error: ${error}`, `Recommended next action: Review the workflow artifact and rerun after resolving the reported stage.`] : []),
   ];
   const attachments = attachmentPayload(args["attachments-dir"] && path.resolve(ROOT, args["attachments-dir"]));
-  const statusLabel = reportStatusLabel(status, severity);
-  const statusColor = reportStatusColor(status);
+  const statusLabel = recovered ? "Resolved" : reportStatusLabel(status, displaySeverity);
+  const statusColor = recovered ? "#16a34a" : reportStatusColor(status);
+  const developerState = developerStateLines(metadata.gitHealth);
   const verification = status === "success"
     ? "Firebase release marker confirmed · Playwright completed locally · visual previews captured locally"
     : productionHealthy ? "The public site is reachable; see the stage details below." : "The public site could not be confirmed reachable.";
@@ -154,6 +266,9 @@ function buildReport(args) {
       <tr><td style="padding:4px 32px 24px"><div style="padding:16px 18px;background:#f8fafc;border-left:4px solid ${statusColor};border-radius:8px;font-size:14px;line-height:21px;color:#334155">${escapeHtml(verification)}</div></td></tr>
       <tr><td style="padding:0 32px 24px"><div style="font-size:16px;font-weight:750;margin-bottom:10px">Release details</div><table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="border:1px solid #dbe3ee;border-radius:10px;overflow:hidden"><tr><td style="width:126px;padding:11px 14px;background:#f8fafc;color:#64748b;font-size:13px">Stage</td><td style="padding:11px 14px;font-size:13px;font-weight:600">${escapeHtml(stage.replaceAll("_", " "))}</td></tr><tr><td style="width:126px;padding:11px 14px;background:#f8fafc;color:#64748b;font-size:13px">Commit</td><td style="padding:11px 14px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;word-break:break-all">${escapeHtml(commit)}</td></tr><tr><td style="width:126px;padding:11px 14px;background:#f8fafc;color:#64748b;font-size:13px">Publishing</td><td style="padding:11px 14px;font-size:13px">${escapeHtml(publishing)}</td></tr><tr><td style="width:126px;padding:11px 14px;background:#f8fafc;color:#64748b;font-size:13px">Evidence</td><td style="padding:11px 14px;font-size:13px">${attachments.length ? `${attachments.length} local screenshot${attachments.length === 1 ? "" : "s"} attached` : "No screenshot attachments"}</td></tr></table></td></tr>
       <tr><td style="padding:0 32px 24px"><div style="font-size:16px;font-weight:750;margin-bottom:10px">What changed</div>${htmlList(changeLines)}</td></tr>
+      ${developerState.length ? `<tr><td style="padding:0 32px 24px"><div style="font-size:16px;font-weight:750;margin-bottom:10px">Developer state</div>${htmlList(developerState)}</td></tr>` : ""}
+      ${needsAttention.length ? `<tr><td style="padding:0 32px 24px"><div style="font-size:16px;font-weight:750;margin-bottom:10px">Needs attention</div>${htmlList(needsAttention)}</td></tr>` : ""}
+      ${escalatedNote ? `<tr><td style="padding:0 32px 24px"><div style="padding:12px 16px;background:#fffbeb;border:1px solid #fde68a;border-radius:10px;color:#92400e;font-size:13px">${escapeHtml(escalatedNote)}</div></td></tr>` : ""}
       ${error ? `<tr><td style="padding:0 32px 24px"><div style="padding:16px 18px;background:#fef2f2;border:1px solid #fecaca;border-radius:10px;color:#991b1b;font-size:13px;line-height:20px"><strong>Action needed</strong><br>${escapeHtml(error)}</div></td></tr>` : ""}
       <tr><td style="padding:18px 32px;background:#f8fafc;border-top:1px solid #e2e8f0;color:#64748b;font-size:12px;line-height:18px">Workflow: <a href="${escapeHtml(actionUrl)}" style="color:#2563eb">open deployment activity</a></td></tr>
     </table>
@@ -167,7 +282,32 @@ async function main() {
   const args = parseArgs(process.argv.slice(2));
   const apiBase = (process.env.API_BASE_URL || "").replace(/\/$/, "");
   if (!apiBase || !process.env.INTERNAL_TOKEN) throw new Error("API_BASE_URL and INTERNAL_TOKEN must be configured for report delivery.");
-  const payload = buildReport(args);
+
+  const status = args.status || "failure";
+  const stage = args.stage || "unknown";
+  const productionHealthy = args["production-healthy"] === "true";
+  const severity = severityFor(status, stage, productionHealthy);
+  const metadata = args.metadata ? readJson(path.resolve(ROOT, args.metadata), {}) : {};
+  const fingerprint = fingerprintFor(status, stage, args.error || metadata.error, metadata.gitHealth);
+  const prior = loadNotificationState();
+  const plan = planNotification({ severity, fingerprint, prior });
+  saveNotificationState(plan.nextState);
+
+  if (!plan.send) {
+    console.log(`Portfolio report suppressed: unchanged ${severity} issue (${plan.reason}); last sent ${prior?.lastSentAt || "unknown"}.`);
+    return;
+  }
+  if (plan.escalated) console.log(`Portfolio report escalated: unresolved ${severity} issue for ${plan.ageDays} day(s).`);
+  if (plan.recovered) console.log("Portfolio report: previously reported issue has resolved.");
+
+  const payload = buildReport({
+    ...args,
+    "display-severity": plan.displaySeverity,
+    recovered: String(plan.recovered),
+    "previous-severity": prior?.lastSeverity,
+    "age-days": String(plan.ageDays),
+    "consecutive-count": String(plan.consecutiveCount),
+  });
   let lastError = "unknown delivery error";
   for (let attempt = 1; attempt <= 3; attempt += 1) {
     try {
@@ -195,4 +335,4 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) main().catch((error) => 
   process.exit(1);
 });
 
-export { buildReport, severityFor };
+export { buildReport, fingerprintFor, severityFor };

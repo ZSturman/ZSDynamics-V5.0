@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-09-02T00:13:21.674005+00:00",
+  "generated_at": "2026-09-26T10:41:02.313916+00:00",
   "data": {
     "id": "306aec94-4d3c-80d4-a8bd-d83a8832ebf8",
     "slug": "zsdynamics-30",
@@ -12,9 +12,9 @@
     "summary": "After I got more comfortable with React, I wanted to see how design choices and small interactions could change the experience. I built a feature that let users switch between themes and font styles. It wasn’t the most practical feature, but it taught me a lot and pushed me to pay more attention to how design decisions show up in real use. That curiosity drove most of what I built during this stage.",
     "oneLiner": "Added interactive features such as a live theme and font selector to experiment with frontend flexibility. Focused on React state management, component communication, and styling behavior. Served as a small sandbox for improving overall frontend fluency.",
     "domain": "Technology",
-    "category": "Web",
-    "status": "Complete",
-    "phase": "Deprecated",
+    "category": "Other",
+    "status": "Deprecated",
+    "phase": "",
     "featured": false,
     "createdAt": "2023-11-10",
     "updatedAt": "2024-07-23",
@@ -65,6 +65,10 @@
       }
     ],
     "articles": [],
-    "folderName": "zsdynamics_30_306aec94-4d3c-80d4-a8bd-d83a8832ebf8"
+    "folderName": "zsdynamics_30_306aec94-4d3c-80d4-a8bd-d83a8832ebf8",
+    "readme": {
+      "content": "# React + TypeScript + Vite\n\nThis template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.\n\nCurrently, two official plugins are available:\n\n- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh\n- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh\n\n## Expanding the ESLint configuration\n\nIf you are developing a production application, we recommend updating the configuration to enable type aware lint rules:\n\n- Configure the top-level `parserOptions` property like this:\n\n```js\nexport default {\n  // other rules...\n  parserOptions: {\n    ecmaVersion: 'latest',\n    sourceType: 'module',\n    project: ['./tsconfig.json', './tsconfig.node.json'],\n    tsconfigRootDir: __dirname,\n  },\n}\n```\n\n- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`\n- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`\n- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list",
+      "sourceUrl": "https://github.com/ZSturman/ZSDynamics-V3.0/blob/main/README.md"
+    }
   }
 }

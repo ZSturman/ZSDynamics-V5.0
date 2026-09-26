@@ -18,6 +18,7 @@ from projects_pipeline import (  # noqa: E402
     configure_storage_project_roots,
     determine_collection_item_type,
     make_project_folder_name,
+    root_path_health_warning,
 )
 
 
@@ -312,6 +313,81 @@ class TestProjectsPipeline(unittest.TestCase):
             copied = next(out_dir.glob("*/hero.png"))
             self.assertEqual(copied.read_bytes(), b"shared-fallback-file")
             self.assertEqual(result["projects"][0]["images"]["thumbnail"], "hero.png")
+
+    def test_zero_projects_input_refuses_to_build_rather_than_writing_an_empty_manifest(self) -> None:
+        """A Notion query/filter regression that returns zero eligible rows
+        must fail loudly, not silently overwrite a populated live
+        projects.json with an empty one."""
+        with tempfile.TemporaryDirectory() as temp_root_str, tempfile.TemporaryDirectory() as out_str:
+            temp_root = Path(temp_root_str)
+            out_dir = Path(out_str)
+            input_json = temp_root / "new_projects.json"
+            input_json.write_text(
+                json.dumps({"config": {"root_path": str(temp_root)}, "projects": []}),
+                encoding="utf-8",
+            )
+            with self.assertRaisesRegex(ValueError, "zero projects"):
+                build_projects_from_json(input_json_path=input_json, temp_public_projects_root=out_dir)
+
+    def test_apostrophe_variant_in_relative_path_still_resolves(self) -> None:
+        """Notion's editor auto-converts straight apostrophes to curly ones;
+        a relativePath typed there must still resolve against a filesystem
+        entry using the plain ASCII apostrophe (or vice versa)."""
+        with tempfile.TemporaryDirectory() as temp_root_str, tempfile.TemporaryDirectory() as out_str:
+            temp_root = Path(temp_root_str)
+            out_dir = Path(out_str)
+            (temp_root / "Creative" / "Down-n'-out").mkdir(parents=True)
+            (temp_root / "Creative" / "Down-n'-out" / "Down-and-Out.pdf").write_bytes(b"%PDF-fake")
+
+            input_json = temp_root / "new_projects.json"
+            input_json.write_text(
+                json.dumps(
+                    {
+                        "config": {"root_path": str(temp_root)},
+                        "projects": [
+                            {
+                                "id": "project-quote",
+                                "title": "Down-n’-out",
+                                "summary": "relativePath uses the curly apostrophe Notion writes.",
+                                "thumbnail": {
+                                    "filename": "Down-and-Out.pdf",
+                                    "relativePath": "Creative/Down-n’-out/Down-and-Out.pdf",
+                                },
+                            }
+                        ],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = build_projects_from_json(input_json_path=input_json, temp_public_projects_root=out_dir)
+            self.assertEqual(result["root_path_resolution_stats"]["missing"], 0)
+            copied = next(out_dir.glob("*/Down-and-Out.pdf"))
+            self.assertEqual(copied.read_bytes(), b"%PDF-fake")
+
+    def test_root_path_health_warning_flags_all_redownloaded_with_no_local_hits(self) -> None:
+        warning = root_path_health_warning(
+            Path("/some/wrong/root"),
+            {"local": 0, "redownloaded": 6, "missing": 2},
+        )
+        self.assertIsNotNone(warning)
+        self.assertIn("0 of 8", warning)
+
+    def test_root_path_health_warning_is_silent_for_a_healthy_run(self) -> None:
+        warning = root_path_health_warning(
+            Path("/correct/root"),
+            {"local": 40, "redownloaded": 1, "missing": 0},
+        )
+        self.assertIsNone(warning)
+
+    def test_root_path_health_warning_ignores_small_samples(self) -> None:
+        # A brand-new project with only 1-2 assets, none resolved locally yet,
+        # is not enough signal to flag root_path itself as wrong.
+        warning = root_path_health_warning(
+            Path("/correct/root"),
+            {"local": 0, "redownloaded": 2, "missing": 0},
+        )
+        self.assertIsNone(warning)
 
     def test_build_pipeline_schema_copy_rewrite_and_determinism(self) -> None:
         with tempfile.TemporaryDirectory() as temp_root_str, tempfile.TemporaryDirectory() as out1_str, tempfile.TemporaryDirectory() as out2_str:

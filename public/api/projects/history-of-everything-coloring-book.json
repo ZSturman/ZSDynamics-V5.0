@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-09-02T00:13:21.674641+00:00",
+  "generated_at": "2026-09-26T10:41:02.314272+00:00",
   "data": {
     "id": "306aec94-4d3c-8067-909b-da087d8b0c26",
     "slug": "history-of-everything-coloring-book",
@@ -12,9 +12,9 @@
     "summary": "This coloring book traces major moments in history through a series of hand-drawn illustrations. Each page focuses on a specific period or event, presenting information in a simple, visual way that can be engaged with by coloring. The drawings were made on an iPad using an Apple Pencil and then compiled into a printed format. The goal was to make the scope of history feel more manageable by breaking it into individual pages that invite slower, more focused attention. It’s meant for anyone curious about how large stretches of time and events connect, from the beginnings of life to the stories that shaped the world.",
     "oneLiner": "Hand-drawn coloring book mapping major historical moments to make large timelines approachable one page at a time. Served as a structured way to return to drawing and research, though it was never fully completed.",
     "domain": "Artistic",
-    "category": "Art",
+    "category": "Other",
     "status": "Abandoned",
-    "phase": "Archived",
+    "phase": "",
     "featured": false,
     "createdAt": "2019-09-17",
     "updatedAt": "2020-08-17",
@@ -70,14 +70,14 @@
             "label": "26_Vedic Period // Shang Dynasty.PNG",
             "order": 3,
             "type": "image",
-            "filePath": "26_Vedic Period :: Shang Dynasty.PNG"
+            "filePath": " Shang Dynasty.PNG"
           },
           {
             "id": "313aec94-4d3c-80e5-9729-c9b88b16f54d",
             "label": "25_Akkadian Empire // Babylonian Dynasty.PNG",
             "order": 4,
             "type": "image",
-            "filePath": "25_Akkadian Empire :: Babylonian Dynasty.PNG"
+            "filePath": " Babylonian Dynasty.PNG"
           },
           {
             "id": "313aec94-4d3c-800c-9075-f8d3166536ab",
@@ -91,7 +91,7 @@
             "label": "23_Mesopotamia // Indus Valley.PNG",
             "order": 6,
             "type": "image",
-            "filePath": "23_Mesopotamia :: Indus Valley.PNG"
+            "filePath": " Indus Valley.PNG"
           },
           {
             "id": "313aec94-4d3c-802c-86a6-d613bf2eef3e",

@@ -33,6 +33,7 @@ from notion_projects_export import (  # noqa: E402
     _normalize_project,
     _normalize_property_label,
     _normalize_resource,
+    _normalize_rows,
     _normalize_thumbnail,
     _normalize_work_log,
     _parse_date_value,
@@ -606,6 +607,45 @@ class TestAssemble(unittest.TestCase):
         self.assertEqual(len(payload["projects"]), 1)
         self.assertEqual(payload["projects"][0]["title"], "My Project")
         self.assertEqual(payload["config"]["root_path"], "/some/root")
+
+    def test_normalize_rows_skips_bad_row_and_keeps_others(self) -> None:
+        def flaky_normalize(row: Dict[str, Any]) -> Dict[str, Any]:
+            if row["id"] == "bad":
+                raise KeyError("property_title")
+            return {"id": row["id"], "title": row["name"]}
+
+        rows = [
+            {"id": "good-1", "name": "First"},
+            {"id": "bad", "name": "Malformed"},
+            {"id": "good-2", "name": "Second"},
+        ]
+        with self.assertLogs("notion_projects_export", level="WARNING") as captured:
+            result = _normalize_rows(rows, flaky_normalize, "Test DB")
+
+        self.assertEqual([r["id"] for r in result], ["good-1", "good-2"])
+        self.assertTrue(any("bad" in message for message in captured.output))
+        self.assertTrue(any("skipped 1 of 3" in message for message in captured.output))
+
+    def test_assemble_one_malformed_project_does_not_drop_the_rest(self) -> None:
+        good = self._minimal_project_row("proj-1", "Good Project")
+        # A row that fails to normalize at all (e.g. a page that mapped to
+        # something other than a dict upstream) must not take down every
+        # other project in the same batch.
+        malformed = None
+
+        with self.assertLogs("notion_projects_export", level="WARNING"):
+            payload = assemble(
+                config_rows=[self._minimal_config_row("/some/root")],
+                projects_rows=[good, malformed],
+                collections_rows=[],
+                assets_rows=[],
+                resources_rows=[],
+                work_logs_rows=[],
+            )
+
+        titles = [p["title"] for p in payload["projects"]]
+        self.assertIn("Good Project", titles)
+        self.assertEqual(len(payload["projects"]), 1)
 
     def test_assemble_attaches_resource_to_project(self) -> None:
         resource_row = {

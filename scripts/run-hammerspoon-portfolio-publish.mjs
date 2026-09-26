@@ -15,6 +15,9 @@ import process from "node:process";
 import { fileURLToPath } from "node:url";
 
 import { loadProjectEnvironment } from "./project-env.mjs";
+import { assessWorkspaceHealth, classifyWorkspaceChanges, repositoryState } from "./git-workspace-health.mjs";
+
+export { classifyWorkspaceChanges };
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const ARTIFACTS = path.join(ROOT, "artifacts");
@@ -28,9 +31,9 @@ const GENERATED_PATHS = [
   "public/api",
   "public/image-hostnames.json",
   "public/media-urls.json",
-  "public/media-manifest.lock.json",
+  "lib/media-manifest.lock.json",
 ];
-const GENERATED_FILE = /^(?:public\/(?:projects|articles|api)\/|public\/(?:image-hostnames\.json|media-urls\.json|media-manifest\.lock\.json)$)/;
+const GENERATED_FILE = /^(?:public\/(?:projects|articles|api)\/|public\/(?:image-hostnames\.json|media-urls\.json)$|lib\/media-manifest\.lock\.json$)/;
 const SECRET_KEYS = ["NOTION_API_KEY", "INTERNAL_TOKEN", "R2_SECRET_ACCESS_KEY", "R2_ACCESS_KEY_ID", "GITHUB_TOKEN", "GH_TOKEN"];
 
 function parseArgs(argv) {
@@ -163,27 +166,32 @@ function pruneEvidence(retentionDays) {
   }
 }
 
-export function classifyWorkspaceChanges(files) {
-  const generated = files.filter((file) => GENERATED_FILE.test(file));
-  const unexpected = files.filter((file) => !GENERATED_FILE.test(file));
-  return { generated, unexpected };
-}
-
-function assertPublishableMain() {
+function assessRepository() {
+  const state = repositoryState(ROOT);
+  if (state.unresolvedOperation || state.conflicted.length) {
+    const health = assessWorkspaceHealth({ branch: git(["branch", "--show-current"]) || "", changedFiles: [], repoState: state });
+    const error = new Error(`Repository is in an unsafe state to run any portfolio stage: ${health.reasons.join(" ")}`);
+    error.gitHealth = health;
+    throw error;
+  }
   const branch = git(["branch", "--show-current"]);
-  if (branch !== "main") throw new Error(`Refusing to publish from ${branch || "a detached HEAD"}; switch to main first.`);
   git(["fetch", "origin", "main"]);
   const head = git(["rev-parse", "HEAD"]);
   const remote = git(["rev-parse", "origin/main"]);
-  if (head !== remote) throw new Error("Local main is not identical to origin/main. Fast-forward it before running the publisher.");
-  const workspace = classifyWorkspaceChanges(changedFiles(head));
-  if (workspace.unexpected.length) {
-    throw new Error(`Refusing to publish with uncommitted files outside publisher-managed generated output: ${workspace.unexpected.join(", ")}. Commit, stash, or remove those source changes first.`);
+  const counts = branch === "main"
+    ? gitQuiet(["rev-list", "--left-right", "--count", `${head}...${remote}`])
+    : { ok: false, output: "" };
+  const [aheadOfOrigin, behindOrigin] = counts.ok
+    ? counts.output.split(/\s+/).map((value) => Number.parseInt(value, 10) || 0)
+    : [head === remote ? 0 : 1, head === remote ? 0 : 1];
+  const health = assessWorkspaceHealth({ branch, aheadOfOrigin, behindOrigin, changedFiles: changedFiles(head), repoState: state });
+  if (health.classification.generated.length) {
+    console.log(`${health.classification.generated.length} expected generated file change(s) found; the validated output will be committed if it is meaningful and a publish is safe.`);
   }
-  if (workspace.generated.length) {
-    console.log(`Continuing with ${workspace.generated.length} expected generated file change(s); the validated output will be committed if it is meaningful.`);
+  if (!health.publishSafe) {
+    console.log(`Publishing is not currently safe (${health.reasons.join(" ")}); diagnostics will still run.`);
   }
-  return { baseSha: head, initialGeneratedChanges: workspace.generated };
+  return { baseSha: head, health };
 }
 
 function changedFiles(baseSha) {
@@ -200,9 +208,21 @@ function assertGeneratedPaths(baseSha) {
 function restoreGeneratedPaths() {
   // Only publisher-managed generated output is ever reset. Source edits stay
   // untouched, and preflight rejects them before a publish can begin.
-  const restore = gitQuiet(["restore", "--source=HEAD", "--staged", "--worktree", "--", ...GENERATED_PATHS]);
-  if (!restore.ok && !restore.output.includes("did not match any file")) {
-    throw new Error(`Could not restore generated output: ${restore.output}`);
+  //
+  // Each path is restored individually rather than in one `git restore` call
+  // with the full list: `git restore` validates every pathspec before
+  // applying any of them, so a single GENERATED_PATHS entry that doesn't
+  // currently exist (e.g. lib/media-manifest.lock.json before the first R2
+  // upload) makes it fail for *all* paths at once, not just the missing one
+  // — silently leaving every freshly generated file uncommitted instead of
+  // restored. This was previously masked by a string-match on the error
+  // output that (incorrectly) treated "did not match any file" as always
+  // safe to ignore, when it actually meant nothing had been restored.
+  for (const relativePath of GENERATED_PATHS) {
+    const restore = gitQuiet(["restore", "--source=HEAD", "--staged", "--worktree", "--", relativePath]);
+    if (!restore.ok && !restore.output.includes("did not match any file")) {
+      throw new Error(`Could not restore generated output at ${relativePath}: ${restore.output}`);
+    }
   }
   const untracked = gitFiles(["ls-files", "--others", "--exclude-standard", "-z", "--", ...GENERATED_PATHS]);
   if (untracked.length) run("git", ["clean", "-f", "--", ...untracked]);
@@ -323,27 +343,37 @@ async function main() {
   pruneEvidence(retentionDays);
 
   let baseSha;
-  let currentStage = "preflight";
+  let currentStage = "repository_state";
   try {
     acquireLock(runId);
     prepareRunArtifacts();
-    const preflight = assertPublishableMain();
-    baseSha = preflight.baseSha;
+    const repository = assessRepository();
+    baseSha = repository.baseSha;
     metadata.baseSha = baseSha;
-    metadata.initialGeneratedChanges = preflight.initialGeneratedChanges;
-    for (let attempt = 1; attempt <= 2; attempt += 1) {
-      currentStage = "sync_validate";
-      runPipeline(baseSha);
-      currentStage = "confirm_base";
-      const advanced = advanceToRemote(baseSha);
-      if (!advanced.advanced) break;
-      if (attempt === 2) throw new Error("main advanced twice during generation; refusing to publish a stale result.");
-      baseSha = advanced.sha;
-      metadata.baseSha = baseSha;
+    metadata.gitHealth = repository.health;
+
+    // Diagnostics (Notion/article sync, generation, validation) run regardless
+    // of ordinary uncommitted local changes. Only advancing the local branch
+    // and committing/pushing require a clean, publish-safe tree.
+    currentStage = "sync_validate";
+    runPipeline(baseSha);
+    if (mode === "publish" && repository.health.publishSafe) {
+      for (let attempt = 1; attempt <= 2; attempt += 1) {
+        currentStage = "confirm_base";
+        const advanced = advanceToRemote(baseSha);
+        if (!advanced.advanced) break;
+        if (attempt === 2) throw new Error("main advanced twice during generation; refusing to publish a stale result.");
+        baseSha = advanced.sha;
+        metadata.baseSha = baseSha;
+        currentStage = "sync_validate";
+        runPipeline(baseSha);
+      }
     }
 
     const summaryPath = path.join(ARTIFACTS, "change-summary.json");
     const summary = readJson(summaryPath);
+    const validation = readJson(path.join(ARTIFACTS, "validation.json"), {});
+    if (Array.isArray(validation.warnings) && validation.warnings.length) metadata.validationWarnings = validation.warnings;
     currentStage = "detect_changes";
     metadata.changed = Boolean(summary.hasChanges);
     if (!summary.hasChanges) {
@@ -373,6 +403,24 @@ async function main() {
       writeJson(metadataPath, metadata);
       archiveEvidence(runDirectory);
       console.log("Check-only validation completed; generated output was restored and nothing was published.");
+      return;
+    }
+
+    if (!repository.health.publishSafe) {
+      // Generation and validation succeeded; only the publish step is
+      // deferred because of ordinary local repository state. This is not a
+      // failure and must not be reported as one.
+      restoreGeneratedPaths();
+      const healthy = await productionHealthy();
+      metadata.productionHealthy = healthy;
+      metadata.stage = "publish_skipped";
+      metadata.completedAt = new Date().toISOString();
+      writeJson(metadataPath, metadata);
+      const email = sendReport({ status: "publish-skipped", stage: "publish_skipped", summaryPath, metadataPath, healthy });
+      metadata.email = email;
+      writeJson(metadataPath, metadata);
+      archiveEvidence(runDirectory);
+      console.log(`Diagnostics completed with meaningful changes, but publish was deferred: ${repository.health.reasons.join(" ")}`);
       return;
     }
 
@@ -429,6 +477,7 @@ async function main() {
     const healthy = await productionHealthy();
     metadata.stage = reportedPipelineStage === "complete" ? "commit_and_push" : reportedPipelineStage;
     metadata.error = message;
+    if (!metadata.gitHealth && error?.gitHealth) metadata.gitHealth = error.gitHealth;
     metadata.productionHealthy = healthy;
     metadata.completedAt = new Date().toISOString();
     writeJson(metadataPath, metadata);

@@ -21,13 +21,22 @@ const projectWithStandaloneAssets = canonicalProjects.find(
 );
 const projectWithStandaloneLinkAsset = findProjectWithStandaloneLinkAsset(canonicalProjects);
 const projectWithCompactFallbackLinkAsset = findProjectWithStandaloneLinkAsset(canonicalProjects, (asset) => {
+  // The rendered "fallback" state (components/project-details/link-preview-surface.tsx)
+  // only appears when the surface has no local preview to show at all: neither the
+  // asset's own thumbnail/file (which AssetMedia resolves to `thumb` and passes down
+  // as `resolvedLocalPreview`) nor a captured `linkPreview.image`. An asset whose own
+  // thumbnail resolves renders the "thumbnail" state instead, even with no
+  // linkPreview.image — so both conditions must hold for this fixture to be valid.
   const preview = asset.linkPreview;
-  return Boolean(
+  const hasPreviewImage = Boolean(
     preview &&
       typeof preview === "object" &&
       !Array.isArray(preview) &&
-      typeof (preview as { image?: unknown }).image !== "string"
+      typeof (preview as { image?: unknown }).image === "string"
   );
+  const hasOwnThumbnail = typeof asset.thumbnail === "string" && asset.thumbnail.trim().length > 0;
+  const hasOwnFile = typeof asset.file === "string" && asset.file.trim().length > 0;
+  return !hasPreviewImage && !hasOwnThumbnail && !hasOwnFile;
 });
 const projectWithReadme = canonicalProjects.find((project) => {
   const readme = project.readme;

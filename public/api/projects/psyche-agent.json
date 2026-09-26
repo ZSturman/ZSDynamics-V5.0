@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-09-02T00:13:21.669691+00:00",
+  "generated_at": "2026-09-26T10:41:02.312378+00:00",
   "data": {
     "id": "332aec94-4d3c-80ea-8468-c3a18bc61258",
     "slug": "psyche-agent",
@@ -12,9 +12,9 @@
     "summary": "This project is a personal creation based on the idea that if profile data is incomplete, the system should still be helpful without pretending to know more than it does. The app can begin with ready-made personas, and then you can add optional assessment results or manual imports as you go, so you can start using it right away.\n\nWhat sets it apart is how it keeps measured data, placeholder scaffolding, and missing modules separate, while also keeping political and religious worldview signals in their own layer, rather than mixing them into test results. It feels like it’s designed for curious builders, thoughtful users, and anyone who wants persona-driven chat with clearer boundaries around uncertainty.\n\nI’m still seeing it as a proof of concept, so there’s some uncertainty about how it will be used in the long run and where people will get the most benefit, but the main direction is clear: less fake certainty, more explicit structure, and practical flexibility.",
     "oneLiner": "I’m building a chat-first persona app that uses whatever profile data is actually known, keeps missing modules visible, and helps me explore different perspectives without pretending uncertain inputs are facts.",
     "domain": "Technology",
-    "category": "Application",
+    "category": "Other",
     "status": "Active",
-    "phase": "Development",
+    "phase": "Production",
     "featured": false,
     "createdAt": "2026-03-31",
     "updatedAt": "2026-04-04",
@@ -32,10 +32,10 @@
     "story": "",
     "images": {
       "icon": "icon.png",
-      "poster": "poster.png",
+      "hero": "hero.png",
       "thumbnail": "thumbnail.png",
       "banner": "banner.png",
-      "hero": "hero.png"
+      "poster": "poster.png"
     },
     "resources": [
       {
