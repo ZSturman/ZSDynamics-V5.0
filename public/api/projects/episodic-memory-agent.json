@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-09-26T10:41:02.314778+00:00",
+  "generated_at": "2026-10-10T10:12:23.284706+00:00",
   "data": {
     "id": "306aec94-4d3c-8005-97ab-d4572f1ab679",
     "slug": "episodic-memory-agent",
@@ -12,9 +12,9 @@
     "summary": "An event-segmented episodic memory agent designed to simulate how an intelligent system perceives, interprets, and organizes experience over time. The architecture centers on a strict cognitive loop—resolving location, identifying entities, detecting change—and freezing those moments into structured episodes. Built with swappable modules, strict invariants, and full logging, the system prioritizes learning over hardcoded assumptions, user-defined semantics over predefined categories, and reproducible behavior over opaque heuristics.",
     "oneLiner": "A modular cognitive agent framework that models how experience becomes memory.",
     "domain": "Technology",
-    "category": "Other",
+    "category": "AI Model",
     "status": "Active",
-    "phase": "Production",
+    "phase": "Prototype",
     "featured": true,
     "featuredOrder": 3,
     "createdAt": "2026-01-18",

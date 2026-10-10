@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-09-26T10:41:02.311805+00:00",
+  "generated_at": "2026-10-10T10:12:23.276835+00:00",
   "data": {
     "id": "34faec94-4d3c-80bf-928b-e0e32ba51cc8",
     "slug": "production-scheduling-web-app",
@@ -12,7 +12,7 @@
     "summary": "This project helps manufacturing teams manage production schedules across organizations, work centers, holidays, and user roles. It integrates with Google Sheets for production data, calculates schedules around capacity constraints, and provides a Gantt chart view for visual planning. Jobs can also be locked to fixed time slots, giving planners more control over real-world scheduling changes.",
     "oneLiner": "A web-based manufacturing scheduling system that connects production planning, capacity-aware scheduling, and Google Sheets data in a multi-tenant Next.js app.",
     "domain": "Technology",
-    "category": "Other",
+    "category": "Application",
     "status": "Paused",
     "phase": "",
     "featured": false,
@@ -35,9 +35,9 @@
     "story": "",
     "images": {
       "icon": "icon.png",
-      "hero": "hero.png",
       "thumbnail": "thumb.png",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "hero": "hero.png"
     },
     "resources": [
       {

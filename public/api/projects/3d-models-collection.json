@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-09-26T10:41:02.313274+00:00",
+  "generated_at": "2026-10-10T10:12:23.280684+00:00",
   "data": {
     "id": "312aec94-4d3c-817e-9295-e018716cf990",
     "slug": "3d-models-collection",
@@ -12,7 +12,7 @@
     "summary": "This collection brings together a range of 3D models created during my early work in Blender. Each piece was built with a specific purpose, from simple objects intended for 3D printing to assets designed for animation and game environments. The collection is not centered on a single style or outcome, but on learning how digital form works across different contexts. Earlier models focus on basic structure, lighting, and scale, while later ones begin to account for motion, function, and narrative use. Taken together, the work documents a gradual shift from experimenting with tools to understanding how design decisions support real-world and virtual applications.",
     "oneLiner": "A personal collection of 3D models made while learning Blender, focused on understanding form, scale, and how digital objects function across different uses.",
     "domain": "Artistic",
-    "category": "Other",
+    "category": "Animation",
     "status": "Maintained",
     "phase": "Maintenance",
     "featured": false,

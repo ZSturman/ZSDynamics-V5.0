@@ -81,6 +81,7 @@ property name:
 | `summary`, `one liner`, `subtitle` | rich_text | Content | Same |
 | `domain` | select | Content/filtering | Same |
 | `Status`, `Phase` | select | Content | Same |
+| `category` (legacy), `Type` | multi_select | Preserve a nonempty legacy category; otherwise use `Type`, in its recorded order. Hue Light Control uses Device as its primary category, followed by Firmware and Electronics. | `Type` supplies the project's types |
 | `tags`, `mediums` | multi_select | Content | Same (`tags`; `mediums` is website-only today) |
 | `started at`, `last update at` | date | Content dates | Same (`startedAt`/`lastUpdateAt`) |
 | `featured`, `featured order` | checkbox / number | Homepage ordering | Same |
@@ -94,6 +95,13 @@ property name:
 | `required action`, `required asset action`, `action severity`, `asset action severity` | formula | Not used by the website (these drive Better Projects' own validation UI) | `ProjectValidation` parity display |
 | `workspace roots`, `repo roots`, `path prefixes` | rich_text | Not used — legacy/plural hint fields predating the current per-asset model | Documented in Better Projects as "not a documented per-project directory association" |
 | `hide from kiosk`, `tracking enabled`, `tracking priority`, `default scope`, `browser domains`, `allow automation`, `Automation Logs` | various | Not used by the website — unrelated automation/kiosk features living in the same database | n/a |
+
+The exporter preserves `mediums` through the existing public interface. Hardware projects can
+therefore publish `mediums: ["hardware"]` without adding a new field or changing the page
+renderer. Project descriptions continue to use `summary`. Media registered through Better
+Workspace uses project-relative paths and uploaded Notion previews; the hosted pipeline
+optimizes those images and uploads durable delivery URLs to R2 when configured. Without
+R2 credentials, optimized files are published through the existing Firebase media fallback.
 
 **Eligibility gate (exact filters sent to the Notion API):**
 

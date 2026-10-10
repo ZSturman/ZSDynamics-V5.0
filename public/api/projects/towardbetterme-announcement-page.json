@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-09-26T10:41:02.313687+00:00",
+  "generated_at": "2026-10-10T10:12:23.281549+00:00",
   "data": {
     "id": "306aec94-4d3c-8064-9e5a-c59f1df02bee",
     "slug": "towardbetterme-announcement-page",
@@ -12,9 +12,9 @@
     "summary": "TowardBetter.me is a platform designed to help women find supportive communities around life transitions, personal growth, and difficult moments that are often navigated alone. I was brought on to build an announcement page that could clearly communicate the mission of the project while laying the technical groundwork for what would eventually become a larger, authenticated platform. The goal was to create something simple, welcoming, and trustworthy—an entry point that felt intentional rather than promotional.\nThe site was built with React and Next.js, with Firebase Authentication integrated to support future user accounts and onboarding flows. From the beginning, the focus was on clarity and structure: clean UI, predictable behavior, and a codebase that could evolve without needing to be rethought later. This project served as both a public-facing introduction and a technical foundation for what TowardBetter.me would grow into.",
     "oneLiner": "Announcement page for TowardBetter.me built with React, Next.js, and Firebase Auth. Designed as a clear, trustworthy entry to a community-focused platform and marked my first project after returning from Australia.",
     "domain": "Technology",
-    "category": "Other",
-    "status": "Complete",
-    "phase": "Post-Release",
+    "category": "Web",
+    "status": "Blocked",
+    "phase": "Testing",
     "featured": false,
     "createdAt": "2024-11-29",
     "updatedAt": "2025-02-06",
@@ -48,8 +48,8 @@
           "hostname": "zsturman.github.io",
           "displayUrl": "zsturman.github.io/TowardBetter-Announcement-Page",
           "description": "Women Deserve Better",
-          "image": "https://zsturman.github.io/images/Sam Logo - Blush.svg",
-          "imageSource": "metadata"
+          "image": "/projects/towardbetterme_announcement_page_306aec94-4d3c-8064-9e5a-c59f1df02bee/previews/zsturman.github.io-9abb1d1ecb48.png",
+          "imageSource": "capture"
         },
         "iconUrl": "/icons/favicons/zsturman.github.io.png"
       },

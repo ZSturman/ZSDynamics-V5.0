@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-09-26T10:41:02.313916+00:00",
+  "generated_at": "2026-10-10T10:12:23.282090+00:00",
   "data": {
     "id": "306aec94-4d3c-80d4-a8bd-d83a8832ebf8",
     "slug": "zsdynamics-30",
@@ -12,7 +12,7 @@
     "summary": "After I got more comfortable with React, I wanted to see how design choices and small interactions could change the experience. I built a feature that let users switch between themes and font styles. It wasn’t the most practical feature, but it taught me a lot and pushed me to pay more attention to how design decisions show up in real use. That curiosity drove most of what I built during this stage.",
     "oneLiner": "Added interactive features such as a live theme and font selector to experiment with frontend flexibility. Focused on React state management, component communication, and styling behavior. Served as a small sandbox for improving overall frontend fluency.",
     "domain": "Technology",
-    "category": "Other",
+    "category": "Web",
     "status": "Deprecated",
     "phase": "",
     "featured": false,

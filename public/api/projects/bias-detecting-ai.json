@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-09-26T10:41:02.312484+00:00",
+  "generated_at": "2026-10-10T10:12:23.279575+00:00",
   "data": {
     "id": "332aec94-4d3c-80be-a40c-ce5b6cd6ff56",
     "slug": "bias-detecting-ai",
@@ -9,10 +9,10 @@
     "title": "Bias Detecting AI",
     "name": "Bias Detecting AI",
     "subtitle": "",
-    "summary": "This is a practical evaluation tool I’m using to check whether language models treat similar people differently when the only thing that changes is a demographic signal. It brings together structured bias tests, side by side model comparison, detailed result review, and prompt rewriting, so I can look at fairness as something concrete and inspectable rather than abstract.\n\nThe clearest audience is people choosing, auditing, or shaping models before those models are used in higher-stakes workflows. That could be product teams, AI governance work, research, operations, hiring teams, or admissions related review. What makes it useful is that it does not stop at scoring. It also helps me clean up prompts, reuse safer templates, and recommend models based on the kind of task I actually care about.\n\nA few things still feel open, and I think that is worth saying plainly. This reads more like a focused internal evaluation desk than a broad shared platform, and more like an early, working system than a fully polished brand experience. The character is careful, measured, plainspoken, and a little austere, which fits a product that is really about close comparison and accountable judgment.",
-    "oneLiner": "I built this to test how language models react to demographic cues in hiring, admissions, and other sensitive decisions, then compare the results and revise the prompts behind them.",
+    "summary": "2026-10-05 FULL functional audit: web + real FastAPI/LiteLLM/local HTTP provider and isolated SQLite. Five built-in suites147prompts37results; custom6prompts2results; comparison, rewrite/suggestions/templates, threshold recommendations, actual Safari CSV37rows and full restart persistence passed. Eight bounded repairs;25targeted backend tests/frontend build passed. Active incomplete prototype, REPAIR; no duplicate/archive determination. Synthetic plumbing only: no real-provider fairness or rewrite effectiveness validation. Results7 vs Compare13 exposes inconsistent aggregation; recommendation coverage/MaxBias and heuristic interpretation require work before production.",
+    "oneLiner": "Research prototype for comparing LLM demographic prompt variants, inspecting scores and exploring prompt rewrites.",
     "domain": "Technology",
-    "category": "Other",
+    "category": "Tool",
     "status": "Active",
     "phase": "Production",
     "featured": false,
@@ -33,9 +33,9 @@
     "description": "",
     "story": "",
     "images": {
-      "hero": "hero.png",
       "thumbnail": "thumbnail.png",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "hero": "hero.png"
     },
     "resources": [
       {

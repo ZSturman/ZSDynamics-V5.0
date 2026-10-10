@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-09-26T10:41:02.314497+00:00",
+  "generated_at": "2026-10-10T10:12:23.283530+00:00",
   "data": {
     "id": "306aec94-4d3c-806a-b191-f329f1efc1ae",
     "slug": "drifting-priorities",
@@ -12,7 +12,7 @@
     "summary": "Drifting Priorities looks like a task app, but it is really a personal experiment in choosing work more honestly. It ranks tasks by combining time-based priority curves, recent avoidance, category recency, current state of mind, and dependency cost, then exposes that through both a CLI and a local web GUI. It also accepts small normalized telemetry imports and exports clean snapshots, which makes it feel more like a portable local system than a closed productivity app.\n\nThe audience seems fairly specific: people working alone or in a self-directed way, especially developers, writers, researchers, and other knowledge workers who do not trust a static list to tell the truth all day. What feels distinct here is the model, not the surface. The repo stays careful about explicit inputs, portability, and shared logic across interfaces. The part that still feels open is how tuned the scoring is in repeated real use, so I would describe it as thoughtful and usable, but still clearly in progress.",
     "oneLiner": "A local task recommender for days that do not stay flat, where what makes sense next can shift with time, energy, recent work, and complexity.",
     "domain": "Technology",
-    "category": "Other",
+    "category": "Application",
     "status": "Paused",
     "phase": "Production",
     "featured": false,
@@ -32,11 +32,11 @@
     "description": "",
     "story": "",
     "images": {
+      "poster": "poster.png",
       "icon": "icon.png",
-      "hero": "hero.png",
       "thumbnail": "thumbnail.png",
       "banner": "banner.png",
-      "poster": "poster.png"
+      "hero": "hero.png"
     },
     "resources": [
       {

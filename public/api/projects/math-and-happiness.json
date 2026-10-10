@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-09-26T10:41:02.312899+00:00",
+  "generated_at": "2026-10-10T10:12:23.280037+00:00",
   "data": {
     "id": "332aec94-4d3c-8040-87a1-e4f349ef0994",
     "slug": "math-and-happiness",
@@ -9,10 +9,10 @@
     "title": "Math and Happiness",
     "name": "Math and Happiness",
     "subtitle": "",
-    "summary": "This project is a personal happiness tracker, though “tracker” isn’t really the right word. It feels more like a tool for people who want to define their own life structure, decide what matters most, rate how things are going, and use weighted scoring to surface what needs care and what is already strong. The default shape leans on basic needs, safety, daily life, esteem, and self-actualization, but the real point is that the structure is editable, so the model can become personal rather than generic.\n\nThe audience seems to be reflective adults who want something more rigorous than vague wellness advice and more private than a social app. It is local, self-directed, and practical, with no accounts, no public layer, and no coaching voice. The overall character is calm, analytical, and a little intimate, grounded in self-reflection and simple math rather than performance or lifestyle branding.\n\nIt is clearly meant for personal use, habit review, and periodic reassessment over time, and it clearly values autonomy, meaning, and honest self-scoring. What feels less fixed is the final brand style, because the interface is restrained and functional, so the most plausible direction is a quiet editorial system that mixes structure, hierarchy, and measured warmth without turning into a glossy wellness brand.",
+    "summary": "October 7, 2026 full functional audit: actual web categories/weights/assessment notes/results/history/valid import/error preservation and production cold persistence PASS after fixes;12focused tests/typecheck/static export PASS. Physical Safari, real downloaded backup/restore, delete/reset and full accessibility unverified. LocalStorage only, no sync; current weights recalculate past history and deeper priority UI is incomplete. Functional private prototype with acceptance/scope work; existing Active status preserved.\n\nThis project is a personal happiness tracker, though “tracker” isn’t really the right word. It feels more like a tool for people who want to define their own life structure, decide what matters most, rate how things are going, and use weighted scoring to surface what needs care and what is already strong. The default shape leans on basic needs, safety, daily life, esteem, and self-actualization, but the real point is that the structure is editable, so the model can become personal rather than generic.\n\nThe audience seems to be reflective adults who want something more rigorous than vague wellness advice and more private than a social app. It is local, self-directed, and practical, with no accounts, no public layer, and no coaching voice. The overall character is calm, analytical, and a little intimate, grounded in self-reflection and simple math rather than performance or lifestyle branding.\n\nIt is clearly meant for personal use, habit review, and periodic reassessment over time, and it clearly values autonomy, meaning, and honest self-scoring. What feels less fixed is the final brand style, because the interface is restrained and functional, so the most plausible direction is a quiet editorial system that mixes structure, hierarchy, and measured warmth without turning into a glossy wellness brand.",
     "oneLiner": "A tool that helps map the parts of life that matter, weight them honestly, score how things are going, and see where the math points my attention next.",
     "domain": "Expository",
-    "category": "Other",
+    "category": "Application",
     "status": "Active",
     "phase": "Production",
     "featured": false,
@@ -32,10 +32,10 @@
     "description": "",
     "story": "",
     "images": {
-      "hero": "hero.png",
+      "poster": "poster.png",
       "thumbnail": "thumbnail.png",
       "banner": "banner.png",
-      "poster": "poster.png"
+      "hero": "hero.png"
     },
     "resources": [
       {

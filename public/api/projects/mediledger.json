@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-09-26T10:41:02.314408+00:00",
+  "generated_at": "2026-10-10T10:12:23.283351+00:00",
   "data": {
     "id": "306aec94-4d3c-800f-8fd6-c80ad845b5df",
     "slug": "mediledger",
@@ -12,7 +12,7 @@
     "summary": "MediLedger is designed around a simple idea: most of what you need to do with your medication shouldn’t require opening an app. With interactive widgets, you can log a full or half dose, check how many pills you have left, see when your refill is coming up, and set up different widgets for different medications. The app handles both prescription and non-prescription meds, tracks strength and dosage, and keeps a full history of what you’ve taken. Everything syncs through SwiftData across iPhone, iPad, and Mac, and it works offline when it needs to. You can customize what each widget shows, set up alerts for refills, and rely on automatic calculations to keep your supply accurate without any extra effort.",
     "oneLiner": "A medication management tool centered on interactive Home Screen widgets. Users can log doses, track supply, monitor refills, and sync across Apple devices—moving medication tracking from the app to the widget for faster, simpler daily adherence.",
     "domain": "Technology",
-    "category": "Other",
+    "category": "Application",
     "status": "Maintained",
     "phase": "Maintenance",
     "featured": false,

@@ -1,0 +1,96 @@
+{
+  "schema_version": 1,
+  "kind": "projects.detail",
+  "generated_at": "2026-10-10T10:12:23.275763+00:00",
+  "data": {
+    "id": "3f5aec94-4d3c-8116-99d5-c9752bb4af87",
+    "slug": "hue-light-control",
+    "href": "/projects/hue-light-control",
+    "title": "Hue Light Control",
+    "name": "Hue Light Control",
+    "subtitle": "A physical control for everyday lighting.",
+    "summary": "Hue Light Control brings everyday room lighting back to a physical control. Turn the rotary encoder to dim a Philips Hue room or zone, tap to switch it on or off, and hold to open settings on a 128×64 OLED. The finished controller combines an ESP32, a push-button encoder, and an SSD1306 display.\n\nInput and display updates stay responsive while a separate network task sends HTTPS commands to the Hue bridge over the local network. The firmware reuses its connection, batches brightness changes, and reconciles the display with the bridge. On-device diagnostics explain Wi-Fi, authorization, room, display, and memory problems; reconnects, bridge rediscovery, saved settings, and a watchdog help it recover. Bridge discovery uses mDNS first, with Philips’ internet discovery service as an optional fallback.\n\nThis is a completed hardware and firmware project, built for one room or zone and documented with pin assignments, setup instructions, and recovery procedures. The portfolio media is technical illustration of the documented components, rather than photography of the assembled device.",
+    "oneLiner": "A physical Philips Hue controller built with an ESP32, rotary encoder, and OLED display.",
+    "domain": "Technology",
+    "category": "Device",
+    "status": "Complete",
+    "phase": "Release",
+    "featured": false,
+    "createdAt": "2026-10-09",
+    "updatedAt": "2026-10-10",
+    "isPublic": true,
+    "tags": [
+      "Hardware",
+      "ESP32",
+      "C++",
+      "PlatformIO",
+      "Philips Hue",
+      "OLED"
+    ],
+    "mediums": [
+      "hardware"
+    ],
+    "genres": [],
+    "topics": [],
+    "subjects": [],
+    "description": "",
+    "story": "",
+    "images": {
+      "poster": "poster.png",
+      "icon": "icon.png",
+      "thumbnail": "thumbnail.png",
+      "banner": "banner.png",
+      "hero": "hero.png"
+    },
+    "resources": [],
+    "assets": [
+      {
+        "id": "3f5aec94-4d3c-81ca-b75f-ed206dd8eea4",
+        "label": "Hue Light Control — wiring and local-network architecture",
+        "order": 0,
+        "type": "image",
+        "summary": "Authored technical illustration of the documented ESP32, rotary encoder and SSD1306 OLED controller. Not a device photograph.",
+        "filePath": "wiring.png"
+      }
+    ],
+    "collection": {},
+    "workLogs": [
+      {
+        "id": "3f5aec94-4d3c-8190-9800-f00764a9689f",
+        "title": "Hue Light Control — portfolio packaging",
+        "entry": "Hue Light Control — portfolio packaging",
+        "url": "https://app.notion.com/p/Hue-Light-Control-portfolio-packaging-3f5aec944d3c81909800f00764a9689f",
+        "startTime": "2026-10-10T09:33:00.000+00:00",
+        "endTime": "2026-10-10T09:54:00.000+00:00",
+        "date": "2026-10-10",
+        "sessionType": [
+          "Writing",
+          "Build"
+        ],
+        "whatHappened": "Prepared the completed Hue controller for its hardware portfolio debut: documented setup, physical controls, wiring and local Hue commands; created six coordinated technical illustrations with editable SVG originals; registered project-relative media and uploaded Notion previews through Better Workspace. Marked the linked project Complete / Release, added hardware metadata, and curated the original October 9 work log. Firmware compilation and focused portfolio importer tests passed. The portfolio package includes responsive media, a wiring gallery and public work logs.",
+        "problems": null,
+        "nextStep": null,
+        "durationMinutes": 21
+      },
+      {
+        "id": "3f5aec94-4d3c-8134-8001-e09c001d2423",
+        "title": "Hue Light Control — firmware and controller documentation",
+        "entry": "Hue Light Control — firmware and controller documentation",
+        "url": "https://app.notion.com/p/Hue-Light-Control-firmware-and-controller-documentation-3f5aec944d3c81348001e09c001d2423",
+        "startTime": "2026-10-09",
+        "endTime": "2026-10-09",
+        "date": "2026-10-09",
+        "sessionType": [
+          "Build",
+          "Writing"
+        ],
+        "whatHappened": "Documented the ESP32, rotary encoder and SSD1306 OLED controller for a Philips Hue room or zone, including physical controls, pin assignments, setup, on-device diagnostics and recovery. This public summary is curated from the October 9 session recorded under the earlier folder name LonelyBinaryScreen and the completed firmware documentation.",
+        "problems": null,
+        "nextStep": null,
+        "durationMinutes": 0
+      }
+    ],
+    "articles": [],
+    "folderName": "hue_light_control_3f5aec94-4d3c-8116-99d5-c9752bb4af87"
+  }
+}

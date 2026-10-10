@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-09-26T10:41:02.312305+00:00",
+  "generated_at": "2026-10-10T10:12:23.278795+00:00",
   "data": {
     "id": "332aec94-4d3c-80ae-805d-f01e79254789",
     "slug": "testing-traits",
@@ -12,9 +12,9 @@
     "summary": "This is a browser-based cognitive assessment made of ten short games, each mapped to five traits: memory, attention, problem solving, emotional regulation, and cognitive flexibility. The experience is intentionally lightweight, people can start fast, play in any order, and get partial results without being forced into a full run.\n\nIt seems aimed at everyday users who are curious about how they perform right now, including students, creators, and professionals who want a structured self-check rather than a clinical diagnosis. The useful part is the mix of simple tasks, visible progress, and trait-level scoring that stays readable and practical, while keeping data local and private.\n\nWhat is clear is the product’s tone: focused, calm, game-like but not childish, and structured around quick completion. What is still uncertain is scientific validation depth, so I’d describe it as a reflective performance profile tool, not a medical or diagnostic instrument.",
     "oneLiner": "A game-based cognitive check-in that lets people test memory, attention, flexibility, emotional steadiness, and problem solving in one short, approachable session.",
     "domain": "Technology",
-    "category": "Other",
+    "category": "Application",
     "status": "Active",
-    "phase": "Production",
+    "phase": "Testing",
     "featured": false,
     "createdAt": "2022-12-28",
     "updatedAt": "2025-12-22",
@@ -33,11 +33,11 @@
     "description": "",
     "story": "",
     "images": {
+      "poster": "poster.png",
       "icon": "icon.png",
-      "hero": "hero.png",
       "thumbnail": "thumbnail.png",
       "banner": "banner.png",
-      "poster": "poster.png"
+      "hero": "hero.png"
     },
     "resources": [
       {

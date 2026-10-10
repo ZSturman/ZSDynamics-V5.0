@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-09-26T10:41:02.313764+00:00",
+  "generated_at": "2026-10-10T10:12:23.281709+00:00",
   "data": {
     "id": "306aec94-4d3c-80a5-b00e-f67cc4ff5901",
     "slug": "lost-and-hound",
@@ -9,10 +9,10 @@
     "title": "Lost & Hound",
     "name": "Lost & Hound",
     "subtitle": "Find your Furry Friend",
-    "summary": "Lost & Hound is a mobile application designed to make it easier to reconnect lost pets with the people looking for them. Instead of relying on flyers, chance encounters, or social media posts that quickly disappear, the app provides a centralized place to report lost pets and log sightings in real time. Users can post details, photos, and locations, browse nearby reports, and reach out directly when something looks like a match.The app currently only works in Australia, reflecting where the initial rollout and testing took place. The project was built as a full-stack React Native application with a Node backend and Firebase for data and authentication. One team extended the system further by integrating computer vision, allowing uploaded images of spotted animals to be compared against photos of missing pets. The goal was not to replace human judgment, but to reduce friction and shorten the path between seeing an animal and contacting the right person.",
+    "summary": "October 7, 2026 functional audit: isolated Expo web registration/local OTP/report/photo/profile/filter/cold persistence partially PASS (21 client/56 API checks); archived Swift iPad simulator sign-in/profile/JPEG pet/immediate and cold persistence PASS after repair. Primary Expo iOS blocked legacy SDK; Android build/install/render only; Mac build PASS but runtime blocked; physical flows USER deferred. Shared backend auth exposes prior account to unauthenticated clients; status action and CV config/matching fail. No live provider, sync or production claim. Existing Archived status retained; USER choose archive retention or maintained Expo/Swift revival.\n\nHistorical project description (deployment/model claims not verified in this audit):\nLost & Hound is a mobile application designed to make it easier to reconnect lost pets with the people looking for them. Instead of relying on flyers, chance encounters, or social media posts that quickly disappear, the app provides a centralized place to report lost pets and log sightings in real time. Users can post details, photos, and locations, browse nearby reports, and reach out directly when something looks like a match.The app currently only works in Australia, reflecting where the initial rollout and testing took place. The project was built as a full-stack React Native application with a Node backend and Firebase for data and authentication. One team extended the system further by integrating computer vision, allowing uploaded images of spotted animals to be compared against photos of missing pets. The goal was not to replace human judgment, but to reduce friction and shorten the path between seeing an animal and contacting the right person.",
     "oneLiner": "A community-driven mobile app that helps reunite lost pets with their owners by turning scattered, offline sightings into a shared, searchable system. The live app currently operates in Australia.",
     "domain": "Technology",
-    "category": "Other",
+    "category": "Mobile App",
     "status": "Archived",
     "phase": "",
     "featured": false,
@@ -36,10 +36,10 @@
     "description": "",
     "story": "",
     "images": {
+      "poster": "poster.png",
       "icon": "icon.svg",
       "thumbnail": "thumbnail.png",
-      "banner": "banner.png",
-      "poster": "poster.png"
+      "banner": "banner.png"
     },
     "resources": [
       {

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-09-26T10:41:02.314850+00:00",
+  "generated_at": "2026-10-10T10:12:23.285076+00:00",
   "data": {
     "id": "304aec94-4d3c-8029-a1b1-ea0f92487137",
     "slug": "my-notion-pipeline",
@@ -12,7 +12,7 @@
     "summary": "An automated project and portfolio workflow that uses Notion as the central source of truth for capturing, organizing, maintaining, and publishing work across its full lifecycle. What began as a folder-based system built on local files and .project.json evolved into a relational Notion workspace that connects project metadata, work logs, tasks, milestones, media, and documentation in one structured environment.\n\n\nInside Notion, the system uses formulas, required-action logic, severity scoring, and visual workflow signals to make project readiness measurable and easier to manage. That structure reduces duplicate entry, improves documentation quality, and keeps projects consistently maintained as they move from idea to execution to presentation.\n\n\nWhen project data reaches the right state, n8n detects qualifying changes and assembles portfolio-ready JSON, which is then sent into a Python-based build pipeline that prepares content and media for a static portfolio site. Linear supports issue tracking, GitHub stores code and optimized assets, and Firebase Hosting serves the finished site.\n\n\nThe result is a connected operating system for project operations and portfolio publishing: one that keeps documentation, execution, and presentation aligned with the real state of the work over time.",
     "oneLiner": "A Notion-centered project operating system that turns structured project data into an always-up-to-date portfolio.",
     "domain": "Personal",
-    "category": "Other",
+    "category": "Organization",
     "status": "Active",
     "phase": "Production",
     "featured": true,
@@ -38,9 +38,9 @@
     "story": "",
     "images": {
       "icon": "icon.png",
-      "hero": "hero.png",
       "thumbnail": "thumbnail.png",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "hero": "hero.png"
     },
     "resources": [],
     "assets": [],

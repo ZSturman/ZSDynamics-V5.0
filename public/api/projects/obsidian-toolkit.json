@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-09-26T10:41:02.313849+00:00",
+  "generated_at": "2026-10-10T10:12:23.281879+00:00",
   "data": {
     "id": "306aec94-4d3c-8085-a43d-f9ac3bec06ef",
     "slug": "obsidian-toolkit",
@@ -12,7 +12,7 @@
     "summary": "This project is a modular toolkit designed to make working inside Obsidian more dynamic and visual. It includes a dashboard system modeled after how Next.js handles routing, turning your folder structure into a navigable home view that mirrors the way web frameworks organize content. Alongside it is QueueCards, a note queueing system that helps prioritize ideas, tasks, or references by tracking how often items are skipped. Together, they create a workspace that’s both structured and adaptable, aimed at people who like to think in systems and want their vault to feel more like a living interface than a static archive.",
     "oneLiner": "A modular Obsidian toolkit that turns your vault into an interactive dashboard and adds a simple queue system for managing notes. It’s an experiment in blending web-style structure with personal note-taking.",
     "domain": "Technology",
-    "category": "Other",
+    "category": "Module",
     "status": "Archived",
     "phase": "Post-Release",
     "featured": false,
@@ -30,10 +30,10 @@
     "description": "",
     "story": "",
     "images": {
-      "hero": "queueExample.png",
+      "poster": "poster.gif",
       "thumbnail": "thumbnail.png",
       "banner": "banner.gif",
-      "poster": "poster.gif"
+      "hero": "queueExample.png"
     },
     "resources": [
       {

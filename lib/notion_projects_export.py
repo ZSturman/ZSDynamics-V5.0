@@ -820,7 +820,9 @@ def _normalize_project(
         "featured": bool(_pick_first(p.get("property_featured"))),
         "featuredOrder": p.get("property_featured_order"),
         "tags": _safe_array(p.get("property_tags")),
-        "category": _safe_array(p.get("property_category")),
+        # Current Notion schemas call this field Type; older exports used category.
+        "category": [value for value in _safe_array(p.get("property_category")) if value] or _safe_array(p.get("property_type")),
+        "mediums": _safe_array(p.get("property_mediums")),
         "status": _pick_first(p.get("property_status")),
         "phase": _pick_first(p.get("property_phase")),
         "articles": _normalize_articles_field(p.get("property_articles")),

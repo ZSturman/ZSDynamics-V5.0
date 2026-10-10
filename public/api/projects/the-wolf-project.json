@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-09-26T10:41:02.311896+00:00",
+  "generated_at": "2026-10-10T10:12:23.277179+00:00",
   "data": {
     "id": "346aec94-4d3c-801e-851f-c7e727f0e186",
     "slug": "the-wolf-project",
@@ -12,9 +12,9 @@
     "summary": "After discovering The Wolf Project through a Dodo video, I connected with the team and began rebuilding their website to better support their needs. The new version introduces structured data, dynamic content, and scalable infrastructure using Next.js, Firebase, and Cloudinary. It’s now a usable foundation that can evolve into a more complete system for showcasing cases, managing content, and supporting contributions.",
     "oneLiner": "A recreation of the existing Wolf Pack site with more custom features and modernization",
     "domain": "Technology",
-    "category": "Other",
+    "category": "Application",
     "status": "Active",
-    "phase": "Production",
+    "phase": "Testing",
     "featured": true,
     "featuredOrder": 1,
     "createdAt": "2026-04-17",
@@ -34,8 +34,8 @@
     "story": "",
     "images": {
       "icon": "Wolf-hero.webp",
-      "hero": "Screenshot_2026-04-18_at_17.29.59.png",
-      "thumbnail": "Wolf-hero.webp"
+      "thumbnail": "Wolf-hero.webp",
+      "hero": "Screenshot_2026-04-18_at_17.29.59.png"
     },
     "resources": [
       {
@@ -49,8 +49,8 @@
           "hostname": "yourdogcanstay.com",
           "displayUrl": "yourdogcanstay.com",
           "description": "Access to Care Lifeline for families whose dog requires lifesaving medical care, but the upfront costs stand in the way.",
-          "image": "http://yourdogcanstay.com/cdn/shop/files/3AC01483-E6E2-4011-833D-F6C8714C4FDC_dfbfda84-9ef0-49a6-be7e-7f1fa826400c.png?height=628&pad_color=ffffff&v=1776093581&width=1200",
-          "imageSource": "metadata"
+          "image": "/projects/the_wolf_project_346aec94-4d3c-801e-851f-c7e727f0e186/previews/yourdogcanstay.com-98da4ec0bcac.png",
+          "imageSource": "capture"
         }
       },
       {
@@ -64,8 +64,8 @@
           "hostname": "the-wolf-pack.vercel.app",
           "displayUrl": "the-wolf-pack.vercel.app",
           "description": "When treatment exists but access to care doesn't, The Wolf Project exists to help families keep dogs where they belong - at home.",
-          "image": "https://yourdogcanstay.com/assets/brand/ydcs-logo.png",
-          "imageSource": "metadata"
+          "image": "/projects/the_wolf_project_346aec94-4d3c-801e-851f-c7e727f0e186/previews/the-wolf-pack.vercel.app-23526c25a9c2.png",
+          "imageSource": "capture"
         },
         "iconUrl": "/icons/favicons/the-wolf-pack.vercel.app.ico"
       },
@@ -91,9 +91,10 @@
           "hostname": "yourdogcanstay.com",
           "displayUrl": "yourdogcanstay.com",
           "description": "Access to Care Lifeline for families whose dog requires lifesaving medical care, but the upfront costs stand in the way.",
-          "image": "http://yourdogcanstay.com/cdn/shop/files/3AC01483-E6E2-4011-833D-F6C8714C4FDC_dfbfda84-9ef0-49a6-be7e-7f1fa826400c.png?height=628&pad_color=ffffff&v=1776093581&width=1200",
-          "imageSource": "metadata"
-        }
+          "image": "/projects/the_wolf_project_346aec94-4d3c-801e-851f-c7e727f0e186/previews/yourdogcanstay.com-98da4ec0bcac.png",
+          "imageSource": "capture"
+        },
+        "thumbnail": "/projects/the_wolf_project_346aec94-4d3c-801e-851f-c7e727f0e186/previews/yourdogcanstay.com-98da4ec0bcac.png"
       },
       {
         "id": "348aec94-4d3c-800c-aaad-c539680bc5b2",
@@ -106,7 +107,7 @@
         "url": "https://the-wolf-project-14stqkkgr-zsturmans-projects.vercel.app",
         "linkPreview": {
           "provider": "the-wolf-project-14stqkkgr-zsturmans-projects.vercel.app",
-          "title": "Protected Deployment – Vercel",
+          "title": "the-wolf-project-14stqkkgr-zsturmans-projects.vercel.app",
           "siteName": "The-Wolf-Project-14Stqkkgr-Zsturmans-Projects Vercel App",
           "hostname": "the-wolf-project-14stqkkgr-zsturmans-projects.vercel.app",
           "displayUrl": "the-wolf-project-14stqkkgr-zsturmans-projects.vercel.app"

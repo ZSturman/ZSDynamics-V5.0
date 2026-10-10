@@ -539,6 +539,24 @@ class TestNormalizeFunctions(unittest.TestCase):
         self.assertEqual(result["collections"], [])
         self.assertEqual(result["workLogs"], [])
 
+    def test_normalize_project_hardware_type_and_medium(self) -> None:
+        row = {"id": "hardware", "name": "Hue Light Control", "property_type": ["Device", "Firmware", "Electronics"], "property_mediums": ["hardware"]}
+        result = _normalize_project(row, {}, [])
+        self.assertEqual(result["category"], ["Device", "Firmware", "Electronics"])
+        self.assertEqual(result["mediums"], ["hardware"])
+
+    def test_normalize_project_legacy_category_takes_precedence(self) -> None:
+        row = {"id": "legacy", "property_category": ["application"], "property_type": ["Device"]}
+        result = _normalize_project(row, {}, [])
+        self.assertEqual(result["category"], ["application"])
+        self.assertEqual(result["mediums"], [])
+
+    def test_normalize_project_empty_category_uses_type(self) -> None:
+        for category in (None, [], ""):
+            with self.subTest(category=category):
+                result = _normalize_project({"id": "hardware", "property_category": category, "property_type": ["Device"]}, {}, [])
+                self.assertEqual(result["category"], ["Device"])
+
     def test_normalize_project_single_asset_media_promoted_to_top_level(self) -> None:
         thumb_raw = {
             "id": "thumb-1",

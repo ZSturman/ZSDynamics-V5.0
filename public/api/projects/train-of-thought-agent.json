@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-09-26T10:41:02.312724+00:00",
+  "generated_at": "2026-10-10T10:12:23.279819+00:00",
   "data": {
     "id": "332aec94-4d3c-807a-ba3b-d0950cd03a66",
     "slug": "train-of-thought-agent",
@@ -12,7 +12,7 @@
     "summary": "I’m using this project to test whether memory and recognition should begin with location and context instead of detached labels. Right now it is a plain, inspectable learning system that can take simple observations and file-backed sensor inputs, learn names, keep aliases and nested context straight, and show its state instead of hiding it.\n\nThat makes it useful less as a finished product and more as a research tool and portfolio case study for technically curious readers, AI builders, and engineers who care about systems they can trace, correct, and inspect. What makes it distinct is the combination of restraint and ambition: it stays grounded in user or sensor evidence, it is careful not to pretend temporary sensing shortcuts are full perception, and it keeps a clear path toward a broader memory-and-attention engine.\n\nThere is still real uncertainty around the final product shape, because the long-range memory system is mostly roadmap while the current learning loop is real and working. The overall character is thoughtful, methodical, and a little provisional on purpose, more like a careful research notebook than a polished AI launch.",
     "oneLiner": "I’m building a location-first learning agent to test whether memory becomes more useful, and more inspectable, when it begins with place, context, and correction instead of detached labels.",
     "domain": "Technology",
-    "category": "Other",
+    "category": "AI Model",
     "status": "Active",
     "phase": "Production",
     "featured": false,
@@ -35,9 +35,9 @@
     "story": "",
     "images": {
       "icon": "icon.png",
-      "hero": "hero.png",
       "thumbnail": "thumbnail.png",
-      "banner": "banner.png"
+      "banner": "banner.png",
+      "hero": "hero.png"
     },
     "resources": [
       {

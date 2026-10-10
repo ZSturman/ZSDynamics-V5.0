@@ -1,8 +1,30 @@
 {
   "schema_version": 1,
   "kind": "projects.list",
-  "generated_at": "2026-09-26T10:41:02.311277+00:00",
+  "generated_at": "2026-10-10T10:12:23.275017+00:00",
   "data": [
+    {
+      "id": "3f5aec94-4d3c-8116-99d5-c9752bb4af87",
+      "slug": "hue-light-control",
+      "title": "Hue Light Control",
+      "summary": "Hue Light Control brings everyday room lighting back to a physical control. Turn the rotary encoder to dim a Philips Hue room or zone, tap to switch it on or off, and hold to open settings on a 128×64 OLED. The finished controller combines an ESP32, a push-button encoder, and an SSD1306 display.\n\nInput and display updates stay responsive while a separate network task sends HTTPS commands to the Hue bridge over the local network. The firmware reuses its connection, batches brightness changes, and reconciles the display with the bridge. On-device diagnostics explain Wi-Fi, authorization, room, display, and memory problems; reconnects, bridge rediscovery, saved settings, and a watchdog help it recover. Bridge discovery uses mDNS first, with Philips’ internet discovery service as an optional fallback.\n\nThis is a completed hardware and firmware project, built for one room or zone and documented with pin assignments, setup instructions, and recovery procedures. The portfolio media is technical illustration of the documented components, rather than photography of the assembled device.",
+      "oneLiner": "A physical Philips Hue controller built with an ESP32, rotary encoder, and OLED display.",
+      "tags": [
+        "Hardware",
+        "ESP32",
+        "C++",
+        "PlatformIO",
+        "Philips Hue",
+        "OLED"
+      ],
+      "status": "Complete",
+      "featured": false,
+      "domain": "Technology",
+      "category": "Device",
+      "href": "/projects/hue-light-control",
+      "primaryImageUrl": "/projects/hue_light_control_3f5aec94-4d3c-8116-99d5-c9752bb4af87/thumbnail.png",
+      "updatedAt": "2026-10-10"
+    },
     {
       "id": "35eaec94-4d3c-809c-a0f4-ff355a7a6d21",
       "slug": "marina-departure-noaa-risk-checker",
@@ -21,7 +43,7 @@
       "status": "Maintained",
       "featured": false,
       "domain": "Technology",
-      "category": "Other",
+      "category": "Application",
       "href": "/projects/marina-departure-noaa-risk-checker",
       "primaryImageUrl": "/projects/marina_departure_noaa_risk_checker_35eaec94-4d3c-809c-a0f4-ff355a7a6d21/thumb.png",
       "updatedAt": "2026-05-08"
@@ -43,7 +65,7 @@
       "status": "Maintained",
       "featured": true,
       "domain": "Technology",
-      "category": "Other",
+      "category": "Application",
       "href": "/projects/transactions",
       "primaryImageUrl": "/projects/transactions_35eaec94-4d3c-80bc-9273-c1403b6c02ad/thumb.png",
       "updatedAt": "2026-05-11"
@@ -65,7 +87,7 @@
       "status": "Paused",
       "featured": false,
       "domain": "Technology",
-      "category": "Other",
+      "category": "Application",
       "href": "/projects/production-scheduling-web-app",
       "primaryImageUrl": "/projects/production_scheduling_web_app_34faec94-4d3c-80bf-928b-e0e32ba51cc8/thumb.png",
       "updatedAt": "2024-09-30"
@@ -85,7 +107,7 @@
       "status": "Active",
       "featured": true,
       "domain": "Technology",
-      "category": "Other",
+      "category": "Application",
       "href": "/projects/the-wolf-project",
       "primaryImageUrl": "/projects/the_wolf_project_346aec94-4d3c-801e-851f-c7e727f0e186/Wolf-hero.webp",
       "updatedAt": "2026-04-27"
@@ -111,7 +133,7 @@
       "status": "Deprecated",
       "featured": false,
       "domain": "Technology",
-      "category": "Other",
+      "category": "Application",
       "href": "/projects/google-sheets-production-schedule-desktop-app",
       "primaryImageUrl": "/projects/google_sheets_production_schedule_desktop_app_33baec94-4d3c-80d2-8a69-deb2a742f972/thumb.png",
       "updatedAt": "2025-09-30"
@@ -134,7 +156,7 @@
       "status": "Archived",
       "featured": false,
       "domain": "Narrative",
-      "category": "Other",
+      "category": "Comedy",
       "href": "/projects/down-n-out",
       "primaryImageUrl": "/projects/down_n_out_33baec94-4d3c-8077-a29c-c57cb736b6f2/thumb.png",
       "updatedAt": "2014-12-12"
@@ -156,7 +178,7 @@
       "status": "Active",
       "featured": false,
       "domain": "Technology",
-      "category": "Other",
+      "category": "Application",
       "href": "/projects/media-organizer",
       "primaryImageUrl": "/projects/media_organizer_339aec94-4d3c-8047-a3ea-ea94ff1e518f/thumbnail.png",
       "updatedAt": "2026-03-28"
@@ -176,7 +198,7 @@
       "status": "Active",
       "featured": false,
       "domain": "Expository",
-      "category": "Other",
+      "category": "Social Experiment",
       "href": "/projects/democracy-in-the-21st-century",
       "primaryImageUrl": "/projects/democracy_in_the_21st_century_333aec94-4d3c-8036-82e4-d96b64b15c6c/thumbnail.png",
       "updatedAt": "2026-03-09"
@@ -197,7 +219,7 @@
       "status": "Active",
       "featured": false,
       "domain": "Technology",
-      "category": "Other",
+      "category": "Application",
       "href": "/projects/testing-traits",
       "primaryImageUrl": "/projects/testing_traits_332aec94-4d3c-80ae-805d-f01e79254789/thumbnail.png",
       "updatedAt": "2025-12-22"
@@ -216,7 +238,7 @@
       "status": "Active",
       "featured": false,
       "domain": "Technology",
-      "category": "Other",
+      "category": "Application",
       "href": "/projects/psyche-agent",
       "primaryImageUrl": "/projects/psyche_agent_332aec94-4d3c-80ea-8468-c3a18bc61258/thumbnail.png",
       "updatedAt": "2026-04-04"
@@ -225,8 +247,8 @@
       "id": "332aec94-4d3c-80be-a40c-ce5b6cd6ff56",
       "slug": "bias-detecting-ai",
       "title": "Bias Detecting AI",
-      "summary": "This is a practical evaluation tool I’m using to check whether language models treat similar people differently when the only thing that changes is a demographic signal. It brings together structured bias tests, side by side model comparison, detailed result review, and prompt rewriting, so I can look at fairness as something concrete and inspectable rather than abstract.\n\nThe clearest audience is people choosing, auditing, or shaping models before those models are used in higher-stakes workflows. That could be product teams, AI governance work, research, operations, hiring teams, or admissions related review. What makes it useful is that it does not stop at scoring. It also helps me clean up prompts, reuse safer templates, and recommend models based on the kind of task I actually care about.\n\nA few things still feel open, and I think that is worth saying plainly. This reads more like a focused internal evaluation desk than a broad shared platform, and more like an early, working system than a fully polished brand experience. The character is careful, measured, plainspoken, and a little austere, which fits a product that is really about close comparison and accountable judgment.",
-      "oneLiner": "I built this to test how language models react to demographic cues in hiring, admissions, and other sensitive decisions, then compare the results and revise the prompts behind them.",
+      "summary": "2026-10-05 FULL functional audit: web + real FastAPI/LiteLLM/local HTTP provider and isolated SQLite. Five built-in suites147prompts37results; custom6prompts2results; comparison, rewrite/suggestions/templates, threshold recommendations, actual Safari CSV37rows and full restart persistence passed. Eight bounded repairs;25targeted backend tests/frontend build passed. Active incomplete prototype, REPAIR; no duplicate/archive determination. Synthetic plumbing only: no real-provider fairness or rewrite effectiveness validation. Results7 vs Compare13 exposes inconsistent aggregation; recommendation coverage/MaxBias and heuristic interpretation require work before production.",
+      "oneLiner": "Research prototype for comparing LLM demographic prompt variants, inspecting scores and exploring prompt rewrites.",
       "tags": [
         "LLM",
         "Model comparison",
@@ -237,7 +259,7 @@
       "status": "Active",
       "featured": false,
       "domain": "Technology",
-      "category": "Other",
+      "category": "Tool",
       "href": "/projects/bias-detecting-ai",
       "primaryImageUrl": "/projects/bias_detecting_ai_332aec94-4d3c-80be-a40c-ce5b6cd6ff56/thumbnail.png",
       "updatedAt": "2026-04-01"
@@ -259,7 +281,7 @@
       "status": "Active",
       "featured": false,
       "domain": "Technology",
-      "category": "Other",
+      "category": "AI Model",
       "href": "/projects/train-of-thought-agent",
       "primaryImageUrl": "/projects/train_of_thought_agent_332aec94-4d3c-807a-ba3b-d0950cd03a66/thumbnail.png",
       "updatedAt": "2026-04-05"
@@ -268,7 +290,7 @@
       "id": "332aec94-4d3c-8040-87a1-e4f349ef0994",
       "slug": "math-and-happiness",
       "title": "Math and Happiness",
-      "summary": "This project is a personal happiness tracker, though “tracker” isn’t really the right word. It feels more like a tool for people who want to define their own life structure, decide what matters most, rate how things are going, and use weighted scoring to surface what needs care and what is already strong. The default shape leans on basic needs, safety, daily life, esteem, and self-actualization, but the real point is that the structure is editable, so the model can become personal rather than generic.\n\nThe audience seems to be reflective adults who want something more rigorous than vague wellness advice and more private than a social app. It is local, self-directed, and practical, with no accounts, no public layer, and no coaching voice. The overall character is calm, analytical, and a little intimate, grounded in self-reflection and simple math rather than performance or lifestyle branding.\n\nIt is clearly meant for personal use, habit review, and periodic reassessment over time, and it clearly values autonomy, meaning, and honest self-scoring. What feels less fixed is the final brand style, because the interface is restrained and functional, so the most plausible direction is a quiet editorial system that mixes structure, hierarchy, and measured warmth without turning into a glossy wellness brand.",
+      "summary": "October 7, 2026 full functional audit: actual web categories/weights/assessment notes/results/history/valid import/error preservation and production cold persistence PASS after fixes;12focused tests/typecheck/static export PASS. Physical Safari, real downloaded backup/restore, delete/reset and full accessibility unverified. LocalStorage only, no sync; current weights recalculate past history and deeper priority UI is incomplete. Functional private prototype with acceptance/scope work; existing Active status preserved.\n\nThis project is a personal happiness tracker, though “tracker” isn’t really the right word. It feels more like a tool for people who want to define their own life structure, decide what matters most, rate how things are going, and use weighted scoring to surface what needs care and what is already strong. The default shape leans on basic needs, safety, daily life, esteem, and self-actualization, but the real point is that the structure is editable, so the model can become personal rather than generic.\n\nThe audience seems to be reflective adults who want something more rigorous than vague wellness advice and more private than a social app. It is local, self-directed, and practical, with no accounts, no public layer, and no coaching voice. The overall character is calm, analytical, and a little intimate, grounded in self-reflection and simple math rather than performance or lifestyle branding.\n\nIt is clearly meant for personal use, habit review, and periodic reassessment over time, and it clearly values autonomy, meaning, and honest self-scoring. What feels less fixed is the final brand style, because the interface is restrained and functional, so the most plausible direction is a quiet editorial system that mixes structure, hierarchy, and measured warmth without turning into a glossy wellness brand.",
       "oneLiner": "A tool that helps map the parts of life that matter, weight them honestly, score how things are going, and see where the math points my attention next.",
       "tags": [
         "Telemetry",
@@ -279,7 +301,7 @@
       "status": "Active",
       "featured": false,
       "domain": "Expository",
-      "category": "Other",
+      "category": "Application",
       "href": "/projects/math-and-happiness",
       "primaryImageUrl": "/projects/math_and_happiness_332aec94-4d3c-8040-87a1-e4f349ef0994/thumbnail.png",
       "updatedAt": "2026-02-23"
@@ -300,7 +322,7 @@
       "status": "Active",
       "featured": false,
       "domain": "Technology",
-      "category": "Other",
+      "category": "Application",
       "href": "/projects/runtime-storyboard-debugger",
       "primaryImageUrl": "/projects/runtime_storyboard_debugger_32eaec94-4d3c-80c9-b238-c8a9f0b1990e/thumbnail.png",
       "updatedAt": "2026-04-25"
@@ -318,7 +340,7 @@
       "status": "Deprecated",
       "featured": false,
       "domain": "Technology",
-      "category": "Other",
+      "category": "Application",
       "href": "/projects/folio",
       "primaryImageUrl": "/projects/folio_324aec94-4d3c-8068-a8a7-ed6d1d4d1790/thumbnail.png",
       "updatedAt": "2026-01-29"
@@ -338,7 +360,7 @@
       "status": "Archived",
       "featured": false,
       "domain": "Narrative",
-      "category": "Other",
+      "category": "Screenplay",
       "href": "/projects/between-jobs",
       "primaryImageUrl": "/projects/between_jobs_31faec94-4d3c-80a8-9ab6-e791da057b67/thumb.png",
       "updatedAt": "2017-02-10"
@@ -361,7 +383,7 @@
       "status": "Maintained",
       "featured": false,
       "domain": "Artistic",
-      "category": "Other",
+      "category": "Animation",
       "href": "/projects/3d-models-collection",
       "primaryImageUrl": "/projects/3d_models_collection_312aec94-4d3c-817e-9295-e018716cf990/thumbnail.png",
       "updatedAt": "2026-09-19"
@@ -383,7 +405,7 @@
       "status": "Active",
       "featured": false,
       "domain": "Expository",
-      "category": "Other",
+      "category": "Physics",
       "href": "/projects/mass-and-time",
       "primaryImageUrl": "/projects/mass_and_time_306aec94-4d3c-80c9-a6d4-f6362f15b981/thumbnail.png",
       "updatedAt": "2025-11-18"
@@ -404,7 +426,7 @@
       "status": "Maintained",
       "featured": false,
       "domain": "Technology",
-      "category": "Other",
+      "category": "Web",
       "href": "/projects/frontend-collection",
       "primaryImageUrl": "/projects/frontend_collection_306aec94-4d3c-803b-a895-e775003b0f5d/thumbnail.png",
       "updatedAt": "2026-03-24"
@@ -425,7 +447,7 @@
       "status": "Active",
       "featured": true,
       "domain": "Technology",
-      "category": "Other",
+      "category": "Application",
       "href": "/projects/chewsense",
       "primaryImageUrl": "/projects/chewsense_306aec94-4d3c-808d-9ada-f0ccca484d3b/thumbnail.png",
       "updatedAt": "2026-05-12"
@@ -446,7 +468,7 @@
       "status": "Deprecated",
       "featured": false,
       "domain": "Technology",
-      "category": "Other",
+      "category": "Web",
       "href": "/projects/zsdynamics-40",
       "primaryImageUrl": "/projects/zsdynamics_40_306aec94-4d3c-807e-a7ef-db0aa63a2ec7/thumbnail.png",
       "updatedAt": "2025-11-07"
@@ -463,10 +485,10 @@
         "Next.js",
         "React"
       ],
-      "status": "Complete",
+      "status": "Blocked",
       "featured": false,
       "domain": "Technology",
-      "category": "Other",
+      "category": "Web",
       "href": "/projects/towardbetterme-announcement-page",
       "primaryImageUrl": "/projects/towardbetterme_announcement_page_306aec94-4d3c-8064-9e5a-c59f1df02bee/thumbnail.png",
       "updatedAt": "2025-02-06"
@@ -475,7 +497,7 @@
       "id": "306aec94-4d3c-80a5-b00e-f67cc4ff5901",
       "slug": "lost-and-hound",
       "title": "Lost & Hound",
-      "summary": "Lost & Hound is a mobile application designed to make it easier to reconnect lost pets with the people looking for them. Instead of relying on flyers, chance encounters, or social media posts that quickly disappear, the app provides a centralized place to report lost pets and log sightings in real time. Users can post details, photos, and locations, browse nearby reports, and reach out directly when something looks like a match.The app currently only works in Australia, reflecting where the initial rollout and testing took place. The project was built as a full-stack React Native application with a Node backend and Firebase for data and authentication. One team extended the system further by integrating computer vision, allowing uploaded images of spotted animals to be compared against photos of missing pets. The goal was not to replace human judgment, but to reduce friction and shorten the path between seeing an animal and contacting the right person.",
+      "summary": "October 7, 2026 functional audit: isolated Expo web registration/local OTP/report/photo/profile/filter/cold persistence partially PASS (21 client/56 API checks); archived Swift iPad simulator sign-in/profile/JPEG pet/immediate and cold persistence PASS after repair. Primary Expo iOS blocked legacy SDK; Android build/install/render only; Mac build PASS but runtime blocked; physical flows USER deferred. Shared backend auth exposes prior account to unauthenticated clients; status action and CV config/matching fail. No live provider, sync or production claim. Existing Archived status retained; USER choose archive retention or maintained Expo/Swift revival.\n\nHistorical project description (deployment/model claims not verified in this audit):\nLost & Hound is a mobile application designed to make it easier to reconnect lost pets with the people looking for them. Instead of relying on flyers, chance encounters, or social media posts that quickly disappear, the app provides a centralized place to report lost pets and log sightings in real time. Users can post details, photos, and locations, browse nearby reports, and reach out directly when something looks like a match.The app currently only works in Australia, reflecting where the initial rollout and testing took place. The project was built as a full-stack React Native application with a Node backend and Firebase for data and authentication. One team extended the system further by integrating computer vision, allowing uploaded images of spotted animals to be compared against photos of missing pets. The goal was not to replace human judgment, but to reduce friction and shorten the path between seeing an animal and contacting the right person.",
       "oneLiner": "A community-driven mobile app that helps reunite lost pets with their owners by turning scattered, offline sightings into a shared, searchable system. The live app currently operates in Australia.",
       "tags": [
         "React",
@@ -490,7 +512,7 @@
       "status": "Archived",
       "featured": false,
       "domain": "Technology",
-      "category": "Other",
+      "category": "Mobile App",
       "href": "/projects/lost-and-hound",
       "primaryImageUrl": "/projects/lost_hound_306aec94-4d3c-80a5-b00e-f67cc4ff5901/thumbnail.png",
       "updatedAt": "2024-10-10"
@@ -508,7 +530,7 @@
       "status": "Archived",
       "featured": false,
       "domain": "Technology",
-      "category": "Other",
+      "category": "Module",
       "href": "/projects/obsidian-toolkit",
       "primaryImageUrl": "/projects/obsidian_toolkit_306aec94-4d3c-8085-a43d-f9ac3bec06ef/thumbnail.png",
       "updatedAt": "2024-07-01"
@@ -527,7 +549,7 @@
       "status": "Deprecated",
       "featured": false,
       "domain": "Technology",
-      "category": "Other",
+      "category": "Web",
       "href": "/projects/zsdynamics-30",
       "primaryImageUrl": "/projects/zsdynamics_30_306aec94-4d3c-80d4-a8bd-d83a8832ebf8/thumbnail.png",
       "updatedAt": "2024-07-23"
@@ -547,7 +569,7 @@
       "status": "Deprecated",
       "featured": false,
       "domain": "Technology",
-      "category": "Other",
+      "category": "Web",
       "href": "/projects/zsdynamics-20",
       "primaryImageUrl": "/projects/zsdynamics_20_306aec94-4d3c-800b-9d7d-ed0c879ab5b3/thumbnail.png",
       "updatedAt": "2023-11-13"
@@ -566,7 +588,7 @@
       "status": "Deprecated",
       "featured": false,
       "domain": "Technology",
-      "category": "Other",
+      "category": "Web",
       "href": "/projects/zsdynamics-11",
       "primaryImageUrl": "/projects/zsdynamics_11_306aec94-4d3c-80ff-a96a-c3c51900e249/thumbnail.png",
       "updatedAt": "2022-04-10"
@@ -584,7 +606,7 @@
       "status": "Archived",
       "featured": false,
       "domain": "Narrative",
-      "category": "Other",
+      "category": "Television",
       "href": "/projects/greenhorn",
       "primaryImageUrl": "/projects/greenhorn_306aec94-4d3c-80b0-b478-e070bcd1d517/thumbnail.tiff",
       "updatedAt": "2021-11-05"
@@ -603,7 +625,7 @@
       "status": "Deprecated",
       "featured": false,
       "domain": "Technology",
-      "category": "Other",
+      "category": "Web",
       "href": "/projects/zsdynamics-10",
       "primaryImageUrl": "/projects/zsdynamics_10_306aec94-4d3c-803d-8230-fe06337c4a51/thumbnail.png",
       "updatedAt": "2021-07-10"
@@ -624,7 +646,7 @@
       "status": "Maintained",
       "featured": false,
       "domain": "Artistic",
-      "category": "Other",
+      "category": "Animation",
       "href": "/projects/animation-collection",
       "primaryImageUrl": "/projects/animation_collection_306aec94-4d3c-8091-876a-f028b4c582c4/collection thumbnail.png",
       "updatedAt": "2023-03-10"
@@ -644,7 +666,7 @@
       "status": "Abandoned",
       "featured": false,
       "domain": "Artistic",
-      "category": "Other",
+      "category": "Art",
       "href": "/projects/history-of-everything-coloring-book",
       "primaryImageUrl": "/projects/history_of_everything_coloring_book_306aec94-4d3c-8067-909b-da087d8b0c26/thumbnail.png",
       "updatedAt": "2020-08-17"
@@ -664,7 +686,7 @@
       "status": "Complete",
       "featured": false,
       "domain": "Narrative",
-      "category": "Other",
+      "category": "Short story",
       "href": "/projects/mind-adrift",
       "primaryImageUrl": "/projects/mind_adrift_306aec94-4d3c-801d-b601-cb6d0de3219e/E4690E5D-3901-4E26-A237-8AA0FF26EE76.png",
       "updatedAt": "2013-09-01"
@@ -684,7 +706,7 @@
       "status": "Maintained",
       "featured": false,
       "domain": "Technology",
-      "category": "Other",
+      "category": "Application",
       "href": "/projects/mediledger",
       "primaryImageUrl": "/projects/mediledger_306aec94-4d3c-800f-8fd6-c80ad845b5df/thumbnail.png",
       "updatedAt": "2026-03-08"
@@ -704,7 +726,7 @@
       "status": "Paused",
       "featured": false,
       "domain": "Technology",
-      "category": "Other",
+      "category": "Application",
       "href": "/projects/drifting-priorities",
       "primaryImageUrl": "/projects/drifting_priorities_306aec94-4d3c-806a-b191-f329f1efc1ae/thumbnail.png",
       "updatedAt": "2026-01-29"
@@ -723,7 +745,7 @@
       "status": "Complete",
       "featured": false,
       "domain": "Narrative",
-      "category": "Other",
+      "category": "Novel",
       "href": "/projects/timeline-7",
       "primaryImageUrl": "/projects/timeline_7_306aec94-4d3c-805d-b085-e4252d4601b3/thumbnail.png",
       "updatedAt": "2016-11-01"
@@ -747,7 +769,7 @@
       "status": "Maintained",
       "featured": true,
       "domain": "Technology",
-      "category": "Other",
+      "category": "Application",
       "href": "/projects/top-note",
       "primaryImageUrl": "/projects/top_note_306aec94-4d3c-8008-9985-d94ba1780069/thumbnail.png",
       "updatedAt": "2026-03-08"
@@ -757,7 +779,7 @@
       "slug": "broken-time-machine",
       "title": "Broken Time Machine",
       "summary": "Broken Time Machine is a story-driven adventure game built in Unity where players step into the role of a scientist’s assistant trying to repair a malfunctioning time machine. When an experiment goes wrong, fragments of the device scatter across different eras—from the Hadean eon to the modern age—opening unstable portals that pull ancient life and historical figures into the present. The game blends exploration, puzzle-solving, and light combat as players travel through time, retrieve lost machine parts, and face the consequences of a fractured timeline. Designed for players who enjoy narrative exploration and gradual skill-building, Broken Time Machine connects history, science, and discovery into a single continuous journey of repair and adaptation.",
-      "oneLiner": "A Unity-based adventure game where a scientist’s assistant repairs a broken time machine by traveling through Earth’s history, collecting its missing parts, and restoring order to a fractured timeline.",
+      "oneLiner": "A prehistoric adventure about retrieving time-machine fragments and repairing history, with an active Babylon.js browser prototype, separate Unity vertical slice, and preserved Pygame reference.",
       "tags": [
         "Blender",
         "Story",
@@ -768,7 +790,7 @@
       "status": "Paused",
       "featured": false,
       "domain": "Technology",
-      "category": "Other",
+      "category": "Video Game",
       "href": "/projects/broken-time-machine",
       "primaryImageUrl": "/projects/broken_time_machine_306aec94-4d3c-80a8-850e-df4dd020d452/D5A4CF89-4891-4BFE-8BC3-0317AD20CF80.png",
       "updatedAt": "2026-02-19"
@@ -786,7 +808,7 @@
       "status": "Active",
       "featured": true,
       "domain": "Technology",
-      "category": "Other",
+      "category": "AI Model",
       "href": "/projects/episodic-memory-agent",
       "primaryImageUrl": "/projects/episodic_memory_agent_306aec94-4d3c-8005-97ab-d4572f1ab679/episodic memory thumbnail.png",
       "updatedAt": "2026-03-16"
@@ -810,11 +832,11 @@
       "status": "Active",
       "featured": true,
       "domain": "Personal",
-      "category": "Other",
+      "category": "Organization",
       "href": "/projects/my-notion-pipeline",
       "primaryImageUrl": "/projects/my_notion_pipeline_304aec94-4d3c-8029-a1b1-ea0f92487137/thumbnail.png",
       "updatedAt": "2026-04-12"
     }
   ],
-  "count": 39
+  "count": 40
 }
