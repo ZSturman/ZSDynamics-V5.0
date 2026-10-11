@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-10-10T10:12:23.278795+00:00",
+  "generated_at": "2026-10-10T14:02:10.678199+00:00",
   "data": {
     "id": "332aec94-4d3c-80ae-805d-f01e79254789",
     "slug": "testing-traits",
@@ -33,11 +33,11 @@
     "description": "",
     "story": "",
     "images": {
+      "hero": "hero.png",
       "poster": "poster.png",
       "icon": "icon.png",
       "thumbnail": "thumbnail.png",
-      "banner": "banner.png",
-      "hero": "hero.png"
+      "banner": "banner.png"
     },
     "resources": [
       {

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-10-10T10:12:23.275763+00:00",
+  "generated_at": "2026-10-10T14:02:10.676733+00:00",
   "data": {
     "id": "3f5aec94-4d3c-8116-99d5-c9752bb4af87",
     "slug": "hue-light-control",
@@ -36,11 +36,11 @@
     "description": "",
     "story": "",
     "images": {
+      "hero": "hero.png",
       "poster": "poster.png",
       "icon": "icon.png",
       "thumbnail": "thumbnail.png",
-      "banner": "banner.png",
-      "hero": "hero.png"
+      "banner": "banner.png"
     },
     "resources": [],
     "assets": [
@@ -57,20 +57,20 @@
     "workLogs": [
       {
         "id": "3f5aec94-4d3c-8190-9800-f00764a9689f",
-        "title": "Hue Light Control — portfolio packaging",
-        "entry": "Hue Light Control — portfolio packaging",
-        "url": "https://app.notion.com/p/Hue-Light-Control-portfolio-packaging-3f5aec944d3c81909800f00764a9689f",
-        "startTime": "2026-10-10T09:33:00.000+00:00",
-        "endTime": "2026-10-10T09:54:00.000+00:00",
+        "title": "Hue Light Control",
+        "entry": "Hue Light Control",
+        "url": "https://app.notion.com/p/Hue-Light-Control-3f5aec944d3c81909800f00764a9689f",
+        "startTime": "2026-10-10T09:58:00.000+00:00",
+        "endTime": "2026-10-10T10:33:00.000+00:00",
         "date": "2026-10-10",
         "sessionType": [
-          "Writing",
-          "Build"
+          "Build",
+          "Organizing"
         ],
-        "whatHappened": "Prepared the completed Hue controller for its hardware portfolio debut: documented setup, physical controls, wiring and local Hue commands; created six coordinated technical illustrations with editable SVG originals; registered project-relative media and uploaded Notion previews through Better Workspace. Marked the linked project Complete / Release, added hardware metadata, and curated the original October 9 work log. Firmware compilation and focused portfolio importer tests passed. The portfolio package includes responsive media, a wiring gallery and public work logs.",
+        "whatHappened": "Worked on the Hue Light Control project, specifically within the docs workspace. Used ChatGPT, Finder, SecurityAgent, and Xcode. Changed 4 files.",
         "problems": null,
         "nextStep": null,
-        "durationMinutes": 21
+        "durationMinutes": 35
       },
       {
         "id": "3f5aec94-4d3c-8134-8001-e09c001d2423",

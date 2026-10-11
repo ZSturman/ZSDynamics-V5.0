@@ -33,11 +33,11 @@
     "description": "",
     "story": "",
     "images": {
+      "hero": "hero.png",
       "poster": "poster.png",
       "icon": "icon.png",
       "thumbnail": "thumbnail.png",
-      "banner": "banner.png",
-      "hero": "hero.png"
+      "banner": "banner.png"
     },
     "resources": [],
     "assets": [
@@ -54,20 +54,20 @@
     "workLogs": [
       {
         "id": "3f5aec94-4d3c-8190-9800-f00764a9689f",
-        "title": "Hue Light Control — portfolio packaging",
-        "entry": "Hue Light Control — portfolio packaging",
-        "url": "https://app.notion.com/p/Hue-Light-Control-portfolio-packaging-3f5aec944d3c81909800f00764a9689f",
-        "startTime": "2026-10-10T09:33:00.000+00:00",
-        "endTime": "2026-10-10T09:54:00.000+00:00",
+        "title": "Hue Light Control",
+        "entry": "Hue Light Control",
+        "url": "https://app.notion.com/p/Hue-Light-Control-3f5aec944d3c81909800f00764a9689f",
+        "startTime": "2026-10-10T09:58:00.000+00:00",
+        "endTime": "2026-10-10T10:33:00.000+00:00",
         "date": "2026-10-10",
         "sessionType": [
-          "Writing",
-          "Build"
+          "Build",
+          "Organizing"
         ],
-        "whatHappened": "Prepared the completed Hue controller for its hardware portfolio debut: documented setup, physical controls, wiring and local Hue commands; created six coordinated technical illustrations with editable SVG originals; registered project-relative media and uploaded Notion previews through Better Workspace. Marked the linked project Complete / Release, added hardware metadata, and curated the original October 9 work log. Firmware compilation and focused portfolio importer tests passed. The portfolio package includes responsive media, a wiring gallery and public work logs.",
+        "whatHappened": "Worked on the Hue Light Control project, specifically within the docs workspace. Used ChatGPT, Finder, SecurityAgent, and Xcode. Changed 4 files.",
         "problems": null,
         "nextStep": null,
-        "durationMinutes": 21
+        "durationMinutes": 35
       },
       {
         "id": "3f5aec94-4d3c-8134-8001-e09c001d2423",
@@ -123,10 +123,10 @@
     "description": "",
     "story": "",
     "images": {
+      "hero": "hero.png",
       "icon": "icon.png",
       "thumbnail": "thumb.png",
-      "banner": "banner.png",
-      "hero": "hero.png"
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -229,11 +229,11 @@
     "description": "",
     "story": "",
     "images": {
+      "hero": "hero.png",
       "poster": "09FF3610-4CA7-4894-8C9B-295FC7D624AD.png",
       "icon": "icon.png",
       "thumbnail": "thumb.png",
-      "banner": "banner.png",
-      "hero": "hero.png"
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -335,10 +335,10 @@
     "description": "",
     "story": "",
     "images": {
+      "hero": "hero.png",
       "icon": "icon.png",
       "thumbnail": "thumb.png",
-      "banner": "banner.png",
-      "hero": "hero.png"
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -393,9 +393,9 @@
     "description": "",
     "story": "",
     "images": {
+      "hero": "Screenshot_2026-04-18_at_17.29.59.png",
       "icon": "Wolf-hero.webp",
-      "thumbnail": "Wolf-hero.webp",
-      "hero": "Screenshot_2026-04-18_at_17.29.59.png"
+      "thumbnail": "Wolf-hero.webp"
     },
     "resources": [
       {
@@ -554,10 +554,10 @@
     "description": "",
     "story": "",
     "images": {
+      "hero": "hero.png",
       "icon": "icon.png",
       "thumbnail": "thumb.png",
-      "banner": "banner.png",
-      "hero": "hero.png"
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -646,9 +646,9 @@
     "description": "",
     "story": "",
     "images": {
+      "hero": "hero.png",
       "thumbnail": "thumb.png",
-      "banner": "banner.png",
-      "hero": "hero.png"
+      "banner": "banner.png"
     },
     "resources": [],
     "assets": [
@@ -698,11 +698,11 @@
     "description": "",
     "story": "",
     "images": {
+      "hero": "hero.png",
       "poster": "poster.png",
       "icon": "icon.png",
       "thumbnail": "thumbnail.png",
-      "banner": "banner.png",
-      "hero": "hero.png"
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -771,10 +771,10 @@
     "description": "",
     "story": "",
     "images": {
+      "hero": "hero.png",
       "poster": "poster.png",
       "thumbnail": "thumbnail.png",
-      "banner": "banner.png",
-      "hero": "hero.png"
+      "banner": "banner.png"
     },
     "resources": [],
     "assets": [],
@@ -834,11 +834,11 @@
     "description": "",
     "story": "",
     "images": {
+      "hero": "hero.png",
       "poster": "poster.png",
       "icon": "icon.png",
       "thumbnail": "thumbnail.png",
-      "banner": "banner.png",
-      "hero": "hero.png"
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -906,11 +906,11 @@
     "description": "",
     "story": "",
     "images": {
+      "hero": "hero.png",
       "poster": "poster.png",
       "icon": "icon.png",
       "thumbnail": "thumbnail.png",
-      "banner": "banner.png",
-      "hero": "hero.png"
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -980,9 +980,9 @@
     "description": "",
     "story": "",
     "images": {
+      "hero": "hero.png",
       "thumbnail": "thumbnail.png",
-      "banner": "banner.png",
-      "hero": "hero.png"
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -1053,10 +1053,10 @@
     "description": "",
     "story": "",
     "images": {
+      "hero": "hero.png",
       "icon": "icon.png",
       "thumbnail": "thumbnail.png",
-      "banner": "banner.png",
-      "hero": "hero.png"
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -1133,10 +1133,10 @@
     "description": "",
     "story": "",
     "images": {
+      "hero": "hero.png",
       "poster": "poster.png",
       "thumbnail": "thumbnail.png",
-      "banner": "banner.png",
-      "hero": "hero.png"
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -1206,10 +1206,10 @@
     "description": "",
     "story": "",
     "images": {
+      "hero": "hero.png",
       "icon": "icon.png",
       "thumbnail": "thumbnail.png",
-      "banner": "banner.png",
-      "hero": "hero.png"
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -1276,10 +1276,10 @@
     "description": "",
     "story": "",
     "images": {
+      "hero": "Ope_Hero.png",
       "icon": "AppIcon.png",
       "thumbnail": "thumbnail.png",
-      "banner": "Concept_art_with_Logo.jpeg",
-      "hero": "Ope_Hero.png"
+      "banner": "Concept_art_with_Logo.jpeg"
     },
     "resources": [
       {
@@ -1355,9 +1355,9 @@
     "description": "",
     "story": "",
     "images": {
+      "hero": "hero.png",
       "thumbnail": "thumb.png",
-      "banner": "bannner.png",
-      "hero": "hero.png"
+      "banner": "bannner.png"
     },
     "resources": [],
     "assets": [
@@ -1503,10 +1503,10 @@
     "description": "",
     "story": "",
     "images": {
+      "hero": "hero.png",
       "icon": "icon.png",
       "thumbnail": "thumbnail.png",
-      "banner": "banner.png",
-      "hero": "hero.png"
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -2307,10 +2307,10 @@
     "description": "",
     "story": "",
     "images": {
+      "hero": "queueExample.png",
       "poster": "poster.gif",
       "thumbnail": "thumbnail.png",
-      "banner": "banner.gif",
-      "hero": "queueExample.png"
+      "banner": "banner.gif"
     },
     "resources": [
       {
@@ -3185,9 +3185,9 @@
     "description": "",
     "story": "",
     "images": {
+      "hero": "hero.png",
       "thumbnail": "E4690E5D-3901-4E26-A237-8AA0FF26EE76.png",
-      "banner": "banner.png",
-      "hero": "hero.png"
+      "banner": "banner.png"
     },
     "resources": [],
     "assets": [
@@ -3327,11 +3327,11 @@
     "description": "",
     "story": "",
     "images": {
+      "hero": "hero.png",
       "poster": "poster.png",
       "icon": "icon.png",
       "thumbnail": "thumbnail.png",
-      "banner": "banner.png",
-      "hero": "hero.png"
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -3466,11 +3466,11 @@
     "description": "",
     "story": "",
     "images": {
+      "hero": "hero.png",
       "poster": "poster.png",
       "icon": "TopNote AppIcon v2-watchOS-Default-1088x1088@1x.png",
       "thumbnail": "thumbnail.png",
-      "banner": "banner.png",
-      "hero": "hero.png"
+      "banner": "banner.png"
     },
     "resources": [
       {
@@ -3696,10 +3696,10 @@
     "description": "",
     "story": "",
     "images": {
+      "hero": "hero.png",
       "icon": "icon.png",
       "thumbnail": "thumbnail.png",
-      "banner": "banner.png",
-      "hero": "hero.png"
+      "banner": "banner.png"
     },
     "resources": [],
     "assets": [],

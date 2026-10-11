@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-10-10T10:12:23.279575+00:00",
+  "generated_at": "2026-10-10T14:02:10.678502+00:00",
   "data": {
     "id": "332aec94-4d3c-80be-a40c-ce5b6cd6ff56",
     "slug": "bias-detecting-ai",
@@ -33,9 +33,9 @@
     "description": "",
     "story": "",
     "images": {
+      "hero": "hero.png",
       "thumbnail": "thumbnail.png",
-      "banner": "banner.png",
-      "hero": "hero.png"
+      "banner": "banner.png"
     },
     "resources": [
       {
