@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "reconciledAt": "2026-10-10",
+  "flows": [
+    {
+      "key": "bf8f91b825ae",
+      "project": "zacharysturman",
+      "projectPath": "/Users/zacharysturman/Workspace/Projects/zacharysturman",
+      "appName": "zachary-sturman",
+      "platform": "web",
+      "purpose": "**A fast, content-rich portfolio for creative, scientific, and technical work.**",
+      "purposeEvidence": "/Users/zacharysturman/Workspace/Projects/zacharysturman/README.md",
+      "status": "opened",
+      "candidateFlow": "Browse projects/articles, open media and a gallery, verify responsive navigation and broken-asset handling with production analytics suppressed.",
+      "fixtureRequirements": "Synthetic data and isolated storage. Use mock/emulator auth, API, mail and paid-provider endpoints. No live automation, deletion of user data, or external submissions.",
+      "flowExecuted": false,
+      "productionBlockers": [],
+      "nextAgentAction": "Turn this candidate into a fixture-backed simulated flow with explicit assertions and capture its result.",
+      "nextUserAction": "Review the app purpose and screenshot; decide whether to ship it, retain it as an experiment, consolidate it, or nominate it for archival. Supply required account/device judgment after automated fixtures pass.",
+      "disposition": "Retain pending flow and product-purpose review; no completion/archive claim.",
+      "duplicateFrontendKeys": null,
+      "startupEvidence": {
+        "Project": "zacharysturman",
+        "App": "zachary-sturman",
+        "Platform": "web",
+        "Path": "/Users/zacharysturman/Workspace/Projects/zacharysturman",
+        "Status": "opened",
+        "Purpose": "**A fast, content-rich portfolio for creative, scientific, and technical work.**",
+        "ProductionReadiness": "Startup evidence only; candidate flows not run. Production acceptance is not established.",
+        "ProductionBlockers": "",
+        "CandidateFlow": "Browse projects/articles, open media and a gallery, verify responsive navigation and broken-asset handling with production analytics suppressed.",
+        "FlowExecuted": "False",
+        "NextAgentAction": "Turn this candidate into a fixture-backed simulated flow with explicit assertions and capture its result.",
+        "NextUserAction": "Review the app purpose and screenshot; decide whether to ship it, retain it as an experiment, consolidate it, or nominate it for archival. Supply required account/device judgment after automated fixtures pass.",
+        "Disposition": "Retain pending flow and product-purpose review; no completion/archive claim.",
+        "DuplicateFrontendKeys": "",
+        "Screenshot": "/Users/zacharysturman/Library/Logs/BetterWorkspace/AppLaunchAudit/2026-10-05/screenshots/bf8f91b825ae.jpg",
+        "StartCommand": "npm run dev -- --hostname 127.0.0.1 --port 4377",
+        "Log": "/Users/zacharysturman/Library/Logs/BetterWorkspace/AppLaunchAudit/2026-10-05/bf8f91b825ae/server.log"
+      },
+      "componentPath": "/Users/zacharysturman/Workspace/Projects/zacharysturman",
+      "canonicalPlan": "/Users/zacharysturman/Workspace/Projects/zacharysturman/docs/APP_FLOWS.md#flow-bf8f91b825ae",
+      "canonicalIndex": "/Users/zacharysturman/Workspace/Projects/zacharysturman/docs/APP_FLOW_INDEX.json",
+      "originalFlowExecuted": false,
+      "latestResult": "not_executed",
+      "sourceSection": "zacharysturman / zachary-sturman (web)\n\nPurpose: **A fast, content-rich portfolio for creative, scientific, and technical work.**\n\nStartup: **opened**. Startup evidence only; candidate flows not run. Production acceptance is not established.\n\nCandidate flow: Browse projects/articles, open media and a gallery, verify responsive navigation and broken-asset handling with production analytics suppressed.\n\nFixture setup: Synthetic data and isolated storage. Use mock/emulator auth, API, mail and paid-provider endpoints. No live automation, deletion of user data, or external submissions.\n\nAgent: Turn this candidate into a fixture-backed simulated flow with explicit assertions and capture its result.\n\nUser: Review the app purpose and screenshot; decide whether to ship it, retain it as an experiment, consolidate it, or nominate it for archival. Supply required account/device judgment after automated fixtures pass.",
+      "resultEvidence": [],
+      "executionScope": "",
+      "assertions": {
+        "success": "Preserve the candidate-specific operation and expected result from the original plan",
+        "error": "Preserve candidate-specific error assertions; unspecified assertions still need definition",
+        "persistence": "Check the candidate-specific reload/reopen requirement where applicable; do not invent persistence for an ephemeral tool",
+        "sourceWording": "Browse projects/articles, open media and a gallery, verify responsive navigation and broken-asset handling with production analytics suppressed."
+      },
+      "mappingDecision": "",
+      "functionalOperationsExecuted": false,
+      "completeCandidateValidated": false,
+      "userAcceptance": "unverified",
+      "canonicalStartupEvidencePaths": {
+        "Screenshot": "/Users/zacharysturman/Workspace/Projects/zacharysturman/docs/evidence/workspace-audit-2026-10-10/AppLaunchAudit/2026-10-05/screenshots/bf8f91b825ae.jpg",
+        "Log": "/Users/zacharysturman/Workspace/Projects/zacharysturman/docs/evidence/workspace-audit-2026-10-10/AppLaunchAudit/2026-10-05/bf8f91b825ae/server.log"
+      },
+      "missingStartupEvidencePaths": {}
+    }
+  ]
+}

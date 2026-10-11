@@ -1,0 +1,255 @@
+{
+  "project": "zacharysturman",
+  "projectPath": "/Users/zacharysturman/Workspace/Projects/zacharysturman",
+  "projectID": "14C56D7D-B072-45D5-955B-6641D4898045",
+  "historicalAuditCovered": true,
+  "type": "Web application",
+  "organizationalSpace": false,
+  "purpose": {
+    "text": "These are startup observations. Production readiness and the candidate user flows are not yet validated. Physical iPhone results apply only to the recorded device; watch simulator results do not establish physical-watch behavior.",
+    "source": "/Users/zacharysturman/Workspace/Projects/zacharysturman/README.md",
+    "confidence": "documented"
+  },
+  "nativeStatus": null,
+  "nativePhase": null,
+  "nativeStoredNextWorkCategories": [],
+  "notionPageID": "",
+  "notionMatch": "accepted_local_only",
+  "localOnlyOwnerAccepted": true,
+  "notionVerifiedAt": null,
+  "notionStatus": null,
+  "notionPhase": null,
+  "notionNextWorkCategories": null,
+  "taskOutcomes": {
+    "present/open": 5
+  },
+  "tasks": [
+    {
+      "id": "31869333-268d-5eec-9b56-1bc56997b9fb",
+      "title": "zacharysturman — Unblock build validation in .",
+      "path": "/Users/zacharysturman/Workspace/To Do/zacharysturman — Unblock build validation in ..bw.md",
+      "status": "open",
+      "delegation": "AGENT"
+    },
+    {
+      "id": "75f11c13-e4cf-5a0f-84cd-2dbff74e4d9d",
+      "title": "zacharysturman — Complete timed-out tests validation in .",
+      "path": "/Users/zacharysturman/Workspace/To Do/zacharysturman — Complete timed-out tests validation in ..bw.md",
+      "status": "open",
+      "delegation": "AGENT"
+    },
+    {
+      "id": "439a7042-0be4-577e-b93e-7e7c24738aea",
+      "title": "zacharysturman — Review vulnerable dependency paths for @firebase/firestore, @firebase/firestore-compat, @grpc/grpc-js",
+      "path": "/Users/zacharysturman/Workspace/To Do/zacharysturman — Review vulnerable dependency paths for @firebase firestore, @firebase firestore-compat, @grpc grpc-js.bw.md",
+      "status": "open",
+      "delegation": "AGENT"
+    },
+    {
+      "id": "0ff97fb3-6419-5df5-b1a9-c01ca978ffa3",
+      "title": "zacharysturman — Prepare simulated app flows from startup evidence",
+      "path": "/Users/zacharysturman/Workspace/To Do/zacharysturman — Prepare simulated app flows from startup evidence.bw.md",
+      "status": "open",
+      "delegation": "AGENT"
+    },
+    {
+      "id": "9b48593f-3970-598d-a1fc-6e92d86cc4f8",
+      "title": "zacharysturman — Validate the documented primary flow from layout.tsx",
+      "path": "/Users/zacharysturman/Workspace/To Do/zacharysturman — Validate the documented primary flow from layout.tsx.bw.md",
+      "status": "open",
+      "delegation": "USER + AGENT"
+    }
+  ],
+  "removedBoilerplate": [],
+  "flows": [
+    {
+      "key": "bf8f91b825ae",
+      "plan": "/Users/zacharysturman/Workspace/Projects/zacharysturman/docs/APP_FLOWS.md#flow-bf8f91b825ae",
+      "index": "/Users/zacharysturman/Workspace/Projects/zacharysturman/docs/APP_FLOW_INDEX.json",
+      "state": "not_executed",
+      "results": []
+    }
+  ],
+  "validation": [],
+  "historicalValidation": {
+    "BuildStatus": "BLOCKED",
+    "TestStatus": "TIMEOUT",
+    "SmokeTestStatus": "NOT RUN",
+    "ValidationCoverage": "Static/content inspection; execution incomplete",
+    "EvidenceConfidence": "Medium"
+  },
+  "nextAgentAction": {
+    "body": "At ., resolve the observed validation condition: Script needs side-effect review: npm run write-deployment-marker && next build. Run npm run build again and retain the exit result. Success means this specific check completes without the recorded failure.\n\n## Why\nAt ., resolve the observed validation condition: Script needs side-effect review: npm run write-deployment-marker && next build. Run npm run build again and retain the exit result. Success means this specific check completes without the recorded failure.\n\n## Evidence\n- .: npm run build\n- Inventory/validation evidence\n\n## Action details\n- Priority: P1 · Action Score: 72/100\n- Delegation: AGENT\n- Tags: BUILD, DEPENDENCIES\n- Requirements: Coding Agent, Network Access\n- Agent Executability: 100/100 · Human Involvement: 5/100\n- Estimated effort: 45–90 minutes\n\n## Agent subtasks\n- [ ] At ., resolve the observed validation condition: Script needs side-effect review: npm run write-deployment-marker && next build. Run npm run build again and retain the exit result. Success means this specific check completes without the recorded failure.",
+    "dependencies": [],
+    "extraFrontMatter": [
+      "action-metadata: \"{\\\"category\\\":\\\"Validation\\\",\\\"actionScore\\\":72,\\\"humanInvolvement\\\":5,\\\"requirements\\\":[\\\"Coding Agent\\\",\\\"Node.js\\\",\\\"Network Access\\\"],\\\"agentExecutability\\\":100,\\\"agentSubtasks\\\":[\\\"Current startup follow-up: The app UI opened. Prepare and run the isolated candidate flows in docs\\\\\\/NEXT_STEPS.md with success\\\\\\/error\\\\\\/persistence assertions; startup alone does not establish release readiness.\\\",\\\"At ., investigate Script needs side-effect review: npm run write-deployment-marker && next build; rerun the recorded build command.\\\",\\\"After the recorded primary action, use the current startup blockers and candidate flows in docs\\\\\\/NEXT_STEPS.md.\\\"],\\\"blockedBy\\\":[],\\\"isNextAgentAction\\\":true,\\\"userSubtasks\\\":[],\\\"delegation\\\":\\\"AGENT\\\",\\\"version\\\":1,\\\"tags\\\":[\\\"BUILD\\\",\\\"DEPENDENCIES\\\"],\\\"estimatedEffort\\\":\\\"45–90 minutes\\\",\\\"isNextUserAction\\\":false,\\\"priority\\\":\\\"P1\\\",\\\"reason\\\":\\\"Current startup evidence: zachary-sturman (web): opened. Current startup follow-up: The app UI opened. Prepare and run the isolated candidate flows in docs\\\\\\/NEXT_STEPS.md with success\\\\\\/error\\\\\\/persistence assertions; startup alone does not establish release readiness.\\\",\\\"evidence\\\":[\\\".: npm run build\\\",\\\"Inventory\\\\\\/validation evidence\\\",\\\"\\\\\\/Users\\\\\\/zacharysturman\\\\\\/Workspace\\\\\\/Projects\\\\\\/APP_LAUNCH_AUDIT.md\\\",\\\"\\\\\\/Users\\\\\\/zacharysturman\\\\\\/Workspace\\\\\\/Projects\\\\\\/zacharysturman\\\\\\/docs\\\\\\/NEXT_STEPS.md\\\",\\\"\\\\\\/Users\\\\\\/zacharysturman\\\\\\/Library\\\\\\/Logs\\\\\\/BetterWorkspace\\\\\\/AppLaunchAudit\\\\\\/2026-10-05\\\\\\/screenshots\\\\\\/bf8f91b825ae.jpg\\\"],\\\"isNextWork\\\":true,\\\"fingerprint\\\":\\\"audit:6f510097-be66-51ac-9cfa-efa2d7ed520d\\\"}\""
+    ],
+    "id": "31869333-268d-5eec-9b56-1bc56997b9fb",
+    "kind": "task",
+    "metadata": {
+      "actionScore": 72,
+      "agentExecutability": 100,
+      "agentSubtasks": [
+        "Current startup follow-up: The app UI opened. Prepare and run the isolated candidate flows in docs/NEXT_STEPS.md with success/error/persistence assertions; startup alone does not establish release readiness.",
+        "At ., investigate Script needs side-effect review: npm run write-deployment-marker && next build; rerun the recorded build command.",
+        "After the recorded primary action, use the current startup blockers and candidate flows in docs/NEXT_STEPS.md."
+      ],
+      "blockedBy": [],
+      "category": "Validation",
+      "delegation": "AGENT",
+      "estimatedEffort": "45–90 minutes",
+      "evidence": [
+        ".: npm run build",
+        "Inventory/validation evidence",
+        "/Users/zacharysturman/Workspace/Projects/APP_LAUNCH_AUDIT.md",
+        "/Users/zacharysturman/Workspace/Projects/zacharysturman/docs/NEXT_STEPS.md",
+        "/Users/zacharysturman/Library/Logs/BetterWorkspace/AppLaunchAudit/2026-10-05/screenshots/bf8f91b825ae.jpg"
+      ],
+      "fingerprint": "audit:6f510097-be66-51ac-9cfa-efa2d7ed520d",
+      "humanInvolvement": 5,
+      "isNextAgentAction": true,
+      "isNextUserAction": false,
+      "isNextWork": true,
+      "priority": "P1",
+      "reason": "Current startup evidence: zachary-sturman (web): opened. Current startup follow-up: The app UI opened. Prepare and run the isolated candidate flows in docs/NEXT_STEPS.md with success/error/persistence assertions; startup alone does not establish release readiness.",
+      "requirements": [
+        "Coding Agent",
+        "Node.js",
+        "Network Access"
+      ],
+      "tags": [
+        "BUILD",
+        "DEPENDENCIES"
+      ],
+      "userSubtasks": [],
+      "version": 1
+    },
+    "notionPageID": "",
+    "path": "/Users/zacharysturman/Workspace/To Do/zacharysturman — Unblock build validation in ..bw.md",
+    "priority": "high",
+    "projectPath": "Projects/zacharysturman",
+    "sha256": "783bd1dc6ca180e9ac9d9b07550c5880029a0e118def12e4a7ffbdfe193c853d",
+    "stage": "now",
+    "status": "open",
+    "title": "zacharysturman — Unblock build validation in ."
+  },
+  "nextUserAction": {
+    "body": "Prepare the current application with isolated fixtures and walk through the primary flow documented for app/layout.tsx. Verify launch, the main operation, and reopening/reloading its result; report functional failures separately from subjective UX issues.\n\n## Why\nPrepare the current application with isolated fixtures and walk through the primary flow documented for app/layout.tsx. Verify launch, the main operation, and reopening/reloading its result; report functional failures separately from subjective UX issues.\n\n## Evidence\n- app/layout.tsx\n- README.md\n\n## Action details\n- Priority: P2 · Action Score: 55/100\n- Delegation: USER + AGENT\n- Tags: QA, TESTING, WEB\n- Requirements: Coding Agent, Browser, Human Judgment\n- Agent Executability: 65/100 · Human Involvement: 85/100\n- Estimated effort: 45–90 minutes\n\n## Agent subtasks\n- [ ] Build the current app using the recorded successful command or resolve its build blocker; prepare disposable input and a reproducible flow.\n\n## User subtasks\n- [ ] Run the documented main operation, reopen or reload its result, and judge whether the flow meets your intended use.",
+    "dependencies": [],
+    "extraFrontMatter": [
+      "action-metadata: \"{\\\"category\\\":\\\"User validation\\\",\\\"actionScore\\\":55,\\\"humanInvolvement\\\":85,\\\"requirements\\\":[\\\"Coding Agent\\\",\\\"Browser\\\",\\\"Node.js\\\",\\\"Human Judgment\\\"],\\\"agentExecutability\\\":65,\\\"agentSubtasks\\\":[\\\"Build the current app using the recorded successful command or resolve its build blocker; prepare disposable input and a reproducible flow.\\\"],\\\"blockedBy\\\":[],\\\"isNextAgentAction\\\":false,\\\"userSubtasks\\\":[\\\"Review each app purpose and screenshot in README.md; choose the intended product, experiment, duplicate\\\\\\/consolidation candidate or archive candidate. No app is marked production-complete by startup alone.\\\",\\\"Run the documented main operation, reopen or reload its result, and judge whether the flow meets your intended use.\\\"],\\\"delegation\\\":\\\"USER + AGENT\\\",\\\"version\\\":1,\\\"tags\\\":[\\\"QA\\\",\\\"TESTING\\\",\\\"WEB\\\"],\\\"estimatedEffort\\\":\\\"45–90 minutes\\\",\\\"isNextUserAction\\\":true,\\\"priority\\\":\\\"P2\\\",\\\"reason\\\":\\\"Prepare the current application with isolated fixtures and walk through the primary flow documented for app\\\\\\/layout.tsx. Verify launch, the main operation, and reopening\\\\\\/reloading its result; report functional failures separately from subjective UX issues. Current startup: zachary-sturman (web): opened\\\",\\\"evidence\\\":[\\\"app\\\\\\/layout.tsx\\\",\\\"README.md\\\",\\\"\\\\\\/Users\\\\\\/zacharysturman\\\\\\/Workspace\\\\\\/Projects\\\\\\/APP_LAUNCH_AUDIT.md\\\",\\\"\\\\\\/Users\\\\\\/zacharysturman\\\\\\/Workspace\\\\\\/Projects\\\\\\/zacharysturman\\\\\\/docs\\\\\\/NEXT_STEPS.md\\\",\\\"\\\\\\/Users\\\\\\/zacharysturman\\\\\\/Library\\\\\\/Logs\\\\\\/BetterWorkspace\\\\\\/AppLaunchAudit\\\\\\/2026-10-05\\\\\\/screenshots\\\\\\/bf8f91b825ae.jpg\\\"],\\\"isNextWork\\\":false,\\\"fingerprint\\\":\\\"audit:2c798ef5-41c9-5db2-84b2-ea923fc84437\\\"}\""
+    ],
+    "id": "9b48593f-3970-598d-a1fc-6e92d86cc4f8",
+    "kind": "task",
+    "metadata": {
+      "actionScore": 55,
+      "agentExecutability": 65,
+      "agentSubtasks": [
+        "Build the current app using the recorded successful command or resolve its build blocker; prepare disposable input and a reproducible flow."
+      ],
+      "blockedBy": [],
+      "category": "User validation",
+      "delegation": "USER + AGENT",
+      "estimatedEffort": "45–90 minutes",
+      "evidence": [
+        "app/layout.tsx",
+        "README.md",
+        "/Users/zacharysturman/Workspace/Projects/APP_LAUNCH_AUDIT.md",
+        "/Users/zacharysturman/Workspace/Projects/zacharysturman/docs/NEXT_STEPS.md",
+        "/Users/zacharysturman/Library/Logs/BetterWorkspace/AppLaunchAudit/2026-10-05/screenshots/bf8f91b825ae.jpg"
+      ],
+      "fingerprint": "audit:2c798ef5-41c9-5db2-84b2-ea923fc84437",
+      "humanInvolvement": 85,
+      "isNextAgentAction": false,
+      "isNextUserAction": true,
+      "isNextWork": false,
+      "priority": "P2",
+      "reason": "Prepare the current application with isolated fixtures and walk through the primary flow documented for app/layout.tsx. Verify launch, the main operation, and reopening/reloading its result; report functional failures separately from subjective UX issues. Current startup: zachary-sturman (web): opened",
+      "requirements": [
+        "Coding Agent",
+        "Browser",
+        "Node.js",
+        "Human Judgment"
+      ],
+      "tags": [
+        "QA",
+        "TESTING",
+        "WEB"
+      ],
+      "userSubtasks": [
+        "Review each app purpose and screenshot in README.md; choose the intended product, experiment, duplicate/consolidation candidate or archive candidate. No app is marked production-complete by startup alone.",
+        "Run the documented main operation, reopen or reload its result, and judge whether the flow meets your intended use."
+      ],
+      "version": 1
+    },
+    "notionPageID": "",
+    "path": "/Users/zacharysturman/Workspace/To Do/zacharysturman — Validate the documented primary flow from layout.tsx.bw.md",
+    "priority": "medium",
+    "projectPath": "Projects/zacharysturman",
+    "sha256": "43a4eba171a0c6f2a66c580b2b25677156a95bc00ba7c19d15d42c55bfc06f7c",
+    "stage": "next",
+    "status": "open",
+    "title": "zacharysturman — Validate the documented primary flow from layout.tsx"
+  },
+  "nextWork": {
+    "body": "At ., resolve the observed validation condition: Script needs side-effect review: npm run write-deployment-marker && next build. Run npm run build again and retain the exit result. Success means this specific check completes without the recorded failure.\n\n## Why\nAt ., resolve the observed validation condition: Script needs side-effect review: npm run write-deployment-marker && next build. Run npm run build again and retain the exit result. Success means this specific check completes without the recorded failure.\n\n## Evidence\n- .: npm run build\n- Inventory/validation evidence\n\n## Action details\n- Priority: P1 · Action Score: 72/100\n- Delegation: AGENT\n- Tags: BUILD, DEPENDENCIES\n- Requirements: Coding Agent, Network Access\n- Agent Executability: 100/100 · Human Involvement: 5/100\n- Estimated effort: 45–90 minutes\n\n## Agent subtasks\n- [ ] At ., resolve the observed validation condition: Script needs side-effect review: npm run write-deployment-marker && next build. Run npm run build again and retain the exit result. Success means this specific check completes without the recorded failure.",
+    "dependencies": [],
+    "extraFrontMatter": [
+      "action-metadata: \"{\\\"category\\\":\\\"Validation\\\",\\\"actionScore\\\":72,\\\"humanInvolvement\\\":5,\\\"requirements\\\":[\\\"Coding Agent\\\",\\\"Node.js\\\",\\\"Network Access\\\"],\\\"agentExecutability\\\":100,\\\"agentSubtasks\\\":[\\\"Current startup follow-up: The app UI opened. Prepare and run the isolated candidate flows in docs\\\\\\/NEXT_STEPS.md with success\\\\\\/error\\\\\\/persistence assertions; startup alone does not establish release readiness.\\\",\\\"At ., investigate Script needs side-effect review: npm run write-deployment-marker && next build; rerun the recorded build command.\\\",\\\"After the recorded primary action, use the current startup blockers and candidate flows in docs\\\\\\/NEXT_STEPS.md.\\\"],\\\"blockedBy\\\":[],\\\"isNextAgentAction\\\":true,\\\"userSubtasks\\\":[],\\\"delegation\\\":\\\"AGENT\\\",\\\"version\\\":1,\\\"tags\\\":[\\\"BUILD\\\",\\\"DEPENDENCIES\\\"],\\\"estimatedEffort\\\":\\\"45–90 minutes\\\",\\\"isNextUserAction\\\":false,\\\"priority\\\":\\\"P1\\\",\\\"reason\\\":\\\"Current startup evidence: zachary-sturman (web): opened. Current startup follow-up: The app UI opened. Prepare and run the isolated candidate flows in docs\\\\\\/NEXT_STEPS.md with success\\\\\\/error\\\\\\/persistence assertions; startup alone does not establish release readiness.\\\",\\\"evidence\\\":[\\\".: npm run build\\\",\\\"Inventory\\\\\\/validation evidence\\\",\\\"\\\\\\/Users\\\\\\/zacharysturman\\\\\\/Workspace\\\\\\/Projects\\\\\\/APP_LAUNCH_AUDIT.md\\\",\\\"\\\\\\/Users\\\\\\/zacharysturman\\\\\\/Workspace\\\\\\/Projects\\\\\\/zacharysturman\\\\\\/docs\\\\\\/NEXT_STEPS.md\\\",\\\"\\\\\\/Users\\\\\\/zacharysturman\\\\\\/Library\\\\\\/Logs\\\\\\/BetterWorkspace\\\\\\/AppLaunchAudit\\\\\\/2026-10-05\\\\\\/screenshots\\\\\\/bf8f91b825ae.jpg\\\"],\\\"isNextWork\\\":true,\\\"fingerprint\\\":\\\"audit:6f510097-be66-51ac-9cfa-efa2d7ed520d\\\"}\""
+    ],
+    "id": "31869333-268d-5eec-9b56-1bc56997b9fb",
+    "kind": "task",
+    "metadata": {
+      "actionScore": 72,
+      "agentExecutability": 100,
+      "agentSubtasks": [
+        "Current startup follow-up: The app UI opened. Prepare and run the isolated candidate flows in docs/NEXT_STEPS.md with success/error/persistence assertions; startup alone does not establish release readiness.",
+        "At ., investigate Script needs side-effect review: npm run write-deployment-marker && next build; rerun the recorded build command.",
+        "After the recorded primary action, use the current startup blockers and candidate flows in docs/NEXT_STEPS.md."
+      ],
+      "blockedBy": [],
+      "category": "Validation",
+      "delegation": "AGENT",
+      "estimatedEffort": "45–90 minutes",
+      "evidence": [
+        ".: npm run build",
+        "Inventory/validation evidence",
+        "/Users/zacharysturman/Workspace/Projects/APP_LAUNCH_AUDIT.md",
+        "/Users/zacharysturman/Workspace/Projects/zacharysturman/docs/NEXT_STEPS.md",
+        "/Users/zacharysturman/Library/Logs/BetterWorkspace/AppLaunchAudit/2026-10-05/screenshots/bf8f91b825ae.jpg"
+      ],
+      "fingerprint": "audit:6f510097-be66-51ac-9cfa-efa2d7ed520d",
+      "humanInvolvement": 5,
+      "isNextAgentAction": true,
+      "isNextUserAction": false,
+      "isNextWork": true,
+      "priority": "P1",
+      "reason": "Current startup evidence: zachary-sturman (web): opened. Current startup follow-up: The app UI opened. Prepare and run the isolated candidate flows in docs/NEXT_STEPS.md with success/error/persistence assertions; startup alone does not establish release readiness.",
+      "requirements": [
+        "Coding Agent",
+        "Node.js",
+        "Network Access"
+      ],
+      "tags": [
+        "BUILD",
+        "DEPENDENCIES"
+      ],
+      "userSubtasks": [],
+      "version": 1
+    },
+    "notionPageID": "",
+    "path": "/Users/zacharysturman/Workspace/To Do/zacharysturman — Unblock build validation in ..bw.md",
+    "priority": "high",
+    "projectPath": "Projects/zacharysturman",
+    "sha256": "783bd1dc6ca180e9ac9d9b07550c5880029a0e118def12e4a7ffbdfe193c853d",
+    "stage": "now",
+    "status": "open",
+    "title": "zacharysturman — Unblock build validation in ."
+  },
+  "ownerDecisions": [
+    "Choose the intended local lifecycle status/phase. Native values: unset / unset. Notion is not required for this accepted local-only project."
+  ],
+  "canonicalDetails": "/Users/zacharysturman/Workspace/Projects/zacharysturman/docs/WORKSPACE_RECONCILIATION.md",
+  "canonicalStructuredDetails": "/Users/zacharysturman/Workspace/Projects/zacharysturman/docs/WORKSPACE_RECONCILIATION.json",
+  "outcome": "owner_review"
+}

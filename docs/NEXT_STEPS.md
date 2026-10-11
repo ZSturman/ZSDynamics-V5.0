@@ -1,6 +1,62 @@
+# Next steps
+
+<!-- WORKSPACE-RECONCILIATION:2026-10-10 -->
+
+Reconciliation 2026-10-10: [current details and actual task links](<WORKSPACE_RECONCILIATION.md>) · [flow plans and scoped results](<APP_FLOWS.md>). Historical audit instructions below retain their dates; the linked current records govern next work.
+
+<!-- WORKSPACE-VERIFICATION:START -->
+## Workspace verification continuation — 2026-10-05
+
+Current state: Web application; earlier REVIEW REQUIRED. Startup observations and commands are in [README](<../README.md>).
+
+### Completed
+
+- Reviewed the retained project inventory and earlier validation evidence.
+- Added current install/start instructions and preserved existing documentation.
+- Saved available real startup screenshots in `docs/images/`; failed targets retain diagnostic evidence.
+- Better Workspace task IDs below use its canonical service records.
+
+### Remaining work
+
+- **zacharysturman — Unblock build validation in .** (`31869333-268d-5eec-9b56-1bc56997b9fb`; AGENT).
+  Codex: Current startup follow-up: The app UI opened. Prepare and run the isolated candidate flows in docs/NEXT_STEPS.md with success/error/persistence assertions; startup alone does not establish release readiness.
+- **zacharysturman — Prepare simulated app flows from startup evidence** (`0ff97fb3-6419-5df5-b1a9-c01ca978ffa3`; AGENT).
+  Codex: Use docs/NEXT_STEPS.md and APP_FLOW_CANDIDATES.json to prepare isolated fixtures and explicit assertions for zachary-sturman. Resolve recorded startup/configuration blockers first, then run each candidate success/error/persistence flow and capture results.
+- **zacharysturman — Complete timed-out tests validation in .** (`75f11c13-e4cf-5a0f-84cd-2dbff74e4d9d`; AGENT).
+  Codex: At ., investigate AUDIT TIMEOUT: process group terminated; rerun the recorded tests command.
+- **zacharysturman — Review vulnerable dependency paths for @firebase/firestore, @firebase/firestore-compat, @grpc/grpc-js** (`439a7042-0be4-577e-b93e-7e7c24738aea`; AGENT).
+  Codex: Inspect the npm advisory dependency paths and reachability for @firebase/firestore, @firebase/firestore-compat, @grpc/grpc-js, firebase, nanoid, next, postcss, sharp, websocket-driver. Choose the smallest compatible remediation, retain the lockfile, and rerun the affected build/tests; do not apply a blanket upgrade.
+- **zacharysturman — Validate the documented primary flow from layout.tsx** (`9b48593f-3970-598d-a1fc-6e92d86cc4f8`; USER + AGENT).
+  Codex: Build the current app using the recorded successful command or resolve its build blocker; prepare disposable input and a reproducible flow.
+  User: Review each app purpose and screenshot in README.md; choose the intended product, experiment, duplicate/consolidation candidate or archive candidate. No app is marked production-complete by startup alone.
+
+### zachary-sturman / web
+
+Startup: **opened**. Startup evidence only; candidate flows not run. Production acceptance is not established.
+
+Candidate next-run flow: Browse projects/articles, open media and a gallery, verify responsive navigation and broken-asset handling with production analytics suppressed.
+
+Fixture requirements: Synthetic data and isolated storage. Use mock/emulator auth, API, mail and paid-provider endpoints. No live automation, deletion of user data, or external submissions.
+
+Codex: Turn this candidate into a fixture-backed simulated flow with explicit assertions and capture its result.
+
+User: Review the app purpose and screenshot; decide whether to ship it, retain it as an experiment, consolidate it, or nominate it for archival. Supply required account/device judgment after automated fixtures pass.
+
+### Evidence and expected outcomes
+
+- [app startup audit](</Users/zacharysturman/Workspace/Projects/APP_LAUNCH_AUDIT.md>) and [candidate flow plan](</Users/zacharysturman/Workspace/Projects/APP_FLOW_PLAN.md>).
+- Rerun the README install/start sequence; expected result is its described UI/service or the same recorded blocker until repaired.
+- Then perform the bounded canonical next action, keeping fixtures isolated.
+- Product purpose, duplicate/consolidation decisions and any archive request need user judgment; no archive/publication was performed.
+
+<!-- WORKSPACE-VERIFICATION:END -->
+
+
+
+<!-- HUE-PUBLICATION:START -->
 # Hue Light Control portfolio release — 2026-10-10
 
-## Prepared release
+## Published release
 
 Hue Light Control is the first hardware entry. Notion and Better Workspace share the existing
 project identity and folder binding. Metadata is Complete / Release / Finite, public and in
@@ -36,23 +92,35 @@ startup documentation and project files in the primary checkout are preserved.
   description, primary media roles, wiring gallery, two work logs, lightbox and viewport overflow.
   Automated browsers use the explicit analytics-disable flag and block GA endpoints.
 
-## Publication and continuation
+## Verified production and continuation
 
-Publish this reviewed release through `main` and the existing Firebase workflow. Then confirm
-the exact deployed SHA on both production domains using:
+Published SHA: `b70af8653ed38e28835aec4080090fbc5bed4d52`.
+[Firebase workflow](https://github.com/ZSturman/ZSDynamics-V5.0/actions/runs/38044685449)
+completed successfully. Both production domains expose the exact SHA. Live desktop/mobile
+Hue checks passed with zero page errors, horizontal overflow and analytics requests.
+All six deployed artwork URLs return HTTP 200. Notion's page icon and cover use verified
+default Firebase URLs to avoid custom-domain bot filtering. Better Workspace's Portfolio
+view displays all six assets, curated logs, Complete / Release status and hardware types/tags.
+
+The primary `main` checkout is advanced to the published commit. Unrelated pending README,
+startup images and Project.betterproject were preserved byte-for-byte. Prior startup notes
+above remain available; these publication checks establish acceptance for this release.
+Release checkout `/tmp/hue-portfolio-release-20261010` is clean and retained for recovery.
+
+Evidence: `artifacts/hue-deployment-metadata.json`, `artifacts/hue-local-qa/`,
+`artifacts/hue-live-qa/`. Rerun from this checkout:
 
 ```sh
-node scripts/confirm-production.mjs --commit <published-sha>
+node scripts/confirm-production.mjs --commit b70af8653ed38e28835aec4080090fbc5bed4d52
 HUE_QA_BASE_URL=https://zacharysturman.com HUE_QA_OUTPUT=artifacts/hue-live-qa node artifacts/hue-publication-check.cjs
 ```
 
-The local verification script and screenshots remain in ignored `artifacts/`. Append actual
-deployment and live QA results to the primary checkout continuation document after publication.
-Set the Notion page icon and cover to the verified, durable deployed image URLs.
+Expect the published marker and passing desktop/mobile reports. No further action is needed
+for the live page. Physical device operation remains builder-reported.
 
-R2 remains an optional hosting follow-up. Configure the five `R2_*` variables documented in
-`docs/setup/r2-media.md`, then run `npm run upload-media` with those values exported in the shell,
-rebuild, validate and publish the resulting URL/lock manifests. Never commit credentials.
+The unfinished plan item is R2 upload: account/key/bucket variables are blank. Optimized
+media is served successfully by Firebase. Configure the five `R2_*` values locally as
+in `docs/setup/r2-media.md`; next Codex should load that environment, run `npm run upload-media`,
+verify URLs, rebuild/validate and publish the URL/lock manifests. Never paste or commit keys.
 
-No new physical-device testing was performed. Real photographs or a filmed demo can be added
-later; the current public media is explicitly identified as technical illustration.
+<!-- HUE-PUBLICATION:END -->
