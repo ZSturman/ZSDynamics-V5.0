@@ -120,3 +120,7 @@ dist/
 build/
 coverage/
 .turbo/
+
+# Git maintenance: confirmed local files (retained on disk)
+# Local Better Workspace UI state and absolute workspace bindings
+/Project.betterproject
