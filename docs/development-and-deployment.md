@@ -51,7 +51,7 @@ There are two intentionally different build paths.
 
 | Command | Intended use | Reads remote content? | Can change tracked generated content? |
 | --- | --- | ---: | ---: |
-| `npm run build` | Build the current committed portfolio for CI or a normal code-only change. | No | Only updates the deployment marker before the static export. |
+| `npm run build` | Build the current committed portfolio for CI or a normal code-only change. | No | Merges locally maintained portfolio entries and refreshes their API output, then updates the deployment marker before export. |
 | `npm run build:full` | Refresh articles/projects, optimize media, create API output, then build. | Yes—Notion when configured | Yes. |
 | `npm run build:full:hosted` | Same full refresh, plus upload changed media to R2. | Yes | Yes, and it writes to configured R2. |
 

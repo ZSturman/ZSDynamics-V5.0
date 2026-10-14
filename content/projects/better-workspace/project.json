@@ -1,0 +1,69 @@
+{
+  "id": "210b2324-2bdf-5751-a101-9c334db91f8c",
+  "slug": "better-workspace",
+  "href": "/projects/better-workspace",
+  "folderName": "better_workspace_210b2324-2bdf-5751-a101-9c334db91f8c",
+  "title": "Better Workspace",
+  "subtitle": "Your files, projects and next steps\u2014across Mac, iPhone and iPad.",
+  "summary": "A native workspace browser and capture companion that connects real folders, portable Markdown plans, project scoring and an iCloud inbox. Built to keep ownership of your files while making the next useful action easier to find.",
+  "oneLiner": "Turn a folder full of projects into a workspace you can act on.",
+  "domain": "Technology",
+  "category": "Application",
+  "status": "Active",
+  "phase": "Testing",
+  "featured": true,
+  "isPublic": true,
+  "createdAt": null,
+  "updatedAt": "2026-10-13",
+  "tags": [
+    "SwiftUI",
+    "macOS",
+    "iOS",
+    "Productivity",
+    "Local-first",
+    "CloudKit"
+  ],
+  "mediums": [
+    "Software"
+  ],
+  "description": "Better Workspace brings projects, tasks, ideas and incoming captures into one native interface. On Mac it browses your real workspace folders, manages portable Markdown work records and keeps tags and sync state in private SQLite storage. Project and idea scoring helps surface the next action. The iPhone and iPad companion browses a private CloudKit index, captures text, links and media to iCloud Drive, and queues planning changes for the Mac to apply with receipts. Optional Notion and agent integrations live on the Mac. The release route is an iPhone/iPad App Store companion with a separately distributed Mac app; An App Store signed iOS candidate and real screenshots are prepared; App Store review, production sync acceptance and Mac notarization are still pending.",
+  "story": "I built Better Workspace to connect the parts of creative and technical work that usually live in separate tools: files, ideas, plans, captures and the decision about what to do next. The architecture keeps the filesystem as the source of truth, uses explicit reviewed actions for changes, and lets the phone participate without pretending it has direct access to the Mac filesystem.",
+  "images": {
+    "thumbnail": "images/mac-store-overview.jpg",
+    "hero": "images/mac-store-overview.jpg",
+    "banner": "images/mac-store-overview.jpg",
+    "icon": "images/icon.png"
+  },
+  "resources": [
+    {
+      "type": "website",
+      "label": "Setup & support",
+      "url": "/better-workspace/support"
+    },
+    {
+      "type": "website",
+      "label": "Privacy policy",
+      "url": "/better-workspace/privacy"
+    }
+  ],
+  "assets": [
+    {
+      "id": "mac-overview",
+      "type": "image",
+      "path": "/projects/better_workspace_210b2324-2bdf-5751-a101-9c334db91f8c/images/mac-store-overview-optimized.webp",
+      "label": "Mac Overview with scored Next Action (sample workspace)"
+    },
+    {
+      "id": "iphone-ideas",
+      "type": "image",
+      "path": "/projects/better_workspace_210b2324-2bdf-5751-a101-9c334db91f8c/images/iphone-idea-scoring-optimized.webp",
+      "label": "iPhone idea priority and scoring (sample workspace)"
+    },
+    {
+      "id": "ipad-project",
+      "type": "image",
+      "path": "/projects/better_workspace_210b2324-2bdf-5751-a101-9c334db91f8c/images/ipad-project-optimized.webp",
+      "label": "iPad project details and work plan (sample workspace)"
+    }
+  ]
+}

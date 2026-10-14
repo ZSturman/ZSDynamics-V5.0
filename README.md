@@ -96,6 +96,12 @@ This repository is the source for [zacharysturman.com](https://zacharysturman.co
 | Media | Repository files, optional Cloudflare R2 | Keeps media local by default; R2 adds long-lived cached URLs when enabled. |
 | Quality gates | Firebase deploy + local Playwright | Confirms the exact live release from this Mac, tests it, and stores evidence. |
 
+## Better Workspace portfolio entry
+
+The portfolio includes Better Workspace with a description, public README, real Mac/iPhone/iPad sample-data screenshots and dedicated support/privacy pages. Local content survives Notion regeneration. [Maintaining, previewing and releasing the entry](docs/BETTER_WORKSPACE.md).
+
+![Better Workspace portfolio preview](docs/images/better-workspace/portfolio-desktop.png)
+
 ## Quick start
 
 **Requirements:** Node.js 20+ (Node 22 is used in CI), npm, and Python 3. Install Playwright’s Chromium browser only when you run browser or media tests.

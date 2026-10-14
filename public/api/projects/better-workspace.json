@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "kind": "projects.detail",
+  "generated_at": "2026-10-14T22:24:41.430767+00:00",
+  "data": {
+    "id": "210b2324-2bdf-5751-a101-9c334db91f8c",
+    "slug": "better-workspace",
+    "href": "/projects/better-workspace",
+    "folderName": "better_workspace_210b2324-2bdf-5751-a101-9c334db91f8c",
+    "title": "Better Workspace",
+    "subtitle": "Your files, projects and next steps—across Mac, iPhone and iPad.",
+    "summary": "A native workspace browser and capture companion that connects real folders, portable Markdown plans, project scoring and an iCloud inbox. Built to keep ownership of your files while making the next useful action easier to find.",
+    "oneLiner": "Turn a folder full of projects into a workspace you can act on.",
+    "domain": "Technology",
+    "category": "Application",
+    "status": "Active",
+    "phase": "Testing",
+    "featured": true,
+    "isPublic": true,
+    "createdAt": null,
+    "updatedAt": "2026-10-13",
+    "tags": [
+      "SwiftUI",
+      "macOS",
+      "iOS",
+      "Productivity",
+      "Local-first",
+      "CloudKit"
+    ],
+    "mediums": [
+      "Software"
+    ],
+    "description": "Better Workspace brings projects, tasks, ideas and incoming captures into one native interface. On Mac it browses your real workspace folders, manages portable Markdown work records and keeps tags and sync state in private SQLite storage. Project and idea scoring helps surface the next action. The iPhone and iPad companion browses a private CloudKit index, captures text, links and media to iCloud Drive, and queues planning changes for the Mac to apply with receipts. Optional Notion and agent integrations live on the Mac. The release route is an iPhone/iPad App Store companion with a separately distributed Mac app; An App Store signed iOS candidate and real screenshots are prepared; App Store review, production sync acceptance and Mac notarization are still pending.",
+    "story": "I built Better Workspace to connect the parts of creative and technical work that usually live in separate tools: files, ideas, plans, captures and the decision about what to do next. The architecture keeps the filesystem as the source of truth, uses explicit reviewed actions for changes, and lets the phone participate without pretending it has direct access to the Mac filesystem.",
+    "images": {
+      "thumbnail": "images/mac-store-overview.jpg",
+      "hero": "images/mac-store-overview.jpg",
+      "banner": "images/mac-store-overview.jpg",
+      "icon": "images/icon.png"
+    },
+    "resources": [
+      {
+        "type": "website",
+        "label": "Setup & support",
+        "url": "/better-workspace/support"
+      },
+      {
+        "type": "website",
+        "label": "Privacy policy",
+        "url": "/better-workspace/privacy"
+      }
+    ],
+    "assets": [
+      {
+        "id": "mac-overview",
+        "type": "image",
+        "path": "/projects/better_workspace_210b2324-2bdf-5751-a101-9c334db91f8c/images/mac-store-overview-optimized.webp",
+        "label": "Mac Overview with scored Next Action (sample workspace)"
+      },
+      {
+        "id": "iphone-ideas",
+        "type": "image",
+        "path": "/projects/better_workspace_210b2324-2bdf-5751-a101-9c334db91f8c/images/iphone-idea-scoring-optimized.webp",
+        "label": "iPhone idea priority and scoring (sample workspace)"
+      },
+      {
+        "id": "ipad-project",
+        "type": "image",
+        "path": "/projects/better_workspace_210b2324-2bdf-5751-a101-9c334db91f8c/images/ipad-project-optimized.webp",
+        "label": "iPad project details and work plan (sample workspace)"
+      }
+    ],
+    "readme": {
+      "content": "# Better Workspace\n\nA native Mac workspace browser with an iPhone and iPad capture and planning companion.\n\n![Mac Overview with sample workspace data](/projects/better_workspace_210b2324-2bdf-5751-a101-9c334db91f8c/images/mac-store-overview.jpg)\n\n## What it does\n\n- Browse real workspace folders while keeping project plans and work records portable as Markdown.\n- Rank projects and ideas, bring important work forward, and choose a Next Action.\n- Capture text, links, images and files through the app or the iOS Share extension.\n- Browse a private iCloud index on iPhone and iPad, including cached content when offline.\n- Queue mobile planning changes for the Mac to validate, apply and acknowledge.\n- Review optional Notion changes and launch explicitly selected agent tasks on Mac.\n\n## Platforms and architecture\n\nMac: macOS 14.4 or later. Phone/tablet: iOS/iPadOS 17 or later. Cloud features need iCloud Drive and the same Apple account on both devices. The Mac publishes the workspace index; the phone does not access Mac files directly. Tags, indexes, drafts and receipts stay in private storage. The Mac background service currently requires Python 3.11 or later.\n\n## Release status\n\nIn testing. The planned distribution is an iPhone/iPad App Store companion and a separate Mac download. App Store review, production CloudKit acceptance, final device acceptance and Mac notarization remain release gates. A locally exported App Store signed 1.0/build 3 candidate is prepared. There is no public download or App Store listing yet. Open Overview → More workspace views → Explore sample workspace to browse without connecting a Mac or iCloud.\n\n## Screenshots\n\nThese are actual app captures using sample workspace data, captured in isolated sample workspaces. The mobile images use the public read-only sample mode included in the release candidate.\n\n![iPhone idea priority and scoring](/projects/better_workspace_210b2324-2bdf-5751-a101-9c334db91f8c/images/iphone-idea-scoring.png)\n\n![iPad project details and work plan](/projects/better_workspace_210b2324-2bdf-5751-a101-9c334db91f8c/images/ipad-project.png)\n\n## Help and privacy\n\n[Setup and support](/better-workspace/support) · [Privacy policy](/better-workspace/privacy)\n\nCopyright © 2026 Zachary Sturman. No open-source license or public source download is currently offered on this page.\n",
+      "sourceUrl": "/projects/better_workspace_210b2324-2bdf-5751-a101-9c334db91f8c/README.md"
+    }
+  }
+}
