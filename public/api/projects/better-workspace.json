@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-10-14T22:24:41.430767+00:00",
+  "generated_at": "2026-10-14T22:35:03.801128+00:00",
   "data": {
     "id": "210b2324-2bdf-5751-a101-9c334db91f8c",
     "slug": "better-workspace",
@@ -30,7 +30,7 @@
     "mediums": [
       "Software"
     ],
-    "description": "Better Workspace brings projects, tasks, ideas and incoming captures into one native interface. On Mac it browses your real workspace folders, manages portable Markdown work records and keeps tags and sync state in private SQLite storage. Project and idea scoring helps surface the next action. The iPhone and iPad companion browses a private CloudKit index, captures text, links and media to iCloud Drive, and queues planning changes for the Mac to apply with receipts. Optional Notion and agent integrations live on the Mac. The release route is an iPhone/iPad App Store companion with a separately distributed Mac app; An App Store signed iOS candidate and real screenshots are prepared; App Store review, production sync acceptance and Mac notarization are still pending.",
+    "description": "Better Workspace brings projects, tasks, ideas and incoming captures into one native interface. On Mac it browses your real workspace folders, manages portable Markdown work records and keeps tags and sync state in private SQLite storage. Project and idea scoring helps surface the next action. The iPhone and iPad companion browses a private CloudKit index, captures text, links and media to iCloud Drive, and queues planning changes for the Mac to apply with receipts. Optional Notion and agent integrations live on the Mac. The release route is an iPhone/iPad App Store companion with a separately distributed Mac app. An App Store signed iOS candidate and real screenshots are prepared; App Store review, production sync acceptance and Mac notarization are still pending.",
     "story": "I built Better Workspace to connect the parts of creative and technical work that usually live in separate tools: files, ideas, plans, captures and the decision about what to do next. The architecture keeps the filesystem as the source of truth, uses explicit reviewed actions for changes, and lets the phone participate without pretending it has direct access to the Mac filesystem.",
     "images": {
       "thumbnail": "images/mac-store-overview.jpg",

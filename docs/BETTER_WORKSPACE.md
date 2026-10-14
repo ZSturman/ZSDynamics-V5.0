@@ -1,6 +1,6 @@
 # Better Workspace portfolio entry
 
-Updated October 13, 2026. Maintained local content is prepared for `/projects/better-workspace`; support and privacy pages are at `/better-workspace/support` and `/better-workspace/privacy`.
+Updated October 14, 2026. Maintained local content is prepared for `/projects/better-workspace`; support and privacy pages are at `/better-workspace/support` and `/better-workspace/privacy`.
 
 ## Source and publishing
 
@@ -30,7 +30,7 @@ npm run build
 
 Expected: nine focused Python tests, two desktop/mobile browser checks and a static export including all three pages. Use a Python environment with the repo's testing dependencies if `.venv` is absent. Browser checks include image decoding in the screenshot gallery, README presence, release links and no horizontal overflow at 1280px/390px.
 
-Publication follows the existing [development/deployment guide](development-and-deployment.md). The final refreshed entry passed two browser tests at 1280px/390px and a production static build on an isolated checkout of current origin/main (`b70af86`), preserving the newer Hue Light Control entry. The candidate checkout is `/tmp/better-workspace-portfolio-release-20261013`; publication is on hold. An initial overlapping preview/build run failed with missing generated `_document`; the serial production build passed. Run builds and preview tests sequentially. This task did not commit, push or deploy the accumulated changes in this already-dirty repository. Review the existing changes before publishing to `main`.
+Publication follows the existing [development/deployment guide](development-and-deployment.md). The release candidate is rebased onto origin/main `2645537`, preserving Recallable and Hue. The production build, 41 unit tests, 168 Python tests (plus 10 subtests), and 41 browser tests passed; one browser test was skipped because its optional dataset was unavailable. The candidate checkout is `/tmp/better-workspace-portfolio-release-20261013`; publication is authorized and in progress. An initial overlapping preview/build run failed with missing generated `_document`; the serial production build passed. Run builds and preview tests sequentially. Only the scoped Better Workspace changes are committed from this isolated checkout. The original checkout retains its unrelated dirty work. Live deployment evidence is recorded here after verification.
 
 ## Update images or release availability
 
