@@ -37,7 +37,13 @@ yarn-error.log*
 # env files (can opt-in for committing if needed)
 .env*
 !.env.example
-/content
+/content/*
+!/content/projects/
+/content/projects/*
+!/content/projects/better-workspace/
+!/content/projects/better-workspace/**
+!/content/projects/recallable/
+!/content/projects/recallable/**
 
 # vercel
 .vercel

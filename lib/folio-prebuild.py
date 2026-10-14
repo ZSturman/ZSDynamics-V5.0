@@ -19,6 +19,7 @@ from datetime import datetime
 from pathlib import Path
 
 from projects_pipeline import build_projects_from_json, root_path_health_warning
+from local_projects import merge_local_projects
 
 DEFAULT_INPUT_JSON = Path("/Users/zacharysturman/n8n-files/exports/new_projects.json")
 
@@ -373,7 +374,7 @@ def main() -> None:
         )
 
         output_path = temp_public_projects_root / "projects.json"
-        projects = result["projects"]
+        projects = merge_local_projects(result["projects"], temp_public_projects_root)
         output_path.write_text(json.dumps(projects, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
         print(f"📄 Wrote {len(projects)} projects to projects.json")
         logger.info("Wrote %s projects to %s", len(projects), output_path)
