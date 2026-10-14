@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.list",
-  "generated_at": "2026-10-10T14:02:10.676340+00:00",
+  "generated_at": "2026-10-14T09:53:32.511218+00:00",
   "data": [
     {
       "id": "3f5aec94-4d3c-8116-99d5-c9752bb4af87",
@@ -836,7 +836,32 @@
       "href": "/projects/my-notion-pipeline",
       "primaryImageUrl": "/projects/my_notion_pipeline_304aec94-4d3c-8029-a1b1-ea0f92487137/thumbnail.png",
       "updatedAt": "2026-04-12"
+    },
+    {
+      "id": "5031ef4c-2724-54a4-92ca-42d270a59716",
+      "slug": "recallable",
+      "title": "Recallable",
+      "summary": "A spaced-repetition flashcard app where nothing is ever due. Open it and answer: Home, the widget, and the Watch each show your next card, and every rating spaces that card further apart or brings it back sooner. It works across iPhone, iPad, Mac, and Apple Watch with iCloud sync.",
+      "oneLiner": "Spaced-repetition flashcards that never turn into a backlog.",
+      "tags": [
+        "SwiftUI",
+        "iOS",
+        "iPadOS",
+        "macOS",
+        "watchOS",
+        "SwiftData",
+        "CloudKit",
+        "Spaced Repetition",
+        "Education"
+      ],
+      "status": "Active",
+      "featured": true,
+      "domain": "Technology",
+      "category": "Application",
+      "href": "/projects/recallable",
+      "primaryImageUrl": "/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/images/thumbnail.jpg",
+      "updatedAt": "2026-10-13"
     }
   ],
-  "count": 40
+  "count": 41
 }
