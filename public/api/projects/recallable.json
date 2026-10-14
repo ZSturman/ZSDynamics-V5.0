@@ -1,0 +1,130 @@
+{
+  "schema_version": 1,
+  "kind": "projects.detail",
+  "generated_at": "2026-10-14T01:12:25.286406+00:00",
+  "data": {
+    "id": "5031ef4c-2724-54a4-92ca-42d270a59716",
+    "slug": "recallable",
+    "href": "/projects/recallable",
+    "folderName": "recallable_5031ef4c-2724-54a4-92ca-42d270a59716",
+    "title": "Recallable",
+    "subtitle": "Flashcards that fit into your day, on iPhone, iPad, Mac, and Apple Watch.",
+    "summary": "A spaced-repetition flashcard app where nothing is ever due. Open it and answer: Home, the widget, and the Watch each show your next card, and every rating spaces that card further apart or brings it back sooner. It works across iPhone, iPad, Mac, and Apple Watch with iCloud sync.",
+    "oneLiner": "Spaced-repetition flashcards that never turn into a backlog.",
+    "domain": "Technology",
+    "category": "Application",
+    "status": "Active",
+    "phase": "Testing",
+    "featured": true,
+    "isPublic": true,
+    "createdAt": null,
+    "updatedAt": "2026-10-13",
+    "tags": [
+      "SwiftUI",
+      "iOS",
+      "iPadOS",
+      "macOS",
+      "watchOS",
+      "SwiftData",
+      "CloudKit",
+      "Spaced Repetition",
+      "Education"
+    ],
+    "mediums": [
+      "Software"
+    ],
+    "description": "Recallable is a flashcard app for iPhone, iPad, Mac, and Apple Watch. Open it and a card is waiting: show the answer, rate it Hard, Good, or Easy, and the next card is ready, with no session to set up.\n\nThe problem it solves. Spaced-repetition apps tend to turn into an overdue backlog: miss a few days and a wall of \"due\" cards greets you. In Recallable the queue is an ordering, never an obligation. Cards whose time has come are shown first, everything else follows, and nothing is ever \"due\". There are no due counts, return dates, or badges.\n\nFeatures\n\n• Quick study on Home, the widget, and the Watch: the best next card, answered in place. Focused rounds of 10 from one deck when you want them.\n• A spaced scheduler. Easy and Good lengthen a card's interval, Hard and Skip shorten it, within one day to one year. New cards are introduced gradually through a daily allowance.\n• Discover: search or browse by category. Nine built-in starter decks work offline, and community decks people publish have filtering, reporting, publisher blocking, and moderation.\n• A card editor with pictures on either side, hints, explanations, links, and LaTeX math typeset everywhere, including on the Watch.\n• CSV import and export to share decks or move them to and from a spreadsheet.\n• AI drafts from a topic, text, a web page, a PDF, or a photo of notes. They're made with Apple's on-device Foundation Models, LM Studio on your Mac, or your own Gemini key, and you review every draft before it's saved.\n• Widgets: an interactive Home Screen widget to flip and rate cards, Lock Screen widgets, and a Control Center control. Also App Intents for Shortcuts and Siri.\n• Reminders at times you choose. They never show card text.\n• iCloud sync across devices. Reviews from every device are kept, never lost.\n\nAvailability\n\nRecallable is being prepared for the App Store. It isn't available to download yet.",
+    "story": "I built Recallable to make reviewing feel like opening a message instead of facing a backlog. The design rule was that studying should always be possible and never be a debt.\n\nArchitecture. A pure, unit-tested RecallableDomain package holds the QueueScheduler, the card and deck model, card strength, CSV parsing, rich text and math parsing, and the SwiftData store. Protocols keep the clock, persistence, networking, CloudKit, and Foundation Models out of the scheduling logic. The SwiftUI app, widget extension, and watchOS app build on that package, and the Mac app is the same code through Mac Catalyst. Math is typeset with SwiftUIMath.\n\nEngineering challenges.\n\n• A schema built for CloudKit mirroring: no unique constraints, every attribute defaulted, and JSON columns instead of relationships. Review events are immutable, UUID-keyed, and insert-only, so merges are unions: ratings from two devices both count, and saving never drops another device's cards.\n• Bounded payloads: a full library (about 2 MB) was too large to send to the Watch, so the Watch and widget get the next 200 cards as a file, and the Watch keeps an offline outbox that replays over WatchConnectivity.\n• Testing on real devices without touching real data: UI tests run on the physical iPhone, iPad, and Mac with disposable stores, preferences, and TipKit data, isolated from the owner's own library.\n• Safe migrations: removing an earlier Notion integration dropped columns through SwiftData lightweight migration without losing a card or review.\n\nProcess. It was built iteratively and verified on a physical iPhone 16 Pro Max, an iPad Pro 12.9-inch, a Mac, and an Apple Watch. It has 94 domain unit tests (Swift Testing) and XCTest UI suites covering first run, everyday study, persistence, layout, and App Store screenshot capture.",
+    "images": {
+      "thumbnail": "images/thumbnail.jpg",
+      "hero": "images/hero.jpg",
+      "banner": "images/banner.jpg",
+      "icon": "images/icon.png",
+      "social": "images/social.jpg"
+    },
+    "resources": [
+      {
+        "type": "website",
+        "label": "Support",
+        "url": "/recallable/support"
+      },
+      {
+        "type": "website",
+        "label": "Privacy policy",
+        "url": "/recallable/privacy"
+      }
+    ],
+    "assets": [
+      {
+        "id": "gallery-iphone-study",
+        "type": "image",
+        "path": "/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/images/gallery-iphone-study-optimized.webp",
+        "label": "iPhone: Home opens on a card, the answer with typeset math, and a focused round"
+      },
+      {
+        "id": "gallery-iphone-library",
+        "type": "image",
+        "path": "/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/images/gallery-iphone-library-optimized.webp",
+        "label": "iPhone: Discover, a deck preview, the library, and one deck with each card’s strength"
+      },
+      {
+        "id": "gallery-ipad",
+        "type": "image",
+        "path": "/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/images/gallery-ipad-optimized.webp",
+        "label": "iPad: Home with every deck, and progress across decks"
+      },
+      {
+        "id": "mac-home",
+        "type": "image",
+        "path": "/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/images/mac-01-home-optimized.webp",
+        "label": "Mac: Home with the next card"
+      },
+      {
+        "id": "mac-discover",
+        "type": "image",
+        "path": "/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/images/mac-04-discover-optimized.webp",
+        "label": "Mac: Discover topics and starter decks"
+      },
+      {
+        "id": "gallery-watch",
+        "type": "image",
+        "path": "/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/images/gallery-watch-optimized.webp",
+        "label": "Apple Watch: a typeset question, the answer with ratings, and the next card"
+      },
+      {
+        "id": "gallery-iphone-dark",
+        "type": "image",
+        "path": "/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/images/gallery-iphone-dark-optimized.webp",
+        "label": "iPhone in dark appearance: Home, progress, and a round"
+      },
+      {
+        "id": "feature-quick-study",
+        "type": "image",
+        "path": "/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/images/feature-quick-study-optimized.webp",
+        "label": "Quick study: open the app and answer"
+      },
+      {
+        "id": "feature-discover",
+        "type": "image",
+        "path": "/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/images/feature-discover-optimized.webp",
+        "label": "Discover: a deck on any subject, on the Mac"
+      },
+      {
+        "id": "feature-spaced-review",
+        "type": "image",
+        "path": "/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/images/feature-spaced-review-optimized.webp",
+        "label": "Spaced, never overdue"
+      },
+      {
+        "id": "feature-apple-watch",
+        "type": "image",
+        "path": "/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/images/feature-apple-watch-optimized.webp",
+        "label": "A card on your wrist"
+      }
+    ],
+    "readme": {
+      "content": "# Recallable\n\nSpaced-repetition flashcards that fit into your day, on iPhone, iPad, Mac, and Apple Watch.\n\n![Recallable on iPad, iPhone, and Apple Watch](/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/images/hero.jpg)\n\n## What it does\n\nOpen Recallable and a card is waiting. Show the answer, rate it Hard, Good, or Easy, and the next one is ready. Every rating spaces that card: ones you know drift further apart, and hard ones come back sooner. Unlike most spaced-repetition apps, nothing is ever \"due\". The queue only decides what to show first, so a few days away never leaves you with a backlog.\n\n- **Quick study** on Home, the Home Screen widget, and Apple Watch, plus focused rounds of 10.\n- **Discover:** built-in starter decks that work offline, and community decks with reporting, blocking, and moderation.\n- **Your own cards** with pictures, hints, explanations, links, and LaTeX math typeset on every device.\n- **CSV import and export.**\n- **AI drafts** from a topic, text, a web page, a PDF, or a photo of notes, using on-device Apple Intelligence, LM Studio, or your own Gemini key. Every draft is reviewed before it's saved.\n- **Widgets, a Control Center control, Shortcuts and Siri,** and reminders that never show card text.\n- **iCloud sync** across devices, where reviews from every device are kept.\n\n## Screenshots\n\nThese are unedited captures of the real app, using its built-in starter decks with study history from the app's own scheduler.\n\n| Home | Answer | Progress | Discover |\n|---|---|---|---|\n| ![Home](/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/images/iphone-01-home-optimized.webp) | ![Answer](/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/images/iphone-02-answer-optimized.webp) | ![Progress](/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/images/iphone-03-progress-optimized.webp) | ![Discover](/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/images/iphone-04-discover-optimized.webp) |\n\n![Apple Watch: a question](/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/images/watch-01-question-optimized.webp) ![Apple Watch: the answer](/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/images/watch-02-answer-optimized.webp)\n\n## How it's built\n\n- **RecallableDomain:** a pure Swift package with the scheduler, models, CSV, rich text and math, and the SwiftData store, covered by 94 unit tests.\n- **Apps:** SwiftUI for iPhone and iPad, the Mac through Mac Catalyst, a WidgetKit extension, and a watchOS app.\n- **Sync:** SwiftData with CloudKit mirroring. Review events are immutable and insert-only, so merges from several devices are unions.\n- **Watch:** gets a bounded set of upcoming cards and replays offline ratings over WatchConnectivity.\n- **Technologies:** Swift 6, SwiftUI, SwiftData, CloudKit, WidgetKit, App Intents, WatchConnectivity, Foundation Models, TipKit, and XCTest and Swift Testing.\n\n## Availability\n\nRecallable is being prepared for the App Store and isn't available to download yet. It needs iOS, iPadOS, or watchOS 26, or macOS 26.\n\n## Help and privacy\n\n[Support](/recallable/support) · [Privacy policy](/recallable/privacy)\n\nCopyright © 2026 Zachary Sturman.\n",
+      "sourceUrl": "/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/README.md"
+    }
+  }
+}

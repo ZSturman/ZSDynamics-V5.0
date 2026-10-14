@@ -14,7 +14,9 @@ function getProjectDescription(project: Project): string {
 function getProjectSocialImage(project: Project): string | undefined {
   const folderName = project.folderName || project.id
   const folderPath = `/projects/${folderName}`
+  // A purpose-made 1200×630 share card wins when a project provides one.
   const candidate =
+    project.images?.social ||
     project.images?.banner ||
     project.images?.hero ||
     project.images?.posterLandscape ||
