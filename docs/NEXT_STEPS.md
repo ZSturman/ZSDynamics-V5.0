@@ -124,3 +124,22 @@ in `docs/setup/r2-media.md`; next Codex should load that environment, run `npm r
 verify URLs, rebuild/validate and publish the URL/lock manifests. Never paste or commit keys.
 
 <!-- HUE-PUBLICATION:END -->
+
+
+## Better Workspace public release — October 14, 2026
+
+The authored project, README/screenshots, privacy and support pages are deployed at
+https://zacharysturman.com/projects/better-workspace and `/better-workspace/{privacy,support}`.
+Deployment `38648726890` matched commit `21fa407473f2444699ed69054475645b36be8bbc`.
+Build, unit/Python/local browser/media checks passed; live Chromium and WebKit each
+passed 10 checks. Production screenshots and the analytics-suppressed live project
+checks are preserved here. Original unrelated dirty work was not replaced.
+
+App Store Connect has selected processed iOS 1.0/build 3. Mac candidate 3 is Developer ID
+signed/notarized/stapled/Gatekeeper accepted; its exact ZIP remains local until clean
+installation and full production device workflows pass. No public download or live
+App Store button is advertised yet. Next Codex action: after app acceptance, stage the
+verified ZIP/checksum in public downloads, add correct project/support/README links,
+run `npm run sync:local-projects`, `npm run build` and focused project/live checks, then
+commit/push/deploy and verify actual download/checksum. See `docs/BETTER_WORKSPACE.md`
+and the app repository's `docs/APP_STORE_RELEASE.md` for artifacts and unresolved gates.

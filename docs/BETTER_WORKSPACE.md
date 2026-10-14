@@ -1,6 +1,6 @@
 # Better Workspace portfolio entry
 
-Updated October 14, 2026. Maintained local content is prepared for `/projects/better-workspace`; support and privacy pages are at `/better-workspace/support` and `/better-workspace/privacy`.
+Updated October 14, 2026. The project page is live at https://zacharysturman.com/projects/better-workspace, with deployed support and privacy pages at `/better-workspace/support` and `/better-workspace/privacy`.
 
 ## Source and publishing
 
@@ -9,7 +9,7 @@ Updated October 14, 2026. Maintained local content is prepared for `/projects/be
 - `content/projects/better-workspace/README.md`: public project README shown in the portfolio; copied as a downloadable Markdown resource.
 - `content/projects/better-workspace/images/`: actual Mac, iPhone and iPad sample-workspace captures, the app icon, and optimized variants. Sources came from the Better Workspace repository's documented UI captures, not generated mockups. The refreshed images come from the October 13 Store screenshot set: disposable Mac and public read-only mobile sample mode.
 - `lib/local_projects.py`: merges local entries by ID/slug and copies assets. Existing unrelated exported records are preserved. This runs during the normal cached build and the staging step of the Notion prebuild, so a sync cannot erase the local entry. Static project API entries and site counts are kept current without changing article endpoints or the hosted URL map.
-- `app/better-workspace/{privacy,support}/page.tsx`: public pages linked from inside the app. They must be deployed before store submission.
+- `app/better-workspace/{privacy,support}/page.tsx`: public pages linked from inside the app. They are deployed and return 200 in production browser checks.
 
 The app is described as in testing, with no download or App Store button until the signed/notarized Mac package and approved mobile listing actually exist. The Mac download requires Python 3.11+ for its service; do not market it as a self-contained installer before clean-Mac acceptance.
 
@@ -30,7 +30,9 @@ npm run build
 
 Expected: nine focused Python tests, two desktop/mobile browser checks and a static export including all three pages. Use a Python environment with the repo's testing dependencies if `.venv` is absent. Browser checks include image decoding in the screenshot gallery, README presence, release links and no horizontal overflow at 1280px/390px.
 
-Publication follows the existing [development/deployment guide](development-and-deployment.md). The release candidate is rebased onto origin/main `2645537`, preserving Recallable and Hue. The production build, 41 unit tests, 168 Python tests (plus 10 subtests), and 41 browser tests passed; one browser test was skipped because its optional dataset was unavailable. The candidate checkout is `/tmp/better-workspace-portfolio-release-20261013`; publication is authorized and in progress. An initial overlapping preview/build run failed with missing generated `_document`; the serial production build passed. Run builds and preview tests sequentially. Only the scoped Better Workspace changes are committed from this isolated checkout. The original checkout retains its unrelated dirty work. Live deployment evidence is recorded here after verification.
+Publication follows the existing [development/deployment guide](development-and-deployment.md). The release candidate is rebased onto origin/main `2645537`, preserving Recallable and Hue. The production build, 41 unit tests, 168 Python tests (plus 10 subtests), and 41 browser tests passed; one browser test was skipped because its optional dataset was unavailable. The candidate checkout is `/tmp/better-workspace-portfolio-release-20261013`; publication is authorized and completed for these pages. Commit `21fa407473f2444699ed69054475645b36be8bbc` deployed through successful workflow `38648726890`; deployment metadata matched that commit. An initial overlapping preview/build run failed with missing generated `_document`; the serial production build passed. Run builds and preview tests sequentially. Only the scoped Better Workspace changes are committed from this isolated checkout. The original checkout retains its unrelated dirty work. Live Chromium and WebKit production tests each passed 10 checks; missing WebKit runtime was installed from Playwright's official distribution before the passing run. `tests/production/better-workspace.spec.ts` suppresses analytics before loading the live pages. The screenshots below show the deployed site.
+
+The app has processed iOS 1.0/build 3 and saved its listing, pricing and screenshots. The universal Mac ZIP is Developer ID signed, notarized/stapled and accepted by Gatekeeper, including a quarantined extraction. Clean Mac installation and full TestFlight workflows remain acceptance gates, so the public page correctly keeps app availability in testing and has no unverified download button. Production CloudKit schema and a private unique-tag round trip passed; cross-device command acceptance is still pending. No app-store live link or Mac download is published in this website deployment.
 
 ## Update images or release availability
 
