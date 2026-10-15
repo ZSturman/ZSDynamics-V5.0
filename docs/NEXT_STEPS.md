@@ -6,7 +6,9 @@ Support/privacy remain secondary. Both products are explicitly unreleased. The o
 Build, typecheck, scoped lint, 41 unit tests and desktop/mobile production-export
 browser checks pass. Screenshots are in `docs/images/better-workspace/`.
 
-Next: verify the production deployment/live Visit flow after this commit is pushed.
+Production deployment of `12dc519` passed (workflow `38800504675`); the live marker matches. Four live Chromium/WebKit checks passed at desktop/mobile widths. A test follow-up waits for pending prefetches before navigation, preserving all runtime-error assertions. Evidence: `docs/evidence/visitor-actions-20261015.json`.
+
+Next: keep availability and primary actions aligned with the app release status.
 Do not add App Store, download or private repository actions until public destinations
 exist. App submission and advanced Mac download publication remain pending approval.
 See [portfolio verification](BETTER_WORKSPACE.md) for exact local commands.

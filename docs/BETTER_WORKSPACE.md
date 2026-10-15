@@ -28,7 +28,7 @@ python3 scripts/serve-export.py
 ```
 
 Expected: two passing checks; local preview at `http://127.0.0.1:3001`.
-Production deployment and live verification are recorded after pushing.
+Production deploy `38800504675` succeeded for `12dc519`; its live marker matches. Four live Chromium/WebKit checks passed. Rapid WebKit route changes initially cancelled an unrelated footer prefetch; the test now allows in-flight prefetches to settle before navigation and still asserts no page errors. Evidence: `docs/evidence/visitor-actions-20261015.json`.
 
 ## Source and publishing
 

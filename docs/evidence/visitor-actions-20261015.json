@@ -1,0 +1,31 @@
+{
+  "functional_commit": "12dc5196ddbd557ecfcf816484117c89a0e36756",
+  "deployment_workflow": "38800504675",
+  "deployment": "PASS",
+  "live_marker_matches": true,
+  "visitor_actions": {
+    "Better Workspace": "Visit /better-workspace",
+    "Recallable": "Visit /recallable"
+  },
+  "legal_links": "Preserved in README and product footers",
+  "unpublished_or_private_download_links_added": false,
+  "checks": {
+    "build": "PASS",
+    "typecheck": "PASS",
+    "scoped_lint": "PASS",
+    "unit_passed": 41,
+    "responsive_static_passed": 2,
+    "media_passed": 33,
+    "media_optional_skipped": 5,
+    "live_chromium_webkit_passed": 4
+  },
+  "initial_webkit_failure": "Rapid navigation cancelled a footer work-logs RSC prefetch; endpoint returned 200. Waiting for pending prefetches before navigation passed all four checks without suppressing page errors.",
+  "verified_urls": [
+    "https://zacharysturman.com/projects/better-workspace",
+    "https://zacharysturman.com/better-workspace",
+    "https://zacharysturman.com/better-workspace/privacy",
+    "https://zacharysturman.com/better-workspace/support",
+    "https://zacharysturman.com/projects/recallable",
+    "https://zacharysturman.com/recallable"
+  ]
+}

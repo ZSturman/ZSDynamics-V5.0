@@ -47,13 +47,16 @@ for (const width of [1280, 390]) {
       return true;
     })).toBe(true);
     await page.screenshot({ animations: "disabled", path: `docs/images/better-workspace/portfolio-${width === 1280 ? "desktop" : "mobile"}.png` });
+    await page.waitForLoadState("networkidle");
     await page.goto("/projects/recallable");
     const recallableActions = page.getByTestId("project-header-resource-row");
     await expect(recallableActions.getByRole("button", { name: /Visit$/ })).toBeVisible();
     await expect(recallableActions.getByRole("button", { name: /privacy|support/i })).toHaveCount(0);
+    await page.waitForLoadState("networkidle");
     await page.goto("/recallable");
     await expect(page.getByRole("heading", { name: "Preparing for the App Store", exact: true })).toBeVisible();
     for (const [route, heading] of [["privacy", "Better Workspace Privacy Policy"], ["support", "Setup & Support"]]) {
+      await page.waitForLoadState("networkidle");
       await page.goto(`/better-workspace/${route}`);
       await expect(page.getByRole("heading", { name: heading, exact: true })).toBeVisible();
       await expect(page.getByRole("link", { name: /Contact Zachary|Send a support request/ })).toHaveAttribute("href", "/contact");
