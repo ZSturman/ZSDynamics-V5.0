@@ -1,0 +1,64 @@
+{
+  "id": "04827feb-2508-51d8-ba15-ed7738b57f7e",
+  "slug": "job-search-hub",
+  "href": "/projects/job-search-hub",
+  "folderName": "job_search_hub_04827feb-2508-51d8-ba15-ed7738b57f7e",
+  "title": "Job Search Hub",
+  "name": "Job Search Hub",
+  "subtitle": "Find, evaluate, and track jobs through Notion and the CLI.",
+  "summary": "An open-source, CLI- and Notion-centered job search workflow engine. It automates multi-board job discovery, manages structured candidate facts and reusable answer banks, tracks application lifecycles, and maintains strict local data privacy.",
+  "oneLiner": "Find, evaluate, and track jobs through Notion and the CLI.",
+  "domain": "Technology",
+  "category": "Application",
+  "status": "Complete",
+  "phase": "Release",
+  "featured": true,
+  "isPublic": true,
+  "createdAt": "2026-10-15",
+  "updatedAt": "2026-10-15",
+  "tags": [
+    "Python",
+    "CLI",
+    "Notion API",
+    "Automation",
+    "Local-first",
+    "SQLite",
+    "Open Source"
+  ],
+  "mediums": [
+    "Software"
+  ],
+  "description": "Job Search Hub connects job discovery, candidate qualification facts, reusable application answers, and lifecycle tracking into a single private workflow controlled through Notion and the jobhub CLI.\n\nKey features:\n• Notion-Centered Workspace: Scoped root-page discovery provisions 10 dedicated databases and numbered workflow views (1 — My search, 2 — Review jobs, 3 — Resolve questions, 4 — Apply, 5 — Track progress).\n• Multi-Board Job Discovery: Automated ingestion across Greenhouse, Lever, Ashby, Recruitee, SmartRecruiters, RSS, Remotive, and manual job capture.\n• Privacy & Local Security: Credentials stay in the operating system credential store (macOS Keychain) and never touch Git or Notion. Resumes and raw PDFs stay local.\n• Candidate Facts & Answer Bank: Deterministic extraction from resume PDFs with human approval queue before syncing facts or reusable answers to Notion.\n• Application Lifecycle Tracking: Reconciles decisions (Shortlist, Apply, Skip) and advances stages from Planned to Submitted, Interviewing, and Offer with automated timestamps and audit trails.\n• Automated Scheduling & Resilient Sync: Launchd background scheduling, SQLite deduplication and rate-limiting request coordinator for Notion API limits.",
+  "story": "Job search tooling often forces a false choice between closed web scrapers that hoard personal data and disjointed spreadsheets that take constant manual upkeep. I built Job Search Hub to give software engineers full ownership of their job search pipeline: the database and decision views live entirely in the user's private Notion workspace, while all document processing, API credentials, and network operations execute strictly on the local machine through a fast command-line interface.",
+  "images": {
+    "thumbnail": "images/terminal-demo.png",
+    "hero": "images/terminal-demo.png",
+    "banner": "images/terminal-demo.png",
+    "icon": "images/icon.png"
+  },
+  "resources": [
+    {
+      "type": "github",
+      "label": "Repo",
+      "url": "https://github.com/ZSturman/job-search-hub"
+    },
+    {
+      "type": "download",
+      "label": "Download",
+      "url": "https://github.com/ZSturman/job-search-hub/releases/tag/v0.1.0"
+    },
+    {
+      "type": "website",
+      "label": "Install",
+      "url": "https://github.com/ZSturman/job-search-hub#installation"
+    }
+  ],
+  "assets": [
+    {
+      "id": "terminal-demo",
+      "type": "image",
+      "path": "/projects/job_search_hub_04827feb-2508-51d8-ba15-ed7738b57f7e/images/terminal-demo-optimized.webp",
+      "label": "Job Search Hub CLI and Notion integration demonstration"
+    }
+  ]
+}

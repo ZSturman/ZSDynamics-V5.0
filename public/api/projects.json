@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.list",
-  "generated_at": "2026-10-15T20:08:33.488527+00:00",
+  "generated_at": "2026-10-15T22:47:29.687486+00:00",
   "data": [
     {
       "id": "3f5aec94-4d3c-8116-99d5-c9752bb4af87",
@@ -860,6 +860,29 @@
       "updatedAt": "2026-10-15"
     },
     {
+      "id": "04827feb-2508-51d8-ba15-ed7738b57f7e",
+      "slug": "job-search-hub",
+      "title": "Job Search Hub",
+      "summary": "An open-source, CLI- and Notion-centered job search workflow engine. It automates multi-board job discovery, manages structured candidate facts and reusable answer banks, tracks application lifecycles, and maintains strict local data privacy.",
+      "oneLiner": "Find, evaluate, and track jobs through Notion and the CLI.",
+      "tags": [
+        "Python",
+        "CLI",
+        "Notion API",
+        "Automation",
+        "Local-first",
+        "SQLite",
+        "Open Source"
+      ],
+      "status": "Complete",
+      "featured": true,
+      "domain": "Technology",
+      "category": "Application",
+      "href": "/projects/job-search-hub",
+      "primaryImageUrl": "/projects/job_search_hub_04827feb-2508-51d8-ba15-ed7738b57f7e/images/terminal-demo.png",
+      "updatedAt": "2026-10-15"
+    },
+    {
       "id": "5031ef4c-2724-54a4-92ca-42d270a59716",
       "slug": "recallable",
       "title": "Recallable",
@@ -885,5 +908,5 @@
       "updatedAt": "2026-10-13"
     }
   ],
-  "count": 42
+  "count": 43
 }
