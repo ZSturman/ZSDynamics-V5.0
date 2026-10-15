@@ -8,9 +8,14 @@ iPad/offline and clean-user Mac service acceptance remain open. No app download 
 or App Store availability claim is published before those gates pass.
 
 Validation: static build passed, 41 unit tests passed, and two responsive Better Workspace
-page checks passed at 1280/390px, including all six images. Next: commit/push/deploy this
-scoped refresh, verify the deployment marker and live Chromium/WebKit page checks, then
-update the app release evidence. Preserve original dirty checkouts and unrelated main changes.
+page checks passed at 1280/390px, including all six images. The scoped refresh deployed
+from 3cc4685a00aab7e8e2ecc4bc2efe32de4f8b8e51 through successful workflow 38773890291;
+the live marker matched, required media smoke passed (33/5 optional skips), and four
+live Chromium/WebKit checks passed. App release evidence records this result.
+Next: add verified public app/download links only after the app project's remaining
+physical-device and clean-user Mac service gates pass. Preserve the original dirty
+checkouts and unrelated main changes. This documentation-only checkpoint does not
+change the deployed pages.
 
 # Next steps
 

@@ -75,3 +75,14 @@ does not claim a public app release. Two responsive page checks passed after thi
 refresh; final production deployment verification is recorded after publication.
 
 The first refreshed-hero push was correctly blocked by the media contract: its optimized hero variant was missing. The existing optimizer generated the required optimized/thumbnail/placeholder files, and the targeted contract checks passed before retrying the required pre-push smoke suite.
+
+
+The refreshed page deployed from `3cc4685a00aab7e8e2ecc4bc2efe32de4f8b8e51` through
+successful workflow `38773890291`; the live deployment marker matched. Four live
+Chromium/WebKit checks passed with production analytics suppressed. Final artifacts
+are retained outside the repository in `/tmp/bw-cohesive-portfolio-live-final-20261015`.
+The app project now has iOS TestFlight build 5 and native Mac TestFlight build 6; actual
+Mac installation found and then verified the fix for a framework runtime-path defect.
+Advanced Mac build 5 is notarized and locally verified, but clean-user installation and
+physical-device distribution acceptance still gate public app links. This documentation
+checkpoint changes no published product behavior.
