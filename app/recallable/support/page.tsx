@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 };
 
 const guidelines =
-  "Publish only decks you made or have the right to share. No sexual, hateful, violent, or harassing content, no spam or advertising, and no personal information about other people. There is no tolerance for objectionable content or abusive users: reported decks are reviewed within 24 hours, and decks that break these rules are removed and their publishers blocked.";
+  "Publish only decks you made or have the right to share. No sexual, hateful, violent, or harassing content, no spam or advertising, and no personal information about other people. Decks with pictures appear once a moderator has checked them. There is no tolerance for objectionable content or abusive users: reported decks are reviewed within 24 hours, and decks that break these rules are removed and their publishers blocked.";
 
 export default function RecallableSupportPage() {
   return (
@@ -43,16 +43,28 @@ export default function RecallableSupportPage() {
           <h2 id="spacing" className="text-xl font-semibold">How spaced review works</h2>
           <p>Nothing is ever due. Each rating changes how far apart a card’s reviews are: Easy and Good space it further, Hard and Skip bring it back sooner, always between one day and one year. Recallable shows the cards that need attention first, then everything else, so you can always study and nothing piles up. New cards join a few at a time (20 a day by default). Progress shows each card as New, Learning, Familiar or Strong.</p>
           <p>Settings › Quick study chooses which decks Home, the widget and the Watch draw from. Settings › Cards per round sets the round size.</p>
+          <p><strong>Choose what to study:</strong> on Home, tap <strong>Choose…</strong> next to Study a round, or one of the shortcuts under it. Focus on what you struggle with, cards you haven&apos;t seen in a while, or new cards, from all your decks or the ones you pick. Cards show their deck&apos;s color, so you can tell subjects apart in a mixed round.</p>
+        </section>
+
+        <section className="space-y-2" aria-labelledby="library">
+          <h2 id="library" className="text-xl font-semibold">Organizing your library</h2>
+          <p>The Library groups decks by subject. Use the sort and filter button to sort by name, recently studied, newest or most in need of work, and to show only decks you&apos;re struggling with, in progress, not started or mastered, or at a level. Home&apos;s deck grid has the same button. Give a deck a subject and a level (such as High School, AP or Professional) when you create it or in its settings.</p>
         </section>
 
         <section className="space-y-2" aria-labelledby="discover">
           <h2 id="discover" className="text-xl font-semibold">Discover and community guidelines</h2>
-          <p>Discover lists the built-in starter decks (they work offline) and decks people publish. To publish your own deck, open it in Library › Deck settings › Share on Discover. You need iCloud, a public name, a category, and at least three cards. Before your first publish you agree to these guidelines:</p>
+          <p>Discover lists the built-in starter decks (they work offline) and decks people publish. Sort by best match, top rated, most downloaded or newest, filter by rating or level, and search for a creator&apos;s username to see their decks. When you add a deck, choose whether to get the creator&apos;s new cards as they add them; your own edits, added cards and progress always stay. After adding a deck, rate it from its page in Discover.</p>
+          <p><strong>Publish your own deck:</strong> create it as a deck for <strong>Everyone on Discover</strong> (or choose Make it a Discover deck in its settings), then use Deck settings › Publish to Discover. You need iCloud, a username, a subject and at least three cards. Decks with pictures appear once a moderator has checked them, usually within a day. The <strong>Creator</strong> tab shows each deck&apos;s downloads, ratings, reports and review status. Before your first publish you agree to these guidelines:</p>
           <blockquote className="border-l-4 pl-4 italic">{guidelines}</blockquote>
           <p><strong>Report a deck:</strong> open it in Discover, tap More (•••) › Report this deck, and choose a reason. It disappears for you right away, and decks with several reports are hidden for everyone until reviewed. Reports are reviewed within 24 hours.</p>
-          <p><strong>Block a publisher:</strong> open one of their decks › More (•••) › Block. Unblock in Settings › Blocked publishers.</p>
+          <p><strong>Block a creator:</strong> open one of their decks › More (•••) › Block. Unblock in Settings › Blocked publishers.</p>
           <p><strong>Remove your deck:</strong> Library › the deck › Deck settings › Remove from Discover. Copies others already added stay theirs.</p>
           <p>For an urgent concern about content in Discover, <Link href="/contact" className="underline">contact the developer</Link>.</p>
+        </section>
+
+        <section className="space-y-2" aria-labelledby="share">
+          <h2 id="share" className="text-xl font-semibold">Sharing a deck</h2>
+          <p>Open a deck in the Library and tap <strong>Share</strong>. Recallable sends a link: on a device with Recallable it opens the deck, ready to add and study, and elsewhere it opens a web page with a link to the App Store. A deck from Discover links to its Discover page. A deck you keep to yourself is uploaded as a copy that only people with the link can find; it isn&apos;t listed in Discover. To send a spreadsheet instead, use More › Export as CSV.</p>
         </section>
 
         <section className="space-y-2" aria-labelledby="sync">

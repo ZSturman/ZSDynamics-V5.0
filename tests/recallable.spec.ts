@@ -46,6 +46,12 @@ for (const width of [1280, 390]) {
       await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
     }
 
+    // Shared deck links land here when Recallable isn't installed (Firebase rewrites /recallable/deck/<id>).
+    await page.goto("/recallable/deck");
+    await expect(page.getByRole("heading", { name: "Someone shared a deck with you", exact: true })).toBeVisible();
+    await expect(page.getByTestId("get-recallable")).toHaveAttribute("href", "https://apps.apple.com/app/id6822919785");
+    await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+
     // The home page is the project listing; Recallable is featured and listed.
     await page.goto("/");
     await expect(page.getByRole("img", { name: "Recallable featured media" }).first()).toBeAttached();

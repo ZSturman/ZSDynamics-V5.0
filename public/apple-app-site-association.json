@@ -1,0 +1,12 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["MF8J7AY2X3.com.zacharysturman.recallable"],
+        "components": [
+          { "/": "/recallable/deck/*", "comment": "A shared Recallable deck" }
+        ]
+      }
+    ]
+  }
+}

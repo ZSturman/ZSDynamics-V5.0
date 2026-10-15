@@ -9,7 +9,26 @@
     "cleanUrls": true,
     "trailingSlash": false,
 
+    "rewrites": [
+      { "source": "/.well-known/apple-app-site-association", "destination": "/apple-app-site-association.json" },
+      { "source": "/apple-app-site-association", "destination": "/apple-app-site-association.json" },
+      { "source": "/recallable/deck/**", "destination": "/recallable/deck.html" }
+    ],
+
     "headers": [
+      {
+        "source": "/.well-known/apple-app-site-association",
+        "headers": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Cache-Control", "value": "public, max-age=3600" }
+        ]
+      },
+      {
+        "source": "/apple-app-site-association",
+        "headers": [
+          { "key": "Content-Type", "value": "application/json" }
+        ]
+      },
       {
         "source": "/deployment.json",
         "headers": [

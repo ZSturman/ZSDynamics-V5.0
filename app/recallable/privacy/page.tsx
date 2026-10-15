@@ -4,11 +4,11 @@ import { PageColumn, PageFrame } from "@/components/layout/page-frame";
 
 export const metadata: Metadata = {
   title: "Recallable Privacy Policy",
-  description: "How Recallable handles your flashcards, iCloud sync, community decks and optional AI drafting.",
+  description: "How Recallable handles your flashcards, iCloud sync, community decks, ratings and optional AI drafting.",
   alternates: { canonical: "/recallable/privacy" },
   openGraph: {
     title: "Recallable Privacy Policy",
-    description: "How Recallable handles your flashcards, iCloud sync, community decks and optional AI drafting.",
+    description: "How Recallable handles your flashcards, iCloud sync, community decks, ratings and optional AI drafting.",
     url: "/recallable/privacy",
   },
 };
@@ -19,11 +19,11 @@ export default function RecallablePrivacyPage() {
       <PageColumn className="space-y-6 leading-relaxed">
         <Link href="/projects/recallable" className="underline">Recallable</Link>
         <h1 className="text-3xl font-semibold">Recallable Privacy Policy</h1>
-        <p className="text-muted-foreground">Effective October 13, 2026 · Developer: Zachary Sturman</p>
+        <p className="text-muted-foreground">Effective October 14, 2026 · Developer: Zachary Sturman</p>
 
         <section className="space-y-2" aria-labelledby="summary">
           <h2 id="summary" className="text-xl font-semibold">Summary</h2>
-          <p>Recallable has no account to create, no advertising, no analytics and no tracking. Your cards, pictures and study progress stay on your devices and in your private iCloud. Information leaves your devices only when you publish a deck to Discover, report a deck, or choose an online AI service.</p>
+          <p>Recallable has no account to create, no advertising, no analytics and no tracking. Your cards, pictures and study progress stay on your devices and in your private iCloud. Information leaves your devices only when you choose a username, publish or share a deck, rate, add or report a deck from Discover, or choose an online AI service.</p>
         </section>
 
         <section className="space-y-2" aria-labelledby="library">
@@ -34,10 +34,13 @@ export default function RecallablePrivacyPage() {
         </section>
 
         <section className="space-y-2" aria-labelledby="community">
-          <h2 id="community" className="text-xl font-semibold">Community decks you publish or report</h2>
-          <p>If you publish a deck to Discover, the deck&apos;s name, summary, category, and its cards&apos; questions, answers, hints and explanations are stored in Recallable&apos;s public CloudKit database with the public name you choose and an opaque CloudKit user identifier for your account. Published decks are visible to everyone who uses Recallable. Your review history, notes and sources are never included.</p>
-          <p>If you report a deck, the report stores the deck&apos;s identifier, the reason you chose, the time, and your opaque CloudKit user identifier, so each person counts once. Reports are used only to moderate Discover.</p>
-          <p>Browsing Discover reads public decks; it does not record what you view or download.</p>
+          <h2 id="community" className="text-xl font-semibold">Discover, sharing, ratings and reports</h2>
+          <p><strong>Username.</strong> Publishing to Discover needs a username you choose. It is stored in Recallable&apos;s public CloudKit database with an opaque CloudKit user identifier for your account, appears on decks you publish, and can be searched for in Discover. It doesn&apos;t have to be your real name.</p>
+          <p><strong>Decks you publish.</strong> The deck&apos;s name, summary, subject, level, and its cards&apos; questions, answers, hints, explanations and pictures are stored in the public CloudKit database with your username and opaque user identifier, and are visible to everyone who uses Recallable. Decks with pictures are checked by a moderator (the developer) before they appear. Before a picture is shared, your device checks it with Apple&apos;s on-device sensitive content analysis when you have that turned on; the picture never leaves your device for that check. Your review history, notes and sources are never included.</p>
+          <p><strong>Decks you share by link.</strong> Sharing a deck you keep to yourself uploads a copy of its cards and pictures to the public CloudKit database so that anyone with the link can add it. It is not listed or searchable in Discover. Remove it by deleting the deck or by <Link href="/contact" className="underline">contacting the developer</Link>.</p>
+          <p><strong>Ratings and downloads.</strong> When you rate a deck, the rating (1 to 5 stars), the deck&apos;s identifier, the time and your opaque user identifier are stored so each person counts once; rating again replaces it. When you add a deck from Discover, a download record with the deck&apos;s identifier, the time and your opaque user identifier is stored so its creator and others can see how many people added it. Only totals are shown; no one sees who rated or downloaded a deck.</p>
+          <p><strong>Reports.</strong> If you report a deck, the report stores the deck&apos;s identifier, the reason you chose, the time, and your opaque user identifier, so each person counts once. Creators see how many reports their decks received and why, but not who filed them. Reports are used only to moderate Discover.</p>
+          <p><strong>Updates you follow.</strong> If you choose to get a creator&apos;s new cards, your device checks the public database for newer versions of that deck. Nothing about this is recorded.</p>
         </section>
 
         <section className="space-y-2" aria-labelledby="ai">
@@ -61,10 +64,11 @@ export default function RecallablePrivacyPage() {
             <li>Delete cards (they go to the Trash, where you can delete them permanently) or whole decks in the app at any time.</li>
             <li>Turn off iCloud sync in Settings › Sync and sharing, and delete Recallable&apos;s iCloud data in your device&apos;s Settings › [your name] › iCloud › Manage Storage.</li>
             <li>Remove a deck you published from Discover in Library › the deck › Deck settings › Remove from Discover.</li>
+            <li>Change your username in the Creator tab.</li>
             <li>Remove your Gemini key in Settings › AI card drafts to stop using Gemini.</li>
-            <li>To ask for deletion of published decks or reports associated with you, <Link href="/contact" className="underline">contact the developer</Link>.</li>
+            <li>To ask for deletion of your username, published or shared decks, ratings, download records or reports associated with you, <Link href="/contact" className="underline">contact the developer</Link>.</li>
           </ul>
-          <p>Published decks remain in Discover until you remove them or they are removed by moderation. Reports are kept while needed to moderate the deck they concern.</p>
+          <p>Published decks remain in Discover until you remove them or they are removed by moderation. Ratings and download records are kept while the deck they concern is published. Reports are kept while needed to moderate the deck they concern.</p>
         </section>
 
         <section className="space-y-2" aria-labelledby="children">
