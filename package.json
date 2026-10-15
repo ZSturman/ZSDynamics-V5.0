@@ -38,7 +38,8 @@
     "test:python:integration": "python3 -m pytest -q tests_python/test_notion_integration.py",
     "test:e2e": "playwright test",
     "test:all": "npm run test:unit && npm run test:python && npm run test:e2e && npm run test:media:matrix",
-    "sync:local-projects": "python3 lib/local_projects.py"
+    "sync:local-projects": "python3 lib/local_projects.py",
+    "test:contact": "playwright test -c playwright.contact.config.ts"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.15",

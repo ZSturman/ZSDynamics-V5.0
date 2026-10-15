@@ -4,7 +4,7 @@ Contact-form, newsletter-interest, and daily analytics summary emails are all de
 
 ## Why Resend
 
-- Free tier (3,000 emails/month, 100/day) is enough for this site by orders of magnitude.
+- The existing account provides transactional email for this small site; check the Resend dashboard for current plan limits.
 - Domain verification is straightforward (DKIM + SPF + return-path TXT records).
 - HTTP API works from a Cloudflare Worker without an SDK or SMTP.
 
@@ -22,7 +22,7 @@ Contact-form, newsletter-interest, and daily analytics summary emails are all de
 
 ## Worker integration
 
-The Worker calls `POST https://api.resend.com/emails` directly. See `worker/src/index.ts` (`sendEmail`). On `4xx` / `5xx` from Resend the contact endpoint returns `502 send_failed`; the user sees a friendly error and the form remains usable.
+The Worker calls `POST https://api.resend.com/emails` directly. See `worker/src/mail.ts` (`sendEmail`). Contact submissions are saved to D1 first, then delivered by a cron job with retries. An email failure does not discard the message or tell a visitor to resubmit an already accepted message. Internal report relays still return `502 send_failed` on delivery failure. See [contact setup and recovery](contact-intake.md).
 
 ## Reply-to
 

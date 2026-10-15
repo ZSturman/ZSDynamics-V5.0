@@ -28,6 +28,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 25
     env:
+      NEXT_PUBLIC_API_BASE_URL: ${{ vars.NEXT_PUBLIC_API_BASE_URL }}
+      NEXT_PUBLIC_TURNSTILE_SITE_KEY: ${{ vars.NEXT_PUBLIC_TURNSTILE_SITE_KEY }}
       DEPLOY_COMMIT_SHA: ${{ inputs.commit_sha }}
       NEXT_PUBLIC_FIREBASE_ANALYTICS_ENABLED: ${{ vars.NEXT_PUBLIC_FIREBASE_ANALYTICS_ENABLED }}
       NEXT_PUBLIC_ANALYTICS_DISABLED: "false"
@@ -50,6 +52,8 @@ jobs:
           cache: npm
       - name: Install dependencies
         run: npm ci --no-audit --no-fund
+      - name: Verify public contact configuration
+        run: node scripts/check-contact-config.mjs
       - name: Build static production release
         run: npm run build
       - name: Deploy to Firebase Hosting live channel

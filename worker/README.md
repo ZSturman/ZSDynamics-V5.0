@@ -1,17 +1,17 @@
-# zacharysturman-api worker
+# Portfolio API Worker
 
-Cloudflare Worker backing the contact form, newsletter interest, and daily analytics summary email for `zacharysturman.com`. See [docs/setup/worker.md](../docs/setup/worker.md) for full setup.
+Durable contact intake, confirmed writing subscriptions, Notion trackers, and the existing report email relay for `zacharysturman.com`.
 
-```bash
-cd worker
-npm install
-wrangler login
-wrangler kv:namespace create RATE_LIMIT
-wrangler kv:namespace create NEWSLETTER
-# paste returned ids into wrangler.toml
-wrangler secret put RESEND_API_KEY
-wrangler secret put CONTACT_TO_EMAIL
-wrangler secret put TURNSTILE_SECRET
-wrangler secret put INTERNAL_TOKEN
-wrangler deploy
+Start with [contact setup and operations](../docs/setup/contact-intake.md) and the [endpoint map](../docs/setup/worker.md).
+
+```sh
+npm ci
+npm run typecheck
+npm test
+npx wrangler login
+npm run setup:intake
+# Set secrets; see the setup guide. Existing secrets are preserved.
+npm run deploy
 ```
+
+Local emulator: `npm run migrate:local`, then `npm run dev`. Automated tests use a real ephemeral D1 database and mock every external service; they send no email and change no Notion records.

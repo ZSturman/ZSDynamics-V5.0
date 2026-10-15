@@ -191,3 +191,64 @@ verified ZIP/checksum in public downloads, add correct project/support/README li
 run `npm run sync:local-projects`, `npm run build` and focused project/live checks, then
 commit/push/deploy and verify actual download/checksum. See `docs/BETTER_WORKSPACE.md`
 and the app repository's `docs/APP_STORE_RELEASE.md` for artifacts and unresolved gates.
+
+
+## Contact and writing updates — October 15, 2026
+
+Implemented the redesigned `/contact` route, restored contact navigation, and fixed
+production form configuration. Public API/site-key defaults are versioned in
+`lib/contact-config.json`; secrets stay in Cloudflare. GitHub's local token cannot
+manage repository variables (403), so no variable-management access is needed for
+the default production configuration.
+
+The existing Worker now saves messages/subscriptions in D1 before acknowledging
+receipt. Scheduled jobs independently sync private Notion trackers and deliver
+Resend alerts. Messages have topics, request IDs, and deduplication. Subscribers
+require consent and email confirmation; hourly discovery sends new-article updates
+only to confirmed readers. Initial discovery baselines existing articles. Every
+writing email includes an unsubscribe link. No raw IPs, message bodies, email
+addresses, or subscription tokens are logged by application code.
+
+Production resources provisioned: D1 `portfolio-intake`, migration `0001_intake.sql`,
+Notion Worker secret, and five-minute/hourly schedules. Worker version
+`6849ff1f-ea59-418f-83ce-90df1c6c5b58` is deployed. Live `/health` reports both
+intake and Notion configured; authenticated queue inspection succeeds. Both tracker
+schemas and access using the portfolio's Notion integration were verified.
+
+- Messages: https://www.notion.so/72ce9e577255443a85a9abda87af675b
+- Subscribers: https://www.notion.so/88bed1f1b2724213b96b2ea8644687db
+- Full configuration, architecture, recovery, and deletion steps:
+  `docs/setup/contact-intake.md`.
+
+Validation: 8 Worker integration tests on an ephemeral D1 database with all external
+services mocked; 3 browser form checks; both TypeScript checks; affected-file ESLint;
+2 analytics-suppression tests; production static build with empty public environment
+overrides (exercises versioned defaults); desktop/mobile export inspection without
+horizontal overflow. No real visitor submissions or outbound test emails were sent.
+The normal pre-push media smoke hook and Firebase release workflow apply to publishing.
+
+Remaining human acceptance: after the frontend release, open `/contact` in a normal
+browser, submit from your own address, and subscribe from that address. Expect a
+Notion message, owner email with Reply-To, confirmation email, then Active consent
+and an owner subscriber alert. Allow several minutes per cron stage. Real Turnstile
+verification and final inbox placement require this human check; the automated tests
+use mocks and never claim live delivery. Browser automation disables analytics and
+blocks GA endpoints.
+
+Maintenance commands from the repository root:
+`npm test --prefix worker`, `npm run typecheck --prefix worker`,
+`npm run test:contact`, `npm run build`. For Worker code/config changes, deploy
+separately using `npm run deploy --prefix worker`; frontend changes publish through
+the existing main-branch workflow. Worker queue status is bearer-protected at
+`/internal/intake-status`; no records are exposed publicly.
+
+Known limits: Notion is an organizational mirror, not a delivery control panel.
+Triage edits are preserved; consent must be changed through the signed links or D1.
+Mail retries stop after 8 attempts; inspect provider history before a manual replay
+following an extended outage. Bounces/inbox placement are checked in Resend. Jobs
+are bounded for a small portfolio list; use a dedicated bulk-delivery system if the
+list grows beyond that workload. Public screenshots show the actual exported UI.
+
+Preserved unrelated untracked work: `docs/evidence/workspace-audit-2026-10-10/`,
+`docs/images/startup-bf8f91b825ae.jpg`, and `tests_python/test_published_workspace.py`.
+Build-only changes to generated project timestamps were excluded from this fix.

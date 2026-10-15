@@ -1,3 +1,11 @@
+import { sendEmail, escapeHtml } from "./mail";
+import {
+  handleIntake,
+  handleSubscriptionLink,
+  runIntakeJobs,
+  type IntakeEnv,
+} from "./intake";
+
 /**
  * zacharysturman.com API Worker
  *
@@ -10,20 +18,16 @@
  * Spam controls:
  *   - Honeypot field `hp` (must be empty)
  *   - Cloudflare Turnstile token verification
- *   - Per-IP KV rate limit (RATE_LIMIT_MAX per RATE_LIMIT_WINDOW_SECONDS)
+ *   - Atomic D1 counters with rotating salted IP/email hashes
  *
- * No request body is logged. Email content is sent only to CONTACT_TO_EMAIL.
+ * Contact messages go to the owner and private Notion tracker. Confirmed
+ * subscribers receive new-writing emails. Request bodies are never logged.
  */
 
-export interface Env {
-  // KV (contact form + newsletter — optional, not currently deployed)
-  RATE_LIMIT?: KVNamespace;
-  NEWSLETTER?: KVNamespace;
+export interface Env extends IntakeEnv {
   // vars
   ALLOWED_ORIGINS: string;
   CONTACT_FROM_EMAIL: string;
-  RATE_LIMIT_MAX?: string;
-  RATE_LIMIT_WINDOW_SECONDS?: string;
   // secrets
   RESEND_API_KEY: string;
   CONTACT_TO_EMAIL: string;
@@ -51,12 +55,15 @@ function expectedReportAttachmentMime(filename: string): string {
 // ---------------------------------------------------------------------------
 
 function parseAllowedOrigins(env: Env): string[] {
-  return env.ALLOWED_ORIGINS.split(",").map((s) => s.trim()).filter(Boolean);
+  return env.ALLOWED_ORIGINS.split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
 }
 
 function corsHeaders(origin: string | null, env: Env): Record<string, string> {
   const allowed = parseAllowedOrigins(env);
-  const allowOrigin = origin && allowed.includes(origin) ? origin : allowed[0] ?? "*";
+  const allowOrigin =
+    origin && allowed.includes(origin) ? origin : (allowed[0] ?? "*");
   return {
     "Access-Control-Allow-Origin": allowOrigin,
     "Access-Control-Allow-Methods": "POST, GET, OPTIONS",
@@ -79,176 +86,42 @@ function jsonResponse(
   return new Response(JSON.stringify(body), { ...rest, headers });
 }
 
-function clientIp(request: Request): string {
-  return (
-    request.headers.get("CF-Connecting-IP") ||
-    request.headers.get("X-Forwarded-For")?.split(",")[0]?.trim() ||
-    "unknown"
-  );
-}
-
-// ---------------------------------------------------------------------------
-// Rate limiting
-// ---------------------------------------------------------------------------
-
-async function checkRateLimit(
-  env: Env,
-  bucket: string,
-  ip: string,
-): Promise<{ ok: true } | { ok: false; retryAfter: number }> {
-  const rateLimit = env.RATE_LIMIT;
-  // KV is optional for the current production Worker configuration. When it is
-  // not bound, retain form availability instead of throwing at runtime.
-  if (!rateLimit) return { ok: true };
-  const max = Number(env.RATE_LIMIT_MAX) || 5;
-  const windowSeconds = Number(env.RATE_LIMIT_WINDOW_SECONDS) || 3600;
-  const key = `rl:${bucket}:${ip}`;
-  const raw = await rateLimit.get(key);
-  const count = raw ? Number(raw) : 0;
-  if (count >= max) {
-    return { ok: false, retryAfter: windowSeconds };
-  }
-  await rateLimit.put(key, String(count + 1), { expirationTtl: windowSeconds });
-  return { ok: true };
-}
-
-// ---------------------------------------------------------------------------
-// Turnstile verification
-// ---------------------------------------------------------------------------
-
-async function verifyTurnstile(env: Env, token: string, ip: string): Promise<boolean> {
-  if (!token) return false;
-  if (!env.TURNSTILE_SECRET) {
-    // Fail closed in production. If the secret is missing the deployment is misconfigured.
-    return false;
-  }
-  const form = new FormData();
-  form.set("secret", env.TURNSTILE_SECRET);
-  form.set("response", token);
-  form.set("remoteip", ip);
-  try {
-    const res = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
-      method: "POST",
-      body: form,
-    });
-    if (!res.ok) return false;
-    const data = (await res.json()) as { success?: boolean };
-    return data.success === true;
-  } catch {
-    return false;
-  }
-}
-
-// ---------------------------------------------------------------------------
-// Validation
-// ---------------------------------------------------------------------------
-
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-function validateContactPayload(body: unknown): {
-  ok: true;
-  data: { name: string; email: string; message: string; hp: string; turnstileToken: string };
-} | { ok: false; error: string } {
-  if (!body || typeof body !== "object") return { ok: false, error: "invalid_body" };
-  const b = body as Record<string, unknown>;
-  const name = typeof b.name === "string" ? b.name.trim() : "";
-  const email = typeof b.email === "string" ? b.email.trim() : "";
-  const message = typeof b.message === "string" ? b.message.trim() : "";
-  const hp = typeof b.hp === "string" ? b.hp : "";
-  const turnstileToken = typeof b.turnstileToken === "string" ? b.turnstileToken : "";
-  if (!name || name.length > 200) return { ok: false, error: "invalid_name" };
-  if (!email || !EMAIL_RE.test(email) || email.length > 320) {
-    return { ok: false, error: "invalid_email" };
-  }
-  if (!message || message.length < 5 || message.length > 5000) {
-    return { ok: false, error: "invalid_message" };
-  }
-  return { ok: true, data: { name, email, message, hp, turnstileToken } };
-}
-
-function validateNewsletterPayload(body: unknown): {
-  ok: true;
-  data: { email: string; hp: string; turnstileToken: string };
-} | { ok: false; error: string } {
-  if (!body || typeof body !== "object") return { ok: false, error: "invalid_body" };
-  const b = body as Record<string, unknown>;
-  const email = typeof b.email === "string" ? b.email.trim() : "";
-  const hp = typeof b.hp === "string" ? b.hp : "";
-  const turnstileToken = typeof b.turnstileToken === "string" ? b.turnstileToken : "";
-  if (!email || !EMAIL_RE.test(email) || email.length > 320) {
-    return { ok: false, error: "invalid_email" };
-  }
-  return { ok: true, data: { email, hp, turnstileToken } };
-}
-
-function escapeHtml(s: string): string {
-  return s
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#39;");
-}
-
-// ---------------------------------------------------------------------------
-// Resend email
-// ---------------------------------------------------------------------------
-
-async function sendEmail(
-  env: Env,
-  payload: {
-    to: string;
-    subject: string;
-    html: string;
-    text: string;
-    replyTo?: string;
-    attachments?: Array<{ filename: string; content: string }>;
-    idempotencyKey?: string;
-  },
-): Promise<boolean> {
-  if (!env.RESEND_API_KEY) return false;
-  try {
-    const res = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${env.RESEND_API_KEY}`,
-        "Content-Type": "application/json",
-        ...(payload.idempotencyKey ? { "Idempotency-Key": payload.idempotencyKey } : {}),
-      },
-      body: JSON.stringify({
-        from: env.CONTACT_FROM_EMAIL,
-        to: [payload.to],
-        subject: payload.subject,
-        html: payload.html,
-        text: payload.text,
-        reply_to: payload.replyTo,
-        ...(payload.attachments?.length ? { attachments: payload.attachments } : {}),
-      }),
-    });
-    return res.ok;
-  } catch {
-    return false;
-  }
-}
-
 function decodedBase64ByteLength(value: string): number {
   const padding = value.endsWith("==") ? 2 : value.endsWith("=") ? 1 : 0;
   return Math.floor((value.length * 3) / 4) - padding;
 }
 
-function validateReportAttachments(rawAttachments: unknown): { attachments: Array<{ filename: string; content: string }> } | { error: string } {
+function validateReportAttachments(
+  rawAttachments: unknown,
+):
+  | { attachments: Array<{ filename: string; content: string }> }
+  | { error: string } {
   if (rawAttachments === undefined) return { attachments: [] };
-  if (!Array.isArray(rawAttachments) || rawAttachments.length > MAX_REPORT_ATTACHMENTS) {
+  if (
+    !Array.isArray(rawAttachments) ||
+    rawAttachments.length > MAX_REPORT_ATTACHMENTS
+  ) {
     return { error: "invalid_attachments" };
   }
 
   const attachments: Array<{ filename: string; content: string }> = [];
   let totalBytes = 0;
   for (const rawAttachment of rawAttachments as ReportAttachment[]) {
-    const filename = typeof rawAttachment?.filename === "string" ? rawAttachment.filename : "";
-    const content = typeof rawAttachment?.content === "string" ? rawAttachment.content : "";
-    const contentType = typeof rawAttachment?.contentType === "string" ? rawAttachment.contentType : undefined;
-    if (!REPORT_IMAGE_FILE_RE.test(filename) || (contentType && contentType !== expectedReportAttachmentMime(filename)) || !content || content.length % 4 !== 0 || !/^[A-Za-z0-9+/]+={0,2}$/.test(content)) {
+    const filename =
+      typeof rawAttachment?.filename === "string" ? rawAttachment.filename : "";
+    const content =
+      typeof rawAttachment?.content === "string" ? rawAttachment.content : "";
+    const contentType =
+      typeof rawAttachment?.contentType === "string"
+        ? rawAttachment.contentType
+        : undefined;
+    if (
+      !REPORT_IMAGE_FILE_RE.test(filename) ||
+      (contentType && contentType !== expectedReportAttachmentMime(filename)) ||
+      !content ||
+      content.length % 4 !== 0 ||
+      !/^[A-Za-z0-9+/]+={0,2}$/.test(content)
+    ) {
       return { error: "invalid_attachments" };
     }
     try {
@@ -257,7 +130,11 @@ function validateReportAttachments(rawAttachments: unknown): { attachments: Arra
       return { error: "invalid_attachments" };
     }
     const bytes = decodedBase64ByteLength(content);
-    if (bytes <= 0 || bytes > MAX_REPORT_ATTACHMENT_BYTES || totalBytes + bytes > MAX_REPORT_ATTACHMENT_TOTAL_BYTES) {
+    if (
+      bytes <= 0 ||
+      bytes > MAX_REPORT_ATTACHMENT_BYTES ||
+      totalBytes + bytes > MAX_REPORT_ATTACHMENT_TOTAL_BYTES
+    ) {
       return { error: "attachments_too_large" };
     }
     totalBytes += bytes;
@@ -270,97 +147,6 @@ function validateReportAttachments(rawAttachments: unknown): { attachments: Arra
 // Handlers
 // ---------------------------------------------------------------------------
 
-async function handleContact(request: Request, env: Env, origin: string | null): Promise<Response> {
-  const ip = clientIp(request);
-  let body: unknown;
-  try {
-    body = await request.json();
-  } catch {
-    return jsonResponse({ ok: false, error: "invalid_json" }, { status: 400, origin, env });
-  }
-  const parsed = validateContactPayload(body);
-  if (!parsed.ok) {
-    return jsonResponse({ ok: false, error: parsed.error }, { status: 400, origin, env });
-  }
-  // Honeypot — always 200 to bots, but skip work.
-  if (parsed.data.hp) {
-    return jsonResponse({ ok: true, status: "received" }, { status: 200, origin, env });
-  }
-  const rl = await checkRateLimit(env, "contact", ip);
-  if (!rl.ok) {
-    return jsonResponse(
-      { ok: false, error: "rate_limited", retryAfter: rl.retryAfter },
-      { status: 429, origin, env, headers: { "Retry-After": String(rl.retryAfter) } },
-    );
-  }
-  const human = await verifyTurnstile(env, parsed.data.turnstileToken, ip);
-  if (!human) {
-    return jsonResponse({ ok: false, error: "turnstile_failed" }, { status: 400, origin, env });
-  }
-  const { name, email, message } = parsed.data;
-  const subject = `Contact form — ${name}`;
-  const html = `<p><strong>From:</strong> ${escapeHtml(name)} &lt;${escapeHtml(email)}&gt;</p>
-<p><strong>Message:</strong></p>
-<pre style="white-space:pre-wrap;font-family:inherit">${escapeHtml(message)}</pre>`;
-  const text = `From: ${name} <${email}>\n\n${message}`;
-  const sent = await sendEmail(env, {
-    to: env.CONTACT_TO_EMAIL,
-    subject,
-    html,
-    text,
-    replyTo: email,
-  });
-  if (!sent) {
-    return jsonResponse({ ok: false, error: "send_failed" }, { status: 502, origin, env });
-  }
-  return jsonResponse({ ok: true, status: "sent" }, { status: 200, origin, env });
-}
-
-async function handleNewsletter(
-  request: Request,
-  env: Env,
-  origin: string | null,
-): Promise<Response> {
-  const ip = clientIp(request);
-  let body: unknown;
-  try {
-    body = await request.json();
-  } catch {
-    return jsonResponse({ ok: false, error: "invalid_json" }, { status: 400, origin, env });
-  }
-  const parsed = validateNewsletterPayload(body);
-  if (!parsed.ok) {
-    return jsonResponse({ ok: false, error: parsed.error }, { status: 400, origin, env });
-  }
-  if (parsed.data.hp) {
-    return jsonResponse({ ok: true, status: "received" }, { status: 200, origin, env });
-  }
-  const rl = await checkRateLimit(env, "newsletter", ip);
-  if (!rl.ok) {
-    return jsonResponse(
-      { ok: false, error: "rate_limited", retryAfter: rl.retryAfter },
-      { status: 429, origin, env, headers: { "Retry-After": String(rl.retryAfter) } },
-    );
-  }
-  const human = await verifyTurnstile(env, parsed.data.turnstileToken, ip);
-  if (!human) {
-    return jsonResponse({ ok: false, error: "turnstile_failed" }, { status: 400, origin, env });
-  }
-  const newsletter = env.NEWSLETTER;
-  if (!newsletter) {
-    return jsonResponse({ ok: false, error: "newsletter_unavailable" }, { status: 503, origin, env });
-  }
-  const key = `email:${parsed.data.email.toLowerCase()}`;
-  const existing = await newsletter.get(key);
-  if (!existing) {
-    await newsletter.put(
-      key,
-      JSON.stringify({ email: parsed.data.email, addedAt: new Date().toISOString(), ip }),
-    );
-  }
-  return jsonResponse({ ok: true, status: "subscribed" }, { status: 200, origin, env });
-}
-
 async function handleDailySummary(
   request: Request,
   env: Env,
@@ -369,27 +155,47 @@ async function handleDailySummary(
   const auth = request.headers.get("Authorization") || "";
   const expected = `Bearer ${env.INTERNAL_TOKEN}`;
   if (!env.INTERNAL_TOKEN || auth !== expected) {
-    return jsonResponse({ ok: false, error: "unauthorized" }, { status: 401, origin, env });
+    return jsonResponse(
+      { ok: false, error: "unauthorized" },
+      { status: 401, origin, env },
+    );
   }
-  let body: { subject?: string; html?: string; text?: string; idempotencyKey?: string; attachments?: unknown };
+  let body: {
+    subject?: string;
+    html?: string;
+    text?: string;
+    idempotencyKey?: string;
+    attachments?: unknown;
+  };
   try {
     body = (await request.json()) as typeof body;
   } catch {
-    return jsonResponse({ ok: false, error: "invalid_json" }, { status: 400, origin, env });
+    return jsonResponse(
+      { ok: false, error: "invalid_json" },
+      { status: 400, origin, env },
+    );
   }
   const subject = (body.subject || "Daily analytics summary").slice(0, 300);
   const html = body.html || "";
   const text = body.text || "";
   if (!html && !text) {
-    return jsonResponse({ ok: false, error: "empty_body" }, { status: 400, origin, env });
+    return jsonResponse(
+      { ok: false, error: "empty_body" },
+      { status: 400, origin, env },
+    );
   }
   const validatedAttachments = validateReportAttachments(body.attachments);
   if ("error" in validatedAttachments) {
-    return jsonResponse({ ok: false, error: validatedAttachments.error }, { status: 400, origin, env });
+    return jsonResponse(
+      { ok: false, error: validatedAttachments.error },
+      { status: 400, origin, env },
+    );
   }
-  const idempotencyKey = typeof body.idempotencyKey === "string" && /^[A-Za-z0-9._:-]{1,256}$/.test(body.idempotencyKey)
-    ? body.idempotencyKey
-    : undefined;
+  const idempotencyKey =
+    typeof body.idempotencyKey === "string" &&
+    /^[A-Za-z0-9._:-]{1,256}$/.test(body.idempotencyKey)
+      ? body.idempotencyKey
+      : undefined;
   const sent = await sendEmail(env, {
     to: env.CONTACT_TO_EMAIL,
     subject,
@@ -399,9 +205,15 @@ async function handleDailySummary(
     idempotencyKey,
   });
   if (!sent) {
-    return jsonResponse({ ok: false, error: "send_failed" }, { status: 502, origin, env });
+    return jsonResponse(
+      { ok: false, error: "send_failed" },
+      { status: 502, origin, env },
+    );
   }
-  return jsonResponse({ ok: true, status: "sent" }, { status: 200, origin, env });
+  return jsonResponse(
+    { ok: true, status: "sent" },
+    { status: 200, origin, env },
+  );
 }
 
 // ---------------------------------------------------------------------------
@@ -414,31 +226,110 @@ export default {
     const origin = request.headers.get("Origin");
 
     if (request.method === "OPTIONS") {
-      return new Response(null, { status: 204, headers: corsHeaders(origin, env) });
+      return new Response(null, {
+        status: 204,
+        headers: corsHeaders(origin, env),
+      });
     }
 
     if (url.pathname === "/health" && request.method === "GET") {
-      return jsonResponse({ ok: true, status: "alive" }, { origin, env });
+      return jsonResponse(
+        {
+          ok: true,
+          status: "alive",
+          intakeConfigured: Boolean(
+            env.INTAKE_DB &&
+              env.TURNSTILE_SECRET &&
+              env.RESEND_API_KEY &&
+              env.CONTACT_TO_EMAIL &&
+              env.INTERNAL_TOKEN,
+          ),
+          notionConfigured: Boolean(
+            env.NOTION_API_KEY &&
+              env.NOTION_MESSAGES_DATA_SOURCE_ID &&
+              env.NOTION_SUBSCRIBERS_DATA_SOURCE_ID,
+          ),
+        },
+        { origin, env },
+      );
+    }
+
+    // Signed subscription links are served by the API itself. Their HTML forms
+    // submit with the API Origin, rather than the portfolio's Origin.
+    if (
+      ["/confirm", "/unsubscribe"].includes(url.pathname) &&
+      ["GET", "POST"].includes(request.method)
+    ) {
+      if (origin && origin !== url.origin)
+        return jsonResponse(
+          { ok: false, error: "origin_not_allowed" },
+          { status: 403 },
+        );
+      return handleSubscriptionLink(request, env);
     }
 
     // Origin allow-list (skip for /internal which uses bearer auth from server-to-server)
     if (!url.pathname.startsWith("/internal/")) {
       const allowed = parseAllowedOrigins(env);
       if (origin && !allowed.includes(origin)) {
-        return jsonResponse({ ok: false, error: "origin_not_allowed" }, { status: 403, env });
+        return jsonResponse(
+          { ok: false, error: "origin_not_allowed" },
+          { status: 403, env },
+        );
       }
     }
 
     if (url.pathname === "/contact" && request.method === "POST") {
-      return handleContact(request, env, origin);
+      return handleIntake(request, env, origin, "contact");
     }
     if (url.pathname === "/newsletter-interest" && request.method === "POST") {
-      return handleNewsletter(request, env, origin);
+      return handleIntake(request, env, origin, "newsletter");
     }
-    if (url.pathname === "/internal/daily-summary" && request.method === "POST") {
+    if (
+      url.pathname === "/internal/intake-status" &&
+      request.method === "GET"
+    ) {
+      if (
+        !env.INTERNAL_TOKEN ||
+        request.headers.get("Authorization") !== `Bearer ${env.INTERNAL_TOKEN}`
+      ) {
+        return jsonResponse(
+          { ok: false, error: "unauthorized" },
+          { status: 401 },
+        );
+      }
+      if (!env.INTAKE_DB)
+        return jsonResponse(
+          { ok: false, error: "storage_unavailable" },
+          { status: 503 },
+        );
+      const messages = await env.INTAKE_DB.prepare(
+        "SELECT count(*) total, sum(email_sent_at IS NULL) email_pending, sum(email_sent_at IS NULL AND email_attempts>=8) email_failed, sum(notion_page_id IS NULL) notion_pending FROM messages",
+      ).first();
+      const subscribers = await env.INTAKE_DB.prepare(
+        "SELECT status,count(*) total FROM subscribers GROUP BY status",
+      ).all();
+      const writing = await env.INTAKE_DB.prepare(
+        "SELECT count(*) total, sum(sent_at IS NULL) pending, sum(sent_at IS NULL AND attempts>=8) failed FROM article_deliveries",
+      ).first();
+      return jsonResponse(
+        { ok: true, messages, subscribers: subscribers.results, writing },
+        { headers: { "Cache-Control": "no-store" } },
+      );
+    }
+    if (
+      url.pathname === "/internal/daily-summary" &&
+      request.method === "POST"
+    ) {
       return handleDailySummary(request, env, origin);
     }
 
-    return jsonResponse({ ok: false, error: "not_found" }, { status: 404, origin, env });
+    return jsonResponse(
+      { ok: false, error: "not_found" },
+      { status: 404, origin, env },
+    );
+  },
+  async scheduled(event: ScheduledController, env: Env): Promise<void> {
+    await runIntakeJobs(env, event.cron === "0 * * * *");
   },
 } satisfies ExportedHandler<Env>;

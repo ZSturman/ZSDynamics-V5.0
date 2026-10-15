@@ -1,74 +1,28 @@
 # Setup: Cloudflare Worker
 
-The `worker/` directory contains a Cloudflare Worker exposing three endpoints used by the static site, the GitHub Actions analytics cron, and the local Hammerspoon portfolio publisher:
+The existing `zacharysturman-api` Worker serves the static portfolio's contact and writing-update forms, synchronizes private Notion trackers, and relays internal report emails. Setup, credentials, daily use, recovery, and tests are documented in [Contact messages and writing updates](contact-intake.md).
 
 | Method | Path | Purpose |
 | --- | --- | --- |
-| `POST` | `/contact` | Contact-form submissions. |
-| `POST` | `/newsletter-interest` | Opt-in email collection. |
-| `POST` | `/internal/daily-summary` | Bearer-protected; relays a daily report email, with optional image attachments. |
-| `GET`  | `/health` | Liveness probe. |
+| POST | `/contact` | Validate and durably save a contact message. |
+| POST | `/newsletter-interest` | Request a confirmation email, with explicit consent. |
+| GET / POST | `/confirm` | Preview / confirm a signed subscription link. |
+| GET / POST | `/unsubscribe` | Preview / unsubscribe via a signed link. |
+| GET | `/health` | Liveness and configuration flags, no secrets or records. |
+| GET | `/internal/intake-status` | Bearer-protected aggregate queue counts. |
+| POST | `/internal/daily-summary` | Existing bearer-protected report relay, including image attachments. |
 
-Spam controls: honeypot field (`hp`), Cloudflare Turnstile token verification, per-IP KV rate limit (default 5 / hour).
+Browser form requests require an allowed Origin, a valid Turnstile hostname/action, and D1 rate-limit capacity. Subscription links are signed and their confirmation forms submit on the API origin. `/internal/*` uses the existing `INTERNAL_TOKEN`. `worker/wrangler.toml` binds D1 and schedules five-minute delivery jobs plus hourly article discovery. No public endpoint lists visitor records.
 
-## One-time setup
-
-```bash
+```sh
+npm ci --prefix worker
 cd worker
-npm install
 npx wrangler login
+npm run setup:intake
+# Add required secrets as described in contact-intake.md.
+npm run typecheck
+npm test
+npm run deploy
 ```
 
-Create the two KV namespaces and paste the returned ids into `wrangler.toml` (replacing the `REPLACE_WITH_*` placeholders):
-
-```bash
-npx wrangler kv:namespace create RATE_LIMIT
-npx wrangler kv:namespace create NEWSLETTER
-```
-
-Set required secrets:
-
-```bash
-npx wrangler secret put RESEND_API_KEY     # from resend.com (verified domain zacharysturman.com)
-npx wrangler secret put CONTACT_TO_EMAIL   # where contact submissions are delivered
-npx wrangler secret put TURNSTILE_SECRET   # Cloudflare Turnstile server secret
-npx wrangler secret put INTERNAL_TOKEN     # random 32+ char token; share with GH Actions
-```
-
-Deploy:
-
-```bash
-npx wrangler deploy
-```
-
-The daily portfolio workflow requires this Worker deployment once so reports can
-include JPEG/PNG previews. Existing Worker secrets remain in Cloudflare; do not
-put them in the repository.
-
-In the Cloudflare dashboard → **Workers & Pages → zacharysturman-api → Triggers**, add the custom domain `api.zacharysturman.com`. Update the `NEXT_PUBLIC_API_BASE_URL` env var in your build environment to point at this URL.
-
-## Local development
-
-```bash
-cp .dev.vars.example .dev.vars  # if you keep one; otherwise set vars inline
-npx wrangler dev
-```
-
-Wrangler runs the Worker on `http://localhost:8787`. Hit `/health` to confirm.
-
-## Allowed origins
-
-Set in `wrangler.toml` under `[vars].ALLOWED_ORIGINS` (comma-separated). Requests with a disallowed `Origin` header are rejected with `403 origin_not_allowed`. The `/internal/*` route bypasses this check (it's bearer-authenticated server-to-server).
-
-## Environment variables (Worker)
-
-| Var | Type | Description |
-| --- | --- | --- |
-| `ALLOWED_ORIGINS` | var | Comma-separated allow-list. |
-| `CONTACT_FROM_EMAIL` | var | `From:` address (must be on Resend's verified domain). |
-| `RATE_LIMIT_MAX` | var | Max requests per IP per window. Default `5`. |
-| `RATE_LIMIT_WINDOW_SECONDS` | var | Window length. Default `3600`. |
-| `RESEND_API_KEY` | secret | Resend API key. |
-| `CONTACT_TO_EMAIL` | secret | Inbox for contact submissions. |
-| `TURNSTILE_SECRET` | secret | Turnstile server secret. |
-| `INTERNAL_TOKEN` | secret | Bearer token for `/internal/*`. |
+Expected: `https://api.zacharysturman.com/health` returns `ok: true`, `intakeConfigured: true`, and `notionConfigured: true`. The latter flags check bindings/secrets; use the documented human form check to establish actual delivery.

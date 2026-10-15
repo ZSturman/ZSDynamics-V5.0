@@ -10,19 +10,17 @@ workers_dev = false
 # (No `routes` block needed when using a custom domain.)
 
 # ---------------------------------------------------------------------------
-# KV namespaces (contact form + newsletter — not currently deployed)
-# To enable, run:
-#   wrangler kv:namespace create RATE_LIMIT
-#   wrangler kv:namespace create NEWSLETTER
-# then uncomment below and paste the returned ids.
+# Durable contact/subscription storage, provisioned by npm run setup:intake.
+# The binding ID is public metadata; secrets are stored separately in Cloudflare.
 # ---------------------------------------------------------------------------
-# [[kv_namespaces]]
-# binding = "RATE_LIMIT"
-# id = "REPLACE_WITH_RATE_LIMIT_KV_ID"
-#
-# [[kv_namespaces]]
-# binding = "NEWSLETTER"
-# id = "REPLACE_WITH_NEWSLETTER_KV_ID"
+[[d1_databases]]
+binding = "INTAKE_DB"
+database_name = "portfolio-intake"
+database_id = "84cb4808-ac82-434d-a1ad-51b7641ed043"
+migrations_dir = "migrations"
+
+[triggers]
+crons = ["*/5 * * * *", "0 * * * *"]
 
 # ---------------------------------------------------------------------------
 # Plain-text vars (non-secret). Override per-environment if needed.
@@ -30,15 +28,18 @@ workers_dev = false
 [vars]
 ALLOWED_ORIGINS = "https://zacharysturman.com,https://www.zacharysturman.com,https://zachary-sturman.com"
 CONTACT_FROM_EMAIL = "contact@zacharysturman.com"
-# RATE_LIMIT_MAX and RATE_LIMIT_WINDOW_SECONDS used by contact form (not currently deployed)
-# RATE_LIMIT_MAX = "5"
-# RATE_LIMIT_WINDOW_SECONDS = "3600"
+PUBLIC_SITE_URL = "https://zacharysturman.com"
+PUBLIC_API_URL = "https://api.zacharysturman.com"
+NOTION_MESSAGES_DATABASE_ID = "72ce9e577255443a85a9abda87af675b"
+NOTION_MESSAGES_DATA_SOURCE_ID = "cf02a9bf-bd99-411c-8452-abb5d68d7ccb"
+NOTION_SUBSCRIBERS_DATA_SOURCE_ID = "22e3b233-380e-4f23-963a-1510bd0ceb43"
 
 # ---------------------------------------------------------------------------
 # Secrets — set with `wrangler secret put <NAME>`:
 #   RESEND_API_KEY      Resend API key (verified domain zacharysturman.com)
 #   CONTACT_TO_EMAIL    where contact-form messages are delivered
 #   TURNSTILE_SECRET    Cloudflare Turnstile server secret
+#   NOTION_API_KEY     Notion integration connected to both private trackers
 #   INTERNAL_TOKEN      shared bearer for /internal/* endpoints (GH Actions)
 # ---------------------------------------------------------------------------
 

@@ -1,0 +1,6 @@
+# Local tests ONLY: Cloudflare's public always-pass test pair.
+TURNSTILE_SECRET=1x0000000000000000000000000000000AA
+RESEND_API_KEY=
+CONTACT_TO_EMAIL=
+INTERNAL_TOKEN=local-development-only-change-before-deploying
+NOTION_API_KEY=

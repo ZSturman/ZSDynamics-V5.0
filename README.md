@@ -84,6 +84,10 @@ This repository is the source for [zacharysturman.com](https://zacharysturman.co
 
 > **Looking for the complete workflow?** Start with **[Run, build & publish the portfolio](docs/development-and-deployment.md)**. It covers local setup, builds, tests, GitHub pushes, the automatic production deployment, post-deploy verification, and the supporting email services.
 
+Contact messages are saved before delivery and organized in private Notion trackers. Writing subscriptions require email confirmation and receive new-article notifications with unsubscribe links. [Contact setup and daily use](docs/setup/contact-intake.md).
+
+![Contact page with separate message and writing-update forms](docs/images/contact-page.png)
+
 ## At a glance
 
 | Area | Choice | What it does |
@@ -91,7 +95,7 @@ This repository is the source for [zacharysturman.com](https://zacharysturman.co
 | Site | Next.js 15 + React 19 | Static portfolio application exported to `out/`. |
 | Hosting | Firebase Hosting | Serves the production site at `zacharysturman.com`. |
 | Content | Notion + local files | Optional build-time synchronization for projects, articles, and media. |
-| Forms & mail | Cloudflare Worker + Resend | Handles contact, newsletter interest, delivery reports, and analytics email. |
+| Forms & mail | Cloudflare Worker + Resend | Saves contact messages, syncs private Notion trackers, confirms writing subscribers, and delivers updates/reports. |
 | Analytics | Firebase Analytics / GA4 | Privacy-conscious human-interest reporting; local, preview, and automated browsing are excluded before GA4 loads. |
 | Media | Repository files, optional Cloudflare R2 | Keeps media local by default; R2 adds long-lived cached URLs when enabled. |
 | Quality gates | Firebase deploy + local Playwright | Confirms the exact live release from this Mac, tests it, and stores evidence. |
@@ -134,7 +138,7 @@ For the exact development, build, test, and GitHub publishing steps, see **[the 
                       ▼
 ┌─────────────────────────────────────────────────────────────────────────┐
 │ Cloudflare Worker · api.zacharysturman.com                               │
-│ Contact + newsletter endpoints · Turnstile · KV rate limiting · Resend  │
+│ Contact + subscription endpoints · Turnstile · D1 · Notion · Resend  │
 └─────────────────────┬───────────────────────────────────────────────────┘
                       │
           ┌───────────┴────────────┐
@@ -181,7 +185,7 @@ Each integration is optional for a plain local preview. Never commit `.env.local
 | Service | Used for | Setup guide |
 | --- | --- | --- |
 | Firebase + GA4 | Hosting, analytics, UTM-aware event tracking, daily metrics | [Analytics setup](docs/setup/analytics.md) |
-| Cloudflare Worker | Contact form, newsletter interest, health checks, rate limiting, secure internal mail relay | [Worker setup](docs/setup/worker.md) |
+| Cloudflare Worker | Durable contact intake, confirmed subscriptions, Notion sync, rate limiting, internal mail relay | [Worker setup](docs/setup/worker.md) |
 | Resend | Contact delivery, newsletter-interest notifications, deployment reports, daily analytics summaries | [Email setup](docs/setup/email.md) |
 | Cloudflare R2 | Optional public media hosting with immutable, content-hashed URLs | [R2 media setup](docs/setup/r2-media.md) |
 | Notion | Optional build-time portfolio content source | [Publishing pipeline](docs/setup/portfolio-daily-publish.md) |
@@ -190,7 +194,7 @@ Each integration is optional for a plain local preview. Never commit `.env.local
 
 The site itself is static—email is deliberately handled outside Firebase:
 
-- **Visitor forms:** the browser sends contact and newsletter-interest requests to the Cloudflare Worker. Turnstile, a honeypot, and KV-backed rate limiting help protect these endpoints; the Worker then sends through Resend.
+- **Visitor forms:** the browser sends contact and newsletter-interest requests to the Cloudflare Worker. Turnstile, a honeypot, and atomic D1 rate limits protect these endpoints. D1 saves messages and consent before cron jobs sync private Notion trackers and send through Resend. Writing updates require email confirmation and include unsubscribe links. See [contact operations](docs/setup/contact-intake.md).
 - **Daily analytics:** GitHub Actions queries GA4 each day at 14:00 UTC, sends the rendered summary to the Worker, and the Worker sends it through Resend.
 - **Deployment reports:** after Firebase updates a `main` deployment, this Mac emails a success report only after local live QA and preview capture pass. On a failure, it sends a prioritized report with the affected stage and retained evidence. An email-delivery problem is reported separately and never turns a successful deployment into a failed one.
 

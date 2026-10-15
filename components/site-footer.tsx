@@ -13,7 +13,7 @@ const QUICK_LINKS = [
   { label: "Projects", href: "/#projects" },
   { label: "Articles", href: "/articles" },
   { label: "Work Logs", href: "/work-logs" },
-  // { label: "Contact", href: "/contact" },
+  { label: "Contact", href: "/contact" },
 ] as const;
 
 function isExternalLink(href: string): boolean {

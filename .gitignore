@@ -132,3 +132,7 @@ coverage/
 # Git maintenance: confirmed local files (retained on disk)
 # Local Better Workspace UI state and absolute workspace bindings
 /Project.betterproject
+
+# Worker local secrets and emulator state
+/worker/.dev.vars
+/worker/.wrangler/
