@@ -2,6 +2,34 @@
 
 Updated October 15, 2026. The project page is live at https://zacharysturman.com/projects/better-workspace, with deployed support and privacy pages at `/better-workspace/support` and `/better-workspace/privacy`.
 
+## Visitor actions — final integration pass
+
+Better Workspace and Recallable were the two entries whose primary resources were
+only Support/Privacy. Each now has a public product overview (`/better-workspace`,
+`/recallable`) and a single **Visit** action. Both pages state that the applications
+are unreleased; no private TestFlight, private repository or unpublished download is
+advertised. Support and privacy remain in the project READMEs and product-page footers.
+The other 40 entries had no administrative primary actions.
+
+Use **Download**, **Install**, **Visit**, **Demo** or **Repo** for primary project
+actions, choosing only destinations visitors can actually use. Keep administrative
+links in documentation or a secondary legal footer. Do not add install/download/repo
+actions before their destinations become publicly available.
+
+Validated: build, typecheck, scoped ESLint, 41 unit tests, and two responsive browser
+checks against the production export. Tests click Visit, verify its destination and
+all product links, preserve legal routes, and capture desktop/390px screenshots.
+The export preview supports the same clean URLs as Firebase Hosting:
+
+```bash
+npm run build
+npx playwright test -c playwright.release-verification.config.ts tests/better-workspace.spec.ts
+python3 scripts/serve-export.py
+```
+
+Expected: two passing checks; local preview at `http://127.0.0.1:3001`.
+Production deployment and live verification are recorded after pushing.
+
 ## Source and publishing
 
 - `.gitignore`: only this authored content folder is included; generated/other content remains ignored.

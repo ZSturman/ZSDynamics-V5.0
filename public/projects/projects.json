@@ -3956,13 +3956,8 @@
     "resources": [
       {
         "type": "website",
-        "label": "Setup & support",
-        "url": "/better-workspace/support"
-      },
-      {
-        "type": "website",
-        "label": "Privacy policy",
-        "url": "/better-workspace/privacy"
+        "label": "Visit",
+        "url": "/better-workspace"
       }
     ],
     "assets": [
@@ -4051,13 +4046,8 @@
     "resources": [
       {
         "type": "website",
-        "label": "Support",
-        "url": "/recallable/support"
-      },
-      {
-        "type": "website",
-        "label": "Privacy policy",
-        "url": "/recallable/privacy"
+        "label": "Visit",
+        "url": "/recallable"
       }
     ],
     "assets": [

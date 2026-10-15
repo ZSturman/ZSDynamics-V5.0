@@ -37,13 +37,8 @@
   "resources": [
     {
       "type": "website",
-      "label": "Setup & support",
-      "url": "/better-workspace/support"
-    },
-    {
-      "type": "website",
-      "label": "Privacy policy",
-      "url": "/better-workspace/privacy"
+      "label": "Visit",
+      "url": "/better-workspace"
     }
   ],
   "assets": [

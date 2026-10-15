@@ -1,3 +1,16 @@
+# Visitor-facing project actions — October 15, 2026
+
+Better Workspace and Recallable now use Visit links to public product overviews.
+Support/privacy remain secondary. Both products are explicitly unreleased. The other
+40 project entries were checked for administrative primary actions; none found.
+Build, typecheck, scoped lint, 41 unit tests and desktop/mobile production-export
+browser checks pass. Screenshots are in `docs/images/better-workspace/`.
+
+Next: verify the production deployment/live Visit flow after this commit is pushed.
+Do not add App Store, download or private repository actions until public destinations
+exist. App submission and advanced Mac download publication remain pending approval.
+See [portfolio verification](BETTER_WORKSPACE.md) for exact local commands.
+
 ## Better Workspace public page refresh — October 15, 2026
 
 The personal workspace is now the hero, with refreshed real Release screenshots from
