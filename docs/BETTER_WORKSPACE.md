@@ -1,17 +1,31 @@
 # Better Workspace portfolio entry
 
-Updated October 14, 2026. The project page is live at https://zacharysturman.com/projects/better-workspace, with deployed support and privacy pages at `/better-workspace/support` and `/better-workspace/privacy`.
+Updated October 15, 2026. The project page is live at https://zacharysturman.com/projects/better-workspace, with deployed support and privacy pages at `/better-workspace/support` and `/better-workspace/privacy`.
 
 ## Source and publishing
 
 - `.gitignore`: only this authored content folder is included; generated/other content remains ignored.
 - `content/projects/better-workspace/project.json`: public description, status, resources and screenshot gallery.
 - `content/projects/better-workspace/README.md`: public project README shown in the portfolio; copied as a downloadable Markdown resource.
-- `content/projects/better-workspace/images/`: actual Mac, iPhone and iPad sample-workspace captures, the app icon, and optimized variants. Sources came from the Better Workspace repository's documented UI captures, not generated mockups. The refreshed images come from the October 13 Store screenshot set: disposable Mac and public read-only mobile sample mode.
+- `content/projects/better-workspace/images/`: actual Mac, iPhone and iPad sample-workspace captures, the app icon, and optimized variants. Sources came from the Better Workspace repository's documented UI captures, not generated mockups. The gallery retains the October 13 connected-workspace captures and adds October 14 shared personal-workspace previews: a window-only native Mac capture and physical iPhone/iPad Release captures. The new sample is editable and memory-only; live personal cloud sync is not enabled.
 - `lib/local_projects.py`: merges local entries by ID/slug and copies assets. Existing unrelated exported records are preserved. This runs during the normal cached build and the staging step of the Notion prebuild, so a sync cannot erase the local entry. Static project API entries and site counts are kept current without changing article endpoints or the hosted URL map.
 - `app/better-workspace/{privacy,support}/page.tsx`: public pages linked from inside the app. They are deployed and return 200 in production browser checks.
 
-The app is described as in testing, with no download or App Store button until the signed/notarized Mac package and approved mobile listing actually exist. The Mac download requires Python 3.11+ for its service; do not market it as a self-contained installer before clean-Mac acceptance.
+The app is described as in testing, with no download or App Store button until the signed/notarized Mac package and approved mobile listing actually exist. The advanced Mac build 4 includes its offline Python runtime and has passed notarization, stapling and quarantined Gatekeeper checks. A unique temporary launchd job also passed service health/save/restart/readback checks without touching the installed service. Actual clean-user login installation and cross-device acceptance still gate publication.
+
+## October 15 cohesive experience update
+
+The public copy now explains local personal planning, connected mobile workflows and
+optional advanced Mac services separately. The README and support page describe first
+use, installation and storage without promising unfinished live sync. Privacy text
+includes the local SwiftData database and memory-only sample. No unverified download
+or App Store button is added. All six gallery images are checked for loading at both
+1280px and 390px. The source checkout preserves the newer Recallable changes on main.
+
+Validation: production static build; 41 unit tests; focused local-project Python tests;
+two desktop/mobile Better Workspace browser checks. The configured pre-push media
+smoke and post-deploy live checks must also pass. Automation suppresses production
+analytics. The new images are format-compressed real screenshots, not mockups.
 
 ## Local preview and checks
 

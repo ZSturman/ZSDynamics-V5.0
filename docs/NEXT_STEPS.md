@@ -126,6 +126,20 @@ verify URLs, rebuild/validate and publish the URL/lock manifests. Never paste or
 <!-- HUE-PUBLICATION:END -->
 
 
+## Better Workspace cohesive update — October 15, 2026
+
+Source content, README, support and privacy explain the shared local personal workspace
+and optional advanced Mac workflow. Three actual private-sample screenshots were added
+alongside the connected-workspace gallery. The new Mac package includes Python and has
+passed notarization/Gatekeeper plus an isolated launchd service check; it is not yet a
+public download. Personal live sync and clean-user installation remain acceptance gates.
+
+Keep downloads unavailable until the app repository's release gates pass. Production
+build, 41 unit tests and two responsive page checks passed. Deployment uses the existing
+main-branch workflow; verify `/deployment.json` against the pushed SHA and repeat the
+analytics-suppressed `tests/production/better-workspace.spec.ts` in Chromium and WebKit.
+Preserve the newer Recallable routes and Firebase association configuration on main.
+
 ## Better Workspace public release — October 14, 2026
 
 The authored project, README/screenshots, privacy and support pages are deployed at

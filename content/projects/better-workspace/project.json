@@ -4,8 +4,8 @@
   "href": "/projects/better-workspace",
   "folderName": "better_workspace_210b2324-2bdf-5751-a101-9c334db91f8c",
   "title": "Better Workspace",
-  "subtitle": "Your files, projects and next steps\u2014across Mac, iPhone and iPad.",
-  "summary": "A native workspace browser and capture companion that connects real folders, portable Markdown plans, project scoring and an iCloud inbox. Built to keep ownership of your files while making the next useful action easier to find.",
+  "subtitle": "Projects, ideas and next steps across Mac, iPhone and iPad.",
+  "summary": "A native personal workspace for projects, tasks, ideas and documents, with an optional advanced Mac edition for real folders, capture, automation and agents. The shared Apple-platform experience is in testing.",
   "oneLiner": "Turn a folder full of projects into a workspace you can act on.",
   "domain": "Technology",
   "category": "Application",
@@ -14,7 +14,7 @@
   "featured": true,
   "isPublic": true,
   "createdAt": null,
-  "updatedAt": "2026-10-13",
+  "updatedAt": "2026-10-15",
   "tags": [
     "SwiftUI",
     "macOS",
@@ -26,7 +26,7 @@
   "mediums": [
     "Software"
   ],
-  "description": "Better Workspace brings projects, tasks, ideas and incoming captures into one native interface. On Mac it browses your real workspace folders, manages portable Markdown work records and keeps tags and sync state in private SQLite storage. Project and idea scoring helps surface the next action. The iPhone and iPad companion browses a private CloudKit index, captures text, links and media to iCloud Drive, and queues planning changes for the Mac to apply with receipts. Optional Notion and agent integrations live on the Mac. The release route is an iPhone/iPad App Store companion with a separately distributed Mac app. An App Store signed iOS candidate and real screenshots are prepared; App Store review, production sync acceptance and Mac notarization are still pending.",
+  "description": "Better Workspace helps turn ideas into projects and projects into a useful next step. The shared native experience brings local projects, tasks, ideas and documents to Mac, iPhone and iPad without requiring a Mac service. The optional advanced Mac edition adds real-folder browsing, portable Markdown plans, project scoring, capture, a private iCloud index and reviewed automation. A single sandboxed Store target now supports all three platforms, while the full Mac edition remains a separate direct download. The new Mac package includes its Python runtime and has passed notarization and Gatekeeper checks. Live synchronization, final installation and device acceptance remain release gates; there is no public download or App Store release yet.",
   "story": "I built Better Workspace to connect the parts of creative and technical work that usually live in separate tools: files, ideas, plans, captures and the decision about what to do next. The architecture keeps the filesystem as the source of truth, uses explicit reviewed actions for changes, and lets the phone participate without pretending it has direct access to the Mac filesystem.",
   "images": {
     "thumbnail": "images/mac-store-overview.jpg",
@@ -64,6 +64,24 @@
       "type": "image",
       "path": "/projects/better_workspace_210b2324-2bdf-5751-a101-9c334db91f8c/images/ipad-project-optimized.webp",
       "label": "iPad project details and work plan (sample workspace)"
+    },
+    {
+      "id": "mac-personal-preview",
+      "type": "image",
+      "path": "/projects/better_workspace_210b2324-2bdf-5751-a101-9c334db91f8c/images/mac-personal-sample.webp",
+      "label": "Native Mac personal workspace preview (private sample)"
+    },
+    {
+      "id": "iphone-personal-preview",
+      "type": "image",
+      "path": "/projects/better_workspace_210b2324-2bdf-5751-a101-9c334db91f8c/images/iphone-personal-sample.webp",
+      "label": "iPhone personal workspace preview (private sample)"
+    },
+    {
+      "id": "ipad-personal-preview",
+      "type": "image",
+      "path": "/projects/better_workspace_210b2324-2bdf-5751-a101-9c334db91f8c/images/ipad-personal-sample.webp",
+      "label": "iPad personal workspace preview (private sample)"
     }
   ]
 }

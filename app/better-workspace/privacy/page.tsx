@@ -14,9 +14,9 @@ export default function PrivacyPage() {
       <PageColumn className="space-y-6 leading-relaxed">
         <Link href="/projects/better-workspace" className="underline">Better Workspace</Link>
         <h1 className="text-3xl font-semibold">Better Workspace Privacy Policy</h1>
-        <p className="text-muted-foreground">Effective October 13, 2026 · Developer: Zachary Sturman</p>
+        <p className="text-muted-foreground">Effective October 15, 2026 · Developer: Zachary Sturman</p>
         <section className="space-y-2"><h2 className="text-xl font-semibold">Files and private storage</h2>
-          <p>Better Workspace works with folders you control. Workspace files and portable Markdown plans stay in your filesystem. Tags, settings, indexes, sync drafts and action receipts are stored in private app storage. The app includes no advertising, cross-app tracking or developer-operated analytics collection.</p>
+          <p>The shared personal workspace preview stores projects, tasks, ideas and documents in a private local SwiftData database. Its editable sample uses memory only; sample records are discarded on close. Personal-record cloud synchronization is not enabled in the preview. The advanced Mac edition also works with folders you control. Workspace files and portable Markdown plans stay in your filesystem. Tags, settings, indexes, sync drafts and action receipts are stored in private app storage. The app includes no advertising, cross-app tracking or developer-operated analytics collection.</p>
         </section>
         <section className="space-y-2"><h2 className="text-xl font-semibold">iCloud and device permissions</h2>
           <p>When you enable workspace publishing on Mac, project and work information, tags and selected previews sync to your private CloudKit database. Captures and their attachments sync through iCloud Drive. Mobile planning requests and receipts use CloudKit so your Mac can validate and apply changes. Apple processes this data under its iCloud privacy terms. The app does not provide the developer access to your private iCloud database.</p>

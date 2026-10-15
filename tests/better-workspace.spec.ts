@@ -11,7 +11,7 @@ for (const width of [1280, 390]) {
     await expect(hero).toBeVisible();
     await expect.poll(() => hero.evaluate((img: HTMLImageElement) => img.naturalWidth)).toBeGreaterThan(0);
     await expect(page.getByTestId("project-readme")).toBeAttached();
-    for (const label of ["Mac Overview with scored Next Action (sample workspace)", "iPhone idea priority and scoring (sample workspace)", "iPad project details and work plan (sample workspace)"]) {
+    for (const label of ["Mac Overview with scored Next Action (sample workspace)", "iPhone idea priority and scoring (sample workspace)", "iPad project details and work plan (sample workspace)", "Native Mac personal workspace preview (private sample)", "iPhone personal workspace preview (private sample)", "iPad personal workspace preview (private sample)"]) {
       const image = page.getByRole("img", { name: label, exact: true }).first();
       await image.scrollIntoViewIfNeeded();
       await expect.poll(() => image.evaluate((img: HTMLImageElement) => img.naturalWidth)).toBeGreaterThan(0);
