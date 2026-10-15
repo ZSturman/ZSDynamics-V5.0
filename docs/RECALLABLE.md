@@ -18,7 +18,7 @@ Updated October 13, 2026. The project page is at `/projects/recallable`; the app
   - `iphone-0[1-4]-*`, `watch-0[12]-*`: single captures, used inline by the README.
 - `app/recallable/{privacy,support}/page.tsx`: the public help pages.
 - `app/recallable/deck/`: the page a shared deck link (`/recallable/deck/<id>`) shows when Recallable isn't installed, with "Open in Recallable" (`recallable://deck/<id>`) and the App Store link. `firebase.json` rewrites every `/recallable/deck/**` path to it.
-- `public/apple-app-site-association.json`: the Associated Domains file that lets iOS and macOS open `/recallable/deck/*` links in the app (team `MF8J7AY2X3`, bundle `com.zacharysturman.recallable`). `firebase.json` serves it at `/.well-known/apple-app-site-association` and `/apple-app-site-association` as `application/json`; Firebase's ignore rule skips dot-folders, so it can't live in `public/.well-known/`.
+- `public/apple-app-site-association.json`: the Associated Domains file that lets iOS and macOS open `/recallable/deck/*` links in the app (team `MF8J7AY2X3`, bundle `com.zacharysturman.recallable`). `firebase.json` serves it at `/.well-known/apple-app-site-association` and `/apple-app-site-association` as `application/json`; Firebase's ignore rule skips dot-folders, so it can't live in `public/.well-known/`, and `"appAssociation": "NONE"` stops Firebase Hosting from serving its own empty Dynamic Links file at those paths instead.
 - `tests/recallable.spec.ts`: a desktop and mobile browser check.
 - `.gitignore` re-includes `content/projects/recallable/`, alongside the Better Workspace exception.
 
