@@ -26,12 +26,12 @@
   "mediums": [
     "Software"
   ],
-  "description": "Better Workspace helps turn ideas into projects and projects into a useful next step. The shared native experience brings local projects, tasks, ideas and documents to Mac, iPhone and iPad without requiring a Mac service. The optional advanced Mac edition adds real-folder browsing, portable Markdown plans, project scoring, capture, a private iCloud index and reviewed automation. A single sandboxed Store target now supports all three platforms, while the full Mac edition remains a separate direct download. The new Mac package includes its Python runtime and has passed notarization and Gatekeeper checks. Live synchronization, final installation and device acceptance remain release gates; there is no public download or App Store release yet.",
+  "description": "Better Workspace helps turn ideas into projects and projects into a useful next step. The shared native experience brings local projects, tasks, ideas and documents to Mac, iPhone and iPad without requiring a Mac service. The optional advanced Mac edition adds real-folder browsing, portable Markdown plans, project scoring, capture, a private iCloud index and reviewed automation. A single sandboxed Store target now supports all three platforms, while the full Mac edition remains a separate direct download. The new Mac package includes its Python runtime and has passed notarization and Gatekeeper checks. Production personal-workspace synchronization passed between native Mac and physical iPhone, and the new candidate explains iCloud account, transfer and offline status. Final distribution installation, iPad sync, offline reconnect and clean Mac service acceptance remain release gates; there is no public download or App Store release yet.",
   "story": "I built Better Workspace to connect the parts of creative and technical work that usually live in separate tools: files, ideas, plans, captures and the decision about what to do next. The architecture keeps the filesystem as the source of truth, uses explicit reviewed actions for changes, and lets the phone participate without pretending it has direct access to the Mac filesystem.",
   "images": {
-    "thumbnail": "images/mac-store-overview.jpg",
-    "hero": "images/mac-store-overview.jpg",
-    "banner": "images/mac-store-overview.jpg",
+    "thumbnail": "images/mac-personal-sample.webp",
+    "hero": "images/mac-personal-sample.webp",
+    "banner": "images/mac-personal-sample.webp",
     "icon": "images/icon.png"
   },
   "resources": [

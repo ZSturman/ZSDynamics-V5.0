@@ -7,7 +7,7 @@ Updated October 15, 2026. The project page is live at https://zacharysturman.com
 - `.gitignore`: only this authored content folder is included; generated/other content remains ignored.
 - `content/projects/better-workspace/project.json`: public description, status, resources and screenshot gallery.
 - `content/projects/better-workspace/README.md`: public project README shown in the portfolio; copied as a downloadable Markdown resource.
-- `content/projects/better-workspace/images/`: actual Mac, iPhone and iPad sample-workspace captures, the app icon, and optimized variants. Sources came from the Better Workspace repository's documented UI captures, not generated mockups. The gallery retains the October 13 connected-workspace captures and adds October 14 shared personal-workspace previews: a window-only native Mac capture and physical iPhone/iPad Release captures. The new sample is editable and memory-only; live personal cloud sync is not enabled.
+- `content/projects/better-workspace/images/`: actual Mac, iPhone and iPad sample-workspace captures, the app icon, and optimized variants. Sources came from the Better Workspace repository's documented UI captures, not generated mockups. The gallery retains the October 13 connected-workspace captures and adds refreshed October 15 shared personal-workspace screenshots: a window-only native Mac capture and isolated iPhone/iPad simulator Release captures. The sample is editable and memory-only. Production native Mac–physical iPhone personal sync passed with disposable records; distribution/iPad/offline acceptance remain open.
 - `lib/local_projects.py`: merges local entries by ID/slug and copies assets. Existing unrelated exported records are preserved. This runs during the normal cached build and the staging step of the Notion prebuild, so a sync cannot erase the local entry. Static project API entries and site counts are kept current without changing article endpoints or the hosted URL map.
 - `app/better-workspace/{privacy,support}/page.tsx`: public pages linked from inside the app. They are deployed and return 200 in production browser checks.
 
@@ -17,7 +17,7 @@ The app is described as in testing, with no download or App Store button until t
 
 The public copy now explains local personal planning, connected mobile workflows and
 optional advanced Mac services separately. The README and support page describe first
-use, installation and storage without promising unfinished live sync. Privacy text
+use, installation and storage with precise private iCloud, offline and transfer-status explanations. Live Production Mac–iPhone sync passed; the copy keeps the remaining distribution/iPad/offline gates explicit. Privacy text
 includes the local SwiftData database and memory-only sample. No unverified download
 or App Store button is added. All six gallery images are checked for loading at both
 1280px and 390px. The source checkout preserves the newer Recallable changes on main.
@@ -62,3 +62,14 @@ Use rooted public paths for standalone assets; gallery paths already point to ac
 ![Desktop portfolio preview](images/better-workspace/portfolio-desktop.png)
 
 ![Phone portfolio preview](images/better-workspace/portfolio-mobile.png)
+
+
+## October 15 refreshed standalone screenshots
+
+The hero now shows the new native personal workspace, and all three personal images
+use the actual optimized Release sample captured October 15. Source dimensions are
+Mac 1280×800, large iPhone 1320×2868, iPad 2064×2752; WebP conversion preserves the
+pixels without fabricated UI. Existing connected-workspace gallery images remain.
+The public privacy/support/README copy explains local saves plus private iCloud and
+does not claim a public app release. Two responsive page checks passed after this
+refresh; final production deployment verification is recorded after publication.

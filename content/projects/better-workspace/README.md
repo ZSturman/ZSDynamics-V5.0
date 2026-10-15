@@ -2,7 +2,7 @@
 
 Projects, tasks, ideas and documents in one native workspace across Mac, iPhone and iPad.
 
-![Advanced Mac Overview with sample workspace data](/projects/better_workspace_210b2324-2bdf-5751-a101-9c334db91f8c/images/mac-store-overview.jpg)
+![Native Mac personal workspace with private sample data](/projects/better_workspace_210b2324-2bdf-5751-a101-9c334db91f8c/images/mac-personal-sample.webp)
 
 ## Make the next step easier to find
 
@@ -22,7 +22,7 @@ The Store experience now uses one native multiplatform target for macOS, iPhone 
 
 In the shared personal preview, choose **Create my first project**, add a task, or try a private sample from the welcome screen or workspace options. Sample edits stay in memory and are discarded when you close the sample. On connected mobile screens, the separate **Explore sample workspace** flow shows a read-only example of the advanced workspace.
 
-Personal projects and notes currently stay on the device. Production schema and isolated cloud round trips have passed, but live personal synchronization is not enabled in this preview while cross-device acceptance continues. Connected-workspace indexing and capture use their existing iCloud paths.
+The new candidate saves personal records locally and synchronizes through your private iCloud account when available. Live Production create, edit and deletion passed between native Mac and a physical iPhone using isolated records. Transfers can take minutes; the app explains iCloud account and transfer status. Final distribution installation, physical iPad sync and offline reconnect acceptance remain open. Connected-workspace indexing and capture use their existing iCloud paths.
 
 ## Installation and availability
 
@@ -34,7 +34,7 @@ Requirements: macOS 14.4 or later; iOS/iPadOS 17 or later. Optional Notion and a
 
 ## Actual product screenshots
 
-These captures use only disposable sample content. The personal preview images show the same native interface on Mac and physical iPhone/iPad Release builds; they are not evidence of an approved Store release or completed live synchronization.
+These captures use only disposable sample content. The refreshed personal images show actual optimized Release UI on native Mac and isolated iPhone/iPad simulators, captured October 15. They are not mockups or evidence of App Store approval; separate Production Mac–physical iPhone sync evidence does not make remaining device checks complete.
 
 ![Native Mac personal workspace preview (private sample)](/projects/better_workspace_210b2324-2bdf-5751-a101-9c334db91f8c/images/mac-personal-sample.webp)
 

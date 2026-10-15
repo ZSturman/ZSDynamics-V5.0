@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.list",
-  "generated_at": "2026-10-15T11:48:07.888401+00:00",
+  "generated_at": "2026-10-15T16:56:40.244377+00:00",
   "data": [
     {
       "id": "3f5aec94-4d3c-8116-99d5-c9752bb4af87",
@@ -856,7 +856,7 @@
       "domain": "Technology",
       "category": "Application",
       "href": "/projects/better-workspace",
-      "primaryImageUrl": "/projects/better_workspace_210b2324-2bdf-5751-a101-9c334db91f8c/images/mac-store-overview.jpg",
+      "primaryImageUrl": "/projects/better_workspace_210b2324-2bdf-5751-a101-9c334db91f8c/images/mac-personal-sample.webp",
       "updatedAt": "2026-10-15"
     },
     {

@@ -1,3 +1,17 @@
+## Better Workspace public page refresh — October 15, 2026
+
+The personal workspace is now the hero, with refreshed real Release screenshots from
+native Mac and isolated iPhone/iPad simulators. Privacy/support/README explain private
+iCloud sync, local offline saves, account/transfer status and optional advanced services.
+Production Mac–physical iPhone sync passed in the app project; final distribution,
+iPad/offline and clean-user Mac service acceptance remain open. No app download link
+or App Store availability claim is published before those gates pass.
+
+Validation: static build passed, 41 unit tests passed, and two responsive Better Workspace
+page checks passed at 1280/390px, including all six images. Next: commit/push/deploy this
+scoped refresh, verify the deployment marker and live Chromium/WebKit page checks, then
+update the app release evidence. Preserve original dirty checkouts and unrelated main changes.
+
 # Next steps
 
 <!-- WORKSPACE-RECONCILIATION:2026-10-10 -->
