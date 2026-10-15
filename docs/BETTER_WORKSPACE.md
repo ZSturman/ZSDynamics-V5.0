@@ -73,3 +73,5 @@ pixels without fabricated UI. Existing connected-workspace gallery images remain
 The public privacy/support/README copy explains local saves plus private iCloud and
 does not claim a public app release. Two responsive page checks passed after this
 refresh; final production deployment verification is recorded after publication.
+
+The first refreshed-hero push was correctly blocked by the media contract: its optimized hero variant was missing. The existing optimizer generated the required optimized/thumbnail/placeholder files, and the targeted contract checks passed before retrying the required pre-push smoke suite.
