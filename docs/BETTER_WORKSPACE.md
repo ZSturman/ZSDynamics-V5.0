@@ -9,6 +9,12 @@ Updated October 15, 2026. Advanced Mac **1.0 (Build 8)** and the MIT-licensed pu
 - [Public source](https://github.com/ZSturman/Better-Workspace-Public)
 - [Setup and support](https://zacharysturman.com/better-workspace/support) · [Privacy](https://zacharysturman.com/better-workspace/privacy)
 
+## Final deployment checkpoint
+
+The functional launch is live at `2a29cc173aaa68981c3120a8665839ed6ff0bae7` (workflow `38856283460`): download/source/demo/getting-started all work. Eight live browser tests passed; after the follow-up failure, two further Chromium/WebKit checks passed and the live marker still matched this working release.
+
+The optional Build 8 capture-widget image and maintenance-doc follow-up `a38c72d` passed local build/browser/media checks, but Firebase rejected deployment `38856644818` with **429 RESOURCE_EXHAUSTED: Hosting storage quota exceeded** before creating a version. It did not change the live site. No old hosting history was removed and no paid plan was enabled. After the owner chooses retention/clears space in the existing Firebase project, run `gh run rerun 38856644818 --failed`, wait for success, and rerun the live checks below. The current demonstration uses an actual iPhone sample Overview in the capture chapter plus the fictional practice capture form.
+
 ## Content and relationships
 
 `content/projects/better-workspace/project.json` owns the project description, resource buttons and gallery. Its README is the public project story; `images/` contains actual sample-data captures and optimized variants. `lib/local_projects.py` merges these authored entries into cached manifests and public JSON endpoints without replacing unrelated records. It runs during the existing static build and Notion prebuild.

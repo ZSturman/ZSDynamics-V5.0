@@ -1,3 +1,15 @@
+## Final launch checkpoint — October 15, 2026
+
+The functional public launch is live at `2a29cc1`; eight full live browser checks
+and two post-follow-up-failure Chromium/WebKit rechecks passed. The optional
+capture-widget image/docs follow-up `a38c72d` is committed and pushed but not live:
+Firebase run `38856644818` failed before version creation with HTTP 429 Hosting
+storage quota exceeded. Current public functionality is unaffected. No retained
+history was deleted and no paid plan was enabled. After a deliberate Firebase
+retention decision/space cleanup, rerun `gh run rerun 38856644818 --failed` and
+verify the live marker/browser checks. Apple submission still needs Connect sign-in.
+See [release evidence](evidence/better-workspace-public-release-20261015.json).
+
 ## Better Workspace public release — October 15, 2026
 
 - Added live advanced Mac download/source actions, a product/getting-started page,
