@@ -1,0 +1,35 @@
+{
+  "date": "2026-10-15",
+  "feature_commit": "2a29cc173aaa68981c3120a8665839ed6ff0bae7",
+  "deployment": "https://github.com/ZSturman/ZSDynamics-V5.0/actions/runs/38856283460",
+  "deployment_status": "SUCCESS",
+  "live_marker_matches": true,
+  "local_export_checks": 2,
+  "live_responsive_checks": 8,
+  "browsers": [
+    "Chromium desktop",
+    "WebKit desktop",
+    "Chromium mobile",
+    "WebKit mobile"
+  ],
+  "widths": [
+    1280,
+    390
+  ],
+  "required_media_checks_passed": 33,
+  "optional_media_skips": 5,
+  "checks": [
+    "project actions",
+    "all demo screenshot chapters",
+    "task completion and progress",
+    "fictional capture/inbox",
+    "sample session",
+    "reset and refresh isolation",
+    "support and privacy",
+    "no page errors or horizontal overflow"
+  ],
+  "advanced_download": "https://github.com/ZSturman/Better-Workspace-Public/releases/download/v1.0/BetterWorkspace-1.0-8-mac.zip",
+  "download_checksum": "680ce1720bcb878338ee8d319056be0102d3df0fa818feed0c66f7920ed1dc12",
+  "apple_status": "Submission blocked on Connect authentication; not publicly installable",
+  "final_followup": "adds inspected Build 8 capture-widget image and maintenance/evidence docs; targeted build/browser checks passed; deploy and production recheck follow"
+}

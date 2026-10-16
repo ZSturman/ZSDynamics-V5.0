@@ -1,3 +1,21 @@
+## Better Workspace public release — October 15, 2026
+
+- Added live advanced Mac download/source actions, a product/getting-started page,
+  edition comparison and a no-account browser demo with real sample screenshots.
+- Canonical project content remains in `content/projects/better-workspace/`; cached
+  public manifests/endpoints were refreshed through `python3 lib/local_projects.py`.
+- `lib/better-workspace.ts` owns verified release destinations and Store status.
+  Update its Store copy/add installation actions only after a public Apple listing
+  exists. Apple submission currently needs the owner's expired Connect sign-in.
+- TypeScript, static production build and two exported-site browser tests passed;
+  product desktop and demo mobile captures were inspected. Firebase deployment
+  `38856283460` succeeded; all eight live responsive Chromium/WebKit tests passed.
+  The current release checkpoint supersedes historical availability holds below.
+- All pre-existing uncommitted audit artifacts, Python test and continuation edits
+  were preserved. They are not part of this launch commit.
+- Recheck: `npx playwright test -c playwright.production.config.ts tests/production/better-workspace.spec.ts`.
+  Expected: eight Chromium/WebKit desktop/mobile checks pass without sending GA4.
+
 # Visitor-facing project actions — October 15, 2026
 
 Better Workspace and Recallable now use Visit links to public product overviews.

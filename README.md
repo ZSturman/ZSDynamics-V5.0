@@ -102,9 +102,9 @@ Contact messages are saved before delivery and organized in private Notion track
 
 ## Better Workspace portfolio entry
 
-The portfolio includes Better Workspace with a description, public README, real Mac/iPhone/iPad sample-data screenshots and dedicated support/privacy pages. Local content survives Notion regeneration. [Maintaining, previewing and releasing the entry](docs/BETTER_WORKSPACE.md).
+Better Workspace has a public advanced Mac 1.0 download, source links, edition comparison, getting-started instructions and a no-account interactive browser demo using real sample screenshots. Local content survives Notion regeneration. [Maintaining, previewing and releasing the entry](docs/BETTER_WORKSPACE.md).
 
-![Better Workspace portfolio preview](docs/images/better-workspace/portfolio-desktop.png)
+![Better Workspace public release page](docs/images/better-workspace/release-1280.png)
 
 ## Quick start
 
