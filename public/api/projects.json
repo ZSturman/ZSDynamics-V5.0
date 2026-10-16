@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.list",
-  "generated_at": "2026-10-15T22:47:29.687486+00:00",
+  "generated_at": "2026-10-16T05:29:29.578922+00:00",
   "data": [
     {
       "id": "3f5aec94-4d3c-8116-99d5-c9752bb4af87",
@@ -841,7 +841,7 @@
       "id": "210b2324-2bdf-5751-a101-9c334db91f8c",
       "slug": "better-workspace",
       "title": "Better Workspace",
-      "summary": "A native personal workspace for projects, tasks, ideas and documents, with an optional advanced Mac edition for real folders, capture, automation and agents. The shared Apple-platform experience is in testing.",
+      "summary": "Projects, tasks and ideas across Apple devices. Advanced Mac 1.0 is available now, with a browser demo and public source; the native Store apps are completing Apple’s release process.",
       "oneLiner": "Turn a folder full of projects into a workspace you can act on.",
       "tags": [
         "SwiftUI",

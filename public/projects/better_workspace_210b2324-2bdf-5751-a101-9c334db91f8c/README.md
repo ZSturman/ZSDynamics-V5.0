@@ -1,51 +1,56 @@
 # Better Workspace
 
-Projects, tasks, ideas and documents in one native workspace across Mac, iPhone and iPad.
+Projects, ideas and a useful next step — across Mac, iPhone and iPad.
 
-![Native Mac personal workspace with private sample data](/projects/better_workspace_210b2324-2bdf-5751-a101-9c334db91f8c/images/mac-personal-sample.webp)
+[Download for Mac](https://github.com/ZSturman/Better-Workspace-Public/releases/download/v1.0/BetterWorkspace-1.0-8-mac.zip) · [Try Demo](/better-workspace/demo) · [View Source](https://github.com/ZSturman/Better-Workspace-Public) · [Getting started](/better-workspace#getting-started)
+
+![Actual Mac personal workspace with fictional sample projects](/projects/better_workspace_210b2324-2bdf-5751-a101-9c334db91f8c/images/mac-personal-sample.webp)
 
 ## Make the next step easier to find
 
-Start with an idea, give it a project, and keep the next task close at hand. The shared personal workspace works locally without a Mac companion or background service. The optional advanced Mac edition connects that everyday planning experience to your real folders, portable Markdown plans, captures and automation.
+Start with an idea, give it a project, and keep the next task close at hand. Better Workspace is for people juggling personal, creative and technical projects. Keep context around the work, catch a thought quickly, and see where to pick up next.
 
-## Choose the experience you need
+## Choose your experience
 
-| Experience | What it does | Setup |
+| Edition | Best for | Availability |
 | --- | --- | --- |
-| Personal workspace preview | Create projects, tasks, ideas and documents; link work to a project; complete tasks; archive and restore items | Local app storage; no Python, Mac connection or service required |
-| Connected workspace on iPhone/iPad | Browse the Mac's private iCloud index, capture text/links/media, and queue planning changes with Mac receipts | Same Apple account, iCloud Drive and an online Mac for applying changes |
-| Advanced Mac edition | Browse real folders, score projects and ideas, customize Overview, review Notion changes and run selected agent tasks | Select your folders; explicitly enable services and optional integrations when needed |
+| Advanced Mac | Real folders, portable plans, scoring, capture, progress, work history and optional Notion/agent tools | Download 1.0 now; macOS 14.4+, Apple silicon and Intel |
+| Native personal workspace | Projects, tasks, ideas and documents; offline work and private iCloud sync across Mac, iPhone and iPad | Apple release in progress; public installation links appear after publication |
+| Optional connected mobile workspace | Browse the advanced Mac’s published index and queue captures/planning changes | Requires advanced Mac, the same Apple account and iCloud Drive; Mac online to apply changes |
 
-The Store experience now uses one native multiplatform target for macOS, iPhone and iPad. The advanced Mac edition remains separately distributed because its filesystem automation and external tools need capabilities outside the App Store sandbox. Existing workspace folders are not migrated into a new database.
+The native Store app works independently. The advanced Mac edition keeps your existing folders and adds capabilities outside the App Store sandbox. No separate Python installation is needed for the public Mac download.
 
-## First use
+## Start in a few minutes
 
-In the shared personal preview, choose **Create my first project**, add a task, or try a private sample from the welcome screen or workspace options. Sample edits stay in memory and are discarded when you close the sample. On connected mobile screens, the separate **Explore sample workspace** flow shows a read-only example of the advanced workspace.
+1. Download **BetterWorkspace-1.0-8-mac.zip**, expand it and drag **Better Workspace.app** to Applications.
+2. Open the app. In **Settings → General**, choose your workspace and inbox folders. An empty folder is a safe place to explore.
+3. Browse an existing project or add a folder under Projects. Add a task or portable work plan, then choose a priority.
+4. Keep early possibilities in Ideas. Use **Quick Capture / Ingest** for a thought, link or file, then review where it belongs.
+5. Return to Overview to choose your next action and see progress or recent work.
+6. Enable the bundled background service in **Settings → Services** when needed. Mobile publishing, Notion, notifications and agent tools are optional.
 
-The new candidate saves personal records locally and synchronizes through your private iCloud account when available. Live Production create, edit and deletion passed between native Mac and a physical iPhone using isolated records. Transfers can take minutes; the app explains iCloud account and transfer status. Final distribution installation, physical iPad sync and offline reconnect acceptance remain open. Connected-workspace indexing and capture use their existing iCloud paths.
+Allow folder access when macOS asks about your selected folders. The release is signed, notarized and stapled; do not disable Gatekeeper. [Detailed setup and help](/better-workspace/support).
 
-## Installation and availability
+## See it before installing
 
-**In testing; no public App Store release or Mac download yet.** The intended release is the shared App Store experience plus a signed, notarized advanced Mac download. The latest Mac candidate includes its Python runtime for Apple silicon and Intel: users will not need Terminal, pip, a package manager or a separate Python installation. Notarization and Gatekeeper checks passed; final clean-installation and device acceptance remain open. App Store review has not been submitted for the redesigned experience.
+[Try the browser demonstration](/better-workspace/demo). Follow real application screenshots and practice completing a task, capturing an idea and starting a sample work session. All interaction uses fictional page-memory data. No account, installation or access to a real workspace is needed.
 
-When downloads open, install the Store app through the App Store, or download the advanced Mac ZIP, expand it and drag Better Workspace to Applications. Open the app, choose your folders, and enable the background service in Settings → Services only when you want its features. The installer prepares the included runtime and preserves existing configuration.
+The native personal app also offers **Try a private sample** from its welcome screen. Its editable records stay in memory and disappear when you close it. Personal records save locally and synchronize through your private iCloud account when available; transfers can take minutes.
 
-Requirements: macOS 14.4 or later; iOS/iPadOS 17 or later. Optional Notion and agent integrations require their own accounts/tools and configuration.
+## Real application screens
 
-## Actual product screenshots
+The gallery shows native Mac, iPhone and iPad sample UI, connected project planning and idea scoring. Current personal screens were captured from optimized Release UI on October 15 and represent the Build 8 experience; they contain disposable sample data.
 
-These captures use only disposable sample content. The refreshed personal images show actual optimized Release UI on native Mac and isolated iPhone/iPad simulators, captured October 15. They are not mockups or evidence of App Store approval; separate Production Mac–physical iPhone sync evidence does not make remaining device checks complete.
+![iPhone personal workspace](/projects/better_workspace_210b2324-2bdf-5751-a101-9c334db91f8c/images/iphone-personal-sample.webp)
 
-![Native Mac personal workspace preview (private sample)](/projects/better_workspace_210b2324-2bdf-5751-a101-9c334db91f8c/images/mac-personal-sample.webp)
+![iPad personal workspace](/projects/better_workspace_210b2324-2bdf-5751-a101-9c334db91f8c/images/ipad-personal-sample.webp)
 
-![iPhone personal workspace preview (private sample)](/projects/better_workspace_210b2324-2bdf-5751-a101-9c334db91f8c/images/iphone-personal-sample.webp)
+## Release and source
 
-![iPad personal workspace preview (private sample)](/projects/better_workspace_210b2324-2bdf-5751-a101-9c334db91f8c/images/ipad-personal-sample.webp)
+[Release notes and checksum](https://github.com/ZSturman/Better-Workspace-Public/releases/tag/v1.0) · [MIT-licensed source](https://github.com/ZSturman/Better-Workspace-Public)
 
-The gallery also includes the connected workspace's idea scoring, Mac Overview and iPad work plan.
+Build 8 passed installed-device acceptance, private Production sync and isolated packaged-runtime checks. Separate-user advanced installer/login acceptance and wider widget configuration coverage remain follow-ups. Cloud synchronization is eventual. The public source is a clean release snapshot; private development history and personal QA evidence are excluded.
 
 ## Help and privacy
 
 [Setup and support](/better-workspace/support) · [Privacy policy](/better-workspace/privacy)
-
-Copyright © 2026 Zachary Sturman. No open-source license or public source download is currently offered on this page.
