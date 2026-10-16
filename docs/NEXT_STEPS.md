@@ -1,3 +1,18 @@
+## Apple submission complete — October 16, 2026
+
+Both iPhone/iPad and native Mac **1.0 (8)** are **Waiting for Review**, with
+automatic release after approval. The prior Connect authentication blocker is
+resolved. Reviewer notes include the verified advanced Mac download/setup links;
+all screenshot sets are COMPLETE. No public Store installation action is shown
+because Apple's listing still returns 404. Current live copy says release is in
+progress, which remains accurate. Submission receipts live in the app repository's
+`docs/app-store/evidence/public-submission-20261016.json`.
+
+Next: check Apple's review result, verify the public listing after approval, then
+add verified Store actions. Optional capture-widget deployment remains blocked by
+Firebase Hosting storage quota; the functioning public launch at `2a29cc1` remains
+live. Do not retry that deployment until the storage condition changes.
+
 ## Final launch checkpoint — October 15, 2026
 
 The functional public launch is live at `2a29cc1`; eight full live browser checks

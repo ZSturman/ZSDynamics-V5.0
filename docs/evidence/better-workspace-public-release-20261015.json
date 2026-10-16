@@ -30,7 +30,7 @@
   ],
   "advanced_download": "https://github.com/ZSturman/Better-Workspace-Public/releases/download/v1.0/BetterWorkspace-1.0-8-mac.zip",
   "download_checksum": "680ce1720bcb878338ee8d319056be0102d3df0fa818feed0c66f7920ed1dc12",
-  "apple_status": "Submission blocked on Connect authentication; not publicly installable",
+  "apple_status": "Both native Mac and iPhone/iPad 1.0 (8) submitted October 16; WAITING_FOR_REVIEW; automatic release after approval",
   "final_followup": {
     "commit": "a38c72da07f576932ebe16881121d9596842134f",
     "workflow": "https://github.com/ZSturman/ZSDynamics-V5.0/actions/runs/38856644818",
@@ -41,5 +41,8 @@
     "post_failure_live_rechecks": 2,
     "post_failure_live_rechecks_result": "PASS: Chromium desktop and WebKit mobile at 390px",
     "next_action": "After the owner manages retained Firebase Hosting versions within the existing free plan, rerun failed deployment 38856644818. Do not change billing or remove historical snapshots without a deliberate retention decision."
-  }
+  },
+  "apple_checked_at": "2026-10-16T12:55:07.697Z",
+  "public_app_store_listing_http_status": 404,
+  "apple_submission_receipts": "App repository: docs/app-store/evidence/public-submission-20261016.json"
 }

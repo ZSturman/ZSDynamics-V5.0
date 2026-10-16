@@ -1,6 +1,6 @@
 # Better Workspace portfolio and release
 
-Updated October 15, 2026. Advanced Mac **1.0 (Build 8)** and the MIT-licensed public source are published. Apple submission needs the owner's expired App Store Connect sign-in; no public Store installation action is shown.
+Updated October 16, 2026. Advanced Mac **1.0 (Build 8)** and the MIT-licensed public source are published. Both iPhone/iPad and native Mac **1.0 (8)** were submitted and are **Waiting for Review**, with automatic release after approval. No public Store installation action is shown until Apple publishes the listing.
 
 - [Project and gallery](https://zacharysturman.com/projects/better-workspace)
 - [Product and getting started](https://zacharysturman.com/better-workspace)
@@ -53,7 +53,7 @@ Final live results are recorded in `docs/evidence/better-workspace-public-releas
 
 ## Apple availability and follow-ups
 
-Only add **Get on the App Store** after Apple's public listing actually resolves. Recheck the app's live App Store Connect platform statuses after sign-in and submission, then update `storeStatus` and the canonical project README. Do not equate uploaded/TestFlight/Prepare for Submission with submitted or live. Current App Store URL returns HTTP 404.
+Only add **Get on the App Store** after Apple's public listing actually resolves. Recheck the app's live App Store Connect platform statuses after Apple review, then update `storeStatus` and the canonical project README. Do not equate uploaded/TestFlight/Prepare for Submission with submitted or live. Current App Store URL returns HTTP 404.
 
 The app's remaining separate-user advanced-service install/login check and broader widget coverage are documented nonblocking follow-ups. Cloud sync is eventual. Keep support copy aligned with actual behavior, and preserve pre-existing unrelated local edits.
 
