@@ -1,15 +1,13 @@
 ## 3D collection publication — October 19, 2026
 
-Committed and pushed as `f30708462da3d834a267d4fed7fd0dbbabd214c9`. GitHub run
-`39231878329` built successfully but deployment failed with Firebase HTTP 429:
-Hosting storage quota exceeded. The current live version remains unchanged.
-[Release evidence](evidence/3d-collection-release-20261019.json).
+Published: https://zacharysturman.com/projects/3d-models-collection
 
-Owner approval is pending for one-time cleanup: preserve the newest 20 versions
-including live and remove 107 older versions (~7.44 GB of version storage). No
-versions or billing settings have been changed. After approval/cleanup, rerun
-`gh run rerun 39231878329 --failed`, verify the deployment marker, and run the live
-checks using `PORTFOLIO_RELEASE_BASE_URL=https://zacharysturman.com`.
+Release commit `f30708462da3d834a267d4fed7fd0dbbabd214c9` is live. GitHub run
+`39231878329`, attempt 2, succeeded after the owner approved Hosting history cleanup.
+Removed 126 old versions; kept the new live version and the immediate previous live
+version for rollback. Billing is unchanged. The public deployment marker matches,
+and all six live desktop/mobile collection checks passed. No real photos are
+included yet. [Release evidence](evidence/3d-collection-release-20261019.json).
 
 The owner authorized committing and publishing the curated showcase. The release
 contains 14 entries (11 interactive, three still), explicit part/assembly selection,
@@ -23,10 +21,10 @@ release tasks. Dedicated desktop/mobile production-export and live checks are in
 `playwright.3d-models.config.ts`. Validation passed: production static build, two overlay tests, scoped lint, and
 six desktop/mobile export checks covering previews, GLB parts/clips and the viewer.
 The pre-push media smoke hook passed 33 checks (five optional skips). A later
-local recheck hit an intermittent mobile ChunkLoadError; the targeted mobile retry
-passed. Verify the live viewer after deployment.
+local recheck hit an intermittent mobile ChunkLoadError; the targeted retry and
+all six final live checks passed.
 
-Run from the portfolio repository after successful deployment:
+Optional recheck from the portfolio repository:
 `PORTFOLIO_RELEASE_BASE_URL=https://zacharysturman.com npx playwright test -c playwright.3d-models.config.ts`.
 Expect six passing desktop/mobile collection checks.
 Preserve unrelated article, work-log, contact-form and cached content edits in the
