@@ -1,0 +1,105 @@
+{
+  "id": "33baec94-4d3c-805b-aa92-e0d16cc8a3f1",
+  "slug": "better-signals",
+  "href": "/projects/better-signals",
+  "folderName": "better_signals_33baec94-4d3c-805b-aa92-e0d16cc8a3f1",
+  "title": "Better Signals",
+  "name": "Better Signals",
+  "subtitle": "Record a moment. Keep the context.",
+  "summary": "A native iPhone, iPad, and Apple Watch app for recording how your mind, emotions, social energy, and surroundings feel. Review your Signals and export them in open formats. No account or developer-operated backend.",
+  "oneLiner": "Quick observations, optional context, and data you can take with you.",
+  "domain": "Technology",
+  "category": "Application",
+  "status": "Active",
+  "phase": "Testing",
+  "featured": true,
+  "isPublic": true,
+  "createdAt": null,
+  "updatedAt": "2026-10-19",
+  "tags": [
+    "SwiftUI",
+    "iOS",
+    "iPadOS",
+    "watchOS",
+    "App Intents",
+    "WidgetKit",
+    "WatchConnectivity",
+    "Core Location",
+    "Data Export"
+  ],
+  "mediums": [
+    "Software"
+  ],
+  "description": "Better Signals records short observations using twelve metrics across Mind, Emotions, Social, and Environment. Every metric has five labeled levels. Add context or a note when useful, review the history, and export your own data.\n\n• Record in the app, through Quick Signal widgets, or with the Apple Watch Digital Crown.\n• Search and filter History; inspect each answer with its time, source, and optional location.\n• Enable optional location and prompts at familiar places.\n• Export CSV, JSON, JSON Lines, or GeoJSON; use read-only Shortcuts or an optional Files copy.\n• Keep history local. Watch answers synchronize to the paired iPhone; iPad history stays separate.\n\nThe app is being prepared for TestFlight and the App Store. Screenshots show synthetic Signals in disposable simulators. Physical Watch, place-prompt, and accessibility acceptance remain part of beta testing.",
+  "story": "The aim is a small recording tool that keeps observations useful outside the app. It records what a person chooses to report without turning those answers into readiness scores or recommendations.\n\nThe SwiftUI app, widgets, and Watch companion compile a shared Swift model and archive layer. Atomic writes and file locks coordinate app and widget submissions. Stable request IDs and WatchConnectivity receipts prevent duplicate answers when an offline Watch reconnects. App Groups share within a device; they do not provide cross-device sync.\n\nA replacement import copies the earlier Timing Coach archive once under locks, retaining the source. Its original SwiftData history stays in the legacy App Group. The previous qualitative Better Signals database remains untouched because its model is different. Open export formats and read-only integration keep the recording layer separate from downstream analysis.",
+  "images": {
+    "thumbnail": "images/hero.jpg",
+    "hero": "images/hero.jpg",
+    "banner": "images/hero.jpg",
+    "social": "images/social.jpg",
+    "icon": "images/icon.png"
+  },
+  "resources": [
+    {
+      "type": "website",
+      "label": "Visit",
+      "url": "/better-signals"
+    }
+  ],
+  "assets": [
+    {
+      "id": "iphone-home",
+      "type": "image",
+      "path": "/projects/better_signals_33baec94-4d3c-805b-aa92-e0d16cc8a3f1/images/iphone-home-optimized.webp",
+      "label": "Home: today’s synthetic Signals and the latest answers"
+    },
+    {
+      "id": "iphone-record",
+      "type": "image",
+      "path": "/projects/better_signals_33baec94-4d3c-805b-aa92-e0d16cc8a3f1/images/iphone-record-optimized.webp",
+      "label": "Record: one question with five labeled levels"
+    },
+    {
+      "id": "iphone-history",
+      "type": "image",
+      "path": "/projects/better_signals_33baec94-4d3c-805b-aa92-e0d16cc8a3f1/images/iphone-history-optimized.webp",
+      "label": "History: saved Signals grouped by day"
+    },
+    {
+      "id": "iphone-detail",
+      "type": "image",
+      "path": "/projects/better_signals_33baec94-4d3c-805b-aa92-e0d16cc8a3f1/images/iphone-detail-optimized.webp",
+      "label": "Detail: one saved Signal and its recording context"
+    },
+    {
+      "id": "iphone-export",
+      "type": "image",
+      "path": "/projects/better_signals_33baec94-4d3c-805b-aa92-e0d16cc8a3f1/images/iphone-export-optimized.webp",
+      "label": "Export: CSV, JSON, JSON Lines, and GeoJSON"
+    },
+    {
+      "id": "iphone-settings",
+      "type": "image",
+      "path": "/projects/better_signals_33baec94-4d3c-805b-aa92-e0d16cc8a3f1/images/iphone-settings-optimized.webp",
+      "label": "Settings: choose metrics and optional location"
+    },
+    {
+      "id": "watch-home",
+      "type": "image",
+      "path": "/projects/better_signals_33baec94-4d3c-805b-aa92-e0d16cc8a3f1/images/watch-home-optimized.webp",
+      "label": "Apple Watch: recent synthetic Signals received from the paired iPhone"
+    },
+    {
+      "id": "ipad-home",
+      "type": "image",
+      "path": "/projects/better_signals_33baec94-4d3c-805b-aa92-e0d16cc8a3f1/images/ipad-home-optimized.webp",
+      "label": "iPad: today’s synthetic Signals and latest readings"
+    },
+    {
+      "id": "ipad-history",
+      "type": "image",
+      "path": "/projects/better_signals_33baec94-4d3c-805b-aa92-e0d16cc8a3f1/images/ipad-history-optimized.webp",
+      "label": "iPad: saved Signals grouped by day"
+    }
+  ]
+}

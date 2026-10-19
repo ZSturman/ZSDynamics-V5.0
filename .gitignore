@@ -48,6 +48,8 @@ yarn-error.log*
 !/content/projects/recallable/**
 !/content/projects/3d-models-collection/
 !/content/projects/3d-models-collection/**
+!/content/projects/better-signals/
+!/content/projects/better-signals/**
 
 # vercel
 .vercel
