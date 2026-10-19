@@ -1,5 +1,16 @@
 ## 3D collection publication — October 19, 2026
 
+Committed and pushed as `f30708462da3d834a267d4fed7fd0dbbabd214c9`. GitHub run
+`39231878329` built successfully but deployment failed with Firebase HTTP 429:
+Hosting storage quota exceeded. The current live version remains unchanged.
+[Release evidence](evidence/3d-collection-release-20261019.json).
+
+Owner approval is pending for one-time cleanup: preserve the newest 20 versions
+including live and remove 107 older versions (~7.44 GB of version storage). No
+versions or billing settings have been changed. After approval/cleanup, rerun
+`gh run rerun 39231878329 --failed`, verify the deployment marker, and run the live
+checks using `PORTFOLIO_RELEASE_BASE_URL=https://zacharysturman.com`.
+
 The owner authorized committing and publishing the curated showcase. The release
 contains 14 entries (11 interactive, three still), explicit part/assembly selection,
 and one walking clip each for Robot and Main Character. Source Blender/STL files
@@ -11,7 +22,13 @@ The local photo picker is versioned in `tools/model-collection/`; see
 release tasks. Dedicated desktop/mobile production-export and live checks are in
 `playwright.3d-models.config.ts`. Validation passed: production static build, two overlay tests, scoped lint, and
 six desktop/mobile export checks covering previews, GLB parts/clips and the viewer.
-The standard media smoke hook and live deployment verification follow publication.
+The pre-push media smoke hook passed 33 checks (five optional skips). A later
+local recheck hit an intermittent mobile ChunkLoadError; the targeted mobile retry
+passed. Verify the live viewer after deployment.
+
+Run from the portfolio repository after successful deployment:
+`PORTFOLIO_RELEASE_BASE_URL=https://zacharysturman.com npx playwright test -c playwright.3d-models.config.ts`.
+Expect six passing desktop/mobile collection checks.
 Preserve unrelated article, work-log, contact-form and cached content edits in the
 primary checkout; they are outside this collection-only release.
 

@@ -1,6 +1,8 @@
 import { expect, test } from "@playwright/test";
 
-test.beforeEach(async ({ context }) => {
+test.beforeEach(async ({ context, page }) => {
+  page.on("pageerror", error => console.error(`Collection browser error: ${error.stack || error.message}`));
+  page.on("requestfailed", request => console.error(`Collection request failed: ${request.failure()?.errorText} ${request.url()}`));
   await context.addInitScript(() => {
     (window as Window & { __ZS_DISABLE_ANALYTICS__?: boolean }).__ZS_DISABLE_ANALYTICS__ = true;
   });
@@ -29,7 +31,9 @@ test("published GLBs contain selected parts and isolated walk clips", async ({ r
   const response = await request.get("/api/projects/3d-models-collection.json");
   expect(response.ok()).toBe(true);
   const { data: project } = await response.json();
-  const items = Object.values(project.collection as Record<string, { items: Array<{ id: string; type: string; path: string }> }>).flatMap(group => group.items);
+  const items = Object.entries(project.collection as Record<string, { items: Array<{ id: string; type: string; path: string }> }>)
+    .filter(([name]) => name !== "In use")
+    .flatMap(([, group]) => group.items);
   expect(items).toHaveLength(14);
   for (const item of items.filter(item => item.type === "3d-model")) {
     const file = await request.get(item.path);

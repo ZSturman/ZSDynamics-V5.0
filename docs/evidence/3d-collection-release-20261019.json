@@ -1,0 +1,29 @@
+{
+  "commit": "f30708462da3d834a267d4fed7fd0dbbabd214c9",
+  "workflow_run": 39231878329,
+  "workflow_url": "https://github.com/ZSturman/ZSDynamics-V5.0/actions/runs/39231878329",
+  "status": "blocked_hosting_storage_quota",
+  "validation": {
+    "production_build": "passed",
+    "scoped_lint": "passed",
+    "overlay_tests": 2,
+    "release_browser_checks": 6,
+    "prepush_media_checks": 33,
+    "optional_skips": 5,
+    "subsequent_browser_recheck": {
+      "full_run": "5 passed; mobile viewer hit a local ChunkLoadError",
+      "targeted_mobile_retry": "passed",
+      "limitation": "Live verification remains blocked by deployment; intermittent local chunk loading was observed."
+    }
+  },
+  "preserved_unrelated_work": true,
+  "deployment_error": "Firebase Hosting HTTP 429 RESOURCE_EXHAUSTED: Hosting storage quota exceeded",
+  "current_live_version": "187b04f5a6c9eb5d",
+  "cleanup_requires_owner_approval": true,
+  "proposed_cleanup": {
+    "retain_versions": 20,
+    "remove_versions": 107,
+    "estimated_version_bytes_removed": 7435006263,
+    "billing_changes": false
+  }
+}
