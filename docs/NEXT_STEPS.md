@@ -1,3 +1,20 @@
+## 3D collection publication — October 19, 2026
+
+The owner authorized committing and publishing the curated showcase. The release
+contains 14 entries (11 interactive, three still), explicit part/assembly selection,
+and one walking clip each for Robot and Main Character. Source Blender/STL files
+and original photos remain outside public assets. No print license or model-sharing
+listing is created by this portfolio publication.
+
+The local photo picker is versioned in `tools/model-collection/`; see
+[maintenance](3D_MODELS.md) for startup, source relationships and remaining print
+release tasks. Dedicated desktop/mobile production-export and live checks are in
+`playwright.3d-models.config.ts`. Validation passed: production static build, two overlay tests, scoped lint, and
+six desktop/mobile export checks covering previews, GLB parts/clips and the viewer.
+The standard media smoke hook and live deployment verification follow publication.
+Preserve unrelated article, work-log, contact-form and cached content edits in the
+primary checkout; they are outside this collection-only release.
+
 ## Apple submission complete — October 16, 2026
 
 Both iPhone/iPad and native Mac **1.0 (8)** are **Waiting for Review**, with

@@ -46,6 +46,8 @@ yarn-error.log*
 !/content/projects/job-search-hub/**
 !/content/projects/recallable/
 !/content/projects/recallable/**
+!/content/projects/3d-models-collection/
+!/content/projects/3d-models-collection/**
 
 # vercel
 .vercel

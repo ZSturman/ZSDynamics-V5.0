@@ -1,0 +1,348 @@
+{
+  "schema_version": 1,
+  "notes": "Provisional visual shortlist. Ownership, finished status, and print validation remain for the owner to confirm. No redistribution license selected.",
+  "models": [
+    {
+      "id": "robot",
+      "title": "Robot",
+      "source": "Robot/Robot.blend",
+      "section": "selected",
+      "kind": "character",
+      "summary": "A single rigged robot, shown with its isolated 24-frame walking cycle.",
+      "ownership": "unreviewed",
+      "license": null,
+      "print_status": "not-applicable",
+      "publication": "preview-only-pending-review",
+      "objects": [
+        "Armature",
+        "RobotPlayerMesh"
+      ],
+      "action": {
+        "object": "Armature",
+        "name": "Walking",
+        "frames": [
+          1,
+          25
+        ]
+      },
+      "render_frame": 7,
+      "selection_reason": "Only the rigged RobotPlayerMesh and its 27-bone armature; isolate Walking frames 1\u201325 rather than the combined Everything timeline or older rigid variants.",
+      "curation_version": 2
+    },
+    {
+      "id": "grumpy-old-man",
+      "title": "Grumpy Old Man",
+      "source": "GrumpyOldMan/Grumpy old man.blend",
+      "section": "selected",
+      "kind": "character",
+      "summary": "An expressive character sculpt exploring exaggerated facial features.",
+      "ownership": "unreviewed",
+      "license": null,
+      "print_status": "not-applicable",
+      "publication": "preview-only-pending-review",
+      "objects": [
+        "Character",
+        "InnerEye"
+      ],
+      "image_only": true,
+      "selection_reason": "Primary Character mesh with matching InnerEye. Exclude older Character.002 and the alternative eye shells.",
+      "curation_version": 2
+    },
+    {
+      "id": "terror-bird",
+      "title": "Terror Bird",
+      "source": "Terror bird/Terror bird.blend",
+      "section": "wip",
+      "kind": "character",
+      "summary": "A creature modeling study built around a long neck, heavy beak, and compact body.",
+      "ownership": "unreviewed",
+      "license": null,
+      "print_status": "not-applicable",
+      "publication": "preview-only-pending-review",
+      "objects": [
+        "Cube"
+      ],
+      "image_only": true,
+      "selection_reason": "Single coherent creature mesh; no complete rig or animation is present. Use as a clay study.",
+      "curation_version": 2
+    },
+    {
+      "id": "belt-holder",
+      "title": "Belt Holder",
+      "source": "Belt Holder/Belt Holder.stl",
+      "section": "selected",
+      "kind": "functional",
+      "summary": "A compact organizer design for hanging belts.",
+      "ownership": "unreviewed",
+      "license": null,
+      "print_status": "unknown",
+      "publication": "preview-only-pending-review",
+      "selection_reason": "Only STL export in the project (September 23); its 4,024 triangles and bounds match Cube.001. Excludes the long reference cylinders and cutter block.",
+      "curation_version": 2
+    },
+    {
+      "id": "purse-holder",
+      "title": "Purse Holder",
+      "source": "Purse Holder/Short Top.stl",
+      "section": "selected",
+      "kind": "functional",
+      "summary": "A hanging storage design with a curved support and compact mounting geometry.",
+      "ownership": "unreviewed",
+      "license": null,
+      "print_status": "unknown",
+      "publication": "preview-only-pending-review",
+      "review_notes": "Source includes objects named GeometricWallHook_V1. Confirm whether geometry was imported or is original.",
+      "selection_reason": "Latest complete STL export, October 15 at 13:49. Matches GeometricWallHook_V1.001; exclude the taller predecessor and Clearance test coupon.",
+      "curation_version": 2
+    },
+    {
+      "id": "microscope-holder",
+      "title": "Microscope Holder",
+      "source": "Microscope Holder/MicroScope Holder.blend",
+      "section": "selected",
+      "kind": "functional",
+      "summary": "A custom holder design exploring a stable fit for a microscope.",
+      "ownership": "unreviewed",
+      "license": null,
+      "print_status": "unknown",
+      "publication": "preview-only-pending-review",
+      "review_notes": "Source includes object named czfa_flexframe_mount-mount-additional-movement-1-2. Confirm whether this is a remix and identify the source.",
+      "objects": [
+        "czfa_flexframe_mount-mount-additional-movement-1-2"
+      ],
+      "selection_reason": "Only the saved active mount mesh; discard Cylinder and Cube reference/cutting objects.",
+      "curation_version": 2
+    },
+    {
+      "id": "under-desk-drawer",
+      "title": "Under Desk Drawer \u2014 Small",
+      "source": "Under Desk Drawer/Small Drawer/Drawer.stl",
+      "section": "selected",
+      "kind": "functional",
+      "summary": "The October 14 small drawer, top and matching rails, shown partly open to reveal the assembly.",
+      "ownership": "unreviewed",
+      "license": null,
+      "print_status": "unknown",
+      "publication": "preview-only-pending-review",
+      "review_notes": "Scene contains numerous alternative parts and reference shapes. Select the actual assembly before exporting print files.",
+      "sources": [
+        "Under Desk Drawer/Small Drawer/Drawer.stl",
+        "Under Desk Drawer/Small Drawer/Rail1.stl",
+        "Under Desk Drawer/Small Drawer/Rail2.stl",
+        "Under Desk Drawer/Small Drawer/Top.stl"
+      ],
+      "selection_reason": "Latest coherent four-part set, exported together October 14 at 21:38. STL coordinates match the four zz _ Small objects exactly. Excludes September full-width variants and all reference blocks.",
+      "curation_version": 2,
+      "display_offsets": {
+        "Drawer": [
+          0,
+          -8,
+          0
+        ]
+      }
+    },
+    {
+      "id": "arduino-case",
+      "title": "Arduino Case",
+      "source": "Arduino Case witj mini breadboard and joystick on top/Ardunio Base.blend",
+      "section": "wip",
+      "kind": "functional",
+      "summary": "An enclosure concept for an Arduino, a small breadboard, and a joystick.",
+      "ownership": "unreviewed",
+      "license": null,
+      "print_status": "unknown",
+      "publication": "preview-only-pending-review",
+      "objects": [
+        "Cube.002"
+      ],
+      "selection_reason": "Saved selected/active final combined enclosure mesh; all earlier base, joystick, peg, and switch studies are hidden in the source and excluded.",
+      "curation_version": 2
+    },
+    {
+      "id": "whiteboard-easel",
+      "title": "Whiteboard Easel Support",
+      "source": "Whiteboard Easel/File.blend",
+      "section": "deferred",
+      "kind": "functional",
+      "summary": "One back-support component from the easel development scene.",
+      "ownership": "unreviewed",
+      "license": null,
+      "print_status": "unknown",
+      "publication": "preview-only-pending-review",
+      "objects": [
+        "back.002"
+      ],
+      "selection_reason": "Latest numbered back support is a coherent single component. Excludes overlapping back.001, separate bracket studies, rods and test cylinders.",
+      "curation_version": 2
+    },
+    {
+      "id": "sensor-holder",
+      "title": "Sensor Drawer",
+      "source": "Lonely Binary Sensors/Drawer_with_label_slot_and_longer_handle.stl",
+      "section": "wip",
+      "kind": "functional",
+      "summary": "The latest exported drawer variant with a label slot and a longer handle.",
+      "ownership": "unreviewed",
+      "license": null,
+      "print_status": "unknown",
+      "publication": "preview-only-pending-review",
+      "review_notes": "Scene includes Stackable Drawer Open Concept and holder variants. Check relation to downloaded drawer designs.",
+      "selection_reason": "Latest complete drawer STL export on September 25 at 02:09, later than the stackable-shell and v1\u2013v4 sensor tests. Export only this component, not two overlaid storage-box variants.",
+      "curation_version": 2
+    },
+    {
+      "id": "main-character",
+      "title": "Main Character",
+      "source": "Blender/GO THROUGH - determine if they should be exported and added to portfolio/Unnamed Main Character.blend",
+      "section": "wip",
+      "kind": "character",
+      "summary": "A character development study exploring a human silhouette and pose.",
+      "ownership": "unreviewed",
+      "license": null,
+      "print_status": "not-applicable",
+      "publication": "preview-only-pending-review",
+      "objects": [
+        "Armature",
+        "Character"
+      ],
+      "action": {
+        "object": "Armature",
+        "name": "Walking.001",
+        "frames": [
+          1,
+          25
+        ]
+      },
+      "render_frame": 7,
+      "selection_reason": "Only one skinned Character and its matching armature with Walking.001; excludes the second rig and every loose modeling-part alternative.",
+      "curation_version": 2
+    },
+    {
+      "id": "keyboard-riser",
+      "title": "Keyboard Riser",
+      "source": "Desk riser for keyboard/W-Holes.stl",
+      "kind": "functional",
+      "summary": "A low-profile perforated riser for a keyboard.",
+      "selection_reason": "The project has one complete 620-triangle STL export dated May 12; use this coherent single part rather than reconstructing a source scene.",
+      "section": "selected",
+      "ownership": "unreviewed",
+      "license": null,
+      "print_status": "unknown",
+      "publication": "preview-only-pending-review",
+      "curation_version": 2
+    },
+    {
+      "id": "ipad-wall-mount",
+      "title": "iPad Wall Mount \u2014 Remix",
+      "source": "iPad Wall Mount/Full Bottom Remix v2.stl",
+      "kind": "functional",
+      "summary": "The second full-width revision of a wall-mount design.",
+      "selection_reason": "Latest full bottom STL, October 14 at 17:05. v2 retains the same topology while widening the full support from 283.86 to 287.87 raw STL units. Exclude the earlier bottom and tiny corner test.",
+      "section": "selected",
+      "ownership": "unreviewed",
+      "license": null,
+      "print_status": "unknown",
+      "publication": "preview-only-pending-review",
+      "curation_version": 2
+    },
+    {
+      "id": "triceratops",
+      "title": "Triceratops",
+      "source": "Blender/GO THROUGH - determine if they should be exported and added to portfolio/Triceratops.blend",
+      "kind": "character",
+      "objects": [
+        "Circle"
+      ],
+      "summary": "A low-poly dinosaur study with a broad frill and three horns.",
+      "selection_reason": "One coherent 3,195-face creature mesh, with no overlapping alternatives or helper meshes.",
+      "section": "deferred",
+      "ownership": "unreviewed",
+      "license": null,
+      "print_status": "not-applicable",
+      "publication": "preview-only-pending-review",
+      "curation_version": 2
+    },
+    {
+      "id": "mushrooms",
+      "title": "Mushroom Study",
+      "source": "Blender/GO THROUGH - determine if they should be exported and added to portfolio/Mushrooms.blend",
+      "kind": "study",
+      "objects": [
+        "Mushrooms"
+      ],
+      "summary": "A stylized mushroom modeling study.",
+      "selection_reason": "A single named 2,447-face mesh, separated from generic cube and shader tests.",
+      "section": "selected",
+      "ownership": "unreviewed",
+      "license": null,
+      "print_status": "not-applicable",
+      "publication": "preview-only-pending-review",
+      "curation_version": 2
+    },
+    {
+      "id": "standard-model",
+      "title": "Standard Model of Particle Physics",
+      "source": "Blender/GO THROUGH - determine if they should be exported and added to portfolio/Standard Model.blend",
+      "kind": "science",
+      "objects": [
+        "Cube.001",
+        "Cube.002",
+        "Text",
+        "Standard model of particle physics",
+        "Bosons"
+      ],
+      "view_direction": [
+        0,
+        -0.45,
+        2
+      ],
+      "camera_margin": 1.18,
+      "summary": "A spatial arrangement of particle names and families, built as a Blender diagram.",
+      "selection_reason": "The visible diagram consists of two label bars, Text, the converted particle-physics lettering, and the Bosons group. Hidden alternative labels and scene lights are excluded.",
+      "section": "deferred",
+      "ownership": "unreviewed",
+      "license": null,
+      "print_status": "not-applicable",
+      "publication": "preview-only-pending-review",
+      "curation_version": 2
+    },
+    {
+      "id": "mansion",
+      "title": "Mansion Study",
+      "source": "Blender/GO THROUGH - determine if they should be exported and added to portfolio/Mansion.blend",
+      "kind": "study",
+      "objects": [
+        "0Basement",
+        "0BasementCeiling",
+        "0BasementFloor",
+        "00BasementStairs",
+        "00BasementStairs.001",
+        "0.Walkway ToBasement",
+        "0Foundation",
+        "1.Awning",
+        "1stFloor",
+        "1stFloorFloor",
+        "1stFloorStairs",
+        "Garage",
+        "2ndFloor",
+        "2ndFloorBalcony",
+        "2ndFloorFloor",
+        "2ndFloorStairs",
+        "3rdFloor",
+        "3rdFlroorFloor",
+        "4thFloor",
+        "4thFloorFloor",
+        "4.WindowFrame",
+        "4.WindowFrame.001"
+      ],
+      "summary": "A multi-level architectural study with exterior stairs and a covered entrance.",
+      "selection_reason": "Use the coherent visible architectural assembly; exclude source cameras and lights. Review the rendered result before featuring.",
+      "section": "selected",
+      "ownership": "unreviewed",
+      "license": null,
+      "print_status": "not-applicable",
+      "publication": "preview-only-pending-review",
+      "curation_version": 2
+    }
+  ]
+}

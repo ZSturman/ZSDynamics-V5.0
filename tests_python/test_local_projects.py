@@ -15,6 +15,8 @@ def test_local_entry_survives_clean_rebuild_and_deduplicates(tmp_path):
     }))
     (content / "README.md").write_text("# Example\nPublic setup instructions.")
     (content / "images" / "screen.png").write_bytes(b"fixture")
+    (content / "models").mkdir()
+    (content / "models" / "display.glb").write_bytes(b"display fixture")
     generated = [{"id": "remote-id", "slug": "other"},
                  {"id": "notion-id", "slug": "example", "title": "Exported title"}]
     destination = tmp_path / "public"
@@ -24,6 +26,7 @@ def test_local_entry_survives_clean_rebuild_and_deduplicates(tmp_path):
     assert len(generated) == 2  # No mutation of the caller's records.
     assert merged[1]["readme"]["content"].startswith("# Example")
     assert (destination / "example_local-id/images/screen.png").read_bytes() == b"fixture"
+    assert (destination / "example_local-id/models/display.glb").read_bytes() == b"display fixture"
     assert merge_local_projects(merged, destination, tmp_path / "content") == merged
 
 

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.list",
-  "generated_at": "2026-10-16T05:29:29.578922+00:00",
+  "generated_at": "2026-10-19T09:36:32.354096+00:00",
   "data": [
     {
       "id": "3f5aec94-4d3c-8116-99d5-c9752bb4af87",
@@ -364,29 +364,6 @@
       "href": "/projects/between-jobs",
       "primaryImageUrl": "/projects/between_jobs_31faec94-4d3c-80a8-9ab6-e791da057b67/thumb.png",
       "updatedAt": "2017-02-10"
-    },
-    {
-      "id": "312aec94-4d3c-817e-9295-e018716cf990",
-      "slug": "3d-models-collection",
-      "title": "3D Models Collection",
-      "summary": "This collection brings together a range of 3D models created during my early work in Blender. Each piece was built with a specific purpose, from simple objects intended for 3D printing to assets designed for animation and game environments. The collection is not centered on a single style or outcome, but on learning how digital form works across different contexts. Earlier models focus on basic structure, lighting, and scale, while later ones begin to account for motion, function, and narrative use. Taken together, the work documents a gradual shift from experimenting with tools to understanding how design decisions support real-world and virtual applications.",
-      "oneLiner": "A personal collection of 3D models made while learning Blender, focused on understanding form, scale, and how digital objects function across different uses.",
-      "tags": [
-        "3D",
-        "Art",
-        "Model comparison",
-        "Adult Animation",
-        "Blender",
-        "C4D",
-        "Simulations"
-      ],
-      "status": "Maintained",
-      "featured": false,
-      "domain": "Artistic",
-      "category": "Animation",
-      "href": "/projects/3d-models-collection",
-      "primaryImageUrl": "/projects/3d_models_collection_312aec94-4d3c-817e-9295-e018716cf990/thumbnail.png",
-      "updatedAt": "2026-09-19"
     },
     {
       "id": "306aec94-4d3c-80c9-a6d4-f6362f15b981",
@@ -836,6 +813,27 @@
       "href": "/projects/my-notion-pipeline",
       "primaryImageUrl": "/projects/my_notion_pipeline_304aec94-4d3c-8029-a1b1-ea0f92487137/thumbnail.png",
       "updatedAt": "2026-04-12"
+    },
+    {
+      "id": "312aec94-4d3c-817e-9295-e018716cf990",
+      "slug": "3d-models-collection",
+      "title": "3D Models Collection",
+      "summary": "A selection of functional objects, stylized characters, and ongoing Blender experiments. Interactive geometry previews sit alongside development studies, with unfinished work clearly separated.",
+      "oneLiner": "A curated collection of Blender design and character studies.",
+      "tags": [
+        "3D Modeling",
+        "Blender",
+        "3D Printing",
+        "Character Design",
+        "Prototyping"
+      ],
+      "status": "Maintained",
+      "featured": false,
+      "domain": "Artistic",
+      "category": "3D Design",
+      "href": "/projects/3d-models-collection",
+      "primaryImageUrl": "/projects/3d_models_collection_312aec94-4d3c-817e-9295-e018716cf990//projects/3d_models_collection_312aec94-4d3c-817e-9295-e018716cf990/images/belt-holder-39078b78-optimized.webp",
+      "updatedAt": "2026-10-19"
     },
     {
       "id": "210b2324-2bdf-5751-a101-9c334db91f8c",

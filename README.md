@@ -170,6 +170,14 @@ Run `npx playwright install chromium webkit` before the first local browser/medi
 
 ## Publishing flow
 
+The 3D collection is curated in `content/projects/3d-models-collection/`, with
+14 selected parts, assemblies, characters and studies, including two isolated walk
+cycles. Run `npm run sync:local-projects` before preview. Original Blender/STL files
+stay outside the site; only display GLBs, renders and approved photos are published.
+See [3D collection maintenance](docs/3D_MODELS.md) for curation and photo uploads.
+
+![Curated interactive robot walking preview](docs/images/3d-models/curated-desktop.png)
+
 1. Make and review a change locally.
 2. Run the relevant tests, then commit and push it to `main`.
 3. The **Deploy to Firebase Hosting on merge** workflow builds that exact commit and deploys it to Firebase’s live channel.

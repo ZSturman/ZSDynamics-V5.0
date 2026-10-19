@@ -25,6 +25,11 @@ def merge_local_projects(projects: list[dict], destination: Path,
         target.mkdir(parents=True, exist_ok=True)
         shutil.copy2(readme, target / "README.md")
         shutil.copytree(source.parent / "images", target / "images", dirs_exist_ok=True)
+        # Display GLBs accompany locally curated collections. Keep editable
+        # Blender sources and printable release files outside public media.
+        models = source.parent / "models"
+        if models.is_dir():
+            shutil.copytree(models, target / "models", dirs_exist_ok=True)
         # Same identity from a later Notion export must not create a second card.
         merged = [p for p in merged if p.get("id") != project["id"]
                   and p.get("slug") != project["slug"]]

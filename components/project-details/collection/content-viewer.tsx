@@ -293,10 +293,10 @@ function ModelContent({ item, project, folderName, collectionName }: { item: Col
 
   return (
     <div className="w-full max-w-4xl aspect-square relative border-2 border-white">
-      <Canvas camera={{ position: [0, 0, 5], fov: 50 }} className="rounded-lg">
-        <ambientLight intensity={0.5} />
-        <directionalLight position={[10, 10, 5]} intensity={1} />
-        <directionalLight position={[-10, -10, -5]} intensity={0.5} />
+      <Canvas camera={{ position: [3, 2, 4.5], fov: 50 }} className="rounded-lg">
+        <ambientLight intensity={1.25} />
+        <directionalLight position={[10, 10, 5]} intensity={2.5} />
+        <directionalLight position={[-10, -10, -5]} intensity={1} />
         <Suspense fallback={null}>
           <Model3D 
             path={itemPath || ""} 

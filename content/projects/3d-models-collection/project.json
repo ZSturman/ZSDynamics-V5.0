@@ -1,0 +1,275 @@
+{
+  "id": "312aec94-4d3c-817e-9295-e018716cf990",
+  "slug": "3d-models-collection",
+  "href": "/projects/3d-models-collection",
+  "title": "3D Models Collection",
+  "name": "3D Models Collection",
+  "subtitle": "Functional designs, characters, and works in progress.",
+  "summary": "A selection of functional objects, stylized characters, and ongoing Blender experiments. Interactive geometry previews sit alongside development studies, with unfinished work clearly separated.",
+  "oneLiner": "A curated collection of Blender design and character studies.",
+  "domain": "Artistic",
+  "category": "3D Design",
+  "status": "Maintained",
+  "phase": "Maintenance",
+  "featured": false,
+  "createdAt": "2018-05-17",
+  "updatedAt": "2026-10-19",
+  "isPublic": true,
+  "tags": [
+    "3D Modeling",
+    "Blender",
+    "3D Printing",
+    "Character Design",
+    "Prototyping"
+  ],
+  "mediums": [
+    "3D"
+  ],
+  "genres": [],
+  "topics": [],
+  "subjects": [],
+  "description": "Explore the models by opening a preview. Functional objects are design studies; downloadable print releases will be added after dimensions, fit, and release details have been checked.",
+  "story": "This collection follows experiments with form across practical objects and imagined characters. Selected designs focus on storage and organization, while the character work explores silhouette and expression. The work-in-progress section records ideas still being developed.",
+  "images": {
+    "thumbnail": "/projects/3d_models_collection_312aec94-4d3c-817e-9295-e018716cf990/images/belt-holder-39078b78-optimized.webp",
+    "hero": "/projects/3d_models_collection_312aec94-4d3c-817e-9295-e018716cf990/images/robot-5064bc39-optimized.webp"
+  },
+  "resources": [],
+  "assets": [],
+  "collection": {
+    "Selected designs": {
+      "label": "Selected designs",
+      "summary": "Functional design studies. Printing and fit validation are pending.",
+      "items": [
+        {
+          "id": "belt-holder",
+          "label": "Belt Holder",
+          "type": "3d-model",
+          "path": "/projects/3d_models_collection_312aec94-4d3c-817e-9295-e018716cf990/models/belt-holder-7e4896e4.glb",
+          "thumbnail": "/projects/3d_models_collection_312aec94-4d3c-817e-9295-e018716cf990/images/belt-holder-39078b78-optimized.webp",
+          "oneLiner": "Functional design study",
+          "summary": "A compact organizer design for hanging belts.",
+          "resources": [],
+          "autoPlay": false,
+          "loop": false,
+          "order": 0
+        },
+        {
+          "id": "purse-holder",
+          "label": "Purse Holder",
+          "type": "3d-model",
+          "path": "/projects/3d_models_collection_312aec94-4d3c-817e-9295-e018716cf990/models/purse-holder-f10ed95e.glb",
+          "thumbnail": "/projects/3d_models_collection_312aec94-4d3c-817e-9295-e018716cf990/images/purse-holder-9eff2e00-optimized.webp",
+          "oneLiner": "Functional design study",
+          "summary": "A hanging storage design with a curved support and compact mounting geometry.",
+          "resources": [],
+          "autoPlay": false,
+          "loop": false,
+          "order": 1
+        },
+        {
+          "id": "microscope-holder",
+          "label": "Microscope Holder",
+          "type": "3d-model",
+          "path": "/projects/3d_models_collection_312aec94-4d3c-817e-9295-e018716cf990/models/microscope-holder-70cc9eb7.glb",
+          "thumbnail": "/projects/3d_models_collection_312aec94-4d3c-817e-9295-e018716cf990/images/microscope-holder-a42d6b45-optimized.webp",
+          "oneLiner": "Functional design study",
+          "summary": "A custom holder design exploring a stable fit for a microscope.",
+          "resources": [],
+          "autoPlay": false,
+          "loop": false,
+          "order": 2
+        },
+        {
+          "id": "under-desk-drawer",
+          "label": "Under Desk Drawer — Small",
+          "type": "3d-model",
+          "path": "/projects/3d_models_collection_312aec94-4d3c-817e-9295-e018716cf990/models/under-desk-drawer-9d5791f8.glb",
+          "thumbnail": "/projects/3d_models_collection_312aec94-4d3c-817e-9295-e018716cf990/images/under-desk-drawer-82664a2e-optimized.webp",
+          "oneLiner": "Functional design study",
+          "summary": "The October 14 small drawer, top and matching rails, shown partly open to reveal the assembly.",
+          "resources": [],
+          "autoPlay": false,
+          "loop": false,
+          "order": 3
+        },
+        {
+          "id": "keyboard-riser",
+          "label": "Keyboard Riser",
+          "type": "3d-model",
+          "path": "/projects/3d_models_collection_312aec94-4d3c-817e-9295-e018716cf990/models/keyboard-riser-e87a9bf0.glb",
+          "thumbnail": "/projects/3d_models_collection_312aec94-4d3c-817e-9295-e018716cf990/images/keyboard-riser-ff4b1222-optimized.webp",
+          "oneLiner": "Functional design study",
+          "summary": "A low-profile perforated riser for a keyboard.",
+          "resources": [],
+          "autoPlay": false,
+          "loop": false,
+          "order": 4
+        },
+        {
+          "id": "ipad-wall-mount",
+          "label": "iPad Wall Mount — Remix",
+          "type": "3d-model",
+          "path": "/projects/3d_models_collection_312aec94-4d3c-817e-9295-e018716cf990/models/ipad-wall-mount-34d1d4d4.glb",
+          "thumbnail": "/projects/3d_models_collection_312aec94-4d3c-817e-9295-e018716cf990/images/ipad-wall-mount-9abb0fd1-optimized.webp",
+          "oneLiner": "Functional design study",
+          "summary": "The second full-width revision of a wall-mount design.",
+          "resources": [],
+          "autoPlay": false,
+          "loop": false,
+          "order": 5
+        }
+      ]
+    },
+    "Characters": {
+      "label": "Characters",
+      "summary": "Selected character and creature studies, including neutral geometry previews.",
+      "items": [
+        {
+          "id": "robot",
+          "label": "Robot",
+          "type": "3d-model",
+          "path": "/projects/3d_models_collection_312aec94-4d3c-817e-9295-e018716cf990/models/robot-292bf916.glb",
+          "thumbnail": "/projects/3d_models_collection_312aec94-4d3c-817e-9295-e018716cf990/images/robot-5064bc39-optimized.webp",
+          "oneLiner": "Character study",
+          "summary": "A single rigged robot, shown with its isolated 24-frame walking cycle.",
+          "resources": [],
+          "autoPlay": true,
+          "loop": true,
+          "order": 0
+        },
+        {
+          "id": "grumpy-old-man",
+          "label": "Grumpy Old Man",
+          "type": "image",
+          "path": "/projects/3d_models_collection_312aec94-4d3c-817e-9295-e018716cf990/images/grumpy-old-man-ede6fbe7-optimized.webp",
+          "thumbnail": "/projects/3d_models_collection_312aec94-4d3c-817e-9295-e018716cf990/images/grumpy-old-man-ede6fbe7-optimized.webp",
+          "oneLiner": "Character study",
+          "summary": "An expressive character sculpt exploring exaggerated facial features. Neutral geometry preview; original textures need restoration.",
+          "resources": [],
+          "autoPlay": false,
+          "loop": false,
+          "order": 1
+        }
+      ]
+    },
+    "Scenes & studies": {
+      "label": "Scenes & studies",
+      "summary": "Coherent architectural and object studies selected from the source archive.",
+      "items": [
+        {
+          "id": "mushrooms",
+          "label": "Mushroom Study",
+          "type": "3d-model",
+          "path": "/projects/3d_models_collection_312aec94-4d3c-817e-9295-e018716cf990/models/mushrooms-e52ee4e3.glb",
+          "thumbnail": "/projects/3d_models_collection_312aec94-4d3c-817e-9295-e018716cf990/images/mushrooms-eebaea74-optimized.webp",
+          "oneLiner": "Functional design study",
+          "summary": "A stylized mushroom modeling study.",
+          "resources": [],
+          "autoPlay": false,
+          "loop": false,
+          "order": 0
+        },
+        {
+          "id": "mansion",
+          "label": "Mansion Study",
+          "type": "image",
+          "path": "/projects/3d_models_collection_312aec94-4d3c-817e-9295-e018716cf990/images/mansion-9a8b4190-optimized.webp",
+          "thumbnail": "/projects/3d_models_collection_312aec94-4d3c-817e-9295-e018716cf990/images/mansion-9a8b4190-optimized.webp",
+          "oneLiner": "Functional design study",
+          "summary": "A multi-level architectural study with exterior stairs and a covered entrance. Neutral geometry preview; original textures need restoration.",
+          "resources": [],
+          "autoPlay": false,
+          "loop": false,
+          "order": 1
+        }
+      ]
+    },
+    "Work in progress": {
+      "label": "Work in progress",
+      "summary": "Unfinished designs and character experiments, shown as development studies.",
+      "items": [
+        {
+          "id": "terror-bird",
+          "label": "Terror Bird",
+          "type": "image",
+          "path": "/projects/3d_models_collection_312aec94-4d3c-817e-9295-e018716cf990/images/terror-bird-75cd8b93-optimized.webp",
+          "thumbnail": "/projects/3d_models_collection_312aec94-4d3c-817e-9295-e018716cf990/images/terror-bird-75cd8b93-optimized.webp",
+          "oneLiner": "Work in progress",
+          "summary": "A creature modeling study built around a long neck, heavy beak, and compact body. Neutral geometry preview; original textures need restoration.",
+          "resources": [],
+          "autoPlay": false,
+          "loop": false,
+          "order": 0
+        },
+        {
+          "id": "arduino-case",
+          "label": "Arduino Case",
+          "type": "3d-model",
+          "path": "/projects/3d_models_collection_312aec94-4d3c-817e-9295-e018716cf990/models/arduino-case-c4130cc2.glb",
+          "thumbnail": "/projects/3d_models_collection_312aec94-4d3c-817e-9295-e018716cf990/images/arduino-case-ab72ec49-optimized.webp",
+          "oneLiner": "Work in progress",
+          "summary": "An enclosure concept for an Arduino, a small breadboard, and a joystick.",
+          "resources": [],
+          "autoPlay": false,
+          "loop": false,
+          "order": 1
+        },
+        {
+          "id": "sensor-holder",
+          "label": "Sensor Drawer",
+          "type": "3d-model",
+          "path": "/projects/3d_models_collection_312aec94-4d3c-817e-9295-e018716cf990/models/sensor-holder-d37363d5.glb",
+          "thumbnail": "/projects/3d_models_collection_312aec94-4d3c-817e-9295-e018716cf990/images/sensor-holder-668bda20-optimized.webp",
+          "oneLiner": "Work in progress",
+          "summary": "The latest exported drawer variant with a label slot and a longer handle.",
+          "resources": [],
+          "autoPlay": false,
+          "loop": false,
+          "order": 2
+        },
+        {
+          "id": "main-character",
+          "label": "Main Character",
+          "type": "3d-model",
+          "path": "/projects/3d_models_collection_312aec94-4d3c-817e-9295-e018716cf990/models/main-character-647c265f.glb",
+          "thumbnail": "/projects/3d_models_collection_312aec94-4d3c-817e-9295-e018716cf990/images/main-character-903375ce-optimized.webp",
+          "oneLiner": "Work in progress",
+          "summary": "A character development study exploring a human silhouette and pose.",
+          "resources": [],
+          "autoPlay": true,
+          "loop": true,
+          "order": 3
+        }
+      ]
+    }
+  },
+  "workLogs": [
+    {
+      "id": "339aec94-4d3c-800e-8737-fa7c70fe859b",
+      "title": "Created new project entry for 3D Models Collection",
+      "entry": "Created new project entry for 3D Models Collection",
+      "url": "https://app.notion.com/p/Created-new-project-entry-for-3D-Models-Collection-339aec944d3c800e8737fa7c70fe859b",
+      "startTime": "2018-05-17",
+      "endTime": "2018-05-17T01:00:00.000-07:00",
+      "date": "2026-04-05T04:37:00.000-07:00",
+      "sessionType": [
+        "Planning",
+        "Organizing"
+      ],
+      "whatHappened": "Created new project entry for 3D Models Collection and added the 'Project Starter' milestones and tasks.",
+      "problems": null,
+      "nextStep": "Complete to do items",
+      "feelGoodAboutWork": 100.0,
+      "accomplishedWhatYouWanted": 100.0,
+      "durationMinutes": 60
+    }
+  ],
+  "articles": [],
+  "folderName": "3d_models_collection_312aec94-4d3c-817e-9295-e018716cf990",
+  "collections": [],
+  "readme": {
+    "content": "# 3D Models Collection\n\nFunctional objects, character studies, and works in progress made with Blender.\n\n## Selected designs\n\nBelt Holder, the shorter Purse Holder, Microscope Holder, the small Under Desk\nDrawer assembly, Keyboard Riser and iPad Wall Mount remix are shown as individual\nparts or coherent assemblies. Recent STL export dates help select revisions;\nthey do not establish that a part was printed. Dimensions and fit remain unverified.\n\n## Characters\n\nRobot uses one rigged mesh and only its walking cycle. Grumpy Old Man is a neutral\nsculpt render. Extra bodies, alternate rigs and construction geometry are excluded.\n\n## Scenes and studies\n\nMansion Study and Mushroom Study present coherent subjects from the scene archive.\n\n## Work in progress\n\nArduino Case, Sensor Drawer, Main Character and Terror Bird remain development\nstudies. Main Character uses one rig and its isolated walking clip. Their forms\nand assembly details may change. Where source textures are missing, previews use\nneutral geometry renders.\n\n## Photographs\n\nReal-world photographs appear in an In use tab after they are added. The upload\nworkflow keeps original photos locally and publishes optimized copies without EXIF.\n\n## Print releases\n\nModel downloads and external listings will be linked here as each release is\nreviewed and prepared. Display models use normalized preview scale and are not\nprintable files with verified dimensions.\n",
+    "sourceUrl": "/projects/3d_models_collection_312aec94-4d3c-817e-9295-e018716cf990/README.md"
+  }
+}

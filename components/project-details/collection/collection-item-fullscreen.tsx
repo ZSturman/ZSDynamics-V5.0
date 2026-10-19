@@ -202,21 +202,21 @@ export function CollectionFullscreen({
       data-analytics-surface={inModal ? "project_modal_fullscreen" : "project_page_fullscreen"}
     >
       {/* Header */}
-      <div className="flex-shrink-0 flex items-center justify-between p-4 bg-background/95 backdrop-blur border-b">
-        <div className="flex items-center gap-3">
-          <Button variant="ghost" size="icon" onClick={onClose}>
+      <div className="flex-shrink-0 flex items-center justify-between gap-2 p-4 bg-background/95 backdrop-blur border-b">
+        <div className="flex min-w-0 items-center gap-3">
+          <Button variant="ghost" size="icon" onClick={onClose} aria-label="Close preview" className="shrink-0">
             <X className="h-5 w-5" />
           </Button>
-          {project.title && (
-            <h1 className="text-lg font-semibold">{project.title}</h1>
+          {(item.label || project.title) && (
+            <h1 className="truncate text-base font-semibold sm:text-lg">{item.label || project.title}</h1>
           )}
 
-          <Badge variant="secondary">{item.type}</Badge>
+          <Badge variant="secondary" className="hidden sm:inline-flex">{item.type}</Badge>
         </div>
 
         {/* Navigation controls */}
         {hasNavigation && (
-          <div className="flex items-center gap-2">
+          <div className="flex shrink-0 items-center gap-1 sm:gap-2">
             <Button 
               variant="ghost" 
               size="icon" 
