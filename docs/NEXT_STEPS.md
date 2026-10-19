@@ -1,6 +1,6 @@
 ## Better Signals showcase — October 19, 2026
 
-Added a durable local showcase entry, actual iPhone/iPad/Watch captures, a portfolio hero/social card, and `/better-signals` overview/support/privacy pages. See [maintenance and release notes](BETTER_SIGNALS.md). Prepared in an isolated worktree to preserve the primary checkout's unrelated uncommitted work. App Store Connect ID: `6824696184`; version 1.1.0 (2) uploaded, processing pending at preparation time. Do not advertise a public download before availability is confirmed.
+Added a durable local showcase entry, actual iPhone/iPad/Watch captures, a portfolio hero/social card, and `/better-signals` overview/support/privacy pages. See [maintenance and release notes](BETTER_SIGNALS.md). Prepared in an isolated worktree to preserve the primary checkout's unrelated uncommitted work. App Store Connect ID: `6824696184`; version 1.1.0 (2) processed and distributed to the personal internal TestFlight group at 4:16 PM Pacific. Do not advertise a public download before availability is confirmed.
 
 Validation: scoped ESLint and TypeScript pass; desktop/mobile route and image checks and the production static export are part of this release. Real-device upgrade, location visits, paired Watch, and accessibility remain app beta acceptance items. Next maintenance action: update availability after Apple processing and beta access are verified; retain the accurate distinction between internal TestFlight and a public App Store release.
 

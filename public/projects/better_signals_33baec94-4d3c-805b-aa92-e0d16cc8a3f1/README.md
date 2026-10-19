@@ -17,7 +17,7 @@ A native recording app for iPhone, iPad, and Apple Watch. Answer a short questio
 
 ## Availability
 
-Being prepared for TestFlight and the App Store. Requires iOS or iPadOS 26 and watchOS 26 for the paired Watch app. There is no public download yet.
+An internal TestFlight beta is available to invited testers. The public App Store release is being prepared. Requires iOS or iPadOS 26 and watchOS 26 for the paired Watch app. There is no public download yet.
 
 Watch Signals transfer to the paired iPhone. iPad history is separate; there is no iCloud history sync. Optional location uses system permissions and visit monitoring. The app records observations without diagnosis, scoring, or treatment recommendations.
 

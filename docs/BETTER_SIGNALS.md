@@ -9,7 +9,7 @@ The active app was renamed from Current State / Timing Coach to Better Signals o
 - `/better-signals/support`: usage and troubleshooting; used by the app and App Store listing.
 - `/better-signals/privacy`: factual data-handling policy; used by the app and listing.
 
-The app is being prepared for TestFlight. The site deliberately has no App Store download button or public TestFlight invitation until one is available. The personal internal testing group is not a public beta.
+Build 1.1.0 (2) is VALID and was distributed to the personal internal TestFlight group on October 19, 2026. The site deliberately has no App Store download button or public TestFlight invitation until one is available. The personal internal testing group is not a public beta.
 
 ## Maintain the content
 

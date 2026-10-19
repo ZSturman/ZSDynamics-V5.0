@@ -46,8 +46,8 @@ export default function BetterSignalsPage() {
           <p className="text-sm text-muted-foreground">Actual simulator captures with synthetic Signals.</p>
         </section>
         <section className="space-y-3 rounded-2xl border p-6" aria-label="Availability">
-          <h2 className="text-xl font-semibold">Preparing the beta</h2>
-          <p>Better Signals is being prepared for TestFlight and the App Store. It requires iOS or iPadOS 26; the paired Watch companion requires watchOS 26. A public download is not available yet.</p>
+          <h2 className="text-xl font-semibold">Internal TestFlight beta</h2>
+          <p>Invited testers can install Better Signals through TestFlight. The public App Store release is being prepared. It requires iOS or iPadOS 26; the paired Watch companion requires watchOS 26. A public download is not available yet.</p>
           <p>No account, advertising, or developer analytics. iPad history stays separate; Watch Signals synchronize with the paired iPhone.</p>
         </section>
         <footer className="flex flex-wrap gap-5 border-t pt-5 text-sm">
