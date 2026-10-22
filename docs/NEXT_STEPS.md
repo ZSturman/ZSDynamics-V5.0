@@ -6,7 +6,9 @@ Added the public `/content-manager` overview, `/content-manager/support` and
 in-memory fixture drafts. No live content or credentials were published.
 
 Validation: both Playwright checks passed at 390px and 1280px; affected ESLint
-checks and the static Next.js export passed. The app is an invitation-only
+checks and the static Next.js export passed. The media contract check caught
+missing optimized variants; canonical WebP/thumbnail/placeholder derivatives
+were generated from the real screenshots and the shape check then passed. The app is an invitation-only
 TestFlight beta; do not add an App Store download or public invitation until
 one actually exists. Native release/validation notes live in the Content Manager
 repository's `docs/MOBILE_RELEASE.md`.

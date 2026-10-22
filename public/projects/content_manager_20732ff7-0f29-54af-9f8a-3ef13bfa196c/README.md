@@ -17,7 +17,7 @@ The internal title is never added to the published text. Final platform layout, 
 
 ## Availability and setup
 
-The iPhone and iPad app is being prepared for TestFlight. There is no public App Store download or open beta invitation yet. Testers need an invitation and the existing Notion Social Posts schema; this beta does not provision a new workspace.
+The iPhone and iPad app uses TestFlight for private beta testing. There is no public App Store download or open beta invitation yet. Testers need an invitation and the existing Notion Social Posts schema; this beta does not provision a new workspace.
 
 Use the integration token for that workspace in Settings. It is verified before being stored in this device's Keychain. The phone does not need a direct connection to the Mac.
 
