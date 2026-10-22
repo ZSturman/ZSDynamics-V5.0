@@ -50,6 +50,8 @@ yarn-error.log*
 !/content/projects/3d-models-collection/**
 !/content/projects/better-signals/
 !/content/projects/better-signals/**
+!/content/projects/content-manager/
+!/content/projects/content-manager/**
 
 # vercel
 .vercel

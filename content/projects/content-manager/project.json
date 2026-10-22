@@ -1,0 +1,58 @@
+{
+  "id": "20732ff7-0f29-54af-9f8a-3ef13bfa196c",
+  "slug": "content-manager",
+  "href": "/projects/content-manager",
+  "folderName": "content_manager_20732ff7-0f29-54af-9f8a-3ef13bfa196c",
+  "title": "Social Posts Content Manager",
+  "name": "Social Posts Content Manager",
+  "subtitle": "Review the exact post. Make a clear decision. Move on.",
+  "summary": "A native Mac, iPhone and iPad editorial workspace for reviewing LinkedIn and Bluesky drafts in Notion, with destination-specific previews, explicit approval, and quick rejection.",
+  "oneLiner": "Review social drafts on iPhone and iPad; keep generation on Mac.",
+  "domain": "Technology",
+  "category": "Application",
+  "status": "In Progress",
+  "phase": "Beta",
+  "featured": true,
+  "isPublic": true,
+  "createdAt": "2026-10-21",
+  "updatedAt": "2026-10-21",
+  "tags": [
+    "SwiftUI",
+    "iOS",
+    "macOS",
+    "Notion API",
+    "Editorial workflows"
+  ],
+  "mediums": [
+    "Software"
+  ],
+  "description": "Review LinkedIn and Bluesky text separately, see which destinations will receive it, and inspect the selected publication image before deciding. Persistent Mark Ready and Reject & Next controls keep the review queue moving. Edits and approval use the same Notion data as the Mac app.",
+  "story": "Content creation and publishing already had independent local backends. This app adds a focused editorial interface: the Mac handles generation and articles, while iPhone and iPad keep review and decisions close at hand. Approval binds to the reviewed content; it does not immediately publish.",
+  "images": {
+    "thumbnail": "images/iphone-review.png",
+    "hero": "images/iphone-review.png",
+    "banner": "images/mac-home.png",
+    "icon": "images/app-icon.png"
+  },
+  "resources": [
+    {
+      "type": "website",
+      "label": "Visit",
+      "url": "https://zacharysturman.com/content-manager"
+    }
+  ],
+  "assets": [
+    {
+      "id": "iphone-review",
+      "type": "image",
+      "path": "/projects/content_manager_20732ff7-0f29-54af-9f8a-3ef13bfa196c/images/iphone-review.png",
+      "label": "iPhone publication preview with in-memory sample drafts"
+    },
+    {
+      "id": "mac-home",
+      "type": "image",
+      "path": "/projects/content_manager_20732ff7-0f29-54af-9f8a-3ef13bfa196c/images/mac-home.png",
+      "label": "Content Manager Mac Home screen"
+    }
+  ]
+}

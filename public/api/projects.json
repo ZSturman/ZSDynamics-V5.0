@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.list",
-  "generated_at": "2026-10-19T23:18:00.627809+00:00",
+  "generated_at": "2026-10-22T02:03:54.318867+00:00",
   "data": [
     {
       "id": "3f5aec94-4d3c-8116-99d5-c9752bb4af87",
@@ -883,6 +883,27 @@
       "updatedAt": "2026-10-15"
     },
     {
+      "id": "20732ff7-0f29-54af-9f8a-3ef13bfa196c",
+      "slug": "content-manager",
+      "title": "Social Posts Content Manager",
+      "summary": "A native Mac, iPhone and iPad editorial workspace for reviewing LinkedIn and Bluesky drafts in Notion, with destination-specific previews, explicit approval, and quick rejection.",
+      "oneLiner": "Review social drafts on iPhone and iPad; keep generation on Mac.",
+      "tags": [
+        "SwiftUI",
+        "iOS",
+        "macOS",
+        "Notion API",
+        "Editorial workflows"
+      ],
+      "status": "In Progress",
+      "featured": true,
+      "domain": "Technology",
+      "category": "Application",
+      "href": "/projects/content-manager",
+      "primaryImageUrl": "/projects/content_manager_20732ff7-0f29-54af-9f8a-3ef13bfa196c/images/iphone-review.png",
+      "updatedAt": "2026-10-21"
+    },
+    {
       "id": "04827feb-2508-51d8-ba15-ed7738b57f7e",
       "slug": "job-search-hub",
       "title": "Job Search Hub",
@@ -931,5 +952,5 @@
       "updatedAt": "2026-10-13"
     }
   ],
-  "count": 44
+  "count": 45
 }

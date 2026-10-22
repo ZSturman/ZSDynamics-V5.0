@@ -1,3 +1,28 @@
+# Social Posts Content Manager — October 21, 2026
+
+Added the public `/content-manager` overview, `/content-manager/support` and
+`/content-manager/privacy`, plus a persistent local portfolio entry at
+`content/projects/content-manager/`. The real iPhone screenshot uses DEBUG
+in-memory fixture drafts. No live content or credentials were published.
+
+Validation: both Playwright checks passed at 390px and 1280px; affected ESLint
+checks and the static Next.js export passed. The app is an invitation-only
+TestFlight beta; do not add an App Store download or public invitation until
+one actually exists. Native release/validation notes live in the Content Manager
+repository's `docs/MOBILE_RELEASE.md`.
+
+The primary portfolio checkout contained extensive unrelated work and was two
+commits behind production. This website addition is released from
+`codex/content-manager-website`, based on current `origin/main`. Authored files
+were also copied into the primary `Workspace/Projects/zacharysturman` checkout;
+its existing edits are preserved. Do not indiscriminately stage its working tree.
+
+To verify locally, run `npm run sync:local-projects`, then
+`npx playwright test tests/content-manager.spec.ts`. Expect the landing, support,
+privacy and project-story routes, valid images and no horizontal overflow.
+
+---
+
 ## Better Signals showcase — October 19, 2026
 
 Added a durable local showcase entry, actual iPhone/iPad/Watch captures, a portfolio hero/social card, and `/better-signals` overview/support/privacy pages. See [maintenance and release notes](BETTER_SIGNALS.md). Prepared in an isolated worktree to preserve the primary checkout's unrelated uncommitted work. App Store Connect ID: `6824696184`; version 1.1.0 (2) processed and distributed to the personal internal TestFlight group at 4:16 PM Pacific. Do not advertise a public download before availability is confirmed.

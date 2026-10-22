@@ -224,3 +224,14 @@ The site itself is static—email is deliberately handled outside Firebase:
 ## License and use
 
 This is Zachary Sturman’s personal portfolio. Its content, imagery, and project materials are not offered as a reusable template unless explicitly stated otherwise.
+
+### Social Posts Content Manager
+
+The native review companion has a [public overview](https://zacharysturman.com/content-manager),
+[setup/support](https://zacharysturman.com/content-manager/support), and
+[privacy policy](https://zacharysturman.com/content-manager/privacy). Authored
+project data lives in `content/projects/content-manager/`; `npm run sync:local-projects`
+merges it into the portfolio and API output. Test the routes with
+`npx playwright test tests/content-manager.spec.ts` (390px and 1280px).
+The screenshot is a real iPhone simulator capture with fictional, in-memory
+drafts. TestFlight requires an invitation; no public App Store link is claimed.
