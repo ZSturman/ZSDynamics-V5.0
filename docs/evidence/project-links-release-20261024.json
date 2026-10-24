@@ -1,0 +1,46 @@
+{
+  "status": "published",
+  "date": "2026-10-24",
+  "productionCommit": "490cc4c41433ad4ab35e04804ce689af5f15b82a",
+  "workflowRunId": 40104602139,
+  "workflowUrl": "https://github.com/ZSturman/ZSDynamics-V5.0/actions/runs/40104602139",
+  "workflowConclusion": "success",
+  "customDomainDeploymentMarker": {
+    "schemaVersion": 1,
+    "commitSha": "490cc4c41433ad4ab35e04804ce689af5f15b82a",
+    "builtAt": "2026-10-24T14:55:20.372Z",
+    "workflowRunId": "40104602139"
+  },
+  "publicUrls": [
+    "https://zacharysturman.com/transactions/demo",
+    "https://zacharysturman.com/content-manager/demo",
+    "https://zacharysturman.com/recallable/demo"
+  ],
+  "validation": {
+    "pythonMergeTests": 3,
+    "localBrowserChecks": 5,
+    "liveBrowserChecks": 3,
+    "targetedLiveNativeImageCheck": "passed after scrolling lazy images into view; initial test selected src before images entered viewport",
+    "resourcePriorityAndImmutability": "passed",
+    "typecheck": "passed",
+    "affectedFileLint": "passed",
+    "staticExport": "passed locally and in production workflow",
+    "prepushMediaSmoke": 33,
+    "optionalMediaSkips": 5,
+    "externalLinksAudited": 52,
+    "analyticsSuppressedInBrowserChecks": true,
+    "nativeBuildsAndDeviceInstallation": "not repeated; this release changed portfolio metadata, demos and Apple console distribution only"
+  },
+  "projectEntriesUpdated": 15,
+  "milestoneLogsAdded": 11,
+  "notionPublicLogsAdded": 4,
+  "preservedUnrelatedPrimaryCheckoutChanges": true,
+  "limits": [
+    "Transactions iOS is Waiting for Review with automatic release.",
+    "Recallable Mac is In Review.",
+    "Content Manager and Trackables are Prepare for Submission.",
+    "Better Signals public 1.1.0 (2) is available in its configured United States region; later beta features remain separate.",
+    "Seven older projects have no verified public deliverable; see project-link-audit-20261024.json.",
+    "Finder Workspace Extensions source history remains private."
+  ]
+}

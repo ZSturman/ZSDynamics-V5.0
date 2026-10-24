@@ -56,4 +56,13 @@ test("Store actions and public product resources lead visitors to the apps", asy
   expect(data.description).toContain("Expo/React Native");
   expect(data.resources.map((r: { url: string }) => r.url)).toContain("/transactions/demo");
   expect(data.resources.some((r: { url: string }) => r.url.includes("6826151834"))).toBe(false);
+
+  await page.goto("/projects/transactions");
+  const nativeImages = page.getByRole("img", { name: /^Native (iphone|ipad) dashboard/ });
+  await expect(nativeImages).toHaveCount(2);
+  for (const image of await nativeImages.all()) {
+    await image.scrollIntoViewIfNeeded();
+    await expect.poll(() => image.evaluate((img: HTMLImageElement) => img.complete && img.naturalWidth > 100 && decodeURIComponent(img.currentSrc).includes("/transactions/images/"))).toBe(true);
+  }
+
 });

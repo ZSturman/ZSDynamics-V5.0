@@ -6,11 +6,14 @@
 - Updated 15 existing portfolio entries, public release/support copy, install-first resource ordering, and eleven recent milestone logs (including four new Notion public logs). Added fictional, account-free Transactions, Content Manager and Recallable demos and real synthetic-account native Transactions screenshots.
 - Seven older writing/concept projects still lack a verified public artifact; see the audit rather than treat local drafts as finished releases. Existing private app sources were not exposed. No Android Store release was attempted.
 
-Validation: three targeted Python merge tests, typecheck, affected-file ESLint, five phone/desktop Playwright checks, resource priority/immutability assertion and static export passed. Anonymous HTTP checks and GitHub visibility verification covered 52 unique external URLs. Native binaries/devices were not rebuilt or retested for these metadata/release changes. Required media smoke and final deployment verification follow before completion.
+Validation: three targeted Python merge tests, typecheck, affected-file ESLint, five phone/desktop Playwright checks, resource priority/immutability assertion and static export passed. Anonymous HTTP checks and GitHub visibility verification covered 52 unique external URLs. Native binaries/devices were not rebuilt or retested for these metadata/release changes. The required pre-push media group passed 33 checks with five expected skips. Production workflow 40104602139 succeeded; the custom-domain marker matches `490cc4c41433ad4ab35e04804ce689af5f15b82a`. All three live browser checks and the targeted native screenshot check passed.
 
-Maintenance: `npm run sync:local-projects`; `uv run --with pytest python -m pytest -q tests_python/test_local_projects.py` (expect 3 passes); `npx playwright test tests/project-access.spec.ts` (expect 3 passes); `npm run build` (expect static export). [Relationships and maintenance](PROJECT_LINKS.md), [audit](evidence/project-link-audit-20261024.json).
+Maintenance: `npm run sync:local-projects`; `uv run --with pytest python -m pytest -q tests_python/test_local_projects.py` (expect 3 passes); `npx playwright test -c playwright.project-access.config.ts` (expect 3 passes); `npm run build` (expect static export). [Relationships and maintenance](PROJECT_LINKS.md), [audit](evidence/project-link-audit-20261024.json).
 
-Release checkout: `codex/portfolio-public-project-links` in the attached managed worktree, based on current origin/main. The primary portfolio checkout has extensive unrelated edits; they remain preserved. Deployment result is appended below once verified.
+Release checkout: `codex/portfolio-public-project-links` in the attached managed worktree, based on current origin/main. The primary portfolio checkout has extensive unrelated edits; they remain preserved. The release is live; [final evidence](evidence/project-links-release-20261024.json). The primary checkout retains scoped authored updates and unrelated prior changes. Source-app release/continuation documentation updates remain local, uncommitted additions alongside each app’s existing work. No native app source was committed or rebuilt for this portfolio task.
+
+
+Live recheck: `PORTFOLIO_ACCESS_BASE_URL=https://zacharysturman.com npx playwright test -c playwright.project-access.config.ts` (expect three passes, with analytics suppressed). Store installation/device acceptance remains a user check.
 
 ---
 
