@@ -10,10 +10,12 @@ When maintaining a link:
 2. Prefer a direct install/download or actual application. Use the working release/installation page when the artifact needs setup.
 3. Confirm GitHub visibility. Private repositories remain private and are not visitor-facing source links.
 4. Add a reviewed override or update the authored entry. Add public-safe milestone logs, with no invented session durations or personal records.
-5. Run `npm run sync:local-projects`, `uv run --with pytest python -m pytest -q tests_python/test_local_projects.py`, `npx playwright test tests/project-access.spec.ts`, then `npm run build` when publishing.
+5. Run `npm run sync:local-projects`, `uv run --with pytest python -m pytest -q tests_python/test_local_projects.py`, `npx playwright test -c playwright.project-access.config.ts`, then `npm run build` when publishing.
 
 The browser demos at `/transactions/demo`, `/content-manager/demo`, and `/recallable/demo` are simplified, interactive walkthroughs using fictional data. They do not authenticate, persist records, send requests to those app backends, or reproduce full native behavior. Transactions' gallery images are real native captures with synthetic accounts.
 
 For local project/repository association, Finder reads `remote.origin.url`. Better Projects prefers a normalized Notion Resources row with detected title, URL, `type=repo`, and project relation, or a direct repository property as fallback. Hue Light Control now has both its origin remote and a normalized resource/project repo relation. Finder Workspace Extensions has its new private origin. These changes do not edit application-private databases.
 
 See [the dated link audit](evidence/project-link-audit-20261024.json) for verified URLs, Apple release states and projects without a verified public deliverable. Preserve the distinction between public versions and later beta features. Never publish raw local project folders or histories solely to fill an empty portfolio button.
+
+For the same checks against a deployment: `PORTFOLIO_ACCESS_BASE_URL=https://zacharysturman.com npx playwright test -c playwright.project-access.config.ts`. Expect three passes; this suite suppresses analytics and blocks GA endpoints.

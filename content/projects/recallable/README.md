@@ -36,7 +36,7 @@ These are unedited captures of the real app, using its built-in starter decks wi
 
 ## Availability
 
-Recallable is being prepared for the App Store and isn't available to download yet. It needs iOS, iPadOS, or watchOS 26, or macOS 26.
+Recallable is released for iPhone and iPad on the App Store. The separate Mac version is still in Apple review. It needs iOS, iPadOS, or watchOS 26, or macOS 26.
 
 ## Help and privacy
 
