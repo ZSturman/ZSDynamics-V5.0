@@ -1,16 +1,16 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-10-10T14:02:10.677140+00:00",
+  "generated_at": "2026-10-24T14:46:04.533037+00:00",
   "data": {
     "id": "35eaec94-4d3c-80bc-9273-c1403b6c02ad",
     "slug": "transactions",
     "href": "/projects/transactions",
     "title": "Transactions",
     "name": "Transactions",
-    "subtitle": "",
-    "summary": "Transactions is a web app for managing shared balances with another person. It supports email or Google sign-in, invite-based pairing, transaction approvals and disputes, real-time Firestore sync, and optional email notifications for key activity.",
-    "oneLiner": "A real-time shared expense tracker for recording, approving, and syncing transactions between two people.",
+    "subtitle": "Shared expenses on web, iPhone, iPad and Android.",
+    "summary": "Track shared expenses, approvals and balances across web and native mobile apps. The web app is available now; the iOS app is waiting for Apple review. Try the browser demo without an account.",
+    "oneLiner": "Shared expenses and balances across web and mobile.",
     "domain": "Technology",
     "category": "Application",
     "status": "Maintained",
@@ -18,7 +18,7 @@
     "featured": true,
     "featuredOrder": 8,
     "createdAt": "2024-08-12",
-    "updatedAt": "2026-05-11",
+    "updatedAt": "2026-10-24",
     "isPublic": true,
     "tags": [
       "Next.js",
@@ -26,13 +26,17 @@
       "TypeScript",
       "Tailwind CSS",
       "Finances",
-      "Dashboard"
+      "Dashboard",
+      "React Native",
+      "Expo",
+      "iOS",
+      "Android"
     ],
     "mediums": [],
     "genres": [],
     "topics": [],
     "subjects": [],
-    "description": "",
+    "description": "Transactions records shared expenses, requests, approvals, disputes and settlements between people. The native Expo/React Native clients for iPhone, iPad and Android share Firebase Authentication and Firestore records with the Next.js web app. CSV import/export and native file sharing help keep records portable. The web app is available now. iOS 1.0.0 (build 1), listed as Transactions: Shared Ledger, is waiting for Apple review with automatic release after approval. Android store publication is deferred. Transactions records obligations; it does not transfer money or connect to bank accounts.",
     "story": "",
     "images": {
       "hero": "hero.png",
@@ -43,29 +47,58 @@
     },
     "resources": [
       {
-        "type": "web",
-        "label": "Visit",
-        "url": "https://transactions-lmct.vercel.app/login",
-        "linkPreview": {
-          "provider": "transactions-lmct.vercel.app",
-          "title": "Transactions",
-          "siteName": "Transactions-Lmct Vercel App",
-          "hostname": "transactions-lmct.vercel.app",
-          "displayUrl": "transactions-lmct.vercel.app/login",
-          "description": "Track shared transactions with anyone. Record payments, settle debts, and manage balances in real time.",
-          "image": "/projects/transactions_35eaec94-4d3c-80bc-9273-c1403b6c02ad/previews/transactions-lmct.vercel.app-d22838da070e.png",
-          "imageSource": "capture"
-        }
+        "type": "website",
+        "label": "Open web app",
+        "url": "https://transactions-lmct.vercel.app/login"
+      },
+      {
+        "type": "website",
+        "label": "Try demo",
+        "url": "/transactions/demo"
       },
       {
         "type": "github",
-        "label": "Repo",
+        "label": "Web source",
         "url": "https://github.com/ZSturman/Transactions"
       }
     ],
-    "assets": [],
+    "assets": [
+      {
+        "id": "native-iphone",
+        "type": "image",
+        "path": "/transactions/images/iphone-optimized.webp",
+        "label": "Native iphone dashboard — synthetic accounts"
+      },
+      {
+        "id": "native-ipad",
+        "type": "image",
+        "path": "/transactions/images/ipad-optimized.webp",
+        "label": "Native ipad dashboard — synthetic accounts"
+      }
+    ],
     "collection": {},
     "workLogs": [
+      {
+        "id": "403aec94-4d3c-819a-9c61-da0ae4d86a50",
+        "title": "Refreshed Transactions mobile and public access status",
+        "entry": "Refreshed Transactions mobile and public access status",
+        "date": "2026-10-24",
+        "sessionType": [
+          "Build"
+        ],
+        "whatHappened": "Verified iOS 1.0.0 (build 1) is Waiting for Review with automatic release. Added native iOS/Android product details, real synthetic-account screenshots and an account-free browser demo. The web app remains live; Android publication is deferred.",
+        "url": "https://app.notion.com/p/403aec944d3c819a9c61da0ae4d86a50"
+      },
+      {
+        "id": "a67ae182-dcec-5774-9a62-172ce8f8da24",
+        "title": "Submitted Transactions: Shared Ledger for Apple review",
+        "entry": "Submitted Transactions: Shared Ledger for Apple review",
+        "date": "2026-10-23",
+        "sessionType": [
+          "Build"
+        ],
+        "whatHappened": "Uploaded and selected signed iOS build 1, configured listing metadata and screenshots, and submitted version 1.0.0 for review with automatic release after approval. Native mobile and web share Firebase records."
+      },
       {
         "id": "35eaec94-4d3c-808e-8146-c56272786a89",
         "title": "Complete Transactions. 'Occasional updates'",

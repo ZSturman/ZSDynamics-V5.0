@@ -1,3 +1,19 @@
+# Project access and approved Apple releases — October 24, 2026
+
+- Released Apple-approved Recallable iOS 1.0.0 (8), all 175 configured regions, and Better Signals iOS 1.1.0 (2), its configured United States region. Both read back Ready for Distribution; both public Store pages return 200. Newer beta versions remain separate. Recallable Mac is still In Review.
+- Better Workspace iOS 1.0.1 is already public; the separate Mac Store edition stays retired. Transactions 1.0.0 (1) is Waiting for Review with automatic release. Content Manager and Trackables are Prepare for Submission.
+- Published Hue-Light-Control source/setup, excluded credentials/private records, and connected origin plus the normalized Notion repo relation. Created a private Finder-Workspace-Extensions repository and connected its origin; actual workspace screenshots/history remain private.
+- Updated 15 existing portfolio entries, public release/support copy, install-first resource ordering, and eleven recent milestone logs (including four new Notion public logs). Added fictional, account-free Transactions, Content Manager and Recallable demos and real synthetic-account native Transactions screenshots.
+- Seven older writing/concept projects still lack a verified public artifact; see the audit rather than treat local drafts as finished releases. Existing private app sources were not exposed. No Android Store release was attempted.
+
+Validation: three targeted Python merge tests, typecheck, affected-file ESLint, five phone/desktop Playwright checks, resource priority/immutability assertion and static export passed. Anonymous HTTP checks and GitHub visibility verification covered 52 unique external URLs. Native binaries/devices were not rebuilt or retested for these metadata/release changes. Required media smoke and final deployment verification follow before completion.
+
+Maintenance: `npm run sync:local-projects`; `uv run --with pytest python -m pytest -q tests_python/test_local_projects.py` (expect 3 passes); `npx playwright test tests/project-access.spec.ts` (expect 3 passes); `npm run build` (expect static export). [Relationships and maintenance](PROJECT_LINKS.md), [audit](evidence/project-link-audit-20261024.json).
+
+Release checkout: `codex/portfolio-public-project-links` in the attached managed worktree, based on current origin/main. The primary portfolio checkout has extensive unrelated edits; they remain preserved. Deployment result is appended below once verified.
+
+---
+
 # Social Posts Content Manager — October 21, 2026
 
 Added the public `/content-manager` overview, `/content-manager/support` and

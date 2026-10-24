@@ -26,7 +26,7 @@ export default function RecallableSupportPage() {
 
         <section className="space-y-2" aria-labelledby="requirements">
           <h2 id="requirements" className="text-xl font-semibold">Availability and requirements</h2>
-          <p>Recallable is being prepared for the App Store and is not available to download yet. It requires iOS or iPadOS 26, macOS 26 on Mac, and watchOS 26 on an Apple Watch paired with an iPhone running Recallable. iCloud sync and Discover publishing need an iCloud account; everything else works without one.</p>
+          <p>Recallable is released for iPhone and iPad on the App Store. The separate Mac release remains in Apple review. It requires iOS or iPadOS 26, macOS 26 on Mac, and watchOS 26 on an Apple Watch paired with an iPhone running Recallable. iCloud sync and Discover publishing need an iCloud account; everything else works without one.</p>
         </section>
 
         <section className="space-y-2" aria-labelledby="start">

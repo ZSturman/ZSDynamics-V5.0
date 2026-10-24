@@ -38,3 +38,20 @@ def test_rejects_folder_outside_project_destination(tmp_path):
     with pytest.raises(ValueError):
         merge_local_projects([], tmp_path / "public", tmp_path / "content")
     assert not (tmp_path / "outside").exists()
+
+
+def test_reviewed_updates_preserve_imported_history_and_are_idempotent(tmp_path):
+    content = tmp_path / "content" / "projects"
+    content.mkdir(parents=True)
+    (content.parent / "project-updates.json").write_text(json.dumps({
+        "example": {"summary": "Mobile and web", "resources": [{"url": "/demo"}],
+                    "workLogs": [{"id": "release", "title": "Published"}]},
+    }))
+    original = [{"id": "p", "slug": "example", "summary": "Old", "images": {"hero": "new.png"},
+                 "workLogs": [{"id": "imported"}, {"id": "release", "title": "Old duplicate"}]}]
+    result = merge_local_projects(original, tmp_path / "public", content)
+    assert result[0]["images"] == {"hero": "new.png"}
+    assert result[0]["summary"] == "Mobile and web"
+    assert [log["id"] for log in result[0]["workLogs"]] == ["release", "imported"]
+    assert original[0]["summary"] == "Old"
+    assert merge_local_projects(result, tmp_path / "public", content) == result

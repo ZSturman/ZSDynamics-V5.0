@@ -43,3 +43,7 @@ Recallable is being prepared for the App Store and isn't available to download y
 [Support](/recallable/support) · [Privacy policy](/recallable/privacy)
 
 Copyright © 2026 Zachary Sturman.
+
+## Install or try
+
+[Install for iPhone and iPad](https://apps.apple.com/us/app/recallable-flashcards/id6822919785) · [Try the browser demo](/recallable/demo). Public release 1.0.0 (8) is separate from newer TestFlight builds.

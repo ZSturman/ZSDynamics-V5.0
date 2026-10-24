@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-10-10T14:02:10.679842+00:00",
+  "generated_at": "2026-10-24T14:46:04.535454+00:00",
   "data": {
     "id": "306aec94-4d3c-808d-9ada-f0ccca484d3b",
     "slug": "chewsense",
@@ -40,6 +40,11 @@
       "banner": "banner.png"
     },
     "resources": [
+      {
+        "type": "apple",
+        "label": "Install from App Store",
+        "url": "https://apps.apple.com/us/app/chew-sense-collect-and-label/id6755277802"
+      },
       {
         "type": "github",
         "label": "Repo",

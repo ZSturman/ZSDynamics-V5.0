@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-10-10T14:02:10.679698+00:00",
+  "generated_at": "2026-10-24T14:46:04.535309+00:00",
   "data": {
     "id": "306aec94-4d3c-803b-a895-e775003b0f5d",
     "slug": "frontend-collection",
@@ -39,7 +39,18 @@
       "thumbnail": "thumbnail.png",
       "banner": "banner.png"
     },
-    "resources": [],
+    "resources": [
+      {
+        "type": "website",
+        "label": "Open component demos",
+        "url": "https://react-component-collection-delta.vercel.app"
+      },
+      {
+        "type": "github",
+        "label": "View source",
+        "url": "https://github.com/ZSturman/React-Component-Collection"
+      }
+    ],
     "assets": [],
     "collection": {
       "Projects": {

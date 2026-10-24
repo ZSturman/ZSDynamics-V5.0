@@ -14,7 +14,7 @@
     "phase": "Release",
     "featured": false,
     "createdAt": "2026-10-09",
-    "updatedAt": "2026-10-10",
+    "updatedAt": "2026-10-24",
     "isPublic": true,
     "tags": [
       "Hardware",
@@ -39,7 +39,13 @@
       "thumbnail": "thumbnail.png",
       "banner": "banner.png"
     },
-    "resources": [],
+    "resources": [
+      {
+        "type": "github",
+        "label": "Source & build guide",
+        "url": "https://github.com/ZSturman/Hue-Light-Control"
+      }
+    ],
     "assets": [
       {
         "id": "3f5aec94-4d3c-81ca-b75f-ed206dd8eea4",
@@ -52,6 +58,17 @@
     ],
     "collection": {},
     "workLogs": [
+      {
+        "id": "403aec94-4d3c-8148-8a64-d1e3b8376f3e",
+        "title": "Published Hue Light Control firmware on GitHub",
+        "entry": "Published Hue Light Control firmware on GitHub",
+        "date": "2026-10-24",
+        "sessionType": [
+          "Build"
+        ],
+        "whatHappened": "Created the public repository with ESP32 firmware, wiring illustrations, setup guide and an environment template. Connected the local origin remote and normalized Notion repository resource. Local credentials and generated files were excluded.",
+        "url": "https://app.notion.com/p/403aec944d3c81488a64d1e3b8376f3e"
+      },
       {
         "id": "3f5aec94-4d3c-8190-9800-f00764a9689f",
         "title": "Hue Light Control",
@@ -202,9 +219,9 @@
     "href": "/projects/transactions",
     "title": "Transactions",
     "name": "Transactions",
-    "subtitle": "",
-    "summary": "Transactions is a web app for managing shared balances with another person. It supports email or Google sign-in, invite-based pairing, transaction approvals and disputes, real-time Firestore sync, and optional email notifications for key activity.",
-    "oneLiner": "A real-time shared expense tracker for recording, approving, and syncing transactions between two people.",
+    "subtitle": "Shared expenses on web, iPhone, iPad and Android.",
+    "summary": "Track shared expenses, approvals and balances across web and native mobile apps. The web app is available now; the iOS app is waiting for Apple review. Try the browser demo without an account.",
+    "oneLiner": "Shared expenses and balances across web and mobile.",
     "domain": "Technology",
     "category": "Application",
     "status": "Maintained",
@@ -212,7 +229,7 @@
     "featured": true,
     "featuredOrder": 8,
     "createdAt": "2024-08-12",
-    "updatedAt": "2026-05-11",
+    "updatedAt": "2026-10-24",
     "isPublic": true,
     "tags": [
       "Next.js",
@@ -220,13 +237,17 @@
       "TypeScript",
       "Tailwind CSS",
       "Finances",
-      "Dashboard"
+      "Dashboard",
+      "React Native",
+      "Expo",
+      "iOS",
+      "Android"
     ],
     "mediums": [],
     "genres": [],
     "topics": [],
     "subjects": [],
-    "description": "",
+    "description": "Transactions records shared expenses, requests, approvals, disputes and settlements between people. The native Expo/React Native clients for iPhone, iPad and Android share Firebase Authentication and Firestore records with the Next.js web app. CSV import/export and native file sharing help keep records portable. The web app is available now. iOS 1.0.0 (build 1), listed as Transactions: Shared Ledger, is waiting for Apple review with automatic release after approval. Android store publication is deferred. Transactions records obligations; it does not transfer money or connect to bank accounts.",
     "story": "",
     "images": {
       "hero": "hero.png",
@@ -237,29 +258,58 @@
     },
     "resources": [
       {
-        "type": "web",
-        "label": "Visit",
-        "url": "https://transactions-lmct.vercel.app/login",
-        "linkPreview": {
-          "provider": "transactions-lmct.vercel.app",
-          "title": "Transactions",
-          "siteName": "Transactions-Lmct Vercel App",
-          "hostname": "transactions-lmct.vercel.app",
-          "displayUrl": "transactions-lmct.vercel.app/login",
-          "description": "Track shared transactions with anyone. Record payments, settle debts, and manage balances in real time.",
-          "image": "/projects/transactions_35eaec94-4d3c-80bc-9273-c1403b6c02ad/previews/transactions-lmct.vercel.app-d22838da070e.png",
-          "imageSource": "capture"
-        }
+        "type": "website",
+        "label": "Open web app",
+        "url": "https://transactions-lmct.vercel.app/login"
+      },
+      {
+        "type": "website",
+        "label": "Try demo",
+        "url": "/transactions/demo"
       },
       {
         "type": "github",
-        "label": "Repo",
+        "label": "Web source",
         "url": "https://github.com/ZSturman/Transactions"
       }
     ],
-    "assets": [],
+    "assets": [
+      {
+        "id": "native-iphone",
+        "type": "image",
+        "path": "/transactions/images/iphone-optimized.webp",
+        "label": "Native iphone dashboard — synthetic accounts"
+      },
+      {
+        "id": "native-ipad",
+        "type": "image",
+        "path": "/transactions/images/ipad-optimized.webp",
+        "label": "Native ipad dashboard — synthetic accounts"
+      }
+    ],
     "collection": {},
     "workLogs": [
+      {
+        "id": "403aec94-4d3c-819a-9c61-da0ae4d86a50",
+        "title": "Refreshed Transactions mobile and public access status",
+        "entry": "Refreshed Transactions mobile and public access status",
+        "date": "2026-10-24",
+        "sessionType": [
+          "Build"
+        ],
+        "whatHappened": "Verified iOS 1.0.0 (build 1) is Waiting for Review with automatic release. Added native iOS/Android product details, real synthetic-account screenshots and an account-free browser demo. The web app remains live; Android publication is deferred.",
+        "url": "https://app.notion.com/p/403aec944d3c819a9c61da0ae4d86a50"
+      },
+      {
+        "id": "a67ae182-dcec-5774-9a62-172ce8f8da24",
+        "title": "Submitted Transactions: Shared Ledger for Apple review",
+        "entry": "Submitted Transactions: Shared Ledger for Apple review",
+        "date": "2026-10-23",
+        "sessionType": [
+          "Build"
+        ],
+        "whatHappened": "Uploaded and selected signed iOS build 1, configured listing metadata and screenshots, and submitted version 1.0.0 for review with automatic release after approval. Native mobile and web share Firebase records."
+      },
       {
         "id": "35eaec94-4d3c-808e-8146-c56272786a89",
         "title": "Complete Transactions. 'Occasional updates'",
@@ -345,11 +395,6 @@
         "type": "github",
         "label": "Repo",
         "url": "https://github.com/ZSturman/Production-Scheduling-Web-App"
-      },
-      {
-        "type": "github",
-        "label": "Repo",
-        "url": "https://github.com/ZSturman/Google-Sheets-Production-Schedule-Desktop-App"
       }
     ],
     "assets": [],
@@ -400,22 +445,7 @@
     "resources": [
       {
         "type": "web",
-        "label": "Original Site",
-        "url": "https://yourdogcanstay.com",
-        "linkPreview": {
-          "provider": "yourdogcanstay.com",
-          "title": "The WOLF PROJECT",
-          "siteName": "YOUR DOG CAN STAY",
-          "hostname": "yourdogcanstay.com",
-          "displayUrl": "yourdogcanstay.com",
-          "description": "Access to Care Lifeline for families whose dog requires lifesaving medical care, but the upfront costs stand in the way.",
-          "image": "/projects/the_wolf_project_346aec94-4d3c-801e-851f-c7e727f0e186/previews/yourdogcanstay.com-98da4ec0bcac.png",
-          "imageSource": "capture"
-        }
-      },
-      {
-        "type": "web",
-        "label": "Development URL",
+        "label": "Visit project",
         "url": "https://the-wolf-pack.vercel.app",
         "linkPreview": {
           "provider": "the-wolf-pack.vercel.app",
@@ -431,8 +461,23 @@
       },
       {
         "type": "github",
-        "label": "Repo",
-        "url": "https://github.com/ZSturman/The-Wolf-Pack"
+        "label": "View source",
+        "url": "https://github.com/ZSturman/The-Wolf-Project"
+      },
+      {
+        "type": "web",
+        "label": "Original Site",
+        "url": "https://yourdogcanstay.com",
+        "linkPreview": {
+          "provider": "yourdogcanstay.com",
+          "title": "The WOLF PROJECT",
+          "siteName": "YOUR DOG CAN STAY",
+          "hostname": "yourdogcanstay.com",
+          "displayUrl": "yourdogcanstay.com",
+          "description": "Access to Care Lifeline for families whose dog requires lifesaving medical care, but the upfront costs stand in the way.",
+          "image": "/projects/the_wolf_project_346aec94-4d3c-801e-851f-c7e727f0e186/previews/yourdogcanstay.com-98da4ec0bcac.png",
+          "imageSource": "capture"
+        }
       }
     ],
     "assets": [
@@ -1283,6 +1328,11 @@
     },
     "resources": [
       {
+        "type": "apple",
+        "label": "Install for Mac",
+        "url": "https://apps.apple.com/us/app/folio-studio/id6755154786"
+      },
+      {
         "type": "github",
         "label": "Repo",
         "url": "https://github.com/ZSturman/Folio-Studio"
@@ -1584,7 +1634,18 @@
       "thumbnail": "thumbnail.png",
       "banner": "banner.png"
     },
-    "resources": [],
+    "resources": [
+      {
+        "type": "website",
+        "label": "Open component demos",
+        "url": "https://react-component-collection-delta.vercel.app"
+      },
+      {
+        "type": "github",
+        "label": "View source",
+        "url": "https://github.com/ZSturman/React-Component-Collection"
+      }
+    ],
     "assets": [],
     "collection": {
       "Projects": {
@@ -1922,6 +1983,11 @@
       "banner": "banner.png"
     },
     "resources": [
+      {
+        "type": "apple",
+        "label": "Install from App Store",
+        "url": "https://apps.apple.com/us/app/chew-sense-collect-and-label/id6755277802"
+      },
       {
         "type": "github",
         "label": "Repo",
@@ -2699,7 +2765,13 @@
       "thumbnail": "collection thumbnail.png",
       "banner": "banner.png"
     },
-    "resources": [],
+    "resources": [
+      {
+        "type": "website",
+        "label": "Watch animations",
+        "url": "/projects/animation-collection#collection"
+      }
+    ],
     "assets": [],
     "collection": {
       "2D": {
@@ -2855,7 +2927,13 @@
       "thumbnail": "thumbnail.png",
       "banner": "banner.png"
     },
-    "resources": [],
+    "resources": [
+      {
+        "type": "website",
+        "label": "Browse coloring pages",
+        "url": "/projects/history-of-everything-coloring-book#collection"
+      }
+    ],
     "assets": [],
     "collection": {
       "Pages": {
@@ -3199,6 +3277,11 @@
       "banner": "banner.png"
     },
     "resources": [
+      {
+        "type": "apple",
+        "label": "Install from App Store",
+        "url": "https://apps.apple.com/us/app/mediledger/id6744004933"
+      },
       {
         "type": "github",
         "label": "Repo",
@@ -3891,7 +3974,13 @@
       "thumbnail": "/projects/3d_models_collection_312aec94-4d3c-817e-9295-e018716cf990/images/belt-holder-39078b78-optimized.webp",
       "hero": "/projects/3d_models_collection_312aec94-4d3c-817e-9295-e018716cf990/images/robot-5064bc39-optimized.webp"
     },
-    "resources": [],
+    "resources": [
+      {
+        "type": "website",
+        "label": "Explore 3D models",
+        "url": "/projects/3d-models-collection#collection"
+      }
+    ],
     "assets": [],
     "collection": {
       "Selected designs": {
@@ -4103,6 +4192,16 @@
     },
     "workLogs": [
       {
+        "id": "198b1406-e4a9-5e68-b1b0-42d0591b12a4",
+        "title": "Published the curated interactive collection",
+        "entry": "Published the curated interactive collection",
+        "date": "2026-10-19",
+        "sessionType": [
+          "Build"
+        ],
+        "whatHappened": "Published 14 curated models, including 11 interactive previews and three still entries, part/assembly selection and two walking clips. Original Blender/STL source and personal photos were excluded."
+      },
+      {
         "id": "339aec94-4d3c-800e-8737-fa7c70fe859b",
         "title": "Created new project entry for 3D Models Collection",
         "entry": "Created new project entry for 3D Models Collection",
@@ -4143,11 +4242,11 @@
     "domain": "Technology",
     "category": "Application",
     "status": "Active",
-    "phase": "Testing",
+    "phase": "Released on iOS",
     "featured": true,
     "isPublic": true,
     "createdAt": null,
-    "updatedAt": "2026-10-19",
+    "updatedAt": "2026-10-24",
     "tags": [
       "SwiftUI",
       "iOS",
@@ -4162,7 +4261,7 @@
     "mediums": [
       "Software"
     ],
-    "description": "Better Signals records short observations using twelve metrics across Mind, Emotions, Social, and Environment. Every metric has five labeled levels. Add context or a note when useful, review the history, and export your own data.\n\n• Record in the app, through Quick Signal widgets, or with the Apple Watch Digital Crown.\n• Search and filter History; inspect each answer with its time, source, and optional location.\n• Enable optional location and prompts at familiar places.\n• Export CSV, JSON, JSON Lines, or GeoJSON; use read-only Shortcuts or an optional Files copy.\n• Keep history local. Watch answers synchronize to the paired iPhone; iPad history stays separate.\n\nAn internal TestFlight beta is available to invited testers. A public App Store download is not available yet. Screenshots show synthetic Signals in disposable simulators. Physical Watch, place-prompt, and accessibility acceptance remain part of beta testing.",
+    "description": "Better Signals records short observations using twelve metrics across Mind, Emotions, Social, and Environment. Every metric has five labeled levels. Add context or a note when useful, review the history, and export your own data.\n\n• Record in the app, through Quick Signal widgets, or with the Apple Watch Digital Crown.\n• Search and filter History; inspect each answer with its time, source, and optional location.\n• Enable optional location and prompts at familiar places.\n• Export CSV, JSON, JSON Lines, or GeoJSON; use read-only Shortcuts or an optional Files copy.\n• Keep history local. Watch answers synchronize to the paired iPhone; iPad history stays separate.\n\nThe approved public iOS release is 1.1.0 (build 2), available in the United States. Newer TestFlight and local features are separate from this release. Screenshots show synthetic Signals in disposable simulators. Physical Watch, place-prompt, and accessibility acceptance remain part of beta testing.",
     "story": "The aim is a small recording tool that keeps observations useful outside the app. It records what a person chooses to report without turning those answers into readiness scores or recommendations.\n\nThe SwiftUI app, widgets, and Watch companion compile a shared Swift model and archive layer. Atomic writes and file locks coordinate app and widget submissions. Stable request IDs and WatchConnectivity receipts prevent duplicate answers when an offline Watch reconnects. App Groups share within a device; they do not provide cross-device sync.\n\nA replacement import copies the earlier Timing Coach archive once under locks, retaining the source. Its original SwiftData history stays in the legacy App Group. The previous qualitative Better Signals database remains untouched because its model is different. Open export formats and read-only integration keep the recording layer separate from downstream analysis.",
     "images": {
       "thumbnail": "images/hero.jpg",
@@ -4172,6 +4271,11 @@
       "icon": "images/icon.png"
     },
     "resources": [
+      {
+        "type": "apple",
+        "label": "Install from App Store",
+        "url": "https://apps.apple.com/us/app/better-signals/id6824696184"
+      },
       {
         "type": "website",
         "label": "Visit",
@@ -4234,8 +4338,21 @@
         "label": "iPad: saved Signals grouped by day"
       }
     ],
+    "workLogs": [
+      {
+        "id": "403aec94-4d3c-8102-8197-cd9542ca35f2",
+        "title": "Released the Apple-approved Better Signals iOS app",
+        "entry": "Released the Apple-approved Better Signals iOS app",
+        "date": "2026-10-24",
+        "sessionType": [
+          "Build"
+        ],
+        "whatHappened": "Released approved iOS 1.1.0 (build 2) in its configured United States region. App Store Connect shows Ready for Distribution and the public Store page returns 200. Newer beta features remain separate.",
+        "url": "https://app.notion.com/p/403aec944d3c81028197cd9542ca35f2"
+      }
+    ],
     "readme": {
-      "content": "# Better Signals\n\nA native recording app for iPhone, iPad, and Apple Watch. Answer a short question, keep optional context, and export your data.\n\n![Better Signals: actual app screens with synthetic Signals](/projects/better_signals_33baec94-4d3c-805b-aa92-e0d16cc8a3f1/images/hero-optimized.webp)\n\n## What it does\n\n- Twelve metrics, in four categories, each with five labeled levels.\n- Quick Signal widgets and a paired Apple Watch companion.\n- Searchable History with answer, time, source, and optional context and location.\n- Optional prompts when you return to familiar places.\n- CSV, JSON, JSON Lines, and GeoJSON exports, read-only Shortcuts, and a current Files copy.\n- No account, advertising, tracking SDK, or developer-operated backend.\n\n[App overview](https://zacharysturman.com/better-signals) · [Support](https://zacharysturman.com/better-signals/support) · [Privacy](https://zacharysturman.com/better-signals/privacy)\n\n## Availability\n\nAn internal TestFlight beta is available to invited testers. The public App Store release is being prepared. Requires iOS or iPadOS 26 and watchOS 26 for the paired Watch app. There is no public download yet.\n\nWatch Signals transfer to the paired iPhone. iPad history is separate; there is no iCloud history sync. Optional location uses system permissions and visit monitoring. The app records observations without diagnosis, scoring, or treatment recommendations.\n\n## How it works\n\nSwiftUI builds on a shared Swift archive layer compiled into the phone, Watch, and widget targets. Atomic locked writes and stable submission IDs coordinate recording. WatchConnectivity queues offline answers and exchanges receipts. App Groups share files within a device. The original Timing Coach archive is copied once without deleting the source; its raw SwiftData history stays in the legacy group. The earlier qualitative Better Signals database is preserved separately and is not converted into this different model.\n\n## Validation boundary\n\nThe rename pass recorded 50 passing unit tests and a simulator recording/relaunch smoke test. The release pass adds signed archive/export verification and fresh iPhone/iPad screenshot acceptance. Screenshots use synthetic Signals in disposable simulators. Physical Watch pairing, visit delivery, notification actions, accessibility, and installed-device upgrade checks remain beta acceptance items. There is no claim that compilation proves those flows.\n\n## Media\n\nThe gallery contains actual simulator captures. The hero and social card arrange those captures in a portfolio layout; app screen content is not generated. No personal history or private locations are included.\n",
+      "content": "# Better Signals\n\nA native recording app for iPhone, iPad, and Apple Watch. Answer a short question, keep optional context, and export your data.\n\n![Better Signals: actual app screens with synthetic Signals](/projects/better_signals_33baec94-4d3c-805b-aa92-e0d16cc8a3f1/images/hero-optimized.webp)\n\n## What it does\n\n- Twelve metrics, in four categories, each with five labeled levels.\n- Quick Signal widgets and a paired Apple Watch companion.\n- Searchable History with answer, time, source, and optional context and location.\n- Optional prompts when you return to familiar places.\n- CSV, JSON, JSON Lines, and GeoJSON exports, read-only Shortcuts, and a current Files copy.\n- No account, advertising, tracking SDK, or developer-operated backend.\n\n[App overview](https://zacharysturman.com/better-signals) · [Support](https://zacharysturman.com/better-signals/support) · [Privacy](https://zacharysturman.com/better-signals/privacy)\n\n## Availability\n\n[Install the approved public release from the App Store](https://apps.apple.com/us/app/better-signals/id6824696184). Version 1.1.0 (build 2) is available in the United States. Newer beta features are separate. Requires iOS or iPadOS 26 and watchOS 26 for the paired Watch app.\n\nWatch Signals transfer to the paired iPhone. iPad history is separate; there is no iCloud history sync. Optional location uses system permissions and visit monitoring. The app records observations without diagnosis, scoring, or treatment recommendations.\n\n## How it works\n\nSwiftUI builds on a shared Swift archive layer compiled into the phone, Watch, and widget targets. Atomic locked writes and stable submission IDs coordinate recording. WatchConnectivity queues offline answers and exchanges receipts. App Groups share files within a device. The original Timing Coach archive is copied once without deleting the source; its raw SwiftData history stays in the legacy group. The earlier qualitative Better Signals database is preserved separately and is not converted into this different model.\n\n## Validation boundary\n\nThe rename pass recorded 50 passing unit tests and a simulator recording/relaunch smoke test. The release pass adds signed archive/export verification and fresh iPhone/iPad screenshot acceptance. Screenshots use synthetic Signals in disposable simulators. Physical Watch pairing, visit delivery, notification actions, accessibility, and installed-device upgrade checks remain beta acceptance items. There is no claim that compilation proves those flows.\n\n## Media\n\nThe gallery contains actual simulator captures. The hero and social card arrange those captures in a portfolio layout; app screen content is not generated. No personal history or private locations are included.\n",
       "sourceUrl": "/projects/better_signals_33baec94-4d3c-805b-aa92-e0d16cc8a3f1/README.md"
     }
   },
@@ -4246,7 +4363,7 @@
     "folderName": "better_workspace_210b2324-2bdf-5751-a101-9c334db91f8c",
     "title": "Better Workspace",
     "subtitle": "Projects, ideas and next steps across Mac, iPhone and iPad.",
-    "summary": "Projects, tasks and ideas across Apple devices. Advanced Mac 1.0 is available now, with a browser demo and public source; the native Store apps are completing Apple’s release process.",
+    "summary": "Projects, tasks and ideas across Apple devices. Install Better Workspace for iPhone and iPad, download the advanced Mac app, explore the browser demo or view the public source.",
     "oneLiner": "Turn a folder full of projects into a workspace you can act on.",
     "domain": "Technology",
     "category": "Application",
@@ -4255,7 +4372,7 @@
     "featured": true,
     "isPublic": true,
     "createdAt": null,
-    "updatedAt": "2026-10-15",
+    "updatedAt": "2026-10-24",
     "tags": [
       "SwiftUI",
       "macOS",
@@ -4276,6 +4393,11 @@
       "icon": "images/icon.png"
     },
     "resources": [
+      {
+        "type": "apple",
+        "label": "Install for iPhone & iPad",
+        "url": "https://apps.apple.com/us/app/better-workspace/id6822519097"
+      },
       {
         "type": "download",
         "label": "Download for Mac",
@@ -4338,7 +4460,29 @@
     "readme": {
       "content": "# Better Workspace\n\nProjects, ideas and a useful next step — across Mac, iPhone and iPad.\n\n[Download for Mac](https://github.com/ZSturman/Better-Workspace-Public/releases/download/v1.0/BetterWorkspace-1.0-8-mac.zip) · [Try Demo](/better-workspace/demo) · [View Source](https://github.com/ZSturman/Better-Workspace-Public) · [Getting started](/better-workspace#getting-started)\n\n![Actual Mac personal workspace with fictional sample projects](/projects/better_workspace_210b2324-2bdf-5751-a101-9c334db91f8c/images/mac-personal-sample.webp)\n\n## Make the next step easier to find\n\nStart with an idea, give it a project, and keep the next task close at hand. Better Workspace is for people juggling personal, creative and technical projects. Keep context around the work, catch a thought quickly, and see where to pick up next.\n\n## Choose your experience\n\n| Edition | Best for | Availability |\n| --- | --- | --- |\n| Advanced Mac | Real folders, portable plans, scoring, capture, progress, work history and optional Notion/agent tools | Download 1.0 now; macOS 14.4+, Apple silicon and Intel |\n| Native personal workspace | Projects, tasks, ideas and documents; offline work and private iCloud sync across Mac, iPhone and iPad | Apple release in progress; public installation links appear after publication |\n| Optional connected mobile workspace | Browse the advanced Mac’s published index and queue captures/planning changes | Requires advanced Mac, the same Apple account and iCloud Drive; Mac online to apply changes |\n\nThe native Store app works independently. The advanced Mac edition keeps your existing folders and adds capabilities outside the App Store sandbox. No separate Python installation is needed for the public Mac download.\n\n## Start in a few minutes\n\n1. Download **BetterWorkspace-1.0-8-mac.zip**, expand it and drag **Better Workspace.app** to Applications.\n2. Open the app. In **Settings → General**, choose your workspace and inbox folders. An empty folder is a safe place to explore.\n3. Browse an existing project or add a folder under Projects. Add a task or portable work plan, then choose a priority.\n4. Keep early possibilities in Ideas. Use **Quick Capture / Ingest** for a thought, link or file, then review where it belongs.\n5. Return to Overview to choose your next action and see progress or recent work.\n6. Enable the bundled background service in **Settings → Services** when needed. Mobile publishing, Notion, notifications and agent tools are optional.\n\nAllow folder access when macOS asks about your selected folders. The release is signed, notarized and stapled; do not disable Gatekeeper. [Detailed setup and help](/better-workspace/support).\n\n## See it before installing\n\n[Try the browser demonstration](/better-workspace/demo). Follow real application screenshots and practice completing a task, capturing an idea and starting a sample work session. All interaction uses fictional page-memory data. No account, installation or access to a real workspace is needed.\n\nThe native personal app also offers **Try a private sample** from its welcome screen. Its editable records stay in memory and disappear when you close it. Personal records save locally and synchronize through your private iCloud account when available; transfers can take minutes.\n\n## Real application screens\n\nThe gallery shows native Mac, iPhone and iPad sample UI, connected project planning and idea scoring. Current personal screens were captured from optimized Release UI on October 15 and represent the Build 8 experience; they contain disposable sample data.\n\n![iPhone personal workspace](/projects/better_workspace_210b2324-2bdf-5751-a101-9c334db91f8c/images/iphone-personal-sample.webp)\n\n![iPad personal workspace](/projects/better_workspace_210b2324-2bdf-5751-a101-9c334db91f8c/images/ipad-personal-sample.webp)\n\n## Release and source\n\n[Release notes and checksum](https://github.com/ZSturman/Better-Workspace-Public/releases/tag/v1.0) · [MIT-licensed source](https://github.com/ZSturman/Better-Workspace-Public)\n\nBuild 8 passed installed-device acceptance, private Production sync and isolated packaged-runtime checks. Separate-user advanced installer/login acceptance and wider widget configuration coverage remain follow-ups. Cloud synchronization is eventual. The public source is a clean release snapshot; private development history and personal QA evidence are excluded.\n\n## Help and privacy\n\n[Setup and support](/better-workspace/support) · [Privacy policy](/better-workspace/privacy)\n",
       "sourceUrl": "/projects/better_workspace_210b2324-2bdf-5751-a101-9c334db91f8c/README.md"
-    }
+    },
+    "workLogs": [
+      {
+        "id": "eb209eb8-30bc-5c22-8679-ede37adaa8dd",
+        "title": "Verified the public iPhone and iPad release",
+        "entry": "Verified the public iPhone and iPad release",
+        "date": "2026-10-24",
+        "sessionType": [
+          "Build"
+        ],
+        "whatHappened": "Verified App Store version 1.0.1 is available publicly. Added its install link alongside the signed advanced Mac download, public source and browser demo. The retired Mac Store edition is not offered for installation."
+      },
+      {
+        "id": "620c5108-fff1-5e84-989d-ee2b84f24852",
+        "title": "Submitted the unified mobile workspace",
+        "entry": "Submitted the unified mobile workspace",
+        "date": "2026-10-23",
+        "sessionType": [
+          "Build"
+        ],
+        "whatHappened": "Submitted iPhone/iPad version 1.0.1 (15), with unified Workspace screenshots and updated review notes. Physical devices updated in place through TestFlight before submission."
+      }
+    ]
   },
   {
     "id": "20732ff7-0f29-54af-9f8a-3ef13bfa196c",
@@ -4379,8 +4523,13 @@
     "resources": [
       {
         "type": "website",
-        "label": "Visit",
-        "url": "https://zacharysturman.com/content-manager"
+        "label": "Try demo",
+        "url": "/content-manager/demo"
+      },
+      {
+        "type": "website",
+        "label": "Explore the app",
+        "url": "/content-manager"
       }
     ],
     "assets": [
@@ -4400,7 +4549,29 @@
     "readme": {
       "content": "# Social Posts Content Manager\n\nReview the exact post. Make a clear decision. Move on.\n\nA native SwiftUI editorial workspace for Mac, iPhone and iPad. The mobile app reviews social drafts in your existing Notion Social Posts database; the Mac also handles generation and local Markdown articles.\n\n## Review on mobile\n\n- Read distinct LinkedIn and Bluesky previews, with selected destinations clearly marked.\n- Inspect the selected publication image, or the explicit text-only state.\n- Edit text and dates. Unsaved changes block approval and rejection.\n- Use persistent **Reject & Next** to decline a draft and open the next one. Restore declined drafts from Calendar → All.\n- Confirm **Mark Ready** to approve the saved version. Any later content edit withdraws approval.\n- Browse upcoming and posted items in Calendar; the widget shows the last refreshed queue snapshot.\n\nThe internal title is never added to the published text. Final platform layout, cropping and link cards can differ.\n\n## Availability and setup\n\nThe iPhone and iPad app uses TestFlight for private beta testing. There is no public App Store download or open beta invitation yet. Testers need an invitation and the existing Notion Social Posts schema; this beta does not provision a new workspace.\n\nUse the integration token for that workspace in Settings. It is verified before being stored in this device's Keychain. The phone does not need a direct connection to the Mac.\n\n## Publication remains deliberate\n\nMark Ready authorizes the independent publishing automation for the reviewed version. It does not publish immediately or turn on a paused publisher. Generation, Article Studio and automation controls remain on Mac.\n\n[Setup and support](/content-manager/support) · [Privacy policy](/content-manager/privacy)\n",
       "sourceUrl": "/projects/content_manager_20732ff7-0f29-54af-9f8a-3ef13bfa196c/README.md"
-    }
+    },
+    "workLogs": [
+      {
+        "id": "71df55ea-2f53-5eb6-8768-4284c64052e6",
+        "title": "Published the mobile review showcase",
+        "entry": "Published the mobile review showcase",
+        "date": "2026-10-21",
+        "sessionType": [
+          "Build"
+        ],
+        "whatHappened": "Published the native iPhone/iPad review overview with real in-memory fixture screenshots, support and privacy pages. TestFlight 1.0 (1) was verified available internally. Public Store submission is still pending."
+      },
+      {
+        "id": "91b8f7b7-3b81-53ee-ae6f-95c233a9bda7",
+        "title": "Added an account-free editorial demo",
+        "entry": "Added an account-free editorial demo",
+        "date": "2026-10-24",
+        "sessionType": [
+          "Build"
+        ],
+        "whatHappened": "Added a fictional draft queue with editable destination previews, reject-and-next and explicit approval. The native app remains a private TestFlight beta."
+      }
+    ]
   },
   {
     "id": "04827feb-2508-51d8-ba15-ed7738b57f7e",
@@ -4477,16 +4648,16 @@
     "folderName": "recallable_5031ef4c-2724-54a4-92ca-42d270a59716",
     "title": "Recallable",
     "subtitle": "Flashcards that fit into your day, on iPhone, iPad, Mac, and Apple Watch.",
-    "summary": "A spaced-repetition flashcard app where nothing is ever due. Open it and answer: Home, the widget, and the Watch each show your next card, and every rating spaces that card further apart or brings it back sooner. It works across iPhone, iPad, Mac, and Apple Watch with iCloud sync.",
+    "summary": "A native flashcard app with focused study, rich text and math, widgets and private iCloud sync. Released for iPhone and iPad; the separate Mac edition is still in Apple review. Try a sample deck in your browser.",
     "oneLiner": "Spaced-repetition flashcards that never turn into a backlog.",
     "domain": "Technology",
     "category": "Application",
     "status": "Active",
-    "phase": "Testing",
+    "phase": "Released on iOS",
     "featured": true,
     "isPublic": true,
     "createdAt": null,
-    "updatedAt": "2026-10-13",
+    "updatedAt": "2026-10-24",
     "tags": [
       "SwiftUI",
       "iOS",
@@ -4501,7 +4672,7 @@
     "mediums": [
       "Software"
     ],
-    "description": "Recallable is a flashcard app for iPhone, iPad, Mac, and Apple Watch. Open it and a card is waiting: show the answer, rate it Hard, Good, or Easy, and the next card is ready, with no session to set up.\n\nThe problem it solves. Spaced-repetition apps tend to turn into an overdue backlog: miss a few days and a wall of \"due\" cards greets you. In Recallable the queue is an ordering, never an obligation. Cards whose time has come are shown first, everything else follows, and nothing is ever \"due\". There are no due counts, return dates, or badges.\n\nFeatures\n\n• Quick study on Home, the widget, and the Watch: the best next card, answered in place. Focused rounds of 10 from one deck when you want them.\n• A spaced scheduler. Easy and Good lengthen a card's interval, Hard and Skip shorten it, within one day to one year. New cards are introduced gradually through a daily allowance.\n• Discover: search or browse by category. Nine built-in starter decks work offline, and community decks people publish have filtering, reporting, publisher blocking, and moderation.\n• A card editor with pictures on either side, hints, explanations, links, and LaTeX math typeset everywhere, including on the Watch.\n• CSV import and export to share decks or move them to and from a spreadsheet.\n• AI drafts from a topic, text, a web page, a PDF, or a photo of notes. They're made with Apple's on-device Foundation Models, LM Studio on your Mac, or your own Gemini key, and you review every draft before it's saved.\n• Widgets: an interactive Home Screen widget to flip and rate cards, Lock Screen widgets, and a Control Center control. Also App Intents for Shortcuts and Siri.\n• Reminders at times you choose. They never show card text.\n• iCloud sync across devices. Reviews from every device are kept, never lost.\n\nAvailability\n\nRecallable is being prepared for the App Store. It isn't available to download yet.",
+    "description": "Recallable is a flashcard app for iPhone, iPad, Mac, and Apple Watch. Open it and a card is waiting: show the answer, rate it Hard, Good, or Easy, and the next card is ready, with no session to set up.\n\nThe problem it solves. Spaced-repetition apps tend to turn into an overdue backlog: miss a few days and a wall of \"due\" cards greets you. In Recallable the queue is an ordering, never an obligation. Cards whose time has come are shown first, everything else follows, and nothing is ever \"due\". There are no due counts, return dates, or badges.\n\nFeatures\n\n• Quick study on Home, the widget, and the Watch: the best next card, answered in place. Focused rounds of 10 from one deck when you want them.\n• A spaced scheduler. Easy and Good lengthen a card's interval, Hard and Skip shorten it, within one day to one year. New cards are introduced gradually through a daily allowance.\n• Discover: search or browse by category. Nine built-in starter decks work offline, and community decks people publish have filtering, reporting, publisher blocking, and moderation.\n• A card editor with pictures on either side, hints, explanations, links, and LaTeX math typeset everywhere, including on the Watch.\n• CSV import and export to share decks or move them to and from a spreadsheet.\n• AI drafts from a topic, text, a web page, a PDF, or a photo of notes. They're made with Apple's on-device Foundation Models, LM Studio on your Mac, or your own Gemini key, and you review every draft before it's saved.\n• Widgets: an interactive Home Screen widget to flip and rate cards, Lock Screen widgets, and a Control Center control. Also App Intents for Shortcuts and Siri.\n• Reminders at times you choose. They never show card text.\n• iCloud sync across devices. Reviews from every device are kept, never lost.\n\nAvailability\n\nRecallable is being prepared for the App Store. The iPhone and iPad release is available on the App Store. The separate Mac edition is still in review.",
     "story": "I built Recallable to make reviewing feel like opening a message instead of facing a backlog. The design rule was that studying should always be possible and never be a debt.\n\nArchitecture. A pure, unit-tested RecallableDomain package holds the QueueScheduler, the card and deck model, card strength, CSV parsing, rich text and math parsing, and the SwiftData store. Protocols keep the clock, persistence, networking, CloudKit, and Foundation Models out of the scheduling logic. The SwiftUI app, widget extension, and watchOS app build on that package, and the Mac app is the same code through Mac Catalyst. Math is typeset with SwiftUIMath.\n\nEngineering challenges.\n\n• A schema built for CloudKit mirroring: no unique constraints, every attribute defaulted, and JSON columns instead of relationships. Review events are immutable, UUID-keyed, and insert-only, so merges are unions: ratings from two devices both count, and saving never drops another device's cards.\n• Bounded payloads: a full library (about 2 MB) was too large to send to the Watch, so the Watch and widget get the next 200 cards as a file, and the Watch keeps an offline outbox that replays over WatchConnectivity.\n• Testing on real devices without touching real data: UI tests run on the physical iPhone, iPad, and Mac with disposable stores, preferences, and TipKit data, isolated from the owner's own library.\n• Safe migrations: removing an earlier Notion integration dropped columns through SwiftData lightweight migration without losing a card or review.\n\nProcess. It was built iteratively and verified on a physical iPhone 16 Pro Max, an iPad Pro 12.9-inch, a Mac, and an Apple Watch. It has 94 domain unit tests (Swift Testing) and XCTest UI suites covering first run, everyday study, persistence, layout, and App Store screenshot capture.",
     "images": {
       "thumbnail": "images/thumbnail.jpg",
@@ -4511,6 +4682,16 @@
       "social": "images/social.jpg"
     },
     "resources": [
+      {
+        "type": "apple",
+        "label": "Install for iPhone & iPad",
+        "url": "https://apps.apple.com/us/app/recallable-flashcards/id6822919785"
+      },
+      {
+        "type": "website",
+        "label": "Try demo",
+        "url": "/recallable/demo"
+      },
       {
         "type": "website",
         "label": "Visit",
@@ -4586,8 +4767,31 @@
       }
     ],
     "readme": {
-      "content": "# Recallable\n\nSpaced-repetition flashcards that fit into your day, on iPhone, iPad, Mac, and Apple Watch.\n\n![Recallable on iPad, iPhone, and Apple Watch](/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/images/hero.jpg)\n\n## What it does\n\nOpen Recallable and a card is waiting. Show the answer, rate it Hard, Good, or Easy, and the next one is ready. Every rating spaces that card: ones you know drift further apart, and hard ones come back sooner. Unlike most spaced-repetition apps, nothing is ever \"due\". The queue only decides what to show first, so a few days away never leaves you with a backlog.\n\n- **Quick study** on Home, the Home Screen widget, and Apple Watch, plus focused rounds of 10.\n- **Discover:** built-in starter decks that work offline, and community decks with reporting, blocking, and moderation.\n- **Your own cards** with pictures, hints, explanations, links, and LaTeX math typeset on every device.\n- **CSV import and export.**\n- **AI drafts** from a topic, text, a web page, a PDF, or a photo of notes, using on-device Apple Intelligence, LM Studio, or your own Gemini key. Every draft is reviewed before it's saved.\n- **Widgets, a Control Center control, Shortcuts and Siri,** and reminders that never show card text.\n- **iCloud sync** across devices, where reviews from every device are kept.\n\n## Screenshots\n\nThese are unedited captures of the real app, using its built-in starter decks with study history from the app's own scheduler.\n\n| Home | Answer | Progress | Discover |\n|---|---|---|---|\n| ![Home](/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/images/iphone-01-home-optimized.webp) | ![Answer](/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/images/iphone-02-answer-optimized.webp) | ![Progress](/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/images/iphone-03-progress-optimized.webp) | ![Discover](/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/images/iphone-04-discover-optimized.webp) |\n\n![Apple Watch: a question](/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/images/watch-01-question-optimized.webp) ![Apple Watch: the answer](/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/images/watch-02-answer-optimized.webp)\n\n## How it's built\n\n- **RecallableDomain:** a pure Swift package with the scheduler, models, CSV, rich text and math, and the SwiftData store, covered by 94 unit tests.\n- **Apps:** SwiftUI for iPhone and iPad, the Mac through Mac Catalyst, a WidgetKit extension, and a watchOS app.\n- **Sync:** SwiftData with CloudKit mirroring. Review events are immutable and insert-only, so merges from several devices are unions.\n- **Watch:** gets a bounded set of upcoming cards and replays offline ratings over WatchConnectivity.\n- **Technologies:** Swift 6, SwiftUI, SwiftData, CloudKit, WidgetKit, App Intents, WatchConnectivity, Foundation Models, TipKit, and XCTest and Swift Testing.\n\n## Availability\n\nRecallable is being prepared for the App Store and isn't available to download yet. It needs iOS, iPadOS, or watchOS 26, or macOS 26.\n\n## Help and privacy\n\n[Support](/recallable/support) · [Privacy policy](/recallable/privacy)\n\nCopyright © 2026 Zachary Sturman.\n",
+      "content": "# Recallable\n\nSpaced-repetition flashcards that fit into your day, on iPhone, iPad, Mac, and Apple Watch.\n\n![Recallable on iPad, iPhone, and Apple Watch](/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/images/hero.jpg)\n\n## What it does\n\nOpen Recallable and a card is waiting. Show the answer, rate it Hard, Good, or Easy, and the next one is ready. Every rating spaces that card: ones you know drift further apart, and hard ones come back sooner. Unlike most spaced-repetition apps, nothing is ever \"due\". The queue only decides what to show first, so a few days away never leaves you with a backlog.\n\n- **Quick study** on Home, the Home Screen widget, and Apple Watch, plus focused rounds of 10.\n- **Discover:** built-in starter decks that work offline, and community decks with reporting, blocking, and moderation.\n- **Your own cards** with pictures, hints, explanations, links, and LaTeX math typeset on every device.\n- **CSV import and export.**\n- **AI drafts** from a topic, text, a web page, a PDF, or a photo of notes, using on-device Apple Intelligence, LM Studio, or your own Gemini key. Every draft is reviewed before it's saved.\n- **Widgets, a Control Center control, Shortcuts and Siri,** and reminders that never show card text.\n- **iCloud sync** across devices, where reviews from every device are kept.\n\n## Screenshots\n\nThese are unedited captures of the real app, using its built-in starter decks with study history from the app's own scheduler.\n\n| Home | Answer | Progress | Discover |\n|---|---|---|---|\n| ![Home](/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/images/iphone-01-home-optimized.webp) | ![Answer](/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/images/iphone-02-answer-optimized.webp) | ![Progress](/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/images/iphone-03-progress-optimized.webp) | ![Discover](/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/images/iphone-04-discover-optimized.webp) |\n\n![Apple Watch: a question](/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/images/watch-01-question-optimized.webp) ![Apple Watch: the answer](/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/images/watch-02-answer-optimized.webp)\n\n## How it's built\n\n- **RecallableDomain:** a pure Swift package with the scheduler, models, CSV, rich text and math, and the SwiftData store, covered by 94 unit tests.\n- **Apps:** SwiftUI for iPhone and iPad, the Mac through Mac Catalyst, a WidgetKit extension, and a watchOS app.\n- **Sync:** SwiftData with CloudKit mirroring. Review events are immutable and insert-only, so merges from several devices are unions.\n- **Watch:** gets a bounded set of upcoming cards and replays offline ratings over WatchConnectivity.\n- **Technologies:** Swift 6, SwiftUI, SwiftData, CloudKit, WidgetKit, App Intents, WatchConnectivity, Foundation Models, TipKit, and XCTest and Swift Testing.\n\n## Availability\n\nRecallable is being prepared for the App Store and isn't available to download yet. It needs iOS, iPadOS, or watchOS 26, or macOS 26.\n\n## Help and privacy\n\n[Support](/recallable/support) · [Privacy policy](/recallable/privacy)\n\nCopyright © 2026 Zachary Sturman.\n\n## Install or try\n\n[Install for iPhone and iPad](https://apps.apple.com/us/app/recallable-flashcards/id6822919785) · [Try the browser demo](/recallable/demo). Public release 1.0.0 (8) is separate from newer TestFlight builds.\n",
       "sourceUrl": "/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/README.md"
-    }
+    },
+    "workLogs": [
+      {
+        "id": "403aec94-4d3c-8126-ba47-ffb1bfc9e863",
+        "title": "Released the Apple-approved Recallable iOS app",
+        "entry": "Released the Apple-approved Recallable iOS app",
+        "date": "2026-10-24",
+        "sessionType": [
+          "Build"
+        ],
+        "whatHappened": "Released approved iOS 1.0.0 (build 8) in 175 regions. App Store Connect shows Ready for Distribution and the public Store page returns 200. The Mac version remains In Review; newer TestFlight build 13 is separate.",
+        "url": "https://app.notion.com/p/403aec944d3c8126ba47ffb1bfc9e863"
+      },
+      {
+        "id": "8696fbe1-1c21-596b-be59-0b8de9da8d59",
+        "title": "TestFlight build 13: adaptive widget text",
+        "entry": "TestFlight build 13: adaptive widget text",
+        "date": "2026-10-21",
+        "sessionType": [
+          "Build"
+        ],
+        "whatHappened": "Published iOS and Mac TestFlight build 13 with adaptive question and answer text for widgets. Both were verified available to internal testers. This is a beta milestone, separate from the approved public build."
+      }
+    ]
   }
 ]

@@ -38,6 +38,7 @@ yarn-error.log*
 .env*
 !.env.example
 /content/*
+!/content/project-updates.json
 !/content/projects/
 /content/projects/*
 !/content/projects/better-workspace/

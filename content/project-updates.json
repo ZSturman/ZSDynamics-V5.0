@@ -1,0 +1,376 @@
+{
+  "hue-light-control": {
+    "resources": [
+      {
+        "type": "github",
+        "label": "Source & build guide",
+        "url": "https://github.com/ZSturman/Hue-Light-Control"
+      }
+    ],
+    "updatedAt": "2026-10-24",
+    "workLogs": [
+      {
+        "id": "403aec94-4d3c-8148-8a64-d1e3b8376f3e",
+        "title": "Published Hue Light Control firmware on GitHub",
+        "entry": "Published Hue Light Control firmware on GitHub",
+        "date": "2026-10-24",
+        "sessionType": [
+          "Build"
+        ],
+        "whatHappened": "Created the public repository with ESP32 firmware, wiring illustrations, setup guide and an environment template. Connected the local origin remote and normalized Notion repository resource. Local credentials and generated files were excluded.",
+        "url": "https://app.notion.com/p/403aec944d3c81488a64d1e3b8376f3e"
+      }
+    ]
+  },
+  "transactions": {
+    "subtitle": "Shared expenses on web, iPhone, iPad and Android.",
+    "summary": "Track shared expenses, approvals and balances across web and native mobile apps. The web app is available now; the iOS app is waiting for Apple review. Try the browser demo without an account.",
+    "oneLiner": "Shared expenses and balances across web and mobile.",
+    "description": "Transactions records shared expenses, requests, approvals, disputes and settlements between people. The native Expo/React Native clients for iPhone, iPad and Android share Firebase Authentication and Firestore records with the Next.js web app. CSV import/export and native file sharing help keep records portable. The web app is available now. iOS 1.0.0 (build 1), listed as Transactions: Shared Ledger, is waiting for Apple review with automatic release after approval. Android store publication is deferred. Transactions records obligations; it does not transfer money or connect to bank accounts.",
+    "resources": [
+      {
+        "type": "website",
+        "label": "Open web app",
+        "url": "https://transactions-lmct.vercel.app/login"
+      },
+      {
+        "type": "website",
+        "label": "Try demo",
+        "url": "/transactions/demo"
+      },
+      {
+        "type": "github",
+        "label": "Web source",
+        "url": "https://github.com/ZSturman/Transactions"
+      }
+    ],
+    "updatedAt": "2026-10-24",
+    "tags": [
+      "Next.js",
+      "Firebase",
+      "TypeScript",
+      "Tailwind CSS",
+      "Finances",
+      "Dashboard",
+      "React Native",
+      "Expo",
+      "iOS",
+      "Android"
+    ],
+    "workLogs": [
+      {
+        "id": "403aec94-4d3c-819a-9c61-da0ae4d86a50",
+        "title": "Refreshed Transactions mobile and public access status",
+        "entry": "Refreshed Transactions mobile and public access status",
+        "date": "2026-10-24",
+        "sessionType": [
+          "Build"
+        ],
+        "whatHappened": "Verified iOS 1.0.0 (build 1) is Waiting for Review with automatic release. Added native iOS/Android product details, real synthetic-account screenshots and an account-free browser demo. The web app remains live; Android publication is deferred.",
+        "url": "https://app.notion.com/p/403aec944d3c819a9c61da0ae4d86a50"
+      },
+      {
+        "id": "a67ae182-dcec-5774-9a62-172ce8f8da24",
+        "title": "Submitted Transactions: Shared Ledger for Apple review",
+        "entry": "Submitted Transactions: Shared Ledger for Apple review",
+        "date": "2026-10-23",
+        "sessionType": [
+          "Build"
+        ],
+        "whatHappened": "Uploaded and selected signed iOS build 1, configured listing metadata and screenshots, and submitted version 1.0.0 for review with automatic release after approval. Native mobile and web share Firebase records."
+      }
+    ],
+    "assets": [
+      {
+        "id": "native-iphone",
+        "type": "image",
+        "path": "/transactions/images/iphone-optimized.webp",
+        "label": "Native iphone dashboard — synthetic accounts"
+      },
+      {
+        "id": "native-ipad",
+        "type": "image",
+        "path": "/transactions/images/ipad-optimized.webp",
+        "label": "Native ipad dashboard — synthetic accounts"
+      }
+    ]
+  },
+  "chewsense": {
+    "resources": [
+      {
+        "type": "apple",
+        "label": "Install from App Store",
+        "url": "https://apps.apple.com/us/app/chew-sense-collect-and-label/id6755277802"
+      },
+      {
+        "type": "github",
+        "label": "Repo",
+        "url": "https://github.com/ZSturman/ChewSense---Data-Collection-and-Labeling"
+      }
+    ]
+  },
+  "folio": {
+    "resources": [
+      {
+        "type": "apple",
+        "label": "Install for Mac",
+        "url": "https://apps.apple.com/us/app/folio-studio/id6755154786"
+      },
+      {
+        "type": "github",
+        "label": "Repo",
+        "url": "https://github.com/ZSturman/Folio-Studio"
+      }
+    ]
+  },
+  "mediledger": {
+    "resources": [
+      {
+        "type": "apple",
+        "label": "Install from App Store",
+        "url": "https://apps.apple.com/us/app/mediledger/id6744004933"
+      },
+      {
+        "type": "github",
+        "label": "Repo",
+        "url": "https://github.com/ZSturman/MediLedger"
+      }
+    ]
+  },
+  "frontend-collection": {
+    "resources": [
+      {
+        "type": "website",
+        "label": "Open component demos",
+        "url": "https://react-component-collection-delta.vercel.app"
+      },
+      {
+        "type": "github",
+        "label": "View source",
+        "url": "https://github.com/ZSturman/React-Component-Collection"
+      }
+    ]
+  },
+  "the-wolf-project": {
+    "resources": [
+      {
+        "type": "web",
+        "label": "Visit project",
+        "url": "https://the-wolf-pack.vercel.app",
+        "linkPreview": {
+          "provider": "the-wolf-pack.vercel.app",
+          "title": "The Wolf Project | Your Dog Can Stay",
+          "siteName": "The-Wolf-Pack Vercel App",
+          "hostname": "the-wolf-pack.vercel.app",
+          "displayUrl": "the-wolf-pack.vercel.app",
+          "description": "When treatment exists but access to care doesn't, The Wolf Project exists to help families keep dogs where they belong - at home.",
+          "image": "/projects/the_wolf_project_346aec94-4d3c-801e-851f-c7e727f0e186/previews/the-wolf-pack.vercel.app-23526c25a9c2.png",
+          "imageSource": "capture"
+        },
+        "iconUrl": "/icons/favicons/the-wolf-pack.vercel.app.ico"
+      },
+      {
+        "type": "github",
+        "label": "View source",
+        "url": "https://github.com/ZSturman/The-Wolf-Project"
+      },
+      {
+        "type": "web",
+        "label": "Original Site",
+        "url": "https://yourdogcanstay.com",
+        "linkPreview": {
+          "provider": "yourdogcanstay.com",
+          "title": "The WOLF PROJECT",
+          "siteName": "YOUR DOG CAN STAY",
+          "hostname": "yourdogcanstay.com",
+          "displayUrl": "yourdogcanstay.com",
+          "description": "Access to Care Lifeline for families whose dog requires lifesaving medical care, but the upfront costs stand in the way.",
+          "image": "/projects/the_wolf_project_346aec94-4d3c-801e-851f-c7e727f0e186/previews/yourdogcanstay.com-98da4ec0bcac.png",
+          "imageSource": "capture"
+        }
+      }
+    ]
+  },
+  "production-scheduling-web-app": {
+    "resources": [
+      {
+        "type": "github",
+        "label": "Repo",
+        "url": "https://github.com/ZSturman/Production-Scheduling-Web-App"
+      }
+    ]
+  },
+  "recallable": {
+    "resources": [
+      {
+        "type": "apple",
+        "label": "Install for iPhone & iPad",
+        "url": "https://apps.apple.com/us/app/recallable-flashcards/id6822919785"
+      },
+      {
+        "type": "website",
+        "label": "Try demo",
+        "url": "/recallable/demo"
+      },
+      {
+        "type": "website",
+        "label": "Visit",
+        "url": "/recallable"
+      }
+    ],
+    "phase": "Released on iOS",
+    "updatedAt": "2026-10-24",
+    "summary": "A native flashcard app with focused study, rich text and math, widgets and private iCloud sync. Released for iPhone and iPad; the separate Mac edition is still in Apple review. Try a sample deck in your browser.",
+    "workLogs": [
+      {
+        "id": "403aec94-4d3c-8126-ba47-ffb1bfc9e863",
+        "title": "Released the Apple-approved Recallable iOS app",
+        "entry": "Released the Apple-approved Recallable iOS app",
+        "date": "2026-10-24",
+        "sessionType": [
+          "Build"
+        ],
+        "whatHappened": "Released approved iOS 1.0.0 (build 8) in 175 regions. App Store Connect shows Ready for Distribution and the public Store page returns 200. The Mac version remains In Review; newer TestFlight build 13 is separate.",
+        "url": "https://app.notion.com/p/403aec944d3c8126ba47ffb1bfc9e863"
+      },
+      {
+        "id": "8696fbe1-1c21-596b-be59-0b8de9da8d59",
+        "title": "TestFlight build 13: adaptive widget text",
+        "entry": "TestFlight build 13: adaptive widget text",
+        "date": "2026-10-21",
+        "sessionType": [
+          "Build"
+        ],
+        "whatHappened": "Published iOS and Mac TestFlight build 13 with adaptive question and answer text for widgets. Both were verified available to internal testers. This is a beta milestone, separate from the approved public build."
+      }
+    ]
+  },
+  "better-workspace": {
+    "resources": [
+      {
+        "type": "apple",
+        "label": "Install for iPhone & iPad",
+        "url": "https://apps.apple.com/us/app/better-workspace/id6822519097"
+      },
+      {
+        "type": "download",
+        "label": "Download for Mac",
+        "url": "https://github.com/ZSturman/Better-Workspace-Public/releases/download/v1.0/BetterWorkspace-1.0-8-mac.zip"
+      },
+      {
+        "type": "website",
+        "label": "Try Demo",
+        "url": "/better-workspace/demo"
+      },
+      {
+        "type": "github",
+        "label": "View Source",
+        "url": "https://github.com/ZSturman/Better-Workspace-Public"
+      },
+      {
+        "type": "website",
+        "label": "Visit",
+        "url": "/better-workspace"
+      }
+    ],
+    "summary": "Projects, tasks and ideas across Apple devices. Install Better Workspace for iPhone and iPad, download the advanced Mac app, explore the browser demo or view the public source.",
+    "updatedAt": "2026-10-24",
+    "workLogs": [
+      {
+        "id": "eb209eb8-30bc-5c22-8679-ede37adaa8dd",
+        "title": "Verified the public iPhone and iPad release",
+        "entry": "Verified the public iPhone and iPad release",
+        "date": "2026-10-24",
+        "sessionType": [
+          "Build"
+        ],
+        "whatHappened": "Verified App Store version 1.0.1 is available publicly. Added its install link alongside the signed advanced Mac download, public source and browser demo. The retired Mac Store edition is not offered for installation."
+      },
+      {
+        "id": "620c5108-fff1-5e84-989d-ee2b84f24852",
+        "title": "Submitted the unified mobile workspace",
+        "entry": "Submitted the unified mobile workspace",
+        "date": "2026-10-23",
+        "sessionType": [
+          "Build"
+        ],
+        "whatHappened": "Submitted iPhone/iPad version 1.0.1 (15), with unified Workspace screenshots and updated review notes. Physical devices updated in place through TestFlight before submission."
+      }
+    ]
+  },
+  "content-manager": {
+    "resources": [
+      {
+        "type": "website",
+        "label": "Try demo",
+        "url": "/content-manager/demo"
+      },
+      {
+        "type": "website",
+        "label": "Explore the app",
+        "url": "/content-manager"
+      }
+    ],
+    "workLogs": [
+      {
+        "id": "71df55ea-2f53-5eb6-8768-4284c64052e6",
+        "title": "Published the mobile review showcase",
+        "entry": "Published the mobile review showcase",
+        "date": "2026-10-21",
+        "sessionType": [
+          "Build"
+        ],
+        "whatHappened": "Published the native iPhone/iPad review overview with real in-memory fixture screenshots, support and privacy pages. TestFlight 1.0 (1) was verified available internally. Public Store submission is still pending."
+      },
+      {
+        "id": "91b8f7b7-3b81-53ee-ae6f-95c233a9bda7",
+        "title": "Added an account-free editorial demo",
+        "entry": "Added an account-free editorial demo",
+        "date": "2026-10-24",
+        "sessionType": [
+          "Build"
+        ],
+        "whatHappened": "Added a fictional draft queue with editable destination previews, reject-and-next and explicit approval. The native app remains a private TestFlight beta."
+      }
+    ]
+  },
+  "3d-models-collection": {
+    "workLogs": [
+      {
+        "id": "198b1406-e4a9-5e68-b1b0-42d0591b12a4",
+        "title": "Published the curated interactive collection",
+        "entry": "Published the curated interactive collection",
+        "date": "2026-10-19",
+        "sessionType": [
+          "Build"
+        ],
+        "whatHappened": "Published 14 curated models, including 11 interactive previews and three still entries, part/assembly selection and two walking clips. Original Blender/STL source and personal photos were excluded."
+      }
+    ],
+    "resources": [
+      {
+        "type": "website",
+        "label": "Explore 3D models",
+        "url": "/projects/3d-models-collection#collection"
+      }
+    ]
+  },
+  "animation-collection": {
+    "resources": [
+      {
+        "type": "website",
+        "label": "Watch animations",
+        "url": "/projects/animation-collection#collection"
+      }
+    ]
+  },
+  "history-of-everything-coloring-book": {
+    "resources": [
+      {
+        "type": "website",
+        "label": "Browse coloring pages",
+        "url": "/projects/history-of-everything-coloring-book#collection"
+      }
+    ]
+  }
+}

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-10-10T14:02:10.681011+00:00",
+  "generated_at": "2026-10-24T14:46:04.536831+00:00",
   "data": {
     "id": "306aec94-4d3c-800f-8fd6-c80ad845b5df",
     "slug": "mediledger",
@@ -38,6 +38,11 @@
       "banner": "banner.png"
     },
     "resources": [
+      {
+        "type": "apple",
+        "label": "Install from App Store",
+        "url": "https://apps.apple.com/us/app/mediledger/id6744004933"
+      },
       {
         "type": "github",
         "label": "Repo",

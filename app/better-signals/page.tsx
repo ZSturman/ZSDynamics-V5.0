@@ -22,7 +22,7 @@ export default function BetterSignalsPage() {
             <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">Better Signals</h1>
             <p className="text-2xl">Record a moment.<br />Keep the context.</p>
             <p>How focused do you feel? How pleasant is this moment? Record a short, labeled answer and carry on. Your history belongs to you.</p>
-            <Link href="/projects/better-signals" className="inline-block rounded-full bg-foreground px-5 py-3 font-medium text-background">Explore the project</Link>
+            <a href="https://apps.apple.com/us/app/better-signals/id6824696184" className="inline-block rounded-full bg-foreground px-5 py-3 font-medium text-background">Install from App Store</a>
           </div>
           <Image src={`${media}/iphone-home-optimized.webp`} alt="Better Signals Home with three synthetic Signals and their latest labeled answers" width={1320} height={2868} priority className="mx-auto w-full max-w-[260px] rounded-[2rem] border shadow-xl" />
         </header>
@@ -46,8 +46,8 @@ export default function BetterSignalsPage() {
           <p className="text-sm text-muted-foreground">Actual simulator captures with synthetic Signals.</p>
         </section>
         <section className="space-y-3 rounded-2xl border p-6" aria-label="Availability">
-          <h2 className="text-xl font-semibold">Internal TestFlight beta</h2>
-          <p>Invited testers can install Better Signals through TestFlight. The public App Store release is being prepared. It requires iOS or iPadOS 26; the paired Watch companion requires watchOS 26. A public download is not available yet.</p>
+          <h2 className="text-xl font-semibold">Available on the App Store</h2>
+          <p>The approved public release is version 1.1.0 (build 2), available in the United States. Newer TestFlight and local features are separate. It requires iOS or iPadOS 26; the paired Watch companion requires watchOS 26.</p>
           <p>No account, advertising, or developer analytics. iPad history stays separate; Watch Signals synchronize with the paired iPhone.</p>
         </section>
         <footer className="flex flex-wrap gap-5 border-t pt-5 text-sm">

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-10-10T14:02:10.677356+00:00",
+  "generated_at": "2026-10-24T14:46:04.533222+00:00",
   "data": {
     "id": "34faec94-4d3c-80bf-928b-e0e32ba51cc8",
     "slug": "production-scheduling-web-app",
@@ -44,11 +44,6 @@
         "type": "github",
         "label": "Repo",
         "url": "https://github.com/ZSturman/Production-Scheduling-Web-App"
-      },
-      {
-        "type": "github",
-        "label": "Repo",
-        "url": "https://github.com/ZSturman/Google-Sheets-Production-Schedule-Desktop-App"
       }
     ],
     "assets": [],

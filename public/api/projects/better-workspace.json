@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-10-16T05:29:29.579739+00:00",
+  "generated_at": "2026-10-24T14:46:04.538066+00:00",
   "data": {
     "id": "210b2324-2bdf-5751-a101-9c334db91f8c",
     "slug": "better-workspace",
@@ -9,7 +9,7 @@
     "folderName": "better_workspace_210b2324-2bdf-5751-a101-9c334db91f8c",
     "title": "Better Workspace",
     "subtitle": "Projects, ideas and next steps across Mac, iPhone and iPad.",
-    "summary": "Projects, tasks and ideas across Apple devices. Advanced Mac 1.0 is available now, with a browser demo and public source; the native Store apps are completing Apple’s release process.",
+    "summary": "Projects, tasks and ideas across Apple devices. Install Better Workspace for iPhone and iPad, download the advanced Mac app, explore the browser demo or view the public source.",
     "oneLiner": "Turn a folder full of projects into a workspace you can act on.",
     "domain": "Technology",
     "category": "Application",
@@ -18,7 +18,7 @@
     "featured": true,
     "isPublic": true,
     "createdAt": null,
-    "updatedAt": "2026-10-15",
+    "updatedAt": "2026-10-24",
     "tags": [
       "SwiftUI",
       "macOS",
@@ -39,6 +39,11 @@
       "icon": "images/icon.png"
     },
     "resources": [
+      {
+        "type": "apple",
+        "label": "Install for iPhone & iPad",
+        "url": "https://apps.apple.com/us/app/better-workspace/id6822519097"
+      },
       {
         "type": "download",
         "label": "Download for Mac",
@@ -101,6 +106,28 @@
     "readme": {
       "content": "# Better Workspace\n\nProjects, ideas and a useful next step — across Mac, iPhone and iPad.\n\n[Download for Mac](https://github.com/ZSturman/Better-Workspace-Public/releases/download/v1.0/BetterWorkspace-1.0-8-mac.zip) · [Try Demo](/better-workspace/demo) · [View Source](https://github.com/ZSturman/Better-Workspace-Public) · [Getting started](/better-workspace#getting-started)\n\n![Actual Mac personal workspace with fictional sample projects](/projects/better_workspace_210b2324-2bdf-5751-a101-9c334db91f8c/images/mac-personal-sample.webp)\n\n## Make the next step easier to find\n\nStart with an idea, give it a project, and keep the next task close at hand. Better Workspace is for people juggling personal, creative and technical projects. Keep context around the work, catch a thought quickly, and see where to pick up next.\n\n## Choose your experience\n\n| Edition | Best for | Availability |\n| --- | --- | --- |\n| Advanced Mac | Real folders, portable plans, scoring, capture, progress, work history and optional Notion/agent tools | Download 1.0 now; macOS 14.4+, Apple silicon and Intel |\n| Native personal workspace | Projects, tasks, ideas and documents; offline work and private iCloud sync across Mac, iPhone and iPad | Apple release in progress; public installation links appear after publication |\n| Optional connected mobile workspace | Browse the advanced Mac’s published index and queue captures/planning changes | Requires advanced Mac, the same Apple account and iCloud Drive; Mac online to apply changes |\n\nThe native Store app works independently. The advanced Mac edition keeps your existing folders and adds capabilities outside the App Store sandbox. No separate Python installation is needed for the public Mac download.\n\n## Start in a few minutes\n\n1. Download **BetterWorkspace-1.0-8-mac.zip**, expand it and drag **Better Workspace.app** to Applications.\n2. Open the app. In **Settings → General**, choose your workspace and inbox folders. An empty folder is a safe place to explore.\n3. Browse an existing project or add a folder under Projects. Add a task or portable work plan, then choose a priority.\n4. Keep early possibilities in Ideas. Use **Quick Capture / Ingest** for a thought, link or file, then review where it belongs.\n5. Return to Overview to choose your next action and see progress or recent work.\n6. Enable the bundled background service in **Settings → Services** when needed. Mobile publishing, Notion, notifications and agent tools are optional.\n\nAllow folder access when macOS asks about your selected folders. The release is signed, notarized and stapled; do not disable Gatekeeper. [Detailed setup and help](/better-workspace/support).\n\n## See it before installing\n\n[Try the browser demonstration](/better-workspace/demo). Follow real application screenshots and practice completing a task, capturing an idea and starting a sample work session. All interaction uses fictional page-memory data. No account, installation or access to a real workspace is needed.\n\nThe native personal app also offers **Try a private sample** from its welcome screen. Its editable records stay in memory and disappear when you close it. Personal records save locally and synchronize through your private iCloud account when available; transfers can take minutes.\n\n## Real application screens\n\nThe gallery shows native Mac, iPhone and iPad sample UI, connected project planning and idea scoring. Current personal screens were captured from optimized Release UI on October 15 and represent the Build 8 experience; they contain disposable sample data.\n\n![iPhone personal workspace](/projects/better_workspace_210b2324-2bdf-5751-a101-9c334db91f8c/images/iphone-personal-sample.webp)\n\n![iPad personal workspace](/projects/better_workspace_210b2324-2bdf-5751-a101-9c334db91f8c/images/ipad-personal-sample.webp)\n\n## Release and source\n\n[Release notes and checksum](https://github.com/ZSturman/Better-Workspace-Public/releases/tag/v1.0) · [MIT-licensed source](https://github.com/ZSturman/Better-Workspace-Public)\n\nBuild 8 passed installed-device acceptance, private Production sync and isolated packaged-runtime checks. Separate-user advanced installer/login acceptance and wider widget configuration coverage remain follow-ups. Cloud synchronization is eventual. The public source is a clean release snapshot; private development history and personal QA evidence are excluded.\n\n## Help and privacy\n\n[Setup and support](/better-workspace/support) · [Privacy policy](/better-workspace/privacy)\n",
       "sourceUrl": "/projects/better_workspace_210b2324-2bdf-5751-a101-9c334db91f8c/README.md"
-    }
+    },
+    "workLogs": [
+      {
+        "id": "eb209eb8-30bc-5c22-8679-ede37adaa8dd",
+        "title": "Verified the public iPhone and iPad release",
+        "entry": "Verified the public iPhone and iPad release",
+        "date": "2026-10-24",
+        "sessionType": [
+          "Build"
+        ],
+        "whatHappened": "Verified App Store version 1.0.1 is available publicly. Added its install link alongside the signed advanced Mac download, public source and browser demo. The retired Mac Store edition is not offered for installation."
+      },
+      {
+        "id": "620c5108-fff1-5e84-989d-ee2b84f24852",
+        "title": "Submitted the unified mobile workspace",
+        "entry": "Submitted the unified mobile workspace",
+        "date": "2026-10-23",
+        "sessionType": [
+          "Build"
+        ],
+        "whatHappened": "Submitted iPhone/iPad version 1.0.1 (15), with unified Workspace screenshots and updated review notes. Physical devices updated in place through TestFlight before submission."
+      }
+    ]
   }
 }

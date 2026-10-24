@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-10-10T14:02:10.676733+00:00",
+  "generated_at": "2026-10-24T14:46:04.532661+00:00",
   "data": {
     "id": "3f5aec94-4d3c-8116-99d5-c9752bb4af87",
     "slug": "hue-light-control",
@@ -17,7 +17,7 @@
     "phase": "Release",
     "featured": false,
     "createdAt": "2026-10-09",
-    "updatedAt": "2026-10-10",
+    "updatedAt": "2026-10-24",
     "isPublic": true,
     "tags": [
       "Hardware",
@@ -42,7 +42,13 @@
       "thumbnail": "thumbnail.png",
       "banner": "banner.png"
     },
-    "resources": [],
+    "resources": [
+      {
+        "type": "github",
+        "label": "Source & build guide",
+        "url": "https://github.com/ZSturman/Hue-Light-Control"
+      }
+    ],
     "assets": [
       {
         "id": "3f5aec94-4d3c-81ca-b75f-ed206dd8eea4",
@@ -55,6 +61,17 @@
     ],
     "collection": {},
     "workLogs": [
+      {
+        "id": "403aec94-4d3c-8148-8a64-d1e3b8376f3e",
+        "title": "Published Hue Light Control firmware on GitHub",
+        "entry": "Published Hue Light Control firmware on GitHub",
+        "date": "2026-10-24",
+        "sessionType": [
+          "Build"
+        ],
+        "whatHappened": "Created the public repository with ESP32 firmware, wiring illustrations, setup guide and an environment template. Connected the local origin remote and normalized Notion repository resource. Local credentials and generated files were excluded.",
+        "url": "https://app.notion.com/p/403aec944d3c81488a64d1e3b8376f3e"
+      },
       {
         "id": "3f5aec94-4d3c-8190-9800-f00764a9689f",
         "title": "Hue Light Control",

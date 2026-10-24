@@ -1,0 +1,350 @@
+{
+  "checkedOn": "2026-10-24",
+  "method": "Anonymous HEAD for visit/store links; authenticated GitHub repository visibility and release asset verification. No browser scripts or GA events.",
+  "projects": 45,
+  "checks": [
+    {
+      "url": "https://apps.apple.com/us/app/better-signals/id6824696184",
+      "status": 200,
+      "finalUrl": "https://apps.apple.com/us/app/better-signals/id6824696184"
+    },
+    {
+      "url": "https://apps.apple.com/us/app/better-workspace/id6822519097",
+      "status": 200,
+      "finalUrl": "https://apps.apple.com/us/app/better-workspace/id6822519097"
+    },
+    {
+      "url": "https://apps.apple.com/us/app/chew-sense-collect-and-label/id6755277802",
+      "status": 200,
+      "finalUrl": "https://apps.apple.com/us/app/chew-sense-collect-and-label/id6755277802"
+    },
+    {
+      "url": "https://apps.apple.com/us/app/folio-studio/id6755154786",
+      "status": 200,
+      "finalUrl": "https://apps.apple.com/us/app/folio-studio/id6755154786?mt=12"
+    },
+    {
+      "url": "https://apps.apple.com/us/app/mediledger/id6744004933",
+      "status": 200,
+      "finalUrl": "https://apps.apple.com/us/app/mediledger/id6744004933"
+    },
+    {
+      "url": "https://apps.apple.com/us/app/recallable-flashcards/id6822919785",
+      "status": 200,
+      "finalUrl": "https://apps.apple.com/us/app/recallable-flashcards/id6822919785"
+    },
+    {
+      "url": "https://apps.apple.com/us/app/top-note/id6742725271",
+      "status": 200,
+      "finalUrl": "https://apps.apple.com/us/app/top-note/id6742725271"
+    },
+    {
+      "url": "https://github.com/ZSturman/Better-Workspace-Public",
+      "status": "public repository",
+      "canonicalRepository": "https://github.com/ZSturman/Better-Workspace-Public"
+    },
+    {
+      "url": "https://github.com/ZSturman/Better-Workspace-Public/releases/download/v1.0/BetterWorkspace-1.0-8-mac.zip",
+      "status": "public repository",
+      "canonicalRepository": "https://github.com/ZSturman/Better-Workspace-Public"
+    },
+    {
+      "url": "https://github.com/ZSturman/Bias-Detecting-Algorithm",
+      "status": "public repository",
+      "canonicalRepository": "https://github.com/ZSturman/Bias-Detecting-Algorithm"
+    },
+    {
+      "url": "https://github.com/ZSturman/Broken-Time-Machine",
+      "status": "public repository",
+      "canonicalRepository": "https://github.com/ZSturman/Broken-Time-Machine"
+    },
+    {
+      "url": "https://github.com/ZSturman/ChewSense---Data-Collection-and-Labeling",
+      "status": "public repository",
+      "canonicalRepository": "https://github.com/ZSturman/ChewSense---Data-Collection-and-Labeling"
+    },
+    {
+      "url": "https://github.com/ZSturman/Drifting-Priorities",
+      "status": "public repository",
+      "canonicalRepository": "https://github.com/ZSturman/Drifting-Priorities"
+    },
+    {
+      "url": "https://github.com/ZSturman/Episodic-Memory-Agent",
+      "status": "public repository",
+      "canonicalRepository": "https://github.com/ZSturman/Episodic-Memory-Agent"
+    },
+    {
+      "url": "https://github.com/ZSturman/Folio-Studio",
+      "status": "public repository",
+      "canonicalRepository": "https://github.com/ZSturman/Folio-Studio"
+    },
+    {
+      "url": "https://github.com/ZSturman/Google-Sheets-Production-Schedule-Desktop-App",
+      "status": "public repository",
+      "canonicalRepository": "https://github.com/ZSturman/Google-Sheets-Production-Schedule-Desktop-App"
+    },
+    {
+      "url": "https://github.com/ZSturman/Hue-Light-Control",
+      "status": "public repository",
+      "canonicalRepository": "https://github.com/ZSturman/Hue-Light-Control"
+    },
+    {
+      "url": "https://github.com/ZSturman/Lost-Hound",
+      "status": "public repository",
+      "canonicalRepository": "https://github.com/ZSturman/Lost-Hound"
+    },
+    {
+      "url": "https://github.com/ZSturman/Marina-Departure-NOAA-Risk-Checker",
+      "status": "public repository",
+      "canonicalRepository": "https://github.com/ZSturman/Marina-Departure-NOAA-Risk-Checker"
+    },
+    {
+      "url": "https://github.com/ZSturman/Math-and-Hapiness",
+      "status": "public repository",
+      "canonicalRepository": "https://github.com/ZSturman/Math-and-Hapiness"
+    },
+    {
+      "url": "https://github.com/ZSturman/MediLedger",
+      "status": "public repository",
+      "canonicalRepository": "https://github.com/ZSturman/MediLedger"
+    },
+    {
+      "url": "https://github.com/ZSturman/Media-Organizer",
+      "status": "public repository",
+      "canonicalRepository": "https://github.com/ZSturman/Media-Organizer"
+    },
+    {
+      "url": "https://github.com/ZSturman/Production-Scheduling-Web-App",
+      "status": "public repository",
+      "canonicalRepository": "https://github.com/ZSturman/Production-Scheduling-Web-App"
+    },
+    {
+      "url": "https://github.com/ZSturman/Psyche-Agent",
+      "status": "public repository",
+      "canonicalRepository": "https://github.com/ZSturman/Psyche-Agent"
+    },
+    {
+      "url": "https://github.com/ZSturman/React-Component-Collection",
+      "status": "public repository",
+      "canonicalRepository": "https://github.com/ZSturman/React-Component-Collection"
+    },
+    {
+      "url": "https://github.com/ZSturman/Runtime-Storyboard-Debugger",
+      "status": "public repository",
+      "canonicalRepository": "https://github.com/ZSturman/Runtime-Storyboard-Debugger"
+    },
+    {
+      "url": "https://github.com/ZSturman/Testing-Traits",
+      "status": "public repository",
+      "canonicalRepository": "https://github.com/ZSturman/Testing-Traits"
+    },
+    {
+      "url": "https://github.com/ZSturman/The-2nd-Best-Obsidian-Collection",
+      "status": "public repository",
+      "canonicalRepository": "https://github.com/ZSturman/The-2nd-Best-Obsidian-Collection"
+    },
+    {
+      "url": "https://github.com/ZSturman/The-Wolf-Project",
+      "status": "public repository",
+      "canonicalRepository": "https://github.com/ZSturman/The-Wolf-Project"
+    },
+    {
+      "url": "https://github.com/ZSturman/Time-and-Mass",
+      "status": "public repository",
+      "canonicalRepository": "https://github.com/ZSturman/Time-and-Mass"
+    },
+    {
+      "url": "https://github.com/ZSturman/TopNote",
+      "status": "public repository",
+      "canonicalRepository": "https://github.com/ZSturman/TopNote"
+    },
+    {
+      "url": "https://github.com/ZSturman/TowardBetter-Announcement-Page",
+      "status": "public repository",
+      "canonicalRepository": "https://github.com/ZSturman/TowardBetter-Announcement-Page"
+    },
+    {
+      "url": "https://github.com/ZSturman/Train-of-Thought-Agent",
+      "status": "public repository",
+      "canonicalRepository": "https://github.com/ZSturman/Train-of-Thought-Agent"
+    },
+    {
+      "url": "https://github.com/ZSturman/Transactions",
+      "status": "public repository",
+      "canonicalRepository": "https://github.com/ZSturman/Transactions"
+    },
+    {
+      "url": "https://github.com/ZSturman/ZSDynamics-V1.0",
+      "status": "public repository",
+      "canonicalRepository": "https://github.com/ZSturman/ZSDynamics-V1.0"
+    },
+    {
+      "url": "https://github.com/ZSturman/ZSDynamics-V2.0",
+      "status": "public repository",
+      "canonicalRepository": "https://github.com/ZSturman/ZSDynamics-V2.0"
+    },
+    {
+      "url": "https://github.com/ZSturman/ZSDynamics-V3.0",
+      "status": "public repository",
+      "canonicalRepository": "https://github.com/ZSturman/ZSDynamics-V3.0"
+    },
+    {
+      "url": "https://github.com/ZSturman/ZSDynamics-V4.0",
+      "status": "public repository",
+      "canonicalRepository": "https://github.com/ZSturman/ZSDynamics-V4.0"
+    },
+    {
+      "url": "https://github.com/ZSturman/ZSDynamics-v1.1",
+      "status": "public repository",
+      "canonicalRepository": "https://github.com/ZSturman/ZSDynamics-V1.1"
+    },
+    {
+      "url": "https://github.com/ZSturman/job-search-hub",
+      "status": "public repository",
+      "canonicalRepository": "https://github.com/ZSturman/job-search-hub"
+    },
+    {
+      "url": "https://github.com/ZSturman/job-search-hub#installation",
+      "status": 200,
+      "finalUrl": "https://github.com/ZSturman/job-search-hub#installation"
+    },
+    {
+      "url": "https://github.com/ZSturman/job-search-hub/releases/tag/v0.1.0",
+      "status": "public repository",
+      "canonicalRepository": "https://github.com/ZSturman/job-search-hub"
+    },
+    {
+      "url": "https://marina-departure-noaa-risk-checker.vercel.app",
+      "status": 200,
+      "finalUrl": "https://marina-departure-noaa-risk-checker.vercel.app"
+    },
+    {
+      "url": "https://react-component-collection-delta.vercel.app",
+      "status": 200,
+      "finalUrl": "https://react-component-collection-delta.vercel.app"
+    },
+    {
+      "url": "https://the-wolf-pack.vercel.app",
+      "status": 200,
+      "finalUrl": "https://the-wolf-pack.vercel.app"
+    },
+    {
+      "url": "https://transactions-lmct.vercel.app/login",
+      "status": 200,
+      "finalUrl": "https://transactions-lmct.vercel.app/login"
+    },
+    {
+      "url": "https://yourdogcanstay.com",
+      "status": 200,
+      "finalUrl": "https://yourdogcanstay.com"
+    },
+    {
+      "url": "https://zsturman.github.io/TowardBetter-Announcement-Page/",
+      "status": 200,
+      "finalUrl": "https://zsturman.github.io/TowardBetter-Announcement-Page/"
+    },
+    {
+      "url": "https://zsturman.github.io/ZSDynamics-V1.0/",
+      "status": 200,
+      "finalUrl": "https://zsturman.github.io/ZSDynamics-V1.0/"
+    },
+    {
+      "url": "https://zsturman.github.io/ZSDynamics-V1.1/",
+      "status": 200,
+      "finalUrl": "https://zsturman.github.io/ZSDynamics-V1.1/"
+    },
+    {
+      "url": "https://zsturman.github.io/ZSDynamics-V2.0/",
+      "status": 200,
+      "finalUrl": "https://zsturman.github.io/ZSDynamics-V2.0/"
+    },
+    {
+      "url": "https://zsturman.github.io/ZSDynamics-V4.0/",
+      "status": 200,
+      "finalUrl": "https://zsturman.github.io/ZSDynamics-V4.0/"
+    }
+  ],
+  "withoutPublicResource": [
+    {
+      "slug": "down-n-out",
+      "status": "Archived",
+      "reason": "No finished public artifact verified; source material remains private."
+    },
+    {
+      "slug": "democracy-in-the-21st-century",
+      "status": "Active",
+      "reason": "No finished public artifact verified; source material remains private."
+    },
+    {
+      "slug": "between-jobs",
+      "status": "Archived",
+      "reason": "No finished public artifact verified; source material remains private."
+    },
+    {
+      "slug": "greenhorn",
+      "status": "Archived",
+      "reason": "No finished public artifact verified; source material remains private."
+    },
+    {
+      "slug": "mind-adrift",
+      "status": "Complete",
+      "reason": "No finished public artifact verified; source material remains private."
+    },
+    {
+      "slug": "timeline-7",
+      "status": "Complete",
+      "reason": "No finished public artifact verified; source material remains private."
+    },
+    {
+      "slug": "my-notion-pipeline",
+      "status": "Active",
+      "reason": "No finished public artifact verified; source material remains private."
+    }
+  ],
+  "apple": {
+    "Recallable": {
+      "version": "1.0.0",
+      "build": "8",
+      "iOS": "Ready for Distribution",
+      "macOS": "In Review",
+      "releasedThisSession": true
+    },
+    "Better Signals": {
+      "version": "1.1.0",
+      "build": "2",
+      "iOS": "Ready for Distribution",
+      "regions": [
+        "United States"
+      ],
+      "releasedThisSession": true
+    },
+    "Better Workspace": {
+      "version": "1.0.1",
+      "iOS": "Ready for Distribution",
+      "macOS": "Developer Rejected; edition retired"
+    },
+    "Transactions": {
+      "version": "1.0.0",
+      "iOS": "Waiting for Review",
+      "automaticRelease": true
+    },
+    "Social Posts Content Manager": {
+      "iOS": "Prepare for Submission"
+    },
+    "Trackables": {
+      "iOS": "Prepare for Submission"
+    }
+  },
+  "repositoriesCreated": [
+    {
+      "url": "https://github.com/ZSturman/Hue-Light-Control",
+      "visibility": "public",
+      "localAssociation": "origin remote; normalized Notion repo resource and repo relation"
+    },
+    {
+      "url": "https://github.com/ZSturman/Finder-Workspace-Extensions",
+      "visibility": "private",
+      "localAssociation": "origin remote as consumed by Finder CompanionTools.openRepository"
+    }
+  ]
+}

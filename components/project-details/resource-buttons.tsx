@@ -1,10 +1,11 @@
 import { Project } from "@/types";
 import ResourceButton from "./resource-button";
+import { getProjectResources } from "@/lib/project-resources";
 
 export default function ResourceButtons({ project, showMessage = true }: { project: Project, showMessage?: boolean }) {
   return project.resources?.length ? (
     <div className="flex max-w-full flex-row flex-wrap gap-2 overflow-hidden">
-      {project.resources.map((resource, index) => {
+      {getProjectResources(project.resources).map((resource, index) => {
         return <ResourceButton key={`${resource.url}-${index}`} resource={resource} currentProject={project} />;
       })}
     </div>

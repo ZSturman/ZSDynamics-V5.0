@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-10-10T14:02:10.677474+00:00",
+  "generated_at": "2026-10-24T14:46:04.533329+00:00",
   "data": {
     "id": "346aec94-4d3c-801e-851f-c7e727f0e186",
     "slug": "the-wolf-project",
@@ -40,22 +40,7 @@
     "resources": [
       {
         "type": "web",
-        "label": "Original Site",
-        "url": "https://yourdogcanstay.com",
-        "linkPreview": {
-          "provider": "yourdogcanstay.com",
-          "title": "The WOLF PROJECT",
-          "siteName": "YOUR DOG CAN STAY",
-          "hostname": "yourdogcanstay.com",
-          "displayUrl": "yourdogcanstay.com",
-          "description": "Access to Care Lifeline for families whose dog requires lifesaving medical care, but the upfront costs stand in the way.",
-          "image": "/projects/the_wolf_project_346aec94-4d3c-801e-851f-c7e727f0e186/previews/yourdogcanstay.com-98da4ec0bcac.png",
-          "imageSource": "capture"
-        }
-      },
-      {
-        "type": "web",
-        "label": "Development URL",
+        "label": "Visit project",
         "url": "https://the-wolf-pack.vercel.app",
         "linkPreview": {
           "provider": "the-wolf-pack.vercel.app",
@@ -71,8 +56,23 @@
       },
       {
         "type": "github",
-        "label": "Repo",
-        "url": "https://github.com/ZSturman/The-Wolf-Pack"
+        "label": "View source",
+        "url": "https://github.com/ZSturman/The-Wolf-Project"
+      },
+      {
+        "type": "web",
+        "label": "Original Site",
+        "url": "https://yourdogcanstay.com",
+        "linkPreview": {
+          "provider": "yourdogcanstay.com",
+          "title": "The WOLF PROJECT",
+          "siteName": "YOUR DOG CAN STAY",
+          "hostname": "yourdogcanstay.com",
+          "displayUrl": "yourdogcanstay.com",
+          "description": "Access to Care Lifeline for families whose dog requires lifesaving medical care, but the upfront costs stand in the way.",
+          "image": "/projects/the_wolf_project_346aec94-4d3c-801e-851f-c7e727f0e186/previews/yourdogcanstay.com-98da4ec0bcac.png",
+          "imageSource": "capture"
+        }
       }
     ],
     "assets": [

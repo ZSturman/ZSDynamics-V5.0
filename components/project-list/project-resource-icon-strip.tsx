@@ -2,6 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import type { Project } from "@/types";
+import { getProjectResources } from "@/lib/project-resources";
 
 import ResourceButton from "../project-details/resource-button";
 
@@ -20,7 +21,7 @@ export function ProjectResourceIconStrip({
   buttonClassName,
   testId,
 }: ProjectResourceIconStripProps) {
-  const resources = project.resources?.slice(0, maxItems) || [];
+  const resources = getProjectResources(project.resources).slice(0, maxItems);
 
   if (resources.length === 0) {
     return null;

@@ -34,6 +34,22 @@ def merge_local_projects(projects: list[dict], destination: Path,
         merged = [p for p in merged if p.get("id") != project["id"]
                   and p.get("slug") != project["slug"]]
         merged.append(project)
+    # Small reviewed updates can augment Notion-owned projects without copying
+    # their entire record (and freezing later imported media or work history).
+    updates_path = content_root.parent / "project-updates.json"
+    updates = json.loads(updates_path.read_text()) if updates_path.exists() else {}
+    for index, project in enumerate(merged):
+        update = updates.get(project.get("slug"))
+        if not update:
+            continue
+        additions = update.get("workLogs", [])
+        log_ids = {log["id"] for log in additions}
+        merged[index] = {
+            **project,
+            **{key: value for key, value in update.items() if key != "workLogs"},
+            "workLogs": additions + [log for log in project.get("workLogs", [])
+                                     if log.get("id") not in log_ids],
+        }
     return merged
 
 
@@ -57,11 +73,12 @@ def main() -> None:
         site = json.loads(site_path.read_text())
         site["data"]["counts"]["projects"] = len(projects)
         site_path.write_text(json.dumps(site, ensure_ascii=False, indent=2) + "\n")
-    for source in sorted((ROOT / "content" / "projects").glob("*/project.json")):
-        slug = json.loads(source.read_text())["slug"]
-        project = next(p for p in projects if p["slug"] == slug)
+    for project in projects:
+        slug = project["slug"]
         endpoint = api / "projects" / f"{slug}.json"
         endpoint.parent.mkdir(exist_ok=True)
+        if endpoint.exists() and json.loads(endpoint.read_text()).get("data") == project:
+            continue
         endpoint.write_text(json.dumps(_envelope(project, "projects.detail"),
                                        ensure_ascii=False, indent=2) + "\n")
     print(f"Local portfolio entries merged; {len(projects)} projects available.")

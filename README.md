@@ -235,3 +235,7 @@ merges it into the portfolio and API output. Test the routes with
 `npx playwright test tests/content-manager.spec.ts` (390px and 1280px).
 The screenshot is a real iPhone simulator capture with fictional, in-memory
 drafts. TestFlight requires an invitation; no public App Store link is claimed.
+
+## Public project links and demos
+
+Project cards lead with verified install/download, product/demo and public source actions. Reviewed updates survive the Notion content pipeline; see [maintenance and validation](docs/PROJECT_LINKS.md). Account-free walkthroughs are available for Transactions, Content Manager and Recallable. [October 24 access audit](docs/evidence/project-link-audit-20261024.json).

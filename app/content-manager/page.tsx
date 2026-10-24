@@ -17,7 +17,7 @@ export default function ContentManagerPage() {
         <h1 className="text-4xl font-semibold tracking-tight md:text-6xl">Social Posts Content Manager</h1>
         <p className="max-w-2xl text-2xl">Review the exact post.<br />Make a clear decision. Move on.</p>
         <p className="max-w-2xl text-muted-foreground">Read the LinkedIn and Bluesky versions, check the publication image, and choose what is ready. Keep review moving on iPhone and iPad while generation stays on your Mac.</p>
-        <div className="flex flex-wrap gap-4"><Link href="/content-manager/support" className="rounded-lg bg-primary px-5 py-3 font-medium text-primary-foreground">Setup &amp; support</Link><Link href="/projects/content-manager" className="rounded-lg border px-5 py-3 font-medium">Project story</Link></div>
+        <div className="flex flex-wrap gap-4"><Link href="/content-manager/demo" className="rounded-lg bg-primary px-5 py-3 font-medium text-primary-foreground">Try the demo</Link><Link href="/projects/content-manager" className="rounded-lg border px-5 py-3 font-medium">Project story</Link></div>
         <p data-testid="beta-status" className="text-sm text-muted-foreground">iOS 17+ · iPhone and iPad · Private TestFlight beta. No public beta invitation or App Store download yet.</p>
       </header>
       <section className="grid items-start gap-8 md:grid-cols-2" aria-labelledby="review-heading">

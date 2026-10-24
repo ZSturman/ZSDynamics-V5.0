@@ -179,7 +179,7 @@ export function ProjectDetails({ project }: ProjectDetailsProps) {
 
               {/* 4. Collections */}
               {hasCollection && (
-                <section data-analytics-section="project_collection" data-analytics-section-label="Project collection">
+                <section id="collection" data-analytics-section="project_collection" data-analytics-section-label="Project collection">
                   <Collection project={project} inModal={false} />
                 </section>
               )}
@@ -264,7 +264,7 @@ export function ProjectDetails({ project }: ProjectDetailsProps) {
 
             {/* 4. Collections */}
             {hasCollection && (
-              <section data-analytics-section="project_collection" data-analytics-section-label="Project collection">
+              <section id="collection" data-analytics-section="project_collection" data-analytics-section-label="Project collection">
                 <Collection project={project} inModal={false} />
               </section>
             )}

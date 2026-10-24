@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.list",
-  "generated_at": "2026-10-22T02:19:52.741371+00:00",
+  "generated_at": "2026-10-24T14:50:16.486664+00:00",
   "data": [
     {
       "id": "3f5aec94-4d3c-8116-99d5-c9752bb4af87",
@@ -23,7 +23,7 @@
       "category": "Device",
       "href": "/projects/hue-light-control",
       "primaryImageUrl": "/projects/hue_light_control_3f5aec94-4d3c-8116-99d5-c9752bb4af87/thumbnail.png",
-      "updatedAt": "2026-10-10"
+      "updatedAt": "2026-10-24"
     },
     {
       "id": "35eaec94-4d3c-809c-a0f4-ff355a7a6d21",
@@ -52,15 +52,19 @@
       "id": "35eaec94-4d3c-80bc-9273-c1403b6c02ad",
       "slug": "transactions",
       "title": "Transactions",
-      "summary": "Transactions is a web app for managing shared balances with another person. It supports email or Google sign-in, invite-based pairing, transaction approvals and disputes, real-time Firestore sync, and optional email notifications for key activity.",
-      "oneLiner": "A real-time shared expense tracker for recording, approving, and syncing transactions between two people.",
+      "summary": "Track shared expenses, approvals and balances across web and native mobile apps. The web app is available now; the iOS app is waiting for Apple review. Try the browser demo without an account.",
+      "oneLiner": "Shared expenses and balances across web and mobile.",
       "tags": [
         "Next.js",
         "Firebase",
         "TypeScript",
         "Tailwind CSS",
         "Finances",
-        "Dashboard"
+        "Dashboard",
+        "React Native",
+        "Expo",
+        "iOS",
+        "Android"
       ],
       "status": "Maintained",
       "featured": true,
@@ -68,7 +72,7 @@
       "category": "Application",
       "href": "/projects/transactions",
       "primaryImageUrl": "/projects/transactions_35eaec94-4d3c-80bc-9273-c1403b6c02ad/thumb.png",
-      "updatedAt": "2026-05-11"
+      "updatedAt": "2026-10-24"
     },
     {
       "id": "34faec94-4d3c-80bf-928b-e0e32ba51cc8",
@@ -858,13 +862,13 @@
       "category": "Application",
       "href": "/projects/better-signals",
       "primaryImageUrl": "/projects/better_signals_33baec94-4d3c-805b-aa92-e0d16cc8a3f1/images/hero.jpg",
-      "updatedAt": "2026-10-19"
+      "updatedAt": "2026-10-24"
     },
     {
       "id": "210b2324-2bdf-5751-a101-9c334db91f8c",
       "slug": "better-workspace",
       "title": "Better Workspace",
-      "summary": "Projects, tasks and ideas across Apple devices. Advanced Mac 1.0 is available now, with a browser demo and public source; the native Store apps are completing Apple’s release process.",
+      "summary": "Projects, tasks and ideas across Apple devices. Install Better Workspace for iPhone and iPad, download the advanced Mac app, explore the browser demo or view the public source.",
       "oneLiner": "Turn a folder full of projects into a workspace you can act on.",
       "tags": [
         "SwiftUI",
@@ -880,7 +884,7 @@
       "category": "Application",
       "href": "/projects/better-workspace",
       "primaryImageUrl": "/projects/better_workspace_210b2324-2bdf-5751-a101-9c334db91f8c/images/mac-personal-sample.webp",
-      "updatedAt": "2026-10-15"
+      "updatedAt": "2026-10-24"
     },
     {
       "id": "20732ff7-0f29-54af-9f8a-3ef13bfa196c",
@@ -930,7 +934,7 @@
       "id": "5031ef4c-2724-54a4-92ca-42d270a59716",
       "slug": "recallable",
       "title": "Recallable",
-      "summary": "A spaced-repetition flashcard app where nothing is ever due. Open it and answer: Home, the widget, and the Watch each show your next card, and every rating spaces that card further apart or brings it back sooner. It works across iPhone, iPad, Mac, and Apple Watch with iCloud sync.",
+      "summary": "A native flashcard app with focused study, rich text and math, widgets and private iCloud sync. Released for iPhone and iPad; the separate Mac edition is still in Apple review. Try a sample deck in your browser.",
       "oneLiner": "Spaced-repetition flashcards that never turn into a backlog.",
       "tags": [
         "SwiftUI",
@@ -949,7 +953,7 @@
       "category": "Application",
       "href": "/projects/recallable",
       "primaryImageUrl": "/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/images/thumbnail.jpg",
-      "updatedAt": "2026-10-13"
+      "updatedAt": "2026-10-24"
     }
   ],
   "count": 45

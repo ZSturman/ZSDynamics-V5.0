@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-10-19T09:36:32.355430+00:00",
+  "generated_at": "2026-10-24T14:46:04.537746+00:00",
   "data": {
     "id": "312aec94-4d3c-817e-9295-e018716cf990",
     "slug": "3d-models-collection",
@@ -38,7 +38,13 @@
       "thumbnail": "/projects/3d_models_collection_312aec94-4d3c-817e-9295-e018716cf990/images/belt-holder-39078b78-optimized.webp",
       "hero": "/projects/3d_models_collection_312aec94-4d3c-817e-9295-e018716cf990/images/robot-5064bc39-optimized.webp"
     },
-    "resources": [],
+    "resources": [
+      {
+        "type": "website",
+        "label": "Explore 3D models",
+        "url": "/projects/3d-models-collection#collection"
+      }
+    ],
     "assets": [],
     "collection": {
       "Selected designs": {
@@ -249,6 +255,16 @@
       }
     },
     "workLogs": [
+      {
+        "id": "198b1406-e4a9-5e68-b1b0-42d0591b12a4",
+        "title": "Published the curated interactive collection",
+        "entry": "Published the curated interactive collection",
+        "date": "2026-10-19",
+        "sessionType": [
+          "Build"
+        ],
+        "whatHappened": "Published 14 curated models, including 11 interactive previews and three still entries, part/assembly selection and two walking clips. Original Blender/STL source and personal photos were excluded."
+      },
       {
         "id": "339aec94-4d3c-800e-8737-fa7c70fe859b",
         "title": "Created new project entry for 3D Models Collection",
