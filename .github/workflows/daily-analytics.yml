@@ -4,7 +4,12 @@ on:
   schedule:
     # 14:00 UTC daily — adjust for your timezone if you want morning delivery.
     - cron: "0 14 * * *"
-  workflow_dispatch: {}
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Render from live GA4 data and print it to the log without emailing"
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -28,4 +33,5 @@ jobs:
           API_BASE_URL: ${{ secrets.API_BASE_URL }}
           INTERNAL_TOKEN: ${{ secrets.INTERNAL_TOKEN }}
           SITE_NAME: zacharysturman.com
+          ANALYTICS_DRY_RUN: ${{ inputs.dry_run && 'true' || 'false' }}
         run: npm run daily-analytics
