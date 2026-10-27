@@ -12,6 +12,16 @@ Contact messages do not enroll anyone in updates. A subscriber must check the co
 
 Every five minutes the Worker processes up to two saved messages, two subscriber records, and five writing emails. A separate hourly job fetches the published article manifest. Its first successful run establishes a baseline without emailing existing articles. Later, newly discovered slugs generate one delivery per currently confirmed reader. Editing an existing article does not send another notification. An unsubscribed reader is excluded from queued deliveries, including after rejoining with a new confirmation.
 
+## Article publishing and subscriber delivery
+
+Content Manager owns editorial review and final approval; it does not send subscriber email. The Articles backend prepares approved `published/<slug>/` bundles. After publication is explicitly resumed, the portfolio ingestion/deployment pipeline must import those bundles into the live site, including `/articles/articles.json` and each article page. Cross-posting to DEV, Hashnode or Medium alone does not notify subscribers.
+
+The deployed Worker discovers that **live manifest hourly**, then its five-minute job sends queued updates through Resend (five recipients per run). Allow roughly 65 minutes for the first batch after a deployment, plus additional batches/retries for larger lists. No app session needs to remain open. Do not add a separate Content Manager mailer: D1 owns consent and delivery deduplication. Only Active, email-confirmed subscriptions are eligible; Pending and Unsubscribed addresses are excluded. Rejoining does not revive deliveries queued for an earlier subscription generation. Updating an existing slug does not resend an announcement.
+
+Keep the existing D1 database and `articles_initialized` state across deployments. The first discovery deliberately baselines existing articles without mail, so resetting this state can suppress announcements. Before the next real article release, verify the Worker cron configuration, aggregate intake status below, and the live manifest after the portfolio deploy. No article was approved, published, or emailed as part of this repair; the Content Manager publication pause remains in force.
+
+Confirmation and unsubscribe pages use `Referrer-Policy: same-origin`: `no-referrer` makes browser form POSTs send `Origin: null`, which the API correctly rejects. Signed GET links remain previews; a button press performs the consent change. After deploying this fix, an unexpired confirmation email can be reopened; links older than 48 hours require a fresh signup.
+
 ## Configuration and activation
 
 The production public API URL and Turnstile **site key** are versioned in `lib/contact-config.json`. These are public configuration, not credentials. `NEXT_PUBLIC_API_BASE_URL` and `NEXT_PUBLIC_TURNSTILE_SITE_KEY` can override them at build time. The production workflow checks the resolved configuration before building; preview automation blocks mail/analytics calls and tests use a mock challenge.
@@ -48,13 +58,14 @@ After validation, from `worker/`, run `npm run deploy`. The normal main-branch F
 Run from the repository root:
 
 ```sh
+npx playwright install chromium # once; real-browser confirmation regression
 npm test --prefix worker
 npm run typecheck --prefix worker
 npm run test:contact
 npm run build
 ```
 
-Expected: isolated Worker tests pass with a real local D1 emulator and mocked Turnstile/Resend/Notion; browser tests pass on mocked endpoints; Next exports `/contact` successfully. Tests send no real messages and disable production analytics. The Worker test also checks the existing internal report mail relay.
+Expected: isolated Worker tests pass with a real local D1 emulator and mocked Turnstile/Resend/Notion; browser tests pass on mocked endpoints; Next exports `/contact` successfully. Tests send no real messages and disable production analytics. The Worker tests also submit confirmation/unsubscribe forms in Chromium, exercise delivery retries and consent suppression, and check the existing internal report mail relay. Install root and Worker dependencies before running them.
 
 For a final human production check, visit `/contact` in a normal browser. Send a message from your own address and subscribe from that address. Within a few minutes, expect a saved message in Notion, an owner alert with a working Reply-To, and a confirmation email. Confirm with the button; expect an Active subscriber row and owner notification. Use the unsubscribe button from the first writing email when available; D1 takes effect immediately and Notion follows on the next cron. There is no need to publish a fake article to test delivery: emulator tests cover discovery, retries, and unsubscribe suppression.
 

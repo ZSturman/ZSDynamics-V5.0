@@ -1,6 +1,6 @@
 "use client";
 
-import { useDeferredValue, useEffect, useMemo, useState, type ReactNode } from "react";
+import { useDeferredValue, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -704,12 +704,27 @@ function OverviewTab({
   projectSummaries,
   sessionSummaries,
   selectedProjectTitle,
+  logs,
+  onFocusProject,
 }: {
   summary: WorkLogOverviewSummary;
   projectSummaries: WorkLogProjectSummary[];
   sessionSummaries: WorkLogSessionSummary[];
   selectedProjectTitle?: string;
+  logs: WorkLogWithProject[];
+  onFocusProject: (slug: string) => void;
 }) {
+  const [selectedLog, setSelectedLog] = useState<WorkLogWithProject | null>(null);
+  const sessionTrigger = useRef<HTMLButtonElement | null>(null);
+  const openSession = (log: WorkLogWithProject, trigger: HTMLButtonElement) => {
+    sessionTrigger.current = trigger;
+    setSelectedLog(log);
+  };
+  const recentLogs = useMemo(
+    () => [...logs].sort((a, b) => getWorkLogTimestamp(b) - getWorkLogTimestamp(a)).slice(0, 5),
+    [logs]
+  );
+  const latest = recentLogs[0];
   const topProjects = useMemo(
     () =>
       [...projectSummaries]
@@ -740,16 +755,19 @@ function OverviewTab({
   return (
     <div className="space-y-5">
       <div className="grid gap-3 md:grid-cols-3">
-        <SummaryMetricCard
-          icon={CalendarDays}
-          label="Most recent session"
-          value={formatLongDate(summary.mostRecentSessionStart)}
-          secondary={
-            summary.totalLogs > 0
-              ? `${summary.totalLogs} session${summary.totalLogs === 1 ? "" : "s"} recorded`
-              : "No sessions recorded yet"
-          }
-        />
+        <button
+          type="button"
+          disabled={!latest}
+          onClick={(event) => latest && openSession(latest, event.currentTarget)}
+          className="group rounded-xl border border-primary/30 bg-primary/5 p-4 text-left shadow-sm transition-colors hover:bg-primary/10 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+        >
+          <span className="flex items-center justify-between text-xs font-medium uppercase tracking-wider text-muted-foreground">
+            Most recent session <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
+          </span>
+          <span className="mt-3 block text-lg font-semibold leading-snug">{latest ? getWorkLogTitle(latest) : "No sessions yet"}</span>
+          <span className="mt-2 block text-sm text-muted-foreground">{latest?.projectTitle} · {formatLongDate(summary.mostRecentSessionStart)}</span>
+          <span className="mt-3 block text-sm font-medium text-primary">Open session details →</span>
+        </button>
         <SummaryMetricCard
           icon={CalendarRange}
           label="Tracking window"
@@ -772,13 +790,31 @@ function OverviewTab({
         />
       </div>
 
+      <SectionCard title="Recent sessions" description="Open a session to read its notes, problems, next steps, and attachments.">
+        <div className="divide-y divide-border/70" data-testid="recent-work-log-sessions">
+          {recentLogs.map((log) => (
+            <button key={`${log.projectId}-${log.id}`} type="button" onClick={(event) => openSession(log, event.currentTarget)}
+              className="group flex w-full items-center gap-4 rounded-lg px-2 py-4 text-left transition-colors hover:bg-muted/50 focus-visible:outline-2 focus-visible:outline-primary">
+              <span className="hidden w-24 shrink-0 text-sm text-muted-foreground sm:block">{formatShortDate(getWorkLogStart(log))}</span>
+              <span className="min-w-0 flex-1">
+                <span className="block text-xs text-muted-foreground">{log.projectTitle} <span className="sm:hidden">· {formatShortDate(getWorkLogStart(log))}</span></span>
+                <span className="mt-1 block font-medium group-hover:text-primary">{getWorkLogTitle(log)}</span>
+                <span className="mt-1 line-clamp-1 text-sm text-muted-foreground">{getWorkLogSummary(log)}</span>
+              </span>
+              <span className="shrink-0 text-xs text-muted-foreground">{formatDuration(getWorkLogDurationMinutes(log))}</span>
+              <ArrowRight className="size-4 shrink-0 text-muted-foreground group-hover:text-primary" />
+            </button>
+          ))}
+        </div>
+      </SectionCard>
+
       <div className="grid gap-4 xl:grid-cols-[1.1fr_0.9fr]">
         <SectionCard
           title={selectedProjectTitle ? "Project focus" : "Top active projects"}
           description={
             selectedProjectTitle
-              ? "The selected project stays visible here as the primary work stream."
-              : "Projects with the heaviest activity, kept readable instead of charted."
+              ? "See every session recorded for this project."
+              : "Projects ranked by recorded sessions. Open their activity to explore the work."
           }
         >
           {topProjects.length > 0 ? (
@@ -806,6 +842,9 @@ function OverviewTab({
                       icon={FileText}
                       label={`${project.logCount} log${project.logCount === 1 ? "" : "s"}`}
                     />
+                    <Button type="button" size="sm" variant="ghost" onClick={() => onFocusProject(project.slug)} aria-label={`View activity for ${project.title}`}>
+                      View activity <ArrowRight className="size-3.5" />
+                    </Button>
                   </div>
                 </div>
               ))}
@@ -817,16 +856,20 @@ function OverviewTab({
 
         <SectionCard
           title="Session mix"
-          description="Session types stay icon-led so the dashboard does not depend on color to explain itself."
+          description="How recorded sessions are divided across types of work."
         >
           {sessionSummaries.length > 0 ? (
-            <div className="flex flex-wrap gap-2">
+            <div className="space-y-4">
               {sessionSummaries.map((sessionSummary) => (
-                <SessionTypePill
-                  key={sessionSummary.sessionType}
-                  sessionType={sessionSummary.sessionType}
-                  count={sessionSummary.count}
-                />
+                <div key={sessionSummary.sessionType} className="space-y-2">
+                  <div className="flex items-center justify-between gap-3 text-sm">
+                    <span>{sessionSummary.sessionType}</span>
+                    <span className="tabular-nums text-muted-foreground">{sessionSummary.count} sessions</span>
+                  </div>
+                  <div aria-hidden="true" className="h-2 overflow-hidden rounded-full bg-muted">
+                    <div className="h-full rounded-full bg-primary/70" style={{ width: `${Math.min(100, sessionSummary.count / Math.max(1, summary.totalLogs) * 100)}%` }} />
+                  </div>
+                </div>
               ))}
             </div>
           ) : (
@@ -848,6 +891,18 @@ function OverviewTab({
           ) : null}
         </div>
       </SectionCard>
+      <Dialog open={Boolean(selectedLog)} onOpenChange={(open) => !open && setSelectedLog(null)}>
+        <DialogContent className="max-h-[90dvh] max-w-[calc(100%-1.5rem)] grid-cols-[minmax(0,1fr)] overflow-y-auto p-4 [overflow-wrap:anywhere] sm:max-w-3xl sm:p-6" onCloseAutoFocus={(event) => {
+          event.preventDefault();
+          sessionTrigger.current?.focus();
+        }}>
+          <DialogHeader className="min-w-0 pr-6 text-left">
+            <DialogTitle>{selectedLog ? getWorkLogTitle(selectedLog) : "Session details"}</DialogTitle>
+            <DialogDescription>{selectedLog?.projectTitle} · {selectedLog ? formatSessionRange(selectedLog) : ""}</DialogDescription>
+          </DialogHeader>
+          {selectedLog ? <WorkLogRow key={`${selectedLog.projectId}-${selectedLog.id}`} log={selectedLog} initiallyExpanded /> : null}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
@@ -1030,20 +1085,22 @@ function ActivityFilters({
 function WorkLogRow({
   log,
   compact = false,
+  initiallyExpanded = false,
 }: {
   log: WorkLogWithProject;
   compact?: boolean;
+  initiallyExpanded?: boolean;
 }) {
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState(initiallyExpanded);
   const durationLabel = formatDuration(getWorkLogDurationMinutes(log));
   const summary = getWorkLogSummary(log);
 
   return (
-    <Card className="border-border/70 bg-card/55 shadow-sm">
-      <CardContent className={cn("p-4", compact && "p-3.5")}>
+    <Card className="min-w-0 border-border/70 bg-card/55 shadow-sm [overflow-wrap:anywhere]">
+      <CardContent className={cn("min-w-0 p-4", compact && "p-3.5")}>
         <div className="flex flex-col gap-4 xl:flex-row xl:items-start xl:justify-between">
           <div className="flex min-w-0 gap-3">
-            <div className="shrink-0 rounded-2xl border border-border/70 bg-background/85 px-3 py-2 text-center">
+            <div className="shrink-0 self-start rounded-2xl border border-border/70 bg-background/85 px-3 py-2 text-center">
               <p className="text-[11px] uppercase tracking-[0.16em] text-muted-foreground">
                 {formatDate(getWorkLogStart(log), { month: "short" }) || "Date"}
               </p>
@@ -1077,8 +1134,8 @@ function WorkLogRow({
                 <p className="text-sm leading-6 text-muted-foreground">{formatSessionRange(log)}</p>
               </div>
 
-              {summary ? (
-                <p className={cn("text-sm leading-6 text-muted-foreground", !expanded && "line-clamp-2")}>{summary}</p>
+              {summary && !expanded ? (
+                <p className="line-clamp-2 text-sm leading-6 text-muted-foreground">{summary}</p>
               ) : null}
 
               {log.sessionType && log.sessionType.length > 0 ? (
@@ -1097,6 +1154,7 @@ function WorkLogRow({
               size="sm"
               variant={expanded ? "secondary" : "outline"}
               className="rounded-full"
+              aria-expanded={expanded}
               onClick={() => setExpanded((current) => !current)}
             >
               {expanded ? "Hide details" : "Details"}
@@ -1462,6 +1520,8 @@ export function WorkLogsDashboard({
             projectSummaries={filteredProjectSummaries}
             sessionSummaries={visibleSessionSummaries}
             selectedProjectTitle={selectedProjectSummary?.title}
+            logs={scopedLogs}
+            onFocusProject={handleFocusProject}
           />
         )}
       </TabsContent>

@@ -363,7 +363,9 @@ function linkPage(title: string, copy: string, action?: string) {
       headers: {
         "Content-Type": "text/html; charset=utf-8",
         "Cache-Control": "no-store",
-        "Referrer-Policy": "no-referrer",
+        // no-referrer makes browser form POSTs send an opaque ("null") Origin.
+        // Keep same-origin POSTs verifiable without leaking signed links off-site.
+        "Referrer-Policy": "same-origin",
         "X-Robots-Tag": "noindex, nofollow",
         "Content-Security-Policy":
           "default-src 'none'; style-src 'unsafe-inline'; form-action 'self'; frame-ancestors 'none'",

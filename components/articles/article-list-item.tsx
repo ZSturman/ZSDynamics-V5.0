@@ -43,17 +43,17 @@ export function ArticleListItem({ article }: ArticleListItemProps) {
       data-analytics-article-slug={article.slug}
       data-analytics-article-title={article.title}
       data-analytics-surface="article_list"
-      className={`group relative overflow-hidden rounded-3xl border bg-card p-3 shadow-sm transition-all duration-200 hover:shadow-md md:p-4 ${
+      className={`group relative min-w-0 px-1 py-5 transition-colors hover:bg-muted/30 sm:px-3 ${
         isDraft
-          ? "border-amber-300/60 hover:border-amber-400/80 dark:border-amber-700/50 dark:hover:border-amber-600/70"
-          : "border-border/70 hover:border-foreground/20"
+          ? "bg-amber-50/30 dark:bg-amber-950/10"
+          : ""
       }`}
     >
-      <Link href={article.href} aria-label={article.title} className="absolute inset-0 z-10 rounded-3xl" />
+      <Link href={article.href} aria-label={article.title} className="absolute inset-0 z-10 rounded-lg focus-visible:outline-2 focus-visible:outline-primary" />
 
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
+      <div className="flex items-start gap-3 sm:gap-5">
         <div className="shrink-0">
-          <div className="overflow-hidden rounded-2xl border border-border/70 bg-muted/40 sm:h-24 sm:w-36 md:h-28 md:w-44 lg:h-32 lg:w-48">
+          <div className="size-16 overflow-hidden rounded-lg border border-border/70 bg-muted/40 sm:size-20">
             {article.coverImage ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img
@@ -62,7 +62,7 @@ export function ArticleListItem({ article }: ArticleListItemProps) {
                 className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
               />
             ) : (
-              <div className="flex h-28 items-center justify-center bg-muted/60 text-muted-foreground sm:h-full">
+              <div className="flex h-full items-center justify-center bg-muted/60 text-muted-foreground">
                 <Newspaper className="size-7" />
               </div>
             )}
@@ -70,7 +70,7 @@ export function ArticleListItem({ article }: ArticleListItemProps) {
         </div>
 
         <div className="min-w-0 flex-1">
-          <div className="flex flex-wrap items-center gap-2 text-xs uppercase tracking-[0.14em] text-muted-foreground">
+          <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
             <span>{getPrimaryDate(article)}</span>
             {updatedDate && <span>Updated {updatedDate}</span>}
             {isDraft && (
@@ -90,25 +90,25 @@ export function ArticleListItem({ article }: ArticleListItemProps) {
             )}
           </div>
 
-          <div className="mt-3 flex items-start justify-between gap-4">
-            <h2 className="text-xl font-semibold leading-tight transition-colors group-hover:text-primary md:text-2xl">
+          <div className="mt-1.5 flex items-start justify-between gap-3">
+            <h2 className="text-base font-semibold leading-snug transition-colors group-hover:text-primary sm:text-lg">
               {article.title}
             </h2>
             <ArrowUpRight className="mt-1 size-4 shrink-0 text-muted-foreground transition-colors group-hover:text-primary" />
           </div>
 
-          <p className="mt-2 text-sm leading-7 text-muted-foreground md:text-base" title={article.summary}>{article.oneLiner ?? article.summary}</p>
+          <p className="mt-1 line-clamp-2 text-sm leading-6 text-muted-foreground" title={article.summary}>{article.oneLiner ?? article.summary}</p>
 
           {(article.tags?.length || article.relatedProjects.length) && (
-            <div className="mt-4 flex flex-wrap gap-x-3 gap-y-2">
-              {(article.tags || []).map((tag) => (
+            <div className="mt-2 flex flex-wrap gap-x-3 gap-y-1">
+              {(article.tags || []).slice(0, 3).map((tag) => (
                 <MetadataTag key={`${article.slug}-${tag}`} tag={tag} size="sm" />
               ))}
-              {article.relatedProjects.map((project) => (
+              {article.relatedProjects.slice(0, 1).map((project) => (
                 <Link
                   key={`${article.slug}-${project.id}`}
                   href={project.href}
-                  className="relative z-20 inline-flex items-center gap-1.5 rounded-full border border-border/80 bg-background px-3 py-1.5 text-xs font-medium text-foreground transition-colors hover:border-primary/40 hover:text-primary"
+                  className="relative z-20 inline-flex items-center gap-1 text-xs text-muted-foreground underline decoration-border underline-offset-4 transition-colors hover:text-primary"
                 >
                   <FolderOpen className="size-3.5" />
                   {project.title}

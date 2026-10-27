@@ -282,13 +282,24 @@ def _article_source_priority(article_source: Dict[str, Any]) -> Tuple[int, int]:
 def _discover_article_sources(source_repo_root: Path) -> List[Dict[str, Any]]:
     article_sources_by_slug: Dict[str, Dict[str, Any]] = {}
     search_roots: List[Path] = []
+    published_root = source_repo_root / "published"
+    if published_root.exists() and published_root.is_dir():
+        search_roots.append(published_root)
+        entries = sorted(
+            (path for path in published_root.rglob("*") if path.is_dir() or path.is_file()),
+            key=lambda path: (len(path.relative_to(published_root).parts), path.name.lower()),
+        )
+    else:
+        entries = None
     articles_root = source_repo_root / "articles"
-    if articles_root.exists() and articles_root.is_dir():
+    if entries is None and articles_root.exists() and articles_root.is_dir():
         search_roots.append(articles_root)
-    search_roots.append(source_repo_root)
+    if entries is None:
+        search_roots.append(source_repo_root)
 
     for search_root in search_roots:
-        for entry in sorted(search_root.iterdir(), key=lambda path: path.name.lower()):
+        root_entries = entries if entries is not None else sorted(search_root.iterdir(), key=lambda path: path.name.lower())
+        for entry in root_entries:
             if entry.name.startswith("."):
                 continue
 
@@ -304,6 +315,8 @@ def _discover_article_sources(source_repo_root: Path) -> List[Dict[str, Any]]:
                     "asset_root": entry,
                 }
             elif entry.is_file() and _is_markdown_path(entry):
+                if entry.name.lower() in MARKDOWN_INDEX_NAMES:
+                    continue
                 if not _has_frontmatter(entry):
                     continue
                 article_source = {

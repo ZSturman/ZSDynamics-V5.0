@@ -15,6 +15,7 @@ import process from "node:process";
 import { fileURLToPath } from "node:url";
 
 import { loadProjectEnvironment } from "./project-env.mjs";
+import { enterPublishingCoordination } from "./publishing-coordination.mjs";
 import { assessWorkspaceHealth, classifyWorkspaceChanges, repositoryState } from "./git-workspace-health.mjs";
 
 export { classifyWorkspaceChanges };
@@ -328,6 +329,11 @@ async function main() {
   const retentionDays = Number.parseInt(args["retention-days"] || "30", 10);
   if (!Number.isInteger(retentionDays) || retentionDays < 1 || retentionDays > 365) throw new Error("--retention-days must be an integer from 1 to 365.");
   loadProjectEnvironment(ROOT);
+  const coordinatedExit = await enterPublishingCoordination({ mode });
+  if (coordinatedExit !== null) {
+    process.exitCode = coordinatedExit;
+    return;
+  }
   const runId = process.env.PORTFOLIO_RUN_ID || `hammerspoon-${new Date().toISOString().replace(/[:.]/g, "-")}-${process.pid}`;
   process.env.PORTFOLIO_RUN_ID = runId;
   const runDirectory = path.join(RUNS_DIRECTORY, runId);

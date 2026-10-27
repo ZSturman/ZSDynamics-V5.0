@@ -59,7 +59,7 @@ export function ArticleCard({ article }: ArticleCardProps) {
           </div>
         )}
 
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background/85 via-background/10 to-transparent" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
         <div className="pointer-events-none absolute bottom-4 left-4 right-4 flex items-end justify-between gap-3">
           <div className="min-w-0 space-y-1">
             <p className="text-[11px] uppercase tracking-[0.16em] text-white/80">{getPrimaryDate(article)}</p>

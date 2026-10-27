@@ -90,8 +90,7 @@ export function WorkLogsPageClient({
                     {filteredProject ? `${filteredProject.title} Work Logs` : "Work Logs"}
                   </h1>
                   <p className="max-w-3xl text-sm leading-6 text-muted-foreground md:text-base">
-                    A calmer dashboard for reviewing recent sessions, tracking project momentum, and opening details only
-                    when they are useful.
+                    See what changed, explore recent sessions, and follow the next steps across projects.
                   </p>
                 </div>
               </div>

@@ -226,7 +226,7 @@ export function ArticlesClient({ articles }: ArticlesClientProps) {
           ))}
         </div>
       ) : (
-        <div className="space-y-4">
+        <div className="divide-y divide-border/70 border-y border-border/70" data-testid="article-list">
           {sortedArticles.map((article) => (
             <ArticleListItem key={article.slug} article={article} />
           ))}

@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { build } from "esbuild";
 import { Miniflare, Response } from "miniflare";
+import { chromium } from "@playwright/test";
 
 let mf, db;
 let verification = {
@@ -341,6 +342,83 @@ test("existing articles never send during initial baseline; bad tokens cannot ch
     (await db.prepare("SELECT status FROM subscribers").first()).status,
     "Active",
   );
+});
+test("real browser confirmation and unsubscribe forms preserve their API origin", async () => {
+  verification.action = "newsletter";
+  await post("/newsletter-interest", { email: "browser@example.com", consent: true, turnstileToken: "token" });
+  await jobs();
+  const emailedLink = new URL(mail[0].body.text.match(/https:\/\/[^\s]+\/confirm\?token=[^\s]+/)[0]);
+  const localOrigin = await mf.ready;
+  const browser = await chromium.launch();
+  try {
+    const page = await browser.newPage();
+    const response = await page.goto(new URL(emailedLink.pathname + emailedLink.search, localOrigin).href);
+    assert.equal(response.headers()["referrer-policy"], "same-origin");
+    assert.equal((await db.prepare("SELECT status FROM subscribers").first()).status, "Pending");
+    await Promise.all([
+      page.waitForURL((url) => url.pathname === "/confirm", { waitUntil: "load" }),
+      page.getByRole("button", { name: "Confirm subscription" }).click(),
+    ]);
+    await page.getByRole("heading", { name: "You're on the list." }).waitFor();
+    assert.equal((await db.prepare("SELECT status FROM subscribers").first()).status, "Active");
+    await jobs(true); // existing articles are never mailed
+    articles.push({ slug: "browser-article", title: "Browser article", publishedAt: "2026-10-01" });
+    await jobs(true);
+    await jobs();
+    const update = mail.find((m) => m.body.subject === "New writing: Browser article");
+    const unsubscribe = new URL(update.body.text.match(/Unsubscribe: (\S+)/)[1]);
+    await page.goto(new URL(unsubscribe.pathname + unsubscribe.search, localOrigin).href);
+    await page.getByRole("button", { name: "Unsubscribe", exact: true }).click();
+    await page.getByRole("heading", { name: "You're unsubscribed." }).waitFor();
+    assert.equal((await db.prepare("SELECT status FROM subscribers").first()).status, "Unsubscribed");
+  } finally {
+    await browser.close();
+  }
+});
+test("signed forms still reject foreign and opaque POST origins", async () => {
+  for (const path of ["/confirm", "/unsubscribe"]) {
+    for (const Origin of ["https://evil.example", "null", origin]) {
+      const response = await mf.dispatchFetch(`https://api.example.com${path}?token=invalid`, {
+        method: "POST", headers: { Origin },
+      });
+      assert.equal(response.status, 403);
+    }
+  }
+});
+test("article delivery retries safely, excludes pending readers, and suppresses queued mail after leaving or rejoining", async () => {
+  const timestamp = new Date().toISOString();
+  for (const [id, status] of [["active", "Active"], ["pending", "Pending"], ["left", "Unsubscribed"]]) {
+    await db.prepare("INSERT INTO subscribers(id,email,status,requested_at,confirmed_at,owner_notified_at,confirmation_sent_at) VALUES (?,?,?,?,?,?,?)")
+      .bind(id, `${id}@example.com`, status, timestamp, status === "Active" ? timestamp : null, timestamp, timestamp).run();
+  }
+  await jobs(true);
+  articles.push({ slug: "new-release", title: "A release", publishedAt: "2026-10-01" });
+  await jobs(true);
+  assert.equal((await db.prepare("SELECT count(*) n FROM article_deliveries").first()).n, 1);
+  mailStatus = 503;
+  await jobs();
+  const firstAttempt = mail.find((m) => m.body.subject === "New writing: A release");
+  assert.ok(firstAttempt);
+  assert.equal((await db.prepare("SELECT sent_at FROM article_deliveries").first()).sent_at, null);
+  mailStatus = 200;
+  await db.prepare("UPDATE article_deliveries SET next_attempt=0").run();
+  await jobs();
+  const attempts = mail.filter((m) => m.body.subject === "New writing: A release");
+  assert.equal(attempts.length, 2);
+  assert.equal(attempts[0].key, attempts[1].key);
+  assert.deepEqual(attempts[1].body.to, ["active@example.com"]);
+  articles[1].title = "An edited release";
+  await jobs(true);
+  await jobs();
+  assert.equal(mail.filter((m) => m.body.subject.startsWith("New writing:")).length, 2);
+  articles.push({ slug: "queued-release", title: "Queued release", publishedAt: "2026-10-01" });
+  await jobs(true);
+  await db.prepare("UPDATE subscribers SET status='Unsubscribed' WHERE id='active'").run();
+  await jobs();
+  assert.equal(mail.filter((m) => m.body.subject === "New writing: Queued release").length, 0);
+  await db.prepare("UPDATE subscribers SET status='Active', generation=generation+1 WHERE id='active'").run();
+  await jobs();
+  assert.equal(mail.filter((m) => m.body.subject === "New writing: Queued release").length, 0);
 });
 test("daily summary authorization and attachments survive the intake change", async () => {
   assert.equal(

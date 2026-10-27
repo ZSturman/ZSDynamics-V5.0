@@ -1,5 +1,24 @@
 # Setup: Hammerspoon daily portfolio publishing
 
+## Mac/Pi coordination (October 25, 2026)
+
+The installed Mac entry point now claims its UTC daily job through the private
+SSH authority in `~/Workspace/Projects/Publishing Coordinator`. A Pi worker can
+claim that same job from 14:05 UTC if the Mac has not claimed it. Known completed
+or failed daily attempts are not silently repeated, and uncertain running work
+is never automatically stolen. The Mac retains the pipeline below; the Pi uses
+a dedicated `origin/main` checkout and Linux dependency image. Uncommitted Mac
+source is never implicitly deployed to the Pi.
+
+Private `.env.local` sets `PUBLISH_COORDINATOR_CLIENT`,
+`PUBLISH_COORDINATOR_CONFIG` and `PUBLISH_COORDINATOR_PYTHON`. Once configured,
+authority loss blocks publishing before pipeline work. Check-only uses its own
+job identity and the same mutex. Existing GitHub Firebase deployment ownership
+is unchanged. Both publication policies currently remain paused during Content
+Manager testing; see the coordinator's README for status, audited recovery and
+the explicit per-workflow resume commands. Its offline Pi dependency/browser
+checks do not substitute for a complete portfolio quality/resource run.
+
 The daily schedule for `zacharysturman.com` is owned by this Mac's
 Hammerspoon configuration, not by a GitHub Actions cron. At **14:00 UTC** each
 day (about 7:00 AM PDT / 6:00 AM PST), Hammerspoon starts the portfolio's
