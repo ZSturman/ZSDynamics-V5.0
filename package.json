@@ -33,7 +33,7 @@
     "write-deployment-marker": "node scripts/write-deployment-marker.mjs",
     "change-summary": "node scripts/portfolio-change-summary.mjs",
     "validate:portfolio": "node scripts/validate-portfolio-output.mjs",
-    "test:unit": "node --test tests/analytics-suppression.test.mjs tests/daily-analytics-summary.test.mjs tests/portfolio-pipeline.test.mjs",
+    "test:unit": "node --test tests/analytics-suppression.test.mjs tests/daily-analytics-summary.test.mjs tests/portfolio-pipeline.test.mjs tests/publishing-coordination.test.mjs tests/project-presentation.test.mjs tests/analytics-verify.test.mjs tests/analytics-utm.test.mjs",
     "test:python": "python3 -m pytest -q tests_python --ignore=tests_python/test_notion_integration.py",
     "test:python:integration": "python3 -m pytest -q tests_python/test_notion_integration.py",
     "test:e2e": "playwright test",

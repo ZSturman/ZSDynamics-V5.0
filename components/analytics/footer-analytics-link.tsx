@@ -3,6 +3,7 @@
 import {
   trackContactClick,
   trackResumeDownload,
+  trackResumeView,
   trackSocialClick,
 } from "@/lib/firebase-analytics";
 
@@ -36,10 +37,10 @@ export function FooterAnalyticsLink({ analytics, children, ...rest }: Props) {
           });
           break;
         case "resume_download":
-          trackResumeDownload(analytics.url);
+          trackResumeDownload(analytics.url, rest["data-analytics-surface" as keyof typeof rest] as string | undefined);
           break;
         case "resume_view":
-          trackResumeDownload(analytics.url);
+          trackResumeView(analytics.url, rest["data-analytics-surface" as keyof typeof rest] as string | undefined);
           break;
         case "contact":
           trackContactClick("site_footer");

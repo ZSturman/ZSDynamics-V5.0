@@ -1,7 +1,7 @@
 import { defineConfig } from "@playwright/test";
 export default defineConfig({
   testDir: "tests",
-  testMatch: "contact.spec.ts",
+  testMatch: ["contact.spec.ts", "analytics-journey.spec.ts"],
   timeout: 30000,
   reporter: "list",
   use: { baseURL: "http://127.0.0.1:3002", headless: true },

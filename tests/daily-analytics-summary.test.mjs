@@ -626,3 +626,49 @@ test("renders all major email sections and custom-dimension fallback", () => {
 
   assert.equal(email.subject, "zacharysturman.com analytics - Jun 28, 2026 - 42 sessions / 11 key actions");
 });
+
+test("excludes QA sessions from every query, reports campaign conversions, and never counts failed submissions", async () => {
+  const root = await fs.mkdtemp(path.join(os.tmpdir(), "analytics-qa-report-"));
+  await fs.mkdir(path.join(root, "public", "projects"), { recursive: true });
+  await fs.mkdir(path.join(root, "public", "articles"), { recursive: true });
+  await fs.writeFile(path.join(root, "public", "projects", "projects.json"), "[]");
+  await fs.writeFile(path.join(root, "public", "articles", "articles.json"), "[]");
+
+  const requests = [];
+  const row = (dims, metrics) => ({
+    dimensionValues: dims.map((value) => ({ value })),
+    metricValues: metrics.map((value) => ({ value: String(value) })),
+  });
+  const client = {
+    async getMetadata() {
+      return [{ dimensions: ["sessionCampaignName", "sessionSource", "sessionMedium", "eventName"].map((apiName) => ({ apiName })) }];
+    },
+    async runReport(request) {
+      requests.push(request);
+      const dimensions = (request.dimensions || []).map((dimension) => dimension.name);
+      const filterText = JSON.stringify(request.dimensionFilter || {});
+      if (dimensions.length === 1 && dimensions[0] === "sessionCampaignName") {
+        return filterText.includes("contact_submit")
+          ? [{ rows: [row(["spring-applications"], [3])] }]
+          : [{ rows: [row(["spring-applications"], [4, 3])] }];
+      }
+      if (dimensions.includes("eventName")) {
+        return [{ rows: [row(["contact_submit"], [1]), row(["contact_submit_failed"], [2]), row(["resume_download"], [2])] }];
+      }
+      return [{ rows: [] }];
+    },
+  };
+
+  const report = await buildDailyAnalyticsReport({ client, propertyId: "1", siteName: "example.test", now: new Date("2026-10-28T15:00:00Z"), rootDir: root });
+
+  assert.ok(requests.length > 5);
+  for (const request of requests) {
+    assert.match(JSON.stringify(request.dimensionFilter), /"notExpression".*"sessionSource".*"qa"/, "every query excludes QA sessions");
+  }
+  assert.deepEqual(
+    report.traffic.campaigns.map((campaign) => [campaign.label, campaign.metrics.sessions, campaign.conversions]),
+    [["spring-applications", 4, 3]],
+  );
+  assert.equal(report.events.keyActionCount, 3, "failed contact submissions are not key actions");
+  assert.match(renderReportHtml(report), /Conversions/);
+});

@@ -6,6 +6,7 @@ import { usePathname, useSearchParams } from "next/navigation";
 import {
   initializeAnalytics,
   setActiveAnalyticsSection,
+  trackContactClick,
   trackOutboundLink,
   trackRouteView,
   trackScrollDepth,
@@ -30,6 +31,17 @@ function isExternalAnchor(anchor: HTMLAnchorElement): boolean {
   try {
     const url = new URL(href, window.location.href);
     return url.origin !== window.location.origin;
+  } catch {
+    return false;
+  }
+}
+
+function isContactAnchor(anchor: HTMLAnchorElement): boolean {
+  const href = anchor.getAttribute("href") || "";
+  if (href.startsWith("mailto:")) return true;
+  try {
+    const url = new URL(href, window.location.href);
+    return url.origin === window.location.origin && url.pathname.replace(/\/$/, "") === "/contact";
   } catch {
     return false;
   }
@@ -121,6 +133,11 @@ export function AnalyticsBootstrap() {
       const anchor = target.closest<HTMLAnchorElement>("a[href]");
       if (!anchor) return;
       if (anchor.dataset.analyticsSkip === "true") return;
+      if (isContactAnchor(anchor)) {
+        // Intent only; a delivered message is recorded separately as contact_submit.
+        trackContactClick(inferSurface(anchor));
+        return;
+      }
       if (!isExternalAnchor(anchor)) return;
       trackOutboundLink({
         destinationUrl: anchor.href,

@@ -3,7 +3,7 @@
 import type { Analytics } from "firebase/analytics";
 import type { FirebaseApp } from "firebase/app";
 
-import { getStoredUtm } from "./analytics-utm";
+import { getQaRun, getStoredUtm } from "./analytics-utm";
 import { getAnalyticsSuppressionReason as evaluateAnalyticsSuppression } from "./analytics-suppression.mjs";
 
 type AnalyticsValue = string | number | undefined;
@@ -288,6 +288,12 @@ async function getAnalyticsInstance(): Promise<Analytics | null> {
       appInstance = getApps()[0] ?? initializeApp(firebaseConfig);
       const analytics = analyticsModule.getAnalytics(appInstance);
       analyticsModule.setAnalyticsCollectionEnabled(analytics, true);
+      // Controlled QA sessions carry GA4's internal-traffic marker on every
+      // hit, including automatic page views, so reports can exclude them.
+      const qaRun = getQaRun();
+      if (qaRun) {
+        analyticsModule.setDefaultEventParameters({ traffic_type: "internal", qa_run: qaRun });
+      }
 
       return analytics;
     })().catch((error) => {
@@ -302,18 +308,29 @@ async function getAnalyticsInstance(): Promise<Analytics | null> {
 }
 
 async function logAnalyticsEvent(name: string, params: AnalyticsParams = {}): Promise<void> {
-  const analytics = await getAnalyticsInstance();
-  if (!analytics) {
-    return;
-  }
-
   const utm = getStoredUtm();
+  const qaRun = getQaRun();
   const merged: AnalyticsParams = {
     ...utm,
+    ...(qaRun ? { traffic_type: "internal", qa_run: qaRun } : {}),
     ...activePageContext,
     ...activeAttentionContext,
     ...params,
   };
+
+  // Test-only observer: browser tests define this array to verify which
+  // events fire (analytics stays suppressed for them). Absent in production.
+  const observer = canUseBrowser()
+    ? (window as Window & { __ZS_ANALYTICS_LOG__?: Array<{ name: string; params: AnalyticsParams }> }).__ZS_ANALYTICS_LOG__
+    : undefined;
+  if (Array.isArray(observer)) {
+    observer.push({ name, params: sanitizeParams(merged) });
+  }
+
+  const analytics = await getAnalyticsInstance();
+  if (!analytics) {
+    return;
+  }
 
   const analyticsModule = await import("firebase/analytics");
   analyticsModule.logEvent(analytics, name, sanitizeParams(merged));
@@ -345,7 +362,22 @@ export function trackRouteView(input: RouteViewInput): void {
   });
 }
 
+// A click (card, list, Selected Work) is followed by the project page's own
+// load event; record one open per project per visit to it, not two.
+const PROJECT_OPEN_DEDUPE_MS = 10_000;
+let lastProjectOpen: { slug: string; at: number } | null = null;
+
 export function trackProjectOpen(input: ProjectOpenInput): void {
+  const now = Date.now();
+  if (
+    input.openSurface === "project_page" &&
+    lastProjectOpen?.slug === input.projectSlug &&
+    now - lastProjectOpen.at < PROJECT_OPEN_DEDUPE_MS
+  ) {
+    return;
+  }
+  lastProjectOpen = { slug: input.projectSlug, at: now };
+
   void logAnalyticsEvent("project_open", {
     project_slug: input.projectSlug,
     project_title: input.projectTitle,
@@ -386,10 +418,21 @@ export function trackSocialClick(input: SocialClickInput): void {
   });
 }
 
-export function trackResumeDownload(resumeUrl: string): void {
+/** A download link was activated; browsers do not report whether the file finished saving. */
+export function trackResumeDownload(resumeUrl: string, surface?: string): void {
   void logAnalyticsEvent("resume_download", {
     destination_domain: normalizeDomain(resumeUrl),
     resume_url: resumeUrl,
+    surface,
+  });
+}
+
+/** The PDF was opened for viewing (new tab), not saved. */
+export function trackResumeView(resumeUrl: string, surface?: string): void {
+  void logAnalyticsEvent("resume_view", {
+    destination_domain: normalizeDomain(resumeUrl),
+    resume_url: resumeUrl,
+    surface,
   });
 }
 
@@ -425,8 +468,12 @@ export function trackContactClick(surface: string): void {
 
 type ContactSubmitStatus = "success" | "error" | "rate_limited" | "invalid";
 
+/**
+ * `contact_submit` is recorded only after the API accepted the message, so it
+ * can be counted as a conversion. Failures use a separate diagnostic event.
+ */
 export function trackContactSubmit(status: ContactSubmitStatus, errorCode?: string): void {
-  void logAnalyticsEvent("contact_submit", {
+  void logAnalyticsEvent(status === "success" ? "contact_submit" : "contact_submit_failed", {
     status,
     error_code: errorCode,
   });
@@ -435,7 +482,30 @@ export function trackContactSubmit(status: ContactSubmitStatus, errorCode?: stri
 type NewsletterStatus = "success" | "error" | "duplicate" | "invalid" | "rate_limited";
 
 export function trackNewsletterInterest(status: NewsletterStatus): void {
-  void logAnalyticsEvent("newsletter_interest", { status });
+  void logAnalyticsEvent(status === "success" ? "newsletter_interest" : "newsletter_interest_failed", { status });
+}
+
+type ProjectFilterInput = {
+  filterType: "search" | "focus" | "evidence" | "domain" | "status" | "tag" | "sort" | "view" | "group";
+  filterValue: string;
+  resultCount?: number;
+};
+
+/**
+ * Archive search/filter use. Search terms are normalized and truncated to
+ * short keywords (letters, digits, + . # -), never free-form text.
+ */
+export function trackProjectFilter(input: ProjectFilterInput): void {
+  const value =
+    input.filterType === "search"
+      ? input.filterValue.toLowerCase().replace(/[^a-z0-9+.#\- ]/g, "").replace(/\s+/g, " ").trim().slice(0, 40)
+      : input.filterValue.slice(0, 60);
+  if (!value) return;
+  void logAnalyticsEvent("portfolio_filter_change", {
+    filter_type: input.filterType,
+    filter_value: value,
+    result_count: input.resultCount,
+  });
 }
 
 type ProjectMediaInput = {

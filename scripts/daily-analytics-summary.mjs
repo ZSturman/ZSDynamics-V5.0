@@ -32,7 +32,31 @@ const HIGH_INTENT_EVENTS = new Set([
   "newsletter_interest",
 ]);
 
-const DIAGNOSTIC_EVENTS = new Set(["portfolio_route_view", "automation_signal"]);
+const DIAGNOSTIC_EVENTS = new Set([
+  "portfolio_route_view",
+  "automation_signal",
+  "contact_submit_failed",
+  "newsletter_interest_failed",
+]);
+
+// Completed outcomes used for campaign conversion counts. Attempts (clicks on
+// Contact) and failures are excluded; a résumé download is a started download.
+export const CONVERSION_EVENTS = [
+  "resume_download",
+  "contact_submit",
+  "newsletter_interest",
+  "social_click",
+  "project_resource_click",
+  "project_demo_click",
+  "github_click",
+];
+
+export const QA_SOURCE = "qa";
+const QA_SESSION_EXCLUSION = {
+  notExpression: {
+    filter: { fieldName: "sessionSource", stringFilter: { value: QA_SOURCE, matchType: "EXACT" } },
+  },
+};
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 const STANDARD_GA_EVENTS = new Set([
@@ -103,6 +127,9 @@ export const OPTIONAL_CUSTOM_PARAMETERS = [
   "visible_time_sec",
   "progress_percent",
   "interaction_type",
+  "filter_type",
+  "filter_value",
+  "qa_run",
 ];
 
 const MANUAL_UTM_DIMENSIONS = [
@@ -187,7 +214,7 @@ export const EVENT_CATALOG = {
     keyAction: true,
   },
   resume_download: {
-    label: "Resume downloaded",
+    label: "Resume download started",
     group: "Conversion signals",
     intent: "Conversion",
     keyAction: true,
@@ -199,7 +226,7 @@ export const EVENT_CATALOG = {
     keyAction: true,
   },
   contact_submit: {
-    label: "Contact form submitted",
+    label: "Contact message sent",
     group: "Conversion signals",
     intent: "Conversion",
     keyAction: true,
@@ -209,6 +236,24 @@ export const EVENT_CATALOG = {
     group: "Conversion signals",
     intent: "Conversion",
     keyAction: true,
+  },
+  contact_submit_failed: {
+    label: "Contact submission failed",
+    group: "Data quality",
+    intent: "Diagnostic",
+    keyAction: false,
+  },
+  newsletter_interest_failed: {
+    label: "Newsletter signup failed",
+    group: "Data quality",
+    intent: "Diagnostic",
+    keyAction: false,
+  },
+  portfolio_filter_change: {
+    label: "Project search / filter",
+    group: "Navigation",
+    intent: "Engagement",
+    keyAction: false,
   },
   automation_signal: {
     label: "Automation signal",
@@ -826,9 +871,11 @@ async function runReport(client, propertyId, input) {
     request.orderBys = [{ metric: { metricName: orderBy }, desc: true }];
   }
 
-  if (dimensionFilter) {
-    request.dimensionFilter = dimensionFilter;
-  }
+  // Controlled release checks arrive with utm_source=qa (and traffic_type=internal);
+  // keep them out of every number in the report.
+  request.dimensionFilter = dimensionFilter
+    ? { andGroup: { expressions: [dimensionFilter, QA_SESSION_EXCLUSION] } }
+    : QA_SESSION_EXCLUSION;
 
   const [response] = await client.runReport(request);
   return response.rows || [];
@@ -1033,7 +1080,7 @@ async function fetchCustomDimensionBreakdowns(client, propertyId, dateIso, metad
 }
 
 async function fetchTraffic(client, propertyId, dateIso, metadata, warnings) {
-  const [channelGroups, sourceMedium, campaigns, landingPages, actionSources] = await Promise.all([
+  const [channelGroups, sourceMedium, campaigns, landingPages, actionSources, campaignConversions] = await Promise.all([
     fetchBreakdown(client, propertyId, {
       label: "Channel groups",
       dateIso,
@@ -1076,13 +1123,24 @@ async function fetchTraffic(client, propertyId, dateIso, metadata, warnings) {
       limit: 10,
       dimensionFilter: eventNameFilter([...HIGH_INTENT_EVENTS]),
     }, metadata, warnings),
+    fetchBreakdown(client, propertyId, {
+      label: "Conversions by campaign",
+      dateIso,
+      dimensions: ["sessionCampaignName"],
+      metrics: ["eventCount"],
+      orderBy: "eventCount",
+      limit: 10,
+      skipUnattributed: true,
+      dimensionFilter: eventNameFilter(CONVERSION_EVENTS),
+    }, metadata, warnings),
   ]);
 
+  const conversionsByCampaign = new Map(campaignConversions.map((row) => [row.label, row.metrics.eventCount]));
   const actionBySource = new Map(actionSources.map((row) => [row.label, row.metrics.eventCount]));
   return {
     channelGroups,
     sourceMedium: sourceMedium.map((row) => ({ ...row, actions: actionBySource.get(row.label) ?? 0 })),
-    campaigns,
+    campaigns: campaigns.map((row) => ({ ...row, conversions: conversionsByCampaign.get(row.label) ?? 0 })),
     landingPages,
     manualUtm: {},
   };
@@ -1932,6 +1990,8 @@ function renderTrafficSection(report) {
   const campaignRows = report.traffic.campaigns.map((row) => [
     { value: row.label },
     { value: formatInteger(row.metrics.sessions), align: "right" },
+    { value: formatInteger(row.metrics.engagedSessions), align: "right" },
+    { value: formatInteger(row.conversions ?? 0), align: "right" },
   ]);
 
   const landingRows = (report.traffic.landingPages || []).map((row) => [
@@ -1959,6 +2019,8 @@ function renderTrafficSection(report) {
       [
         { label: "Campaign" },
         { label: "Sessions", align: "right" },
+        { label: "Engaged", align: "right" },
+        { label: "Conversions", align: "right" },
       ],
       campaignRows,
     )}

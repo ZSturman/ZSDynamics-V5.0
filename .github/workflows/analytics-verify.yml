@@ -1,0 +1,36 @@
+name: Analytics verification
+
+# Manual, read-only GA4 check used after releases. Prints aggregate counts to
+# the job log; sends no email and changes nothing.
+on:
+  workflow_dispatch:
+    inputs:
+      days:
+        description: "Days of history to summarize (1-90)"
+        default: "7"
+      qa_run:
+        description: "Optional zs_qa run id to isolate"
+        default: ""
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund
+      - name: Summarize GA4 data
+        env:
+          GA_PROPERTY_ID: ${{ secrets.GA_PROPERTY_ID }}
+          GA_SERVICE_ACCOUNT_JSON: ${{ secrets.GA_SERVICE_ACCOUNT_JSON }}
+          ANALYTICS_VERIFY_DAYS: ${{ inputs.days }}
+          ANALYTICS_VERIFY_QA_RUN: ${{ inputs.qa_run }}
+        run: node scripts/analytics-verify.mjs

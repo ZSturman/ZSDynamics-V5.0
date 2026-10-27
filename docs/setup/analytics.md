@@ -5,18 +5,21 @@ Google Analytics 4 (via Firebase Analytics SDK) plus first-party UTM capture.
 ## What gets captured
 
 - Standard GA4 page views and engagement.
-- UTM parameters (`utm_source`, `utm_medium`, `utm_campaign`, `utm_term`, `utm_content`) on first visit, persisted in `sessionStorage` under `zs_utm_v1`. Stripped from the URL via `history.replaceState`.
+- UTM parameters (`utm_source`, `utm_medium`, `utm_campaign`, `utm_term`, `utm_content`) on first visit, persisted in `sessionStorage` under `zs_utm_v1`. They are left in the URL so GA4's own landing page view records the campaign (see [UTM conventions](../utm-conventions.md)).
 - Referrer hostname (`utm_referrer`) when no UTM is present.
 - Custom events:
 
   | Event | Trigger |
   | --- | --- |
   | `outbound_click` | Any anchor to an external host (delegated capture-phase listener). |
-  | `social_click` | Footer profile chips (LinkedIn, X, GitHub, etc.). |
-  | `resume_view` / `resume_download` | Footer resume buttons. |
-  | `contact_click` | Any "contact me" affordance. |
-  | `contact_submit` | Contact form result (`success` / `error` / `rate_limited`). |
-  | `newsletter_interest` | Newsletter form result. |
+  | `social_click` | Footer and homepage profile links (LinkedIn, GitHub, etc.). |
+  | `resume_view` | Résumé PDF opened in a new tab ("View PDF"). |
+  | `resume_download` | Résumé download link activated (homepage, footer, résumé/experience/about pages); `surface` says where. |
+  | `contact_click` | Any link to `/contact` or `mailto:` (navigation, homepage, résumé actions, footer). Intent only. |
+  | `contact_submit` | **Only** after the contact API accepted the message. |
+  | `contact_submit_failed` | Contact attempt rejected (`status` = `error` / `rate_limited`, `error_code`). Diagnostic. |
+  | `newsletter_interest` / `newsletter_interest_failed` | Writing-update signup accepted / rejected. |
+  | `portfolio_filter_change` | Archive focus, evidence, domain, status, tag filters and settled searches (`filter_type`, `filter_value`, `result_count`). Search terms are reduced to short keywords. |
   | `project_open`, `project_demo_click`, `project_github_click` | Project surface interactions. |
   | `project_media_play` | Image/video/3D model interaction. |
   | `article_open` | Article surface interactions. |
@@ -29,6 +32,19 @@ Google Analytics 4 (via Firebase Analytics SDK) plus first-party UTM capture.
 Every event automatically merges the captured UTM dimensions, so attribution is preserved across the session.
 
 The enriched journey events stay aggregate and privacy-conscious. They do not collect screenshots, typed content, form messages, email addresses, raw IPs, session replay, or a per-user playback ID.
+
+## Conversions
+
+| Conversion | Event | Notes |
+| --- | --- | --- |
+| Downloads the résumé | `resume_download` | A started download; browsers do not report completion. `resume_view` is counted separately. |
+| Opens a project demo, install, or repository | `project_resource_click` (`resource_type`, `project_slug`) | From project pages, cards and the modal. |
+| Clicks through to GitHub or LinkedIn | `social_click`, `github_click` | |
+| Initiates contact | `contact_click` | Intent, not a conversion on its own. |
+| Sends a contact message | `contact_submit` | Recorded after the API stored the message; delivery to the inbox follows within minutes. |
+| Arrives from a job application or campaign | session source / campaign | See [UTM conventions](../utm-conventions.md#job-applications-and-email-outreach). |
+
+To see these as **Key events** in GA4's own reports, mark `resume_download`, `contact_submit`, `social_click`, and `project_resource_click` as key events in GA4 Admin → Events (requires an Editor on the property). The daily email counts them either way.
 
 ## Configuration
 
@@ -73,6 +89,29 @@ This preserves QA, screenshots, deployment verification, and automated publishin
 2. In a production Playwright run, inspect the browser network log: there should be no requests to Firebase/Google Analytics collection endpoints from the tested page.
 3. In GA4 Realtime/DebugView, open the live site in a normal browser and confirm a visit appears; run the production QA or preview capture and confirm no corresponding analytics event appears. Allow for GA4 reporting delay.
 4. In GA4 Admin, optionally create an **Internal traffic** rule/data filter for your own fixed office/VPN IP range. This is an independent last line of defense for manual internal browsing. Do not use it as the only automation safeguard, and do not add IP collection to this site.
+
+## Controlled QA visits
+
+Automated browsers never send analytics. For a deliberate end-to-end check in a normal browser, open the site with
+`?utm_source=qa&utm_medium=test&utm_campaign=release-verify&zs_qa=<run-id>`. That session's hits carry
+`traffic_type=internal` (GA4's internal-traffic marker) and `qa_run=<run-id>`, the daily report excludes
+`sessionSource=qa` from every number, and an active GA4 *Internal traffic* data filter drops them from GA4's own reports.
+
+The **Analytics verification** GitHub workflow (`.github/workflows/analytics-verify.yml`, manual) prints read-only aggregates — Realtime events, events, source/medium/campaign, query-string page views, and QA-session events — to the job log without sending anything:
+
+```bash
+gh workflow run analytics-verify.yml -f days=7 -f qa_run=<run-id>
+gh run watch && gh run view --log | grep -A40 "## Realtime"
+```
+
+## Accuracy limits
+
+- **Unique and returning visitors** are GA4 browser-cookie estimates. Cleared cookies, private windows, multiple devices, and Safari's storage limits make one person count as several new users; treat "returning" as a lower bound.
+- **Blocked analytics.** Ad blockers and tracking protection stop GA4 entirely for some visitors; those visits are invisible, not misattributed. The site works normally for them.
+- **Downloads** are started downloads, not confirmed saves.
+- **Email opens** are not measured; link scanners and privacy proxies distort email clicks.
+- **Geography** is GA4's country/region/city, derived by Google; no IP is stored by this site, and small counts are directional.
+- **Before October 27, 2026**, campaign visits were often recorded as Direct/referral in GA4's session dimensions (campaign values still appeared on custom events), and `contact_submit` included failed attempts.
 
 ## Daily report: what it means
 
@@ -167,5 +206,7 @@ The site forwards event parameters with every custom analytics event, but GA4 Da
 | `previous_page_group`, `previous_page_slug`, `route_step`, `viewport_category`, `route_surface`, `modal_context` | Aggregate visitor journey paths and modal/full-page browsing context. |
 | `section_key`, `section_label`, `item_id`, `item_type`, `item_label`, `collection_key`, `media_role` | Section, collection item, asset, work-log, related article, and media exposure. |
 | `scroll_percent`, `engagement_bucket`, `visible_time_sec`, `progress_percent`, `interaction_type` | Scroll depth, dwell-time buckets, media progress, and action-flow detail. |
+| `filter_type`, `filter_value` | Which archive filters and search keywords visitors use. |
+| `qa_run` | Isolating a controlled QA visit in the verification workflow. |
 
 If these dimensions are missing, the daily email still sends. It will show built-in acquisition, local content tags, and a data-quality note listing the unavailable custom dimensions.

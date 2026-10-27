@@ -4,9 +4,16 @@
  * UTM capture & forwarding.
  *
  * On first browser load, captures any utm_* params from the URL into
- * sessionStorage and strips them from the address bar via history.replaceState
- * so users can share clean URLs. Subsequent analytics events read from the
- * cached value via getStoredUtm() and forward the params with every event.
+ * sessionStorage. Subsequent analytics events read the cached value via
+ * getStoredUtm() and forward the params with every event.
+ *
+ * The params are deliberately left in the address bar: GA4 reads campaign
+ * attribution from the landing page_view, which Firebase sends only after its
+ * script loads. Stripping them first recorded campaign visits as Direct or
+ * referral. Next.js navigation drops them on the next route anyway.
+ *
+ * `?zs_qa=<run-id>` marks a session as controlled QA traffic (see
+ * docs/setup/analytics.md); it never identifies a visitor.
  *
  * Convention (see docs/utm-conventions.md):
  *   utm_source   = linkedin | bluesky | twitter | threads | instagram | email | github | ...
@@ -37,6 +44,7 @@ const STORAGE_KEY = "zs_utm_v1";
 const CAPTURE_FLAG = "zs_utm_captured_v1";
 
 let cachedUtm: UtmParams | null = null;
+let capturedThisPage = false;
 
 function canUseBrowser(): boolean {
   return typeof window !== "undefined";
@@ -71,31 +79,31 @@ function pickUtmFromSearch(search: string): UtmParams {
   return out;
 }
 
-function stripUtmFromUrl(): void {
-  try {
-    const url = new URL(window.location.href);
-    let mutated = false;
-    for (const key of UTM_KEYS) {
-      if (url.searchParams.has(key)) {
-        url.searchParams.delete(key);
-        mutated = true;
-      }
-    }
-    if (mutated) {
-      const query = url.searchParams.toString();
-      const next = `${url.pathname}${query ? `?${query}` : ""}${url.hash}`;
-      window.history.replaceState(null, "", next);
-    }
-  } catch {
-    /* ignore */
-  }
+const QA_STORAGE_KEY = "zs_qa_run_v1";
+
+function captureQaRun(): void {
+  const raw = new URLSearchParams(window.location.search).get("zs_qa");
+  const run = raw?.toLowerCase().replace(/[^a-z0-9-]/g, "").slice(0, 40);
+  if (run) writeSession(QA_STORAGE_KEY, run);
+}
+
+/** Identifier of a controlled QA session, or undefined for real visitors. */
+export function getQaRun(): string | undefined {
+  if (!canUseBrowser()) return undefined;
+  captureUtmOnLoad();
+  const run = readSession<string>(QA_STORAGE_KEY);
+  return typeof run === "string" && run ? run : undefined;
 }
 
 /**
  * Run once on app mount. Idempotent within a session.
  */
 export function captureUtmOnLoad(): void {
-  if (!canUseBrowser()) return;
+  if (!canUseBrowser() || capturedThisPage) return;
+  // Child components' effects can log before the layout's bootstrap effect
+  // runs, so the getters below also trigger this (once per page load).
+  capturedThisPage = true;
+  captureQaRun();
 
   try {
     if (window.sessionStorage.getItem(CAPTURE_FLAG)) {
@@ -123,7 +131,6 @@ export function captureUtmOnLoad(): void {
     if (referrer) fromUrl.utm_referrer = referrer;
     cachedUtm = fromUrl;
     writeSession(STORAGE_KEY, fromUrl);
-    stripUtmFromUrl();
   } else if (referrer) {
     // Soft attribution: keep a referrer for context, but no source/medium/campaign.
     const soft: UtmParams = { utm_referrer: referrer };
@@ -134,6 +141,7 @@ export function captureUtmOnLoad(): void {
 
 export function getStoredUtm(): UtmParams {
   if (!canUseBrowser()) return {};
+  captureUtmOnLoad();
   if (cachedUtm) return cachedUtm;
   cachedUtm = readSession<UtmParams>(STORAGE_KEY) ?? {};
   return cachedUtm;

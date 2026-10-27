@@ -4,7 +4,11 @@ export default defineConfig({
   testDir: 'tests',
   // Production and media matrix suites have their own explicit configs. Keep
   // pre-push browser validation local and independent of a live deployment.
-  testIgnore: ['media/**', 'production/**'],
+  // contact.spec.ts and analytics-journey.spec.ts need the mocked API from
+  // playwright.contact.config.ts; under this config they would submit to production.
+  testIgnore: ['media/**', 'production/**', 'contact.spec.ts', 'analytics-journey.spec.ts'],
+  // Node unit tests (*.test.mjs) run under `npm run test:unit`, not Playwright.
+  testMatch: '**/*.spec.ts',
   timeout: 30000,
   expect: {
     timeout: 5000,
@@ -19,5 +23,6 @@ export default defineConfig({
     port: 3001,
     reuseExistingServer: false,
     timeout: 120000,
+    env: { NEXT_PUBLIC_ANALYTICS_DISABLED: 'true' },
   },
 });

@@ -64,12 +64,28 @@ Email signature:
 https://zacharysturman.com/?utm_source=email&utm_medium=email&utm_campaign=signature&utm_content=footer
 ```
 
+## Job applications and email outreach
+
+Use one campaign per application round or outreach batch, never per person:
+
+```text
+https://zacharysturman.com/?utm_source=application&utm_medium=resume&utm_campaign=2026-q4-software&utm_content=resume-header
+https://zacharysturman.com/explore/hardware?utm_source=application&utm_medium=cover-letter&utm_campaign=2026-q4-technician
+https://zacharysturman.com/?utm_source=email&utm_medium=outreach&utm_campaign=2026-q4-research-labs
+```
+
+- `utm_source=application` for links inside résumés, cover letters, and application forms; `utm_source=email` for messages you send.
+- `utm_campaign` names the round or role family (`2026-q4-software`). A company name is acceptable; **never** put a recipient's name, email address, or any identifier that would tie anonymous browsing to a named person. Recipient-level attribution is intentionally not supported.
+- The daily email's **Campaigns** table shows sessions, engaged sessions, and conversions (résumé downloads, sent contact messages, project demo/source/install clicks, GitHub/LinkedIn clicks) per campaign.
+- `utm_source=qa` is reserved for release checks and is excluded from the daily report.
+
+Email opens are not measured. Apple Mail Privacy Protection, image blocking, and corporate link scanners make open and click counts unreliable; scanners can also "click" links, which shows up as very short Direct-looking sessions. Judge outreach by engaged sessions and conversions, not clicks.
+
 ## How capture works
 
-1. On first page view of a session, [lib/analytics-utm.ts](../lib/analytics-utm.ts) reads `utm_*` from the URL and stores them under `zs_utm_v1` in `sessionStorage`.
-2. The current URL is rewritten via `history.replaceState` to remove the query params (so the address bar stays clean).
-3. Every analytics event spreads those stored values into its parameters first, so `utm_source` etc. show up on `outbound_click`, `contact_submit`, and so on.
-4. If no UTM is present, the referrer hostname is captured as `utm_referrer` for soft attribution.
+1. On the first page of a browser session, `lib/analytics-utm.ts` stores any `utm_*` values (and the external referrer hostname) in `sessionStorage`.
+2. The parameters stay in the address bar. GA4 reads campaign attribution from the landing page view, which Firebase sends only after its script loads; removing them earlier (the behaviour before October 27, 2026) recorded campaign visits as Direct or referral. Moving to another page drops them naturally.
+3. Every custom event spreads the stored values into its parameters, so `utm_source` etc. also appear on `resume_download`, `contact_submit`, `project_resource_click`, and so on, for the rest of the session.
 
 ## GA4 custom dimensions
 
