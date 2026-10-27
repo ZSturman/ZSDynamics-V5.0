@@ -59,34 +59,24 @@ test.describe("@smoke @matrix media rendering", () => {
     }
   });
 
-  test("featured carousel media renders and can navigate slides", async ({ page }, testInfo) => {
+  test("selected work media renders for every featured card", async ({ page }, testInfo) => {
     await gotoHomeReady(page);
 
     const context = buildRuntimeContext(page, testInfo, {
-      scenario: "featured-carousel-media",
+      scenario: "selected-work-media",
       route: "/",
       environment: process.env.NODE_ENV || "test",
     });
 
     try {
-      const carousel = page.locator('[data-testid="featured-carousel"]').first();
-      await expect(carousel).toBeVisible();
-
-      const firstSlide = carousel.locator('[data-testid="featured-carousel-slide"]').first();
-      await expect(firstSlide).toBeVisible();
-      await expect(firstSlide.locator("img:visible, video:visible").first()).toBeVisible();
-
-      const dots = carousel.locator('[data-testid="featured-carousel-dot"]');
-      const dotCount = await dots.count();
-      if (dotCount > 1) {
-        if (testInfo.project.name.includes("mobile")) {
-          await expect(dots.nth(1)).toBeVisible();
-        } else {
-          const secondDot = dots.nth(1);
-          await expect(secondDot).toBeVisible();
-          await secondDot.click();
-          await expect(firstSlide.locator("img:visible, video:visible").first()).toBeVisible();
-        }
+      const items = page.getByTestId("selected-work-item");
+      const count = await items.count();
+      expect(count).toBeGreaterThanOrEqual(4);
+      for (let index = 0; index < count; index += 1) {
+        const image = items.nth(index).locator("img").first();
+        await image.scrollIntoViewIfNeeded();
+        await expect(image).toBeVisible();
+        await expect.poll(() => image.evaluate((img: HTMLImageElement) => img.complete && img.naturalWidth)).toBeGreaterThan(0);
       }
     } catch (error) {
       await attachMediaContext(testInfo, "media-context", context);
