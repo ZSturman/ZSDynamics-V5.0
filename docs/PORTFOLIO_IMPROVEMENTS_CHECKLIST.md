@@ -30,10 +30,11 @@ implementation. **Done** = implemented and verified; **Partial**; **Deferred** (
 | 20 | Testing | Done | 52 unit (7 new), 172 Python (1 new), `tests/presentation.spec.ts` (13 tests), updated home/articles/recallable/footer specs; static export build + validator; export-served browser checks; screenshots inspected at three viewports. |
 | 21–22 | Phased, minimal-risk | Done | No pipeline, database, or URL changes. |
 | 23 | Content accuracy | Done | Claims traced to résumé, project records, or the brief; open questions in `CONTENT_REVIEW.md`. |
-| 24 | Deployment | Deferred | Not committed or deployed: the primary checkout holds extensive unrelated uncommitted work; release should go through a scoped branch with owner approval. |
+| 24 | Deployment | Done | Released `ceccdc6` (Firebase run 40512601942); live marker, routes, production and presentation suites verified. Contact Worker fix awaits owner deploy (see NEXT_STEPS). |
 
-## Known pre-existing test issues (not caused by this work)
+## Previously reported test failures — resolved
 
-- `tests/articles.spec.ts` "list rows stay compact…": grid image has no bounding box (failed in baseline).
-- `tests/contact.spec.ts` fails under the default config; passes 3/3 with `playwright.contact.config.ts`.
-- `scripts/serve-export.py` resets connections under parallel load, causing chunk-load errors in local export tests; serial runs pass. Firebase Hosting is unaffected.
+- `tests/articles.spec.ts` grid-card measurement: passes on the reconciled tree (the failure came from stale local state in the old checkout).
+- `tests/contact.spec.ts` under the default config was posting to the production contact API with a fake Turnstile token; it now runs only under `playwright.contact.config.ts` (passes).
+- Load timeouts on the dev server: run the default suite with `--workers=2`.
+- `scripts/serve-export.py` resets connections under parallel load (local chunk-load errors); serial runs pass. Firebase Hosting is unaffected.

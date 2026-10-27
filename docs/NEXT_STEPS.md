@@ -1,20 +1,25 @@
 <<<<<<< working
-# Professional presentation and hiring positioning — October 27, 2026
+# Professional presentation, analytics and contact release — October 27, 2026
 
-- Added a professional homepage introduction (résumé/contact/selected-work actions, GitHub, LinkedIn), Selected Work (six ranked featured projects), Explore by focus, How I Work and Recent writing above the unchanged complete archive.
-- New pages: `/projects`, `/about`, `/experience`, `/resume`, and shareable `/explore/{software,ai-data,hardware,research,creative}`. Site navigation on every page; sitemap, robots and Person JSON-LD.
-- Optional project metadata (`caseStudy`, `disciplines`, `cardSummary`, `images.featured`) with deterministic fallbacks; Hue Light Control has a verified case study. Primary vs. secondary project actions. Site-wide contrast fix (WCAG AA).
-- Publishing pipeline, work-log generation, article sync and URLs are unchanged. Curation lives in `content/project-updates.json` and authored `project.json` files.
+Live: https://zacharysturman.com — marker `ceccdc6ca93417b81829650f8e72c7458583f5b9`, Firebase workflow run 40512601942 (success).
 
-Validation: typecheck, ESLint, 52 unit, 172 Python, full browser suite (64 pass; 3 pre-existing failures listed in the checklist), new `tests/presentation.spec.ts` (three viewports, keyboard, axe light/dark), static export build and portfolio validator, 21 external links (all 200).
+- Commits on `main`: `22524fe` (reconciled earlier sessions' articles/work-log UI, `published/` article sync, Mac/Pi publish coordination, contact Worker Referrer-Policy fix), `dfd198a` (professional presentation), `9a2a564` (campaign attribution and conversion accuracy), `468892b` (generated output), `ceccdc6` (Selected Work media smoke test). Branch `claude/portfolio-presentation-analytics`.
+- The primary checkout's previous uncommitted state is preserved on `backup/primary-checkout-2026-10-27` (local only); every backup-only line is a superseded draft of released code. The primary checkout is clean on `main`.
+- Selected Work ranking: `content/selected-work.json` only; Notion Featured is the fallback and is never overridden.
+- Analytics: UTMs no longer stripped before GA4's landing page view (28-day data showed 93/96 sessions as Direct, no campaigns); success-only `contact_submit`; separate `resume_view`; `contact_click` on all contact links; one `project_open` per visit; filter/search events; QA marker `?zs_qa=` + `utm_source=qa` excluded from the daily report; campaign conversions in the daily email; read-only **Analytics verification** workflow.
 
-**Not committed or deployed.** The primary checkout still contains extensive unrelated uncommitted work; release this through a scoped branch.
+Validation: typecheck, ESLint (0 errors), 57 unit, 172 Python, 11 Worker, full browser suite 64 passed, contact + analytics-journey suite 21/21 over three repeats, media smoke 33 passed (5 by-design skips), static export + validator (45 projects, 9 articles). Live: marker match, 19 routes 200, production suite 20/20 (Chromium/WebKit desktop/mobile), presentation + project-access + axe against live 16 passed. GA4 Realtime received live production page views after deploy (verification run 40554461628).
 
-Owner input needed: [content review](CONTENT_REVIEW.md) — résumé PDF refresh, removed theKnifeGrinder role, engagement types, certification names, a real photograph (existing headshot looks AI-generated), hardware photos/demos.
+**Owner actions**
 
-Try it: `npm run dev`, then open `/`, `/explore/hardware`, `/experience`, `/projects/hue-light-control`. Maintenance: [presentation controls](setup/portfolio-presentation.md) · [requirement checklist](PORTFOLIO_IMPROVEMENTS_CHECKLIST.md).
+1. Deploy the contact Worker fix (blocked by this session's permissions; the live Worker still sends `Referrer-Policy: no-referrer`, which breaks subscription confirm/unsubscribe button POSTs): `cd ~/Workspace/Temporary/portfolio-presentation-release/worker && npm run deploy`, then `curl -sI "https://api.zacharysturman.com/confirm?token=x" | grep -i referrer` should show `same-origin`.
+2. Controlled production journey (needs a normal browser): open `https://zacharysturman.com/?utm_source=qa&utm_medium=test&utm_campaign=release-verify&zs_qa=rel-20261027`, open two Selected Work projects, download the résumé, send a contact message marked "release test". Expect the owner alert with Reply-To within ~5 minutes; then `gh workflow run analytics-verify.yml -f days=1 -f qa_run=rel-20261027` and check the "QA sessions" section.
+3. GA4 Admin: mark `resume_download`, `contact_submit`, `social_click`, `project_resource_click` as key events; register custom dimensions `filter_type`, `filter_value`, `qa_run`; set the *Internal traffic* data filter to Active.
+4. DNS: DMARC is `p=none` with no reports; add `rua=mailto:<address>` and move to `p=quarantine` once reports look clean.
+5. Content: see [content review](CONTENT_REVIEW.md) (résumé PDF refresh, real photo, engagement types).
 
 ---
+
 
 =======
 >>>>>>> origin
