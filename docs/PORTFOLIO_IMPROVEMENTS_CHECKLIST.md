@@ -30,7 +30,7 @@ implementation. **Done** = implemented and verified; **Partial**; **Deferred** (
 | 20 | Testing | Done | 52 unit (7 new), 172 Python (1 new), `tests/presentation.spec.ts` (13 tests), updated home/articles/recallable/footer specs; static export build + validator; export-served browser checks; screenshots inspected at three viewports. |
 | 21–22 | Phased, minimal-risk | Done | No pipeline, database, or URL changes. |
 | 23 | Content accuracy | Done | Claims traced to résumé, project records, or the brief; open questions in `CONTENT_REVIEW.md`. |
-| 24 | Deployment | Done | Released `ceccdc6` (Firebase run 40512601942); live marker, routes, production and presentation suites verified. Contact Worker fix awaits owner deploy (see NEXT_STEPS). |
+| 24 | Deployment | Done | Released `ceccdc6` (Firebase run 40512601942); live marker, routes, production and presentation suites verified. Contact Worker fix deployed and verified live (version 9270e27e). |
 
 ## Previously reported test failures — resolved
 

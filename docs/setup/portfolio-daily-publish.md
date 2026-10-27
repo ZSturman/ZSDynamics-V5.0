@@ -118,6 +118,14 @@ refuses a second simultaneous process.
 
 ## One-time local setup
 
+0. Install the Playwright browsers the validation stages use (the media matrix
+   runs Chromium, Firefox and WebKit). A missing Firefox build made every
+   media stage fail before October 27, 2026:
+
+   ```bash
+   npx playwright install chromium firefox webkit
+   ```
+
 1. Update every owner together: portfolio
    `.env.local`, relevant GitHub secret, and/or Cloudflare Worker secret.
 2. In the portfolio checkout, set these server-side values in `.env.local`:

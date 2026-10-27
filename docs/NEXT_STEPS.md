@@ -10,13 +10,19 @@ Live: https://zacharysturman.com — marker `ceccdc6ca93417b81829650f8e72c745858
 
 Validation: typecheck, ESLint (0 errors), 57 unit, 172 Python, 11 Worker, full browser suite 64 passed, contact + analytics-journey suite 21/21 over three repeats, media smoke 33 passed (5 by-design skips), static export + validator (45 projects, 9 articles). Live: marker match, 19 routes 200, production suite 20/20 (Chromium/WebKit desktop/mobile), presentation + project-access + axe against live 16 passed. GA4 Realtime received live production page views after deploy (verification run 40554461628).
 
+**Follow-up — October 27, 2026 (afternoon)**
+
+- Contact Worker deployed (version `9270e27e`): live `Referrer-Policy: same-origin`; forged Turnstile → `turnstile_failed`; disallowed origin → 403; honeypot accepted silently and not stored (intake: 2 messages, 0 pending/failed). Two subscribers remain Pending from before the fix; they need to sign up again.
+- Daily analytics email confirmed **delivered** by Resend for Oct 26 (scheduled run 40519266374, new report code). Historical contact alerts (Oct 15, 19) were delivered with Reply-To.
+- Daily publisher: every [HIGH] failure since Sep 29 came from test stages. Now the exact stages pass locally: `npm run test:e2e` (64 passed, two workers, `d686fb9`), `npm run test:media:matrix` (55 passed after installing Playwright Firefox), Python 172, build. A real Notion generation run succeeded (45 projects, 63 work logs preserved, validator passed) and was restored; the publisher itself is still paused by policy.
+
 **Owner actions**
 
-1. Deploy the contact Worker fix (blocked by this session's permissions; the live Worker still sends `Referrer-Policy: no-referrer`, which breaks subscription confirm/unsubscribe button POSTs): `cd ~/Workspace/Temporary/portfolio-presentation-release/worker && npm run deploy`, then `curl -sI "https://api.zacharysturman.com/confirm?token=x" | grep -i referrer` should show `same-origin`.
-2. Controlled production journey (needs a normal browser): open `https://zacharysturman.com/?utm_source=qa&utm_medium=test&utm_campaign=release-verify&zs_qa=rel-20261027`, open two Selected Work projects, download the résumé, send a contact message marked "release test". Expect the owner alert with Reply-To within ~5 minutes; then `gh workflow run analytics-verify.yml -f days=1 -f qa_run=rel-20261027` and check the "QA sessions" section.
-3. GA4 Admin: mark `resume_download`, `contact_submit`, `social_click`, `project_resource_click` as key events; register custom dimensions `filter_type`, `filter_value`, `qa_run`; set the *Internal traffic* data filter to Active.
-4. DNS: DMARC is `p=none` with no reports; add `rua=mailto:<address>` and move to `p=quarantine` once reports look clean.
-5. Content: see [content review](CONTENT_REVIEW.md) (résumé PDF refresh, real photo, engagement types).
+1. Controlled production journey (needs a normal browser; extension was not connected): open `https://zacharysturman.com/?utm_source=qa&utm_medium=test&utm_campaign=release-verify&zs_qa=rel-20261027`, open two Selected Work projects, click **View PDF** and **Download résumé** on `/resume`, then send one contact message named "Release QA" with your own email and "Release test — safe to delete". Expect the owner alert with Reply-To = your address within ~5 minutes, then run `gh workflow run analytics-verify.yml -f days=1 -f qa_run=rel-20261027` (QA section; campaign dimensions can lag up to 24 h).
+2. GA4 Admin (Viewer service account cannot do this): Admin → Custom definitions → Create custom dimension, scope Event, for `filter_type`, `filter_value`, `qa_run`; Admin → Events → mark `resume_download`, `contact_submit`, `social_click`, `project_resource_click` as key events; Admin → Data filters → *Internal traffic* → Active.
+3. Resume publishing when Content Manager testing is done: `ssh kiosk@kiosk-lab 'python3 /home/kiosk/.local/lib/publishing-coordinator/coordinator.py policy --config /home/kiosk/.config/publishing-coordinator/server.json --workflow portfolio --paused false'`, then Hammerspoon **PP → Run Check Only** before the next scheduled publish.
+4. DNS: add `rua=mailto:<address>` to DMARC (`p=none` today); move to `p=quarantine` after reviewing reports.
+5. Content: see [content review](CONTENT_REVIEW.md).
 
 ---
 
