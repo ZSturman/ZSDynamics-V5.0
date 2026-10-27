@@ -57,7 +57,10 @@ export function ProjectWorkLogs({ project, limit }: ProjectWorkLogsProps) {
       className="min-w-0 max-w-full space-y-4 overflow-x-clip md:space-y-5"
     >
       <div className="flex items-center justify-between gap-3">
-        <h3 className="text-base font-semibold tracking-tight text-foreground">Work Logs</h3>
+        <div>
+          <h3 className="text-base font-semibold tracking-tight text-foreground">Work Logs</h3>
+          <p className="text-xs text-muted-foreground">Development history, recorded automatically from work sessions.</p>
+        </div>
         <Link
           href={`/work-logs?project=${getProjectSlug(project)}`}
           className="text-xs font-medium text-primary hover:underline"

@@ -30,7 +30,8 @@ for (const width of [1280, 390]) {
       await expect.poll(() => image.evaluate((img: HTMLImageElement) => img.naturalWidth)).toBeGreaterThan(0);
     }
     await expect(page.getByRole("link", { name: /Support/ }).first()).toHaveAttribute("href", /\/recallable\/support$/);
-    await expect(page.locator('a[href*="apps.apple.com"], a[href*="github.com/ZSturman/Recallable"]')).toHaveCount(0);
+    // iOS 1.0 is public (October 24, 2026); the private source repository stays unlinked.
+    await expect(page.locator('a[href*="github.com/ZSturman/Recallable"]')).toHaveCount(0);
     await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
     await page.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));
     await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
@@ -54,7 +55,7 @@ for (const width of [1280, 390]) {
 
     // The home page is the project listing; Recallable is featured and listed.
     await page.goto("/");
-    await expect(page.getByRole("img", { name: "Recallable featured media" }).first()).toBeAttached();
+    await expect(page.locator('[data-testid="selected-work-item"][data-project-slug="recallable"]')).toBeVisible();
     const thumbnail = page.getByRole("img", { name: "Recallable thumbnail", exact: true }).first();
     await thumbnail.scrollIntoViewIfNeeded();
     await expect.poll(() => thumbnail.evaluate((img: HTMLImageElement) => img.naturalWidth)).toBeGreaterThan(0);

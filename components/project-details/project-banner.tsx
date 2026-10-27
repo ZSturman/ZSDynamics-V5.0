@@ -243,7 +243,7 @@ export function ProjectHeader({
             </div>
 
             {project.oneLiner ? (
-              <p className="max-w-3xl text-pretty text-sm italic text-muted-foreground/85 md:text-base">
+              <p className="max-w-3xl text-pretty text-sm italic text-muted-foreground md:text-base">
                 {project.oneLiner}
               </p>
             ) : null}

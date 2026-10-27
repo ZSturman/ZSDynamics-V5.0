@@ -55,3 +55,22 @@ def test_reviewed_updates_preserve_imported_history_and_are_idempotent(tmp_path)
     assert [log["id"] for log in result[0]["workLogs"]] == ["release", "imported"]
     assert original[0]["summary"] == "Old"
     assert merge_local_projects(result, tmp_path / "public", content) == result
+
+
+def test_presentation_overrides_keep_notion_history_and_unrelated_projects(tmp_path):
+    content = tmp_path / "content"
+    (content / "projects").mkdir(parents=True)
+    (content / "project-updates.json").write_text(json.dumps({"device": {
+        "featured": True, "featuredOrder": 6, "disciplines": ["hardware"],
+        "caseStudy": {"problem": "Reviewed text.", "validation": ["Compiles."]},
+    }}))
+    imported_logs = [{"id": "log-1", "title": "Imported session"}]
+    generated = [{"id": "n1", "slug": "device", "featured": False, "workLogs": imported_logs},
+                 {"id": "n2", "slug": "untouched", "workLogs": [{"id": "log-2"}]}]
+    merged = merge_local_projects(generated, tmp_path / "public", content / "projects")
+    device = next(p for p in merged if p["slug"] == "device")
+    assert device["featured"] is True and device["featuredOrder"] == 6
+    assert device["caseStudy"]["validation"] == ["Compiles."]
+    assert device["workLogs"] == imported_logs  # automated history is never replaced
+    assert next(p for p in merged if p["slug"] == "untouched") == generated[1]
+    assert len(merged) == 2

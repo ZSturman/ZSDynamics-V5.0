@@ -1,9 +1,9 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
 
-import { PortfolioHeader } from "@/components/portfolio-header";
+import { PortfolioHeader, type ProfileLink } from "@/components/portfolio-header";
 import { PortfolioClient } from "@/components/portfolio-client";
 import { ProjectModal } from "@/components/project-modal";
 import { PageFrame } from "@/components/layout/page-frame";
@@ -13,22 +13,34 @@ import type { Project } from "@/types";
 
 interface PortfolioPageClientProps {
   projects: Project[];
+  profileLinks?: ProfileLink[];
+  /** Homepage sections rendered between the introduction and the archive. */
+  children?: ReactNode;
+  archiveHeading?: string;
+  /** Replaces the homepage introduction (used by the /projects catalog). */
+  header?: ReactNode;
 }
 
 const MOBILE_PROJECT_BREAKPOINT_QUERY = "(max-width: 767px)";
 
-function buildHomeUrl(params: URLSearchParams): string {
-  const query = params.toString();
-  return query ? `/?${query}` : "/";
+function currentPath(): string {
+  return typeof window === "undefined" ? "/" : window.location.pathname || "/";
 }
 
-export function PortfolioPageClient({ projects }: PortfolioPageClientProps) {
+// Keeps modal deep links (`?project=`) on whichever catalog page is open.
+function buildHomeUrl(params: URLSearchParams): string {
+  const query = params.toString();
+  return query ? `${currentPath()}?${query}` : currentPath();
+}
+
+export function PortfolioPageClient({ projects, profileLinks, children, archiveHeading, header }: PortfolioPageClientProps) {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const router = useRouter();
   const { setPreviousPath } = useBreadcrumb();
 
   const navigateToProjectPage = useCallback((project: Project, replace = false) => {
-    setPreviousPath("/", "Home");
+    const path = currentPath();
+    setPreviousPath(path, path === "/" ? "Home" : "Projects");
     setSelectedProject(null);
 
     const href = getProjectHref(project);
@@ -111,8 +123,9 @@ export function PortfolioPageClient({ projects }: PortfolioPageClientProps) {
   return (
     <>
       <PageFrame data-testid="site-page-frame" className="overflow-x-hidden py-6 md:py-8">
-        <PortfolioHeader />
-        <PortfolioClient projects={projects} onProjectSelect={handleProjectSelect} />
+        {header ?? <PortfolioHeader profileLinks={profileLinks} />}
+        {children}
+        <PortfolioClient projects={projects} onProjectSelect={handleProjectSelect} heading={archiveHeading} />
       </PageFrame>
       <ProjectModal
         project={selectedProject}

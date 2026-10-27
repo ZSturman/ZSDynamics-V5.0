@@ -2,6 +2,7 @@ import type { Project } from "@/types";
 import { getStandaloneProjectAssets, hasProjectCollectionItems } from "@/lib/project-collections";
 import { getProjectAssetSectionId } from "@/lib/project-section-anchors";
 import { cn } from "@/lib/utils";
+import { hasCaseStudy } from "./project-case-study";
 
 interface ProjectTableOfContentsItem {
   href: string;
@@ -27,6 +28,10 @@ function getTableOfContentsItems(project: Project): ProjectTableOfContentsItem[]
 
   if (hasText(project.readme?.content)) {
     items.push({ href: "#readme", label: "README" });
+  }
+
+  if (hasCaseStudy(project)) {
+    items.push({ href: "#case-study", label: "Engineering notes" });
   }
 
   if (hasProjectCollectionItems(project, { excludeAssets: true })) {

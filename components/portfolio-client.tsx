@@ -4,7 +4,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { ChevronRight } from "lucide-react";
 
-import { FeaturedCarousel } from "./project-list/featured-carousel";
 import { ProjectFilters } from "@/components/project-filters";
 import { ProjectList } from "@/components/project-list/project-list";
 import {
@@ -15,7 +14,17 @@ import {
   type HomeProjectGroupOption,
   type HomeProjectSortOption,
 } from "@/lib/project-discovery";
+import { trackProjectFilter } from "@/lib/firebase-analytics";
 import { getProjectHref } from "@/lib/project-paths";
+import {
+  EVIDENCE_FILTERS,
+  FOCUS_AREAS,
+  getFocusArea,
+  getProjectEvidence,
+  projectMatchesFocus,
+  type EvidenceFilter,
+  type FocusKey,
+} from "@/lib/project-presentation";
 import { cn } from "@/lib/utils";
 import type { Project } from "@/types";
 
@@ -53,6 +62,7 @@ type ViewMode = "grid" | "list";
 interface PortfolioClientProps {
   projects: Project[];
   onProjectSelect?: (project: Project) => void;
+  heading?: string;
 }
 
 interface PersistedHomeDiscoveryState {
@@ -64,6 +74,8 @@ interface PersistedHomeDiscoveryState {
   sort: HomeProjectSortOption;
   viewMode: ViewMode;
   group: HomeProjectGroupOption;
+  focus: FocusKey | null;
+  evidence: EvidenceFilter[];
 }
 
 type HomeFilterState = Pick<PersistedHomeDiscoveryState, "search" | "domain" | "status" | "tags">;
@@ -77,11 +89,13 @@ const DEFAULT_HOME_STATE: PersistedHomeDiscoveryState = {
   sort: "newest",
   viewMode: "list",
   group: "none",
+  focus: null,
+  evidence: [],
 };
 
 const HOME_DISCOVERY_STORAGE_KEY = "portfolio.filters.v2";
 const LEGACY_HOME_DISCOVERY_STORAGE_KEY = "portfolio.filters.v1";
-const HOME_DISCOVERY_PARAM_KEYS = ["q", "domain", "medium", "status", "tags", "searchScope", "sort", "view", "group"] as const;
+const HOME_DISCOVERY_PARAM_KEYS = ["q", "domain", "medium", "status", "tags", "searchScope", "sort", "view", "group", "focus", "has"] as const;
 
 function readWindowSearchEntries(): Record<string, string> {
   if (typeof window === "undefined") {
@@ -160,8 +174,17 @@ function isGroupOption(value: string | undefined): value is HomeProjectGroupOpti
   return value === "status" || value === "none";
 }
 
+function parseFocus(value: unknown): FocusKey | null {
+  return typeof value === "string" ? getFocusArea(value)?.key ?? null : null;
+}
+
+function parseEvidence(value: unknown): EvidenceFilter[] {
+  const raw = Array.isArray(value) ? value : typeof value === "string" ? value.split(",") : [];
+  return EVIDENCE_FILTERS.map((filter) => filter.key).filter((key) => raw.includes(key));
+}
+
 function buildHomeStateFromUrl(entries: Record<string, string>): PersistedHomeDiscoveryState | null {
-  const hasUrlState = ["q", "domain", "medium", "status", "tags", "searchScope", "sort", "view", "group"].some((key) => {
+  const hasUrlState = HOME_DISCOVERY_PARAM_KEYS.some((key) => {
     return typeof entries[key] === "string" && entries[key] !== "";
   });
 
@@ -178,6 +201,8 @@ function buildHomeStateFromUrl(entries: Record<string, string>): PersistedHomeDi
     sort: isSortOption(entries.sort) ? entries.sort : DEFAULT_HOME_STATE.sort,
     viewMode: isViewMode(entries.view) ? entries.view : DEFAULT_HOME_STATE.viewMode,
     group: isGroupOption(entries.group) ? entries.group : DEFAULT_HOME_STATE.group,
+    focus: parseFocus(entries.focus),
+    evidence: parseEvidence(entries.has),
   };
 }
 
@@ -214,6 +239,9 @@ function buildHomeUrlParams(state: PersistedHomeDiscoveryState): URLSearchParams
     params.set("group", state.group);
   }
 
+  if (state.focus) params.set("focus", state.focus);
+  if (state.evidence.length > 0) params.set("has", state.evidence.join(","));
+
   return params;
 }
 
@@ -248,10 +276,12 @@ function toStoredHomeState(value: unknown): PersistedHomeDiscoveryState | null {
     group: isGroupOption(typeof record.group === "string" ? record.group : undefined)
       ? (record.group as HomeProjectGroupOption)
       : DEFAULT_HOME_STATE.group,
+    focus: parseFocus(record.focus),
+    evidence: parseEvidence(record.evidence),
   };
 }
 
-export function PortfolioClient({ projects, onProjectSelect }: PortfolioClientProps) {
+export function PortfolioClient({ projects, onProjectSelect, heading }: PortfolioClientProps) {
   const [filters, setFilters] = useState<HomeFilterState>({
     search: DEFAULT_HOME_STATE.search,
     domain: [...DEFAULT_HOME_STATE.domain],
@@ -264,7 +294,10 @@ export function PortfolioClient({ projects, onProjectSelect }: PortfolioClientPr
   const [viewMode, setViewMode] = useState<ViewMode>(DEFAULT_HOME_STATE.viewMode);
   const [initialized, setInitialized] = useState(false);
   const [collapsedGroups, setCollapsedGroups] = useState<Record<string, boolean>>({});
-  const projectHeading = getSelectedDomainHeading(filters.domain);
+  const [focus, setFocus] = useState<FocusKey | null>(DEFAULT_HOME_STATE.focus);
+  const [evidence, setEvidence] = useState<EvidenceFilter[]>(DEFAULT_HOME_STATE.evidence);
+  const focusArea = getFocusArea(focus);
+  const projectHeading = focusArea ? `${focusArea.label} Projects` : getSelectedDomainHeading(filters.domain);
 
   const getCurrentState = useCallback((
     overrides?: Partial<PersistedHomeDiscoveryState>
@@ -277,7 +310,9 @@ export function PortfolioClient({ projects, onProjectSelect }: PortfolioClientPr
     sort: overrides?.sort ?? sort,
     viewMode: overrides?.viewMode ?? viewMode,
     group: overrides?.group ?? group,
-  }), [filters.domain, filters.search, filters.status, filters.tags, group, searchScope, sort, viewMode]);
+    focus: overrides && "focus" in overrides ? overrides.focus ?? null : focus,
+    evidence: overrides?.evidence ?? evidence,
+  }), [evidence, filters.domain, filters.search, filters.status, filters.tags, focus, group, searchScope, sort, viewMode]);
 
   const persistHomeState = useCallback((state: PersistedHomeDiscoveryState): void => {
     try {
@@ -350,6 +385,8 @@ export function PortfolioClient({ projects, onProjectSelect }: PortfolioClientPr
     setSort(nextState.sort);
     setGroup(nextState.group);
     setViewMode(nextState.viewMode);
+    setFocus(nextState.focus);
+    setEvidence(nextState.evidence);
     setInitialized(true);
   }, []);
 
@@ -373,6 +410,17 @@ export function PortfolioClient({ projects, onProjectSelect }: PortfolioClientPr
     }
 
     if (!areHomeFilterStatesEqual(filters, nextFilters)) {
+      if (initialized) {
+        if (!areStringArraysEqual(filters.domain, nextFilters.domain)) {
+          trackProjectFilter({ filterType: "domain", filterValue: nextFilters.domain.join(",") });
+        }
+        if (!areStringArraysEqual(filters.status, nextFilters.status)) {
+          trackProjectFilter({ filterType: "status", filterValue: nextFilters.status.join(",") });
+        }
+        if (!areStringArraysEqual(filters.tags, nextFilters.tags)) {
+          trackProjectFilter({ filterType: "tag", filterValue: nextFilters.tags.join(",") || "none" });
+        }
+      }
       setFilters(nextFilters);
     }
 
@@ -390,6 +438,24 @@ export function PortfolioClient({ projects, onProjectSelect }: PortfolioClientPr
     if (!initialized) return;
     syncHomeState({ sort, group, viewMode });
   }, [group, initialized, sort, syncHomeState, viewMode]);
+
+  // Focus views span every domain, so a focus replaces the default
+  // technology-only domain selection.
+  const handleFocusChange = useCallback((nextFocus: FocusKey | null) => {
+    const nextDomain =
+      nextFocus && areStringArraysEqual(filters.domain, DEFAULT_HOME_STATE.domain) ? ["all"] : filters.domain;
+    setFocus(nextFocus);
+    trackProjectFilter({ filterType: "focus", filterValue: nextFocus ?? "all" });
+    setFilters((current) => ({ ...current, domain: nextDomain }));
+    syncHomeState({ focus: nextFocus, domain: nextDomain });
+  }, [filters.domain, syncHomeState]);
+
+  const handleEvidenceToggle = useCallback((key: EvidenceFilter) => {
+    const nextEvidence = evidence.includes(key) ? evidence.filter((value) => value !== key) : [...evidence, key];
+    setEvidence(nextEvidence);
+    trackProjectFilter({ filterType: "evidence", filterValue: `${key}:${nextEvidence.includes(key) ? "on" : "off"}` });
+    syncHomeState({ evidence: nextEvidence });
+  }, [evidence, syncHomeState]);
 
   const publicProjects = useMemo(() => {
     return projects.filter((project) => {
@@ -433,11 +499,29 @@ export function PortfolioClient({ projects, onProjectSelect }: PortfolioClientPr
         if (!requiredTags.every((tag) => projectTags.includes(tag))) return false;
       }
 
+      if (!projectMatchesFocus(project, focus)) return false;
+
+      if (evidence.length > 0) {
+        const available = getProjectEvidence(project);
+        if (!evidence.every((key) => available[key])) return false;
+      }
+
       return true;
     });
-  }, [filters.domain, filters.search, filters.status, filters.tags, publicProjects, searchScope]);
+  }, [evidence, filters.domain, filters.search, filters.status, filters.tags, focus, publicProjects, searchScope]);
 
   const sortedProjects = useMemo(() => sortProjects(filteredProjects, sort), [filteredProjects, sort]);
+
+  // One event per settled search, not per keystroke.
+  const visibleProjectCount = sortedProjects.length;
+  useEffect(() => {
+    const term = filters.search.trim();
+    if (!initialized || !term) return undefined;
+    const timer = window.setTimeout(() => {
+      trackProjectFilter({ filterType: "search", filterValue: term, resultCount: visibleProjectCount });
+    }, 1200);
+    return () => window.clearTimeout(timer);
+  }, [filters.search, initialized, visibleProjectCount]);
   const groupedProjects = useMemo(
     () => (group === "status" ? groupProjectsByStatus(sortedProjects) : []),
     [group, sortedProjects]
@@ -463,14 +547,71 @@ export function PortfolioClient({ projects, onProjectSelect }: PortfolioClientPr
 
   return (
     <>
-      <FeaturedCarousel projects={publicProjects} onProjectSelect={handleProjectSelect} />
-
       <div id="projects" className="mb-4 scroll-mt-24">
-        <h2 className="mb-4 text-lg font-semibold text-foreground md:text-xl">{projectHeading}</h2>
+        {heading ? (
+          <>
+            <h2 className="text-xl font-semibold text-foreground md:text-2xl">{heading}</h2>
+            <p data-testid="project-archive-scope" className="mb-4 mt-1 text-sm text-muted-foreground">
+              Showing {projectHeading.toLowerCase()} · {sortedProjects.length} of {publicProjects.length}
+            </p>
+          </>
+        ) : (
+          <h2 className="mb-4 text-lg font-semibold text-foreground md:text-xl">{projectHeading}</h2>
+        )}
       </div>
 
       {initialized ? (
+        <div className="mb-4 space-y-2" data-testid="project-focus-filters">
+          <div role="group" aria-label="Focus area" className="flex flex-wrap gap-2">
+            {[{ key: null, shortLabel: "All areas" }, ...FOCUS_AREAS].map((area) => {
+              const active = focus === area.key;
+              return (
+                <button
+                  key={area.key ?? "all"}
+                  type="button"
+                  aria-pressed={active}
+                  data-testid={`project-focus-${area.key ?? "all"}`}
+                  onClick={() => handleFocusChange(area.key as FocusKey | null)}
+                  className={cn(
+                    "min-h-9 rounded-full border px-3 py-1 text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                    active
+                      ? "border-primary bg-primary text-primary-foreground"
+                      : "border-border/60 text-muted-foreground hover:border-primary/40 hover:text-foreground"
+                  )}
+                >
+                  {area.shortLabel}
+                </button>
+              );
+            })}
+          </div>
+          <div role="group" aria-label="Available evidence" className="flex flex-wrap gap-2">
+            {EVIDENCE_FILTERS.map((filter) => {
+              const active = evidence.includes(filter.key);
+              return (
+                <button
+                  key={filter.key}
+                  type="button"
+                  aria-pressed={active}
+                  data-testid={`project-evidence-${filter.key}`}
+                  onClick={() => handleEvidenceToggle(filter.key)}
+                  className={cn(
+                    "min-h-8 rounded-md border px-2.5 py-0.5 text-xs transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                    active
+                      ? "border-primary/60 bg-primary/10 text-foreground"
+                      : "border-dashed border-border/70 text-muted-foreground hover:text-foreground"
+                  )}
+                >
+                  {active ? "✓ " : ""}{filter.label}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      ) : null}
+
+      {initialized ? (
         <ProjectFilters
+          key={focus ?? "all-focus"}
           projects={projects}
           onFilterChange={handleFilterChange}
           viewMode={viewMode}

@@ -90,7 +90,7 @@ export function ProjectListItem({ project, onClick, sortField = "updatedAt" }: P
           {/* Date positioned at top-right of the content area */}
           {formattedDisplayDate && (
             <div className="absolute top-1  right-2 z-10 flex flex-col items-end gap-0.5">
-              <span className="text-[8px] md:text-[10px] text-muted-foreground/70 font-medium uppercase tracking-wide hidden md:inline-block">
+              <span className="text-[8px] md:text-[10px] text-muted-foreground font-medium uppercase tracking-wide hidden md:inline-block">
                 {dateLabel}
               </span>
               <span className="text-[9px] md:text-sm text-muted-foreground whitespace-nowrap">

@@ -39,6 +39,7 @@ yarn-error.log*
 !.env.example
 /content/*
 !/content/project-updates.json
+!/content/selected-work.json
 !/content/projects/
 /content/projects/*
 !/content/projects/better-workspace/
@@ -143,3 +144,13 @@ coverage/
 # Worker local secrets and emulator state
 /worker/.dev.vars
 /worker/.wrangler/
+
+# Authored Social Posts Content Manager portfolio entry
+!/content/projects/content-manager/
+!/content/projects/content-manager/**
+
+!/content/project-updates.json
+
+!/content/projects/better-signals/
+
+!/content/projects/better-signals/**

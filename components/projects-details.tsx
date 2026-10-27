@@ -13,9 +13,11 @@ import { ProjectStandaloneAssets } from "./project-details/project-standalone-as
 import { ProjectWorkLogs } from "./project-details/project-work-logs";
 import { ProjectArticles } from "./project-details/project-articles";
 import { ProjectTableOfContents } from "./project-details/project-table-of-contents";
+import { ProjectCaseStudy, hasCaseStudy } from "./project-details/project-case-study";
 import { hasProjectCollectionItems, hasStandaloneProjectAssets } from "@/lib/project-collections";
 import { BreadcrumbTrail } from "@/components/ui/breadcrumb-trail";
 import { PageFrame } from "@/components/layout/page-frame";
+import { SiteNav } from "@/components/layout/site-nav";
 
 interface ProjectDetailsProps {
   project: Project;
@@ -42,6 +44,13 @@ export default function ProjectDetails({ project, requestedCollectionItemId }: P
     sections.push({
       key: "content",
       content: <ProjectContent project={project} />,
+    });
+  }
+
+  if (hasCaseStudy(project)) {
+    sections.push({
+      key: "case-study",
+      content: <ProjectCaseStudy project={project} />,
     });
   }
 
@@ -82,10 +91,11 @@ export default function ProjectDetails({ project, requestedCollectionItemId }: P
     <div className="min-h-[100svh] overflow-x-clip bg-background">
       <PageFrame className="overflow-x-clip py-6 pb-[calc(4rem+env(safe-area-inset-bottom))] md:py-12 lg:py-16">
         <div className="min-w-0 max-w-full space-y-5 md:space-y-8">
+          <SiteNav />
           <BreadcrumbTrail
             items={[
               { label: "Home", href: "/" },
-              { label: "Projects", href: "/#projects" },
+              { label: "Projects", href: "/projects" },
               { label: project.title },
             ]}
           />

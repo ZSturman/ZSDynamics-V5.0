@@ -1,3 +1,5 @@
+import { readFileSync } from "node:fs";
+
 import { expect, test, type Page } from "@playwright/test";
 
 import { getProjectRoute, getProjectSlug, loadCanonicalProjects } from "./media/helpers/project-media-fixtures";
@@ -12,16 +14,11 @@ const defaultTechnologyProject =
 const hiddenNonTechnologyProject = canonicalProjects.find(
   (project) => String(project.domain || "").toLowerCase() !== "technology"
 );
-const featuredHeroProject = canonicalProjects.find(
-  (project) => Boolean(project.featured) && Boolean(project.images?.hero)
-);
-const featuredProjects = canonicalProjects
-  .filter((project) => Boolean(project.featured))
-  .sort((left, right) => {
-    const leftOrder = typeof left.featuredOrder === "number" ? left.featuredOrder : Number.POSITIVE_INFINITY;
-    const rightOrder = typeof right.featuredOrder === "number" ? right.featuredOrder : Number.POSITIVE_INFINITY;
-    return leftOrder - rightOrder;
-  });
+// Selected Work follows content/selected-work.json (see docs/setup/portfolio-presentation.md).
+const selectedSlugs: string[] = JSON.parse(readFileSync("content/selected-work.json", "utf8")).projects;
+const featuredProjects = selectedSlugs
+  .map((slug) => canonicalProjects.find((project) => getProjectSlug(project) === slug))
+  .filter((project): project is (typeof canonicalProjects)[number] => Boolean(project));
 const firstFeaturedProject = featuredProjects[0];
 const technologyProjectWithResources = technologyProjects.find(
   (project) => Array.isArray(project.resources) && project.resources.length > 0
@@ -50,12 +47,17 @@ test.describe("Homepage", () => {
     expect(box!.width).toBeGreaterThan(0);
   });
 
-  test("should display the portfolio header", async ({ page }) => {
+  test("should display the professional introduction and primary actions", async ({ page }) => {
     const header = page.locator("header").first();
-    await expect(header.getByRole("heading", { name: "Zachary Sturman" })).toBeVisible();
-    await expect(
-      header.getByRole("heading", { name: /I think a lot about how design influences trust/i })
-    ).toBeVisible();
+    await expect(header.getByRole("heading", { level: 1, name: "Zachary Sturman" })).toBeVisible();
+    await expect(page.getByTestId("profile-headline")).toContainText("Software Engineering");
+    await expect(page.getByTestId("profile-availability")).toContainText("Seattle");
+    await expect(page.getByTestId("profile-statement")).toContainText(/design influences trust/i);
+    await expect(header.getByRole("link", { name: "View selected work" })).toHaveAttribute("href", "#selected-work");
+    await expect(page.getByTestId("hero-resume-download")).toHaveAttribute("href", "/Zachary Sturman Resume.pdf");
+    await expect(page.getByTestId("hero-contact")).toHaveAttribute("href", "/contact");
+    await expect(page.getByTestId("hero-profile-link-github")).toBeVisible();
+    await expect(page.getByTestId("hero-profile-link-linkedin")).toBeVisible();
   });
 
   test("defaults to technology projects without grouping", async ({ page }) => {
@@ -93,14 +95,11 @@ test.describe("Homepage", () => {
     expect(groupHeadings).toContain("Active");
   });
 
-  test("featured carousel prefers hero media when it is available", async ({ page }) => {
-    test.skip(!featuredHeroProject, "A featured project with hero media is required for this regression.");
-
-    await expect(
-      page
-        .locator(`[data-testid="featured-carousel-media"][data-project-id="${featuredHeroProject!.id}"]`)
-        .first()
-    ).toHaveAttribute("data-media-role", "hero");
+  test("selected work follows the ranked list", async ({ page }) => {
+    const expected = featuredProjects.slice(0, 6);
+    const items = page.getByTestId("selected-work-item");
+    await expect(items).toHaveCount(expected.length);
+    await expect(items.first()).toHaveAttribute("data-project-slug", getProjectSlug(expected[0]));
   });
 
   test("should open the project modal when clicking a project", async ({ page }) => {
@@ -140,17 +139,14 @@ test.describe("Homepage", () => {
     await expect(page.locator('[data-testid="project-modal-content"]')).toHaveCount(0);
   });
 
-  test("mobile featured carousel taps navigate directly to the project page", async ({ page }) => {
+  test("mobile selected work taps navigate directly to the project page", async ({ page }) => {
     test.skip(!firstFeaturedProject, "A featured project fixture is required for this regression.");
 
     const project = firstFeaturedProject!;
     await page.setViewportSize({ width: 390, height: 844 });
     await gotoHomeReady(page);
 
-    await page
-      .locator(`[data-testid="featured-carousel-slide"][data-project-id="${project.id}"]`)
-      .first()
-      .click();
+    await page.getByTestId("selected-work-item").first().getByRole("link").click();
 
     await expect(page).toHaveURL(new RegExp(`${getProjectRoute(project)}$`));
     await expect(page.locator('[data-testid="project-modal-content"]')).toHaveCount(0);
@@ -181,7 +177,8 @@ test.describe("Homepage", () => {
     await expect(
       card
         .locator('[data-slot="passive-chip"], [data-slot="metadata-tag"]')
-        .filter({ hasText: firstTag })
+        // Case-sensitive: a lower-case medium chip (e.g. "hardware") is not the tag.
+        .filter({ hasText: new RegExp(firstTag.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")) })
     ).toHaveCount(1);
     await expect(card.getByRole("button", { name: firstTag })).toHaveCount(0);
     await expect(card.getByRole("link", { name: firstTag })).toHaveCount(0);

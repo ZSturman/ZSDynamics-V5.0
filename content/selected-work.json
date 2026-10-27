@@ -1,0 +1,11 @@
+{
+  "_comment": "Ordered homepage Selected Work (4-6 slugs). This list is the only ranking control; Notion Featured / Featured Order are used only when it is empty. See docs/setup/portfolio-presentation.md.",
+  "projects": [
+    "better-workspace",
+    "recallable",
+    "transactions",
+    "job-search-hub",
+    "chewsense",
+    "hue-light-control"
+  ]
+}

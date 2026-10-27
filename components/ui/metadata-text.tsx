@@ -5,7 +5,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const metadataTextVariants = cva(
-  "inline-flex items-center gap-1 font-normal leading-6 text-muted-foreground/80",
+  "inline-flex items-center gap-1 font-normal leading-6 text-muted-foreground",
   {
     variants: {
       tone: {

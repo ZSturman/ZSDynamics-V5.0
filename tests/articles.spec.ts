@@ -147,7 +147,7 @@ test.describe("Articles", () => {
     await page.goto("/");
 
     const header = page.locator("header").first();
-    await expect(header.getByRole("link", { name: "Articles" })).toBeVisible();
+    await expect(header.getByRole("link", { name: "Writing" })).toHaveAttribute("href", "/articles");
     await expect(header.getByRole("link", { name: "Work Logs" })).toBeVisible();
   });
 
@@ -203,6 +203,27 @@ test.describe("Articles", () => {
     await expect(page).toHaveURL(/sort=title-asc/);
     await expect(page.getByRole("button", { name: "Sort articles" })).toBeVisible();
     await expect(page.locator('[data-testid="article-list-item-root"] h2').first()).toHaveText(firstArticleTitleAlphabetically);
+  });
+
+  test("list rows stay compact and visually distinct from grid cards on desktop and mobile", async ({ page }) => {
+    test.skip(!articleWithCover, "An article with cover media is required.");
+    for (const width of [1280, 390]) {
+      await page.setViewportSize({ width, height: 900 });
+      await page.goto(`/articles?q=${encodeURIComponent(`title:${articleWithCover!.title}`)}`);
+      const row = page.getByTestId("article-list-item-root").first();
+      const rowImage = row.getByRole("img").first();
+      await expect(rowImage).toBeVisible();
+      const compactImage = (await rowImage.boundingBox())!;
+      expect(compactImage.width).toBeLessThanOrEqual(80);
+      expect(Math.abs(compactImage.width - compactImage.height)).toBeLessThan(2);
+      await page.getByRole("button", { name: "Switch to grid view" }).click();
+      const card = page.getByTestId("article-card-root").first();
+      await expect(card).toBeVisible();
+      const gridImage = (await card.getByRole("img").first().boundingBox())!;
+      expect(gridImage.width).toBeGreaterThan(compactImage.width * 2);
+      await expect(page.getByTestId("article-list-item-root")).toHaveCount(0);
+      expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+    }
   });
 
   test("article detail route shows the full breadcrumb and no source link", async ({ page }) => {

@@ -1,52 +1,86 @@
 "use client";
 
-import dynamic from "next/dynamic";
 import Link from "next/link";
-// import PersonalTabs from "./personal-tabs";
 
-const ThemeToggle = dynamic(() =>
-  import("@/components/global-ui/theme-toggle").then((m) => m.ThemeToggle)
-);
+import { FooterAnalyticsLink } from "@/components/analytics/footer-analytics-link";
+import { SiteNav } from "@/components/layout/site-nav";
+import { Button } from "@/components/ui/button";
+import { profile } from "@/lib/site-content";
 
-export function PortfolioHeader() {
-  const name = "Zachary Sturman";
-  const title =
-    "I think a lot about how design influences trust, and how AI can support human judgment instead of replacing it.";
+export interface ProfileLink {
+  key: string;
+  label: string;
+  href: string;
+}
 
+export function PortfolioHeader({ profileLinks = [] }: { profileLinks?: ProfileLink[] }) {
   return (
-    <header className="mb-8 md:mb-12 text-center md:text-left max-w-full overflow-x-hidden">
-      <div className="flex items-center justify-end">
-        <ThemeToggle />
-      </div>
+    <header className="mb-12 max-w-full overflow-x-hidden md:mb-16">
+      <SiteNav className="mb-10 md:mb-14" />
 
-{/*       <h1 className="text-4xl font-light tracking-tight text-foreground transition-colors group-hover:text-muted-foreground md:text-5xl"> */}
-<h1 className="text-3xl md:text-4xl lg:text-5xl font-light dark:text-[#4a9eff] text-[#244468] uppercase tracking-wide break-words">
-        {name}
-      </h1>
+      <div className="max-w-3xl">
+        <h1 className="break-words text-3xl font-light uppercase tracking-wide text-[#244468] dark:text-[#4a9eff] md:text-4xl lg:text-5xl">
+          {profile.name}
+        </h1>
 
-      <h2 className="text-lg md:text-xl lg:text-2xl text-muted-foreground mb-4 text-balance break-words">
-        {title}
-      </h2>
+        <p data-testid="profile-headline" className="mt-3 text-base font-medium text-foreground md:text-lg">
+          {profile.headline.join(" · ")}
+        </p>
 
-      <div className="mt-2 flex flex-wrap items-center justify-center gap-4 text-sm text-muted-foreground md:justify-start">
-        <Link href="/articles" className="hover:text-foreground transition-colors">
-          Articles
-        </Link>
-        <Link
-          href="/work-logs"
-          className="hover:text-foreground transition-colors"
+        <p className="mt-5 text-lg leading-relaxed text-foreground/90 text-pretty md:text-xl">{profile.intro}</p>
+        <p className="mt-3 leading-relaxed text-muted-foreground text-pretty">{profile.background}</p>
+        <p data-testid="profile-availability" className="mt-3 leading-relaxed text-muted-foreground">
+          {profile.location}. {profile.opportunities}
+        </p>
+
+        <div className="mt-7 flex flex-wrap gap-3" data-testid="profile-actions">
+          <Button asChild>
+            <a href="#selected-work">View selected work</a>
+          </Button>
+          <Button asChild variant="outline">
+            <FooterAnalyticsLink
+              href={profile.resumeUrl}
+              download={profile.resumeFileName}
+              data-testid="hero-resume-download"
+              data-analytics-skip="true"
+              data-analytics-surface="home_hero"
+              analytics={{ type: "resume_download", url: profile.resumeUrl }}
+            >
+              Download résumé (PDF)
+            </FooterAnalyticsLink>
+          </Button>
+          <Button asChild variant="outline">
+            <Link href="/contact" data-testid="hero-contact">Contact me</Link>
+          </Button>
+        </div>
+
+        {profileLinks.length > 0 ? (
+          <p className="mt-4 flex flex-wrap gap-x-4 gap-y-1 text-sm">
+            {profileLinks.map((link) => (
+              <FooterAnalyticsLink
+                key={link.key}
+                href={link.href}
+                target="_blank"
+                rel="noreferrer"
+                data-testid={`hero-profile-link-${link.key}`}
+                data-analytics-skip="true"
+                data-analytics-surface="home_hero"
+                analytics={{ type: "social", network: link.key }}
+                className="text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
+              >
+                {link.label}
+              </FooterAnalyticsLink>
+            ))}
+          </p>
+        ) : null}
+
+        <blockquote
+          data-testid="profile-statement"
+          className="mt-8 border-l-2 border-primary/30 pl-4 text-base italic text-muted-foreground md:text-lg"
         >
-          Work Logs
-        </Link>
-        <Link
-          href="/contact"
-          className="hover:text-foreground transition-colors"
-          data-testid="portfolio-header-contact-link"
-        >
-          Contact
-        </Link>
+          {profile.statement}
+        </blockquote>
       </div>
-{/*       <PersonalTabs /> */}
     </header>
   );
 }

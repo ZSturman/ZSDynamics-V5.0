@@ -217,4 +217,24 @@ export interface Project {
       value: string | string[] | Record<string, unknown>;
     }
   ]
+
+  // Optional presentation fields. Projects without them still render fully;
+  // see docs/setup/portfolio-presentation.md.
+  disciplines?: string[];   // overrides derived focus areas (e.g. ["hardware"])
+  cardSummary?: string;     // shorter Selected Work summary
+  caseStudy?: ProjectCaseStudy;
+}
+
+/** Every section is optional; only sections with content are rendered. */
+export interface ProjectCaseStudy {
+  problem?: string;
+  role?: string;
+  architecture?: string | string[];
+  decisions?: string | string[];
+  challenges?: string | string[];
+  validation?: string | string[];
+  results?: string | string[];
+  limitations?: string | string[];
+  /** Extra diagrams/photos: paths relative to the project folder or absolute URLs. */
+  media?: Array<{ path: string; alt: string; caption?: string }>;
 }

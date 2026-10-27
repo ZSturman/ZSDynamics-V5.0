@@ -1,3 +1,23 @@
+<<<<<<< working
+# Professional presentation and hiring positioning — October 27, 2026
+
+- Added a professional homepage introduction (résumé/contact/selected-work actions, GitHub, LinkedIn), Selected Work (six ranked featured projects), Explore by focus, How I Work and Recent writing above the unchanged complete archive.
+- New pages: `/projects`, `/about`, `/experience`, `/resume`, and shareable `/explore/{software,ai-data,hardware,research,creative}`. Site navigation on every page; sitemap, robots and Person JSON-LD.
+- Optional project metadata (`caseStudy`, `disciplines`, `cardSummary`, `images.featured`) with deterministic fallbacks; Hue Light Control has a verified case study. Primary vs. secondary project actions. Site-wide contrast fix (WCAG AA).
+- Publishing pipeline, work-log generation, article sync and URLs are unchanged. Curation lives in `content/project-updates.json` and authored `project.json` files.
+
+Validation: typecheck, ESLint, 52 unit, 172 Python, full browser suite (64 pass; 3 pre-existing failures listed in the checklist), new `tests/presentation.spec.ts` (three viewports, keyboard, axe light/dark), static export build and portfolio validator, 21 external links (all 200).
+
+**Not committed or deployed.** The primary checkout still contains extensive unrelated uncommitted work; release this through a scoped branch.
+
+Owner input needed: [content review](CONTENT_REVIEW.md) — résumé PDF refresh, removed theKnifeGrinder role, engagement types, certification names, a real photograph (existing headshot looks AI-generated), hardware photos/demos.
+
+Try it: `npm run dev`, then open `/`, `/explore/hardware`, `/experience`, `/projects/hue-light-control`. Maintenance: [presentation controls](setup/portfolio-presentation.md) · [requirement checklist](PORTFOLIO_IMPROVEMENTS_CHECKLIST.md).
+
+---
+
+=======
+>>>>>>> origin
 # Project access and approved Apple releases — October 24, 2026
 
 - Released Apple-approved Recallable iOS 1.0.0 (8), all 175 configured regions, and Better Signals iOS 1.1.0 (2), its configured United States region. Both read back Ready for Distribution; both public Store pages return 200. Newer beta versions remain separate. Recallable Mac is still In Review.
@@ -15,6 +35,10 @@ Release checkout: `codex/portfolio-public-project-links` in the attached managed
 
 Live recheck: `PORTFOLIO_ACCESS_BASE_URL=https://zacharysturman.com npx playwright test -c playwright.project-access.config.ts` (expect three passes, with analytics suppressed). Store installation/device acceptance remains a user check.
 
+<<<<<<< working
+
+=======
+>>>>>>> origin
 ---
 
 # Social Posts Content Manager — October 21, 2026
@@ -42,6 +66,18 @@ To verify locally, run `npm run sync:local-projects`, then
 `npx playwright test tests/content-manager.spec.ts`. Expect the landing, support,
 privacy and project-story routes, valid images and no horizontal overflow.
 
+<<<<<<< working
+
+## Verified deployment result
+
+- TestFlight **1.0 (1)**: **IN_BETA_TESTING**, assigned to Internal Testers and the owner account. What to Test notes and beta metadata are saved.
+- Website live: https://zacharysturman.com/content-manager (with setup, privacy and project-story routes).
+- Portfolio production commit: `2f562a9245b930d0761b26f7f614b2fce436680f`.
+- Firebase workflow: https://github.com/ZSturman/ZSDynamics-V5.0/actions/runs/39710849824 . The custom-domain deployment marker matches this commit.
+- Website validation: 2 focused local browser checks, affected ESLint, static export, 33 media smoke checks (5 explicitly skipped), and both live browser checks at 390px/1280px passed. The media variants caught by the first pre-push check were added before the successful push.
+- Native code committed/pushed on `codex/mobile-review-testflight`; the signed app archive was built from that implementation. Documentation-only release results follow the code commit.
+- Existing unrelated edits in the primary portfolio checkout are preserved. Its new Content Manager source files and locally merged card are available there; avoid a blanket stage or reset.
+=======
 ---
 
 ## Better Signals showcase — October 19, 2026
@@ -49,6 +85,7 @@ privacy and project-story routes, valid images and no horizontal overflow.
 Added a durable local showcase entry, actual iPhone/iPad/Watch captures, a portfolio hero/social card, and `/better-signals` overview/support/privacy pages. See [maintenance and release notes](BETTER_SIGNALS.md). Prepared in an isolated worktree to preserve the primary checkout's unrelated uncommitted work. App Store Connect ID: `6824696184`; version 1.1.0 (2) processed and distributed to the personal internal TestFlight group at 4:16 PM Pacific. Do not advertise a public download before availability is confirmed.
 
 Validation: scoped ESLint and TypeScript pass; desktop/mobile route and image checks and the production static export are part of this release. Real-device upgrade, location visits, paired Watch, and accessibility remain app beta acceptance items. Next maintenance action: update availability after Apple processing and beta access are verified; retain the accurate distinction between internal TestFlight and a public App Store release.
+>>>>>>> origin
 
 ---
 
@@ -358,7 +395,7 @@ overrides (exercises versioned defaults); desktop/mobile export inspection witho
 horizontal overflow. No real visitor submissions or outbound test emails were sent.
 The normal pre-push media smoke hook and Firebase release workflow apply to publishing.
 
-Remaining human acceptance: after the frontend release, open `/contact` in a normal
+Remaining human acceptance: open `/contact` in a normal
 browser, submit from your own address, and subscribe from that address. Expect a
 Notion message, owner email with Reply-To, confirmation email, then Active consent
 and an owner subscriber alert. Allow several minutes per cron stage. Real Turnstile
@@ -383,3 +420,47 @@ list grows beyond that workload. Public screenshots show the actual exported UI.
 Preserved unrelated untracked work: `docs/evidence/workspace-audit-2026-10-10/`,
 `docs/images/startup-bf8f91b825ae.jpg`, and `tests_python/test_published_workspace.py`.
 Build-only changes to generated project timestamps were excluded from this fix.
+
+
+Contact release verification completed: frontend commit
+`8331c63812cbaec6b0c183164c80f4f52fb5029e` is live on both Firebase's default
+domain and `zacharysturman.com`. GitHub run `38823198111` succeeded; the mandatory
+pre-push smoke group passed 33 checks with 5 expected skips. Live desktop/mobile
+checks found unique form field IDs, no horizontal overflow, no page errors, and
+zero analytics requests. Both verification widgets load without reporting errors.
+Evidence: `artifacts/contact-deployment-metadata.json`,
+`artifacts/contact-live-qa.json`, and `artifacts/contact-live-{desktop,mobile}.png`.
+The two Notion trackers report no public URL through the API. No further credential
+setup is pending. Real human verification and mail placement remain the final
+acceptance check described above. This release-verification note is a local,
+uncommitted documentation update; published application code is committed and pushed.
+The three unrelated untracked paths listed above remain preserved.
+# October 25: shared Mac/Pi publication ownership
+
+The publisher now supervises itself through Publishing Coordinator before
+effects when private coordination paths are configured. Mac/Pi use the same
+UTC daily identity; the Pi fallback has its own clean source checkout and
+dependency image. Current publication policies stay paused for Content Manager
+testing. Existing unrelated source/generated changes remain uncommitted.
+
+Validated: 30 targeted portfolio coordination/pipeline tests, a real paused Mac
+entry-point invocation (no pipeline/commit/email), and Pi offline dependency /
+Chromium/Firefox/WebKit checks. The last saved full Mac publisher run failed at
+browser tests; a complete live pipeline and Pi resource acceptance were not run
+while paused. Resolve those failures and lift the existing pause before using
+the coordinator README's resume commands. Do not skip quality gates, restore an
+old authority journal or re-enable independent unguarded publishing timers.
+
+## Home Page App Store support pages — October 26, 2026
+
+Published only `app/home-page/{page.tsx,privacy/page.tsx,support/page.tsx}` from an isolated
+checkout based on origin/main. Commit `de213ba76bfb743da3502b0cb6301a137d6dbc8c`; existing
+production deploy run `40254983347` succeeded. Type check and required media checks passed
+(33 passed, 5 existing skips). All three live routes return their expected content.
+App Store ID: 6826961996; first release needs Apple approval before its download is live.
+
+The primary checkout has extensive unrelated local edits/untracked files and remains
+behind origin/main. A fast-forward refused safely; no stash, reset or overwrite was used.
+Copies of only the new Home Page pages are present here for visibility. Before the next
+portfolio commit, reconcile the existing local work with origin/main deliberately; do
+not republish all pending changes merely to maintain Home Page's support URLs.

@@ -162,7 +162,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ projec
               <BreadcrumbTrail
                 items={[
                   { label: "Home", href: "/" },
-                  { label: "Projects", href: "/#projects" },
+                  { label: "Projects", href: "/projects" },
                 ]}
               />
               <div className="text-center text-muted-foreground">Project not found.</div>
@@ -186,7 +186,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ projec
             <BreadcrumbTrail
               items={[
                 { label: "Home", href: "/" },
-                { label: "Projects", href: "/#projects" },
+                { label: "Projects", href: "/projects" },
               ]}
             />
             <div className="text-center text-muted-foreground">Error loading project.</div>

@@ -324,7 +324,7 @@ export function LinkPreviewSurface({
               </p>
             )}
 
-            <p className="truncate text-xs text-muted-foreground/80">{resolvedPreviewDisplayUrl}</p>
+            <p className="truncate text-xs text-muted-foreground">{resolvedPreviewDisplayUrl}</p>
           </div>
         </div>
 

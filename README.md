@@ -88,6 +88,9 @@ Contact messages are saved before delivery and organized in private Notion track
 
 ![Contact page with separate message and writing-update forms](docs/images/contact-page.png)
 
+Work Logs opens recent sessions directly, with notes, attachments, project activity links, and session-type bars. Articles offers compact list rows or large visual grid cards. Preview the [work-log overview](docs/images/work-logs-overview.png), [article list](docs/images/articles-list.png), and [article grid](docs/images/articles-grid.png).
+
+
 ## At a glance
 
 | Area | Choice | What it does |
@@ -99,6 +102,10 @@ Contact messages are saved before delivery and organized in private Notion track
 | Analytics | Firebase Analytics / GA4 | Privacy-conscious human-interest reporting; local, preview, and automated browsing are excluded before GA4 loads. |
 | Media | Repository files, optional Cloudflare R2 | Keeps media local by default; R2 adds long-lived cached URLs when enabled. |
 | Quality gates | Firebase deploy + local Playwright | Confirms the exact live release from this Mac, tests it, and stores evidence. |
+
+## Professional presentation
+
+The homepage leads with a professional introduction and Selected Work; `/about`, `/experience`, `/resume` and shareable `/explore/<focus>` views draw on one profile source (`lib/site-content.ts`) and the existing project metadata. [Managing featured work, focus areas, case studies and profile content](docs/setup/portfolio-presentation.md).
 
 ## Better Workspace portfolio entry
 

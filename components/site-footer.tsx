@@ -10,9 +10,12 @@ import { cn } from "@/lib/utils";
 
 const QUICK_LINKS = [
   { label: "Home", href: "/" },
-  { label: "Projects", href: "/#projects" },
+  { label: "Projects", href: "/projects" },
+  { label: "Experience", href: "/experience" },
+  { label: "About", href: "/about" },
   { label: "Articles", href: "/articles" },
   { label: "Work Logs", href: "/work-logs" },
+  { label: "Résumé", href: "/resume" },
   { label: "Contact", href: "/contact" },
 ] as const;
 

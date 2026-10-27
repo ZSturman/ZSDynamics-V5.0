@@ -183,7 +183,7 @@ test.describe("Site Footer", () => {
     await expect(footer.getByText("Hashnode", { exact: false })).toHaveCount(0);
 
     await expect(footer.getByRole("link", { name: "Home" })).toHaveAttribute("href", "/");
-    await expect(footer.getByRole("link", { name: "Projects" })).toHaveAttribute("href", "/#projects");
+    await expect(footer.getByRole("link", { name: "Projects" })).toHaveAttribute("href", "/projects");
     await expect(footer.getByRole("link", { name: "Articles" })).toHaveAttribute("href", "/articles");
     await expect(footer.getByRole("link", { name: "Work Logs" })).toHaveAttribute("href", "/work-logs");
 
