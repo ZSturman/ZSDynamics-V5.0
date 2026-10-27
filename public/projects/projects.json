@@ -105,7 +105,38 @@
       }
     ],
     "articles": [],
-    "folderName": "hue_light_control_3f5aec94-4d3c-8116-99d5-c9752bb4af87"
+    "folderName": "hue_light_control_3f5aec94-4d3c-8116-99d5-c9752bb4af87",
+    "disciplines": [
+      "hardware",
+      "software"
+    ],
+    "caseStudy": {
+      "problem": "Room lighting benefits from a control you can find by touch. I wanted one knob for brightness and on/off, with a screen that explains what is wrong when Wi-Fi or the bridge misbehaves, instead of a phone app.",
+      "role": "Personal project. I wired the prototype, wrote the PlatformIO firmware, and documented setup, pin assignments, and diagnostics.",
+      "architecture": [
+        "ESP32 reads a rotary encoder with push button (GPIO 19, 21, 22, internal pull-ups) and drives an SSD1306 OLED over I2C (GPIO 23/18).",
+        "A responsive input and display loop runs separately from a network task.",
+        "Lighting commands use local HTTPS to the Hue bridge with reused connections and paced brightness updates.",
+        "Bridge discovery tries mDNS first, then Philips' internet discovery service; settings persist across restarts."
+      ],
+      "decisions": [
+        "Separate input/rendering from networking so the knob and screen stay responsive while requests are in flight.",
+        "Hold gestures show a countdown that always says what letting go will do (cancel, Settings, Restart), so one button can safely carry several actions.",
+        "Status is always visible: the header shows OK or a short tag such as WIFI, HUE, or AUTH, with the exact problem on the bottom line."
+      ],
+      "validation": [
+        "Firmware compiles with PlatformIO.",
+        "On-device Test & fix checks configuration, Wi-Fi signal, bridge, Hue API key and room, and memory, reporting PASS/WARN/FAIL and repairing what it can.",
+        "Knob test (raw pin levels and a bad-step counter for noisy wiring), I2C bus scan, and screen test modes support hardware debugging.",
+        "Physical operation is builder-reported; there is no recorded video demonstration yet."
+      ],
+      "limitations": [
+        "Controls one Hue room or zone and requires a Hue bridge and 2.4 GHz Wi-Fi.",
+        "Credentials are configured at build time; there is no web provisioning interface.",
+        "Bridge HTTPS uses the firmware's existing certificate behavior, not certificate pinning.",
+        "Project images are technical illustrations of the documented wiring, not photographs of the device."
+      ]
+    }
   },
   {
     "id": "35eaec94-4d3c-809c-a0f4-ff355a7a6d21",
