@@ -9,6 +9,9 @@ export default defineConfig({
   testIgnore: ['media/**', 'production/**', 'contact.spec.ts', 'analytics-journey.spec.ts'],
   // Node unit tests (*.test.mjs) run under `npm run test:unit`, not Playwright.
   testMatch: '**/*.spec.ts',
+  // The suite shares one `next dev` server; more parallel pages cause
+  // compile-on-demand timeouts in the daily publisher's browser stage.
+  workers: 2,
   timeout: 30000,
   expect: {
     timeout: 5000,
