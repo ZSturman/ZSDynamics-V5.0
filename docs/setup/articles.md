@@ -59,3 +59,7 @@ correction it makes. It does not touch any other content.
 - Manual real sync: `python3 lib/sync_articles.py` from the repo root (`.env.local` needs no
   credentials for this step — the source repo is public), then inspect
   `public/articles/articles.json` and `public/articles/sync-report.json` directly.
+
+## Publication chronology and browsing
+
+Source `publishedAt` controls chronological ordering; `updatedAt` retains the original edit date and is displayed only if later than publication. Optional `createdAt` and `substantiallyRevisedAt` pass through from explicit frontmatter. Ingestion never changes these dates. Filters and browser history follow [content behavior](content-reliability.md).

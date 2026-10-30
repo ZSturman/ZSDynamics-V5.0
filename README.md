@@ -1,84 +1,8 @@
-<!-- WORKSPACE-VERIFICATION:START -->
-
-<!-- WORKSPACE-RECONCILIATION:2026-10-10 -->
-
-Reconciliation 2026-10-10: [current details and actual task links](<docs/WORKSPACE_RECONCILIATION.md>) · [flow plans and scoped results](<docs/APP_FLOWS.md>). Historical audit instructions below retain their dates; the linked current records govern next work.
-
-## Current state and getting started
-
-Updated 2026-10-05. **A fast, content-rich portfolio for creative, scientific, and technical work.**
-
-### Current state
-
-Project type: **Web application**. Earlier assessment: **REVIEW REQUIRED** — Remove the specific environment/validation blocker, then verify the existing primary flow before extending scope.
-
-| App | Platform | Observed startup |
-|---|---|---|
-| zachary-sturman | web | opened |
-
-These are startup observations. Production readiness and the candidate user flows are not yet validated. Physical iPhone results apply only to the recorded device; watch simulator results do not establish physical-watch behavior.
-
-
-### Install and start
-
-#### zachary-sturman — web
-
-Purpose: **A fast, content-rich portfolio for creative, scientific, and technical work.**
-
-Requirements: Node.js, the declared package manager and any backend/services in the existing configuration.
-
-Install and start from this project root:
-
-```sh
-cd .
-npm ci --no-audit --no-fund
-npm run dev -- --hostname 127.0.0.1 --port 4377
-```
-
-Audit entry URL: [http://127.0.0.1:4377](<http://127.0.0.1:4377>). Restart the server before reopening it; use any configured base path shown in this URL.
-
-Expected result: the local server prints its URL and renders the zachary-sturman interface. Earlier audit servers may have been stopped after capture.
-
-### Project map
-
-- [package.json](<package.json>)
-- [requirements.txt](<requirements.txt>)
-- [worker/package.json](<worker/package.json>)
-- [app/layout.tsx](<app/layout.tsx>)
-- [app/page.tsx](<app/page.tsx>)
-- [worker/src/index.ts](<worker/src/index.ts>)
-- [AGENTS.md](<AGENTS.md>)
-- [worker/README.md](<worker/README.md>)
-- [docs/NEXT_STEPS.md](<docs/NEXT_STEPS.md>)
-
-### Screenshots
-
-**zachary-sturman (web, opened)**
-
-![zachary-sturman startup](docs/images/startup-bf8f91b825ae.jpg)
-
-### Next steps and Better Workspace
-
-- **Next work:** zacharysturman — Unblock build validation in . (Better Workspace task `31869333-268d-5eec-9b56-1bc56997b9fb`).
-- **Next Codex action:** Current startup follow-up: The app UI opened. Prepare and run the isolated candidate flows in docs/NEXT_STEPS.md with success/error/persistence assertions; startup alone does not establish release readiness. (Better Workspace task `31869333-268d-5eec-9b56-1bc56997b9fb`).
-- **Next user action:** Review each app purpose and screenshot in README.md; choose the intended product, experiment, duplicate/consolidation candidate or archive candidate. No app is marked production-complete by startup alone. (Better Workspace task `9b48593f-3970-598d-a1fc-6e92d86cc4f8`).
-
-Full continuation and candidate flow details: [next steps](<docs/NEXT_STEPS.md>).
-
-No unambiguous row in the connected Notion projects database was matched. No new Notion row was created.
-
-<!-- WORKSPACE-VERIFICATION:END -->
-<div align="center">
-
 # Zachary Sturman — Portfolio
 
 **A fast, content-rich portfolio for creative, scientific, and technical work.**
 
 [Live site](https://zacharysturman.com) · [Run, build & publish guide](docs/development-and-deployment.md) · [Architecture](#architecture) · [Service setup](#service-setup)
-
-</div>
-
-<br />
 
 This repository is the source for [zacharysturman.com](https://zacharysturman.com): a statically exported Next.js site with project collections, articles, accessible media, and a small public JSON API. Content can be maintained locally or synchronized from Notion through the optional publishing pipeline.
 
@@ -86,9 +10,9 @@ This repository is the source for [zacharysturman.com](https://zacharysturman.co
 
 Contact messages are saved before delivery and organized in private Notion trackers. Writing subscriptions require email confirmation and receive new-article notifications with unsubscribe links. [Contact setup and daily use](docs/setup/contact-intake.md).
 
-![Contact page with separate message and writing-update forms](docs/images/contact-page.png)
+![Apps discovery from the actual local static export](docs/images/apps-desktop.png)
 
-Work Logs opens recent sessions directly, with notes, attachments, project activity links, and session-type bars. Articles offers compact list rows or large visual grid cards. Preview the [work-log overview](docs/images/work-logs-overview.png), [article list](docs/images/articles-list.png), and [article grid](docs/images/articles-grid.png).
+Work Logs opens recent sessions directly, with notes, attachments, project activity links, and session-type bars. Articles offers compact list rows or large visual grid cards. Historical pre-improvement captures are retained in `docs/images/`; they predate the shared navigation and URL-backed controls.
 
 
 ## At a glance
@@ -99,9 +23,17 @@ Work Logs opens recent sessions directly, with notes, attachments, project activ
 | Hosting | Firebase Hosting | Serves the production site at `zacharysturman.com`. |
 | Content | Notion + local files | Optional build-time synchronization for projects, articles, and media. |
 | Forms & mail | Cloudflare Worker + Resend | Saves contact messages, syncs private Notion trackers, confirms writing subscribers, and delivers updates/reports. |
-| Analytics | Firebase Analytics / GA4 | Privacy-conscious human-interest reporting; local, preview, and automated browsing are excluded before GA4 loads. |
+| Analytics | Firebase Analytics / GA4 | Privacy-conscious aggregate engagement reporting; local, preview, and automated browsing are excluded before GA4 loads. |
 | Media | Repository files, optional Cloudflare R2 | Keeps media local by default; R2 adds long-lived cached URLs when enabled. |
 | Quality gates | Firebase deploy + local Playwright | Confirms the exact live release from this Mac, tests it, and stores evidence. |
+
+## Apps, writing, and development history
+
+`/apps` reads application membership, platforms, and actions from the same Workspace-generated project manifest used by the archive. Authored entries and reviewed additions remain in `content/projects/` and `content/project-updates.json`; there is no separate product catalog. Preserve stable project IDs when updating these records.
+
+Articles support shareable search, series/tag/project filters, view and sort state. Work-log links use `/work-logs?project=<slug>&tab=activity&log=<existing-id>` and preserve browser history. Durations distinguish recorded, calculated, estimated, and unavailable values. The shared primary navigation works across indexes, products, demos, and professional pages.
+
+[Content behavior and maintenance](docs/setup/content-reliability.md) · [Current validation and release status](docs/NEXT_STEPS.md)
 
 ## Professional presentation
 
@@ -169,6 +101,7 @@ Optional: Cloudflare R2 at media.zacharysturman.com serves hash-versioned media.
 | `npm run lint` / `npm run typecheck` | You want quick code-quality checks. |
 | `npm run test:unit` / `npm run test:python` | You want focused JavaScript or Python pipeline coverage. |
 | `npm run test:e2e` | You want local Playwright browser coverage. |
+| `npm run test:export` | You want Chromium/WebKit desktop and phone regression checks against the built export (run `npm run build` first). |
 | `npm run test:media:smoke` | You want the fast desktop/mobile media check run by the pre-push hook. |
 | `npm run test:all` | You want the full project test suite. |
 | `npm run hooks:install` | You want Git to run the repository’s pre-push and post-push checks. |

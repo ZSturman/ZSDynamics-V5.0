@@ -1,0 +1,101 @@
+{
+  "date": "2026-10-29",
+  "time_zone": "America/Los_Angeles",
+  "branch": "codex/portfolio-content-analytics",
+  "baseline_commit": "fb9468f",
+  "implementation_commits": [
+    "9a28e3a",
+    "8260087"
+  ],
+  "production_deployed": false,
+  "plan": "Recovered Portfolio reliability and content improvement cycle from the previous Review recent portfolio additions conversation.",
+  "preservation": {
+    "existing_project_identities_and_urls": 45,
+    "existing_work_logs_unchanged": 63,
+    "article_records_unchanged": 9,
+    "new_authored_projects": 1
+  },
+  "validation": {
+    "unit": {
+      "passed": 67
+    },
+    "python": {
+      "passed": 174,
+      "subtests_passed": 10,
+      "excluded": "tests_python/test_notion_integration.py (live Notion integration)"
+    },
+    "worker": {
+      "passed": 12,
+      "providers": "mocked; includes confirmation/retries/unsubscribe"
+    },
+    "development_browser": {
+      "passed": 73,
+      "skipped": 2,
+      "skip_reasons": [
+        "No fixture with both primary and secondary resources",
+        "Unknown routes belong to Hosting-level 404 handling"
+      ]
+    },
+    "contact_and_campaign_browser": {
+      "passed": 7,
+      "providers": "mocked"
+    },
+    "media_matrix": {
+      "passed": 59,
+      "skipped": 17,
+      "engines": [
+        "Chromium desktop/mobile",
+        "Firefox desktop",
+        "WebKit desktop"
+      ],
+      "skip_reasons": "Fault injection intentionally Chromium-only; mobile modal and absent video-fixture checks are skipped."
+    },
+    "static_export_browser": {
+      "passed": 36,
+      "skipped": 0,
+      "engines": [
+        "Chromium desktop/mobile",
+        "WebKit desktop/mobile"
+      ],
+      "runtime_and_hydration_errors": 0
+    },
+    "accessibility": "axe WCAG A/AA checks in light and dark themes across 12 core/new routes; keyboard and responsive assertions at phone/tablet/desktop widths",
+    "typecheck": "site and Worker passed",
+    "lint": {
+      "errors": 0,
+      "existing_warnings": 5
+    },
+    "build": "static production export passed",
+    "export_validation": {
+      "projects": 46,
+      "articles": 9,
+      "canonical_routes": 89,
+      "internal_links_and_assets": "passed"
+    },
+    "workflow_yaml": "production and preview workflows parsed; no jobs dispatched"
+  },
+  "resolved_failures": [
+    "Query-driven static hydration mismatch; hydration-safe URL snapshots now covered in built-file tests",
+    "Media fault injection now exhausts asset variants instead of treating successful original-image recovery as a failure",
+    "Layout comparison waits for deferred article filtering and uses explicit list state",
+    "Preview server persistent connections and accept queue handle concurrent browser chunks"
+  ],
+  "not_run": [
+    "Production deployment or live-site acceptance",
+    "Live GA4 configuration/data verification",
+    "Real Turnstile/inbox delivery",
+    "Live Notion content refresh or paused publisher execution",
+    "Store installations or native app device acceptance"
+  ],
+  "external_actions": [
+    "Approve production deployment",
+    "Register product_id, product_slug, action_type, log_id Event dimensions in GA4",
+    "Perform owner-operated Turnstile and inbox acceptance"
+  ],
+  "known_limits": [
+    "Downloads/store referrals measure intent, not installations",
+    "Home Page release remains pending; no native screenshot claimed",
+    "GA4 rows can overlap across actions; no per-session human/bot classification",
+    "Five existing ESLint warnings remain"
+  ]
+}

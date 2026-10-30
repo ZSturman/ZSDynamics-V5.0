@@ -190,3 +190,14 @@ Local files remain the default source for portfolio media. To serve versioned me
 | Deployment workflow fails | Read the matching GitHub Actions logs and download its `portfolio-*` artifacts. The live site may remain healthy if deployment failed before Firebase’s release switch. |
 
 For the complete reference set, return to the [README](../README.md#documentation-map).
+
+
+## Reliability checks added October 29, 2026
+
+`npm run validate:portfolio` checks generated assets/internal links and route-specific canonical/social metadata. The daily pipeline invokes the metadata check and runs the exported-site browser suite before media checks; Firebase production and preview workflows run validation and unit tests before deployment. The static architecture and Mac/Pi publish coordination remain unchanged.
+
+After building, `npm run test:export` runs Chromium and WebKit desktop/phone regressions against `out/` through the local clean-URL server. It covers query hydration, history, session links, foreground attention, meaningful demo milestones, and tracking without production GA4 or real submissions. The local preview server uses persistent connections and a larger accept queue for concurrent browser assets.
+
+Native TypeScript unit-test imports require Node 22.18+ (the workflows use Node 22); the normal app startup retains the package's declared requirement. Python tests can use `.venv/bin/python -m pytest -q tests_python --ignore=tests_python/test_notion_integration.py` when the system Python lacks pytest.
+
+Do not merge/push this cycle to `main` or dispatch a production deployment until the owner approves. The Worker code is unchanged by this cycle, so a Worker redeploy is not needed. GA4 custom-definition setup and a human inbox/Turnstile journey remain external acceptance steps in `NEXT_STEPS.md`.

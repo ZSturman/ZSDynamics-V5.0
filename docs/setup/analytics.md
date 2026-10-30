@@ -117,12 +117,12 @@ gh run watch && gh run view --log | grep -A40 "## Realtime"
 
 The email starts with **Daily Analytics Summary**, **What Actually Happened**, and **Traffic Quality**, then acquisition, geography, content, high-intent actions, journeys, attention, and technical detail.
 
-Raw GA4 totals are never discarded. The report also calculates cautious aggregate estimates:
+Raw GA4 totals remain available when their query succeeds. The report distinguishes observations from derived event ratios:
 
-- **Likely human sessions** require engagement evidence (GA4 engaged sessions or sessions with a `user_engagement` event). Multi-route browsing is context, not human evidence on its own.
-- **Known synthetic/test sessions** come from historical `automation_signal` data when available.
-- **Likely automated/test** and **suspicious** sessions are estimates based on multiple signals: near-zero duration, very low engagement, almost all-new identities, unattributed/Direct concentration, mechanically even desktop/mobile counts, excessive event or route counts, and automation markers.
-- **Sessions with observed ≥10s engagement** is a `user_engagement` proxy; **multi-route sessions** is a conservative aggregate proxy. GA4's normal Data API does not expose a complete per-session route history, so neither is presented as exact user-level truth.
+- Engaged sessions and sessions without observed engagement use GA4's definition; neither identifies humans or bots.
+- Historical `automation_signal` data identifies known marker sessions only.
+- Extra route events are events beyond the first per reporting session, not a count of multi-route sessions.
+- A `user_engagement` event has no inferred ten-second threshold. Failed queries remain unavailable, rather than zero.
 
 “Direct” means GA4 did not receive a referrer or campaign. It does **not** establish that someone typed the URL. Percentage changes from baselines below five sessions are rendered as counts instead of exaggerated percentages.
 
@@ -150,7 +150,7 @@ The Worker contract is intentionally unchanged:
 
 The report includes:
 
-- Quality-first KPI cards for likely human sessions, raw sessions, engaged sessions, high-intent actions, views, and engagement.
+- KPI cards for sessions without observed engagement, raw sessions, engaged sessions, high-intent action events, views, and engagement.
 - A deterministic human-readable analyst explanation, with tiny-baseline-safe comparisons and explicit anomaly caveats.
 - Traffic quality, acquisition by source/medium/campaign/landing page, and GA4 geography by country/region/city with engagement and high-intent actions.
 - Top pages enriched with local content type, title, domain/category/status/series, and tags from `public/projects/projects.json` and `public/articles/articles.json`.
@@ -210,3 +210,22 @@ The site forwards event parameters with every custom analytics event, but GA4 Da
 | `qa_run` | Isolating a controlled QA visit in the verification workflow. |
 
 If these dimensions are missing, the daily email still sends. It will show built-in acquisition, local content tags, and a data-quality note listing the unavailable custom dimensions.
+
+
+## Product and content reliability cycle
+
+No additional environment variables are required. Register Event-scoped `product_id`, `product_slug`, `action_type`, and `log_id` in GA4 Admin alongside `surface`. Product IDs are existing project IDs from the Workspace-generated manifest. Missing product dimensions produce one actionable unavailable-section warning; the email still includes other available data.
+
+- `product_view`: product landing/demo route visit, with stable ID/slug and surface.
+- `project_resource_click`: one canonical action event, enhanced with `action_type` (`store`, `download`, `demo`, `source`, `external`, `internal`), product context when applicable, and surface. Generic outbound tracking does not emit a second event for the same product action.
+- `product_demo_start` / `product_demo_complete`: once per attempt. Completion means three Recallable reviews; approval and settlement of the pending Transactions sample; completing the Better Workspace practice task; or explicitly confirming a Content Manager draft. Reset starts a new attempt. No entered text is sent.
+- `article_project_click`: explicit related-project transition; `work_log_open`: opening a session by its existing ID.
+- `project_open` and `article_open`: successful visits, not pre-navigation clicks. Filter/search URL changes do not increment route steps.
+
+Event validation rejects missing required context or unknown product identities before emission. In development it gives a concise diagnostic. Automated tests inspect `__ZS_ANALYTICS_LOG__` while production analytics remains suppressed.
+
+Attention uses visible area relative to the smaller of the viewport and element, so long sections can qualify. It counts foreground time only, pauses on document visibility/page exit, removes detached targets, and resets on page or project-modal navigation. Buckets begin at five seconds and emit once per target per visit. This measures eligible exposure, not proof of reading, understanding, or a human visitor.
+
+Reports separate portfolio, product, and content activity. Events and sessions containing an event are distinct; session rows overlap and cannot be summed. Download/store actions measure intent; actual installations remain unknown without authoritative store data. Human, bot and suspicious-session totals are not inferred. Extra route events are events beyond the first per reporting session, never an estimate of multi-page sessions. The explicit aggregate caution rule requires at least 20 sessions, engagement below 15%, and average session duration below 3 seconds. It classifies no individual session. A `user_engagement` event does not establish a ten-second threshold.
+
+Failed overview/quality queries retain null/unavailable values and warnings. Successfully queried empty sets remain observed zeroes. Historical event names remain readable. GA4 administrative changes and live inbox/Turnstile acceptance require the owner and are separate from local regression results.
