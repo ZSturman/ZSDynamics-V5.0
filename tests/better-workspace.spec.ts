@@ -32,7 +32,7 @@ for (const width of [1280, 390]) {
       await expect.poll(() => image.evaluate((img: HTMLImageElement) => img.naturalWidth)).toBeGreaterThan(0);
     }
     await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
-    await page.screenshot({ fullPage: true, animations: "disabled", path: `docs/images/better-workspace/release-${width}.png` });
+    if (process.env.PORTFOLIO_CAPTURE_SCREENSHOTS === "true") await page.screenshot({ fullPage: true, animations: "disabled", path: `docs/images/better-workspace/release-${width}.png` });
     await page.waitForLoadState("networkidle");
     await page.goto("/better-workspace/demo");
     await expect(page.getByRole("heading", { name: "A little workspace. A next step." })).toBeVisible();
@@ -53,7 +53,7 @@ for (const width of [1280, 390]) {
     await expect(page.getByRole("checkbox")).not.toBeChecked();
     await expect(page.getByLabel("Demo inbox")).toHaveText("Demo inbox · 0");
     await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
-    await page.screenshot({ fullPage: true, animations: "disabled", path: `docs/images/better-workspace/demo-${width}.png` });
+    if (process.env.PORTFOLIO_CAPTURE_SCREENSHOTS === "true") await page.screenshot({ fullPage: true, animations: "disabled", path: `docs/images/better-workspace/demo-${width}.png` });
     await page.waitForLoadState("networkidle");
     await page.reload();
     await expect(page.getByLabel("Demo inbox")).toHaveText("Demo inbox · 0");

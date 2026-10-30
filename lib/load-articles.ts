@@ -37,6 +37,8 @@ function normalizeArticle(raw: unknown): Article | null {
     oneLiner: typeof record.oneLiner === "string" && record.oneLiner.trim().length > 0 ? record.oneLiner.trim() : undefined,
     publishedAt: typeof record.publishedAt === "string" ? record.publishedAt : undefined,
     updatedAt: record.updatedAt,
+    createdAt: typeof record.createdAt === "string" ? record.createdAt : undefined,
+    substantiallyRevisedAt: typeof record.substantiallyRevisedAt === "string" ? record.substantiallyRevisedAt : undefined,
     series: typeof record.series === "string" && record.series.trim().length > 0 ? record.series.trim() : undefined,
     tags: Array.isArray(record.tags) ? record.tags.filter((tag): tag is string => typeof tag === "string" && tag.trim().length > 0) : [],
     projectIds: Array.isArray(record.projectIds)
@@ -160,7 +162,7 @@ export async function loadArticles(): Promise<Article[]> {
 
     return hydrated
       .sort((a, b) => {
-        const updatedDiff = toTimestamp(b.updatedAt ?? b.publishedAt ?? undefined) - toTimestamp(a.updatedAt ?? a.publishedAt ?? undefined);
+        const updatedDiff = toTimestamp(b.publishedAt || b.updatedAt) - toTimestamp(a.publishedAt || a.updatedAt);
         if (updatedDiff !== 0) return updatedDiff;
         return a.title.localeCompare(b.title);
       });

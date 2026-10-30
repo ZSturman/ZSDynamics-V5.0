@@ -5,7 +5,16 @@ from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
 
+class ExportServer(ThreadingHTTPServer):
+    # Parallel browsers and Next prefetch can open more than the default five
+    # queued connections. Keep local preview transport out of app diagnostics.
+    request_queue_size = 128
+    daemon_threads = True
+
+
 class ExportHandler(SimpleHTTPRequestHandler):
+    protocol_version = "HTTP/1.1"
+
     def translate_path(self, path):
         translated = super().translate_path(path)
         clean_route = Path(translated + ".html")
@@ -16,7 +25,7 @@ if __name__ == "__main__":
     root = Path(__file__).resolve().parent.parent / "out"
     if not (root / "index.html").is_file():
         raise SystemExit("Run npm run build before previewing the export.")
-    server = ThreadingHTTPServer(("127.0.0.1", 3001), partial(ExportHandler, directory=str(root)))
+    server = ExportServer(("127.0.0.1", 3001), partial(ExportHandler, directory=str(root)))
     print("Portfolio export: http://127.0.0.1:3001", flush=True)
     try:
         server.serve_forever()

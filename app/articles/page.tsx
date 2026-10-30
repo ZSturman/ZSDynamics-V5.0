@@ -1,3 +1,5 @@
+import { pageMetadata } from "@/lib/site-metadata";
+
 import { ArticlesClient } from "@/components/articles/articles-client";
 import { PageFrame } from "@/components/layout/page-frame";
 import { BreadcrumbTrail } from "@/components/ui/breadcrumb-trail";
@@ -6,6 +8,8 @@ import { loadArticles } from "@/lib/load-articles";
 import { loadPublicJsonRecursively } from "@/lib/load-public-json";
 import { getProjectHref } from "@/lib/project-paths";
 import type { Project } from "@/types";
+
+export const metadata = pageMetadata("Articles", "Technical writing, research, experiments, and the projects behind them.", "/articles");
 
 export const dynamic = "force-static";
 

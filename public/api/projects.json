@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.list",
-  "generated_at": "2026-10-27T13:22:10.089399+00:00",
+  "generated_at": "2026-10-30T03:34:55.550104+00:00",
   "data": [
     {
       "id": "3f5aec94-4d3c-8116-99d5-c9752bb4af87",
@@ -908,6 +908,21 @@
       "updatedAt": "2026-10-21"
     },
     {
+      "id": "748b7fdb-3972-534d-be54-a7866995cda3",
+      "slug": "home-page",
+      "title": "Home Page",
+      "summary": "A native Mac dashboard for launching apps, configured Shortcuts, and optional status updates from connected apps.",
+      "oneLiner": "Your apps. One place to begin.",
+      "tags": [],
+      "status": "Active",
+      "featured": false,
+      "domain": "Technology",
+      "category": "Application",
+      "href": "/projects/home-page",
+      "primaryImageUrl": null,
+      "updatedAt": null
+    },
+    {
       "id": "04827feb-2508-51d8-ba15-ed7738b57f7e",
       "slug": "job-search-hub",
       "title": "Job Search Hub",
@@ -956,5 +971,5 @@
       "updatedAt": "2026-10-24"
     }
   ],
-  "count": 45
+  "count": 46
 }

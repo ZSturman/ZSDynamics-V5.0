@@ -1,3 +1,4 @@
+import { pageMetadata } from "@/lib/site-metadata";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PageColumn, PageFrame } from "@/components/layout/page-frame";
@@ -6,7 +7,7 @@ import { OpenDeck } from "./open-deck";
 // Every https://zacharysturman.com/recallable/deck/<id> link serves this page (a Firebase rewrite).
 // With Recallable installed, iOS and macOS open the app instead (Associated Domains); this page is
 // for everyone else.
-export const metadata: Metadata = {
+const routeMetadata: Metadata = {
   title: "A Recallable deck",
   description: "Someone shared a flashcard deck with you. Open it in Recallable, or get Recallable on the App Store.",
   itunes: { appId: "6822919785" },
@@ -17,6 +18,7 @@ export const metadata: Metadata = {
     url: "/recallable/deck",
   },
 };
+export const metadata: Metadata = { ...routeMetadata, ...pageMetadata('A Recallable deck', routeMetadata.description || 'Product information, availability, and ways to explore.', '/recallable/deck') };
 
 export default function RecallableDeckPage() {
   return (

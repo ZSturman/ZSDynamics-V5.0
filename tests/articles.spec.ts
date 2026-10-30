@@ -209,7 +209,9 @@ test.describe("Articles", () => {
     test.skip(!articleWithCover, "An article with cover media is required.");
     for (const width of [1280, 390]) {
       await page.setViewportSize({ width, height: 900 });
-      await page.goto(`/articles?q=${encodeURIComponent(`title:${articleWithCover!.title}`)}`);
+      await page.goto(`/articles?q=${encodeURIComponent(`title:${articleWithCover!.title}`)}&view=list`);
+      await expect(page.getByRole("textbox", { name: "Search articles" })).toHaveValue(`title:${articleWithCover!.title}`);
+      await expect(page.getByTestId("article-list-item-root")).toHaveCount(1);
       const row = page.getByTestId("article-list-item-root").first();
       const rowImage = row.getByRole("img").first();
       await expect(rowImage).toBeVisible();

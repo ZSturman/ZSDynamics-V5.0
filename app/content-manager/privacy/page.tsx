@@ -1,7 +1,9 @@
+import { pageMetadata } from "@/lib/site-metadata";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PageColumn, PageFrame } from "@/components/layout/page-frame";
-export const metadata: Metadata = { title: "Social Posts Content Manager Privacy Policy", alternates: { canonical: "/content-manager/privacy" } };
+const routeMetadata: Metadata = { title: "Social Posts Content Manager Privacy Policy", alternates: { canonical: "/content-manager/privacy" } };
+export const metadata: Metadata = { ...routeMetadata, ...pageMetadata('Social Posts Content Manager Privacy Policy', routeMetadata.description || 'Privacy information and data handling.', '/content-manager/privacy') };
 export default function PrivacyPage() {
   return <PageFrame as="main" className="py-10"><PageColumn className="space-y-6 leading-relaxed">
     <Link href="/content-manager" className="underline">Social Posts Content Manager</Link><h1 className="text-3xl font-semibold">Privacy Policy</h1><p className="text-muted-foreground">Effective October 21, 2026 · Developer: Zachary Sturman</p>

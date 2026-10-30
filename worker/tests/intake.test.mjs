@@ -465,3 +465,37 @@ test("Notion outages do not let older records starve a later contact", async () 
     3,
   );
 });
+
+test("confirmation mail retries and renewed consent invalidate old links without activating the reader", async () => {
+  verification.action = "newsletter";
+  const body = { email: "retry-reader@example.com", consent: true, turnstileToken: "token" };
+  await post("/newsletter-interest", body);
+  mailStatus = 503;
+  await jobs();
+  let sub = await db.prepare("SELECT * FROM subscribers").first();
+  assert.equal(sub.status, "Pending");
+  assert.equal(sub.confirmation_sent_at, null);
+  assert.equal(sub.confirmation_attempts, 1);
+  const firstKey = mail[0].key;
+  mailStatus = 200;
+  await db.prepare("UPDATE subscribers SET confirmation_next_attempt=0").run();
+  await jobs();
+  sub = await db.prepare("SELECT * FROM subscribers").first();
+  assert.ok(sub.confirmation_sent_at);
+  assert.equal(sub.confirmation_attempts, 2);
+  assert.equal(mail.at(-1).key, firstKey);
+  const oldLink = mail.at(-1).body.text.match(/https:\/\/[^\s]+\/confirm\?token=[^\s]+/)[0];
+  await db.prepare("UPDATE subscribers SET requested_at=?").bind(new Date(Date.now() - 49 * 3600000).toISOString()).run();
+  await post("/newsletter-interest", body);
+  await mf.dispatchFetch(oldLink, { method: "POST", headers: { Origin: new URL(oldLink).origin } });
+  sub = await db.prepare("SELECT * FROM subscribers").first();
+  assert.equal(sub.status, "Pending");
+  assert.equal(sub.generation, 2);
+  await jobs();
+  const newLink = mail.at(-1).body.text.match(/https:\/\/[^\s]+\/confirm\?token=[^\s]+/)[0];
+  assert.notEqual(newLink, oldLink);
+  await mf.dispatchFetch(newLink, { method: "POST", headers: { Origin: "https://evil.example" } });
+  assert.equal((await db.prepare("SELECT status FROM subscribers").first()).status, "Pending");
+  await mf.dispatchFetch(newLink, { method: "POST", headers: { Origin: new URL(newLink).origin } });
+  assert.equal((await db.prepare("SELECT status FROM subscribers").first()).status, "Active");
+});

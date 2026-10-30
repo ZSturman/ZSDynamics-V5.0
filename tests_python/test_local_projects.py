@@ -74,3 +74,18 @@ def test_presentation_overrides_keep_notion_history_and_unrelated_projects(tmp_p
     assert device["workLogs"] == imported_logs  # automated history is never replaced
     assert next(p for p in merged if p["slug"] == "untouched") == generated[1]
     assert len(merged) == 2
+
+
+def test_application_metadata_uses_authored_pipeline_without_requiring_fabricated_images(tmp_path):
+    content = tmp_path / "content" / "projects"
+    source = content / "app"
+    source.mkdir(parents=True)
+    project = {"id": "stable-id", "slug": "app", "folderName": "app_stable-id",
+               "application": {"landingPath": "/app", "platforms": ["Mac (beta)"]}}
+    (source / "project.json").write_text(json.dumps(project))
+    (source / "README.md").write_text("# Actual app\nRelease pending.")
+    merged = merge_local_projects([], tmp_path / "public", content)
+    assert merged[0]["application"] == project["application"]
+    assert merged[0]["id"] == "stable-id"
+    assert "images" not in merged[0]
+    assert merge_local_projects(merged, tmp_path / "public", content) == merged

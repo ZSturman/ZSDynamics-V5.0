@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-10-24T14:46:04.538195+00:00",
+  "generated_at": "2026-10-30T00:27:24.620660+00:00",
   "data": {
     "id": "20732ff7-0f29-54af-9f8a-3ef13bfa196c",
     "slug": "content-manager",
@@ -67,6 +67,13 @@
     "readme": {
       "content": "# Social Posts Content Manager\n\nReview the exact post. Make a clear decision. Move on.\n\nA native SwiftUI editorial workspace for Mac, iPhone and iPad. The mobile app reviews social drafts in your existing Notion Social Posts database; the Mac also handles generation and local Markdown articles.\n\n## Review on mobile\n\n- Read distinct LinkedIn and Bluesky previews, with selected destinations clearly marked.\n- Inspect the selected publication image, or the explicit text-only state.\n- Edit text and dates. Unsaved changes block approval and rejection.\n- Use persistent **Reject & Next** to decline a draft and open the next one. Restore declined drafts from Calendar → All.\n- Confirm **Mark Ready** to approve the saved version. Any later content edit withdraws approval.\n- Browse upcoming and posted items in Calendar; the widget shows the last refreshed queue snapshot.\n\nThe internal title is never added to the published text. Final platform layout, cropping and link cards can differ.\n\n## Availability and setup\n\nThe iPhone and iPad app uses TestFlight for private beta testing. There is no public App Store download or open beta invitation yet. Testers need an invitation and the existing Notion Social Posts schema; this beta does not provision a new workspace.\n\nUse the integration token for that workspace in Settings. It is verified before being stored in this device's Keychain. The phone does not need a direct connection to the Mac.\n\n## Publication remains deliberate\n\nMark Ready authorizes the independent publishing automation for the reviewed version. It does not publish immediately or turn on a paused publisher. Generation, Article Studio and automation controls remain on Mac.\n\n[Setup and support](/content-manager/support) · [Privacy policy](/content-manager/privacy)\n",
       "sourceUrl": "/projects/content_manager_20732ff7-0f29-54af-9f8a-3ef13bfa196c/README.md"
+    },
+    "application": {
+      "landingPath": "/content-manager",
+      "platforms": [
+        "iPhone (private beta)",
+        "iPad (private beta)"
+      ]
     },
     "workLogs": [
       {

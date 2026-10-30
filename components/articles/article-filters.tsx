@@ -53,14 +53,14 @@ export function ArticleFilters({
             value={searchQuery}
             onChange={(event) => onSearchQueryChange(event.target.value)}
             placeholder="Search articles with title:, tag:, series:, or project:"
-            className="h-10 pl-9 pr-10"
+            className="h-11 pl-9 pr-12"
           />
           {searchQuery && (
             <button
               type="button"
               aria-label="Clear article search"
               onClick={() => onSearchQueryChange("")}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground transition-colors hover:text-foreground"
+              className="absolute right-0 top-1/2 inline-flex size-11 -translate-y-1/2 items-center justify-center text-muted-foreground transition-colors hover:text-foreground"
             >
               <X className="size-4" />
             </button>
@@ -70,7 +70,7 @@ export function ArticleFilters({
         <div className="flex items-center gap-2 self-end sm:self-auto">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm" className="min-h-[40px] min-w-[40px] p-0" aria-label="Sort articles" title="Sort articles">
+              <Button variant="outline" size="sm" className="min-h-[44px] min-w-[44px] p-0" aria-label="Sort articles" title="Sort articles">
                 <ArrowUpDown className="size-4" />
               </Button>
             </DropdownMenuTrigger>
@@ -95,7 +95,7 @@ export function ArticleFilters({
           <Button
             variant="outline"
             size="sm"
-            className="min-h-[40px] min-w-[40px] p-0"
+            className="min-h-[44px] min-w-[44px] p-0"
             aria-label={viewMode === "grid" ? "Switch to list view" : "Switch to grid view"}
             title={viewMode === "grid" ? "Switch to list view" : "Switch to grid view"}
             onClick={() => onViewModeChange(viewMode === "grid" ? "list" : "grid")}
@@ -111,7 +111,7 @@ export function ArticleFilters({
           {searchQuery && (
             <Badge variant="secondary" className="gap-1">
               Search: {searchQuery}
-              <button type="button" onClick={() => onSearchQueryChange("")} className="ml-1 transition-colors hover:text-foreground">
+              <button aria-label="Remove article search filter" type="button" onClick={() => onSearchQueryChange("")} className="ml-1 transition-colors hover:text-foreground">
                 ×
               </button>
             </Badge>
@@ -119,7 +119,7 @@ export function ArticleFilters({
           {visibilityFilter === "all" && (
             <Badge variant="outline" className="gap-1 border-amber-400/60 bg-amber-50 text-amber-700 dark:bg-amber-950/40 dark:text-amber-400">
               Showing drafts
-              <button type="button" onClick={() => onVisibilityFilterChange("published")} className="ml-1 transition-colors hover:text-foreground">
+              <button aria-label="Show published articles only" type="button" onClick={() => onVisibilityFilterChange("published")} className="ml-1 transition-colors hover:text-foreground">
                 ×
               </button>
             </Badge>

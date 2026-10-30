@@ -1,15 +1,18 @@
+import { pageMetadata } from "@/lib/site-metadata";
+import { ProductActions } from "@/components/products/product-sections";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { PageColumn, PageFrame } from "@/components/layout/page-frame";
 
 const media = "/projects/better_signals_33baec94-4d3c-805b-aa92-e0d16cc8a3f1/images";
-export const metadata: Metadata = {
+const routeMetadata: Metadata = {
   title: "Better Signals — Record a moment, keep the context",
   description: "A private recording app for iPhone, iPad, and Apple Watch. Record how your day feels and export your own data.",
   alternates: { canonical: "/better-signals" },
   openGraph: { images: [`${media}/social.jpg`] },
 };
+export const metadata: Metadata = { ...routeMetadata, ...pageMetadata('Better Signals — Record a moment, keep the context', routeMetadata.description || 'Product information, availability, and ways to explore.', '/better-signals') };
 
 export default function BetterSignalsPage() {
   return (
@@ -50,6 +53,7 @@ export default function BetterSignalsPage() {
           <p>The approved public release is version 1.1.0 (build 2), available in the United States. Newer TestFlight and local features are separate. It requires iOS or iPadOS 26; the paired Watch companion requires watchOS 26.</p>
           <p>No account, advertising, or developer analytics. iPad history stays separate; Watch Signals synchronize with the paired iPhone.</p>
         </section>
+        <ProductActions slug="better-signals" />
         <footer className="flex flex-wrap gap-5 border-t pt-5 text-sm">
           <Link href="/better-signals/support" className="underline">Support</Link>
           <Link href="/better-signals/privacy" className="underline">Privacy policy</Link>

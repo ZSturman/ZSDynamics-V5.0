@@ -1,5 +1,5 @@
 "use client";
-import type { ReactNode } from "react";
+import { useEffect, type ReactNode } from "react";
 
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Project } from "@/types";
@@ -32,17 +32,15 @@ export function ProjectModal({ project, isOpen, onClose }: ProjectModalProps) {
   const router = useRouter();
   const { setPreviousPath } = useBreadcrumb();
 
+  useEffect(() => {
+    if (isOpen && project) trackProjectOpen({ projectSlug: project.slug || project.id, projectTitle: project.title, openSurface: "home_project_modal" });
+  }, [isOpen, project]);
   const goToProjectPage = () => {
     if (!project) return;
     // Set breadcrumb to come back to home (not modal) when navigating to project page
     setPreviousPath("/", "Home");
     onClose();
     // Use Next.js router for proper client-side navigation
-    trackProjectOpen({
-      projectSlug: project.slug || project.id,
-      projectTitle: project.title,
-      openSurface: "project_modal_cta",
-    });
     router.push(getProjectHref(project));
   };
 

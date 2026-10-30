@@ -125,7 +125,7 @@ export async function generateMetadata({ params }: { params: Promise<{ project: 
   const socialImage = getProjectSocialImage(resolvedProject)
 
   return {
-    title: resolvedProject.title,
+    title: `${resolvedProject.title} — Project`,
     description,
     alternates: {
       canonical: getProjectHref(resolvedProject),

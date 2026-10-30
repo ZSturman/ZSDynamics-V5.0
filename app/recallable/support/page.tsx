@@ -1,8 +1,9 @@
+import { pageMetadata } from "@/lib/site-metadata";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PageColumn, PageFrame } from "@/components/layout/page-frame";
 
-export const metadata: Metadata = {
+const routeMetadata: Metadata = {
   title: "Recallable Help & Support",
   description: "Getting started, spaced review, Discover, iCloud sync, Apple Watch, widgets, AI drafts and CSV files in Recallable.",
   alternates: { canonical: "/recallable/support" },
@@ -12,6 +13,7 @@ export const metadata: Metadata = {
     url: "/recallable/support",
   },
 };
+export const metadata: Metadata = { ...routeMetadata, ...pageMetadata('Recallable Help & Support', routeMetadata.description || 'Setup, requirements, and troubleshooting.', '/recallable/support') };
 
 const guidelines =
   "Publish only decks you made or have the right to share. No sexual, hateful, violent, or harassing content, no spam or advertising, and no personal information about other people. Decks with pictures appear once a moderator has checked them. There is no tolerance for objectionable content or abusive users: reported decks are reviewed within 24 hours, and decks that break these rules are removed and their publishers blocked.";

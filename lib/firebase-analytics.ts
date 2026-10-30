@@ -1,5 +1,6 @@
 "use client";
 
+import { analyticsEventIssue, productForPath, resourceAction, type ProductContext } from "./product-presentation";
 import type { Analytics } from "firebase/analytics";
 import type { FirebaseApp } from "firebase/app";
 
@@ -27,6 +28,7 @@ type ProjectResourceClickInput = {
   resourceLabel: string;
   resourceUrl: string;
   isInternal: boolean;
+  surface?: string;
 };
 
 type ArticleOpenInput = {
@@ -318,6 +320,12 @@ async function logAnalyticsEvent(name: string, params: AnalyticsParams = {}): Pr
     ...params,
   };
 
+  const issue = analyticsEventIssue(name, merged, products);
+  if (issue) {
+    if (process.env.NODE_ENV !== "production") console.warn(`Analytics event rejected: ${issue}`);
+    return;
+  }
+
   // Test-only observer: browser tests define this array to verify which
   // events fire (analytics stays suppressed for them). Absent in production.
   const observer = canUseBrowser()
@@ -341,19 +349,26 @@ export function initializeAnalytics(): void {
 }
 
 export function trackRouteView(input: RouteViewInput): void {
-  const routeKey = `${input.pathname}?${input.search}`;
+  const modal = input.pathname === "/" ? new URLSearchParams(input.search).get("project") || "" : "";
+  const routeKey = `${input.pathname}:${modal}`;
   if (routeKey === lastRouteViewKey) {
     return;
   }
 
   const previousPageGroup = activePageContext.page_group;
   const previousPageSlug = activePageContext.page_slug;
-  const routeDetails = getRouteDetails(input);
+  const product = productForPath(products, input.pathname);
+  const routeDetails = { ...getRouteDetails(input), ...(product ? {
+    page_group: "product", page_slug: product.slug, product_id: product.id, product_slug: product.slug,
+  } : {}) };
   routeStep += 1;
   lastRouteViewKey = routeKey;
   activePageContext = routeDetails;
   activeAttentionContext = {};
+  viewedProjects.clear();
+  viewedArticles.clear();
 
+  if (product) void logAnalyticsEvent("product_view", { product_id: product.id, product_slug: product.slug, surface: input.pathname.endsWith("/demo") ? "demo_page" : "product_page" });
   void logAnalyticsEvent("portfolio_route_view", {
     ...routeDetails,
     previous_page_group: typeof previousPageGroup === "string" ? previousPageGroup : "entry",
@@ -362,33 +377,27 @@ export function trackRouteView(input: RouteViewInput): void {
   });
 }
 
-// A click (card, list, Selected Work) is followed by the project page's own
-// load event; record one open per project per visit to it, not two.
-const PROJECT_OPEN_DEDUPE_MS = 10_000;
-let lastProjectOpen: { slug: string; at: number } | null = null;
-
+// Only successful page/modal mounts emit opens; link clicks are not views.
+const viewedProjects = new Set<string>();
+const viewedArticles = new Set<string>();
 export function trackProjectOpen(input: ProjectOpenInput): void {
-  const now = Date.now();
-  if (
-    input.openSurface === "project_page" &&
-    lastProjectOpen?.slug === input.projectSlug &&
-    now - lastProjectOpen.at < PROJECT_OPEN_DEDUPE_MS
-  ) {
-    return;
-  }
-  lastProjectOpen = { slug: input.projectSlug, at: now };
-
-  void logAnalyticsEvent("project_open", {
-    project_slug: input.projectSlug,
-    project_title: input.projectTitle,
-    open_surface: input.openSurface,
-  });
+  if (!["project_page", "home_project_modal"].includes(input.openSurface)) return;
+  if (canUseBrowser()) trackRouteView({ pathname: window.location.pathname, search: window.location.search });
+  if (viewedProjects.has(input.projectSlug)) return;
+  viewedProjects.add(input.projectSlug);
+  void logAnalyticsEvent("project_open", { project_slug: input.projectSlug, project_title: input.projectTitle, open_surface: input.openSurface });
 }
 
 export function trackProjectResourceClick(input: ProjectResourceClickInput): void {
+  const product = products.find((p) => p.slug === input.projectSlug || p.id === input.projectSlug);
+  const action = resourceAction({ url: input.resourceUrl, label: input.resourceLabel, type: input.resourceType || "" });
   void logAnalyticsEvent("project_resource_click", {
     project_slug: input.projectSlug,
     project_title: input.projectTitle,
+    product_id: product?.id,
+    product_slug: product?.slug,
+    surface: input.surface || "project_resource",
+    action_type: action,
     resource_type: input.resourceType?.toLowerCase(),
     resource_label: input.resourceLabel,
     destination_domain: normalizeDomain(input.resourceUrl),
@@ -397,6 +406,9 @@ export function trackProjectResourceClick(input: ProjectResourceClickInput): voi
 }
 
 export function trackArticleOpen(input: ArticleOpenInput): void {
+  if (canUseBrowser()) trackRouteView({ pathname: window.location.pathname, search: window.location.search });
+  if (viewedArticles.has(input.articleSlug)) return;
+  viewedArticles.add(input.articleSlug);
   void logAnalyticsEvent("article_open", {
     article_slug: input.articleSlug,
     article_title: input.articleTitle,
@@ -629,4 +641,26 @@ export function trackProjectMediaProgress(input: ProjectMediaProgressInput): voi
     surface: sanitizeAnalyticsText(input.surface),
     interaction_type: sanitizeAnalyticsText(input.interactionType),
   });
+}
+
+export function trackWorkLogOpen(logId: string, projectSlug?: string, projectId?: string): void {
+  void logAnalyticsEvent("work_log_open", { log_id: logId, project_slug: projectSlug, project_id: projectId, surface: "work_logs" });
+}
+
+let products: ProductContext[] = [];
+export function configureProducts(contexts: ProductContext[]): void { products = contexts; }
+export function trackProductDemo(slug: string, phase: "start" | "complete"): void {
+  const product = products.find((p) => p.slug === slug);
+  if (!product) {
+    if (process.env.NODE_ENV !== "production") console.warn(`Analytics: unknown product ${slug}; check generated application metadata.`);
+    return;
+  }
+  void logAnalyticsEvent(`product_demo_${phase}`, { product_id: product.id, product_slug: product.slug, surface: "browser_demo" });
+}
+export function trackArticleProjectClick(articleSlug: string, projectSlug: string, projectId?: string): void {
+  void logAnalyticsEvent("article_project_click", { article_slug: articleSlug, project_slug: projectSlug, project_id: projectId, surface: "article_related_project" });
+}
+
+export function trackContentFilter(pathname: string, filter: string, value: string): void {
+  void logAnalyticsEvent("portfolio_filter_change", { surface: pathname === "/articles" ? "articles" : "work_logs", filter_type: filter, filter_value: sanitizeAnalyticsText(value, 60) });
 }

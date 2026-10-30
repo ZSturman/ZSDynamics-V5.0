@@ -54,6 +54,8 @@ yarn-error.log*
 !/content/projects/better-signals/**
 !/content/projects/content-manager/
 !/content/projects/content-manager/**
+!/content/projects/home-page/
+!/content/projects/home-page/**
 
 # vercel
 .vercel
@@ -148,6 +150,8 @@ coverage/
 # Authored Social Posts Content Manager portfolio entry
 !/content/projects/content-manager/
 !/content/projects/content-manager/**
+!/content/projects/home-page/
+!/content/projects/home-page/**
 
 !/content/project-updates.json
 

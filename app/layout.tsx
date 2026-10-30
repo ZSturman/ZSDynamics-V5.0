@@ -1,17 +1,16 @@
+import { loadProjectsManifest } from "@/lib/load-projects";
+import { productContexts } from "@/lib/product-presentation";
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import dynamic from "next/dynamic";
+import { SiteNav } from "@/components/layout/site-nav";
+import { PageFrame } from "@/components/layout/page-frame";
 import { Suspense } from "react";
 import { AnalyticsBootstrap } from "@/components/analytics/analytics-bootstrap";
 import { SiteFooter } from "@/components/site-footer";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_OG_IMAGE, SITE_URL } from "@/lib/site-metadata";
 import { INITIAL_THEME_SCRIPT } from "@/lib/theme";
 import { BreadcrumbProvider } from "@/lib/breadcrumb-context";
-
-const Banner = dynamic(() =>
-  import("@/components/global-ui/banner").then((m) => m.Banner)
-);
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -60,7 +59,7 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       { url: "/favicon.ico?v=2", sizes: "any" },
-      { url: "/favicon.svg?v=2", type: "image/svg+xml" },
+      { url: "/icon0.svg", type: "image/svg+xml" },
     ],
     apple: [{ url: "/apple-touch-icon.png?v=2" }],
   },
@@ -80,11 +79,12 @@ export const viewport: Viewport = {
   ],
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const products = productContexts(await loadProjectsManifest());
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
@@ -96,10 +96,10 @@ export default function RootLayout({
       >
         <BreadcrumbProvider>
           <Suspense fallback={null}>
-            <AnalyticsBootstrap />
+            <AnalyticsBootstrap products={products} />
           </Suspense>
           <div className="flex min-h-screen flex-col">
-            <Banner />
+            <header data-site-header className="py-6 md:py-8"><PageFrame><SiteNav /></PageFrame></header>
             <div className="flex-1">{children}</div>
             <SiteFooter />
           </div>

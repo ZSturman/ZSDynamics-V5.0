@@ -986,6 +986,7 @@ def _normalize_article_metadata(
         "oneLiner": one_liner,
         "publishedAt": published_at.strip() if isinstance(published_at, str) and published_at.strip() else None,
         "updatedAt": updated_at.strip(),
+        **{key: metadata[key].strip() for key in ("createdAt", "substantiallyRevisedAt") if isinstance(metadata.get(key), str) and metadata[key].strip()},
         "series": normalized_series,
         "tags": [str(tag).strip() for tag in tags if str(tag).strip()],
         "projectIds": project_ids,
@@ -1101,7 +1102,7 @@ def build_articles_from_directory(
 
     manifest.sort(
         key=lambda article: (
-            article.get("updatedAt") or article["publishedAt"],
+            article.get("publishedAt") or article["updatedAt"],
             article["title"].lower(),
         ),
         reverse=True,

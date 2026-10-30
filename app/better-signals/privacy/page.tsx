@@ -1,12 +1,14 @@
+import { pageMetadata } from "@/lib/site-metadata";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PageColumn, PageFrame } from "@/components/layout/page-frame";
 
-export const metadata: Metadata = {
+const routeMetadata: Metadata = {
   title: "Better Signals — Privacy policy",
   description: "How Better Signals handles your Signals, optional location, exports, and permissions.",
   alternates: { canonical: "/better-signals/privacy" },
 };
+export const metadata: Metadata = { ...routeMetadata, ...pageMetadata('Better Signals — Privacy policy', routeMetadata.description || 'Privacy information and data handling.', '/better-signals/privacy') };
 
 export default function BetterSignalsPrivacyPage() {
   return (

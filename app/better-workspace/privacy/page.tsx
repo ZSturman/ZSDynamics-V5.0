@@ -1,12 +1,14 @@
+import { pageMetadata } from "@/lib/site-metadata";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PageColumn, PageFrame } from "@/components/layout/page-frame";
 
-export const metadata: Metadata = {
+const routeMetadata: Metadata = {
   title: "Better Workspace Privacy Policy",
   description: "How Better Workspace handles files, iCloud sync and optional integrations.",
   alternates: { canonical: "/better-workspace/privacy" },
 };
+export const metadata: Metadata = { ...routeMetadata, ...pageMetadata('Better Workspace Privacy Policy', routeMetadata.description || 'Privacy information and data handling.', '/better-workspace/privacy') };
 
 export default function PrivacyPage() {
   return (

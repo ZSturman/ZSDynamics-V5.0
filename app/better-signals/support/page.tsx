@@ -1,11 +1,13 @@
+import { pageMetadata } from "@/lib/site-metadata";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PageColumn, PageFrame } from "@/components/layout/page-frame";
-export const metadata: Metadata = {
+const routeMetadata: Metadata = {
   title: "Better Signals — Support",
   description: "Help recording Signals, exporting data, using widgets and Apple Watch, and managing optional location.",
   alternates: { canonical: "/better-signals/support" },
 };
+export const metadata: Metadata = { ...routeMetadata, ...pageMetadata('Better Signals — Support', routeMetadata.description || 'Setup, requirements, and troubleshooting.', '/better-signals/support') };
 export default function BetterSignalsSupportPage() {
   return (
     <PageFrame as="main" className="py-10"><PageColumn className="space-y-8 leading-relaxed">

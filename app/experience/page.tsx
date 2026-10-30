@@ -1,3 +1,4 @@
+import { pageMetadata } from "@/lib/site-metadata";
 import type { Metadata } from "next";
 import Link from "next/link";
 
@@ -11,11 +12,12 @@ import {
 import { loadProjectsManifest } from "@/lib/load-projects";
 import { portfolioData } from "@/lib/site-content";
 
-export const metadata: Metadata = {
+const routeMetadata: Metadata = {
   title: "Experience",
   description: "Professional software, data, and engineering experience, education, and certifications.",
   alternates: { canonical: "/experience" },
 };
+export const metadata: Metadata = { ...routeMetadata, ...pageMetadata('Experience', routeMetadata.description || "Portfolio information.", "/experience") };
 
 export default async function ExperiencePage() {
   const projects = await loadProjectsManifest();

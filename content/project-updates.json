@@ -124,7 +124,14 @@
         "path": "/transactions/images/ipad-optimized.webp",
         "label": "Native ipad dashboard — synthetic accounts"
       }
-    ]
+    ],
+    "application": {
+      "landingPath": "/transactions/demo",
+      "platforms": [
+        "Web",
+        "Browser demo"
+      ]
+    }
   },
   "chewsense": {
     "resources": [
@@ -274,7 +281,15 @@
         ],
         "whatHappened": "Published iOS and Mac TestFlight build 13 with adaptive question and answer text for widgets. Both were verified available to internal testers. This is a beta milestone, separate from the approved public build."
       }
-    ]
+    ],
+    "application": {
+      "landingPath": "/recallable",
+      "platforms": [
+        "iPhone",
+        "iPad",
+        "Mac (in review)"
+      ]
+    }
   },
   "better-workspace": {
     "resources": [
@@ -328,7 +343,15 @@
         "whatHappened": "Submitted iPhone/iPad version 1.0.1 (15), with unified Workspace screenshots and updated review notes. Physical devices updated in place through TestFlight before submission."
       }
     ],
-    "description": "Better Workspace helps turn ideas into projects and projects into a useful next step. Advanced Mac 1.0 connects real folders, portable plans, priorities, capture, work history and optional reviewed integrations. Its signed, notarized download includes the runtime for Apple silicon and Intel. The iPhone and iPad app is available on the App Store as version 1.0.1: keep a workspace offline and connect the optional advanced Mac for its files and integrations. Explore the browser demo, download advanced Mac, install the mobile app or view the public source."
+    "description": "Better Workspace helps turn ideas into projects and projects into a useful next step. Advanced Mac 1.0 connects real folders, portable plans, priorities, capture, work history and optional reviewed integrations. Its signed, notarized download includes the runtime for Apple silicon and Intel. The iPhone and iPad app is available on the App Store as version 1.0.1: keep a workspace offline and connect the optional advanced Mac for its files and integrations. Explore the browser demo, download advanced Mac, install the mobile app or view the public source.",
+    "application": {
+      "landingPath": "/better-workspace",
+      "platforms": [
+        "Mac",
+        "iPhone",
+        "iPad"
+      ]
+    }
   },
   "content-manager": {
     "resources": [
@@ -364,7 +387,14 @@
         ],
         "whatHappened": "Added a fictional draft queue with editable destination previews, reject-and-next and explicit approval. The native app remains a private TestFlight beta."
       }
-    ]
+    ],
+    "application": {
+      "landingPath": "/content-manager",
+      "platforms": [
+        "iPhone (private beta)",
+        "iPad (private beta)"
+      ]
+    }
   },
   "3d-models-collection": {
     "workLogs": [
@@ -404,5 +434,15 @@
         "url": "/projects/history-of-everything-coloring-book#collection"
       }
     ]
+  },
+  "better-signals": {
+    "application": {
+      "landingPath": "/better-signals",
+      "platforms": [
+        "iPhone",
+        "iPad",
+        "Apple Watch"
+      ]
+    }
   }
 }

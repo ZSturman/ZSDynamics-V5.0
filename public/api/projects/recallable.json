@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-10-24T14:54:09.361132+00:00",
+  "generated_at": "2026-10-30T00:27:24.621284+00:00",
   "data": {
     "id": "5031ef4c-2724-54a4-92ca-42d270a59716",
     "slug": "recallable",
@@ -130,6 +130,14 @@
     "readme": {
       "content": "# Recallable\n\nSpaced-repetition flashcards that fit into your day, on iPhone, iPad, Mac, and Apple Watch.\n\n![Recallable on iPad, iPhone, and Apple Watch](/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/images/hero.jpg)\n\n## What it does\n\nOpen Recallable and a card is waiting. Show the answer, rate it Hard, Good, or Easy, and the next one is ready. Every rating spaces that card: ones you know drift further apart, and hard ones come back sooner. Unlike most spaced-repetition apps, nothing is ever \"due\". The queue only decides what to show first, so a few days away never leaves you with a backlog.\n\n- **Quick study** on Home, the Home Screen widget, and Apple Watch, plus focused rounds of 10.\n- **Discover:** built-in starter decks that work offline, and community decks with reporting, blocking, and moderation.\n- **Your own cards** with pictures, hints, explanations, links, and LaTeX math typeset on every device.\n- **CSV import and export.**\n- **AI drafts** from a topic, text, a web page, a PDF, or a photo of notes, using on-device Apple Intelligence, LM Studio, or your own Gemini key. Every draft is reviewed before it's saved.\n- **Widgets, a Control Center control, Shortcuts and Siri,** and reminders that never show card text.\n- **iCloud sync** across devices, where reviews from every device are kept.\n\n## Screenshots\n\nThese are unedited captures of the real app, using its built-in starter decks with study history from the app's own scheduler.\n\n| Home | Answer | Progress | Discover |\n|---|---|---|---|\n| ![Home](/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/images/iphone-01-home-optimized.webp) | ![Answer](/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/images/iphone-02-answer-optimized.webp) | ![Progress](/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/images/iphone-03-progress-optimized.webp) | ![Discover](/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/images/iphone-04-discover-optimized.webp) |\n\n![Apple Watch: a question](/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/images/watch-01-question-optimized.webp) ![Apple Watch: the answer](/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/images/watch-02-answer-optimized.webp)\n\n## How it's built\n\n- **RecallableDomain:** a pure Swift package with the scheduler, models, CSV, rich text and math, and the SwiftData store, covered by 94 unit tests.\n- **Apps:** SwiftUI for iPhone and iPad, the Mac through Mac Catalyst, a WidgetKit extension, and a watchOS app.\n- **Sync:** SwiftData with CloudKit mirroring. Review events are immutable and insert-only, so merges from several devices are unions.\n- **Watch:** gets a bounded set of upcoming cards and replays offline ratings over WatchConnectivity.\n- **Technologies:** Swift 6, SwiftUI, SwiftData, CloudKit, WidgetKit, App Intents, WatchConnectivity, Foundation Models, TipKit, and XCTest and Swift Testing.\n\n## Availability\n\nRecallable is released for iPhone and iPad on the App Store. The separate Mac version is still in Apple review. It needs iOS, iPadOS, or watchOS 26, or macOS 26.\n\n## Help and privacy\n\n[Support](/recallable/support) · [Privacy policy](/recallable/privacy)\n\nCopyright © 2026 Zachary Sturman.\n\n## Install or try\n\n[Install for iPhone and iPad](https://apps.apple.com/us/app/recallable-flashcards/id6822919785) · [Try the browser demo](/recallable/demo). Public release 1.0.0 (8) is separate from newer TestFlight builds.\n",
       "sourceUrl": "/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/README.md"
+    },
+    "application": {
+      "landingPath": "/recallable",
+      "platforms": [
+        "iPhone",
+        "iPad",
+        "Mac (in review)"
+      ]
     },
     "workLogs": [
       {

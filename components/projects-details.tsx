@@ -17,7 +17,6 @@ import { ProjectCaseStudy, hasCaseStudy } from "./project-details/project-case-s
 import { hasProjectCollectionItems, hasStandaloneProjectAssets } from "@/lib/project-collections";
 import { BreadcrumbTrail } from "@/components/ui/breadcrumb-trail";
 import { PageFrame } from "@/components/layout/page-frame";
-import { SiteNav } from "@/components/layout/site-nav";
 
 interface ProjectDetailsProps {
   project: Project;
@@ -91,7 +90,6 @@ export default function ProjectDetails({ project, requestedCollectionItemId }: P
     <div className="min-h-[100svh] overflow-x-clip bg-background">
       <PageFrame className="overflow-x-clip py-6 pb-[calc(4rem+env(safe-area-inset-bottom))] md:py-12 lg:py-16">
         <div className="min-w-0 max-w-full space-y-5 md:space-y-8">
-          <SiteNav />
           <BreadcrumbTrail
             items={[
               { label: "Home", href: "/" },

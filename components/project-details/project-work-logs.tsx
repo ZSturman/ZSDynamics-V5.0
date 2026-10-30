@@ -8,7 +8,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { getProjectSlug } from "@/lib/project-paths";
 import {
   formatWorkLogSessionRange,
-  getWorkLogDurationMinutes,
+  getWorkLogDurationLabel,
   getWorkLogSummary,
   getWorkLogTimestamp,
   getWorkLogTitle,
@@ -18,14 +18,6 @@ import { Project } from "@/types";
 interface ProjectWorkLogsProps {
   project: Project;
   limit?: number;
-}
-
-function formatDuration(minutes: number): string | null {
-  if (!minutes || minutes <= 0) return null;
-  if (minutes < 60) return `${minutes}m`;
-  const hours = Math.floor(minutes / 60);
-  const remainder = minutes % 60;
-  return remainder > 0 ? `${hours}h ${remainder}m` : `${hours}h`;
 }
 
 export function ProjectWorkLogs({ project, limit }: ProjectWorkLogsProps) {
@@ -73,7 +65,7 @@ export function ProjectWorkLogs({ project, limit }: ProjectWorkLogsProps) {
         {visibleLogs.map((workLog, idx) => {
           const key = workLog.id || `${project.id}-work-log-${idx}`;
           const summary = getWorkLogSummary(workLog);
-          const durationLabel = formatDuration(getWorkLogDurationMinutes(workLog));
+          const durationLabel = getWorkLogDurationLabel(workLog);
 
           return (
             <Card
@@ -82,7 +74,7 @@ export function ProjectWorkLogs({ project, limit }: ProjectWorkLogsProps) {
               data-analytics-item="work_log"
               data-analytics-item-id={key}
               data-analytics-item-type="work_log"
-              data-analytics-item-label={getWorkLogTitle(workLog)}
+              data-analytics-item-label=<Link href={`/work-logs?${new URLSearchParams({ project: getProjectSlug(project), tab: "activity", log: workLog.id })}`} className="underline underline-offset-4">{getWorkLogTitle(workLog)}</Link>
               data-analytics-project-slug={project.slug || project.id}
               data-analytics-project-title={project.title}
               className="max-w-full overflow-hidden rounded-lg border-border/35 bg-card/30 shadow-none"
@@ -90,7 +82,7 @@ export function ProjectWorkLogs({ project, limit }: ProjectWorkLogsProps) {
               <CardContent className="min-w-0 space-y-3 p-3 md:space-y-4 md:p-5">
                 <div className="flex min-w-0 flex-wrap items-start justify-between gap-3">
                   <h4 className="min-w-0 max-w-2xl break-words text-sm font-semibold leading-snug text-foreground md:text-base">
-                    {getWorkLogTitle(workLog)}
+                    <Link href={`/work-logs?${new URLSearchParams({ project: getProjectSlug(project), tab: "activity", log: workLog.id })}`} className="underline underline-offset-4">{getWorkLogTitle(workLog)}</Link>
                   </h4>
                   <span className="text-xs text-muted-foreground md:text-sm">
                     {formatWorkLogSessionRange(workLog)}

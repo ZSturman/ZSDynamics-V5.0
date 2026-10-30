@@ -1,7 +1,9 @@
+import { pageMetadata } from "@/lib/site-metadata";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PageColumn, PageFrame } from "@/components/layout/page-frame";
-export const metadata: Metadata = { title: "Home Page Setup & Support", alternates: { canonical: "/home-page/support" } };
+const routeMetadata: Metadata = { title: "Home Page Setup & Support", alternates: { canonical: "/home-page/support" } };
+export const metadata: Metadata = { ...routeMetadata, ...pageMetadata('Home Page Setup & Support', routeMetadata.description || 'Setup, requirements, and troubleshooting.', '/home-page/support') };
 export default function SupportPage() {
   return <PageFrame as="main" className="py-10"><PageColumn className="space-y-6 leading-relaxed">
     <Link href="/home-page" className="underline">Home Page</Link><h1 className="text-3xl font-semibold">Setup &amp; support</h1>

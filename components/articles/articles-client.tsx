@@ -1,7 +1,7 @@
 "use client";
 
-import { useDeferredValue, useEffect, useMemo, useState } from "react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useDeferredValue, useEffect, useMemo, useRef } from "react";
+import { useUrlState, useUrlSearch } from "@/lib/use-url-state";
 
 import { Button } from "@/components/ui/button";
 import { ArticleCard } from "@/components/articles/article-card";
@@ -9,18 +9,7 @@ import { ArticleFilters } from "@/components/articles/article-filters";
 import { ArticleListItem } from "@/components/articles/article-list-item";
 import type { ArticleListEntry, ArticleSearchScope, ArticleSortOption, ArticleViewMode, ArticleVisibilityFilter } from "./article-list-types";
 
-const STORAGE_KEY = "articles.filters.v1";
-
-interface ArticlesClientProps {
-  articles: ArticleListEntry[];
-}
-
-interface StoredArticleFilters {
-  searchQuery?: string;
-  sort?: ArticleSortOption;
-  viewMode?: ArticleViewMode;
-  visibilityFilter?: ArticleVisibilityFilter;
-}
+interface ArticlesClientProps { articles: ArticleListEntry[]; }
 
 function toTimestamp(value?: string | null): number {
   if (!value) return 0;
@@ -60,83 +49,50 @@ function isVisibilityFilter(value: string | null | undefined): value is ArticleV
 }
 
 export function ArticlesClient({ articles }: ArticlesClientProps) {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const [searchQuery, setSearchQuery] = useState("");
-  const [sort, setSort] = useState<ArticleSortOption>("newest");
-  const [viewMode, setViewMode] = useState<ArticleViewMode>("list");
-  const [visibilityFilter, setVisibilityFilter] = useState<ArticleVisibilityFilter>("published");
-  const [initialized, setInitialized] = useState(false);
+  const { params, update, hydrated } = useUrlState();
+  const [searchQuery, setSearchQuery] = useUrlSearch();
+  const sortParam = params.get("sort");
+  const viewParam = params.get("view");
+  const visParam = params.get("vis");
+  const sort = isSortOption(sortParam) ? sortParam : "newest";
+  const viewMode = isViewMode(viewParam) ? viewParam : "list";
+  const visibilityFilter = isVisibilityFilter(visParam) ? visParam : "published";
   const deferredSearchQuery = useDeferredValue(searchQuery);
+  const setSort = (value: ArticleSortOption) => update({ sort: value === "newest" ? undefined : value });
+  const setViewMode = (value: ArticleViewMode) => update({ view: value === "list" ? undefined : value });
+  const setVisibilityFilter = (value: ArticleVisibilityFilter) => update({ vis: value === "published" ? undefined : value });
+  const seriesFilter = params.get("series") || "";
+  const tagFilter = params.get("tag") || "";
+  const projectFilter = params.get("project") || "";
 
+  const restoredPreferences = useRef(false);
   useEffect(() => {
-    if (initialized) return;
-
-    const hasUrlState = ["q", "sort", "view", "vis"].some((key) => {
-      const value = searchParams?.get(key);
-      return typeof value === "string" && value !== "";
-    });
-
-    if (hasUrlState) {
-      const urlSearch = searchParams?.get("q") || "";
-      const urlSort = searchParams?.get("sort");
-      const urlView = searchParams?.get("view");
-      const urlVis = searchParams?.get("vis");
-
-      setSearchQuery(urlSearch);
-      setSort(isSortOption(urlSort) ? urlSort : "newest");
-      setViewMode(isViewMode(urlView) ? urlView : "list");
-      setVisibilityFilter(isVisibilityFilter(urlVis) ? urlVis : "published");
-      setInitialized(true);
-      return;
-    }
-
+    if (!hydrated || restoredPreferences.current) return;
+    restoredPreferences.current = true;
     try {
-      const raw = typeof window !== "undefined" ? window.sessionStorage.getItem(STORAGE_KEY) : null;
-      if (raw) {
-        const saved = JSON.parse(raw) as StoredArticleFilters;
-        setSearchQuery(typeof saved.searchQuery === "string" ? saved.searchQuery : "");
-        setSort(isSortOption(saved.sort) ? saved.sort : "newest");
-        setViewMode(isViewMode(saved.viewMode) ? saved.viewMode : "list");
-        setVisibilityFilter(isVisibilityFilter(saved.visibilityFilter) ? saved.visibilityFilter : "published");
-      }
-    } catch {
-      // Ignore restore failures and fall back to defaults.
-    }
-
-    setInitialized(true);
-  }, [initialized, searchParams]);
-
+      const saved = JSON.parse(window.sessionStorage.getItem("articles.filters.v1") || "{}");
+      const patch: Record<string, string> = {};
+      if (!params.has("view") && isViewMode(saved.viewMode) && saved.viewMode !== "list") patch.view = saved.viewMode;
+      if (!params.has("sort") && isSortOption(saved.sort) && saved.sort !== "newest") patch.sort = saved.sort;
+      update(patch, true);
+    } catch { /* Storage is optional; URL filters remain authoritative. */ }
+  }, [hydrated, params, update]);
   useEffect(() => {
-    if (!initialized) return;
-
-    try {
-      if (typeof window !== "undefined") {
-        const nextState: StoredArticleFilters = { searchQuery, sort, viewMode, visibilityFilter };
-        window.sessionStorage.setItem(STORAGE_KEY, JSON.stringify(nextState));
-      }
-    } catch {
-      // Ignore storage failures.
-    }
-
-    const params = new URLSearchParams();
-    if (searchQuery.trim()) params.set("q", searchQuery.trim());
-    if (sort !== "newest") params.set("sort", sort);
-    if (viewMode !== "list") params.set("view", viewMode);
-    if (visibilityFilter !== "published") params.set("vis", visibilityFilter);
-
-    const basePath = pathname || "/articles";
-    const nextUrl = params.toString() ? `${basePath}?${params.toString()}` : basePath;
-    router.replace(nextUrl, { scroll: false });
-  }, [initialized, pathname, router, searchQuery, sort, viewMode, visibilityFilter]);
+    if (!hydrated) return;
+    try { window.sessionStorage.setItem("articles.filters.v1", JSON.stringify({ viewMode, sort })); }
+    catch { /* Private browsing may disable storage. */ }
+  }, [hydrated, sort, viewMode]);
 
   const parsedSearch = useMemo(() => parseSearchQuery(deferredSearchQuery), [deferredSearchQuery]);
 
   const visibilityFilteredArticles = useMemo(() => {
-    if (visibilityFilter === "all") return articles;
-    return articles.filter((article) => typeof article.publishedAt === "string" && article.publishedAt.trim().length > 0);
-  }, [articles, visibilityFilter]);
+    return articles.filter((article) =>
+      (visibilityFilter === "all" || Boolean(article.publishedAt?.trim())) &&
+      (!seriesFilter || article.series === seriesFilter) &&
+      (!tagFilter || article.tags?.includes(tagFilter)) &&
+      (!projectFilter || article.relatedProjects.some((project) => project.id === projectFilter))
+    );
+  }, [articles, visibilityFilter, seriesFilter, tagFilter, projectFilter]);
 
   const filteredArticles = useMemo(() => {
     const normalizedTerm = parsedSearch.term.toLowerCase();
@@ -197,6 +153,22 @@ export function ArticlesClient({ articles }: ArticlesClientProps) {
 
   return (
     <div className="mt-10 space-y-6">
+      <div className="flex flex-wrap gap-3">
+        {([
+          ["series", "Series", seriesFilter, [...new Set(articles.map((a) => a.series).filter(Boolean))].map((v) => ({ value: v!, label: v! }))],
+          ["tag", "Tag", tagFilter, [...new Set(articles.flatMap((a) => a.tags || []))].map((v) => ({ value: v, label: v }))],
+          ["project", "Project", projectFilter, [...new Map(articles.flatMap((a) => a.relatedProjects).map((p) => [p.id, { value: p.id, label: p.title }])).values()]],
+        ] as const).map(([key, label, value, options]) => (
+          <label key={key} className="flex min-w-0 flex-col gap-1 text-sm text-muted-foreground">
+            {label}
+            <select aria-label={`Filter by ${label.toLowerCase()}`} value={value} onChange={(e) => update({ [key]: e.target.value || undefined })} className="min-h-11 max-w-64 rounded-md border border-border bg-background px-3 text-foreground">
+              <option value="">All {label.toLowerCase()}s</option>
+              {options.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}
+            </select>
+          </label>
+        ))}
+        {(seriesFilter || tagFilter || projectFilter) && <Button variant="ghost" onClick={() => update({ series: undefined, tag: undefined, project: undefined })}>Clear filters</Button>}
+      </div>
       <ArticleFilters
         searchQuery={searchQuery}
         onSearchQueryChange={setSearchQuery}

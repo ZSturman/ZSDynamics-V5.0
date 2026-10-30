@@ -3,6 +3,9 @@ import { Children, isValidElement, type ReactNode } from "react";
 import { ArrowUpRight, Globe } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { unified } from "unified";
+import remarkParse from "remark-parse";
+import { annotateHeadings, type MarkdownNode } from "@/lib/article-reading";
 
 import { resolveArticleHref } from "@/lib/article-paths";
 import type { ArticleLinkPreview } from "@/types";
@@ -173,13 +176,26 @@ function ArticleStandaloneLinkPreview({ preview }: { preview: ArticleLinkPreview
 }
 
 export function ArticleMarkdown({ content, slug, linkPreviews = [], relativeLinkBaseUrl }: ArticleMarkdownProps) {
+  const headings = annotateHeadings(unified().use(remarkParse).use(remarkGfm).parse(content) as MarkdownNode);
+  const headingAnchors = () => (tree: MarkdownNode) => { annotateHeadings(tree); };
   const previewsByUrl = new Map(linkPreviews.map((preview) => [preview.url, preview]));
 
   return (
-    <div className="article-markdown">
+    <div>
+      {headings.length >= 3 && (
+        <details className="mb-8 rounded-xl border border-border p-4" data-testid="article-contents">
+          <summary className="cursor-pointer font-medium">Contents</summary>
+          <nav aria-label="Article contents"><ol className="mt-3 space-y-2">
+            {headings.map((heading) => <li key={heading.id}><a href={`#${heading.id}`} className="text-primary underline underline-offset-4">{heading.title}</a></li>)}
+          </ol></nav>
+        </details>
+      )}
+      <div className="article-markdown">
       <ReactMarkdown
-        remarkPlugins={[remarkGfm]}
+        remarkPlugins={[remarkGfm, headingAnchors]}
         components={{
+          h2: ({ id, children }) => <h2 id={id} className="scroll-mt-6">{children} <a href={`#${id}`} aria-label={`Link to ${id}`} className="text-muted-foreground no-underline hover:underline">#</a></h2>,
+          h3: ({ id, children }) => <h3 id={id} className="scroll-mt-6">{children} <a href={`#${id}`} aria-label={`Link to ${id}`} className="text-muted-foreground no-underline hover:underline">#</a></h3>,
           p: ({ children, node }) => {
             const preview = getPreviewForParagraph(children, previewsByUrl);
             if (preview) {
@@ -285,6 +301,7 @@ export function ArticleMarkdown({ content, slug, linkPreviews = [], relativeLink
       >
         {content}
       </ReactMarkdown>
+      </div>
     </div>
   );
 }

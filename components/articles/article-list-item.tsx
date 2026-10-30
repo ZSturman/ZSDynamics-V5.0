@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useUrlState } from "@/lib/use-url-state";
 import { ArrowUpRight, FolderOpen, Newspaper } from "lucide-react";
 
 import { MetadataTag, MetadataText } from "@/components/ui/metadata-text";
@@ -17,7 +18,7 @@ function getPrimaryDate(article: ArticleListEntry): string {
 }
 
 function getUpdatedDate(article: ArticleListEntry): string | null {
-  if (!article.publishedAt || !article.updatedAt || article.updatedAt === article.publishedAt) {
+  if (!article.publishedAt || !article.updatedAt || Date.parse(article.updatedAt) <= Date.parse(article.publishedAt) || !Number.isFinite(Date.parse(article.updatedAt))) {
     return null;
   }
 
@@ -30,6 +31,7 @@ function getSeriesHref(series: string): string {
 }
 
 export function ArticleListItem({ article }: ArticleListItemProps) {
+  const { params } = useUrlState();
   const updatedDate = getUpdatedDate(article);
   const isDraft = !article.publishedAt;
 
@@ -80,7 +82,7 @@ export function ArticleListItem({ article }: ArticleListItemProps) {
             )}
             {article.series && (
               <MetadataText
-                href={getSeriesHref(article.series)}
+                href={`${getSeriesHref(article.series)}${[...params].filter(([key]) => !["q", "series"].includes(key)).map(([key, value]) => `&${encodeURIComponent(key)}=${encodeURIComponent(value)}`).join("")}`}
                 tone="interactive"
                 size="sm"
                 className="relative z-20 normal-case tracking-normal underline decoration-border/70 underline-offset-4"
@@ -108,6 +110,8 @@ export function ArticleListItem({ article }: ArticleListItemProps) {
                 <Link
                   key={`${article.slug}-${project.id}`}
                   href={project.href}
+                  data-article-project={project.href.split("/").pop()}
+                  data-project-id={project.id}
                   className="relative z-20 inline-flex items-center gap-1 text-xs text-muted-foreground underline decoration-border underline-offset-4 transition-colors hover:text-primary"
                 >
                   <FolderOpen className="size-3.5" />

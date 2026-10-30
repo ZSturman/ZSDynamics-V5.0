@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useUrlState } from "@/lib/use-url-state";
 import { ArrowUpRight, FolderOpen, Newspaper } from "lucide-react";
 
 import { MetadataTag, MetadataText } from "@/components/ui/metadata-text";
@@ -22,6 +23,7 @@ function getSeriesHref(series: string): string {
 }
 
 export function ArticleCard({ article }: ArticleCardProps) {
+  const { params } = useUrlState();
   const isDraft = !article.publishedAt;
   return (
     <article
@@ -65,7 +67,7 @@ export function ArticleCard({ article }: ArticleCardProps) {
             <p className="text-[11px] uppercase tracking-[0.16em] text-white/80">{getPrimaryDate(article)}</p>
             {article.series && (
               <MetadataText
-                href={getSeriesHref(article.series)}
+                href={`${getSeriesHref(article.series)}${[...params].filter(([key]) => !["q", "series"].includes(key)).map(([key, value]) => `&${encodeURIComponent(key)}=${encodeURIComponent(value)}`).join("")}`}
                 tone="interactive"
                 size="sm"
                 className="pointer-events-auto line-clamp-1 text-white/92 underline decoration-white/25 underline-offset-4 hover:text-white"
@@ -104,6 +106,8 @@ export function ArticleCard({ article }: ArticleCardProps) {
                 <Link
                   key={`${article.slug}-${project.id}`}
                   href={project.href}
+                  data-article-project={project.href.split("/").pop()}
+                  data-project-id={project.id}
                   className="relative z-20 inline-flex items-center gap-1.5 rounded-full border border-border/80 bg-background px-3 py-1.5 text-xs font-medium text-foreground transition-colors hover:border-primary/40 hover:text-primary"
                 >
                   <FolderOpen className="size-3.5" />

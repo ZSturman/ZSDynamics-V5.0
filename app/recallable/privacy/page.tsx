@@ -1,8 +1,9 @@
+import { pageMetadata } from "@/lib/site-metadata";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PageColumn, PageFrame } from "@/components/layout/page-frame";
 
-export const metadata: Metadata = {
+const routeMetadata: Metadata = {
   title: "Recallable Privacy Policy",
   description: "How Recallable handles your flashcards, iCloud sync, community decks, ratings and optional AI drafting.",
   alternates: { canonical: "/recallable/privacy" },
@@ -12,6 +13,7 @@ export const metadata: Metadata = {
     url: "/recallable/privacy",
   },
 };
+export const metadata: Metadata = { ...routeMetadata, ...pageMetadata('Recallable Privacy Policy', routeMetadata.description || 'Privacy information and data handling.', '/recallable/privacy') };
 
 export default function RecallablePrivacyPage() {
   return (

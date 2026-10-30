@@ -1,3 +1,4 @@
+import { describeWorkLogDuration } from "@/lib/work-log-duration.mjs";
 import { getProjectIdentityMedia } from "@/lib/project-identity";
 import { getProjectHref, getProjectSlug } from "@/lib/project-paths";
 import { formatDate } from "@/lib/utils";
@@ -79,14 +80,7 @@ export function getWorkLogTimestamp(log: Pick<WorkLog, "startTime" | "sessionSta
 export function getWorkLogDurationMinutes(
   log: Pick<WorkLog, "durationMinutes" | "endTime" | "sessionEnd" | "startTime" | "sessionStart" | "date">
 ): number {
-  if (typeof log.durationMinutes === "number" && log.durationMinutes > 0) {
-    return log.durationMinutes;
-  }
-
-  const start = toTimestamp(getWorkLogStart(log));
-  const end = toTimestamp(getWorkLogEnd(log));
-  if (!start || !end || end <= start) return 0;
-  return Math.round((end - start) / 60000);
+  return describeWorkLogDuration(log).minutes ?? 0;
 }
 
 export function getWorkLogTitle(log: Pick<WorkLog, "title" | "entry">): string {
@@ -152,16 +146,15 @@ export function buildWorkLogSessionSummaries(logs: Array<Pick<WorkLog, "sessionT
     .sort((left, right) => right.count - left.count || left.sessionType.localeCompare(right.sessionType));
 }
 
-function buildOverviewSummary(logs: WorkLogWithProject[]): WorkLogOverviewSummary {
+export function buildOverviewSummary(logs: WorkLogWithProject[], now = Date.now()): WorkLogOverviewSummary {
   const sortedLogs = [...logs].sort((left, right) => getWorkLogTimestamp(right) - getWorkLogTimestamp(left));
   const totalDurationMinutes = sortedLogs.reduce((sum, log) => sum + getWorkLogDurationMinutes(log), 0);
-  const now = Date.now();
   const thirtyDaysAgo = now - 30 * 24 * 60 * 60 * 1000;
 
-  const logsLast30Days = sortedLogs.filter((log) => getWorkLogTimestamp(log) >= thirtyDaysAgo).length;
+  const logsLast30Days = sortedLogs.filter((log) => getWorkLogTimestamp(log) >= thirtyDaysAgo && getWorkLogTimestamp(log) <= now).length;
   const activeProjectsLast30Days = new Set(
     sortedLogs
-      .filter((log) => getWorkLogTimestamp(log) >= thirtyDaysAgo)
+      .filter((log) => getWorkLogTimestamp(log) >= thirtyDaysAgo && getWorkLogTimestamp(log) <= now)
       .map((log) => log.projectSlug || log.projectId)
       .filter(Boolean)
   ).size;
@@ -254,4 +247,12 @@ export function buildWorkLogsDashboardData(projects: Project[]): WorkLogsDashboa
     overviewSummary: buildOverviewSummary(allLogs),
     sessionSummaries: buildWorkLogSessionSummaries(allLogs),
   };
+}
+
+
+export function getWorkLogDurationLabel(log: WorkLog): string {
+  const { minutes, source } = describeWorkLogDuration(log);
+  if (minutes === null) return "Duration unavailable";
+  const duration = minutes < 60 ? `${minutes}m` : `${Math.floor(minutes / 60)}h${minutes % 60 ? ` ${minutes % 60}m` : ""}`;
+  return `${source} ${duration}`;
 }

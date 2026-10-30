@@ -3,7 +3,7 @@
 import Link from "next/link";
 
 import { MediaDisplay } from "@/components/ui/media-display";
-import { trackProjectOpen } from "@/lib/firebase-analytics";
+import { applicationResources } from "@/lib/product-presentation";
 import { getProjectHref } from "@/lib/project-paths";
 import {
   getFocusArea,
@@ -63,14 +63,7 @@ export function SelectedWork({ projects, title = "Selected work" }: { projects: 
             <li key={project.id} data-testid="selected-work-item" data-project-slug={project.slug}>
               <Link
                 href={href}
-                onClick={() =>
-                  trackProjectOpen({
-                    projectSlug: project.slug || project.id,
-                    projectTitle: project.title,
-                    openSurface: "selected_work",
-                  })
-                }
-                className="group flex h-full flex-col overflow-hidden rounded-lg border border-border/40 bg-card/40 transition-colors hover:border-primary/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                className="group flex flex-col overflow-hidden rounded-lg border border-border/40 bg-card/40 transition-colors hover:border-primary/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
                 <div className="relative aspect-video w-full overflow-hidden bg-muted">
                   {image ? (
@@ -102,6 +95,10 @@ export function SelectedWork({ projects, title = "Selected work" }: { projects: 
                   </p>
                 </div>
               </Link>
+              <div className="flex flex-wrap gap-3 px-4 py-3 text-sm" data-analytics-project-slug={project.slug} data-analytics-surface="selected_work_actions">
+                {applicationResources(project).slice(0, 2).map((resource) => <Link key={resource.url} href={resource.url} className="inline-flex min-h-11 items-center text-primary underline underline-offset-4">{resource.label}</Link>)}
+                <Link href={href} className="inline-flex min-h-11 items-center underline underline-offset-4">How it was built</Link>
+              </div>
             </li>
           );
         })}

@@ -11,7 +11,7 @@ const VIEWPORTS = [
   { name: "tablet", width: 820, height: 1180 },
   { name: "desktop", width: 1280, height: 900 },
 ];
-const PAGES = ["/", "/projects", "/about", "/experience", "/resume", "/explore/hardware", "/projects/hue-light-control"];
+const PAGES = ["/apps", "/articles", "/work-logs", "/recallable", "/home-page","/", "/projects", "/about", "/experience", "/resume", "/explore/hardware", "/projects/hue-light-control"];
 
 async function expectNoHorizontalOverflow(page: Page) {
   await expect
@@ -35,7 +35,12 @@ test.describe("Professional presentation", () => {
       for (const path of PAGES) {
         await page.goto(path);
         await expect(page.getByRole("heading", { level: 1 }).first()).toBeVisible();
-        await expect(page.getByTestId("site-nav").first()).toBeVisible();
+        if (viewport.width < 1024) await page.getByRole("button", { name: "Open menu", exact: true }).click();
+        await expect(page.getByTestId("site-nav")).toBeVisible();
+        if (viewport.width < 1024) {
+          await page.keyboard.press("Escape");
+          await expect(page.getByRole("button", { name: "Open menu", exact: true })).toBeFocused();
+        }
         await expectNoHorizontalOverflow(page);
       }
       expect(errors).toEqual([]);
@@ -170,7 +175,7 @@ test.describe("Professional presentation", () => {
     test(`new and core pages have no WCAG A/AA violations (${colorScheme})`, async ({ page }) => {
       test.skip(!existsSync(axePath), "axe-core is not installed.");
       await page.emulateMedia({ colorScheme });
-      for (const route of ["/", "/about", "/experience", "/resume", "/explore/hardware", "/projects/hue-light-control"]) {
+      for (const route of PAGES) {
         await page.goto(route);
         await page.waitForLoadState("networkidle");
         await page.addScriptTag({ path: axePath });

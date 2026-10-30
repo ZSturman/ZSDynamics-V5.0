@@ -59,6 +59,8 @@ export interface Article {
   summary: string;
   oneLiner?: string;
   publishedAt?: string | null;
+  createdAt?: string;
+  substantiallyRevisedAt?: string;
   updatedAt: string;
   series?: string;
   tags?: string[];
@@ -113,6 +115,7 @@ export interface WorkLog {
   startTime?: string;
   endTime?: string;
   durationMinutes?: number;
+  durationEstimated?: boolean;
   sessionType?: string[];
   whatHappened?: string;
   problems?: string;
@@ -221,6 +224,7 @@ export interface Project {
   // Optional presentation fields. Projects without them still render fully;
   // see docs/setup/portfolio-presentation.md.
   disciplines?: string[];   // overrides derived focus areas (e.g. ["hardware"])
+  application?: { landingPath: string; platforms?: string[] };
   cardSummary?: string;     // shorter Selected Work summary
   caseStudy?: ProjectCaseStudy;
 }

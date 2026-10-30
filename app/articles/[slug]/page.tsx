@@ -12,7 +12,8 @@ import { loadArticleBySlug, loadArticles } from "@/lib/load-articles";
 import { loadPublicJsonRecursively } from "@/lib/load-public-json";
 import { getProjectIdentityMedia } from "@/lib/project-identity";
 import { getProjectHref } from "@/lib/project-paths";
-import { SITE_DESCRIPTION } from "@/lib/site-metadata";
+import { SITE_DESCRIPTION, SITE_URL } from "@/lib/site-metadata";
+import { readingMinutes } from "@/lib/article-reading";
 import { formatDate } from "@/lib/utils";
 import type { Project } from "@/types";
 
@@ -120,6 +121,8 @@ function ConnectedProjectCard({ project }: { project: Project }) {
   return (
     <Link
       href={getProjectHref(project)}
+      data-article-project={project.slug || project.id}
+      data-project-id={project.id}
       data-testid="article-connected-project-card"
       data-analytics-item="article_connected_project"
       data-analytics-item-id={project.slug || project.id}
@@ -236,7 +239,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
   const hasPostMetadata = Boolean(article.series || article.tags?.length || relatedProjects.length > 0);
   const publishedLabel = formatDate(article.publishedAt ?? article.updatedAt) || article.publishedAt || article.updatedAt;
   const updatedLabel =
-    article.updatedAt && article.publishedAt && article.updatedAt !== article.publishedAt
+    article.updatedAt && article.publishedAt && Date.parse(article.updatedAt) > Date.parse(article.publishedAt)
       ? formatDate(article.updatedAt) || article.updatedAt
       : null;
 
@@ -248,6 +251,13 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
       data-analytics-surface="article_page"
     >
       <PageFrame as="main" data-testid="site-page-frame" className="py-8 md:py-12">
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          "@context": "https://schema.org", "@type": "Article", headline: article.title,
+          description: article.summary, url: `${SITE_URL}${article.href}`,
+          author: { "@type": "Person", name: "Zachary Sturman", url: SITE_URL },
+          ...(article.publishedAt ? { datePublished: article.publishedAt } : {}),
+          ...(updatedLabel ? { dateModified: article.updatedAt } : {}),
+        }).replace(/</g, "\\u003c") }} />
         <ArticleAnalyticsTracker slug={article.slug} title={article.title} />
 
         <div className="space-y-8">
@@ -283,6 +293,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
             >
               <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
                 <span>{publishedLabel}</span>
+                <span>{readingMinutes(content)} min read</span>
                 {updatedLabel && <span>Updated {updatedLabel}</span>}
               </div>
 

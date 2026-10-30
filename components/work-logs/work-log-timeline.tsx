@@ -1,7 +1,9 @@
 "use client";
 
-import { useDeferredValue, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import { createContext, useContext, useDeferredValue, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import Link from "next/link";
+import { useUrlState, useUrlSearch } from "@/lib/use-url-state";
+import { trackWorkLogOpen } from "@/lib/firebase-analytics";
 import {
   ArrowRight,
   CalendarDays,
@@ -54,6 +56,8 @@ import { cn, formatDate, getOptimizedImageExt, getOptimizedMediaPath, isImageFil
 import {
   formatWorkLogSessionRange,
   getWorkLogDurationMinutes,
+  getWorkLogDurationLabel,
+  buildOverviewSummary,
   getWorkLogStart,
   getWorkLogSummary,
   getWorkLogTimestamp,
@@ -95,6 +99,8 @@ interface WorkLogAssetDisplay {
   previewCandidates: string[];
   mediaType: "image" | "video" | "file";
 }
+
+const LogNavigation = createContext<((log: WorkLogWithProject, trigger?: HTMLButtonElement) => void) | null>(null);
 
 const ALL_FILTER = "all";
 
@@ -714,12 +720,7 @@ function OverviewTab({
   logs: WorkLogWithProject[];
   onFocusProject: (slug: string) => void;
 }) {
-  const [selectedLog, setSelectedLog] = useState<WorkLogWithProject | null>(null);
-  const sessionTrigger = useRef<HTMLButtonElement | null>(null);
-  const openSession = (log: WorkLogWithProject, trigger: HTMLButtonElement) => {
-    sessionTrigger.current = trigger;
-    setSelectedLog(log);
-  };
+  const openSession = useContext(LogNavigation)!;
   const recentLogs = useMemo(
     () => [...logs].sort((a, b) => getWorkLogTimestamp(b) - getWorkLogTimestamp(a)).slice(0, 5),
     [logs]
@@ -729,7 +730,7 @@ function OverviewTab({
     () =>
       [...projectSummaries]
         .filter((project) => project.logCount > 0)
-        .sort((left, right) => right.logCount - left.logCount || toTimestamp(right.latestSessionStart) - toTimestamp(left.latestSessionStart))
+        .sort((left, right) => toTimestamp(right.latestSessionStart) - toTimestamp(left.latestSessionStart) || right.logCount - left.logCount)
         .slice(0, 5),
     [projectSummaries]
   );
@@ -781,7 +782,7 @@ function OverviewTab({
         <SummaryMetricCard
           icon={Clock3}
           label="Tracked time"
-          value={formatDuration(summary.totalDurationMinutes) || "0m"}
+          value={formatDuration(summary.totalDurationMinutes) || "Duration unavailable"}
           secondary={
             summary.totalDurationMinutes > 0
               ? "Calculated from session duration when available"
@@ -801,7 +802,7 @@ function OverviewTab({
                 <span className="mt-1 block font-medium group-hover:text-primary">{getWorkLogTitle(log)}</span>
                 <span className="mt-1 line-clamp-1 text-sm text-muted-foreground">{getWorkLogSummary(log)}</span>
               </span>
-              <span className="shrink-0 text-xs text-muted-foreground">{formatDuration(getWorkLogDurationMinutes(log))}</span>
+              <span className="shrink-0 text-xs text-muted-foreground">{getWorkLogDurationLabel(log)}</span>
               <ArrowRight className="size-4 shrink-0 text-muted-foreground group-hover:text-primary" />
             </button>
           ))}
@@ -810,11 +811,11 @@ function OverviewTab({
 
       <div className="grid gap-4 xl:grid-cols-[1.1fr_0.9fr]">
         <SectionCard
-          title={selectedProjectTitle ? "Project focus" : "Top active projects"}
+          title={selectedProjectTitle ? "Project focus" : "Recently active projects"}
           description={
             selectedProjectTitle
               ? "See every session recorded for this project."
-              : "Projects ranked by recorded sessions. Open their activity to explore the work."
+              : "Projects ranked by latest recorded session. Counts cover all documented sessions."
           }
         >
           {topProjects.length > 0 ? (
@@ -837,7 +838,7 @@ function OverviewTab({
 
                   <div className="flex flex-wrap gap-2">
                     <MetaChip icon={CalendarDays} label={formatShortDate(project.latestSessionStart)} />
-                    <MetaChip icon={Clock3} label={formatDuration(project.totalDurationMinutes) || "0m"} />
+                    <MetaChip icon={Clock3} label={formatDuration(project.totalDurationMinutes) || "Duration unavailable"} />
                     <MetaChip
                       icon={FileText}
                       label={`${project.logCount} log${project.logCount === 1 ? "" : "s"}`}
@@ -891,18 +892,7 @@ function OverviewTab({
           ) : null}
         </div>
       </SectionCard>
-      <Dialog open={Boolean(selectedLog)} onOpenChange={(open) => !open && setSelectedLog(null)}>
-        <DialogContent className="max-h-[90dvh] max-w-[calc(100%-1.5rem)] grid-cols-[minmax(0,1fr)] overflow-y-auto p-4 [overflow-wrap:anywhere] sm:max-w-3xl sm:p-6" onCloseAutoFocus={(event) => {
-          event.preventDefault();
-          sessionTrigger.current?.focus();
-        }}>
-          <DialogHeader className="min-w-0 pr-6 text-left">
-            <DialogTitle>{selectedLog ? getWorkLogTitle(selectedLog) : "Session details"}</DialogTitle>
-            <DialogDescription>{selectedLog?.projectTitle} · {selectedLog ? formatSessionRange(selectedLog) : ""}</DialogDescription>
-          </DialogHeader>
-          {selectedLog ? <WorkLogRow key={`${selectedLog.projectId}-${selectedLog.id}`} log={selectedLog} initiallyExpanded /> : null}
-        </DialogContent>
-      </Dialog>
+
     </div>
   );
 }
@@ -1092,7 +1082,8 @@ function WorkLogRow({
   initiallyExpanded?: boolean;
 }) {
   const [expanded, setExpanded] = useState(initiallyExpanded);
-  const durationLabel = formatDuration(getWorkLogDurationMinutes(log));
+  const openSession = useContext(LogNavigation);
+  const durationLabel = getWorkLogDurationLabel(log);
   const summary = getWorkLogSummary(log);
 
   return (
@@ -1149,13 +1140,14 @@ function WorkLogRow({
           </div>
 
           <div className="flex shrink-0 items-start justify-end gap-2">
+            <Link aria-label={`Permalink to ${getWorkLogTitle(log)}`} href={`/work-logs?${new URLSearchParams({ project: log.projectSlug || log.projectId || "", tab: "activity", log: log.id })}`} className="inline-flex min-h-9 items-center px-2 text-sm text-primary underline underline-offset-4">Share link</Link>
             <Button
               type="button"
               size="sm"
               variant={expanded ? "secondary" : "outline"}
               className="rounded-full"
               aria-expanded={expanded}
-              onClick={() => setExpanded((current) => !current)}
+              onClick={(event) => !initiallyExpanded && openSession ? openSession(log, event.currentTarget) : setExpanded((current) => !current)}
             >
               {expanded ? "Hide details" : "Details"}
             </Button>
@@ -1219,7 +1211,7 @@ function ActivityTimeline({ logs }: { logs: WorkLogWithProject[] }) {
         <div className="flex items-end gap-4">
           {logs.map((log, idx) => {
             const key = `${log.id || "work-log"}-${idx}`;
-            const durationLabel = formatDuration(getWorkLogDurationMinutes(log));
+            const durationLabel = getWorkLogDurationLabel(log);
 
             return (
               <div key={key} className="relative w-[320px] shrink-0 pb-12">
@@ -1288,7 +1280,7 @@ function ProjectSummaryRow({
 
             <div className="flex flex-wrap gap-2">
               <MetaChip icon={CalendarDays} label={`Last session ${formatShortDate(project.latestSessionStart)}`} />
-              <MetaChip icon={Clock3} label={formatDuration(project.totalDurationMinutes) || "0m"} />
+              <MetaChip icon={Clock3} label={formatDuration(project.totalDurationMinutes) || "Duration unavailable"} />
               <MetaChip icon={FileText} label={`${project.logCount} log${project.logCount === 1 ? "" : "s"}`} />
             </div>
 
@@ -1327,8 +1319,8 @@ function ProjectSummaryRow({
                   <p className="text-sm font-medium text-foreground">{getWorkLogTitle(log)}</p>
                   <div className="flex flex-wrap gap-2">
                     <MetaChip icon={CalendarDays} label={formatShortDate(getWorkLogStart(log) || log.date)} />
-                    {formatDuration(getWorkLogDurationMinutes(log)) ? (
-                      <MetaChip icon={Clock3} label={formatDuration(getWorkLogDurationMinutes(log)) || "0m"} />
+                    {getWorkLogDurationLabel(log) ? (
+                      <MetaChip icon={Clock3} label={getWorkLogDurationLabel(log) || "Duration unavailable"} />
                     ) : null}
                   </div>
                 </div>
@@ -1354,18 +1346,48 @@ export function WorkLogsDashboard({
   initialProjectSlug,
   onProjectFilterChange,
 }: WorkLogsDashboardProps) {
-  const [activeTab, setActiveTab] = useState<DashboardTab>("overview");
-  const [projectFilter, setProjectFilter] = useState<string>(initialProjectSlug || ALL_FILTER);
-  const [layout, setLayout] = useState<ActivityLayout>("list");
-  const [sortOrder, setSortOrder] = useState<TimelineSortOrder>("newest");
-  const [sessionFilter, setSessionFilter] = useState<string>(ALL_FILTER);
-  const [searchQuery, setSearchQuery] = useState("");
+  const { params, update } = useUrlState();
+  const tabParam = params.get("tab");
+  const activeTab: DashboardTab = tabParam === "activity" || tabParam === "projects" ? tabParam : "overview";
+  const setActiveTab = (value: DashboardTab) => update({ tab: value === "overview" ? undefined : value });
+  const projectFilter = initialProjectSlug || ALL_FILTER;
+  const layout: ActivityLayout = params.get("view") === "timeline" ? "timeline" : "list";
+  const setLayout = (value: ActivityLayout) => update({ view: value === "list" ? undefined : value });
+  const sortOrder: TimelineSortOrder = params.get("sort") === "oldest" ? "oldest" : "newest";
+  const setSortOrder = (value: TimelineSortOrder) => update({ sort: value === "newest" ? undefined : value });
+  const sessionFilter = params.get("type") || ALL_FILTER;
+  const setSessionFilter = (value: string) => update({ type: value === ALL_FILTER ? undefined : value });
+  const [searchQuery, setSearchQuery] = useUrlSearch();
   const [controlsExpanded, setControlsExpanded] = useState(false);
   const deferredSearchQuery = useDeferredValue(searchQuery);
-
+  const sessionTrigger = useRef<HTMLButtonElement | null>(null);
+  const pushedLog = useRef<string | null>(null);
+  const logId = params.get("log");
+  const selectedLog = logs.find((log) => log.id === logId && (projectFilter === ALL_FILTER || log.projectSlug === projectFilter || log.projectId === projectFilter)) || null;
+  const openSession = (log: WorkLogWithProject, trigger?: HTMLButtonElement) => {
+    sessionTrigger.current = trigger || null;
+    pushedLog.current = log.id;
+    update({ log: log.id });
+  };
+  const closeSession = () => {
+    if (pushedLog.current === logId) { pushedLog.current = null; window.history.back(); }
+    else update({ log: undefined }, true);
+  };
+  const openedLog = useRef<string | null>(null);
+  const selectedLogId = selectedLog?.id;
+  const selectedLogProject = selectedLog?.projectSlug;
+  const selectedLogProjectId = selectedLog?.projectId;
   useEffect(() => {
-    setProjectFilter(initialProjectSlug || ALL_FILTER);
-  }, [initialProjectSlug]);
+    const key = selectedLogId ? `${selectedLogProjectId}:${selectedLogId}` : null;
+    if (key && key !== openedLog.current) trackWorkLogOpen(selectedLogId!, selectedLogProject, selectedLogProjectId);
+    openedLog.current = key;
+  }, [selectedLogId, selectedLogProject, selectedLogProjectId]);
+  const [viewingTime, setViewingTime] = useState<number | undefined>(undefined);
+  useEffect(() => {
+    setViewingTime(Date.now());
+    const timer = window.setInterval(() => setViewingTime(Date.now()), 60000);
+    return () => window.clearInterval(timer);
+  }, []);
 
   const selectedProject = useMemo(
     () => projectOptions.find((project) => project.slug === projectFilter || project.id === projectFilter),
@@ -1383,12 +1405,6 @@ export function WorkLogsDashboard({
   );
 
   const visibleSessionSummaries = selectedProjectSummary ? selectedProjectSummary.sessionSummaries : sessionSummaries;
-
-  useEffect(() => {
-    if (sessionFilter !== ALL_FILTER && !visibleSessionSummaries.some((summary) => summary.sessionType === sessionFilter)) {
-      setSessionFilter(ALL_FILTER);
-    }
-  }, [sessionFilter, visibleSessionSummaries]);
 
   const filteredActivityLogs = useMemo(() => {
     const normalizedSearch = deferredSearchQuery.trim().toLowerCase();
@@ -1435,37 +1451,22 @@ export function WorkLogsDashboard({
     return projectSummaries.filter((project) => project.slug === projectFilter || project.id === projectFilter);
   }, [projectFilter, projectSummaries]);
 
-  const scopedOverview = selectedProjectSummary
-    ? {
-        totalLogs: selectedProjectSummary.logCount,
-        totalProjects: selectedProjectSummary.logCount > 0 ? 1 : 0,
-        totalDurationMinutes: selectedProjectSummary.totalDurationMinutes,
-        mostRecentSessionStart: selectedProjectSummary.latestSessionStart,
-        earliestSessionStart: selectedProjectSummary.earliestSessionStart,
-        latestSessionStart: selectedProjectSummary.latestSessionStart,
-        logsLast30Days: 0,
-        activeProjectsLast30Days: 1,
-      }
-    : overviewSummary;
+  const scopedOverview = viewingTime === undefined ? overviewSummary : buildOverviewSummary(scopedLogs, viewingTime);
+  const unknownDurations = scopedLogs.filter((log) => getWorkLogDurationMinutes(log) === 0).length;
 
   const hasActiveActivityFilters =
     sessionFilter !== ALL_FILTER || deferredSearchQuery.trim().length > 0 || sortOrder !== "newest";
 
   const handleProjectScopeChange = (projectSlug?: string) => {
-    const nextValue = projectSlug || ALL_FILTER;
-    setProjectFilter(nextValue);
     onProjectFilterChange?.(projectSlug);
   };
 
   const resetActivityFilters = () => {
-    setSortOrder("newest");
-    setSessionFilter(ALL_FILTER);
-    setSearchQuery("");
+    update({ sort: undefined, type: undefined, q: undefined });
   };
 
   const handleFocusProject = (projectSlug: string) => {
-    handleProjectScopeChange(projectSlug);
-    setActiveTab("activity");
+    update({ project: projectSlug, tab: "activity" });
   };
 
   if (logs.length === 0) {
@@ -1477,6 +1478,7 @@ export function WorkLogsDashboard({
   }
 
   return (
+    <LogNavigation.Provider value={openSession}>
     <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as DashboardTab)} className="space-y-4">
       <div className="flex flex-col gap-3 rounded-[2rem] border border-border/70 bg-card/55 p-4 shadow-sm md:p-5">
         <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
@@ -1500,7 +1502,7 @@ export function WorkLogsDashboard({
           />
           <MetaChip
             icon={Clock3}
-            label={formatDuration(scopedOverview.totalDurationMinutes) || "0m"}
+            label={formatDuration(scopedOverview.totalDurationMinutes) || "Duration unavailable"}
           />
           <MetaChip
             icon={FileText}
@@ -1509,6 +1511,8 @@ export function WorkLogsDashboard({
         </div>
       </div>
 
+      <p className="px-4 text-xs text-muted-foreground">Duration totals cover available records; {unknownDurations} session(s) have unavailable durations.</p>
+      {logId && !selectedLog && <p role="status">This session is unavailable in the selected project. <button className="underline" onClick={closeSession}>Close session link</button></p>}
       <TabsContent value="overview">
         {scopedLogs.length === 0 ? (
           <Card className="border-border/70 bg-card/55 shadow-sm">
@@ -1588,5 +1592,18 @@ export function WorkLogsDashboard({
         )}
       </TabsContent>
     </Tabs>
+      <Dialog open={Boolean(selectedLog)} onOpenChange={(open) => !open && closeSession()}>
+        <DialogContent className="max-h-[90dvh] max-w-[calc(100%-1.5rem)] grid-cols-[minmax(0,1fr)] overflow-y-auto p-4 [overflow-wrap:anywhere] sm:max-w-3xl sm:p-6" onCloseAutoFocus={(event) => {
+          event.preventDefault();
+          sessionTrigger.current?.focus();
+        }}>
+          <DialogHeader className="min-w-0 pr-6 text-left">
+            <DialogTitle>{selectedLog ? getWorkLogTitle(selectedLog) : "Session details"}</DialogTitle>
+            <DialogDescription>{selectedLog?.projectTitle} · {selectedLog ? formatSessionRange(selectedLog) : ""}</DialogDescription>
+          </DialogHeader>
+          {selectedLog ? <WorkLogRow key={`${selectedLog.projectId}-${selectedLog.id}`} log={selectedLog} initiallyExpanded /> : null}
+        </DialogContent>
+      </Dialog>
+    </LogNavigation.Provider>
   );
 }

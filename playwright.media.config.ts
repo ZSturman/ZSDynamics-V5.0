@@ -20,6 +20,7 @@ export default defineConfig({
     command: "npm run dev -- --hostname 127.0.0.1 --port 3100",
     port: 3100,
     reuseExistingServer: false,
+    env: { NEXT_PUBLIC_ANALYTICS_DISABLED: "true" },
     timeout: 120_000,
   },
   projects: [

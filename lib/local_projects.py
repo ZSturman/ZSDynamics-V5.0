@@ -24,7 +24,8 @@ def merge_local_projects(projects: list[dict], destination: Path,
         target = destination / folder
         target.mkdir(parents=True, exist_ok=True)
         shutil.copy2(readme, target / "README.md")
-        shutil.copytree(source.parent / "images", target / "images", dirs_exist_ok=True)
+        if (source.parent / "images").is_dir():
+            shutil.copytree(source.parent / "images", target / "images", dirs_exist_ok=True)
         # Display GLBs accompany locally curated collections. Keep editable
         # Blender sources and printable release files outside public media.
         models = source.parent / "models"

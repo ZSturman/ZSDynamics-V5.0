@@ -19,7 +19,7 @@ export default function PrimaryActionButton({
   const router = useRouter();
 
   if (resource) {
-    return <ResourceButton resource={resource} className={className} />;
+    return <ResourceButton resource={resource} currentProject={project} className={className} />;
   }
 
   return (

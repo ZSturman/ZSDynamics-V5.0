@@ -47,13 +47,13 @@ test("campaign visitor journey records attributed, non-duplicated conversions", 
 
   // 3. Open a featured project.
   const firstSlug = await page.getByTestId("selected-work-item").first().getAttribute("data-project-slug");
-  await page.getByTestId("selected-work-item").first().getByRole("link").click();
+  await page.getByTestId("selected-work-item").first().getByRole("link").first().click();
   await expect(page).toHaveURL(new RegExp(`/projects/${firstSlug}$`));
 
   // 4. Navigate to another project.
   await page.goBack();
   const secondSlug = await page.getByTestId("selected-work-item").nth(1).getAttribute("data-project-slug");
-  await page.getByTestId("selected-work-item").nth(1).getByRole("link").click();
+  await page.getByTestId("selected-work-item").nth(1).getByRole("link").first().click();
   await expect(page).toHaveURL(new RegExp(`/projects/${secondSlug}$`));
 
   // 5. Download the résumé.
@@ -80,7 +80,7 @@ test("campaign visitor journey records attributed, non-duplicated conversions", 
 
   // Each action is recorded exactly once.
   expect(named(log, "project_open").map((event) => event.params.project_slug)).toEqual([firstSlug, secondSlug]);
-  expect(named(log, "project_open").every((event) => event.params.open_surface === "selected_work")).toBe(true);
+  expect(named(log, "project_open").every((event) => event.params.open_surface === "project_page")).toBe(true);
   expect(named(log, "resume_download")).toHaveLength(1);
   expect(named(log, "resume_download")[0].params.surface).toBe("resume-page");
   expect(named(log, "resume_view")).toHaveLength(0);

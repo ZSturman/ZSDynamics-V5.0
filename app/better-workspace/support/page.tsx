@@ -1,12 +1,14 @@
+import { pageMetadata } from "@/lib/site-metadata";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PageColumn, PageFrame } from "@/components/layout/page-frame";
 
-export const metadata: Metadata = {
+const routeMetadata: Metadata = {
   title: "Better Workspace Setup & Support",
   description: "Requirements, iCloud setup and troubleshooting for Better Workspace on Mac, iPhone and iPad.",
   alternates: { canonical: "/better-workspace/support" },
 };
+export const metadata: Metadata = { ...routeMetadata, ...pageMetadata('Better Workspace Setup & Support', routeMetadata.description || 'Setup, requirements, and troubleshooting.', '/better-workspace/support') };
 
 export default function SupportPage() {
   return (

@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { useEffect, useTransition } from "react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useUrlState } from "@/lib/use-url-state";
 import { PageFrame } from "@/components/layout/page-frame";
 import { Button } from "@/components/ui/button";
 import { WorkLogsDashboard } from "@/components/work-logs/work-log-timeline";
@@ -32,7 +33,7 @@ export function WorkLogsPageClient({
 }: WorkLogsPageClientProps) {
   const router = useRouter();
   const pathname = usePathname();
-  const searchParams = useSearchParams();
+  const { params: searchParams } = useUrlState();
   const [, startTransition] = useTransition();
   const projectFilter = searchParams.get("project") || undefined;
 
@@ -68,7 +69,7 @@ export function WorkLogsPageClient({
     const nextQuery = params.toString();
     const nextUrl = nextQuery ? `${pathname}?${nextQuery}` : pathname;
     startTransition(() => {
-      router.replace(nextUrl, { scroll: false });
+      router.push(nextUrl, { scroll: false });
     });
   };
 

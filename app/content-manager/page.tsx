@@ -1,13 +1,16 @@
+import { pageMetadata } from "@/lib/site-metadata";
+import { ProductActions } from "@/components/products/product-sections";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { PageColumn, PageFrame } from "@/components/layout/page-frame";
 
-export const metadata: Metadata = {
+const routeMetadata: Metadata = {
   title: "Social Posts Content Manager",
   description: "Review LinkedIn and Bluesky drafts on iPhone and iPad. See the exact content, approve deliberately, or reject and move to the next post.",
   alternates: { canonical: "/content-manager" },
 };
+export const metadata: Metadata = { ...routeMetadata, ...pageMetadata('Social Posts Content Manager', routeMetadata.description || 'Product information, availability, and ways to explore.', '/content-manager') };
 
 export default function ContentManagerPage() {
   return <PageFrame as="main" className="py-10 md:py-16">
@@ -30,7 +33,8 @@ export default function ContentManagerPage() {
         ["Pick up across devices", "Mac, iPhone and iPad use the same Notion Social Posts data. Changes appear after refresh; no direct Mac connection is needed."],
       ].map(([title, body]) => <article key={title} className="space-y-3 rounded-xl border p-5"><h2 className="text-lg font-semibold">{title}</h2><p className="text-sm text-muted-foreground">{body}</p></article>)}</section>
       <section className="space-y-4 rounded-xl border p-6"><h2 className="text-2xl font-semibold">Your publishing workflow stays in your hands</h2><p>Mobile review works with an existing Notion Social Posts workspace and its independent publishing automation. Mark Ready authorizes that automation for the saved version; it does not publish immediately or enable a paused publisher. Generation and local Article Studio remain Mac features.</p></section>
-      <footer className="flex flex-wrap gap-5 border-t pt-5 text-sm"><Link href="/content-manager/support" className="underline">Setup &amp; support</Link><Link href="/content-manager/privacy" className="underline">Privacy policy</Link><Link href="/contact" className="underline">Contact</Link></footer>
+      <ProductActions slug="content-manager" />
+        <footer className="flex flex-wrap gap-5 border-t pt-5 text-sm"><Link href="/content-manager/support" className="underline">Setup &amp; support</Link><Link href="/content-manager/privacy" className="underline">Privacy policy</Link><Link href="/contact" className="underline">Contact</Link></footer>
     </PageColumn>
   </PageFrame>;
 }

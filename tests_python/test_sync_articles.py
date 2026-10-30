@@ -63,6 +63,8 @@ class TestSyncArticles(unittest.TestCase):
                         "title: First Article",
                         "summary: A summary for the first article.",
                         "publishedAt: 2026-03-10",
+                        "createdAt: 2026-03-01",
+                        "substantiallyRevisedAt: 2026-03-12",
                         "updatedAt: 2026-03-11",
                         "tags:",
                         "  - ai",
@@ -806,3 +808,19 @@ class TestSyncArticles(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+def test_publication_order_and_optional_source_dates_are_not_replaced_by_ingestion(tmp_path):
+    source = tmp_path / "source"
+    for slug, published, updated in [("older", "2025-01-01", "2026-10-01"), ("newer", "2026-01-01", "2024-01-01")]:
+        folder = source / "articles" / slug
+        folder.mkdir(parents=True)
+        (folder / "index.md").write_text(
+            f"---\ntitle: {slug}\nsummary: Source dates\npublishedAt: {published}\nupdatedAt: {updated}\ncreatedAt: 2023-01-01\nsubstantiallyRevisedAt: 2026-10-02\n---\n\nArticle text.\n"
+        )
+    manifest = build_articles_from_directory(source_repo_root=source, output_dir=tmp_path / "public", repo="test/articles", ref="main")
+    assert [article["slug"] for article in manifest] == ["newer", "older"]
+    assert manifest[0]["publishedAt"] == "2026-01-01"
+    assert manifest[0]["updatedAt"] == "2024-01-01"
+    assert manifest[0]["createdAt"] == "2023-01-01"
+    assert manifest[0]["substantiallyRevisedAt"] == "2026-10-02"

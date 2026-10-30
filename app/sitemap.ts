@@ -15,15 +15,21 @@ function toDate(value: unknown): Date | undefined {
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [projects, articles] = await Promise.all([loadProjectsManifest(), loadArticles()]);
-  const pages = ["", "/projects", "/experience", "/about", "/resume", "/articles", "/work-logs", "/contact"];
+  const pages = ["", "/projects", "/apps", "/experience", "/about", "/resume", "/articles", "/work-logs", "/contact"];
 
+  for (const project of projects) {
+    const landing = project.application?.landingPath;
+    if (landing && !pages.includes(landing)) pages.push(landing);
+  }
+  pages.push(...["recallable", "better-workspace", "better-signals", "content-manager", "home-page"].flatMap((slug) => [`/${slug}/privacy`, `/${slug}/support`]));
+  pages.push("/recallable/demo", "/better-workspace/demo", "/content-manager/demo");
   return [
     ...pages.map((path) => ({ url: `${SITE_URL}${path}` })),
     ...FOCUS_AREAS.map((area) => ({ url: `${SITE_URL}/explore/${area.key}` })),
     ...projects.map((project) => ({ url: `${SITE_URL}${getProjectHref(project)}`, lastModified: toDate(project.updatedAt) })),
     ...articles.map((article) => ({
       url: `${SITE_URL}${article.href}`,
-      lastModified: toDate(article.updatedAt || article.publishedAt),
+      lastModified: toDate([article.updatedAt, article.publishedAt].filter(Boolean).sort().at(-1)),
     })),
   ];
 }

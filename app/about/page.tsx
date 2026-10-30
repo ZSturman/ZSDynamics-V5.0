@@ -1,3 +1,4 @@
+import { pageMetadata } from "@/lib/site-metadata";
 import type { Metadata } from "next";
 import Link from "next/link";
 
@@ -6,11 +7,12 @@ import { ResumeActions } from "@/components/profile/profile-sections";
 import { PersonJsonLd } from "@/components/seo/person-json-ld";
 import { aboutSections, profile } from "@/lib/site-content";
 
-export const metadata: Metadata = {
+const routeMetadata: Metadata = {
   title: "About",
   description: "Background, current focus, and how Zachary Sturman approaches software, data, and hardware projects.",
   alternates: { canonical: "/about" },
 };
+export const metadata: Metadata = { ...routeMetadata, ...pageMetadata('About', routeMetadata.description || "Portfolio information.", "/about") };
 
 export default function AboutPage() {
   return (

@@ -1,8 +1,10 @@
+import { pageMetadata } from "@/lib/site-metadata";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PageColumn, PageFrame } from "@/components/layout/page-frame";
 import { TransactionsDemo } from "@/components/project-demos/transactions-demo";
-export const metadata: Metadata = { title: "Transactions — Try the demo", description: "Try requesting, approving and settling shared expenses." };
+const routeMetadata: Metadata = { title: "Transactions — Try the demo", description: "Try requesting, approving and settling shared expenses." };
+export const metadata: Metadata = { ...routeMetadata, ...pageMetadata('Transactions — Try the demo', routeMetadata.description || 'Product information, availability, and ways to explore.', '/transactions/demo') };
 export default function DemoPage() {
  return <PageFrame as="main" className="py-10"><PageColumn className="max-w-3xl space-y-8">
   <header className="space-y-3"><Link className="underline text-sm" href="/projects/transactions">← Transactions</Link><p className="text-sm font-medium text-primary">Interactive browser demo · Fictional data</p><h1 className="text-3xl font-semibold">Try Transactions</h1><p>Try requesting, approving and settling shared expenses.</p><p className="text-sm text-muted-foreground">A simplified walkthrough of the app. Use sample text; entries stay in this page until refresh. No account needed.</p></header>

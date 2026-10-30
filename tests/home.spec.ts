@@ -48,7 +48,7 @@ test.describe("Homepage", () => {
   });
 
   test("should display the professional introduction and primary actions", async ({ page }) => {
-    const header = page.locator("header").first();
+    const header = page.getByTestId("portfolio-introduction");
     await expect(header.getByRole("heading", { level: 1, name: "Zachary Sturman" })).toBeVisible();
     await expect(page.getByTestId("profile-headline")).toContainText("Software Engineering");
     await expect(page.getByTestId("profile-availability")).toContainText("Seattle");
@@ -146,7 +146,7 @@ test.describe("Homepage", () => {
     await page.setViewportSize({ width: 390, height: 844 });
     await gotoHomeReady(page);
 
-    await page.getByTestId("selected-work-item").first().getByRole("link").click();
+    await page.getByTestId("selected-work-item").first().getByRole("link").first().click();
 
     await expect(page).toHaveURL(new RegExp(`${getProjectRoute(project)}$`));
     await expect(page.locator('[data-testid="project-modal-content"]')).toHaveCount(0);

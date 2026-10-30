@@ -1,3 +1,4 @@
+import { pageMetadata } from "@/lib/site-metadata";
 import type { Metadata } from "next";
 
 import { ContentPage } from "@/components/layout/content-page";
@@ -10,11 +11,12 @@ import {
 import { loadProjectsManifest } from "@/lib/load-projects";
 import { portfolioData, profile } from "@/lib/site-content";
 
-export const metadata: Metadata = {
+const routeMetadata: Metadata = {
   title: "Résumé",
   description: "Résumé summary and downloadable PDF for Zachary Sturman, software engineer near Seattle, WA.",
   alternates: { canonical: "/resume" },
 };
+export const metadata: Metadata = { ...routeMetadata, ...pageMetadata('Résumé', routeMetadata.description || "Portfolio information.", "/resume") };
 
 export default async function ResumePage() {
   const projects = await loadProjectsManifest();

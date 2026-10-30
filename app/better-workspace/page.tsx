@@ -1,3 +1,5 @@
+import { pageMetadata } from "@/lib/site-metadata";
+import { ProductActions } from "@/components/products/product-sections";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -5,11 +7,12 @@ import { PageColumn, PageFrame } from "@/components/layout/page-frame";
 import { ReleaseActions } from "@/components/better-workspace/release-actions";
 import { workspaceRelease as release } from "@/lib/better-workspace";
 
-export const metadata: Metadata = {
+const routeMetadata: Metadata = {
   title: "Better Workspace — Projects, ideas and next steps",
   description: "Projects, tasks and ideas across Mac, iPhone and iPad. Download advanced Mac 1.0 or explore the free browser demo.",
   alternates: { canonical: "/better-workspace" },
 };
+export const metadata: Metadata = { ...routeMetadata, ...pageMetadata('Better Workspace — Projects, ideas and next steps', routeMetadata.description || 'Product information, availability, and ways to explore.', '/better-workspace') };
 
 export default function BetterWorkspacePage() {
   return <PageFrame as="main" className="py-10 md:py-16">
@@ -60,7 +63,8 @@ export default function BetterWorkspacePage() {
         </div>
       </section>
       <section className="space-y-4 rounded-xl border bg-accent/30 p-6"><h2 className="text-2xl font-semibold">Take a look before you install</h2><p>Walk through real sample screens and try completing a task or capturing a fictional idea. No account, installation or personal workspace access.</p><ReleaseActions /></section>
-      <footer className="flex flex-wrap gap-5 border-t pt-5 text-sm text-muted-foreground"><Link href="/projects/better-workspace" className="underline">Project story &amp; gallery</Link><a href={release.release} className="underline">Release notes &amp; checksum</a><Link href="/better-workspace/support" className="underline">Support</Link><Link href="/better-workspace/privacy" className="underline">Privacy policy</Link></footer>
+      <ProductActions slug="better-workspace" />
+        <footer className="flex flex-wrap gap-5 border-t pt-5 text-sm text-muted-foreground"><Link href="/projects/better-workspace" className="underline">Project story &amp; gallery</Link><a href={release.release} className="underline">Release notes &amp; checksum</a><Link href="/better-workspace/support" className="underline">Support</Link><Link href="/better-workspace/privacy" className="underline">Privacy policy</Link></footer>
     </PageColumn>
   </PageFrame>;
 }

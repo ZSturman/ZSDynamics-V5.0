@@ -1,7 +1,9 @@
+import { pageMetadata } from "@/lib/site-metadata";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PageColumn, PageFrame } from "@/components/layout/page-frame";
-export const metadata: Metadata = { title: "Social Posts Content Manager — Setup & Support", alternates: { canonical: "/content-manager/support" } };
+const routeMetadata: Metadata = { title: "Social Posts Content Manager — Setup & Support", alternates: { canonical: "/content-manager/support" } };
+export const metadata: Metadata = { ...routeMetadata, ...pageMetadata('Social Posts Content Manager — Setup & Support', routeMetadata.description || 'Setup, requirements, and troubleshooting.', '/content-manager/support') };
 export default function SupportPage() {
   return <PageFrame as="main" className="py-10"><PageColumn className="space-y-6 leading-relaxed">
     <Link href="/content-manager" className="underline">Social Posts Content Manager</Link><h1 className="text-3xl font-semibold">Setup &amp; Support</h1>

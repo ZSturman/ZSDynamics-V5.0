@@ -84,6 +84,7 @@ function main() {
     run(stage, "npm", ["run", "build"]);
     stage = "validate_generated_output";
     run(stage, "node", ["scripts/validate-portfolio-output.mjs", "--output", "artifacts/validation.json"]);
+    run(stage, "node", ["scripts/validate-site-metadata.mjs"]);
     stage = "lint";
     run(stage, "npm", ["run", "lint"]);
     stage = "unit_tests";
@@ -92,6 +93,8 @@ function main() {
     run(stage, "npm", ["run", "test:python"]);
     stage = "browser_tests";
     run(stage, "npm", ["run", "test:e2e"]);
+    stage = "export_browser_tests";
+    run(stage, "npm", ["run", "test:export"]);
     stage = "media_tests";
     run(stage, "npm", ["run", "test:media:matrix"]);
     writeStatus({ ok: true, stage: "complete", completedAt: new Date().toISOString() });

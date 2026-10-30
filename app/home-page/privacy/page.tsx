@@ -1,7 +1,9 @@
+import { pageMetadata } from "@/lib/site-metadata";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PageColumn, PageFrame } from "@/components/layout/page-frame";
-export const metadata: Metadata = { title: "Home Page Privacy Policy", alternates: { canonical: "/home-page/privacy" } };
+const routeMetadata: Metadata = { title: "Home Page Privacy Policy", alternates: { canonical: "/home-page/privacy" } };
+export const metadata: Metadata = { ...routeMetadata, ...pageMetadata('Home Page Privacy Policy', routeMetadata.description || 'Privacy information and data handling.', '/home-page/privacy') };
 export default function PrivacyPage() {
   return <PageFrame as="main" className="py-10"><PageColumn className="space-y-6 leading-relaxed">
     <Link href="/home-page" className="underline">Home Page</Link><h1 className="text-3xl font-semibold">Privacy Policy</h1><p>Effective October 25, 2026 · Developer: Zachary Sturman</p>

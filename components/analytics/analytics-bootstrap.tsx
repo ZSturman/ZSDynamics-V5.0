@@ -1,10 +1,14 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 
 import {
   initializeAnalytics,
+  configureProducts,
+  trackProjectResourceClick,
+  trackArticleProjectClick,
+  trackContentFilter,
   setActiveAnalyticsSection,
   trackContactClick,
   trackOutboundLink,
@@ -13,16 +17,11 @@ import {
   trackSectionEngaged,
   trackSectionView,
 } from "@/lib/firebase-analytics";
+import { productForPath, type ProductContext } from "@/lib/product-presentation";
+import { AttentionClock, meaningfullyVisible } from "@/lib/attention.mjs";
 import { captureUtmOnLoad } from "@/lib/analytics-utm";
 
 const SCROLL_MILESTONES = [25, 50, 75, 90, 100] as const;
-const ENGAGEMENT_BUCKETS = [
-  { seconds: 5, label: "5s" },
-  { seconds: 15, label: "15s" },
-  { seconds: 30, label: "30s" },
-  { seconds: 60, label: "60s" },
-] as const;
-
 function isExternalAnchor(anchor: HTMLAnchorElement): boolean {
   const href = anchor.getAttribute("href");
   if (!href) return false;
@@ -115,13 +114,15 @@ function queryVisibilityTargets(): HTMLElement[] {
   return Array.from(document.querySelectorAll<HTMLElement>("[data-analytics-section],[data-analytics-item]"));
 }
 
-export function AnalyticsBootstrap() {
+export function AnalyticsBootstrap({ products }: { products: ProductContext[] }) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const search = searchParams.toString();
-  const routeKey = `${pathname || "/"}?${search}`;
+  const previousFilters = useRef({ pathname, search });
+  const routeKey = `${pathname || "/"}:${pathname === "/" ? searchParams.get("project") || "" : ""}`;
 
   useEffect(() => {
+    configureProducts(products);
     captureUtmOnLoad();
     initializeAnalytics();
 
@@ -138,6 +139,22 @@ export function AnalyticsBootstrap() {
         trackContactClick(inferSurface(anchor));
         return;
       }
+      const articleProject = anchor.dataset.articleProject;
+      if (articleProject) {
+        const article = anchor.closest<HTMLElement>("[data-analytics-article-slug]")?.dataset.analyticsArticleSlug;
+        if (article) trackArticleProjectClick(article, articleProject, anchor.dataset.projectId);
+        return;
+      }
+      const slug = anchor.closest<HTMLElement>("[data-analytics-project-slug]")?.dataset.analyticsProjectSlug;
+      const product = products.find((p) => p.slug === slug) || productForPath(products, window.location.pathname);
+      if (product && (!anchor.closest('nav[aria-label="Primary"]') && !anchor.closest("header[data-site-header]"))) {
+        const url = new URL(anchor.href);
+        const meaningful = ["http:", "https:"].includes(url.protocol) && (url.origin !== window.location.origin || url.pathname.endsWith("/demo") || anchor.hasAttribute("download"));
+        if (meaningful) {
+          trackProjectResourceClick({ projectSlug: product.slug, projectTitle: product.title, resourceUrl: anchor.href, resourceLabel: anchor.textContent?.trim() || "Product action", isInternal: url.origin === window.location.origin, surface: inferSurface(anchor) });
+          return;
+        }
+      }
       if (!isExternalAnchor(anchor)) return;
       trackOutboundLink({
         destinationUrl: anchor.href,
@@ -148,9 +165,18 @@ export function AnalyticsBootstrap() {
 
     document.addEventListener("click", onClick, { capture: true });
     return () => document.removeEventListener("click", onClick, { capture: true } as EventListenerOptions);
-  }, []);
+  }, [products]);
 
   useEffect(() => {
+    const previous = previousFilters.current;
+    if (previous.pathname === pathname && previous.search !== search && ["/articles", "/work-logs"].includes(pathname || "")) {
+      const before = new URLSearchParams(previous.search);
+      const after = new URLSearchParams(search);
+      for (const key of ["q", "series", "tag", "project", "sort", "view", "vis", "type", "tab"]) {
+        if (before.get(key) !== after.get(key)) trackContentFilter(pathname!, key, key === "q" ? (after.get(key) ? "provided" : "cleared") : after.get(key) || "all");
+      }
+    }
+    previousFilters.current = { pathname, search };
     trackRouteView({
       pathname: pathname || "/",
       search,
@@ -200,94 +226,62 @@ export function AnalyticsBootstrap() {
   }, [routeKey]);
 
   useEffect(() => {
-    type VisibleState = {
-      key: string;
-      element: HTMLElement;
-      visibleSince: number | null;
-      accumulatedMs: number;
-      buckets: Set<string>;
-    };
-
-    const observedElements = new WeakSet<HTMLElement>();
-    const visibleStates = new Map<HTMLElement, VisibleState>();
+    const states = new Map<HTMLElement, { key: string; clock: AttentionClock }>();
     const seenViews = new Set<string>();
+    let frameId = 0;
+    let exited = false;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const now = performance.now();
-        for (const entry of entries) {
-          const element = entry.target;
-          if (!(element instanceof HTMLElement)) continue;
-
-          const isMeaningfullyVisible = entry.isIntersecting && entry.intersectionRatio >= 0.35;
-          const key = getVisibilityKey(element);
-          const payload = getVisibilityPayload(element);
-          let state = visibleStates.get(element);
-          if (!state) {
-            state = {
-              key,
-              element,
-              visibleSince: null,
-              accumulatedMs: 0,
-              buckets: new Set<string>(),
-            };
-            visibleStates.set(element, state);
-          }
-
-          if (isMeaningfullyVisible) {
-            setActiveAnalyticsSection(payload);
-            if (!seenViews.has(key)) {
-              seenViews.add(key);
-              trackSectionView(payload);
-            }
-            if (state.visibleSince === null) {
-              state.visibleSince = now;
-            }
-            continue;
-          }
-
-          if (state.visibleSince !== null) {
-            state.accumulatedMs += now - state.visibleSince;
-            state.visibleSince = null;
-          }
+    const check = () => {
+      frameId = 0;
+      const now = performance.now();
+      for (const [element, state] of states) {
+        if (!element.isConnected) { observer.unobserve(element); states.delete(element); continue; }
+        const key = getVisibilityKey(element);
+        if (key !== state.key) { state.key = key; state.clock = new AttentionClock(); }
+        const active = !exited && document.visibilityState === "visible" &&
+          meaningfullyVisible(element.getBoundingClientRect(), window.innerWidth, window.innerHeight);
+        const payload = getVisibilityPayload(element);
+        if (active) {
+          setActiveAnalyticsSection(payload);
+          if (!seenViews.has(key)) { seenViews.add(key); trackSectionView(payload); }
         }
-      },
-      { threshold: [0, 0.35, 0.65, 1] },
-    );
-
+        for (const seconds of state.clock.update(now, active)) {
+          trackSectionEngaged({ ...payload, engagementBucket: `${seconds}s`, visibleTimeSec: seconds });
+        }
+      }
+    };
+    const schedule = () => { if (!frameId) frameId = window.requestAnimationFrame(check); };
+    // IntersectionObserver supplies candidates; scroll/resize checks measure their
+    // viewport-relative area because whole-element ratios miss long sections.
+    const observer = new IntersectionObserver(schedule, { threshold: [0, 0.35, 1] });
     const observeTargets = () => {
       for (const element of queryVisibilityTargets()) {
-        if (observedElements.has(element)) continue;
-        observedElements.add(element);
+        if (states.has(element)) continue;
+        states.set(element, { key: getVisibilityKey(element), clock: new AttentionClock() });
         observer.observe(element);
       }
+      schedule();
     };
-
     const mutationObserver = new MutationObserver(observeTargets);
+    const onExit = () => { exited = true; check(); };
+    const onShow = () => { exited = false; check(); };
     observeTargets();
     mutationObserver.observe(document.body, { childList: true, subtree: true });
-
-    const engagementTimer = window.setInterval(() => {
-      const now = performance.now();
-      for (const state of visibleStates.values()) {
-        const visibleMs = state.accumulatedMs + (state.visibleSince === null ? 0 : now - state.visibleSince);
-        const visibleSec = Math.floor(visibleMs / 1000);
-        for (const bucket of ENGAGEMENT_BUCKETS) {
-          if (visibleSec < bucket.seconds || state.buckets.has(bucket.label)) continue;
-          state.buckets.add(bucket.label);
-          trackSectionEngaged({
-            ...getVisibilityPayload(state.element),
-            engagementBucket: bucket.label,
-            visibleTimeSec: bucket.seconds,
-          });
-        }
-      }
-    }, 1000);
-
+    const engagementTimer = window.setInterval(check, 1000);
+    document.addEventListener("visibilitychange", check);
+    window.addEventListener("pagehide", onExit);
+    window.addEventListener("pageshow", onShow);
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
     return () => {
-      observer.disconnect();
-      mutationObserver.disconnect();
+      observer.disconnect(); mutationObserver.disconnect();
       window.clearInterval(engagementTimer);
+      if (frameId) window.cancelAnimationFrame(frameId);
+      document.removeEventListener("visibilitychange", check);
+      window.removeEventListener("pagehide", onExit);
+      window.removeEventListener("pageshow", onShow);
+      window.removeEventListener("scroll", schedule);
+      window.removeEventListener("resize", schedule);
     };
   }, [routeKey]);
 

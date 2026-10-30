@@ -99,7 +99,12 @@ test.describe("@smoke @matrix media resilience", () => {
     const entry = findEntryForProject(project.id, ["banner", "poster", "thumbnail"]);
     test.skip(!entry, "No renderable media entry found for resilience 500 check.");
 
-    await page.route((url) => mediaRequestMatches(url.toString(), entry!.resolvedUrl), async (route) => {
+    // Exhaust the asset's image alternatives as well as the optimized variant.
+    // A healthy original is a valid recovery and must not be mistaken for a
+    // missing fallback UI. Other tests cover normal asset rendering.
+    const assetStem = (value: string) => normalizeUrlForMatch(value).split("?")[0]
+      .replace(/-(?:optimized|thumb|placeholder)(?=\.[^/.]+$)/, "").replace(/\.[^/.]+$/, "");
+    await page.route((url) => assetStem(url.toString()) === assetStem(entry!.resolvedUrl), async (route) => {
       await route.fulfill({
         status: 500,
         contentType: "text/plain",

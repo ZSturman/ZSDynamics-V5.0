@@ -382,6 +382,13 @@
     "readme": {
       "content": "# Transactions\n\nA real-time Next.js app for tracking shared balances. Firebase Authentication and Firestore remain the source of truth; Vercel hosts the app and its small server-side email route.\n\n## What it supports\n\n- Email/password and Google sign-in.\n- Expiring, single-use invitations. Invitation links take the recipient through sign-in or account creation, then only the invited email can accept.\n- Pending transaction approval, disputes, settlements, forgiveness, archives, and live balances.\n- Resend notifications for invitations, new transaction requests, and resolutions. Users can opt out of nonessential transaction and resolution emails in Settings.\n- CSV import with auto-detection, column mapping, previews, validation, duplicate detection, chunked progress, and an import result summary.\n- CSV exports for spreadsheet use and complete JSON exports that preserve pair, transaction, relationship, and status identifiers.\n\n## Email and invitation design\n\nThe browser never sends an arbitrary address or message to the email endpoint. It submits an authenticated Firebase ID token and a resource ID; the server verifies the token with Firebase Admin, derives the recipient and content from Firestore, and then sends with Resend.\n\nEach email event is reserved in the server-only `notificationDeliveries` collection before it is sent. Repeated browser requests return the prior result rather than sending again. If Resend reports an error, the transaction or invitation remains saved, the delivery is recorded as failed, and it is not automatically retried—this deliberately favors avoiding duplicate mail when a provider request has an uncertain outcome.\n\nNew invitations expire after seven days. The random Firestore invitation ID is the unguessable link token; it is never exposed in list views. Firestore rules bind the recipient email, expiration, accepted user, and pair activation together.\n\n## Local setup\n\n```bash\nnpm install\ncp .env.local.example .env.local\nnpm run dev\n```\n\nEnable Email/Password and Google under Firebase Authentication, create a production Firestore database, then deploy the included rules:\n\n```bash\nfirebase login\nfirebase use --add\nnpm run deploy:rules\n```\n\nCreate the following composite Firestore indexes if prompted:\n\n| Collection | Fields |\n|---|---|\n| `pairs` | `users` (array contains), `updatedAt` (descending) |\n| `invites` | `toEmail` (ascending), `status` (ascending) |\n| `invites` | `fromUid` (ascending), `status` (ascending) |\n\n## Environment variables\n\n| Variable | Required | Purpose |\n|---|---:|---|\n| `NEXT_PUBLIC_FIREBASE_*` | Yes | Firebase Web SDK configuration. |\n| `NEXT_PUBLIC_APP_URL` | Production | Canonical application URL in email links, e.g. `https://transactions-lmct.vercel.app`. |\n| `RESEND_API_KEY` | For email | Server-only Resend API key. |\n| `RESEND_FROM_ADDRESS` | For email | A verified Resend sender, such as `Transactions <notifications@example.com>`. |\n| `FIREBASE_ADMIN_PROJECT_ID` | For email | Firebase project ID for the Vercel server route. |\n| `FIREBASE_ADMIN_CLIENT_EMAIL` | For email | Service-account client email. |\n| `FIREBASE_ADMIN_PRIVATE_KEY` | For email | Service-account private key; store escaped newlines as `\\n`. |\n\nWithout the Resend and Firebase Admin variables, the app continues to save invitations and transactions but safely marks email as unavailable. No email secret has a `NEXT_PUBLIC_` prefix.\n\nFor a quick local test without owning a domain, use `Transactions <onboarding@resend.dev>` as `RESEND_FROM_ADDRESS`. Resend restricts that testing sender to the email address on your Resend account (and its documented test recipients), so it cannot deliver invitations to arbitrary users. For real invitations, add a domain or subdomain you control to Resend and publish its SPF/DKIM DNS records. The default `transactions-lmct.vercel.app` hostname is useful for links, but it is not a domain you can verify as your sender unless you control its DNS.\n\n## Vercel deployment\n\nThe existing Vercel deployment at `https://transactions-lmct.vercel.app/` needs the environment variables above added in Vercel Project Settings → Environment Variables for Production (and Preview if desired). Use the service account JSON from Firebase Console → Project Settings → Service Accounts to populate the three `FIREBASE_ADMIN_*` values. Set `NEXT_PUBLIC_APP_URL` to the production URL so invitation links do not point at a preview deployment.\n\nAfter the variables are saved, deploy normally through the connected repository or Vercel CLI, then deploy Firestore rules separately with `npm run deploy:rules`.\n\n## Import and export behavior\n\nCSV imports accept familiar alternatives such as `Amount`, `Total`, `Memo`, `Paid by`, `Transaction date`, and `Type`. Amount plus either Direction or a payment/request Type is required. The importer accepts common currency formats, ISO dates, and US-style slash dates. It previews the first 30 rows, reports all invalid-row counts, and skips both duplicate rows already in the pair and repeated rows in the same file.\n\nImported rows are deterministic and contain an import fingerprint, so retrying an interrupted import cannot create another copy. Imports intentionally do not email a partner for every historical row. The default limits are 10 MB and 20,000 rows; split larger files before importing.\n\nCSV exports are flat and spreadsheet-friendly. JSON exports include pair and transaction IDs, user relationships, statuses, archived flags, and timestamps.\n\n## Verification\n\n```bash\nnpm run build\nnpm run test:e2e\n```\n\nThe Playwright suite runs against Firebase Auth and Firestore emulators. It covers authentication, transaction approval and disputes, secure-link invitation acceptance, CSV import/export, and email-route request behavior. Before release, manually verify a Resend delivery from the deployed Vercel environment using two real accounts, including the recipient preference opt-outs and an expired invitation.",
       "sourceUrl": "https://github.com/ZSturman/Transactions/blob/main/README.md"
+    },
+    "application": {
+      "landingPath": "/transactions/demo",
+      "platforms": [
+        "Web",
+        "Browser demo"
+      ]
     }
   },
   {
@@ -4385,6 +4392,14 @@
     "readme": {
       "content": "# Better Signals\n\nA native recording app for iPhone, iPad, and Apple Watch. Answer a short question, keep optional context, and export your data.\n\n![Better Signals: actual app screens with synthetic Signals](/projects/better_signals_33baec94-4d3c-805b-aa92-e0d16cc8a3f1/images/hero-optimized.webp)\n\n## What it does\n\n- Twelve metrics, in four categories, each with five labeled levels.\n- Quick Signal widgets and a paired Apple Watch companion.\n- Searchable History with answer, time, source, and optional context and location.\n- Optional prompts when you return to familiar places.\n- CSV, JSON, JSON Lines, and GeoJSON exports, read-only Shortcuts, and a current Files copy.\n- No account, advertising, tracking SDK, or developer-operated backend.\n\n[App overview](https://zacharysturman.com/better-signals) · [Support](https://zacharysturman.com/better-signals/support) · [Privacy](https://zacharysturman.com/better-signals/privacy)\n\n## Availability\n\n[Install the approved public release from the App Store](https://apps.apple.com/us/app/better-signals/id6824696184). Version 1.1.0 (build 2) is available in the United States. Newer beta features are separate. Requires iOS or iPadOS 26 and watchOS 26 for the paired Watch app.\n\nWatch Signals transfer to the paired iPhone. iPad history is separate; there is no iCloud history sync. Optional location uses system permissions and visit monitoring. The app records observations without diagnosis, scoring, or treatment recommendations.\n\n## How it works\n\nSwiftUI builds on a shared Swift archive layer compiled into the phone, Watch, and widget targets. Atomic locked writes and stable submission IDs coordinate recording. WatchConnectivity queues offline answers and exchanges receipts. App Groups share files within a device. The original Timing Coach archive is copied once without deleting the source; its raw SwiftData history stays in the legacy group. The earlier qualitative Better Signals database is preserved separately and is not converted into this different model.\n\n## Validation boundary\n\nThe rename pass recorded 50 passing unit tests and a simulator recording/relaunch smoke test. The release pass adds signed archive/export verification and fresh iPhone/iPad screenshot acceptance. Screenshots use synthetic Signals in disposable simulators. Physical Watch pairing, visit delivery, notification actions, accessibility, and installed-device upgrade checks remain beta acceptance items. There is no claim that compilation proves those flows.\n\n## Media\n\nThe gallery contains actual simulator captures. The hero and social card arrange those captures in a portfolio layout; app screen content is not generated. No personal history or private locations are included.\n",
       "sourceUrl": "/projects/better_signals_33baec94-4d3c-805b-aa92-e0d16cc8a3f1/README.md"
+    },
+    "application": {
+      "landingPath": "/better-signals",
+      "platforms": [
+        "iPhone",
+        "iPad",
+        "Apple Watch"
+      ]
     }
   },
   {
@@ -4492,6 +4507,14 @@
       "content": "# Better Workspace\n\nProjects, ideas and a useful next step — across Mac, iPhone and iPad.\n\n[Download for Mac](https://github.com/ZSturman/Better-Workspace-Public/releases/download/v1.0/BetterWorkspace-1.0-8-mac.zip) · [Try Demo](/better-workspace/demo) · [View Source](https://github.com/ZSturman/Better-Workspace-Public) · [Getting started](/better-workspace#getting-started)\n\n![Actual Mac personal workspace with fictional sample projects](/projects/better_workspace_210b2324-2bdf-5751-a101-9c334db91f8c/images/mac-personal-sample.webp)\n\n## Make the next step easier to find\n\nStart with an idea, give it a project, and keep the next task close at hand. Better Workspace is for people juggling personal, creative and technical projects. Keep context around the work, catch a thought quickly, and see where to pick up next.\n\n## Choose your experience\n\n| Edition | Best for | Availability |\n| --- | --- | --- |\n| Advanced Mac | Real folders, portable plans, scoring, capture, progress, work history and optional Notion/agent tools | Download 1.0 now; macOS 14.4+, Apple silicon and Intel |\n| iPhone and iPad | Projects, tasks, ideas and documents; offline workspace and optional Mac access | [Install from the App Store](https://apps.apple.com/us/app/better-workspace/id6822519097) — version 1.0.1 |\n| Optional connected mobile workspace | Browse the advanced Mac’s published index and queue captures/planning changes | Requires advanced Mac, the same Apple account and iCloud Drive; Mac online to apply changes |\n\nThe mobile Store app works independently. The separate native Mac Store edition is retired. The advanced Mac edition keeps your existing folders and adds capabilities outside the App Store sandbox. No separate Python installation is needed for the public Mac download.\n\n## Start in a few minutes\n\n1. Download **BetterWorkspace-1.0-8-mac.zip**, expand it and drag **Better Workspace.app** to Applications.\n2. Open the app. In **Settings → General**, choose your workspace and inbox folders. An empty folder is a safe place to explore.\n3. Browse an existing project or add a folder under Projects. Add a task or portable work plan, then choose a priority.\n4. Keep early possibilities in Ideas. Use **Quick Capture / Ingest** for a thought, link or file, then review where it belongs.\n5. Return to Overview to choose your next action and see progress or recent work.\n6. Enable the bundled background service in **Settings → Services** when needed. Mobile publishing, Notion, notifications and agent tools are optional.\n\nAllow folder access when macOS asks about your selected folders. The release is signed, notarized and stapled; do not disable Gatekeeper. [Detailed setup and help](/better-workspace/support).\n\n## See it before installing\n\n[Try the browser demonstration](/better-workspace/demo). Follow real application screenshots and practice completing a task, capturing an idea and starting a sample work session. All interaction uses fictional page-memory data. No account, installation or access to a real workspace is needed.\n\nThe native personal app also offers **Try a private sample** from its welcome screen. Its editable records stay in memory and disappear when you close it. Personal records save locally and synchronize through your private iCloud account when available; transfers can take minutes.\n\n## Real application screens\n\nThe gallery shows native Mac, iPhone and iPad sample UI, connected project planning and idea scoring. Current personal screens were captured from optimized Release UI on October 15 and represent the Build 8 experience; they contain disposable sample data.\n\n![iPhone personal workspace](/projects/better_workspace_210b2324-2bdf-5751-a101-9c334db91f8c/images/iphone-personal-sample.webp)\n\n![iPad personal workspace](/projects/better_workspace_210b2324-2bdf-5751-a101-9c334db91f8c/images/ipad-personal-sample.webp)\n\n## Release and source\n\n[Release notes and checksum](https://github.com/ZSturman/Better-Workspace-Public/releases/tag/v1.0) · [MIT-licensed source](https://github.com/ZSturman/Better-Workspace-Public)\n\nBuild 8 passed installed-device acceptance, private Production sync and isolated packaged-runtime checks. Separate-user advanced installer/login acceptance and wider widget configuration coverage remain follow-ups. Cloud synchronization is eventual. The public source is a clean release snapshot; private development history and personal QA evidence are excluded.\n\n## Help and privacy\n\n[Setup and support](/better-workspace/support) · [Privacy policy](/better-workspace/privacy)\n",
       "sourceUrl": "/projects/better_workspace_210b2324-2bdf-5751-a101-9c334db91f8c/README.md"
     },
+    "application": {
+      "landingPath": "/better-workspace",
+      "platforms": [
+        "Mac",
+        "iPhone",
+        "iPad"
+      ]
+    },
     "workLogs": [
       {
         "id": "eb209eb8-30bc-5c22-8679-ede37adaa8dd",
@@ -4581,6 +4604,13 @@
       "content": "# Social Posts Content Manager\n\nReview the exact post. Make a clear decision. Move on.\n\nA native SwiftUI editorial workspace for Mac, iPhone and iPad. The mobile app reviews social drafts in your existing Notion Social Posts database; the Mac also handles generation and local Markdown articles.\n\n## Review on mobile\n\n- Read distinct LinkedIn and Bluesky previews, with selected destinations clearly marked.\n- Inspect the selected publication image, or the explicit text-only state.\n- Edit text and dates. Unsaved changes block approval and rejection.\n- Use persistent **Reject & Next** to decline a draft and open the next one. Restore declined drafts from Calendar → All.\n- Confirm **Mark Ready** to approve the saved version. Any later content edit withdraws approval.\n- Browse upcoming and posted items in Calendar; the widget shows the last refreshed queue snapshot.\n\nThe internal title is never added to the published text. Final platform layout, cropping and link cards can differ.\n\n## Availability and setup\n\nThe iPhone and iPad app uses TestFlight for private beta testing. There is no public App Store download or open beta invitation yet. Testers need an invitation and the existing Notion Social Posts schema; this beta does not provision a new workspace.\n\nUse the integration token for that workspace in Settings. It is verified before being stored in this device's Keychain. The phone does not need a direct connection to the Mac.\n\n## Publication remains deliberate\n\nMark Ready authorizes the independent publishing automation for the reviewed version. It does not publish immediately or turn on a paused publisher. Generation, Article Studio and automation controls remain on Mac.\n\n[Setup and support](/content-manager/support) · [Privacy policy](/content-manager/privacy)\n",
       "sourceUrl": "/projects/content_manager_20732ff7-0f29-54af-9f8a-3ef13bfa196c/README.md"
     },
+    "application": {
+      "landingPath": "/content-manager",
+      "platforms": [
+        "iPhone (private beta)",
+        "iPad (private beta)"
+      ]
+    },
     "workLogs": [
       {
         "id": "71df55ea-2f53-5eb6-8768-4284c64052e6",
@@ -4603,6 +4633,41 @@
         "whatHappened": "Added a fictional draft queue with editable destination previews, reject-and-next and explicit approval. The native app remains a private TestFlight beta."
       }
     ]
+  },
+  {
+    "id": "748b7fdb-3972-534d-be54-a7866995cda3",
+    "slug": "home-page",
+    "href": "/projects/home-page",
+    "folderName": "home_page_748b7fdb-3972-534d-be54-a7866995cda3",
+    "title": "Home Page",
+    "summary": "A native Mac dashboard for launching apps, configured Shortcuts, and optional status updates from connected apps.",
+    "oneLiner": "Your apps. One place to begin.",
+    "domain": "Technology",
+    "category": "Application",
+    "status": "Active",
+    "phase": "Development",
+    "featured": false,
+    "isPublic": true,
+    "createdAt": null,
+    "updatedAt": null,
+    "application": {
+      "landingPath": "/home-page",
+      "platforms": [
+        "macOS 14.4+ (release pending)"
+      ]
+    },
+    "resources": [
+      {
+        "type": "visit",
+        "label": "Explore Home Page",
+        "url": "/home-page"
+      }
+    ],
+    "workLogs": [],
+    "readme": {
+      "content": "# Home Page\n\nA native Mac dashboard for apps, attention, and Shortcuts. Requires macOS 14.4 or later.\n\nLaunch installed applications and websites, organize favorite launchers, and connect named Shortcuts. Participating apps can optionally share local status summaries.\n\nThe first App Store release is pending approval. No verified public download is advertised.\n\n[Overview](/home-page) · [Setup and support](/home-page/support) · [Privacy](/home-page/privacy)\n",
+      "sourceUrl": "/projects/home_page_748b7fdb-3972-534d-be54-a7866995cda3/README.md"
+    }
   },
   {
     "id": "04827feb-2508-51d8-ba15-ed7738b57f7e",
@@ -4800,6 +4865,14 @@
     "readme": {
       "content": "# Recallable\n\nSpaced-repetition flashcards that fit into your day, on iPhone, iPad, Mac, and Apple Watch.\n\n![Recallable on iPad, iPhone, and Apple Watch](/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/images/hero.jpg)\n\n## What it does\n\nOpen Recallable and a card is waiting. Show the answer, rate it Hard, Good, or Easy, and the next one is ready. Every rating spaces that card: ones you know drift further apart, and hard ones come back sooner. Unlike most spaced-repetition apps, nothing is ever \"due\". The queue only decides what to show first, so a few days away never leaves you with a backlog.\n\n- **Quick study** on Home, the Home Screen widget, and Apple Watch, plus focused rounds of 10.\n- **Discover:** built-in starter decks that work offline, and community decks with reporting, blocking, and moderation.\n- **Your own cards** with pictures, hints, explanations, links, and LaTeX math typeset on every device.\n- **CSV import and export.**\n- **AI drafts** from a topic, text, a web page, a PDF, or a photo of notes, using on-device Apple Intelligence, LM Studio, or your own Gemini key. Every draft is reviewed before it's saved.\n- **Widgets, a Control Center control, Shortcuts and Siri,** and reminders that never show card text.\n- **iCloud sync** across devices, where reviews from every device are kept.\n\n## Screenshots\n\nThese are unedited captures of the real app, using its built-in starter decks with study history from the app's own scheduler.\n\n| Home | Answer | Progress | Discover |\n|---|---|---|---|\n| ![Home](/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/images/iphone-01-home-optimized.webp) | ![Answer](/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/images/iphone-02-answer-optimized.webp) | ![Progress](/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/images/iphone-03-progress-optimized.webp) | ![Discover](/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/images/iphone-04-discover-optimized.webp) |\n\n![Apple Watch: a question](/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/images/watch-01-question-optimized.webp) ![Apple Watch: the answer](/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/images/watch-02-answer-optimized.webp)\n\n## How it's built\n\n- **RecallableDomain:** a pure Swift package with the scheduler, models, CSV, rich text and math, and the SwiftData store, covered by 94 unit tests.\n- **Apps:** SwiftUI for iPhone and iPad, the Mac through Mac Catalyst, a WidgetKit extension, and a watchOS app.\n- **Sync:** SwiftData with CloudKit mirroring. Review events are immutable and insert-only, so merges from several devices are unions.\n- **Watch:** gets a bounded set of upcoming cards and replays offline ratings over WatchConnectivity.\n- **Technologies:** Swift 6, SwiftUI, SwiftData, CloudKit, WidgetKit, App Intents, WatchConnectivity, Foundation Models, TipKit, and XCTest and Swift Testing.\n\n## Availability\n\nRecallable is released for iPhone and iPad on the App Store. The separate Mac version is still in Apple review. It needs iOS, iPadOS, or watchOS 26, or macOS 26.\n\n## Help and privacy\n\n[Support](/recallable/support) · [Privacy policy](/recallable/privacy)\n\nCopyright © 2026 Zachary Sturman.\n\n## Install or try\n\n[Install for iPhone and iPad](https://apps.apple.com/us/app/recallable-flashcards/id6822919785) · [Try the browser demo](/recallable/demo). Public release 1.0.0 (8) is separate from newer TestFlight builds.\n",
       "sourceUrl": "/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/README.md"
+    },
+    "application": {
+      "landingPath": "/recallable",
+      "platforms": [
+        "iPhone",
+        "iPad",
+        "Mac (in review)"
+      ]
     },
     "workLogs": [
       {

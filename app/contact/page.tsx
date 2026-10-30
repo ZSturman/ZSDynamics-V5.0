@@ -1,3 +1,4 @@
+import { pageMetadata } from "@/lib/site-metadata";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowUpRight, Mail, PenLine } from "lucide-react";
@@ -8,13 +9,14 @@ import { BreadcrumbTrail } from "@/components/ui/breadcrumb-trail";
 import { SITE_URL } from "@/lib/site-metadata";
 
 export const dynamic = "force-static";
-export const metadata: Metadata = {
+const routeMetadata: Metadata = {
   title: "Contact — Zachary Sturman",
   description:
     "Have a project in mind, an opportunity to share, or a question about my work? Send me a message or subscribe to new writing.",
   alternates: { canonical: `${SITE_URL}/contact` },
   openGraph: { title: "Contact — Zachary Sturman", url: `${SITE_URL}/contact` },
 };
+export const metadata: Metadata = { ...routeMetadata, ...pageMetadata('Contact — Zachary Sturman', routeMetadata.description || "Portfolio information.", "/contact") };
 
 export default function ContactPage() {
   return (

@@ -3,7 +3,6 @@
 import Link from "next/link";
 
 import { FooterAnalyticsLink } from "@/components/analytics/footer-analytics-link";
-import { SiteNav } from "@/components/layout/site-nav";
 import { Button } from "@/components/ui/button";
 import { profile } from "@/lib/site-content";
 
@@ -15,8 +14,7 @@ export interface ProfileLink {
 
 export function PortfolioHeader({ profileLinks = [] }: { profileLinks?: ProfileLink[] }) {
   return (
-    <header className="mb-12 max-w-full overflow-x-hidden md:mb-16">
-      <SiteNav className="mb-10 md:mb-14" />
+    <header data-testid="portfolio-introduction" className="mb-12 max-w-full overflow-x-hidden md:mb-16">
 
       <div className="max-w-3xl">
         <h1 className="break-words text-3xl font-light uppercase tracking-wide text-[#244468] dark:text-[#4a9eff] md:text-4xl lg:text-5xl">
@@ -49,6 +47,7 @@ export function PortfolioHeader({ profileLinks = [] }: { profileLinks?: ProfileL
               Download résumé (PDF)
             </FooterAnalyticsLink>
           </Button>
+          <Button asChild variant="outline"><Link href="/apps">Explore apps &amp; demos</Link></Button>
           <Button asChild variant="outline">
             <Link href="/contact" data-testid="hero-contact">Contact me</Link>
           </Button>
