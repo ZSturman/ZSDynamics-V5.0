@@ -129,7 +129,7 @@ test("detects available and missing GA4 custom dimensions", () => {
   ]);
 });
 
-test("classifies a low-engagement, symmetric direct spike as suspicious rather than human growth", () => {
+test("flags only the documented aggregate low-engagement rule without classifying sessions", () => {
   const quality = buildTrafficQuality(
     {
       sessions: 102,
@@ -146,10 +146,10 @@ test("classifies a low-engagement, symmetric direct spike as suspicious rather t
     { sessionsAt10Seconds: 8, routeViewEvents: 250, knownSyntheticSessions: 0, automationSignals: 0 },
   );
 
-  assert.equal(quality.likelyHumanSessions, 8);
-  assert.equal(quality.likelyAutomatedSessions, 94);
-  assert.equal(quality.suspicious, true);
-  assert.match(quality.reasons.join(" "), /mechanically even/);
+  assert.equal(quality.engagedSessions, 8);
+  assert.equal(quality.sessionsWithoutObservedEngagement, 94);
+  assert.equal(quality.lowEngagement, true);
+  assert.match(quality.reasons.join(" "), /at least 20 sessions/);
 });
 
 test("deterministic analysis avoids a misleading percentage when the baseline is tiny", () => {
@@ -671,4 +671,32 @@ test("excludes QA sessions from every query, reports campaign conversions, and n
   );
   assert.equal(report.events.keyActionCount, 3, "failed contact submissions are not key actions");
   assert.match(renderReportHtml(report), /Conversions/);
+});
+
+test("failed overview and quality queries remain unavailable while product reporting distinguishes events from sessions", async () => {
+  const root = await fs.mkdtemp(path.join(os.tmpdir(), "analytics-partial-"));
+  try {
+    const client = {
+      async getMetadata() {
+        return [{ dimensions: ["eventName", "customEvent:product_slug", "customEvent:action_type"].map((apiName) => ({ apiName })) }];
+      },
+      async runReport(request) {
+        const dimensions = request.dimensions.map((d) => d.name);
+        if (!dimensions.length) throw new Error("permission denied");
+        if (dimensions.includes("customEvent:product_slug")) return [{ rows: [dimensionMetricRow(["project_resource_click", "recallable", "store"], [7, 2])] }];
+        if (dimensions.length === 1 && dimensions[0] === "eventName" && request.dimensionFilter?.andGroup) throw new Error("permission denied");
+        return [{ rows: [] }];
+      },
+    };
+    const report = await buildDailyAnalyticsReport({ client, propertyId: "test", rootDir: root, retryDelayMs: 0 });
+    assert.equal(report.current.sessions, null);
+    assert.equal(report.scorecards.find((c) => c.key === "sessions").display, "Unavailable");
+    assert.equal(report.trafficQuality.knownSyntheticSessions, null);
+    assert.equal(report.productActivity.available, true);
+    assert.equal(report.productActivity.rows[0].metrics.eventCount, 7);
+    assert.equal(report.productActivity.rows[0].metrics.sessions, 2);
+    assert.match(renderReportHtml(report), /Verified installations are unavailable/);
+    assert.match(renderReportText(report), /Sessions with action \(overlapping\)/);
+    assert.match(report.analysis[0], /overview query is unavailable/);
+  } finally { await fs.rm(root, { recursive: true, force: true }); }
 });

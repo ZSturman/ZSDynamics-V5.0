@@ -30,6 +30,7 @@ const HIGH_INTENT_EVENTS = new Set([
   "contact_click",
   "contact_submit",
   "newsletter_interest",
+  "product_demo_complete",
 ]);
 
 const DIAGNOSTIC_EVENTS = new Set([
@@ -42,6 +43,7 @@ const DIAGNOSTIC_EVENTS = new Set([
 // Completed outcomes used for campaign conversion counts. Attempts (clicks on
 // Contact) and failures are excluded; a résumé download is a started download.
 export const CONVERSION_EVENTS = [
+  "product_demo_complete",
   "resume_download",
   "contact_submit",
   "newsletter_interest",
@@ -101,6 +103,10 @@ export const OPTIONAL_CUSTOM_PARAMETERS = [
   "page_group",
   "page_slug",
   "project_slug",
+  "product_id",
+  "product_slug",
+  "action_type",
+  "log_id",
   "article_slug",
   "resource_type",
   "social_network",
@@ -499,7 +505,7 @@ function buildScorecards(current, previous, prior7) {
   ];
 
   return cards.map((card) => {
-    const value = numberOrZero(current[card.key]);
+    const value = current[card.key] == null ? null : numberOrZero(current[card.key]);
     const previousValue = numberOrZero(previous[card.key]);
     const prior7Value = card.key === "viewsPerSession"
       ? (numberOrZero(prior7.sessions) > 0 ? numberOrZero(prior7.screenPageViews) / numberOrZero(prior7.sessions) : 0)
@@ -508,12 +514,12 @@ function buildScorecards(current, previous, prior7) {
     return {
       ...card,
       value,
-      display: formatMetricValue(value, card.format),
+      display: value == null ? "Unavailable" : formatMetricValue(value, card.format),
       previousValue,
-      previousDelta: formatDelta(value, previousValue),
+      previousDelta: value == null || previous[card.key] == null ? "Unavailable" : formatDelta(value, previousValue),
       previousTone: deltaTone(value, previousValue),
       prior7Value,
-      prior7Delta: formatDelta(value, prior7Value),
+      prior7Delta: value == null || prior7[card.key] == null ? "Unavailable" : formatDelta(value, prior7Value),
       prior7Tone: deltaTone(value, prior7Value),
     };
   });
@@ -571,6 +577,7 @@ export function buildContentCatalog({ projects = [], articles = [] } = {}) {
     description: "Portfolio homepage",
     taxonomy: ["site"],
   });
+  addEntry("/apps", { type: "Apps index", title: "Apps", taxonomy: ["applications"] });
   addEntry("/contact", {
     type: "Contact",
     title: "Contact",
@@ -622,6 +629,11 @@ export function buildContentCatalog({ projects = [], articles = [] } = {}) {
     });
     addEntry(project.href || `/projects/${project.slug}`, entry);
     addEntry(`/projects/${project.slug}`, entry);
+    if (project.application?.landingPath) {
+      const landing = project.application.landingPath;
+      addEntry(landing, { ...entry, type: "Product" });
+      if (!landing.endsWith("/demo")) addEntry(`${landing}/demo`, { ...entry, type: "Product demo" });
+    }
   }
 
   for (const article of articles) {
@@ -886,7 +898,7 @@ async function safeReport(label, warnings, fn) {
     return await fn();
   } catch (error) {
     warnings.push(`${label} unavailable: ${error.message}`);
-    return [];
+    return Object.assign([], { unavailable: true });
   }
 }
 
@@ -899,7 +911,7 @@ async function fetchOverview(client, propertyId, isoDate, warnings, label) {
     metrics: OVERVIEW_METRICS,
     dateRanges: dateRange(isoDate),
   }));
-  return parseOverviewRow(rows[0]);
+  return rows.unavailable ? Object.fromEntries(OVERVIEW_METRICS.map((key) => [key, null])) : parseOverviewRow(rows[0]);
 }
 
 async function fetchOverviewRange(client, propertyId, startDate, endDate, warnings, label) {
@@ -907,7 +919,7 @@ async function fetchOverviewRange(client, propertyId, startDate, endDate, warnin
     metrics: OVERVIEW_METRICS,
     dateRanges: dateRange(startDate, endDate),
   }));
-  return parseOverviewRow(rows[0]);
+  return rows.unavailable ? Object.fromEntries(OVERVIEW_METRICS.map((key) => [key, null])) : parseOverviewRow(rows[0]);
 }
 
 async function fetchBreakdown(client, propertyId, input, metadata, warnings) {
@@ -928,7 +940,7 @@ async function fetchBreakdown(client, propertyId, input, metadata, warnings) {
     if (warnMissing) {
       warnings.push(`${label} unavailable because GA4 does not expose ${dimensions.join(", ")}.`);
     }
-    return [];
+    return Object.assign([], { unavailable: true });
   }
 
   const rows = await safeReport(label, warnings, () => runReport(client, propertyId, {
@@ -939,7 +951,7 @@ async function fetchBreakdown(client, propertyId, input, metadata, warnings) {
     dimensionFilter,
     dateRanges: dateRange(dateIso),
   }));
-  return mapBreakdownRows(rows, dimensions, metrics, { limit, skipUnattributed });
+  return Object.assign(mapBreakdownRows(rows, dimensions, metrics, { limit, skipUnattributed }), { unavailable: Boolean(rows.unavailable) });
 }
 
 function buildEventRows(rows) {
@@ -947,10 +959,12 @@ function buildEventRows(rows) {
     .map((row) => {
       const name = rowDim(row, 0);
       const count = numberOrZero(rowValue(row, 0));
+      const sessions = row.metricValues?.length > 1 ? numberOrZero(rowValue(row, 1)) : null;
       const definition = getEventDefinition(name);
       return {
         name,
         count,
+        sessions,
         ...definition,
       };
     })
@@ -1179,7 +1193,7 @@ async function fetchContent(client, propertyId, dateIso, catalog, warnings) {
 async function fetchEvents(client, propertyId, dateIso, warnings) {
   const rows = await safeReport("Tracked events", warnings, () => runReport(client, propertyId, {
     dimensions: ["eventName"],
-    metrics: ["eventCount"],
+    metrics: ["eventCount", "sessions"],
     orderBy: "eventCount",
     limit: 80,
     dateRanges: dateRange(dateIso),
@@ -1187,13 +1201,24 @@ async function fetchEvents(client, propertyId, dateIso, warnings) {
   const eventRows = buildEventRows(rows);
   const groups = groupEvents(eventRows);
   return {
+    available: !rows.unavailable,
     rows: eventRows,
     groups,
-    keyActionCount: getKeyActionCount(eventRows),
+    keyActionCount: rows.unavailable ? null : getKeyActionCount(eventRows),
     highIntentActions: eventRows.filter((event) => HIGH_INTENT_EVENTS.has(event.name)),
     engagementEvents: eventRows.filter((event) => !HIGH_INTENT_EVENTS.has(event.name) && !DIAGNOSTIC_EVENTS.has(event.name)),
     diagnosticEvents: eventRows.filter((event) => DIAGNOSTIC_EVENTS.has(event.name)),
   };
+}
+
+async function fetchProductActivity(client, propertyId, dateIso, metadata, warnings) {
+  const rows = await fetchBreakdown(client, propertyId, {
+    label: "Product activity (register product_slug and action_type event dimensions)", dateIso,
+    dimensions: ["eventName", "customEvent:product_slug", "customEvent:action_type"],
+    metrics: ["eventCount", "sessions"], orderBy: "eventCount", limit: 40, requireMetadata: true,
+    dimensionFilter: eventNameFilter(["product_view", "product_demo_start", "product_demo_complete", "project_resource_click"]),
+  }, metadata, warnings);
+  return { available: !rows.unavailable, rows };
 }
 
 async function fetchTrafficQualitySignals(client, propertyId, dateIso, metadata, warnings) {
@@ -1228,68 +1253,39 @@ async function fetchTrafficQualitySignals(client, propertyId, dateIso, metadata,
   ]);
 
   return {
-    sessionsAt10Seconds: metricCount(engagementRows[0], "sessions"),
-    routeViewSessions: metricCount(routeRows[0], "sessions"),
-    routeViewEvents: metricCount(routeRows[0]),
-    knownSyntheticSessions: metricCount(automationRows[0], "sessions"),
-    automationSignals: metricCount(automationRows[0]),
+    sessionsWithEngagementEvent: engagementRows.unavailable ? null : metricCount(engagementRows[0], "sessions"),
+    routeViewSessions: routeRows.unavailable ? null : metricCount(routeRows[0], "sessions"),
+    routeViewEvents: routeRows.unavailable ? null : metricCount(routeRows[0]),
+    knownSyntheticSessions: automationRows.unavailable ? null : metricCount(automationRows[0], "sessions"),
+    automationSignals: automationRows.unavailable ? null : metricCount(automationRows[0]),
   };
 }
 
 export function buildTrafficQuality(current, traffic, events, audience, signals) {
-  const rawSessions = numberOrZero(current.sessions);
-  const engagedSessions = numberOrZero(current.engagedSessions);
-  const eventCount = numberOrZero(current.eventCount);
-  const routeViewEvents = numberOrZero(signals.routeViewEvents);
-  const knownSyntheticSessions = Math.min(rawSessions, numberOrZero(signals.knownSyntheticSessions));
-  const sessionsAt10Seconds = Math.min(rawSessions, numberOrZero(signals.sessionsAt10Seconds));
-  // GA4's standard report does not expose a per-session route count. This is
-  // a conservative aggregate proxy, never presented as an exact identity count.
-  const multiRouteSessionEstimate = Math.min(rawSessions, Math.max(0, routeViewEvents - rawSessions));
-  // Multi-route activity is useful context, but it is not by itself human
-  // evidence: scripted crawlers often traverse many routes very quickly.
-  const humanEvidence = Math.max(engagedSessions, sessionsAt10Seconds);
-  const sourceRows = traffic.sourceMedium || [];
-  const directSessions = sourceRows
-    .filter((row) => /\(direct\)|direct/i.test(row.label))
-    .reduce((sum, row) => sum + numberOrZero(row.metrics.sessions), 0);
-  const deviceRows = audience.devices || [];
-  const desktop = deviceRows.find((row) => row.label === "desktop")?.metrics.sessions ?? 0;
-  const mobile = deviceRows.find((row) => row.label === "mobile")?.metrics.sessions ?? 0;
-  const symmetricDevices = rawSessions >= 8 && desktop > 0 && mobile > 0 && Math.abs(desktop - mobile) <= 1;
+  // These are aggregate observations. Engagement cannot classify humans/bots,
+  // and counts of route events cannot establish individual session paths.
+  const known = (value) => typeof value === "number" && Number.isFinite(value) ? Math.max(0, value) : null;
+  const rawSessions = known(current.sessions);
+  const engagedSessions = known(current.engagedSessions);
+  const routeViewEvents = known(signals.routeViewEvents);
+  const routeViewSessions = known(signals.routeViewSessions);
   const reasons = [];
-  if (knownSyntheticSessions || signals.automationSignals) reasons.push("known automation markers were recorded");
-  if (rawSessions >= 8 && current.engagementRate < 0.15) reasons.push("engagement was unusually low");
-  if (rawSessions >= 8 && current.averageSessionDuration < 3) reasons.push("average session duration was near zero");
-  if (rawSessions >= 8 && current.newUsers / rawSessions > 0.9) reasons.push("almost every session was a new identity");
-  if (rawSessions >= 8 && directSessions / rawSessions > 0.9) reasons.push("nearly all sessions were unattributed/Direct");
-  if (symmetricDevices) reasons.push("desktop and mobile activity was mechanically even");
-  if (rawSessions > 0 && eventCount / rawSessions > 12) reasons.push("events per session were unusually high");
-  if (rawSessions > 0 && routeViewEvents / rawSessions > 3 && engagedSessions / rawSessions < 0.2) reasons.push("many route views occurred without matching engagement");
-
-  const suspicious = reasons.length >= 2;
-  const likelyHumanSessions = Math.max(0, Math.min(rawSessions - knownSyntheticSessions, humanEvidence));
-  const likelyAutomatedSessions = Math.min(rawSessions, knownSyntheticSessions + (suspicious ? Math.max(0, rawSessions - knownSyntheticSessions - likelyHumanSessions) : 0));
-  const suspiciousSessions = Math.max(0, rawSessions - likelyHumanSessions - knownSyntheticSessions);
-  const highIntentActions = numberOrZero(events.keyActionCount);
-
+  const lowEngagement = rawSessions >= 20 && current.engagementRate != null && current.averageSessionDuration != null &&
+    current.engagementRate < 0.15 && current.averageSessionDuration < 3;
+  if (lowEngagement) reasons.push("at least 20 sessions, engagement below 15%, and average session duration below 3 seconds");
   return {
-    rawSessions,
-    likelyHumanSessions,
-    engagedSessions,
-    sessionsAt10Seconds,
-    multiRouteSessionEstimate,
-    returningUsers: Math.max(0, numberOrZero(current.totalUsers) - numberOrZero(current.newUsers)),
-    newUsers: numberOrZero(current.newUsers),
-    likelyAutomatedSessions,
-    knownSyntheticSessions,
-    suspiciousSessions,
-    suspicious,
-    reasons,
-    eventsPerSession: rawSessions ? eventCount / rawSessions : 0,
-    engagementRate: numberOrZero(current.engagementRate),
-    meaningfulActionsPerHumanSession: likelyHumanSessions ? highIntentActions / likelyHumanSessions : 0,
-    automationSignals: numberOrZero(signals.automationSignals),
+    rawSessions, engagedSessions,
+    sessionsWithoutObservedEngagement: rawSessions !== null && engagedSessions !== null ? Math.max(0, rawSessions - engagedSessions) : null,
+    sessionsWithEngagementEvent: known(signals.sessionsWithEngagementEvent ?? signals.sessionsAt10Seconds),
+    extraRouteEvents: routeViewEvents !== null && routeViewSessions !== null ? Math.max(0, routeViewEvents - routeViewSessions) : null,
+    returningUsers: current.totalUsers != null && current.newUsers != null ? Math.max(0, current.totalUsers - current.newUsers) : null,
+    newUsers: known(current.newUsers),
+    knownSyntheticSessions: known(signals.knownSyntheticSessions),
+    reasons, lowEngagement,
+    eventsPerSession: rawSessions ? known(current.eventCount) === null ? null : current.eventCount / rawSessions : null,
+    engagementRate: known(current.engagementRate),
+    actionsPerSession: rawSessions && events.keyActionCount != null ? events.keyActionCount / rawSessions : null,
+    automationSignals: known(signals.automationSignals),
   };
 }
 
@@ -1310,15 +1306,11 @@ export function buildDeterministicAnalysis(report) {
   const topAction = report.events.highIntentActions?.[0];
   const paragraphs = [];
 
-  let opening = `GA4 recorded ${formatInteger(quality.rawSessions)} sessions and ${formatInteger(current.totalUsers)} users; the session count ${describeTrend(current.sessions, previous.sessions)}.`;
+  let opening = current.sessions == null ? "The GA4 overview query is unavailable; no visitor totals can be stated." : `GA4 recorded ${observed(quality.rawSessions)} sessions and ${observed(current.totalUsers)} users; the session count ${previous.sessions == null ? "has no available comparison" : describeTrend(current.sessions, previous.sessions)}.`;
   if (numberOrZero(previous.sessions) < 5 && current.sessions > previous.sessions) {
     opening += " The percentage change is intentionally not emphasized because the previous baseline was tiny.";
   }
-  if (quality.suspicious) {
-    opening += ` Only about ${formatInteger(quality.likelyHumanSessions)} session${quality.likelyHumanSessions === 1 ? "" : "s"} had clear human-engagement evidence, so this should not yet be read as a comparable increase in human visitors.`;
-  } else {
-    opening += ` About ${formatInteger(quality.likelyHumanSessions)} session${quality.likelyHumanSessions === 1 ? "" : "s"} showed clear engagement evidence.`;
-  }
+  opening += quality.engagedSessions == null ? " Engagement data is unavailable." : ` ${formatInteger(quality.engagedSessions)} sessions met GA4's engagement definition; this does not identify human visitors.`;
   paragraphs.push(opening);
 
   const acquisition = topSource
@@ -1329,12 +1321,12 @@ export function buildDeterministicAnalysis(report) {
 
   if (topPage || topAction) {
     const content = topPage ? `${topPage.title} was the most-viewed content (${formatInteger(topPage.views)} views${topPage.engagementRate ? `, ${formatPercent(topPage.engagementRate)} engagement` : ""})` : "No content page stood out";
-    const action = topAction ? ` The strongest high-intent action was ${topAction.label.toLowerCase()} (${formatInteger(topAction.count)}).` : " No high-intent action was recorded.";
+    const action = report.events.available === false ? " Action data is unavailable." : topAction ? ` The strongest high-intent action was ${topAction.label.toLowerCase()} (${formatInteger(topAction.count)}).` : " No high-intent action was recorded.";
     paragraphs.push(`${content}.${action}`);
   }
 
   if (quality.reasons.length) {
-    paragraphs.push(`Traffic-quality caution: ${quality.reasons.slice(0, 4).join("; ")}. These are transparent aggregate heuristics, not proof that any individual visitor was a bot.`);
+    paragraphs.push(`Aggregate low-engagement rule triggered: ${quality.reasons.slice(0, 4).join("; ")}. This does not classify individual sessions or identify bots.`);
   } else if (current.engagedSessions === 0) {
     paragraphs.push("No engaged sessions were recorded, so there is not enough evidence to describe this day as meaningful visitor interest.");
   }
@@ -1780,6 +1772,7 @@ export async function buildDailyAnalyticsReport(options) {
     media,
     actionFlow,
     qualitySignals,
+    productActivity,
   ] = await Promise.all([
     fetchOverview(resilientClient, propertyId, dateIso, warnings, "Overview"),
     fetchOverview(resilientClient, propertyId, previousDate, warnings, "Previous-day overview"),
@@ -1794,6 +1787,7 @@ export async function buildDailyAnalyticsReport(options) {
     fetchMediaInsights(resilientClient, propertyId, dateIso, metadata, warnings),
     fetchActionFlowInsights(resilientClient, propertyId, dateIso, metadata, warnings),
     fetchTrafficQualitySignals(resilientClient, propertyId, dateIso, metadata, warnings),
+    fetchProductActivity(resilientClient, propertyId, dateIso, metadata, warnings),
   ]);
 
   const scorecards = buildScorecards(current, previous, prior7);
@@ -1826,6 +1820,7 @@ export async function buildDailyAnalyticsReport(options) {
     traffic,
     content,
     events,
+    productActivity,
     journeys,
     attention,
     media,
@@ -1838,7 +1833,7 @@ export async function buildDailyAnalyticsReport(options) {
       customDimensions.missing.length > 0
         ? "Some event-level custom details are not registered as GA4 custom dimensions yet, so the report shows available built-in attribution plus local content tags."
       : "All recommended event-level custom dimensions are available in GA4 metadata.",
-      "Known automated browsing is suppressed before GA4 initializes. Traffic-quality estimates remain cautious because GA4 aggregate reports cannot perfectly identify bots or individual sessions.",
+      "Known automated browsing is suppressed before GA4 initializes. GA4 aggregate reports cannot identify human/bot session counts or individual session paths.",
       "City and region values come from GA4's privacy-preserving dimensions. Small counts are directional only; this report does not collect raw IP addresses.",
     ],
     warnings: unique(warnings),
@@ -1913,40 +1908,27 @@ function renderHighlights(highlights) {
 
 function getRenderableTrafficQuality(report) {
   if (report.trafficQuality) return report.trafficQuality;
-  const scorecardValue = (key) => report.scorecards?.find((card) => card.key === key)?.value ?? 0;
-  const rawSessions = scorecardValue("sessions");
-  const engagedSessions = scorecardValue("engagedSessions");
-  return {
-    rawSessions,
-    likelyHumanSessions: engagedSessions,
-    engagedSessions,
-    sessionsAt10Seconds: 0,
-    multiRouteSessionEstimate: 0,
-    returningUsers: Math.max(0, scorecardValue("totalUsers") - scorecardValue("newUsers")),
-    newUsers: scorecardValue("newUsers"),
-    knownSyntheticSessions: 0,
-    likelyAutomatedSessions: 0,
-    suspiciousSessions: 0,
-    eventsPerSession: rawSessions ? scorecardValue("eventCount") / rawSessions : 0,
-    meaningfulActionsPerHumanSession: engagedSessions ? numberOrZero(report.events?.keyActionCount) / engagedSessions : 0,
-    reasons: [],
-  };
+  const metric = (key) => report.scorecards?.find((card) => card.key === key)?.value ?? null;
+  return buildTrafficQuality({ sessions: metric("sessions"), engagedSessions: metric("engagedSessions"), eventCount: metric("eventCount"), engagementRate: metric("engagementRate") }, {}, report.events || {}, {}, {});
+}
+function observed(value, format = formatInteger) {
+  return value == null ? "Unavailable" : format(value);
 }
 
 function renderDailySummary(report) {
   const quality = getRenderableTrafficQuality(report);
   const cards = [
-    ["Likely human sessions", quality.likelyHumanSessions],
+    ["Without observed engagement", quality.sessionsWithoutObservedEngagement],
     ["Raw sessions", quality.rawSessions],
     ["Engaged sessions", quality.engagedSessions],
     ["High-intent actions", report.events.keyActionCount],
     ["Views", report.current?.screenPageViews ?? report.scorecards?.find((card) => card.key === "screenPageViews")?.value ?? 0],
-    ["Engagement", formatPercent(quality.engagementRate)],
+    ["Engagement", observed(quality.engagementRate, formatPercent)],
   ];
   return `${renderSectionTitle("Daily Analytics Summary", "A quality-first readout. Raw GA4 totals remain available below.")}
   <tr><td style="padding:0 20px">${renderTable(
-    [{ label: "Likely human" }, { label: "Raw" }, { label: "Engaged" }, { label: "High intent" }, { label: "Views" }, { label: "Engagement" }],
-    [[...cards.map(([, value]) => ({ value: typeof value === "string" ? value : formatInteger(value), align: "right" }))]],
+    [{ label: "Without engagement" }, { label: "Raw" }, { label: "Engaged" }, { label: "High intent" }, { label: "Views" }, { label: "Engagement" }],
+    [[...cards.map(([, value]) => ({ value: typeof value === "string" ? value : observed(value), align: "right" }))]],
   )}</td></tr>`;
 }
 
@@ -1955,28 +1937,39 @@ function renderNarrative(report) {
   <tr><td style="padding:0 28px">${(report.analysis || []).map((paragraph) => `<p style="margin:0 0 12px;color:#334155;font-size:14px;line-height:21px">${escapeHtml(paragraph)}</p>`).join("") || renderEmpty("No interpretation available.")}</td></tr>`;
 }
 
+function renderActivityArea(report, title, names) {
+  const rows = (report.events?.rows || []).filter((event) => names.includes(event.name)).map((event) => [
+    { value: event.label }, { value: formatInteger(event.count), align: "right" }, { value: observed(event.sessions), align: "right" },
+  ]);
+  return `${renderSectionTitle(title, "Event counts and sessions containing each event. Session rows overlap and must not be summed.")}
+  <tr><td style="padding:0 28px">${report.events?.available === false ? renderEmpty("Unavailable: tracked event query failed.") : renderTable([{ label: "Action" }, { label: "Events" }, { label: "Sessions with action" }], rows)}</td></tr>`;
+}
+function renderProductActivity(report) {
+  const activity = report.productActivity;
+  const rows = (activity?.rows || []).filter((row) => !["(not set)", ""].includes(row.dimensions["customEvent:product_slug"] || "")).map((row) => [
+    { value: row.dimensions["customEvent:product_slug"] }, { value: row.dimensions.eventName },
+    { value: row.dimensions["customEvent:action_type"] || "—" }, { value: observed(row.metrics.eventCount) }, { value: observed(row.metrics.sessions) },
+  ]);
+  return `${renderSectionTitle("Product activity", "Store referrals and download clicks measure intent. Verified installations are unavailable. Sessions may overlap across actions.")}
+  <tr><td style="padding:0 28px">${activity?.available ? renderTable([{ label: "Product" }, { label: "Event" }, { label: "Action type" }, { label: "Events" }, { label: "Sessions with action" }], rows) : renderEmpty("Unavailable: register product_slug and action_type event dimensions in GA4; check report warnings.")}</td></tr>`;
+}
+
 function renderTrafficQualitySection(report) {
   const q = getRenderableTrafficQuality(report);
   const rows = [
-    ["Raw GA4 sessions", q.rawSessions],
-    ["Likely human sessions", q.likelyHumanSessions],
-    ["Engaged sessions", q.engagedSessions],
-    ["Sessions with observed ≥10s engagement", q.sessionsAt10Seconds],
-    ["Estimated multi-route sessions", q.multiRouteSessionEstimate],
-    ["Returning users", q.returningUsers],
-    ["New users", q.newUsers],
-    ["Known synthetic/test sessions", q.knownSyntheticSessions],
-    ["Likely automated/test sessions", q.likelyAutomatedSessions],
-    ["Suspicious sessions", q.suspiciousSessions],
-    ["Events / session", formatDecimal(q.eventsPerSession)],
-    ["Meaningful actions / likely human session", formatDecimal(q.meaningfulActionsPerHumanSession)],
-  ].map(([label, value]) => [{ value: label }, { value: typeof value === "string" ? value : formatInteger(value), align: "right" }]);
-  const caution = q.reasons.length
-    ? `Suspicion signals: ${q.reasons.join("; ")}.`
-    : "No strong aggregate automation pattern was detected.";
-  return `${renderSectionTitle("Traffic Quality", "Likely-human and synthetic estimates use transparent aggregate heuristics; they are not a bot-identification claim.")}
+    ["Observed GA4 sessions", q.rawSessions],
+    ["Engaged sessions (GA4 definition)", q.engagedSessions],
+    ["Sessions without observed engagement", q.sessionsWithoutObservedEngagement],
+    ["Sessions with user_engagement event (no duration threshold inferred)", q.sessionsWithEngagementEvent],
+    ["Extra route events beyond first per reporting session (not session paths)", q.extraRouteEvents],
+    ["Known automation-marker sessions", q.knownSyntheticSessions],
+    ["Events / session", observed(q.eventsPerSession, formatDecimal)],
+    ["High-intent action events / session", observed(q.actionsPerSession, formatDecimal)],
+  ].map(([label, value]) => [{ value: label }, { value: typeof value === "string" ? value : observed(value), align: "right" }]);
+  const caution = q.reasons.length ? `Aggregate rule triggered: ${q.reasons.join("; ")}.` : "Aggregate low-engagement rule did not trigger.";
+  return `${renderSectionTitle("Traffic Quality", "Observed engagement and derived event ratios. Human/bot counts and installations are unknown.")}
   <tr><td style="padding:0 28px 12px">${renderTable([{ label: "Metric" }, { label: "Value", align: "right" }], rows)}</td></tr>
-  <tr><td style="padding:0 28px"><p style="margin:0;color:#64748b;font-size:13px;line-height:19px">${escapeHtml(caution)} Multi-route is a conservative aggregate proxy because GA4's standard Data API does not expose individual session paths.</p></td></tr>`;
+  <tr><td style="padding:0 28px"><p style="color:#64748b;font-size:13px">${escapeHtml(caution)} No per-session automation or navigation classification is possible from these aggregates.</p></td></tr>`;
 }
 
 function renderTrafficSection(report) {
@@ -2387,7 +2380,7 @@ function renderQualitySection(report) {
 
 export function renderReportHtml(report) {
   const sessions = report.trafficQuality?.rawSessions ?? report.scorecards.find((card) => card.key === "sessions")?.display ?? "0";
-  const humanSessions = report.trafficQuality?.likelyHumanSessions;
+  const engagedSessions = report.trafficQuality?.engagedSessions;
   const keyActions = formatInteger(report.events.keyActionCount);
 
   return `<!doctype html>
@@ -2399,12 +2392,15 @@ export function renderReportHtml(report) {
         <tr><td style="padding:30px 28px;background:#0f172a;color:#ffffff">
           <div style="color:#cbd5e1;font-size:13px;line-height:18px">${escapeHtml(report.meta.dateLabel)} &middot; generated ${escapeHtml(report.meta.generatedAtLabel)}</div>
           <h1 style="margin:8px 0 0;font-size:28px;line-height:34px;font-weight:750">${escapeHtml(report.meta.siteName)} analytics</h1>
-          <p style="margin:8px 0 0;color:#dbeafe;font-size:15px;line-height:22px">${escapeHtml(humanSessions === undefined ? sessions : `${formatInteger(humanSessions)} likely human / ${formatInteger(sessions)} raw sessions`)} / ${escapeHtml(keyActions)} high-intent actions</p>
+          <p style="margin:8px 0 0;color:#dbeafe;font-size:15px;line-height:22px">${escapeHtml(engagedSessions == null ? sessions : `${formatInteger(engagedSessions)} engaged / ${formatInteger(sessions)} sessions`)} / ${escapeHtml(keyActions)} high-intent actions</p>
           <p style="margin:14px 0 0;color:#94a3b8;font-size:12px;line-height:18px">Source: ${escapeHtml(report.meta.source)}</p>
         </td></tr>
         ${renderDailySummary(report)}
         ${renderNarrative(report)}
         ${renderTrafficQualitySection(report)}
+        ${renderActivityArea(report, "Portfolio activity", ["project_open", "resume_download", "resume_view", "contact_click", "contact_submit", "social_click"])}
+        ${renderProductActivity(report)}
+        ${renderActivityArea(report, "Content activity", ["article_open", "article_source_click", "article_project_click", "work_log_open", "newsletter_interest"])}
         ${renderTrafficSection(report)}
         ${renderAudienceSection(report)}
         ${renderContentSection(report)}
@@ -2452,17 +2448,22 @@ export function renderReportText(report) {
     renderTextRows(
       ["Metric", "Value"],
       report.trafficQuality ? [
-        ["Raw GA4 sessions", formatInteger(report.trafficQuality.rawSessions)],
-        ["Likely human sessions", formatInteger(report.trafficQuality.likelyHumanSessions)],
-        ["Engaged sessions", formatInteger(report.trafficQuality.engagedSessions)],
-        ["Sessions with observed ≥10s engagement", formatInteger(report.trafficQuality.sessionsAt10Seconds)],
-        ["Known synthetic/test sessions", formatInteger(report.trafficQuality.knownSyntheticSessions)],
-        ["Likely automated/test sessions", formatInteger(report.trafficQuality.likelyAutomatedSessions)],
-        ["Suspicious sessions", formatInteger(report.trafficQuality.suspiciousSessions)],
+        ["Raw GA4 sessions", observed(report.trafficQuality.rawSessions)],
+        ["Sessions without observed engagement", observed(report.trafficQuality.sessionsWithoutObservedEngagement)],
+        ["Engaged sessions", observed(report.trafficQuality.engagedSessions)],
+        ["Sessions with user_engagement event", observed(report.trafficQuality.sessionsWithEngagementEvent)],
+        ["Known synthetic/test sessions", observed(report.trafficQuality.knownSyntheticSessions)],
         ["Events / session", formatDecimal(report.trafficQuality.eventsPerSession)],
       ] : [],
     ),
     "",
+    "## Portfolio activity",
+    renderTextRows(["Event", "Events", "Sessions with action (overlapping)"], (report.events.rows || []).filter((e) => ["project_open", "resume_download", "contact_submit"].includes(e.name)).map((e) => [e.name, e.count, observed(e.sessions)])),
+    "## Product activity",
+    "Store referrals and downloads are intent; verified installations are unavailable.",
+    renderTextRows(["Product", "Event", "Action", "Events", "Sessions with action (overlapping)"], (report.productActivity?.rows || []).map((row) => [row.dimensions["customEvent:product_slug"], row.dimensions.eventName, row.dimensions["customEvent:action_type"], observed(row.metrics.eventCount), observed(row.metrics.sessions)])),
+    "## Content activity",
+    renderTextRows(["Event", "Events", "Sessions with action (overlapping)"], (report.events.rows || []).filter((e) => ["article_open", "article_project_click", "work_log_open", "newsletter_interest"].includes(e.name)).map((e) => [e.name, e.count, observed(e.sessions)])),
     "## Acquisition",
     renderTextRows(
       ["Source / medium", "Sessions", "Engaged", "Users", "Actions"],
