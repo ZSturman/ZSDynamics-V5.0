@@ -4,7 +4,7 @@ Added recognizable thumbnails and identity icons to Home Page, Trackables, iPhon
 
 Curated originals and derivatives live under each `content/projects/<slug>/images/` and are copied by the normal local-project merge into `public/projects/`. To refresh after replacing an icon: `node scripts/generate-native-app-thumbnails.mjs`, then `npm run build && npm run validate:portfolio`. The generator uses the existing Sharp dependency. Project identities, release status and source app files are unchanged.
 
-Validation: build and 51-project/94-route checks pass; all seven relevant project/API thumbnail fields resolve, including existing ChewSense media. Safari preview confirms Camera Monitor renders beside its project in square list view and in landscape grid view. The same generated layout and embedded PNG format is used for all six additions. The normal pre-push media gate and Firebase workflow publish the change; inspect `/projects` and `/apps`. The previous native release/deployment record below remains dated evidence.
+Validation: build and 51-project/94-route checks pass; all seven relevant project/API thumbnail fields resolve, including existing ChewSense media. Safari preview confirms Camera Monitor renders beside its project in square list view and in landscape grid view. The same generated layout and embedded PNG format is used for all six additions. The Apps index now explicitly renders each app’s icon beside its title, using the same optimized project-image resolver. The normal pre-push media gate and Firebase workflow publish the change; inspect `/projects` and `/apps`. The previous native release/deployment record below remains dated evidence.
 
 ---
 
