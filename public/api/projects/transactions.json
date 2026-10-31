@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-10-30T00:27:24.613404+00:00",
+  "generated_at": "2026-10-31T13:06:13.834316+00:00",
   "data": {
     "id": "35eaec94-4d3c-80bc-9273-c1403b6c02ad",
     "slug": "transactions",
@@ -9,7 +9,7 @@
     "title": "Transactions",
     "name": "Transactions",
     "subtitle": "Shared expenses on web, iPhone, iPad and Android.",
-    "summary": "Track shared expenses, approvals and balances across web and native mobile apps. The web app is available now; the iOS app is waiting for Apple review. Try the browser demo without an account.",
+    "summary": "Shared expenses, approvals and balances on the web, iPhone and iPad. Try the account-free browser demo; Android store publication is deferred.",
     "oneLiner": "Shared expenses and balances across web and mobile.",
     "domain": "Technology",
     "category": "Application",
@@ -18,7 +18,7 @@
     "featured": true,
     "featuredOrder": 8,
     "createdAt": "2024-08-12",
-    "updatedAt": "2026-10-24",
+    "updatedAt": "2026-10-31",
     "isPublic": true,
     "tags": [
       "Next.js",
@@ -36,7 +36,7 @@
     "genres": [],
     "topics": [],
     "subjects": [],
-    "description": "Transactions records shared expenses, requests, approvals, disputes and settlements between people. The native Expo/React Native clients for iPhone, iPad and Android share Firebase Authentication and Firestore records with the Next.js web app. CSV import/export and native file sharing help keep records portable. The web app is available now. iOS 1.0.0 (build 1), listed as Transactions: Shared Ledger, is waiting for Apple review with automatic release after approval. Android store publication is deferred. Transactions records obligations; it does not transfer money or connect to bank accounts.",
+    "description": "Transactions records shared expenses, requests, approvals, disputes and settlements between people. Native Expo/React Native clients share Firebase Authentication and Firestore records with the Next.js web app. iOS 1.0.0 (1), Transactions: Shared Ledger, is publicly available on the App Store. Android store publication remains deferred. CSV import/export and native sharing keep records portable. Transactions records obligations; it does not transfer money or connect to bank accounts.",
     "story": "",
     "images": {
       "hero": "hero.png",
@@ -60,6 +60,11 @@
         "type": "github",
         "label": "Web source",
         "url": "https://github.com/ZSturman/Transactions"
+      },
+      {
+        "type": "apple",
+        "label": "Install for iPhone and iPad",
+        "url": "https://apps.apple.com/app/id6826151834"
       }
     ],
     "assets": [
@@ -145,6 +150,8 @@
       "landingPath": "/transactions/demo",
       "platforms": [
         "Web",
+        "iPhone",
+        "iPad",
         "Browser demo"
       ]
     }

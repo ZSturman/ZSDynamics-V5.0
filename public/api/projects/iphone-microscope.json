@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "kind": "projects.detail",
+  "generated_at": "2026-10-31T13:19:20.228431+00:00",
+  "data": {
+    "id": "ca7748ce-f9b8-5bb9-a928-86ca6e8c95b1",
+    "slug": "iphone-microscope",
+    "href": "/projects/iphone-microscope",
+    "folderName": "iphone_microscope_ca7748ce-f9b8-5bb9-a928-86ca6e8c95b1",
+    "title": "iPhone Microscope",
+    "summary": "A native Mac workbench viewer with a paired iPhone camera companion for inspecting, capturing, and measuring small objects.",
+    "oneLiner": "A native Mac workbench viewer with a paired iPhone camera companion for inspecting, capturing, and measuring small objects.",
+    "domain": "Technology",
+    "category": "Application",
+    "status": "Active",
+    "phase": "Testing",
+    "featured": false,
+    "isPublic": true,
+    "createdAt": null,
+    "updatedAt": "2026-10-31",
+    "application": {
+      "landingPath": "/projects/iphone-microscope",
+      "platforms": [
+        "Mac (local build)",
+        "iPhone (private beta)"
+      ]
+    },
+    "resources": [],
+    "workLogs": [],
+    "readme": {
+      "content": "# iPhone Microscope\n\nA native Mac workbench viewer with a paired iPhone camera companion for inspecting, capturing, and measuring small objects.\n\nChoose Continuity Camera, a USB camera, or the paired iPhone companion. The companion exposes supported rear lenses, camera zoom, focus, exposure and torch controls. The Mac viewer adds stabilization, image adjustments, reference frames, still/video capture and calibrated line measurements. Digital zoom enlarges pixels; it is not optical magnification.\n\nThe iPhone companion is listed in private TestFlight as **Bench Lens: Microscope Camera**, version 1.0 (2). It requires the separate Mac viewer, which currently uses local development distribution. No public App Store download or public beta invitation is advertised. Pairing requires a code, encrypted local transport, Camera and Local Network permission, and both apps in the foreground.\n\nPhysical testing on October 30 delivered about 59 FPS at 1920 × 1440 over Continuity Camera. The companion route delivered about 3 FPS at 1080p and 0.75 FPS at 4K in the latest test; it needs throughput work before smooth live soldering use. Twenty software tests and short recording/controls checks pass. These measurements are device-specific; latency, long-session reliability and certified measurement accuracy are not established.\n\nThe Ender 3 V2 overhead stand is a separate printable prototype. Its geometry has been checked, but physical fit, load and clearance are unverified. This is an inspection tool, not a certified measurement instrument.\n",
+      "sourceUrl": "/projects/iphone_microscope_ca7748ce-f9b8-5bb9-a928-86ca6e8c95b1/README.md"
+    }
+  }
+}

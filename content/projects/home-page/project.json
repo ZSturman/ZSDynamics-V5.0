@@ -4,20 +4,20 @@
   "href": "/projects/home-page",
   "folderName": "home_page_748b7fdb-3972-534d-be54-a7866995cda3",
   "title": "Home Page",
-  "summary": "A native Mac dashboard for launching apps, configured Shortcuts, and optional status updates from connected apps.",
+  "summary": "A native Mac starting point for app updates, configurable cards, Shortcuts, and separately approved actions in participating apps.",
   "oneLiner": "Your apps. One place to begin.",
   "domain": "Technology",
   "category": "Application",
   "status": "Active",
-  "phase": "Development",
+  "phase": "Testing",
   "featured": false,
   "isPublic": true,
   "createdAt": null,
-  "updatedAt": null,
+  "updatedAt": "2026-10-31",
   "application": {
     "landingPath": "/home-page",
     "platforms": [
-      "macOS 14.4+ (release pending)"
+      "macOS 14.4+ (private beta; App Store review pending)"
     ]
   },
   "resources": [
@@ -27,5 +27,13 @@
       "url": "/home-page"
     }
   ],
-  "workLogs": []
+  "workLogs": [],
+  "assets": [
+    {
+      "id": "workspace-setup",
+      "type": "image",
+      "path": "/projects/home_page_748b7fdb-3972-534d-be54-a7866995cda3/images/workspace-setup.jpg",
+      "label": "Home Page: actual first-run screen in an isolated preview; no live source data"
+    }
+  ]
 }

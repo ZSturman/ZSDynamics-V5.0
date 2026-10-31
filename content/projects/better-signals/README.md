@@ -17,7 +17,7 @@ A native recording app for iPhone, iPad, and Apple Watch. Answer a short questio
 
 ## Availability
 
-[Install the approved public release from the App Store](https://apps.apple.com/us/app/better-signals/id6824696184). Version 1.1.0 (build 2) is available in the United States. Newer beta features are separate. Requires iOS or iPadOS 26 and watchOS 26 for the paired Watch app.
+[Install the approved public release from the App Store](https://apps.apple.com/us/app/better-signals/id6824696184). Version 1.4.0 is available in the United States. Newer beta features are separate. Requires iOS or iPadOS 26 and watchOS 26 for the paired Watch app.
 
 Watch Signals transfer to the paired iPhone. iPad history is separate; there is no iCloud history sync. Optional location uses system permissions and visit monitoring. The app records observations without diagnosis, scoring, or treatment recommendations.
 
@@ -32,3 +32,7 @@ The rename pass recorded 50 passing unit tests and a simulator recording/relaunc
 ## Media
 
 The gallery contains actual simulator captures. The hero and social card arrange those captures in a portfolio layout; app screen content is not generated. No personal history or private locations are included.
+
+## October 31 update
+
+Version 1.5.1 (13) is available in private TestFlight and submitted for Apple review. Short rounds reset at their original 30-minute boundary; saved Signals remain in History. Elapsed-time widget and physical Watch acceptance remain separate checks.

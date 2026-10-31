@@ -1,0 +1,34 @@
+{
+  "id": "1a1e475d-baba-58a5-9b13-c05f5d074bfa",
+  "slug": "trackables",
+  "href": "/projects/trackables",
+  "folderName": "trackables_1a1e475d-baba-58a5-9b13-c05f5d074bfa",
+  "title": "Trackables",
+  "summary": "A personal recorder for counts, choices, amounts, and duration, with widgets and an offline-capable Watch companion.",
+  "oneLiner": "A personal recorder for counts, choices, amounts, and duration, with widgets and an offline-capable Watch companion.",
+  "domain": "Technology",
+  "category": "Application",
+  "status": "Active",
+  "phase": "Testing",
+  "featured": false,
+  "isPublic": true,
+  "createdAt": null,
+  "updatedAt": "2026-10-31",
+  "application": {
+    "landingPath": "/projects/trackables",
+    "platforms": [
+      "iPhone",
+      "iPad",
+      "Apple Watch",
+      "Mac (private beta)"
+    ]
+  },
+  "resources": [
+    {
+      "type": "apple",
+      "label": "Install for iPhone and iPad",
+      "url": "https://apps.apple.com/app/id6826155743"
+    }
+  ],
+  "workLogs": []
+}

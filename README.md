@@ -10,7 +10,7 @@ This repository is the source for [zacharysturman.com](https://zacharysturman.co
 
 Contact messages are saved before delivery and organized in private Notion trackers. Writing subscriptions require email confirmation and receive new-article notifications with unsubscribe links. [Contact setup and daily use](docs/setup/contact-intake.md).
 
-![Apps discovery from the actual local static export](docs/images/apps-desktop.png)
+![Apps discovery from the October 29 static export, before the October 31 native-app additions](docs/images/apps-desktop.png)
 
 Work Logs opens recent sessions directly, with notes, attachments, project activity links, and session-type bars. Articles offers compact list rows or large visual grid cards. Historical pre-improvement captures are retained in `docs/images/`; they predate the shared navigation and URL-backed controls.
 
@@ -30,6 +30,8 @@ Work Logs opens recent sessions directly, with notes, attachments, project activ
 ## Apps, writing, and development history
 
 `/apps` reads application membership, platforms, and actions from the same Workspace-generated project manifest used by the archive. Authored entries and reviewed additions remain in `content/projects/` and `content/project-updates.json`; there is no separate product catalog. Preserve stable project IDs when updating these records.
+
+The October 31 app refresh adds Trackables, iPhone Microscope, Camera Monitor, Files & Backups and Casino Exit, and updates Home Page, ChewSense and existing app availability. Public Store releases, pending reviews and private TestFlight builds are described separately. Source content and public JSON output stay synchronized.
 
 Articles support shareable search, series/tag/project filters, view and sort state. Work-log links use `/work-logs?project=<slug>&tab=activity&log=<existing-id>` and preserve browser history. Durations distinguish recorded, calculated, estimated, and unavailable values. The shared primary navigation works across indexes, products, demos, and professional pages.
 

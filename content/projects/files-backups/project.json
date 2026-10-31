@@ -1,0 +1,27 @@
+{
+  "id": "1185b98e-d26d-5efe-86cc-ec9b38cd45c6",
+  "slug": "files-backups",
+  "href": "/projects/files-backups",
+  "folderName": "files_backups_1185b98e-d26d-5efe-86cc-ec9b38cd45c6",
+  "title": "Files & Backups",
+  "summary": "A native file and backup browser for iPhone, iPad, and Mac, with explicit provider configuration.",
+  "oneLiner": "A native file and backup browser for iPhone, iPad, and Mac, with explicit provider configuration.",
+  "domain": "Technology",
+  "category": "Application",
+  "status": "Active",
+  "phase": "Testing",
+  "featured": false,
+  "isPublic": true,
+  "createdAt": null,
+  "updatedAt": "2026-10-31",
+  "application": {
+    "landingPath": "/projects/files-backups",
+    "platforms": [
+      "iPhone (private beta)",
+      "iPad (private beta)",
+      "Mac (private beta)"
+    ]
+  },
+  "resources": [],
+  "workLogs": []
+}

@@ -1,3 +1,17 @@
+# Native app portfolio release — October 31, 2026
+
+The owner explicitly authorized this production release. This supersedes the earlier local-only hold for the completed reliability cycle below; it does not resume the paused daily publisher or redeploy the Worker.
+
+Added curated Trackables, iPhone Microscope, Camera Monitor, Files & Backups and Casino Exit entries. Updated Home Page's workspace/setup/privacy/real preview image, ChewSense's research collector/beta scope, Recallable Mac and Transactions public availability, and current app review/beta versions. The portfolio now has 51 projects, 12 Apps entries and 94 canonical routes. Curated content survives the existing cached/Notion merge.
+
+All 15 relevant platform builds are VALID / IN_BETA_TESTING. Six public version/platform submissions (Home Page, Recallable iOS/Mac, Trackables iOS, Better Signals and Better Workspace mobile) are WAITING_FOR_REVIEW with automatic release after approval. ChewSense Collect and the Microscope companion stay in private beta pending their documented physical checks. No public beta invitations or unapproved public download claims were added. [Current native release table](NATIVE_APP_RELEASES.md). Full signed/archive/Apple receipts are in Home Page `docs/RELEASE_AUDIT_2026-10-31.md` and `docs/RELEASE_RECEIPT_2026-10-31.json`.
+
+Validation: static build, output/link/metadata checks, 67 unit tests and all 36 Chromium/WebKit desktop/phone export regressions pass. A local preview startup hang was traced to reverse DNS in mDNS; `serve-export.py` now uses its explicit loopback address without a DNS lookup. Final production/media gate receipts will be recorded below.
+
+Exact local refresh: `npm run build && npm run validate:portfolio`; expected 51 projects and 94 canonical routes. Browser regression: `npm run test:export`; expected 36 passes. Check `/apps`, `/home-page` and `/projects/iphone-microscope` after deployment. Native device installation/Watch/widget/camera/collector acceptance and Apple review remain separate. The existing daily publisher remains paused.
+
+---
+
 # Portfolio reliability cycle — October 29, 2026
 
 Current checkout: `codex/portfolio-content-analytics`, based on `fb9468f`. Implementation commits: `9a28e3a` (report accuracy) and `8260087` (site, content, tracking and quality gates). No production deployment is authorized by this cycle.

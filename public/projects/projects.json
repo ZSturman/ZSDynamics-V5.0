@@ -251,7 +251,7 @@
     "title": "Transactions",
     "name": "Transactions",
     "subtitle": "Shared expenses on web, iPhone, iPad and Android.",
-    "summary": "Track shared expenses, approvals and balances across web and native mobile apps. The web app is available now; the iOS app is waiting for Apple review. Try the browser demo without an account.",
+    "summary": "Shared expenses, approvals and balances on the web, iPhone and iPad. Try the account-free browser demo; Android store publication is deferred.",
     "oneLiner": "Shared expenses and balances across web and mobile.",
     "domain": "Technology",
     "category": "Application",
@@ -260,7 +260,7 @@
     "featured": true,
     "featuredOrder": 8,
     "createdAt": "2024-08-12",
-    "updatedAt": "2026-10-24",
+    "updatedAt": "2026-10-31",
     "isPublic": true,
     "tags": [
       "Next.js",
@@ -278,7 +278,7 @@
     "genres": [],
     "topics": [],
     "subjects": [],
-    "description": "Transactions records shared expenses, requests, approvals, disputes and settlements between people. The native Expo/React Native clients for iPhone, iPad and Android share Firebase Authentication and Firestore records with the Next.js web app. CSV import/export and native file sharing help keep records portable. The web app is available now. iOS 1.0.0 (build 1), listed as Transactions: Shared Ledger, is waiting for Apple review with automatic release after approval. Android store publication is deferred. Transactions records obligations; it does not transfer money or connect to bank accounts.",
+    "description": "Transactions records shared expenses, requests, approvals, disputes and settlements between people. Native Expo/React Native clients share Firebase Authentication and Firestore records with the Next.js web app. iOS 1.0.0 (1), Transactions: Shared Ledger, is publicly available on the App Store. Android store publication remains deferred. CSV import/export and native sharing keep records portable. Transactions records obligations; it does not transfer money or connect to bank accounts.",
     "story": "",
     "images": {
       "hero": "hero.png",
@@ -302,6 +302,11 @@
         "type": "github",
         "label": "Web source",
         "url": "https://github.com/ZSturman/Transactions"
+      },
+      {
+        "type": "apple",
+        "label": "Install for iPhone and iPad",
+        "url": "https://apps.apple.com/app/id6826151834"
       }
     ],
     "assets": [
@@ -387,6 +392,8 @@
       "landingPath": "/transactions/demo",
       "platforms": [
         "Web",
+        "iPhone",
+        "iPad",
         "Browser demo"
       ]
     }
@@ -1990,7 +1997,7 @@
     "title": "ChewSense",
     "name": "ChewSense",
     "subtitle": "Using AirPods and motion data to help people slow down and eat more mindfully.",
-    "summary": "ChewSense is an iOS app that helps people slow down while they eat and pay more attention to their habits. It uses the motion sensors in AirPods to pick up chewing—mainly through X-axis acceleration—and gives gentle alerts when someone might be eating too fast. The app records motion and optional video so it can learn a person’s eating pattern and adjust over time. The goal is simple: improve digestion, avoid overeating, and make meals feel more mindful without asking the user to track anything manually.",
+    "summary": "A research workflow for paired eating video and AirPods motion: collect, review candidate events, and evaluate personalized models.",
     "oneLiner": "An iOS app that uses AirPods’ motion sensors to detect chewing and help users eat more mindfully by slowing down their pace.",
     "domain": "Technology",
     "category": "Application",
@@ -1999,7 +2006,7 @@
     "featured": true,
     "featuredOrder": 2,
     "createdAt": "2025-10-15",
-    "updatedAt": "2026-05-12",
+    "updatedAt": "2026-10-31",
     "isPublic": true,
     "tags": [
       "iOS",
@@ -2012,7 +2019,7 @@
     "genres": [],
     "topics": [],
     "subjects": [],
-    "description": "",
+    "description": "ChewSense combines Collect on iPhone, local Vision processing, human Review on Mac, and a motion-model research pipeline. The existing Collect app is publicly available; version 1.2 (7) refreshes private TestFlight with guided collection and optional, explicitly selected transfer to the Mac. The guided end-to-end loop has software and legacy-video evidence; a new physical paired recording and independent annotation are still required. Predictions are proposals, not verified labels or health advice. Live model promotion remains gated on measured data quality and evaluation. Archived shells and older model-debugging apps are separate experiments.",
     "story": "",
     "images": {
       "poster": "poster.png",
@@ -2068,6 +2075,13 @@
     "readme": {
       "content": "# Chew Sense – Data Collection and Labeling\n\nChew Sense records synchronized AirPods motion data and video for research, prototyping, and dataset creation. While optimized for chewing-related motion analysis, it can support any workflow requiring aligned video and AirPods motion samples.\n\n---\n\n## Features\n\n### Automatic AirPods Connection\n- The app connects to supported AirPods motion sensors on launch.  \n- Recording is enabled only when motion data is actively available.\n\n### Synchronized Recording\n- Each session stores a `.mov` video file and a `.csv` motion-data file in a single folder.  \n- Timestamps ensure precise alignment between modalities.\n\n### Optional Labeling Workflow\n- Recordings can be exported immediately when started in **Not eating** mode.  \n- When labeling is required, the detail view supports:\n  - Playback  \n  - Marker placement  \n  - Segment-based boolean labels  \n- Segments between markers are labeled `true`; all others are `false`.\n\n### Connection-Loss Protection\n- The app automatically pauses recording if the AirPods connection drops.  \n- This prevents incomplete or misaligned datasets.\n\n---\n\n## Data Format\n\n- **Video:** `recording.mov`  \n- **Motion data:** `motion.csv` with timestamped sensor rows  \n- **Labels:** Boolean values aligned to motion-data segments  \n\n---\n\n## Exporting\n\nRecordings can be exported or shared as a folder containing both files. This design simplifies downstream processing and machine-learning dataset assembly.\n\n---\n\n## Intended Use\n\nChew Sense is designed for technical users who need clean, consistent, and synchronized motion/video data.  \nIt is **not** intended as a consumer chewing-monitoring or health-tracking product.",
       "sourceUrl": "https://github.com/ZSturman/ChewSense---Data-Collection-and-Labeling/blob/main/README.md"
+    },
+    "application": {
+      "landingPath": "/projects/chewsense",
+      "platforms": [
+        "iPhone (Collect)",
+        "Mac (research tools)"
+      ]
     }
   },
   {
@@ -4284,7 +4298,7 @@
     "featured": true,
     "isPublic": true,
     "createdAt": null,
-    "updatedAt": "2026-10-24",
+    "updatedAt": "2026-10-31",
     "tags": [
       "SwiftUI",
       "iOS",
@@ -4390,7 +4404,7 @@
       }
     ],
     "readme": {
-      "content": "# Better Signals\n\nA native recording app for iPhone, iPad, and Apple Watch. Answer a short question, keep optional context, and export your data.\n\n![Better Signals: actual app screens with synthetic Signals](/projects/better_signals_33baec94-4d3c-805b-aa92-e0d16cc8a3f1/images/hero-optimized.webp)\n\n## What it does\n\n- Twelve metrics, in four categories, each with five labeled levels.\n- Quick Signal widgets and a paired Apple Watch companion.\n- Searchable History with answer, time, source, and optional context and location.\n- Optional prompts when you return to familiar places.\n- CSV, JSON, JSON Lines, and GeoJSON exports, read-only Shortcuts, and a current Files copy.\n- No account, advertising, tracking SDK, or developer-operated backend.\n\n[App overview](https://zacharysturman.com/better-signals) · [Support](https://zacharysturman.com/better-signals/support) · [Privacy](https://zacharysturman.com/better-signals/privacy)\n\n## Availability\n\n[Install the approved public release from the App Store](https://apps.apple.com/us/app/better-signals/id6824696184). Version 1.1.0 (build 2) is available in the United States. Newer beta features are separate. Requires iOS or iPadOS 26 and watchOS 26 for the paired Watch app.\n\nWatch Signals transfer to the paired iPhone. iPad history is separate; there is no iCloud history sync. Optional location uses system permissions and visit monitoring. The app records observations without diagnosis, scoring, or treatment recommendations.\n\n## How it works\n\nSwiftUI builds on a shared Swift archive layer compiled into the phone, Watch, and widget targets. Atomic locked writes and stable submission IDs coordinate recording. WatchConnectivity queues offline answers and exchanges receipts. App Groups share files within a device. The original Timing Coach archive is copied once without deleting the source; its raw SwiftData history stays in the legacy group. The earlier qualitative Better Signals database is preserved separately and is not converted into this different model.\n\n## Validation boundary\n\nThe rename pass recorded 50 passing unit tests and a simulator recording/relaunch smoke test. The release pass adds signed archive/export verification and fresh iPhone/iPad screenshot acceptance. Screenshots use synthetic Signals in disposable simulators. Physical Watch pairing, visit delivery, notification actions, accessibility, and installed-device upgrade checks remain beta acceptance items. There is no claim that compilation proves those flows.\n\n## Media\n\nThe gallery contains actual simulator captures. The hero and social card arrange those captures in a portfolio layout; app screen content is not generated. No personal history or private locations are included.\n",
+      "content": "# Better Signals\n\nA native recording app for iPhone, iPad, and Apple Watch. Answer a short question, keep optional context, and export your data.\n\n![Better Signals: actual app screens with synthetic Signals](/projects/better_signals_33baec94-4d3c-805b-aa92-e0d16cc8a3f1/images/hero-optimized.webp)\n\n## What it does\n\n- Twelve metrics, in four categories, each with five labeled levels.\n- Quick Signal widgets and a paired Apple Watch companion.\n- Searchable History with answer, time, source, and optional context and location.\n- Optional prompts when you return to familiar places.\n- CSV, JSON, JSON Lines, and GeoJSON exports, read-only Shortcuts, and a current Files copy.\n- No account, advertising, tracking SDK, or developer-operated backend.\n\n[App overview](https://zacharysturman.com/better-signals) · [Support](https://zacharysturman.com/better-signals/support) · [Privacy](https://zacharysturman.com/better-signals/privacy)\n\n## Availability\n\n[Install the approved public release from the App Store](https://apps.apple.com/us/app/better-signals/id6824696184). Version 1.4.0 is available in the United States. Newer beta features are separate. Requires iOS or iPadOS 26 and watchOS 26 for the paired Watch app.\n\nWatch Signals transfer to the paired iPhone. iPad history is separate; there is no iCloud history sync. Optional location uses system permissions and visit monitoring. The app records observations without diagnosis, scoring, or treatment recommendations.\n\n## How it works\n\nSwiftUI builds on a shared Swift archive layer compiled into the phone, Watch, and widget targets. Atomic locked writes and stable submission IDs coordinate recording. WatchConnectivity queues offline answers and exchanges receipts. App Groups share files within a device. The original Timing Coach archive is copied once without deleting the source; its raw SwiftData history stays in the legacy group. The earlier qualitative Better Signals database is preserved separately and is not converted into this different model.\n\n## Validation boundary\n\nThe rename pass recorded 50 passing unit tests and a simulator recording/relaunch smoke test. The release pass adds signed archive/export verification and fresh iPhone/iPad screenshot acceptance. Screenshots use synthetic Signals in disposable simulators. Physical Watch pairing, visit delivery, notification actions, accessibility, and installed-device upgrade checks remain beta acceptance items. There is no claim that compilation proves those flows.\n\n## Media\n\nThe gallery contains actual simulator captures. The hero and social card arrange those captures in a portfolio layout; app screen content is not generated. No personal history or private locations are included.\n\n## October 31 update\n\nVersion 1.5.1 (13) is available in private TestFlight and submitted for Apple review. Short rounds reset at their original 30-minute boundary; saved Signals remain in History. Elapsed-time widget and physical Watch acceptance remain separate checks.\n",
       "sourceUrl": "/projects/better_signals_33baec94-4d3c-805b-aa92-e0d16cc8a3f1/README.md"
     },
     "application": {
@@ -4418,7 +4432,7 @@
     "featured": true,
     "isPublic": true,
     "createdAt": null,
-    "updatedAt": "2026-10-24",
+    "updatedAt": "2026-10-31",
     "tags": [
       "SwiftUI",
       "macOS",
@@ -4430,7 +4444,7 @@
     "mediums": [
       "Software"
     ],
-    "description": "Better Workspace helps turn ideas into projects and projects into a useful next step. Advanced Mac 1.0 connects real folders, portable plans, priorities, capture, work history and optional reviewed integrations. Its signed, notarized download includes the runtime for Apple silicon and Intel. The iPhone and iPad app is available on the App Store as version 1.0.1: keep a workspace offline and connect the optional advanced Mac for its files and integrations. Explore the browser demo, download advanced Mac, install the mobile app or view the public source.",
+    "description": "Better Workspace helps turn ideas into projects and projects into a useful next step. Advanced Mac 1.0 connects real folders, portable plans, priorities, capture, work history and optional reviewed integrations. Its signed, notarized download includes the runtime for Apple silicon and Intel. The iPhone and iPad app is available on the App Store as version 1.0.2: keep a workspace offline and connect the optional advanced Mac for its files and integrations. Explore the browser demo, download advanced Mac, install the mobile app or view the public source.",
     "story": "I built Better Workspace to connect the parts of creative and technical work that usually live in separate tools: files, ideas, plans, captures and the decision about what to do next. The architecture keeps the filesystem as the source of truth, uses explicit reviewed actions for changes, and lets the phone participate without pretending it has direct access to the Mac filesystem.",
     "images": {
       "thumbnail": "images/mac-personal-sample.webp",
@@ -4504,7 +4518,7 @@
       }
     ],
     "readme": {
-      "content": "# Better Workspace\n\nProjects, ideas and a useful next step — across Mac, iPhone and iPad.\n\n[Download for Mac](https://github.com/ZSturman/Better-Workspace-Public/releases/download/v1.0/BetterWorkspace-1.0-8-mac.zip) · [Try Demo](/better-workspace/demo) · [View Source](https://github.com/ZSturman/Better-Workspace-Public) · [Getting started](/better-workspace#getting-started)\n\n![Actual Mac personal workspace with fictional sample projects](/projects/better_workspace_210b2324-2bdf-5751-a101-9c334db91f8c/images/mac-personal-sample.webp)\n\n## Make the next step easier to find\n\nStart with an idea, give it a project, and keep the next task close at hand. Better Workspace is for people juggling personal, creative and technical projects. Keep context around the work, catch a thought quickly, and see where to pick up next.\n\n## Choose your experience\n\n| Edition | Best for | Availability |\n| --- | --- | --- |\n| Advanced Mac | Real folders, portable plans, scoring, capture, progress, work history and optional Notion/agent tools | Download 1.0 now; macOS 14.4+, Apple silicon and Intel |\n| iPhone and iPad | Projects, tasks, ideas and documents; offline workspace and optional Mac access | [Install from the App Store](https://apps.apple.com/us/app/better-workspace/id6822519097) — version 1.0.1 |\n| Optional connected mobile workspace | Browse the advanced Mac’s published index and queue captures/planning changes | Requires advanced Mac, the same Apple account and iCloud Drive; Mac online to apply changes |\n\nThe mobile Store app works independently. The separate native Mac Store edition is retired. The advanced Mac edition keeps your existing folders and adds capabilities outside the App Store sandbox. No separate Python installation is needed for the public Mac download.\n\n## Start in a few minutes\n\n1. Download **BetterWorkspace-1.0-8-mac.zip**, expand it and drag **Better Workspace.app** to Applications.\n2. Open the app. In **Settings → General**, choose your workspace and inbox folders. An empty folder is a safe place to explore.\n3. Browse an existing project or add a folder under Projects. Add a task or portable work plan, then choose a priority.\n4. Keep early possibilities in Ideas. Use **Quick Capture / Ingest** for a thought, link or file, then review where it belongs.\n5. Return to Overview to choose your next action and see progress or recent work.\n6. Enable the bundled background service in **Settings → Services** when needed. Mobile publishing, Notion, notifications and agent tools are optional.\n\nAllow folder access when macOS asks about your selected folders. The release is signed, notarized and stapled; do not disable Gatekeeper. [Detailed setup and help](/better-workspace/support).\n\n## See it before installing\n\n[Try the browser demonstration](/better-workspace/demo). Follow real application screenshots and practice completing a task, capturing an idea and starting a sample work session. All interaction uses fictional page-memory data. No account, installation or access to a real workspace is needed.\n\nThe native personal app also offers **Try a private sample** from its welcome screen. Its editable records stay in memory and disappear when you close it. Personal records save locally and synchronize through your private iCloud account when available; transfers can take minutes.\n\n## Real application screens\n\nThe gallery shows native Mac, iPhone and iPad sample UI, connected project planning and idea scoring. Current personal screens were captured from optimized Release UI on October 15 and represent the Build 8 experience; they contain disposable sample data.\n\n![iPhone personal workspace](/projects/better_workspace_210b2324-2bdf-5751-a101-9c334db91f8c/images/iphone-personal-sample.webp)\n\n![iPad personal workspace](/projects/better_workspace_210b2324-2bdf-5751-a101-9c334db91f8c/images/ipad-personal-sample.webp)\n\n## Release and source\n\n[Release notes and checksum](https://github.com/ZSturman/Better-Workspace-Public/releases/tag/v1.0) · [MIT-licensed source](https://github.com/ZSturman/Better-Workspace-Public)\n\nBuild 8 passed installed-device acceptance, private Production sync and isolated packaged-runtime checks. Separate-user advanced installer/login acceptance and wider widget configuration coverage remain follow-ups. Cloud synchronization is eventual. The public source is a clean release snapshot; private development history and personal QA evidence are excluded.\n\n## Help and privacy\n\n[Setup and support](/better-workspace/support) · [Privacy policy](/better-workspace/privacy)\n",
+      "content": "# Better Workspace\n\nProjects, ideas and a useful next step — across Mac, iPhone and iPad.\n\n[Download for Mac](https://github.com/ZSturman/Better-Workspace-Public/releases/download/v1.0/BetterWorkspace-1.0-8-mac.zip) · [Try Demo](/better-workspace/demo) · [View Source](https://github.com/ZSturman/Better-Workspace-Public) · [Getting started](/better-workspace#getting-started)\n\n![Actual Mac personal workspace with fictional sample projects](/projects/better_workspace_210b2324-2bdf-5751-a101-9c334db91f8c/images/mac-personal-sample.webp)\n\n## Make the next step easier to find\n\nStart with an idea, give it a project, and keep the next task close at hand. Better Workspace is for people juggling personal, creative and technical projects. Keep context around the work, catch a thought quickly, and see where to pick up next.\n\n## Choose your experience\n\n| Edition | Best for | Availability |\n| --- | --- | --- |\n| Advanced Mac | Real folders, portable plans, scoring, capture, progress, work history and optional Notion/agent tools | Download 1.0 now; macOS 14.4+, Apple silicon and Intel |\n| iPhone and iPad | Projects, tasks, ideas and documents; offline workspace and optional Mac access | [Install from the App Store](https://apps.apple.com/us/app/better-workspace/id6822519097) — public version 1.0.2 |\n| Optional connected mobile workspace | Browse the advanced Mac’s published index and queue captures/planning changes | Requires advanced Mac, the same Apple account and iCloud Drive; Mac online to apply changes |\n\nThe mobile Store app works independently. The separate native Mac Store edition is retired. The advanced Mac edition keeps your existing folders and adds capabilities outside the App Store sandbox. No separate Python installation is needed for the public Mac download.\n\n## Start in a few minutes\n\n1. Download **BetterWorkspace-1.0-8-mac.zip**, expand it and drag **Better Workspace.app** to Applications.\n2. Open the app. In **Settings → General**, choose your workspace and inbox folders. An empty folder is a safe place to explore.\n3. Browse an existing project or add a folder under Projects. Add a task or portable work plan, then choose a priority.\n4. Keep early possibilities in Ideas. Use **Quick Capture / Ingest** for a thought, link or file, then review where it belongs.\n5. Return to Overview to choose your next action and see progress or recent work.\n6. Enable the bundled background service in **Settings → Services** when needed. Mobile publishing, Notion, notifications and agent tools are optional.\n\nAllow folder access when macOS asks about your selected folders. The release is signed, notarized and stapled; do not disable Gatekeeper. [Detailed setup and help](/better-workspace/support).\n\n## See it before installing\n\n[Try the browser demonstration](/better-workspace/demo). Follow real application screenshots and practice completing a task, capturing an idea and starting a sample work session. All interaction uses fictional page-memory data. No account, installation or access to a real workspace is needed.\n\nThe native personal app also offers **Try a private sample** from its welcome screen. Its editable records stay in memory and disappear when you close it. Personal records save locally and synchronize through your private iCloud account when available; transfers can take minutes.\n\n## Real application screens\n\nThe gallery shows native Mac, iPhone and iPad sample UI, connected project planning and idea scoring. Current personal screens were captured from optimized Release UI on October 15 and represent the Build 8 experience; they contain disposable sample data.\n\n![iPhone personal workspace](/projects/better_workspace_210b2324-2bdf-5751-a101-9c334db91f8c/images/iphone-personal-sample.webp)\n\n![iPad personal workspace](/projects/better_workspace_210b2324-2bdf-5751-a101-9c334db91f8c/images/ipad-personal-sample.webp)\n\n## Release and source\n\n[Release notes and checksum](https://github.com/ZSturman/Better-Workspace-Public/releases/tag/v1.0) · [MIT-licensed source](https://github.com/ZSturman/Better-Workspace-Public)\n\nBuild 8 passed installed-device acceptance, private Production sync and isolated packaged-runtime checks. Separate-user advanced installer/login acceptance and wider widget configuration coverage remain follow-ups. Cloud synchronization is eventual. The public source is a clean release snapshot; private development history and personal QA evidence are excluded.\n\n## Help and privacy\n\n[Setup and support](/better-workspace/support) · [Privacy policy](/better-workspace/privacy)\n\n## October 31 update\n\nMobile 1.0.3 (37) is in private TestFlight and submitted for Apple review. The advanced native Mac app continues to use its separate direct distribution; this submission does not revive the retired Mac Store edition.\n",
       "sourceUrl": "/projects/better_workspace_210b2324-2bdf-5751-a101-9c334db91f8c/README.md"
     },
     "application": {
@@ -4537,6 +4551,67 @@
         "whatHappened": "Submitted iPhone/iPad version 1.0.1 (15), with unified Workspace screenshots and updated review notes. Physical devices updated in place through TestFlight before submission."
       }
     ]
+  },
+  {
+    "id": "9cb88592-7541-5a7e-9cd0-3e103ee2e481",
+    "slug": "camera-monitor",
+    "href": "/projects/camera-monitor",
+    "folderName": "camera_monitor_9cb88592-7541-5a7e-9cd0-3e103ee2e481",
+    "title": "Camera Monitor",
+    "summary": "A native camera dashboard for iPhone, iPad, and Mac, with direct providers and optional Home Services connections.",
+    "oneLiner": "A native camera dashboard for iPhone, iPad, and Mac, with direct providers and optional Home Services connections.",
+    "domain": "Technology",
+    "category": "Application",
+    "status": "Active",
+    "phase": "Testing",
+    "featured": false,
+    "isPublic": true,
+    "createdAt": null,
+    "updatedAt": "2026-10-31",
+    "application": {
+      "landingPath": "/projects/camera-monitor",
+      "platforms": [
+        "iPhone (private beta)",
+        "iPad (private beta)",
+        "Mac (private beta)"
+      ]
+    },
+    "resources": [],
+    "workLogs": [],
+    "readme": {
+      "content": "# Camera Monitor\n\nA native camera dashboard for iPhone, iPad, and Mac, with direct providers and optional Home Services connections.\n\nConnect supported RTSP, HLS, MJPEG, ONVIF, go2rtc, Frigate, or Home Services sources. Organize cameras, inspect snapshots and available recordings, and see connection status. Provider capabilities vary; live viewing does not imply recording support.\n\nVersion 0.1.0 (4) refreshes the private TestFlight beta with current Connected Apps support. No public App Store download or open beta invitation is advertised. Camera streams and recording controls require their own provider configuration and permissions; approving a status summary does not authorize stream access.\n\nA local backend is optional. Hardware compatibility, network conditions, and extended camera sessions remain separate acceptance checks.\n",
+      "sourceUrl": "/projects/camera_monitor_9cb88592-7541-5a7e-9cd0-3e103ee2e481/README.md"
+    }
+  },
+  {
+    "id": "85c162ef-910e-5f81-a7cf-f5e82af9181c",
+    "slug": "casino-exit",
+    "href": "/projects/casino-exit",
+    "folderName": "casino_exit_85c162ef-910e-5f81-a7cf-f5e82af9181c",
+    "title": "Casino Exit",
+    "summary": "A job-search companion that brings opportunity discovery, application preparation, and review into one workflow.",
+    "oneLiner": "A job-search companion that brings opportunity discovery, application preparation, and review into one workflow.",
+    "domain": "Technology",
+    "category": "Application",
+    "status": "Active",
+    "phase": "Testing",
+    "featured": false,
+    "isPublic": true,
+    "createdAt": null,
+    "updatedAt": "2026-10-31",
+    "application": {
+      "landingPath": "/projects/casino-exit",
+      "platforms": [
+        "iPhone (private beta)",
+        "iPad (private beta)"
+      ]
+    },
+    "resources": [],
+    "workLogs": [],
+    "readme": {
+      "content": "# Casino Exit\n\nA job-search companion that brings opportunity discovery, application preparation, and review into one workflow.\n\nThe iOS companion works with separately configured job-search services. Opportunities include software, IT operations, engineering technicians, university technical work, and research roles. Qualification explanations help review fit; application materials use verified facts and approved answers.\n\nAssisted applications pause for sign-in, missing answers, security checks, and final review. Employer submission requires an explicit Confirm Submit action. Connected Apps status sharing does not authorize an application submission.\n\nVersion 1.0 (5) refreshes the private TestFlight beta with current connection support. This is a personal, configured workflow; no public App Store release, unattended application guarantee, or public beta invitation is advertised.\n",
+      "sourceUrl": "/projects/casino_exit_85c162ef-910e-5f81-a7cf-f5e82af9181c/README.md"
+    }
   },
   {
     "id": "20732ff7-0f29-54af-9f8a-3ef13bfa196c",
@@ -4635,25 +4710,56 @@
     ]
   },
   {
+    "id": "1185b98e-d26d-5efe-86cc-ec9b38cd45c6",
+    "slug": "files-backups",
+    "href": "/projects/files-backups",
+    "folderName": "files_backups_1185b98e-d26d-5efe-86cc-ec9b38cd45c6",
+    "title": "Files & Backups",
+    "summary": "A native file and backup browser for iPhone, iPad, and Mac, with explicit provider configuration.",
+    "oneLiner": "A native file and backup browser for iPhone, iPad, and Mac, with explicit provider configuration.",
+    "domain": "Technology",
+    "category": "Application",
+    "status": "Active",
+    "phase": "Testing",
+    "featured": false,
+    "isPublic": true,
+    "createdAt": null,
+    "updatedAt": "2026-10-31",
+    "application": {
+      "landingPath": "/projects/files-backups",
+      "platforms": [
+        "iPhone (private beta)",
+        "iPad (private beta)",
+        "Mac (private beta)"
+      ]
+    },
+    "resources": [],
+    "workLogs": [],
+    "readme": {
+      "content": "# Files & Backups\n\nA native file and backup browser for iPhone, iPad, and Mac, with explicit provider configuration.\n\nBrowse configured SMB, WebDAV, SFTP, local Mac folders, or Home Services storage. Manage transfers, inspect file details, and use provider-supported backup and restore features. Home Services adds managed Trash and snapshot browsing; capabilities are specific to each provider.\n\nVersion 0.1 (4) refreshes the private TestFlight beta with current Connected Apps support. No public App Store download or open beta link is advertised. Summary-sharing consent is separate from storage credentials, file operations, and restore permissions.\n\nThe companion backup agent and Home Services are independent installations. Installing the app does not install a server or begin backups. Real restores and provider/hardware checks remain separate from build and permission tests.\n",
+      "sourceUrl": "/projects/files_backups_1185b98e-d26d-5efe-86cc-ec9b38cd45c6/README.md"
+    }
+  },
+  {
     "id": "748b7fdb-3972-534d-be54-a7866995cda3",
     "slug": "home-page",
     "href": "/projects/home-page",
     "folderName": "home_page_748b7fdb-3972-534d-be54-a7866995cda3",
     "title": "Home Page",
-    "summary": "A native Mac dashboard for launching apps, configured Shortcuts, and optional status updates from connected apps.",
+    "summary": "A native Mac starting point for app updates, configurable cards, Shortcuts, and separately approved actions in participating apps.",
     "oneLiner": "Your apps. One place to begin.",
     "domain": "Technology",
     "category": "Application",
     "status": "Active",
-    "phase": "Development",
+    "phase": "Testing",
     "featured": false,
     "isPublic": true,
     "createdAt": null,
-    "updatedAt": null,
+    "updatedAt": "2026-10-31",
     "application": {
       "landingPath": "/home-page",
       "platforms": [
-        "macOS 14.4+ (release pending)"
+        "macOS 14.4+ (private beta; App Store review pending)"
       ]
     },
     "resources": [
@@ -4664,9 +4770,47 @@
       }
     ],
     "workLogs": [],
+    "assets": [
+      {
+        "id": "workspace-setup",
+        "type": "image",
+        "path": "/projects/home_page_748b7fdb-3972-534d-be54-a7866995cda3/images/workspace-setup.jpg",
+        "label": "Home Page: actual first-run screen in an isolated preview; no live source data"
+      }
+    ],
     "readme": {
-      "content": "# Home Page\n\nA native Mac dashboard for apps, attention, and Shortcuts. Requires macOS 14.4 or later.\n\nLaunch installed applications and websites, organize favorite launchers, and connect named Shortcuts. Participating apps can optionally share local status summaries.\n\nThe first App Store release is pending approval. No verified public download is advertised.\n\n[Overview](/home-page) · [Setup and support](/home-page/support) · [Privacy](/home-page/privacy)\n",
+      "content": "# Home Page\n\nA native macOS 14.4+ workspace for app updates, configurable cards, Shortcuts, and small source-owned actions.\n\n![Actual first-run screen from an isolated preview; no live source data](/projects/home_page_748b7fdb-3972-534d-be54-a7866995cda3/images/workspace-setup.jpg)\n\nToday keeps configured cards together. Updates provides a searchable action center; Apps & Setup guides connection access and verification. Create multiple cards for a source, choose their height and visible actions, or add simple application, website and Shortcut launchers.\n\nParticipating apps own their data and permissions. Compare installation codes and approve individual capabilities; writes require separate approval. Compatible source versions can expose tasks, text-card study and numeric check-ins. Other integrations provide summaries. Source versions and installed-copy compatibility vary, and some reads switch to the source app.\n\nVersion 1.0 (4) is the current private beta. The first public App Store release is pending Apple review. There is no verified public download yet. Local last-good caches are labeled stale on failure; Home Page does not read other apps' private databases or install their services.\n\n[Overview](/home-page) · [Setup and support](/home-page/support) · [Privacy](/home-page/privacy)\n",
       "sourceUrl": "/projects/home_page_748b7fdb-3972-534d-be54-a7866995cda3/README.md"
+    }
+  },
+  {
+    "id": "ca7748ce-f9b8-5bb9-a928-86ca6e8c95b1",
+    "slug": "iphone-microscope",
+    "href": "/projects/iphone-microscope",
+    "folderName": "iphone_microscope_ca7748ce-f9b8-5bb9-a928-86ca6e8c95b1",
+    "title": "iPhone Microscope",
+    "summary": "A native Mac workbench viewer with a paired iPhone camera companion for inspecting, capturing, and measuring small objects.",
+    "oneLiner": "A native Mac workbench viewer with a paired iPhone camera companion for inspecting, capturing, and measuring small objects.",
+    "domain": "Technology",
+    "category": "Application",
+    "status": "Active",
+    "phase": "Testing",
+    "featured": false,
+    "isPublic": true,
+    "createdAt": null,
+    "updatedAt": "2026-10-31",
+    "application": {
+      "landingPath": "/projects/iphone-microscope",
+      "platforms": [
+        "Mac (local build)",
+        "iPhone (private beta)"
+      ]
+    },
+    "resources": [],
+    "workLogs": [],
+    "readme": {
+      "content": "# iPhone Microscope\n\nA native Mac workbench viewer with a paired iPhone camera companion for inspecting, capturing, and measuring small objects.\n\nChoose Continuity Camera, a USB camera, or the paired iPhone companion. The companion exposes supported rear lenses, camera zoom, focus, exposure and torch controls. The Mac viewer adds stabilization, image adjustments, reference frames, still/video capture and calibrated line measurements. Digital zoom enlarges pixels; it is not optical magnification.\n\nThe iPhone companion is listed in private TestFlight as **Bench Lens: Microscope Camera**, version 1.0 (2). It requires the separate Mac viewer, which currently uses local development distribution. No public App Store download or public beta invitation is advertised. Pairing requires a code, encrypted local transport, Camera and Local Network permission, and both apps in the foreground.\n\nPhysical testing on October 30 delivered about 59 FPS at 1920 × 1440 over Continuity Camera. The companion route delivered about 3 FPS at 1080p and 0.75 FPS at 4K in the latest test; it needs throughput work before smooth live soldering use. Twenty software tests and short recording/controls checks pass. These measurements are device-specific; latency, long-session reliability and certified measurement accuracy are not established.\n\nThe Ender 3 V2 overhead stand is a separate printable prototype. Its geometry has been checked, but physical fit, load and clearance are unverified. This is an inspection tool, not a certified measurement instrument.\n",
+      "sourceUrl": "/projects/iphone_microscope_ca7748ce-f9b8-5bb9-a928-86ca6e8c95b1/README.md"
     }
   },
   {
@@ -4744,7 +4888,7 @@
     "folderName": "recallable_5031ef4c-2724-54a4-92ca-42d270a59716",
     "title": "Recallable",
     "subtitle": "Flashcards that fit into your day, on iPhone, iPad, Mac, and Apple Watch.",
-    "summary": "A native flashcard app with focused study, rich text and math, widgets and private iCloud sync. Released for iPhone and iPad; the separate Mac edition is still in Apple review. Try a sample deck in your browser.",
+    "summary": "A native flashcard app with focused study, rich text and math, widgets and private iCloud sync. Available for iPhone, iPad and Mac; the current 1.0.2 (18) beta is submitted for Apple review. Try a sample deck in your browser.",
     "oneLiner": "Spaced-repetition flashcards that never turn into a backlog.",
     "domain": "Technology",
     "category": "Application",
@@ -4753,7 +4897,7 @@
     "featured": true,
     "isPublic": true,
     "createdAt": null,
-    "updatedAt": "2026-10-24",
+    "updatedAt": "2026-10-31",
     "tags": [
       "SwiftUI",
       "iOS",
@@ -4768,7 +4912,7 @@
     "mediums": [
       "Software"
     ],
-    "description": "Recallable is a flashcard app for iPhone, iPad, Mac, and Apple Watch. Open it and a card is waiting: show the answer, rate it Hard, Good, or Easy, and the next card is ready, with no session to set up.\n\nThe problem it solves. Spaced-repetition apps tend to turn into an overdue backlog: miss a few days and a wall of \"due\" cards greets you. In Recallable the queue is an ordering, never an obligation. Cards whose time has come are shown first, everything else follows, and nothing is ever \"due\". There are no due counts, return dates, or badges.\n\nFeatures\n\n• Quick study on Home, the widget, and the Watch: the best next card, answered in place. Focused rounds of 10 from one deck when you want them.\n• A spaced scheduler. Easy and Good lengthen a card's interval, Hard and Skip shorten it, within one day to one year. New cards are introduced gradually through a daily allowance.\n• Discover: search or browse by category. Nine built-in starter decks work offline, and community decks people publish have filtering, reporting, publisher blocking, and moderation.\n• A card editor with pictures on either side, hints, explanations, links, and LaTeX math typeset everywhere, including on the Watch.\n• CSV import and export to share decks or move them to and from a spreadsheet.\n• AI drafts from a topic, text, a web page, a PDF, or a photo of notes. They're made with Apple's on-device Foundation Models, LM Studio on your Mac, or your own Gemini key, and you review every draft before it's saved.\n• Widgets: an interactive Home Screen widget to flip and rate cards, Lock Screen widgets, and a Control Center control. Also App Intents for Shortcuts and Siri.\n• Reminders at times you choose. They never show card text.\n• iCloud sync across devices. Reviews from every device are kept, never lost.\n\nAvailability\n\nRecallable is being prepared for the App Store. The iPhone and iPad release is available on the App Store. The separate Mac edition is still in review.",
+    "description": "Recallable is a flashcard app for iPhone, iPad, Mac, and Apple Watch. Open it and a card is waiting: show the answer, rate it Hard, Good, or Easy, and the next card is ready, with no session to set up.\n\nThe problem it solves. Spaced-repetition apps tend to turn into an overdue backlog: miss a few days and a wall of \"due\" cards greets you. In Recallable the queue is an ordering, never an obligation. Cards whose time has come are shown first, everything else follows, and nothing is ever \"due\". There are no due counts, return dates, or badges.\n\nFeatures\n\n• Quick study on Home, the widget, and the Watch: the best next card, answered in place. Focused rounds of 10 from one deck when you want them.\n• A spaced scheduler. Easy and Good lengthen a card's interval, Hard and Skip shorten it, within one day to one year. New cards are introduced gradually through a daily allowance.\n• Discover: search or browse by category. Nine built-in starter decks work offline, and community decks people publish have filtering, reporting, publisher blocking, and moderation.\n• A card editor with pictures on either side, hints, explanations, links, and LaTeX math typeset everywhere, including on the Watch.\n• CSV import and export to share decks or move them to and from a spreadsheet.\n• AI drafts from a topic, text, a web page, a PDF, or a photo of notes. They're made with Apple's on-device Foundation Models, LM Studio on your Mac, or your own Gemini key, and you review every draft before it's saved.\n• Widgets: an interactive Home Screen widget to flip and rate cards, Lock Screen widgets, and a Control Center control. Also App Intents for Shortcuts and Siri.\n• Reminders at times you choose. They never show card text.\n• iCloud sync across devices. Reviews from every device are kept, never lost.\n\nAvailability\n\nRecallable is available on the App Store for iPhone, iPad and Mac. Version 1.0.2 (18) is the latest private beta, with editor character guidance, readable long-card widget excerpts and current Connected Apps support. New public updates require Apple approval.",
     "story": "I built Recallable to make reviewing feel like opening a message instead of facing a backlog. The design rule was that studying should always be possible and never be a debt.\n\nArchitecture. A pure, unit-tested RecallableDomain package holds the QueueScheduler, the card and deck model, card strength, CSV parsing, rich text and math parsing, and the SwiftData store. Protocols keep the clock, persistence, networking, CloudKit, and Foundation Models out of the scheduling logic. The SwiftUI app, widget extension, and watchOS app build on that package, and the Mac app is the same code through Mac Catalyst. Math is typeset with SwiftUIMath.\n\nEngineering challenges.\n\n• A schema built for CloudKit mirroring: no unique constraints, every attribute defaulted, and JSON columns instead of relationships. Review events are immutable, UUID-keyed, and insert-only, so merges are unions: ratings from two devices both count, and saving never drops another device's cards.\n• Bounded payloads: a full library (about 2 MB) was too large to send to the Watch, so the Watch and widget get the next 200 cards as a file, and the Watch keeps an offline outbox that replays over WatchConnectivity.\n• Testing on real devices without touching real data: UI tests run on the physical iPhone, iPad, and Mac with disposable stores, preferences, and TipKit data, isolated from the owner's own library.\n• Safe migrations: removing an earlier Notion integration dropped columns through SwiftData lightweight migration without losing a card or review.\n\nProcess. It was built iteratively and verified on a physical iPhone 16 Pro Max, an iPad Pro 12.9-inch, a Mac, and an Apple Watch. It has 94 domain unit tests (Swift Testing) and XCTest UI suites covering first run, everyday study, persistence, layout, and App Store screenshot capture.",
     "images": {
       "thumbnail": "images/thumbnail.jpg",
@@ -4863,7 +5007,7 @@
       }
     ],
     "readme": {
-      "content": "# Recallable\n\nSpaced-repetition flashcards that fit into your day, on iPhone, iPad, Mac, and Apple Watch.\n\n![Recallable on iPad, iPhone, and Apple Watch](/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/images/hero.jpg)\n\n## What it does\n\nOpen Recallable and a card is waiting. Show the answer, rate it Hard, Good, or Easy, and the next one is ready. Every rating spaces that card: ones you know drift further apart, and hard ones come back sooner. Unlike most spaced-repetition apps, nothing is ever \"due\". The queue only decides what to show first, so a few days away never leaves you with a backlog.\n\n- **Quick study** on Home, the Home Screen widget, and Apple Watch, plus focused rounds of 10.\n- **Discover:** built-in starter decks that work offline, and community decks with reporting, blocking, and moderation.\n- **Your own cards** with pictures, hints, explanations, links, and LaTeX math typeset on every device.\n- **CSV import and export.**\n- **AI drafts** from a topic, text, a web page, a PDF, or a photo of notes, using on-device Apple Intelligence, LM Studio, or your own Gemini key. Every draft is reviewed before it's saved.\n- **Widgets, a Control Center control, Shortcuts and Siri,** and reminders that never show card text.\n- **iCloud sync** across devices, where reviews from every device are kept.\n\n## Screenshots\n\nThese are unedited captures of the real app, using its built-in starter decks with study history from the app's own scheduler.\n\n| Home | Answer | Progress | Discover |\n|---|---|---|---|\n| ![Home](/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/images/iphone-01-home-optimized.webp) | ![Answer](/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/images/iphone-02-answer-optimized.webp) | ![Progress](/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/images/iphone-03-progress-optimized.webp) | ![Discover](/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/images/iphone-04-discover-optimized.webp) |\n\n![Apple Watch: a question](/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/images/watch-01-question-optimized.webp) ![Apple Watch: the answer](/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/images/watch-02-answer-optimized.webp)\n\n## How it's built\n\n- **RecallableDomain:** a pure Swift package with the scheduler, models, CSV, rich text and math, and the SwiftData store, covered by 94 unit tests.\n- **Apps:** SwiftUI for iPhone and iPad, the Mac through Mac Catalyst, a WidgetKit extension, and a watchOS app.\n- **Sync:** SwiftData with CloudKit mirroring. Review events are immutable and insert-only, so merges from several devices are unions.\n- **Watch:** gets a bounded set of upcoming cards and replays offline ratings over WatchConnectivity.\n- **Technologies:** Swift 6, SwiftUI, SwiftData, CloudKit, WidgetKit, App Intents, WatchConnectivity, Foundation Models, TipKit, and XCTest and Swift Testing.\n\n## Availability\n\nRecallable is released for iPhone and iPad on the App Store. The separate Mac version is still in Apple review. It needs iOS, iPadOS, or watchOS 26, or macOS 26.\n\n## Help and privacy\n\n[Support](/recallable/support) · [Privacy policy](/recallable/privacy)\n\nCopyright © 2026 Zachary Sturman.\n\n## Install or try\n\n[Install for iPhone and iPad](https://apps.apple.com/us/app/recallable-flashcards/id6822919785) · [Try the browser demo](/recallable/demo). Public release 1.0.0 (8) is separate from newer TestFlight builds.\n",
+      "content": "# Recallable\n\nSpaced-repetition flashcards that fit into your day, on iPhone, iPad, Mac, and Apple Watch.\n\n![Recallable on iPad, iPhone, and Apple Watch](/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/images/hero.jpg)\n\n## What it does\n\nOpen Recallable and a card is waiting. Show the answer, rate it Hard, Good, or Easy, and the next one is ready. Every rating spaces that card: ones you know drift further apart, and hard ones come back sooner. Unlike most spaced-repetition apps, nothing is ever \"due\". The queue only decides what to show first, so a few days away never leaves you with a backlog.\n\n- **Quick study** on Home, the Home Screen widget, and Apple Watch, plus focused rounds of 10.\n- **Discover:** built-in starter decks that work offline, and community decks with reporting, blocking, and moderation.\n- **Your own cards** with pictures, hints, explanations, links, and LaTeX math typeset on every device.\n- **CSV import and export.**\n- **AI drafts** from a topic, text, a web page, a PDF, or a photo of notes, using on-device Apple Intelligence, LM Studio, or your own Gemini key. Every draft is reviewed before it's saved.\n- **Widgets, a Control Center control, Shortcuts and Siri,** and reminders that never show card text.\n- **iCloud sync** across devices, where reviews from every device are kept.\n\n## Screenshots\n\nThese are unedited captures of the real app, using its built-in starter decks with study history from the app's own scheduler.\n\n| Home | Answer | Progress | Discover |\n|---|---|---|---|\n| ![Home](/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/images/iphone-01-home-optimized.webp) | ![Answer](/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/images/iphone-02-answer-optimized.webp) | ![Progress](/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/images/iphone-03-progress-optimized.webp) | ![Discover](/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/images/iphone-04-discover-optimized.webp) |\n\n![Apple Watch: a question](/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/images/watch-01-question-optimized.webp) ![Apple Watch: the answer](/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/images/watch-02-answer-optimized.webp)\n\n## How it's built\n\n- **RecallableDomain:** a pure Swift package with the scheduler, models, CSV, rich text and math, and the SwiftData store, covered by 94 unit tests.\n- **Apps:** SwiftUI for iPhone and iPad, the Mac through Mac Catalyst, a WidgetKit extension, and a watchOS app.\n- **Sync:** SwiftData with CloudKit mirroring. Review events are immutable and insert-only, so merges from several devices are unions.\n- **Watch:** gets a bounded set of upcoming cards and replays offline ratings over WatchConnectivity.\n- **Technologies:** Swift 6, SwiftUI, SwiftData, CloudKit, WidgetKit, App Intents, WatchConnectivity, Foundation Models, TipKit, and XCTest and Swift Testing.\n\n## Availability\n\nRecallable is released for iPhone and iPad on the App Store. The separate Mac version is still in Apple review. It needs iOS, iPadOS, or watchOS 26, or macOS 26.\n\n## Help and privacy\n\n[Support](/recallable/support) · [Privacy policy](/recallable/privacy)\n\nCopyright © 2026 Zachary Sturman.\n\n## Install or try\n\n[Install for iPhone and iPad](https://apps.apple.com/us/app/recallable-flashcards/id6822919785) · [Try the browser demo](/recallable/demo). Public release 1.0.0 (8) is separate from newer TestFlight builds.\n\n## October 31 update\n\niPhone, iPad and Mac editions are publicly available. Version 1.0.2 (18) is in private TestFlight and submitted for Apple review, with editor character guidance and readable long-card widget excerpts. Installed widget appearance and larger system text still need device acceptance.\n",
       "sourceUrl": "/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/README.md"
     },
     "application": {
@@ -4871,7 +5015,8 @@
       "platforms": [
         "iPhone",
         "iPad",
-        "Mac (in review)"
+        "Mac",
+        "Apple Watch"
       ]
     },
     "workLogs": [
@@ -4897,5 +5042,43 @@
         "whatHappened": "Published iOS and Mac TestFlight build 13 with adaptive question and answer text for widgets. Both were verified available to internal testers. This is a beta milestone, separate from the approved public build."
       }
     ]
+  },
+  {
+    "id": "1a1e475d-baba-58a5-9b13-c05f5d074bfa",
+    "slug": "trackables",
+    "href": "/projects/trackables",
+    "folderName": "trackables_1a1e475d-baba-58a5-9b13-c05f5d074bfa",
+    "title": "Trackables",
+    "summary": "A personal recorder for counts, choices, amounts, and duration, with widgets and an offline-capable Watch companion.",
+    "oneLiner": "A personal recorder for counts, choices, amounts, and duration, with widgets and an offline-capable Watch companion.",
+    "domain": "Technology",
+    "category": "Application",
+    "status": "Active",
+    "phase": "Testing",
+    "featured": false,
+    "isPublic": true,
+    "createdAt": null,
+    "updatedAt": "2026-10-31",
+    "application": {
+      "landingPath": "/projects/trackables",
+      "platforms": [
+        "iPhone",
+        "iPad",
+        "Apple Watch",
+        "Mac (private beta)"
+      ]
+    },
+    "resources": [
+      {
+        "type": "apple",
+        "label": "Install for iPhone and iPad",
+        "url": "https://apps.apple.com/app/id6826155743"
+      }
+    ],
+    "workLogs": [],
+    "readme": {
+      "content": "# Trackables\n\nA personal recorder for counts, choices, amounts, and duration, with widgets and an offline-capable Watch companion.\n\nCreate a Trackable, record in a tap, or add optional typed fields and reusable custom answers. Review History, inspect descriptive charts, and export CSV or JSON. There are no goals, streaks, or behavioral scores.\n\nThe iPhone/iPad release is available on the App Store. The current 1.0.1 (9) beta improves widget controls and Watch entry and fixes a background refresh crash. The native Mac edition is distributed separately through private TestFlight. Watch capture can queue records offline; cross-device synchronization and installed-device acceptance have their own limits.\n\nOptional Connected Apps summary sharing requires source-owned approval. It does not grant other apps general access to your history.\n",
+      "sourceUrl": "/projects/trackables_1a1e475d-baba-58a5-9b13-c05f5d074bfa/README.md"
+    }
   }
 ]

@@ -55,9 +55,9 @@
   },
   "transactions": {
     "subtitle": "Shared expenses on web, iPhone, iPad and Android.",
-    "summary": "Track shared expenses, approvals and balances across web and native mobile apps. The web app is available now; the iOS app is waiting for Apple review. Try the browser demo without an account.",
+    "summary": "Shared expenses, approvals and balances on the web, iPhone and iPad. Try the account-free browser demo; Android store publication is deferred.",
     "oneLiner": "Shared expenses and balances across web and mobile.",
-    "description": "Transactions records shared expenses, requests, approvals, disputes and settlements between people. The native Expo/React Native clients for iPhone, iPad and Android share Firebase Authentication and Firestore records with the Next.js web app. CSV import/export and native file sharing help keep records portable. The web app is available now. iOS 1.0.0 (build 1), listed as Transactions: Shared Ledger, is waiting for Apple review with automatic release after approval. Android store publication is deferred. Transactions records obligations; it does not transfer money or connect to bank accounts.",
+    "description": "Transactions records shared expenses, requests, approvals, disputes and settlements between people. Native Expo/React Native clients share Firebase Authentication and Firestore records with the Next.js web app. iOS 1.0.0 (1), Transactions: Shared Ledger, is publicly available on the App Store. Android store publication remains deferred. CSV import/export and native sharing keep records portable. Transactions records obligations; it does not transfer money or connect to bank accounts.",
     "resources": [
       {
         "type": "website",
@@ -73,9 +73,14 @@
         "type": "github",
         "label": "Web source",
         "url": "https://github.com/ZSturman/Transactions"
+      },
+      {
+        "type": "apple",
+        "label": "Install for iPhone and iPad",
+        "url": "https://apps.apple.com/app/id6826151834"
       }
     ],
-    "updatedAt": "2026-10-24",
+    "updatedAt": "2026-10-31",
     "tags": [
       "Next.js",
       "Firebase",
@@ -129,6 +134,8 @@
       "landingPath": "/transactions/demo",
       "platforms": [
         "Web",
+        "iPhone",
+        "iPad",
         "Browser demo"
       ]
     }
@@ -145,7 +152,17 @@
         "label": "Repo",
         "url": "https://github.com/ZSturman/ChewSense---Data-Collection-and-Labeling"
       }
-    ]
+    ],
+    "summary": "A research workflow for paired eating video and AirPods motion: collect, review candidate events, and evaluate personalized models.",
+    "updatedAt": "2026-10-31",
+    "description": "ChewSense combines Collect on iPhone, local Vision processing, human Review on Mac, and a motion-model research pipeline. The existing Collect app is publicly available; version 1.2 (7) refreshes private TestFlight with guided collection and optional, explicitly selected transfer to the Mac. The guided end-to-end loop has software and legacy-video evidence; a new physical paired recording and independent annotation are still required. Predictions are proposals, not verified labels or health advice. Live model promotion remains gated on measured data quality and evaluation. Archived shells and older model-debugging apps are separate experiments.",
+    "application": {
+      "landingPath": "/projects/chewsense",
+      "platforms": [
+        "iPhone (Collect)",
+        "Mac (research tools)"
+      ]
+    }
   },
   "folio": {
     "resources": [
@@ -257,8 +274,8 @@
       }
     ],
     "phase": "Released on iOS",
-    "updatedAt": "2026-10-24",
-    "summary": "A native flashcard app with focused study, rich text and math, widgets and private iCloud sync. Released for iPhone and iPad; the separate Mac edition is still in Apple review. Try a sample deck in your browser.",
+    "updatedAt": "2026-10-31",
+    "summary": "A native flashcard app with focused study, rich text and math, widgets and private iCloud sync. Available for iPhone, iPad and Mac; the current 1.0.2 (18) beta is submitted for Apple review. Try a sample deck in your browser.",
     "workLogs": [
       {
         "id": "403aec94-4d3c-8126-ba47-ffb1bfc9e863",
@@ -287,7 +304,8 @@
       "platforms": [
         "iPhone",
         "iPad",
-        "Mac (in review)"
+        "Mac",
+        "Apple Watch"
       ]
     }
   },
@@ -320,7 +338,7 @@
       }
     ],
     "summary": "Projects, tasks and ideas across Apple devices. Install Better Workspace for iPhone and iPad, download the advanced Mac app, explore the browser demo or view the public source.",
-    "updatedAt": "2026-10-24",
+    "updatedAt": "2026-10-31",
     "workLogs": [
       {
         "id": "eb209eb8-30bc-5c22-8679-ede37adaa8dd",
@@ -343,7 +361,7 @@
         "whatHappened": "Submitted iPhone/iPad version 1.0.1 (15), with unified Workspace screenshots and updated review notes. Physical devices updated in place through TestFlight before submission."
       }
     ],
-    "description": "Better Workspace helps turn ideas into projects and projects into a useful next step. Advanced Mac 1.0 connects real folders, portable plans, priorities, capture, work history and optional reviewed integrations. Its signed, notarized download includes the runtime for Apple silicon and Intel. The iPhone and iPad app is available on the App Store as version 1.0.1: keep a workspace offline and connect the optional advanced Mac for its files and integrations. Explore the browser demo, download advanced Mac, install the mobile app or view the public source.",
+    "description": "Better Workspace helps turn ideas into projects and projects into a useful next step. Advanced Mac 1.0 connects real folders, portable plans, priorities, capture, work history and optional reviewed integrations. Its signed, notarized download includes the runtime for Apple silicon and Intel. The iPhone and iPad app is available on the App Store as version 1.0.2: keep a workspace offline and connect the optional advanced Mac for its files and integrations. Explore the browser demo, download advanced Mac, install the mobile app or view the public source.",
     "application": {
       "landingPath": "/better-workspace",
       "platforms": [

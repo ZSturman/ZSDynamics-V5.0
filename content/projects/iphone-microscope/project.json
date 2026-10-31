@@ -1,0 +1,26 @@
+{
+  "id": "ca7748ce-f9b8-5bb9-a928-86ca6e8c95b1",
+  "slug": "iphone-microscope",
+  "href": "/projects/iphone-microscope",
+  "folderName": "iphone_microscope_ca7748ce-f9b8-5bb9-a928-86ca6e8c95b1",
+  "title": "iPhone Microscope",
+  "summary": "A native Mac workbench viewer with a paired iPhone camera companion for inspecting, capturing, and measuring small objects.",
+  "oneLiner": "A native Mac workbench viewer with a paired iPhone camera companion for inspecting, capturing, and measuring small objects.",
+  "domain": "Technology",
+  "category": "Application",
+  "status": "Active",
+  "phase": "Testing",
+  "featured": false,
+  "isPublic": true,
+  "createdAt": null,
+  "updatedAt": "2026-10-31",
+  "application": {
+    "landingPath": "/projects/iphone-microscope",
+    "platforms": [
+      "Mac (local build)",
+      "iPhone (private beta)"
+    ]
+  },
+  "resources": [],
+  "workLogs": []
+}

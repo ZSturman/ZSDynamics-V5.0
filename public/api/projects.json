@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.list",
-  "generated_at": "2026-10-30T03:34:55.550104+00:00",
+  "generated_at": "2026-10-31T13:19:20.220633+00:00",
   "data": [
     {
       "id": "3f5aec94-4d3c-8116-99d5-c9752bb4af87",
@@ -52,7 +52,7 @@
       "id": "35eaec94-4d3c-80bc-9273-c1403b6c02ad",
       "slug": "transactions",
       "title": "Transactions",
-      "summary": "Track shared expenses, approvals and balances across web and native mobile apps. The web app is available now; the iOS app is waiting for Apple review. Try the browser demo without an account.",
+      "summary": "Shared expenses, approvals and balances on the web, iPhone and iPad. Try the account-free browser demo; Android store publication is deferred.",
       "oneLiner": "Shared expenses and balances across web and mobile.",
       "tags": [
         "Next.js",
@@ -72,7 +72,7 @@
       "category": "Application",
       "href": "/projects/transactions",
       "primaryImageUrl": "/projects/transactions_35eaec94-4d3c-80bc-9273-c1403b6c02ad/thumb.png",
-      "updatedAt": "2026-10-24"
+      "updatedAt": "2026-10-31"
     },
     {
       "id": "34faec94-4d3c-80bf-928b-e0e32ba51cc8",
@@ -416,7 +416,7 @@
       "id": "306aec94-4d3c-808d-9ada-f0ccca484d3b",
       "slug": "chewsense",
       "title": "ChewSense",
-      "summary": "ChewSense is an iOS app that helps people slow down while they eat and pay more attention to their habits. It uses the motion sensors in AirPods to pick up chewing—mainly through X-axis acceleration—and gives gentle alerts when someone might be eating too fast. The app records motion and optional video so it can learn a person’s eating pattern and adjust over time. The goal is simple: improve digestion, avoid overeating, and make meals feel more mindful without asking the user to track anything manually.",
+      "summary": "A research workflow for paired eating video and AirPods motion: collect, review candidate events, and evaluate personalized models.",
       "oneLiner": "An iOS app that uses AirPods’ motion sensors to detect chewing and help users eat more mindfully by slowing down their pace.",
       "tags": [
         "iOS",
@@ -431,7 +431,7 @@
       "category": "Application",
       "href": "/projects/chewsense",
       "primaryImageUrl": "/projects/chewsense_306aec94-4d3c-808d-9ada-f0ccca484d3b/thumbnail.png",
-      "updatedAt": "2026-05-12"
+      "updatedAt": "2026-10-31"
     },
     {
       "id": "306aec94-4d3c-807e-a7ef-db0aa63a2ec7",
@@ -862,7 +862,7 @@
       "category": "Application",
       "href": "/projects/better-signals",
       "primaryImageUrl": "/projects/better_signals_33baec94-4d3c-805b-aa92-e0d16cc8a3f1/images/hero.jpg",
-      "updatedAt": "2026-10-24"
+      "updatedAt": "2026-10-31"
     },
     {
       "id": "210b2324-2bdf-5751-a101-9c334db91f8c",
@@ -884,7 +884,37 @@
       "category": "Application",
       "href": "/projects/better-workspace",
       "primaryImageUrl": "/projects/better_workspace_210b2324-2bdf-5751-a101-9c334db91f8c/images/mac-personal-sample.webp",
-      "updatedAt": "2026-10-24"
+      "updatedAt": "2026-10-31"
+    },
+    {
+      "id": "9cb88592-7541-5a7e-9cd0-3e103ee2e481",
+      "slug": "camera-monitor",
+      "title": "Camera Monitor",
+      "summary": "A native camera dashboard for iPhone, iPad, and Mac, with direct providers and optional Home Services connections.",
+      "oneLiner": "A native camera dashboard for iPhone, iPad, and Mac, with direct providers and optional Home Services connections.",
+      "tags": [],
+      "status": "Active",
+      "featured": false,
+      "domain": "Technology",
+      "category": "Application",
+      "href": "/projects/camera-monitor",
+      "primaryImageUrl": null,
+      "updatedAt": "2026-10-31"
+    },
+    {
+      "id": "85c162ef-910e-5f81-a7cf-f5e82af9181c",
+      "slug": "casino-exit",
+      "title": "Casino Exit",
+      "summary": "A job-search companion that brings opportunity discovery, application preparation, and review into one workflow.",
+      "oneLiner": "A job-search companion that brings opportunity discovery, application preparation, and review into one workflow.",
+      "tags": [],
+      "status": "Active",
+      "featured": false,
+      "domain": "Technology",
+      "category": "Application",
+      "href": "/projects/casino-exit",
+      "primaryImageUrl": null,
+      "updatedAt": "2026-10-31"
     },
     {
       "id": "20732ff7-0f29-54af-9f8a-3ef13bfa196c",
@@ -908,10 +938,25 @@
       "updatedAt": "2026-10-21"
     },
     {
+      "id": "1185b98e-d26d-5efe-86cc-ec9b38cd45c6",
+      "slug": "files-backups",
+      "title": "Files & Backups",
+      "summary": "A native file and backup browser for iPhone, iPad, and Mac, with explicit provider configuration.",
+      "oneLiner": "A native file and backup browser for iPhone, iPad, and Mac, with explicit provider configuration.",
+      "tags": [],
+      "status": "Active",
+      "featured": false,
+      "domain": "Technology",
+      "category": "Application",
+      "href": "/projects/files-backups",
+      "primaryImageUrl": null,
+      "updatedAt": "2026-10-31"
+    },
+    {
       "id": "748b7fdb-3972-534d-be54-a7866995cda3",
       "slug": "home-page",
       "title": "Home Page",
-      "summary": "A native Mac dashboard for launching apps, configured Shortcuts, and optional status updates from connected apps.",
+      "summary": "A native Mac starting point for app updates, configurable cards, Shortcuts, and separately approved actions in participating apps.",
       "oneLiner": "Your apps. One place to begin.",
       "tags": [],
       "status": "Active",
@@ -920,7 +965,22 @@
       "category": "Application",
       "href": "/projects/home-page",
       "primaryImageUrl": null,
-      "updatedAt": null
+      "updatedAt": "2026-10-31"
+    },
+    {
+      "id": "ca7748ce-f9b8-5bb9-a928-86ca6e8c95b1",
+      "slug": "iphone-microscope",
+      "title": "iPhone Microscope",
+      "summary": "A native Mac workbench viewer with a paired iPhone camera companion for inspecting, capturing, and measuring small objects.",
+      "oneLiner": "A native Mac workbench viewer with a paired iPhone camera companion for inspecting, capturing, and measuring small objects.",
+      "tags": [],
+      "status": "Active",
+      "featured": false,
+      "domain": "Technology",
+      "category": "Application",
+      "href": "/projects/iphone-microscope",
+      "primaryImageUrl": null,
+      "updatedAt": "2026-10-31"
     },
     {
       "id": "04827feb-2508-51d8-ba15-ed7738b57f7e",
@@ -949,7 +1009,7 @@
       "id": "5031ef4c-2724-54a4-92ca-42d270a59716",
       "slug": "recallable",
       "title": "Recallable",
-      "summary": "A native flashcard app with focused study, rich text and math, widgets and private iCloud sync. Released for iPhone and iPad; the separate Mac edition is still in Apple review. Try a sample deck in your browser.",
+      "summary": "A native flashcard app with focused study, rich text and math, widgets and private iCloud sync. Available for iPhone, iPad and Mac; the current 1.0.2 (18) beta is submitted for Apple review. Try a sample deck in your browser.",
       "oneLiner": "Spaced-repetition flashcards that never turn into a backlog.",
       "tags": [
         "SwiftUI",
@@ -968,8 +1028,23 @@
       "category": "Application",
       "href": "/projects/recallable",
       "primaryImageUrl": "/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/images/thumbnail.jpg",
-      "updatedAt": "2026-10-24"
+      "updatedAt": "2026-10-31"
+    },
+    {
+      "id": "1a1e475d-baba-58a5-9b13-c05f5d074bfa",
+      "slug": "trackables",
+      "title": "Trackables",
+      "summary": "A personal recorder for counts, choices, amounts, and duration, with widgets and an offline-capable Watch companion.",
+      "oneLiner": "A personal recorder for counts, choices, amounts, and duration, with widgets and an offline-capable Watch companion.",
+      "tags": [],
+      "status": "Active",
+      "featured": false,
+      "domain": "Technology",
+      "category": "Application",
+      "href": "/projects/trackables",
+      "primaryImageUrl": null,
+      "updatedAt": "2026-10-31"
     }
   ],
-  "count": 46
+  "count": 51
 }

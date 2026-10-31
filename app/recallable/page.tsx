@@ -21,7 +21,7 @@ export default function RecallablePage() {
         <section className="rounded-xl border p-5 space-y-2" aria-label="Release status">
           <h2 className="text-xl font-semibold">Released for iPhone and iPad</h2>
           <a href="https://apps.apple.com/us/app/id6822919785" className="inline-block rounded-lg bg-primary px-5 py-3 font-medium text-primary-foreground">Get Recallable on the App Store</a>
-          <p className="text-sm text-muted-foreground">Apple accepted the iOS release on October 24. Store availability may take time to reach every region. The separate Mac release is still in review.</p>
+          <p className="text-sm text-muted-foreground">Available on the App Store for iPhone, iPad and Mac. Version 1.0.2 (18) is in TestFlight and submitted for Apple review; the current public release remains 1.0.1.</p>
         </section>
         <section className="space-y-3" aria-label="Recallable screenshots">
           {/* eslint-disable-next-line @next/next/no-img-element */}

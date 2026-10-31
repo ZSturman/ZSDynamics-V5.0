@@ -1,0 +1,27 @@
+{
+  "id": "9cb88592-7541-5a7e-9cd0-3e103ee2e481",
+  "slug": "camera-monitor",
+  "href": "/projects/camera-monitor",
+  "folderName": "camera_monitor_9cb88592-7541-5a7e-9cd0-3e103ee2e481",
+  "title": "Camera Monitor",
+  "summary": "A native camera dashboard for iPhone, iPad, and Mac, with direct providers and optional Home Services connections.",
+  "oneLiner": "A native camera dashboard for iPhone, iPad, and Mac, with direct providers and optional Home Services connections.",
+  "domain": "Technology",
+  "category": "Application",
+  "status": "Active",
+  "phase": "Testing",
+  "featured": false,
+  "isPublic": true,
+  "createdAt": null,
+  "updatedAt": "2026-10-31",
+  "application": {
+    "landingPath": "/projects/camera-monitor",
+    "platforms": [
+      "iPhone (private beta)",
+      "iPad (private beta)",
+      "Mac (private beta)"
+    ]
+  },
+  "resources": [],
+  "workLogs": []
+}

@@ -1,0 +1,26 @@
+{
+  "id": "85c162ef-910e-5f81-a7cf-f5e82af9181c",
+  "slug": "casino-exit",
+  "href": "/projects/casino-exit",
+  "folderName": "casino_exit_85c162ef-910e-5f81-a7cf-f5e82af9181c",
+  "title": "Casino Exit",
+  "summary": "A job-search companion that brings opportunity discovery, application preparation, and review into one workflow.",
+  "oneLiner": "A job-search companion that brings opportunity discovery, application preparation, and review into one workflow.",
+  "domain": "Technology",
+  "category": "Application",
+  "status": "Active",
+  "phase": "Testing",
+  "featured": false,
+  "isPublic": true,
+  "createdAt": null,
+  "updatedAt": "2026-10-31",
+  "application": {
+    "landingPath": "/projects/casino-exit",
+    "platforms": [
+      "iPhone (private beta)",
+      "iPad (private beta)"
+    ]
+  },
+  "resources": [],
+  "workLogs": []
+}

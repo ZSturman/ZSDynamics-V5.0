@@ -3,6 +3,7 @@
 from functools import partial
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
+from socketserver import TCPServer
 
 
 class ExportServer(ThreadingHTTPServer):
@@ -10,6 +11,12 @@ class ExportServer(ThreadingHTTPServer):
     # queued connections. Keep local preview transport out of app diagnostics.
     request_queue_size = 128
     daemon_threads = True
+
+    def server_bind(self):
+        # This preview binds an explicit loopback address. HTTPServer's reverse
+        # DNS lookup can hang in mDNS before listen(), delaying browser checks.
+        TCPServer.server_bind(self)
+        self.server_name, self.server_port = self.server_address[:2]
 
 
 class ExportHandler(SimpleHTTPRequestHandler):

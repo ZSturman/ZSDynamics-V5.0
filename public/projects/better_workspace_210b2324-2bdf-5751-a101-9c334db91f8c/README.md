@@ -15,7 +15,7 @@ Start with an idea, give it a project, and keep the next task close at hand. Bet
 | Edition | Best for | Availability |
 | --- | --- | --- |
 | Advanced Mac | Real folders, portable plans, scoring, capture, progress, work history and optional Notion/agent tools | Download 1.0 now; macOS 14.4+, Apple silicon and Intel |
-| iPhone and iPad | Projects, tasks, ideas and documents; offline workspace and optional Mac access | [Install from the App Store](https://apps.apple.com/us/app/better-workspace/id6822519097) — version 1.0.1 |
+| iPhone and iPad | Projects, tasks, ideas and documents; offline workspace and optional Mac access | [Install from the App Store](https://apps.apple.com/us/app/better-workspace/id6822519097) — public version 1.0.2 |
 | Optional connected mobile workspace | Browse the advanced Mac’s published index and queue captures/planning changes | Requires advanced Mac, the same Apple account and iCloud Drive; Mac online to apply changes |
 
 The mobile Store app works independently. The separate native Mac Store edition is retired. The advanced Mac edition keeps your existing folders and adds capabilities outside the App Store sandbox. No separate Python installation is needed for the public Mac download.
@@ -54,3 +54,7 @@ Build 8 passed installed-device acceptance, private Production sync and isolated
 ## Help and privacy
 
 [Setup and support](/better-workspace/support) · [Privacy policy](/better-workspace/privacy)
+
+## October 31 update
+
+Mobile 1.0.3 (37) is in private TestFlight and submitted for Apple review. The advanced native Mac app continues to use its separate direct distribution; this submission does not revive the retired Mac Store edition.

@@ -47,3 +47,7 @@ Copyright © 2026 Zachary Sturman.
 ## Install or try
 
 [Install for iPhone and iPad](https://apps.apple.com/us/app/recallable-flashcards/id6822919785) · [Try the browser demo](/recallable/demo). Public release 1.0.0 (8) is separate from newer TestFlight builds.
+
+## October 31 update
+
+iPhone, iPad and Mac editions are publicly available. Version 1.0.2 (18) is in private TestFlight and submitted for Apple review, with editor character guidance and readable long-card widget excerpts. Installed widget appearance and larger system text still need device acceptance.

@@ -50,7 +50,7 @@ export default function BetterSignalsPage() {
         </section>
         <section className="space-y-3 rounded-2xl border p-6" aria-label="Availability">
           <h2 className="text-xl font-semibold">Available on the App Store</h2>
-          <p>The approved public release is version 1.1.0 (build 2), available in the United States. Newer TestFlight and local features are separate. It requires iOS or iPadOS 26; the paired Watch companion requires watchOS 26.</p>
+          <p>The approved public release is version 1.4.0, available in the United States. Version 1.5.1 (13) is in private TestFlight and submitted for Apple review. It requires iOS or iPadOS 26; the paired Watch companion requires watchOS 26.</p>
           <p>No account, advertising, or developer analytics. iPad history stays separate; Watch Signals synchronize with the paired iPhone.</p>
         </section>
         <ProductActions slug="better-signals" />

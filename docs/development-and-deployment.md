@@ -201,3 +201,9 @@ After building, `npm run test:export` runs Chromium and WebKit desktop/phone reg
 Native TypeScript unit-test imports require Node 22.18+ (the workflows use Node 22); the normal app startup retains the package's declared requirement. Python tests can use `.venv/bin/python -m pytest -q tests_python --ignore=tests_python/test_notion_integration.py` when the system Python lacks pytest.
 
 Do not merge/push this cycle to `main` or dispatch a production deployment until the owner approves. The Worker code is unchanged by this cycle, so a Worker redeploy is not needed. GA4 custom-definition setup and a human inbox/Turnstile journey remain external acceptance steps in `NEXT_STEPS.md`.
+
+## October 31 authorized app refresh
+
+The owner authorized production integration of the completed reliability work and native-app portfolio updates. The earlier hold above is historical. This does not resume the daily publisher or require a Worker deployment. The Apps index now includes 12 entries; the project archive has 51. Current source and release details are in `docs/NEXT_STEPS.md`.
+
+`serve-export.py` uses its explicit loopback address rather than reverse DNS during server startup, avoiding an observed mDNS stall before listening. Run `npm run test:export` for the 36 existing static-export browser checks.

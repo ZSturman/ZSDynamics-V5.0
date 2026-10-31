@@ -158,3 +158,15 @@ coverage/
 !/content/projects/better-signals/
 
 !/content/projects/better-signals/**
+
+# Curated native app case studies, retained through cached/Notion rebuilds.
+!/content/projects/trackables/
+!/content/projects/trackables/**
+!/content/projects/camera-monitor/
+!/content/projects/camera-monitor/**
+!/content/projects/files-backups/
+!/content/projects/files-backups/**
+!/content/projects/casino-exit/
+!/content/projects/casino-exit/**
+!/content/projects/iphone-microscope/
+!/content/projects/iphone-microscope/**
