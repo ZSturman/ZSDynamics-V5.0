@@ -22,5 +22,9 @@
     ]
   },
   "resources": [],
-  "workLogs": []
+  "workLogs": [],
+  "images": {
+    "thumbnail": "images/thumbnail.svg",
+    "icon": "images/app-icon.png"
+  }
 }

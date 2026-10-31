@@ -1,3 +1,13 @@
+# Native app thumbnails — October 31, 2026
+
+Added recognizable thumbnails and identity icons to Home Page, Trackables, iPhone Microscope, Camera Monitor, Files & Backups and Casino Exit. ChewSense already has its published thumbnail. Artwork comes from the actual app icon assets; no screenshots or source activity were fabricated. The icon and title stay within the center square of a 16:9 canvas for both project grid and square list crops.
+
+Curated originals and derivatives live under each `content/projects/<slug>/images/` and are copied by the normal local-project merge into `public/projects/`. To refresh after replacing an icon: `node scripts/generate-native-app-thumbnails.mjs`, then `npm run build && npm run validate:portfolio`. The generator uses the existing Sharp dependency. Project identities, release status and source app files are unchanged.
+
+Validation: build and 51-project/94-route checks pass; all seven relevant project/API thumbnail fields resolve, including existing ChewSense media. Safari preview confirms Camera Monitor renders beside its project in square list view and in landscape grid view. The same generated layout and embedded PNG format is used for all six additions. The normal pre-push media gate and Firebase workflow publish the change; inspect `/projects` and `/apps`. The previous native release/deployment record below remains dated evidence.
+
+---
+
 # Native app portfolio release — October 31, 2026
 
 The owner explicitly authorized this production release. This supersedes the earlier local-only hold for the completed reliability cycle below; it does not resume the paused daily publisher or redeploy the Worker.

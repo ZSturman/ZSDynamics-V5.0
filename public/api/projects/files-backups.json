@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-10-31T13:06:13.841529+00:00",
+  "generated_at": "2026-10-31T13:29:43.220847+00:00",
   "data": {
     "id": "1185b98e-d26d-5efe-86cc-ec9b38cd45c6",
     "slug": "files-backups",
@@ -28,6 +28,10 @@
     },
     "resources": [],
     "workLogs": [],
+    "images": {
+      "thumbnail": "images/thumbnail.svg",
+      "icon": "images/app-icon.png"
+    },
     "readme": {
       "content": "# Files & Backups\n\nA native file and backup browser for iPhone, iPad, and Mac, with explicit provider configuration.\n\nBrowse configured SMB, WebDAV, SFTP, local Mac folders, or Home Services storage. Manage transfers, inspect file details, and use provider-supported backup and restore features. Home Services adds managed Trash and snapshot browsing; capabilities are specific to each provider.\n\nVersion 0.1 (4) refreshes the private TestFlight beta with current Connected Apps support. No public App Store download or open beta link is advertised. Summary-sharing consent is separate from storage credentials, file operations, and restore permissions.\n\nThe companion backup agent and Home Services are independent installations. Installing the app does not install a server or begin backups. Real restores and provider/hardware checks remain separate from build and permission tests.\n",
       "sourceUrl": "/projects/files_backups_1185b98e-d26d-5efe-86cc-ec9b38cd45c6/README.md"

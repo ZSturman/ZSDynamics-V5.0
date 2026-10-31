@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-10-31T13:06:13.841312+00:00",
+  "generated_at": "2026-10-31T13:29:43.220481+00:00",
   "data": {
     "id": "85c162ef-910e-5f81-a7cf-f5e82af9181c",
     "slug": "casino-exit",
@@ -27,6 +27,10 @@
     },
     "resources": [],
     "workLogs": [],
+    "images": {
+      "thumbnail": "images/thumbnail.svg",
+      "icon": "images/app-icon.png"
+    },
     "readme": {
       "content": "# Casino Exit\n\nA job-search companion that brings opportunity discovery, application preparation, and review into one workflow.\n\nThe iOS companion works with separately configured job-search services. Opportunities include software, IT operations, engineering technicians, university technical work, and research roles. Qualification explanations help review fit; application materials use verified facts and approved answers.\n\nAssisted applications pause for sign-in, missing answers, security checks, and final review. Employer submission requires an explicit Confirm Submit action. Connected Apps status sharing does not authorize an application submission.\n\nVersion 1.0 (5) refreshes the private TestFlight beta with current connection support. This is a personal, configured workflow; no public App Store release, unattended application guarantee, or public beta invitation is advertised.\n",
       "sourceUrl": "/projects/casino_exit_85c162ef-910e-5f81-a7cf-f5e82af9181c/README.md"

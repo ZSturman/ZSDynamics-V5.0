@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.list",
-  "generated_at": "2026-10-31T13:19:20.220633+00:00",
+  "generated_at": "2026-10-31T13:30:50.768376+00:00",
   "data": [
     {
       "id": "3f5aec94-4d3c-8116-99d5-c9752bb4af87",
@@ -898,7 +898,7 @@
       "domain": "Technology",
       "category": "Application",
       "href": "/projects/camera-monitor",
-      "primaryImageUrl": null,
+      "primaryImageUrl": "/projects/camera_monitor_9cb88592-7541-5a7e-9cd0-3e103ee2e481/images/thumbnail.svg",
       "updatedAt": "2026-10-31"
     },
     {
@@ -913,7 +913,7 @@
       "domain": "Technology",
       "category": "Application",
       "href": "/projects/casino-exit",
-      "primaryImageUrl": null,
+      "primaryImageUrl": "/projects/casino_exit_85c162ef-910e-5f81-a7cf-f5e82af9181c/images/thumbnail.svg",
       "updatedAt": "2026-10-31"
     },
     {
@@ -949,7 +949,7 @@
       "domain": "Technology",
       "category": "Application",
       "href": "/projects/files-backups",
-      "primaryImageUrl": null,
+      "primaryImageUrl": "/projects/files_backups_1185b98e-d26d-5efe-86cc-ec9b38cd45c6/images/thumbnail.svg",
       "updatedAt": "2026-10-31"
     },
     {
@@ -964,7 +964,7 @@
       "domain": "Technology",
       "category": "Application",
       "href": "/projects/home-page",
-      "primaryImageUrl": null,
+      "primaryImageUrl": "/projects/home_page_748b7fdb-3972-534d-be54-a7866995cda3/images/thumbnail.svg",
       "updatedAt": "2026-10-31"
     },
     {
@@ -979,7 +979,7 @@
       "domain": "Technology",
       "category": "Application",
       "href": "/projects/iphone-microscope",
-      "primaryImageUrl": null,
+      "primaryImageUrl": "/projects/iphone_microscope_ca7748ce-f9b8-5bb9-a928-86ca6e8c95b1/images/thumbnail.svg",
       "updatedAt": "2026-10-31"
     },
     {
@@ -1042,7 +1042,7 @@
       "domain": "Technology",
       "category": "Application",
       "href": "/projects/trackables",
-      "primaryImageUrl": null,
+      "primaryImageUrl": "/projects/trackables_1a1e475d-baba-58a5-9b13-c05f5d074bfa/images/thumbnail.svg",
       "updatedAt": "2026-10-31"
     }
   ],

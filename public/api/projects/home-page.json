@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-10-31T13:06:13.841720+00:00",
+  "generated_at": "2026-10-31T13:29:43.220991+00:00",
   "data": {
     "id": "748b7fdb-3972-534d-be54-a7866995cda3",
     "slug": "home-page",
@@ -40,6 +40,10 @@
         "label": "Home Page: actual first-run screen in an isolated preview; no live source data"
       }
     ],
+    "images": {
+      "thumbnail": "images/thumbnail.svg",
+      "icon": "images/app-icon.png"
+    },
     "readme": {
       "content": "# Home Page\n\nA native macOS 14.4+ workspace for app updates, configurable cards, Shortcuts, and small source-owned actions.\n\n![Actual first-run screen from an isolated preview; no live source data](/projects/home_page_748b7fdb-3972-534d-be54-a7866995cda3/images/workspace-setup.jpg)\n\nToday keeps configured cards together. Updates provides a searchable action center; Apps & Setup guides connection access and verification. Create multiple cards for a source, choose their height and visible actions, or add simple application, website and Shortcut launchers.\n\nParticipating apps own their data and permissions. Compare installation codes and approve individual capabilities; writes require separate approval. Compatible source versions can expose tasks, text-card study and numeric check-ins. Other integrations provide summaries. Source versions and installed-copy compatibility vary, and some reads switch to the source app.\n\nVersion 1.0 (4) is the current private beta. The first public App Store release is pending Apple review. There is no verified public download yet. Local last-good caches are labeled stale on failure; Home Page does not read other apps' private databases or install their services.\n\n[Overview](/home-page) · [Setup and support](/home-page/support) · [Privacy](/home-page/privacy)\n",
       "sourceUrl": "/projects/home_page_748b7fdb-3972-534d-be54-a7866995cda3/README.md"

@@ -4578,6 +4578,10 @@
     },
     "resources": [],
     "workLogs": [],
+    "images": {
+      "thumbnail": "images/thumbnail.svg",
+      "icon": "images/app-icon.png"
+    },
     "readme": {
       "content": "# Camera Monitor\n\nA native camera dashboard for iPhone, iPad, and Mac, with direct providers and optional Home Services connections.\n\nConnect supported RTSP, HLS, MJPEG, ONVIF, go2rtc, Frigate, or Home Services sources. Organize cameras, inspect snapshots and available recordings, and see connection status. Provider capabilities vary; live viewing does not imply recording support.\n\nVersion 0.1.0 (4) refreshes the private TestFlight beta with current Connected Apps support. No public App Store download or open beta invitation is advertised. Camera streams and recording controls require their own provider configuration and permissions; approving a status summary does not authorize stream access.\n\nA local backend is optional. Hardware compatibility, network conditions, and extended camera sessions remain separate acceptance checks.\n",
       "sourceUrl": "/projects/camera_monitor_9cb88592-7541-5a7e-9cd0-3e103ee2e481/README.md"
@@ -4608,6 +4612,10 @@
     },
     "resources": [],
     "workLogs": [],
+    "images": {
+      "thumbnail": "images/thumbnail.svg",
+      "icon": "images/app-icon.png"
+    },
     "readme": {
       "content": "# Casino Exit\n\nA job-search companion that brings opportunity discovery, application preparation, and review into one workflow.\n\nThe iOS companion works with separately configured job-search services. Opportunities include software, IT operations, engineering technicians, university technical work, and research roles. Qualification explanations help review fit; application materials use verified facts and approved answers.\n\nAssisted applications pause for sign-in, missing answers, security checks, and final review. Employer submission requires an explicit Confirm Submit action. Connected Apps status sharing does not authorize an application submission.\n\nVersion 1.0 (5) refreshes the private TestFlight beta with current connection support. This is a personal, configured workflow; no public App Store release, unattended application guarantee, or public beta invitation is advertised.\n",
       "sourceUrl": "/projects/casino_exit_85c162ef-910e-5f81-a7cf-f5e82af9181c/README.md"
@@ -4735,6 +4743,10 @@
     },
     "resources": [],
     "workLogs": [],
+    "images": {
+      "thumbnail": "images/thumbnail.svg",
+      "icon": "images/app-icon.png"
+    },
     "readme": {
       "content": "# Files & Backups\n\nA native file and backup browser for iPhone, iPad, and Mac, with explicit provider configuration.\n\nBrowse configured SMB, WebDAV, SFTP, local Mac folders, or Home Services storage. Manage transfers, inspect file details, and use provider-supported backup and restore features. Home Services adds managed Trash and snapshot browsing; capabilities are specific to each provider.\n\nVersion 0.1 (4) refreshes the private TestFlight beta with current Connected Apps support. No public App Store download or open beta link is advertised. Summary-sharing consent is separate from storage credentials, file operations, and restore permissions.\n\nThe companion backup agent and Home Services are independent installations. Installing the app does not install a server or begin backups. Real restores and provider/hardware checks remain separate from build and permission tests.\n",
       "sourceUrl": "/projects/files_backups_1185b98e-d26d-5efe-86cc-ec9b38cd45c6/README.md"
@@ -4778,6 +4790,10 @@
         "label": "Home Page: actual first-run screen in an isolated preview; no live source data"
       }
     ],
+    "images": {
+      "thumbnail": "images/thumbnail.svg",
+      "icon": "images/app-icon.png"
+    },
     "readme": {
       "content": "# Home Page\n\nA native macOS 14.4+ workspace for app updates, configurable cards, Shortcuts, and small source-owned actions.\n\n![Actual first-run screen from an isolated preview; no live source data](/projects/home_page_748b7fdb-3972-534d-be54-a7866995cda3/images/workspace-setup.jpg)\n\nToday keeps configured cards together. Updates provides a searchable action center; Apps & Setup guides connection access and verification. Create multiple cards for a source, choose their height and visible actions, or add simple application, website and Shortcut launchers.\n\nParticipating apps own their data and permissions. Compare installation codes and approve individual capabilities; writes require separate approval. Compatible source versions can expose tasks, text-card study and numeric check-ins. Other integrations provide summaries. Source versions and installed-copy compatibility vary, and some reads switch to the source app.\n\nVersion 1.0 (4) is the current private beta. The first public App Store release is pending Apple review. There is no verified public download yet. Local last-good caches are labeled stale on failure; Home Page does not read other apps' private databases or install their services.\n\n[Overview](/home-page) · [Setup and support](/home-page/support) · [Privacy](/home-page/privacy)\n",
       "sourceUrl": "/projects/home_page_748b7fdb-3972-534d-be54-a7866995cda3/README.md"
@@ -4808,6 +4824,10 @@
     },
     "resources": [],
     "workLogs": [],
+    "images": {
+      "thumbnail": "images/thumbnail.svg",
+      "icon": "images/app-icon.png"
+    },
     "readme": {
       "content": "# iPhone Microscope\n\nA native Mac workbench viewer with a paired iPhone camera companion for inspecting, capturing, and measuring small objects.\n\nChoose Continuity Camera, a USB camera, or the paired iPhone companion. The companion exposes supported rear lenses, camera zoom, focus, exposure and torch controls. The Mac viewer adds stabilization, image adjustments, reference frames, still/video capture and calibrated line measurements. Digital zoom enlarges pixels; it is not optical magnification.\n\nThe iPhone companion is listed in private TestFlight as **Bench Lens: Microscope Camera**, version 1.0 (2). It requires the separate Mac viewer, which currently uses local development distribution. No public App Store download or public beta invitation is advertised. Pairing requires a code, encrypted local transport, Camera and Local Network permission, and both apps in the foreground.\n\nPhysical testing on October 30 delivered about 59 FPS at 1920 × 1440 over Continuity Camera. The companion route delivered about 3 FPS at 1080p and 0.75 FPS at 4K in the latest test; it needs throughput work before smooth live soldering use. Twenty software tests and short recording/controls checks pass. These measurements are device-specific; latency, long-session reliability and certified measurement accuracy are not established.\n\nThe Ender 3 V2 overhead stand is a separate printable prototype. Its geometry has been checked, but physical fit, load and clearance are unverified. This is an inspection tool, not a certified measurement instrument.\n",
       "sourceUrl": "/projects/iphone_microscope_ca7748ce-f9b8-5bb9-a928-86ca6e8c95b1/README.md"
@@ -5076,6 +5096,10 @@
       }
     ],
     "workLogs": [],
+    "images": {
+      "thumbnail": "images/thumbnail.svg",
+      "icon": "images/app-icon.png"
+    },
     "readme": {
       "content": "# Trackables\n\nA personal recorder for counts, choices, amounts, and duration, with widgets and an offline-capable Watch companion.\n\nCreate a Trackable, record in a tap, or add optional typed fields and reusable custom answers. Review History, inspect descriptive charts, and export CSV or JSON. There are no goals, streaks, or behavioral scores.\n\nThe iPhone/iPad release is available on the App Store. The current 1.0.1 (9) beta improves widget controls and Watch entry and fixes a background refresh crash. The native Mac edition is distributed separately through private TestFlight. Watch capture can queue records offline; cross-device synchronization and installed-device acceptance have their own limits.\n\nOptional Connected Apps summary sharing requires source-owned approval. It does not grant other apps general access to your history.\n",
       "sourceUrl": "/projects/trackables_1a1e475d-baba-58a5-9b13-c05f5d074bfa/README.md"

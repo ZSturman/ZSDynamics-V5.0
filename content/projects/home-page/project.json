@@ -35,5 +35,9 @@
       "path": "/projects/home_page_748b7fdb-3972-534d-be54-a7866995cda3/images/workspace-setup.jpg",
       "label": "Home Page: actual first-run screen in an isolated preview; no live source data"
     }
-  ]
+  ],
+  "images": {
+    "thumbnail": "images/thumbnail.svg",
+    "icon": "images/app-icon.png"
+  }
 }

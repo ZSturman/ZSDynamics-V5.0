@@ -30,5 +30,9 @@
       "url": "https://apps.apple.com/app/id6826155743"
     }
   ],
-  "workLogs": []
+  "workLogs": [],
+  "images": {
+    "thumbnail": "images/thumbnail.svg",
+    "icon": "images/app-icon.png"
+  }
 }
