@@ -1,0 +1,66 @@
+{
+  "checkedAt": "2026-10-31T13:23:44.525008+00:00",
+  "workflowRun": "https://github.com/ZSturman/ZSDynamics-V5.0/actions/runs/41205145522",
+  "workflowConclusion": "success",
+  "deployment": {
+    "schemaVersion": 1,
+    "commitSha": "29a06c61edd35fa8341e8b978dd6e2f3376114c7",
+    "builtAt": "2026-10-31T13:21:14.599Z",
+    "workflowRunId": "41205145522"
+  },
+  "projectCount": 51,
+  "routes": [
+    {
+      "path": "/deployment.json",
+      "status": 200,
+      "expectedTextVerified": "29a06c61edd35fa8341e8b978dd6e2f3376114c7"
+    },
+    {
+      "path": "/apps",
+      "status": 200,
+      "expectedTextVerified": "iPhone Microscope"
+    },
+    {
+      "path": "/home-page",
+      "status": 200,
+      "expectedTextVerified": "1.0 (4)"
+    },
+    {
+      "path": "/home-page/privacy",
+      "status": 200,
+      "expectedTextVerified": "encrypted messages"
+    },
+    {
+      "path": "/projects/iphone-microscope",
+      "status": 200,
+      "expectedTextVerified": "1.0 (2)"
+    },
+    {
+      "path": "/projects/trackables",
+      "status": 200,
+      "expectedTextVerified": "Trackables"
+    },
+    {
+      "path": "/projects/camera-monitor",
+      "status": 200,
+      "expectedTextVerified": "Camera Monitor"
+    },
+    {
+      "path": "/projects/files-backups",
+      "status": 200,
+      "expectedTextVerified": "Files &amp; Backups"
+    },
+    {
+      "path": "/projects/casino-exit",
+      "status": 200,
+      "expectedTextVerified": "Casino Exit"
+    },
+    {
+      "path": "/projects/chewsense",
+      "status": 200,
+      "expectedTextVerified": "1.2 (7)"
+    }
+  ],
+  "homePageScreenshot": "HTTP 200 image/jpeg",
+  "method": "HTTP read-only checks; no browser JavaScript or production analytics executed"
+}

@@ -6,9 +6,15 @@ Added curated Trackables, iPhone Microscope, Camera Monitor, Files & Backups and
 
 All 15 relevant platform builds are VALID / IN_BETA_TESTING. Six public version/platform submissions (Home Page, Recallable iOS/Mac, Trackables iOS, Better Signals and Better Workspace mobile) are WAITING_FOR_REVIEW with automatic release after approval. ChewSense Collect and the Microscope companion stay in private beta pending their documented physical checks. No public beta invitations or unapproved public download claims were added. [Current native release table](NATIVE_APP_RELEASES.md). Full signed/archive/Apple receipts are in Home Page `docs/RELEASE_AUDIT_2026-10-31.md` and `docs/RELEASE_RECEIPT_2026-10-31.json`.
 
-Validation: static build, output/link/metadata checks, 67 unit tests and all 36 Chromium/WebKit desktop/phone export regressions pass. A local preview startup hang was traced to reverse DNS in mDNS; `serve-export.py` now uses its explicit loopback address without a DNS lookup. Final production/media gate receipts will be recorded below.
+Validation: static build, output/link/metadata checks, 67 unit tests and all 36 Chromium/WebKit desktop/phone export regressions pass. A local preview startup hang was traced to reverse DNS in mDNS; `serve-export.py` now uses its explicit loopback address without a DNS lookup. The mandatory push gate passed 35 media checks with three explicit existing skips.
 
 Exact local refresh: `npm run build && npm run validate:portfolio`; expected 51 projects and 94 canonical routes. Browser regression: `npm run test:export`; expected 36 passes. Check `/apps`, `/home-page` and `/projects/iphone-microscope` after deployment. Native device installation/Watch/widget/camera/collector acceptance and Apple review remain separate. The existing daily publisher remains paused.
+
+## Verified production deployment
+
+Published source commit **`29a06c61edd35fa8341e8b978dd6e2f3376114c7`** through the existing `main` → Firebase workflow. [GitHub run 41205145522](https://github.com/ZSturman/ZSDynamics-V5.0/actions/runs/41205145522) succeeded. The custom-domain `/deployment.json` reports that exact commit and workflow ID. Ten changed routes, all 51 public project API entries, and the new Home Page JPEG returned the expected live content. HTTP verification did not execute browser JavaScript or production analytics. [Machine-readable receipt](evidence/native-app-release-20261031.json).
+
+The following documentation-only receipt commit uses `[skip ci]`; production intentionally remains on the verified source commit above. No code or content rebuild is required for that receipt. Accept the ChewSense/Bench Lens personal TestFlight invitations, update in place, perform the source-specific device checks, and await Apple review. No repeat upload or site deployment is needed.
 
 ---
 
