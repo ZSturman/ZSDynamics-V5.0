@@ -2,7 +2,7 @@
 
 Added a curated native iPhone project and Apps entry, real simulator screenshots with invented appointments, and dedicated support/privacy routes. Source content is in `content/projects/screenshot-to-calendar/` and survives the local/Notion merge. Images are optimized derivatives of actual app captures and its existing icon. The source app now has a native launch screen, first-launch introduction and four contextual TipKit stages.
 
-The owner requested App Store publication and this production portfolio update. The app is currently being prepared for Apple review; no public installation is claimed. Release status will be updated after the submission result is verified. The daily publisher remains paused and the Worker is unchanged.
+The owner requested App Store publication and this production portfolio update. Version 1.0 (4) is VALID and both its version and submission are WAITING_FOR_REVIEW, with automatic release after Apple approval. All five App Store screenshots are COMPLETE. No public installation is claimed. After approval, verify the public listing and add its installation resource to the curated entry. The daily publisher remains paused and the Worker is unchanged.
 
 Validation: static build and 52-project/97-route output checks pass; eight focused project-presentation tests pass. Native source has 13 passing core tests and a passing simulator onboarding flow. Physical iPhone permission/import and accessibility acceptance remain manual.
 

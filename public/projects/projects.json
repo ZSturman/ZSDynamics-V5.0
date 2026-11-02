@@ -5072,11 +5072,11 @@
     "subtitle": "From a screenshot. Into your day.",
     "summary": "A private iPhone app that turns screenshots into editable Calendar events and Reminders, with on-device text recognition and remembered corrections.",
     "oneLiner": "Turn captured details into reviewed plans on iPhone.",
-    "description": "Import screenshots, files or text; review dates, overnight times and destinations; then save to Calendar or Reminders. Native TipKit guidance reveals the next step as you work. Title and location corrections are remembered locally. The public release is being prepared; it is not yet available on the App Store.",
+    "description": "Import screenshots, files or text; review dates, overnight times and destinations; then save to Calendar or Reminders. Native TipKit guidance reveals the next step as you work. Title and location corrections are remembered locally. Version 1.0 (4) is submitted and waiting for Apple review, with automatic release after approval. Public installation is not available yet.",
     "domain": "Technology",
     "category": "Application",
     "status": "Active",
-    "phase": "Preparing App Store submission",
+    "phase": "Awaiting Apple review",
     "isPublic": true,
     "featured": false,
     "createdAt": "2026-11-01",
@@ -5152,7 +5152,8 @@
       "validation": [
         "13 focused parser, time-zone, deduplication and preference tests pass.",
         "Simulator UI automation verifies first launch and progressive import, review, editing and save guidance.",
-        "Product screenshots use invented appointments; physical-device acceptance remains separate."
+        "Product screenshots use invented appointments; physical-device acceptance remains separate.",
+        "Version 1.0 (4) passed Apple build processing; five real screenshots are complete and the first public release is Waiting for Review with automatic release after approval."
       ],
       "limitations": [
         "English text recognition and deterministic parsing do not cover every layout.",
@@ -5160,9 +5161,20 @@
         "Optional address search sends query text to Apple Maps. Calendar and Reminders follow account sync settings."
       ]
     },
-    "workLogs": [],
+    "workLogs": [
+      {
+        "id": "0e79a73c-5566-5d8d-873b-3b3ff907a6ba",
+        "title": "Submitted Screenshot to Calendar for Apple review",
+        "entry": "Submitted Screenshot to Calendar for Apple review",
+        "date": "2026-11-01",
+        "sessionType": [
+          "Build"
+        ],
+        "whatHappened": "Added a native splash screen, first-launch introduction and progressive TipKit guidance. Captured five real simulator screenshots using invented appointments. Uploaded and submitted iPhone version 1.0 (4); Apple reports Waiting for Review with automatic release after approval. Published the portfolio project, support and privacy pages. Physical iPhone acceptance remains separate."
+      }
+    ],
     "readme": {
-      "content": "# Screenshot to Calendar\n\nFrom a screenshot. Into your day. A private iPhone app for turning captured schedules, appointments and tasks into Calendar events and Reminders.\n\nRequires iOS 17 or later. The first public release is being prepared for Apple review; public installation is not available yet.\n\n## Bring it in, make it yours\n\nChoose up to 20 screenshots from Photos or Files, paste text, or add an item manually. Apple Vision reads screenshots on the iPhone. Review dates, overnight times, the time zone and destination before saving. Uncertain suggestions stay in Needs review until checked.\n\nA first-launch introduction and native TipKit guidance reveal import, review, remembered corrections and saving at the relevant stage. Rename a matching title or add a location, leave Remember enabled and tap Done to suggest those details next time. Dates are always read again.\n\nNothing is added to Calendar or Reminders until you tap Save. Duplicate checks protect against repeated imports. Preferences and drafts stay local. Optional place search connects directly to Apple Maps; Calendar and Reminders use the sync settings of your chosen accounts.\n\n## Limits\n\nEnglish recognition and deterministic parsing do not understand every layout. Check all suggestions. There is no share extension, background screenshot monitoring, recurrence extraction or automatic reconciliation of changed schedules. Local preferences do not sync across devices.\n\n[Setup & support](/screenshot-to-calendar/support) · [Privacy policy](/screenshot-to-calendar/privacy)\n",
+      "content": "# Screenshot to Calendar\n\nFrom a screenshot. Into your day. A private iPhone app for turning captured schedules, appointments and tasks into Calendar events and Reminders.\n\nRequires iOS 17 or later. Version **1.0 (4)** is **Waiting for Review**, with automatic release after Apple approval. Public installation is not available yet.\n\n## Bring it in, make it yours\n\nChoose up to 20 screenshots from Photos or Files, paste text, or add an item manually. Apple Vision reads screenshots on the iPhone. Review dates, overnight times, the time zone and destination before saving. Uncertain suggestions stay in Needs review until checked.\n\nA first-launch introduction and native TipKit guidance reveal import, review, remembered corrections and saving at the relevant stage. Rename a matching title or add a location, leave Remember enabled and tap Done to suggest those details next time. Dates are always read again.\n\nNothing is added to Calendar or Reminders until you tap Save. Duplicate checks protect against repeated imports. Preferences and drafts stay local. Optional place search connects directly to Apple Maps; Calendar and Reminders use the sync settings of your chosen accounts.\n\n## Limits\n\nEnglish recognition and deterministic parsing do not understand every layout. Check all suggestions. There is no share extension, background screenshot monitoring, recurrence extraction or automatic reconciliation of changed schedules. Local preferences do not sync across devices.\n\n[Setup & support](/screenshot-to-calendar/support) · [Privacy policy](/screenshot-to-calendar/privacy)\n",
       "sourceUrl": "/projects/screenshot-to-calendar_e8bdde7e-5fc7-5443-b0ce-321f3b697fd3/README.md"
     }
   },

@@ -32,8 +32,8 @@
   "supportRoute": "https://zacharysturman.com/screenshot-to-calendar/support",
   "privacyRoute": "https://zacharysturman.com/screenshot-to-calendar/privacy",
   "changedRouteChecks": "HTTP 200 and expected app content",
-  "imageChecks": "Live icon, thumbnail and three gallery images match reviewed source SHA-256 bytes",
-  "appStoreStatus": "Preparing submission; Apple processing pending",
+  "imageChecks": "All six public screenshot/icon files match reviewed source SHA-256 bytes",
+  "appStoreStatus": "1.0 (4) WAITING_FOR_REVIEW; automatic release after approval",
   "tests": {
     "coreApp": 13,
     "onboardingUI": "passed",
