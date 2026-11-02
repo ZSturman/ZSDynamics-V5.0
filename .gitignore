@@ -56,6 +56,8 @@ yarn-error.log*
 !/content/projects/content-manager/**
 !/content/projects/home-page/
 !/content/projects/home-page/**
+!/content/projects/screenshot-to-calendar/
+!/content/projects/screenshot-to-calendar/**
 
 # vercel
 .vercel
@@ -152,6 +154,8 @@ coverage/
 !/content/projects/content-manager/**
 !/content/projects/home-page/
 !/content/projects/home-page/**
+!/content/projects/screenshot-to-calendar/
+!/content/projects/screenshot-to-calendar/**
 
 !/content/project-updates.json
 

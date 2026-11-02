@@ -1,3 +1,15 @@
+# Screenshot to Calendar addition — November 1, 2026
+
+Added a curated native iPhone project and Apps entry, real simulator screenshots with invented appointments, and dedicated support/privacy routes. Source content is in `content/projects/screenshot-to-calendar/` and survives the local/Notion merge. Images are optimized derivatives of actual app captures and its existing icon. The source app now has a native launch screen, first-launch introduction and four contextual TipKit stages.
+
+The owner requested App Store publication and this production portfolio update. The app is currently being prepared for Apple review; no public installation is claimed. Release status will be updated after the submission result is verified. The daily publisher remains paused and the Worker is unchanged.
+
+Validation: static build and 52-project/97-route output checks pass; eight focused project-presentation tests pass. Native source has 13 passing core tests and a passing simulator onboarding flow. Physical iPhone permission/import and accessibility acceptance remain manual.
+
+Run `npm run build && npm run validate:portfolio` to refresh and verify the static export. Expected: 52 projects and 97 canonical routes. Publish through the existing main/Firebase workflow and verify `/projects/screenshot-to-calendar`, `/apps`, `/screenshot-to-calendar/support` and `/screenshot-to-calendar/privacy` against the exact `/deployment.json` commit marker.
+
+---
+
 # Native app thumbnails — October 31, 2026
 
 Added recognizable thumbnails and identity icons to Home Page, Trackables, iPhone Microscope, Camera Monitor, Files & Backups and Casino Exit. ChewSense already has its published thumbnail. Artwork comes from the actual app icon assets; no screenshots or source activity were fabricated. The icon and title stay within the center square of a 16:9 canvas for both project grid and square list crops.

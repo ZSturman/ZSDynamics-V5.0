@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.list",
-  "generated_at": "2026-10-31T13:30:50.768376+00:00",
+  "generated_at": "2026-11-02T01:08:25.843767+00:00",
   "data": [
     {
       "id": "3f5aec94-4d3c-8116-99d5-c9752bb4af87",
@@ -1031,6 +1031,29 @@
       "updatedAt": "2026-10-31"
     },
     {
+      "id": "e8bdde7e-5fc7-5443-b0ce-321f3b697fd3",
+      "slug": "screenshot-to-calendar",
+      "title": "Screenshot to Calendar",
+      "summary": "A private iPhone app that turns screenshots into editable Calendar events and Reminders, with on-device text recognition and remembered corrections.",
+      "oneLiner": "Turn captured details into reviewed plans on iPhone.",
+      "tags": [
+        "SwiftUI",
+        "iOS",
+        "Vision",
+        "EventKit",
+        "TipKit",
+        "Privacy",
+        "Productivity"
+      ],
+      "status": "Active",
+      "featured": false,
+      "domain": "Technology",
+      "category": "Application",
+      "href": "/projects/screenshot-to-calendar",
+      "primaryImageUrl": "/projects/screenshot-to-calendar_e8bdde7e-5fc7-5443-b0ce-321f3b697fd3/images/02-import-optimized.webp",
+      "updatedAt": "2026-11-01"
+    },
+    {
       "id": "1a1e475d-baba-58a5-9b13-c05f5d074bfa",
       "slug": "trackables",
       "title": "Trackables",
@@ -1046,5 +1069,5 @@
       "updatedAt": "2026-10-31"
     }
   ],
-  "count": 51
+  "count": 52
 }

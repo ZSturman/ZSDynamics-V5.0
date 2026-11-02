@@ -21,7 +21,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const landing = project.application?.landingPath;
     if (landing && !pages.includes(landing)) pages.push(landing);
   }
-  pages.push(...["recallable", "better-workspace", "better-signals", "content-manager", "home-page"].flatMap((slug) => [`/${slug}/privacy`, `/${slug}/support`]));
+  pages.push(...["recallable", "better-workspace", "better-signals", "content-manager", "home-page", "screenshot-to-calendar"].flatMap((slug) => [`/${slug}/privacy`, `/${slug}/support`]));
   pages.push("/recallable/demo", "/better-workspace/demo", "/content-manager/demo");
   return [
     ...pages.map((path) => ({ url: `${SITE_URL}${path}` })),
