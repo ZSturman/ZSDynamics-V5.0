@@ -35,8 +35,8 @@
     ]
   },
   "images": {
-    "thumbnail": "images/02-import-optimized.webp",
-    "icon": "images/app-icon-optimized.webp"
+    "thumbnail": "/projects/screenshot-to-calendar_e8bdde7e-5fc7-5443-b0ce-321f3b697fd3/images/02-import-optimized.webp",
+    "icon": "/projects/screenshot-to-calendar_e8bdde7e-5fc7-5443-b0ce-321f3b697fd3/images/app-icon-optimized.webp"
   },
   "resources": [
     {

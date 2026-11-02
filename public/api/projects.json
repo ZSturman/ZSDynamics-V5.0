@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.list",
-  "generated_at": "2026-11-02T01:08:25.843767+00:00",
+  "generated_at": "2026-11-02T01:11:47.957100+00:00",
   "data": [
     {
       "id": "3f5aec94-4d3c-8116-99d5-c9752bb4af87",
@@ -1050,7 +1050,7 @@
       "domain": "Technology",
       "category": "Application",
       "href": "/projects/screenshot-to-calendar",
-      "primaryImageUrl": "/projects/screenshot-to-calendar_e8bdde7e-5fc7-5443-b0ce-321f3b697fd3/images/02-import-optimized.webp",
+      "primaryImageUrl": "/projects/screenshot-to-calendar_e8bdde7e-5fc7-5443-b0ce-321f3b697fd3//projects/screenshot-to-calendar_e8bdde7e-5fc7-5443-b0ce-321f3b697fd3/images/02-import-optimized.webp",
       "updatedAt": "2026-11-01"
     },
     {
