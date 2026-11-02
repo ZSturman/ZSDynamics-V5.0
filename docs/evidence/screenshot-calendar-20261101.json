@@ -1,0 +1,44 @@
+{
+  "expectedSha": "3590ce290bdda9b48ae08f339c34fadbf6752b15",
+  "confirmedAt": "2026-11-02T01:14:36.619Z",
+  "domains": [
+    {
+      "url": "https://zachary-sturman-portfolio.web.app",
+      "status": 200,
+      "marker": {
+        "schemaVersion": 1,
+        "commitSha": "3590ce290bdda9b48ae08f339c34fadbf6752b15",
+        "builtAt": "2026-11-02T01:13:00.316Z",
+        "workflowRunId": "41371249743"
+      },
+      "matches": true
+    },
+    {
+      "url": "https://zacharysturman.com",
+      "status": 200,
+      "marker": {
+        "schemaVersion": 1,
+        "commitSha": "3590ce290bdda9b48ae08f339c34fadbf6752b15",
+        "builtAt": "2026-11-02T01:13:00.316Z",
+        "workflowRunId": "41371249743"
+      },
+      "matches": true
+    }
+  ],
+  "ok": true,
+  "workflowRunId": 41371249743,
+  "workflowConclusion": "success",
+  "projectRoute": "https://zacharysturman.com/projects/screenshot-to-calendar",
+  "supportRoute": "https://zacharysturman.com/screenshot-to-calendar/support",
+  "privacyRoute": "https://zacharysturman.com/screenshot-to-calendar/privacy",
+  "changedRouteChecks": "HTTP 200 and expected app content",
+  "imageChecks": "Live icon, thumbnail and three gallery images match reviewed source SHA-256 bytes",
+  "appStoreStatus": "Preparing submission; Apple processing pending",
+  "tests": {
+    "coreApp": 13,
+    "onboardingUI": "passed",
+    "portfolioPresentation": 8,
+    "mediaSmoke": 33,
+    "mediaSmokeExistingSkips": 5
+  }
+}

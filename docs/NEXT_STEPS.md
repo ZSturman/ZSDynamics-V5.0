@@ -6,7 +6,7 @@ The owner requested App Store publication and this production portfolio update. 
 
 Validation: static build and 52-project/97-route output checks pass; eight focused project-presentation tests pass. Native source has 13 passing core tests and a passing simulator onboarding flow. Physical iPhone permission/import and accessibility acceptance remain manual.
 
-Run `npm run build && npm run validate:portfolio` to refresh and verify the static export. Expected: 52 projects and 97 canonical routes. Publish through the existing main/Firebase workflow and verify `/projects/screenshot-to-calendar`, `/apps`, `/screenshot-to-calendar/support` and `/screenshot-to-calendar/privacy` against the exact `/deployment.json` commit marker.
+Run `npm run build && npm run validate:portfolio` to refresh and verify the static export. Expected: 52 projects and 97 canonical routes. Published commit `3590ce290bdda9b48ae08f339c34fadbf6752b15` through the existing main/Firebase workflow; [workflow 41371249743](https://github.com/ZSturman/ZSDynamics-V5.0/actions/runs/41371249743) succeeded. Both hosting-domain deployment markers and all changed app routes were verified. Live product image bytes match their reviewed source. [Release evidence](evidence/screenshot-calendar-20261101.json). For future updates verify `/projects/screenshot-to-calendar`, `/apps`, `/screenshot-to-calendar/support` and `/screenshot-to-calendar/privacy` against the exact `/deployment.json` commit marker.
 
 ---
 
