@@ -10,6 +10,8 @@ The Worker `zacharysturman-api` has `[observability] enabled = true` (`worker/wr
 
 Owner check: Cloudflare dashboard → Workers & Pages → Plans (expect "Free"), and Manage Account → Billing → Subscriptions (expect none). If both are empty/free, no bill can come due.
 
+**Applied November 6, 2026 (owner-approved):** steps 1–2 are done. `[observability] enabled = false` was deployed as Worker version `c95029a4-aa12-41ba-86b0-f8dc986aa43c`. The deployed source matched the repo apart from Worker tests, and Worker tests pass (12/12). `https://api.zacharysturman.com/health` returns 200, and both cron triggers and the custom domain are intact. Workers Logs no longer ingests, so use `npx wrangler tail` for live debugging. Owner still to do: confirm the plan is Free, check that the Worker's Observability tab shows no new logs, and handle steps 3–4 if they apply.
+
 Zero-cost hardening plan, applied only if the account is on Workers Paid or the owner wants a belt-and-braces guarantee:
 1. Set `[observability] enabled = false` (or `head_sampling_rate = 0.01`) in `worker/wrangler.toml`. Contact/subscription failures are already persisted in D1 and emailed, so dashboard logs are not required.
 2. Redeploy with `cd worker && npx wrangler deploy`, then confirm the Worker's Observability tab stops ingesting.

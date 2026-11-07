@@ -47,5 +47,8 @@ NOTION_SUBSCRIBERS_DATA_SOURCE_ID = "22e3b233-380e-4f23-963a-1510bd0ceb43"
 pattern = "api.zacharysturman.com"
 custom_domain = true
 
+# Workers Logs disabled to stay at $0 under Cloudflare Observability volume pricing
+# (Dec 1, 2026). Contact/subscription outcomes are persisted in D1 and emailed;
+# use `npx wrangler tail` for live debugging, which does not ingest logs.
 [observability]
-enabled = true
+enabled = false
