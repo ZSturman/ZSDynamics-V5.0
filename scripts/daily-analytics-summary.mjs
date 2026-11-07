@@ -1865,11 +1865,11 @@ function renderSectionTitle(title, subtitle = "") {
 function renderTable(headers, rows) {
   if (rows.length === 0) return renderEmpty();
   const head = headers
-    .map((header) => `<th align="${header.align || "left"}" style="padding:9px 10px;border-bottom:1px solid #d8dee9;color:#475569;font-size:12px;text-transform:uppercase;letter-spacing:.04em">${escapeHtml(header.label)}</th>`)
+    .map((header) => `<th align="${header.align || "left"}" style="padding:9px 8px;border-bottom:1px solid #d8dee9;color:#5f6368;font-size:12px;line-height:16px;font-weight:600;overflow-wrap:anywhere">${escapeHtml(header.label)}</th>`)
     .join("");
   const body = rows
     .map((row) => `<tr>${row
-      .map((cell) => `<td align="${cell.align || "left"}" style="padding:10px;border-bottom:1px solid #e5e7eb;color:${cell.muted ? "#64748b" : "#0f172a"};font-size:13px;line-height:18px;vertical-align:top">${cell.html ? cell.value : escapeHtml(cell.value)}</td>`)
+      .map((cell) => `<td align="${cell.align || "left"}" style="padding:10px;border-bottom:1px solid #e5e7eb;color:${cell.muted ? "#64748b" : "#0f172a"};font-size:13px;line-height:18px;vertical-align:top;word-break:break-word;overflow-wrap:anywhere">${cell.html ? cell.value : escapeHtml(cell.value)}</td>`)
       .join("")}</tr>`)
     .join("");
   return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;border:1px solid #e2e8f0;border-radius:8px;overflow:hidden">${`<thead><tr style="background:#f8fafc">${head}</tr></thead><tbody>${body}</tbody>`}</table>`;
@@ -2378,22 +2378,134 @@ function renderQualitySection(report) {
   </td></tr>`;
 }
 
-export function renderReportHtml(report) {
-  const sessions = report.trafficQuality?.rawSessions ?? report.scorecards.find((card) => card.key === "sessions")?.display ?? "0";
-  const engagedSessions = report.trafficQuality?.engagedSessions;
-  const keyActions = formatInteger(report.events.keyActionCount);
+function renderDeltaChip(card) {
+  if (!card || card.value == null || card.previousDelta === "Unavailable") {
+    return `<span style="color:#94a3b8;font-size:12px;line-height:16px">No comparison</span>`;
+  }
+  const tone = card.previousTone;
+  const arrow = tone === "positive" ? "&#9650;" : tone === "negative" ? "&#9660;" : "&#9644;";
+  const color = tone === "positive" ? "#137333" : tone === "negative" ? "#c5221f" : "#5f6368";
+  const background = tone === "positive" ? "#e6f4ea" : tone === "negative" ? "#fce8e6" : "#f1f3f4";
+  return `<span style="display:inline-block;padding:2px 8px;border-radius:999px;background:${background};color:${color};font-size:12px;line-height:16px;font-weight:600">${arrow} ${escapeHtml(card.previousDelta)}</span>`;
+}
 
+function renderGlanceTile(label, display, card, note = "vs. previous day") {
+  return `<div style="display:inline-block;vertical-align:top;width:23%;min-width:148px;margin:0 1% 12px;text-align:left">
+    <div style="padding:14px 16px;border:1px solid #e8eaed;border-radius:10px;background:#ffffff">
+      <div style="color:#5f6368;font-size:13px;line-height:18px">${escapeHtml(label)}</div>
+      <div style="margin:4px 0 6px;color:#202124;font-size:30px;line-height:36px;font-weight:600">${escapeHtml(display)}</div>
+      ${renderDeltaChip(card)}${card && card.value != null && card.previousDelta !== "Unavailable" ? `<span style="color:#80868b;font-size:11px;line-height:16px"> ${escapeHtml(note)}</span>` : ""}
+    </div>
+  </div>`;
+}
+
+function renderGlanceTiles(report) {
+  const card = (key) => report.scorecards?.find((item) => item.key === key);
+  const tile = (key, label) => renderGlanceTile(label, card(key)?.display ?? "Unavailable", card(key));
+  const keyActions = { value: report.events.keyActionCount, display: formatInteger(report.events.keyActionCount), previousDelta: "Unavailable" };
+  return `<tr><td align="center" style="padding:20px 18px 8px;font-size:0">
+    ${tile("totalUsers", "Users")}${tile("newUsers", "New users")}${tile("sessions", "Sessions")}${tile("screenPageViews", "Page views")}
+    ${tile("engagedSessions", "Engaged sessions")}${tile("engagementRate", "Engagement rate")}${tile("averageSessionDuration", "Avg. session")}${renderGlanceTile("High-intent actions", keyActions.display, keyActions)}
+  </td></tr>`;
+}
+
+function renderBarList(title, rows, valueLabel) {
+  if (rows.length === 0) {
+    return `<div style="margin:0 0 20px"><div style="color:#202124;font-size:15px;line-height:20px;font-weight:600">${escapeHtml(title)}</div>${renderEmpty()}</div>`;
+  }
+  const max = Math.max(...rows.map((row) => numberOrZero(row.value)), 1);
+  const items = rows.map((row) => {
+    const width = Math.max(2, Math.round((numberOrZero(row.value) / max) * 100));
+    return `<tr>
+      <td style="padding:7px 0 0;color:#202124;font-size:13px;line-height:18px">${escapeHtml(row.label)}${row.detail ? `<span style="color:#80868b"> &middot; ${escapeHtml(row.detail)}</span>` : ""}</td>
+      <td align="right" style="padding:7px 0 0 12px;color:#202124;font-size:13px;line-height:18px;font-weight:600;white-space:nowrap">${escapeHtml(formatInteger(row.value))}</td>
+    </tr>
+    <tr><td colspan="2" style="padding:4px 0 0"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse"><tr>
+      <td width="${width}%" style="height:6px;background:#1a73e8;border-radius:3px;font-size:0;line-height:0">&nbsp;</td>${width < 100 ? `<td style="height:6px;background:#e8f0fe;font-size:0;line-height:0">&nbsp;</td>` : ""}
+    </tr></table></td></tr>`;
+  }).join("");
+  return `<div style="margin:0 0 22px">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse">
+      <tr><td style="color:#202124;font-size:15px;line-height:20px;font-weight:600">${escapeHtml(title)}</td><td align="right" style="color:#80868b;font-size:12px;line-height:20px">${escapeHtml(valueLabel)}</td></tr>
+      ${items}
+    </table>
+  </div>`;
+}
+
+function renderGlanceBreakdowns(report) {
+  const countries = (report.audience?.countries || []).slice(0, 5).map((row) => ({
+    label: row.label,
+    value: row.metrics.totalUsers ?? row.metrics.sessions,
+    detail: `${formatInteger(row.metrics.sessions)} sessions`,
+  }));
+  const sources = (report.traffic?.sourceMedium || []).slice(0, 5).map((row) => ({
+    label: row.label,
+    value: row.metrics.sessions,
+    detail: `${formatInteger(row.metrics.engagedSessions)} engaged`,
+  }));
+  const pages = (report.content?.pages || []).slice(0, 5).map((page) => ({
+    label: page.title,
+    value: page.views,
+    detail: page.path,
+  }));
+  const cities = (report.audience?.cities || []).slice(0, 5).map((row) => ({
+    label: row.label,
+    value: row.metrics.totalUsers ?? row.metrics.sessions,
+  }));
+  return `<tr><td style="padding:12px 28px 4px">
+    ${renderBarList("Where visitors are", countries, "Users")}
+    ${cities.length ? renderBarList("Top cities", cities, "Users") : ""}
+    ${renderBarList("How they found the site", sources, "Sessions")}
+    ${renderBarList("Most viewed pages", pages, "Views")}
+  </td></tr>`;
+}
+
+function renderGlanceTakeaways(report) {
+  const items = report.highlights || [];
+  if (items.length === 0) return "";
+  return `<tr><td style="padding:8px 28px 8px">
+    <div style="padding:16px 18px;border-radius:10px;background:#f8f9fa;border-left:4px solid #1a73e8">
+      <div style="margin:0 0 8px;color:#202124;font-size:15px;line-height:20px;font-weight:600">Key takeaways</div>
+      <ul style="margin:0;padding:0 0 0 18px;color:#3c4043;font-size:14px;line-height:21px">${items.map((item) => `<li style="margin:0 0 5px">${escapeHtml(item)}</li>`).join("")}</ul>
+    </div>
+  </td></tr>`;
+}
+
+function renderGlanceWarning(report) {
+  if (!report.warnings?.length) return "";
+  return `<tr><td style="padding:8px 28px 0">
+    <div style="padding:10px 14px;border-radius:8px;background:#fef7e0;color:#7a4f01;font-size:13px;line-height:19px">Some data could not be loaded (${formatInteger(report.warnings.length)} warning${report.warnings.length === 1 ? "" : "s"}). Affected sections are marked; details are under Data Quality at the end.</div>
+  </td></tr>`;
+}
+
+function renderPreheader(report) {
+  const card = (key) => report.scorecards?.find((item) => item.key === key)?.display ?? "0";
+  const topCountry = report.audience?.countries?.[0]?.label;
+  const text = `${card("totalUsers")} users, ${card("sessions")} sessions, ${card("screenPageViews")} views${topCountry ? ` · top country ${topCountry}` : ""}`;
+  return `<div style="display:none;max-height:0;overflow:hidden;opacity:0;color:transparent">${escapeHtml(text)}</div>`;
+}
+
+export function renderReportHtml(report) {
   return `<!doctype html>
 <html>
-<body style="margin:0;padding:0;background:#eef2f7;color:#0f172a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif">
-  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;background:#eef2f7">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light"></head>
+<body style="margin:0;padding:0;background:#f1f3f4;color:#202124;font-family:'Google Sans',Roboto,-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif">
+  ${renderPreheader(report)}
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;background:#f1f3f4">
     <tr><td align="center" style="padding:24px 12px">
-      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:860px;border-collapse:collapse;background:#ffffff;border:1px solid #dbe3ef;border-radius:12px;overflow:hidden">
-        <tr><td style="padding:30px 28px;background:#0f172a;color:#ffffff">
-          <div style="color:#cbd5e1;font-size:13px;line-height:18px">${escapeHtml(report.meta.dateLabel)} &middot; generated ${escapeHtml(report.meta.generatedAtLabel)}</div>
-          <h1 style="margin:8px 0 0;font-size:28px;line-height:34px;font-weight:750">${escapeHtml(report.meta.siteName)} analytics</h1>
-          <p style="margin:8px 0 0;color:#dbeafe;font-size:15px;line-height:22px">${escapeHtml(engagedSessions == null ? sessions : `${formatInteger(engagedSessions)} engaged / ${formatInteger(sessions)} sessions`)} / ${escapeHtml(keyActions)} high-intent actions</p>
-          <p style="margin:14px 0 0;color:#94a3b8;font-size:12px;line-height:18px">Source: ${escapeHtml(report.meta.source)}</p>
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:860px;border-collapse:collapse;background:#ffffff;border:1px solid #dadce0;border-radius:12px;overflow:hidden">
+        <tr><td style="padding:28px 28px 20px;border-bottom:1px solid #e8eaed">
+          <div style="color:#1a73e8;font-size:13px;line-height:18px;font-weight:600;letter-spacing:.02em">DAILY ANALYTICS REPORT</div>
+          <h1 style="margin:6px 0 0;color:#202124;font-size:26px;line-height:32px;font-weight:500">${escapeHtml(report.meta.siteName)}</h1>
+          <div style="margin:4px 0 0;color:#5f6368;font-size:14px;line-height:20px">${escapeHtml(report.meta.dateLabel)}</div>
+        </td></tr>
+        ${renderGlanceWarning(report)}
+        ${renderGlanceTiles(report)}
+        ${renderGlanceTakeaways(report)}
+        ${renderGlanceBreakdowns(report)}
+        <tr><td style="padding:12px 28px 0">
+          <div style="border-top:1px solid #e8eaed;padding-top:18px;color:#5f6368;font-size:12px;line-height:18px;letter-spacing:.06em;font-weight:600">FULL REPORT</div>
+          <div style="color:#80868b;font-size:12px;line-height:18px">Generated ${escapeHtml(report.meta.generatedAtLabel)} &middot; Source: ${escapeHtml(report.meta.source)}</div>
         </td></tr>
         ${renderDailySummary(report)}
         ${renderNarrative(report)}
@@ -2434,6 +2546,16 @@ export function renderReportText(report) {
     `${report.meta.siteName} analytics - ${report.meta.dateLabel}`,
     `Generated: ${report.meta.generatedAtLabel}`,
     `Source: ${report.meta.source}`,
+    "",
+    "## At a glance",
+    ...["totalUsers", "newUsers", "sessions", "screenPageViews", "engagementRate"]
+      .map((key) => report.scorecards.find((card) => card.key === key))
+      .filter(Boolean)
+      .map((card) => `- ${card.label}: ${card.display} (${card.previousDelta} vs. previous day)`),
+    `- High-intent actions: ${formatInteger(report.events.keyActionCount)}`,
+    ...((report.audience?.countries || []).length
+      ? [`- Top countries: ${report.audience.countries.slice(0, 5).map((row) => `${row.label} (${formatInteger(row.metrics.totalUsers ?? row.metrics.sessions)})`).join(", ")}`]
+      : []),
     "",
     "## Daily analytics summary",
     renderTextRows(

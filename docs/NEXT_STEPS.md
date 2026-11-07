@@ -1,3 +1,23 @@
+# Daily analytics email redesign + Cloudflare observability check — November 6, 2026
+
+The daily GA4 email now opens with an at-a-glance section modeled on Google's console emails. It has a light header, an inbox preview line, and eight KPI tiles (users, new users, sessions, views, engaged sessions, engagement rate, avg. session, high-intent actions) with ▲/▼ day-over-day chips. Below the tiles are the key takeaways and bar lists for top countries (users), cities, sources and pages. All previous detailed sections follow under a "Full report" divider and are unchanged. Table headers are now sentence case and cells wrap, which fixes the earlier sideways scroll on phones. The plain-text email gained an "At a glance" block. Queries, metrics and privacy posture are unchanged. Not yet sent to a real inbox; try it with `ANALYTICS_DRY_RUN=true npm run daily-analytics` (needs the GA4 credentials from `.env.local`; does not send), then let the next scheduled email arrive and check it in Gmail and iOS Mail.
+
+Validation: 67 unit tests pass (`npm run test:unit`), including new at-a-glance assertions. Lint shows 0 errors (6 existing warnings). A rendered sample has no horizontal overflow at 390 px.
+
+## Cloudflare Observability pricing (effective December 1, 2026)
+
+The Worker `zacharysturman-api` has `[observability] enabled = true` (`worker/wrangler.toml`). Under the new pricing, Free accounts get 0.5 GB/day of ingestion with "Additional usage: Not available", so there is no metered overage on Free. Workers Paid includes 50 GB ingest plus 10 GB-month storage, then $0.25/GB ingested and $0.10/GB-month stored. The Worker writes roughly 312 cron invocations per day plus contact/subscribe requests (about a few MB/day), far below either allowance. The repo cannot show which Workers plan the account is on (the wrangler token has no billing scope).
+
+Owner check: Cloudflare dashboard → Workers & Pages → Plans (expect "Free"), and Manage Account → Billing → Subscriptions (expect none). If both are empty/free, no bill can come due.
+
+Zero-cost hardening plan, applied only if the account is on Workers Paid or the owner wants a belt-and-braces guarantee:
+1. Set `[observability] enabled = false` (or `head_sampling_rate = 0.01`) in `worker/wrangler.toml`. Contact/subscription failures are already persisted in D1 and emailed, so dashboard logs are not required.
+2. Redeploy with `cd worker && npx wrangler deploy`, then confirm the Worker's Observability tab stops ingesting.
+3. If the account is on Workers Paid only for this Worker, downgrade to Free under Workers & Pages → Plans. Free limits (100k requests/day, 10 ms CPU, 5 cron triggers, D1 free tier) cover this Worker's load; confirm CPU time in the dashboard metrics first.
+4. Check that R2 Data Access Logs and AI Gateway logs are not enabled. `media.zacharysturman.com` R2 stays within its separate free tier unless storage exceeds 10 GB.
+
+---
+
 # Screenshot to Calendar addition — November 1, 2026
 
 Added a curated native iPhone project and Apps entry, real simulator screenshots with invented appointments, and dedicated support/privacy routes. Source content is in `content/projects/screenshot-to-calendar/` and survives the local/Notion merge. Images are optimized derivatives of actual app captures and its existing icon. The source app now has a native launch screen, first-launch introduction and four contextual TipKit stages.

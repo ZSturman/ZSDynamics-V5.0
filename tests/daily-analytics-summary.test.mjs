@@ -603,6 +603,12 @@ test("renders all major email sections and custom-dimension fallback", () => {
     assert.match(html, new RegExp(section));
   }
 
+  const glance = html.slice(0, html.indexOf("FULL REPORT"));
+  for (const section of ["Key takeaways", "Where visitors are", "How they found the site", "Most viewed pages", "United States", "&#9660; -5.0%"]) {
+    assert.ok(glance.includes(section), `at-a-glance section includes ${section}`);
+  }
+  assert.match(text, /## At a glance[\s\S]*Top countries: United States \(32\)/);
+
   for (const section of [
     "## Daily analytics summary",
     "## What actually happened",
