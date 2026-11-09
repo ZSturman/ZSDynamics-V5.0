@@ -3,6 +3,8 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "lib"))
+import build_postprocess
+from build_postprocess import _slim_project
 from local_projects import merge_local_projects
 
 
@@ -89,3 +91,23 @@ def test_application_metadata_uses_authored_pipeline_without_requiring_fabricate
     assert merged[0]["id"] == "stable-id"
     assert "images" not in merged[0]
     assert merge_local_projects(merged, tmp_path / "public", content) == merged
+
+
+def test_public_project_cover_resolves_rooted_and_relative_media():
+    cover = "/projects/example/images/cover-optimized.webp"
+    hosted_cover = "https://media.example.org/cover.webp"
+    for path in (cover, "images/cover-optimized.webp"):
+        project = {"folderName": "example", "images": {"thumbnail": path}}
+        assert _slim_project(project, {})["primaryImageUrl"] == cover
+        assert _slim_project(project, {cover: hosted_cover})["primaryImageUrl"] == hosted_cover
+    project["images"]["thumbnail"] = hosted_cover
+    assert _slim_project(project, {})["primaryImageUrl"] == hosted_cover
+
+
+def test_public_project_cover_falls_back_to_existing_derivative(tmp_path, monkeypatch):
+    monkeypatch.setattr(build_postprocess, "PUBLIC_DIR", tmp_path)
+    image = tmp_path / "projects/example/images/cover-optimized.webp"
+    image.parent.mkdir(parents=True)
+    image.write_bytes(b"fixture")
+    project = {"folderName": "example", "images": {"thumbnail": "images/cover.tiff"}}
+    assert _slim_project(project, {})["primaryImageUrl"] == "/projects/example/images/cover-optimized.webp"

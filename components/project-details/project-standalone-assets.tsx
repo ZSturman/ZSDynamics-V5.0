@@ -88,6 +88,7 @@ function VideoMedia({ src, poster, alt }: { src: string; poster?: string; alt: s
         poster={poster}
         controls
         playsInline
+        preload="none"
         className="w-full aspect-video object-contain"
         aria-label={alt}
       />

@@ -29,9 +29,9 @@
   "description": "Better Workspace helps turn ideas into projects and projects into a useful next step. Advanced Mac 1.0 connects real folders, portable plans, priorities, capture, work history and optional reviewed integrations. Its signed, notarized download includes the runtime for Apple silicon and Intel. A separate native personal workspace for Mac, iPhone and iPad brings offline projects, tasks, ideas and documents together with private iCloud sync. Explore the browser demo, download advanced Mac, or view the MIT-licensed source. App Store availability is shown on the product page.",
   "story": "I built Better Workspace to connect the parts of creative and technical work that usually live in separate tools: files, ideas, plans, captures and the decision about what to do next. The architecture keeps the filesystem as the source of truth, uses explicit reviewed actions for changes, and lets the phone participate without pretending it has direct access to the Mac filesystem.",
   "images": {
-    "thumbnail": "images/mac-personal-sample.webp",
+    "thumbnail": "/projects/better_workspace_210b2324-2bdf-5751-a101-9c334db91f8c/images/cover-optimized.webp",
     "hero": "images/mac-personal-sample.webp",
-    "banner": "images/mac-personal-sample.webp",
+    "banner": "/projects/better_workspace_210b2324-2bdf-5751-a101-9c334db91f8c/images/cover-optimized.webp",
     "icon": "images/icon.png"
   },
   "resources": [
@@ -92,6 +92,12 @@
       "type": "image",
       "path": "/projects/better_workspace_210b2324-2bdf-5751-a101-9c334db91f8c/images/ipad-personal-sample.webp",
       "label": "iPad personal workspace preview (private sample)"
+    },
+    {
+      "id": "iphone-build8-capture-widget",
+      "type": "image",
+      "path": "/projects/better_workspace_210b2324-2bdf-5751-a101-9c334db91f8c/images/iphone-build8-capture-widget.png",
+      "label": "iPhone Quick Capture widget in a sample workspace"
     }
   ]
 }

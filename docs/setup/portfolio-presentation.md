@@ -22,7 +22,7 @@ overrides on top, and every new field is optional.
 Ranking has exactly **one control**: the ordered slug list in `content/selected-work.json`.
 
 ```json
-{ "projects": ["better-workspace", "recallable", "transactions", "job-search-hub", "chewsense", "hue-light-control"] }
+{ "projects": ["better-workspace", "grounded-memory", "content-manager", "recallable", "hue-light-control", "screenshot-to-calendar"] }
 ```
 
 - Order in the file is the order on the homepage; the first six are shown.
@@ -95,6 +95,14 @@ paths resolve against the project's public folder, so diagrams, wiring photos, C
 or charts added to an authored entry's `images/` folder can be referenced as
 `images/<file>`. Always provide `alt` text. Label illustrations as illustrations.
 
+Use a rooted public path for a cover that is already optimized, such as
+`/projects/<folderName>/images/cover-optimized.webp`. Relative image names
+refer to their source files and the page derives the optimized path. Keep the main
+subject near the center for landscape cards and square list thumbnails. For silent
+screen recordings, include a poster, native playback controls and a short text
+description of the actions. Use isolated sample data and inspect the pixels for
+private workspace information before adding media to the public export.
+
 ## Professional information
 
 Edit `lib/site-content.ts`:
@@ -112,7 +120,7 @@ to match. Keep application-specific résumés out of `public/`.
 ## Verification
 
 ```bash
-npm run sync:local-projects          # applies overrides; expect "45 projects available"
+npm run sync:local-projects          # applies authored entries and overrides
 npm run test:unit                    # includes tests/project-presentation.test.mjs
 uv run --with pytest python -m pytest -q tests_python/test_local_projects.py
 npx playwright test tests/presentation.spec.ts tests/home.spec.ts --workers=2

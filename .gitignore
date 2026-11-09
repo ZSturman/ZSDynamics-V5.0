@@ -58,6 +58,16 @@ yarn-error.log*
 !/content/projects/home-page/**
 !/content/projects/screenshot-to-calendar/
 !/content/projects/screenshot-to-calendar/**
+!/content/projects/finder-workspace-extensions/
+!/content/projects/finder-workspace-extensions/**
+!/content/projects/grounded-memory/
+!/content/projects/grounded-memory/**
+!/content/projects/home-services/
+!/content/projects/home-services/**
+!/content/projects/inbox-review/
+!/content/projects/inbox-review/**
+!/content/projects/opportunity-discovery/
+!/content/projects/opportunity-discovery/**
 
 # vercel
 .vercel

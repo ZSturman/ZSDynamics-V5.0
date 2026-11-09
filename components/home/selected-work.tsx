@@ -60,7 +60,7 @@ export function SelectedWork({ projects, title = "Selected work" }: { projects: 
           const href = getProjectHref(project);
 
           return (
-            <li key={project.id} data-testid="selected-work-item" data-project-slug={project.slug}>
+            <li key={project.id} data-testid="selected-work-item" data-project-slug={project.slug} className="row-span-2 grid grid-rows-subgrid gap-y-0">
               <Link
                 href={href}
                 className="group flex flex-col overflow-hidden rounded-lg border border-border/40 bg-card/40 transition-colors hover:border-primary/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
@@ -95,7 +95,7 @@ export function SelectedWork({ projects, title = "Selected work" }: { projects: 
                   </p>
                 </div>
               </Link>
-              <div className="flex flex-wrap gap-3 px-4 py-3 text-sm" data-analytics-project-slug={project.slug} data-analytics-surface="selected_work_actions">
+              <div className="flex flex-wrap content-start gap-x-3 px-4 py-2 text-sm" data-analytics-project-slug={project.slug} data-analytics-surface="selected_work_actions">
                 {applicationResources(project).slice(0, 2).map((resource) => <Link key={resource.url} href={resource.url} className="inline-flex min-h-11 items-center text-primary underline underline-offset-4">{resource.label}</Link>)}
                 <Link href={href} className="inline-flex min-h-11 items-center underline underline-offset-4">How it was built</Link>
               </div>

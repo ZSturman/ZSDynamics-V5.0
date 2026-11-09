@@ -154,13 +154,25 @@
       }
     ],
     "summary": "A research workflow for paired eating video and AirPods motion: collect, review candidate events, and evaluate personalized models.",
-    "updatedAt": "2026-10-31",
-    "description": "ChewSense combines Collect on iPhone, local Vision processing, human Review on Mac, and a motion-model research pipeline. The existing Collect app is publicly available; version 1.2 (7) refreshes private TestFlight with guided collection and optional, explicitly selected transfer to the Mac. The guided end-to-end loop has software and legacy-video evidence; a new physical paired recording and independent annotation are still required. Predictions are proposals, not verified labels or health advice. Live model promotion remains gated on measured data quality and evaluation. Archived shells and older model-debugging apps are separate experiments.",
+    "updatedAt": "2026-11-09",
+    "description": "ChewSense combines guided iPhone capture, local Vision processing, human review on Mac and motion-model evaluation. The public Collect app is available on the App Store. Recent development adds an encrypted holding service for selected recordings when the paired Mac is unavailable. The Mac collects them later for review. The mailbox handoff was exercised on a physical iPhone. Model promotion still depends on measured data quality and independent annotation.",
     "application": {
       "landingPath": "/projects/chewsense",
       "platforms": [
         "iPhone (Collect)",
         "Mac (research tools)"
+      ]
+    },
+    "oneLiner": "Research tools for collecting, labeling and learning from AirPods motion and synchronized video.",
+    "caseStudy": {
+      "problem": "Learning from chewing motion requires synchronized evidence and labels that a person can verify.",
+      "role": "I built the iPhone collector, the Mac review pipeline and the capture handoff.",
+      "decisions": [
+        "Keep suggested events separate from reviewed labels.",
+        "Encrypt a recording on iPhone before using the fallback mailbox. The Mac imports it and acknowledges receipt."
+      ],
+      "validation": [
+        "The private mailbox handoff was exercised on an iPhone, including resumed upload, Mac collection and deletion after acknowledgment."
       ]
     }
   },
@@ -259,7 +271,7 @@
     "resources": [
       {
         "type": "apple",
-        "label": "Install for iPhone & iPad",
+        "label": "Get Recallable on the App Store",
         "url": "https://apps.apple.com/us/app/recallable-flashcards/id6822919785"
       },
       {
@@ -273,9 +285,9 @@
         "url": "/recallable"
       }
     ],
-    "phase": "Released on iOS",
-    "updatedAt": "2026-10-31",
-    "summary": "A native flashcard app with focused study, rich text and math, widgets and private iCloud sync. Available for iPhone, iPad and Mac; the current 1.0.2 (18) beta is submitted for Apple review. Try a sample deck in your browser.",
+    "phase": "Released",
+    "updatedAt": "2026-11-02",
+    "summary": "A native flashcard app with focused study, rich text and math, widgets and private iCloud sync. Try a sample deck in your browser or get the app for iPhone, iPad and Mac.",
     "workLogs": [
       {
         "id": "403aec94-4d3c-8126-ba47-ffb1bfc9e863",
@@ -337,8 +349,8 @@
         "url": "/better-workspace"
       }
     ],
-    "summary": "Projects, tasks and ideas across Apple devices. Install Better Workspace for iPhone and iPad, download the advanced Mac app, explore the browser demo or view the public source.",
-    "updatedAt": "2026-10-31",
+    "summary": "Manage projects, tasks and ideas across Mac, iPhone and iPad. Try the browser demo, get the native app, or explore how recent development keeps idea notes and attachments together.",
+    "updatedAt": "2026-11-09",
     "workLogs": [
       {
         "id": "eb209eb8-30bc-5c22-8679-ede37adaa8dd",
@@ -359,9 +371,19 @@
           "Build"
         ],
         "whatHappened": "Submitted iPhone/iPad version 1.0.1 (15), with unified Workspace screenshots and updated review notes. Physical devices updated in place through TestFlight before submission."
+      },
+      {
+        "id": "d65ad82a-4510-5394-86c2-c417b8133d4a",
+        "title": "Kept notes and attachments together across capture paths",
+        "entry": "Kept notes and attachments together across capture paths",
+        "date": "2026-11-09",
+        "sessionType": [
+          "Build"
+        ],
+        "whatHappened": "Unified capture on Mac, iPhone and iPad so a note and its photos land in one idea folder. Reduced background work from file changes and repetitive Notion reads in the development build."
       }
     ],
-    "description": "Better Workspace helps turn ideas into projects and projects into a useful next step. Advanced Mac 1.0 connects real folders, portable plans, priorities, capture, work history and optional reviewed integrations. Its signed, notarized download includes the runtime for Apple silicon and Intel. The iPhone and iPad app is available on the App Store as version 1.0.2: keep a workspace offline and connect the optional advanced Mac for its files and integrations. Explore the browser demo, download advanced Mac, install the mobile app or view the public source.",
+    "description": "Better Workspace brings real project folders, plans, priorities and capture into one place. The public iPhone and iPad app works offline and can connect to the advanced Mac app. Recent development builds keep a captured note and its attachments together, with entry points in the share sheet, widgets and Shortcuts. The signed public Mac download and browser demo are available separately.",
     "application": {
       "landingPath": "/better-workspace",
       "platforms": [
@@ -410,7 +432,8 @@
       "landingPath": "/content-manager",
       "platforms": [
         "iPhone (private beta)",
-        "iPad (private beta)"
+        "iPad (private beta)",
+        "Mac (private beta)"
       ]
     }
   },

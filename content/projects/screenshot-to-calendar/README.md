@@ -2,7 +2,7 @@
 
 From a screenshot. Into your day. A private iPhone app for turning captured schedules, appointments and tasks into Calendar events and Reminders.
 
-Requires iOS 17 or later. Version **1.0 (4)** is **Waiting for Review**, with automatic release after Apple approval. Public installation is not available yet.
+Requires iOS 17 or later. Version 1.0 was submitted to Apple. The project is in pre-release.
 
 ## Bring it in, make it yours
 

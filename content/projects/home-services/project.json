@@ -1,0 +1,57 @@
+{
+  "id": "d4ea7bc6-6816-5397-867d-289ba6d1518f",
+  "slug": "home-services",
+  "href": "/projects/home-services",
+  "folderName": "home-services_d4ea7bc6-6816-5397-867d-289ba6d1518f",
+  "title": "Home Services",
+  "summary": "A Raspberry Pi backend for camera recording, file recovery and secure handoffs between Apple apps.",
+  "oneLiner": "A Raspberry Pi backend for camera recording, file recovery and secure handoffs between Apple apps.",
+  "domain": "Technology",
+  "category": "Infrastructure",
+  "status": "Active",
+  "phase": "Deployed privately",
+  "featured": false,
+  "isPublic": true,
+  "updatedAt": "2026-11-09",
+  "tags": [
+    "Raspberry Pi",
+    "Linux",
+    "Python",
+    "Backups",
+    "Service Integration"
+  ],
+  "disciplines": [
+    "software",
+    "hardware"
+  ],
+  "images": {
+    "thumbnail": "/projects/home-services_d4ea7bc6-6816-5397-867d-289ba6d1518f/images/service-map-optimized.svg",
+    "banner": "/projects/home-services_d4ea7bc6-6816-5397-867d-289ba6d1518f/images/service-map-optimized.svg"
+  },
+  "resources": [
+    {
+      "type": "website",
+      "label": "Explore Camera Monitor",
+      "url": "/projects/camera-monitor"
+    },
+    {
+      "type": "website",
+      "label": "Explore Files & Backups",
+      "url": "/projects/files-backups"
+    }
+  ],
+  "caseStudy": {
+    "problem": "A Mac can sleep or disconnect while cameras, backups and mobile workflows still need an always-available endpoint.",
+    "role": "I designed and deployed the service contracts, Raspberry Pi runtime and Mac status tooling.",
+    "architecture": [
+      "Camera Monitor and Files & Backups can use a versioned API on the Pi with scoped tokens.",
+      "Private relays can queue selected editorial and opportunity edits for a Mac. The Chew Sense mailbox accepts encrypted recording deposits."
+    ],
+    "decisions": [
+      "Keep the camera and file apps usable with their direct providers. Separate status, write access and publication permissions."
+    ],
+    "validation": [
+      "Camera and file provider adapters have been exercised against the deployed Pi. The encrypted recording mailbox is deployed."
+    ]
+  }
+}

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.list",
-  "generated_at": "2026-11-02T01:26:26.453719+00:00",
+  "generated_at": "2026-11-09T20:07:03.683133+00:00",
   "data": [
     {
       "id": "3f5aec94-4d3c-8116-99d5-c9752bb4af87",
@@ -113,7 +113,7 @@
       "domain": "Technology",
       "category": "Application",
       "href": "/projects/the-wolf-project",
-      "primaryImageUrl": "/projects/the_wolf_project_346aec94-4d3c-801e-851f-c7e727f0e186/Wolf-hero.webp",
+      "primaryImageUrl": "/projects/the_wolf_project_346aec94-4d3c-801e-851f-c7e727f0e186/Wolf-hero-optimized.webp",
       "updatedAt": "2026-04-27"
     },
     {
@@ -417,7 +417,7 @@
       "slug": "chewsense",
       "title": "ChewSense",
       "summary": "A research workflow for paired eating video and AirPods motion: collect, review candidate events, and evaluate personalized models.",
-      "oneLiner": "An iOS app that uses AirPods’ motion sensors to detect chewing and help users eat more mindfully by slowing down their pace.",
+      "oneLiner": "Research tools for collecting, labeling and learning from AirPods motion and synchronized video.",
       "tags": [
         "iOS",
         "Swift",
@@ -431,7 +431,7 @@
       "category": "Application",
       "href": "/projects/chewsense",
       "primaryImageUrl": "/projects/chewsense_306aec94-4d3c-808d-9ada-f0ccca484d3b/thumbnail.png",
-      "updatedAt": "2026-10-31"
+      "updatedAt": "2026-11-09"
     },
     {
       "id": "306aec94-4d3c-807e-a7ef-db0aa63a2ec7",
@@ -589,7 +589,7 @@
       "domain": "Narrative",
       "category": "Television",
       "href": "/projects/greenhorn",
-      "primaryImageUrl": "/projects/greenhorn_306aec94-4d3c-80b0-b478-e070bcd1d517/thumbnail.tiff",
+      "primaryImageUrl": "/projects/greenhorn_306aec94-4d3c-80b0-b478-e070bcd1d517/thumbnail-optimized.webp",
       "updatedAt": "2021-11-05"
     },
     {
@@ -836,14 +836,14 @@
       "domain": "Artistic",
       "category": "3D Design",
       "href": "/projects/3d-models-collection",
-      "primaryImageUrl": "/projects/3d_models_collection_312aec94-4d3c-817e-9295-e018716cf990//projects/3d_models_collection_312aec94-4d3c-817e-9295-e018716cf990/images/belt-holder-39078b78-optimized.webp",
+      "primaryImageUrl": "/projects/3d_models_collection_312aec94-4d3c-817e-9295-e018716cf990/images/belt-holder-39078b78-optimized.webp",
       "updatedAt": "2026-10-19"
     },
     {
       "id": "33baec94-4d3c-805b-aa92-e0d16cc8a3f1",
       "slug": "better-signals",
       "title": "Better Signals",
-      "summary": "A native iPhone, iPad, and Apple Watch app for recording how your mind, emotions, social energy, and surroundings feel. Review your Signals and export them in open formats. No account or developer-operated backend.",
+      "summary": "Record short observations on iPhone, iPad and Apple Watch, answer Quick Signals from Home or a widget, and export your history in open formats.",
       "oneLiner": "Quick observations, optional context, and data you can take with you.",
       "tags": [
         "SwiftUI",
@@ -862,13 +862,13 @@
       "category": "Application",
       "href": "/projects/better-signals",
       "primaryImageUrl": "/projects/better_signals_33baec94-4d3c-805b-aa92-e0d16cc8a3f1/images/hero.jpg",
-      "updatedAt": "2026-10-31"
+      "updatedAt": "2026-11-01"
     },
     {
       "id": "210b2324-2bdf-5751-a101-9c334db91f8c",
       "slug": "better-workspace",
       "title": "Better Workspace",
-      "summary": "Projects, tasks and ideas across Apple devices. Install Better Workspace for iPhone and iPad, download the advanced Mac app, explore the browser demo or view the public source.",
+      "summary": "Manage projects, tasks and ideas across Mac, iPhone and iPad. Try the browser demo, get the native app, or explore how recent development keeps idea notes and attachments together.",
       "oneLiner": "Turn a folder full of projects into a workspace you can act on.",
       "tags": [
         "SwiftUI",
@@ -883,8 +883,8 @@
       "domain": "Technology",
       "category": "Application",
       "href": "/projects/better-workspace",
-      "primaryImageUrl": "/projects/better_workspace_210b2324-2bdf-5751-a101-9c334db91f8c/images/mac-personal-sample.webp",
-      "updatedAt": "2026-10-31"
+      "primaryImageUrl": "/projects/better_workspace_210b2324-2bdf-5751-a101-9c334db91f8c/images/cover-optimized.webp",
+      "updatedAt": "2026-11-09"
     },
     {
       "id": "9cb88592-7541-5a7e-9cd0-3e103ee2e481",
@@ -905,23 +905,30 @@
       "id": "85c162ef-910e-5f81-a7cf-f5e82af9181c",
       "slug": "casino-exit",
       "title": "Casino Exit",
-      "summary": "A job-search companion that brings opportunity discovery, application preparation, and review into one workflow.",
-      "oneLiner": "A job-search companion that brings opportunity discovery, application preparation, and review into one workflow.",
-      "tags": [],
+      "summary": "Review job fit, prepare source-backed applications, and follow assisted application progress from iPhone and iPad.",
+      "oneLiner": "A job-search companion that keeps application preparation and approval in one place.",
+      "tags": [
+        "SwiftUI",
+        "iOS",
+        "Python",
+        "Notion API",
+        "Raspberry Pi",
+        "Automation"
+      ],
       "status": "Active",
       "featured": false,
       "domain": "Technology",
       "category": "Application",
       "href": "/projects/casino-exit",
-      "primaryImageUrl": "/projects/casino_exit_85c162ef-910e-5f81-a7cf-f5e82af9181c/images/thumbnail.svg",
-      "updatedAt": "2026-10-31"
+      "primaryImageUrl": "/projects/casino_exit_85c162ef-910e-5f81-a7cf-f5e82af9181c/images/cover-optimized.webp",
+      "updatedAt": "2026-11-09"
     },
     {
       "id": "20732ff7-0f29-54af-9f8a-3ef13bfa196c",
       "slug": "content-manager",
       "title": "Social Posts Content Manager",
-      "summary": "A native Mac, iPhone and iPad editorial workspace for reviewing LinkedIn and Bluesky drafts in Notion, with destination-specific previews, explicit approval, and quick rejection.",
-      "oneLiner": "Review social drafts on iPhone and iPad; keep generation on Mac.",
+      "summary": "A native editorial workspace for LinkedIn, Bluesky and Markdown articles, with destination previews, version-bound approval and a private Mac generation service.",
+      "oneLiner": "Review social drafts and run Mac-backed article workflows from iPhone and iPad.",
       "tags": [
         "SwiftUI",
         "iOS",
@@ -934,8 +941,8 @@
       "domain": "Technology",
       "category": "Application",
       "href": "/projects/content-manager",
-      "primaryImageUrl": "/projects/content_manager_20732ff7-0f29-54af-9f8a-3ef13bfa196c/images/iphone-review.png",
-      "updatedAt": "2026-10-21"
+      "primaryImageUrl": "/projects/content_manager_20732ff7-0f29-54af-9f8a-3ef13bfa196c/images/cover-optimized.webp",
+      "updatedAt": "2026-11-08"
     },
     {
       "id": "1185b98e-d26d-5efe-86cc-ec9b38cd45c6",
@@ -953,6 +960,50 @@
       "updatedAt": "2026-10-31"
     },
     {
+      "id": "99b2b1ae-e8df-5f6a-bfaa-2ee4711eb44c",
+      "slug": "finder-workspace-extensions",
+      "title": "Finder Workspace Extensions",
+      "summary": "A macOS companion that brings project status, tasks, work sessions and Quick Look previews into Finder.",
+      "oneLiner": "A macOS companion that brings project status, tasks, work sessions and Quick Look previews into Finder.",
+      "tags": [
+        "SwiftUI",
+        "macOS",
+        "Finder Sync",
+        "Quick Look",
+        "Core Spotlight",
+        "Developer Tools"
+      ],
+      "status": "Active",
+      "featured": false,
+      "domain": "Technology",
+      "category": "Application",
+      "href": "/projects/finder-workspace-extensions",
+      "primaryImageUrl": "/projects/finder-workspace-extensions_99b2b1ae-e8df-5f6a-bfaa-2ee4711eb44c/images/cover-optimized.webp",
+      "updatedAt": "2026-11-05"
+    },
+    {
+      "id": "156a988f-d557-5f7e-9b25-7591231987e3",
+      "slug": "grounded-memory",
+      "title": "Grounded Memory",
+      "summary": "A local learning system that asks about unfamiliar sights and sounds, remembers evidence, and revises what it thinks it knows.",
+      "oneLiner": "A local learning system that asks about unfamiliar sights and sounds, remembers evidence, and revises what it thinks it knows.",
+      "tags": [
+        "Computer Vision",
+        "Machine Learning",
+        "Robotics",
+        "Python",
+        "SwiftUI",
+        "Local-first"
+      ],
+      "status": "Active",
+      "featured": false,
+      "domain": "Technology",
+      "category": "Research prototype",
+      "href": "/projects/grounded-memory",
+      "primaryImageUrl": "/projects/grounded-memory_156a988f-d557-5f7e-9b25-7591231987e3/images/cover-optimized.webp",
+      "updatedAt": "2026-11-09"
+    },
+    {
       "id": "748b7fdb-3972-534d-be54-a7866995cda3",
       "slug": "home-page",
       "title": "Home Page",
@@ -965,7 +1016,48 @@
       "category": "Application",
       "href": "/projects/home-page",
       "primaryImageUrl": "/projects/home_page_748b7fdb-3972-534d-be54-a7866995cda3/images/thumbnail.svg",
-      "updatedAt": "2026-10-31"
+      "updatedAt": "2026-11-01"
+    },
+    {
+      "id": "d4ea7bc6-6816-5397-867d-289ba6d1518f",
+      "slug": "home-services",
+      "title": "Home Services",
+      "summary": "A Raspberry Pi backend for camera recording, file recovery and secure handoffs between Apple apps.",
+      "oneLiner": "A Raspberry Pi backend for camera recording, file recovery and secure handoffs between Apple apps.",
+      "tags": [
+        "Raspberry Pi",
+        "Linux",
+        "Python",
+        "Backups",
+        "Service Integration"
+      ],
+      "status": "Active",
+      "featured": false,
+      "domain": "Technology",
+      "category": "Infrastructure",
+      "href": "/projects/home-services",
+      "primaryImageUrl": "/projects/home-services_d4ea7bc6-6816-5397-867d-289ba6d1518f/images/service-map-optimized.svg",
+      "updatedAt": "2026-11-09"
+    },
+    {
+      "id": "b4a3e690-11a9-53b7-a758-0363d95571f3",
+      "slug": "inbox-review",
+      "title": "Inbox Review",
+      "summary": "A native Mac dashboard that resurfaces saved items from six folders and gives each one an action.",
+      "oneLiner": "A native Mac dashboard that resurfaces saved items from six folders and gives each one an action.",
+      "tags": [
+        "SwiftUI",
+        "macOS",
+        "Productivity",
+        "Local-first"
+      ],
+      "status": "Active",
+      "featured": false,
+      "domain": "Technology",
+      "category": "Application",
+      "href": "/projects/inbox-review",
+      "primaryImageUrl": "/projects/inbox-review_b4a3e690-11a9-53b7-a758-0363d95571f3/images/cover-optimized.webp",
+      "updatedAt": "2026-10-27"
     },
     {
       "id": "ca7748ce-f9b8-5bb9-a928-86ca6e8c95b1",
@@ -1006,10 +1098,32 @@
       "updatedAt": "2026-10-15"
     },
     {
+      "id": "40447ad7-01c5-5e55-aed7-8dbeee469f9b",
+      "slug": "opportunity-discovery",
+      "title": "Opportunity Discovery",
+      "summary": "A research and review tool for finding organizations, checking public evidence and preparing a specific offer before outreach.",
+      "oneLiner": "A research and review tool for finding organizations, checking public evidence and preparing a specific offer before outreach.",
+      "tags": [
+        "Python",
+        "SQLite",
+        "SwiftUI",
+        "Raspberry Pi",
+        "Data Provenance",
+        "Automation"
+      ],
+      "status": "Active",
+      "featured": false,
+      "domain": "Technology",
+      "category": "Application",
+      "href": "/projects/opportunity-discovery",
+      "primaryImageUrl": "/projects/opportunity-discovery_40447ad7-01c5-5e55-aed7-8dbeee469f9b/images/cover-optimized.webp",
+      "updatedAt": "2026-11-09"
+    },
+    {
       "id": "5031ef4c-2724-54a4-92ca-42d270a59716",
       "slug": "recallable",
       "title": "Recallable",
-      "summary": "A native flashcard app with focused study, rich text and math, widgets and private iCloud sync. Available for iPhone, iPad and Mac; the current 1.0.2 (18) beta is submitted for Apple review. Try a sample deck in your browser.",
+      "summary": "A native flashcard app with focused study, rich text and math, widgets and private iCloud sync. Try a sample deck in your browser or get the app for iPhone, iPad and Mac.",
       "oneLiner": "Spaced-repetition flashcards that never turn into a backlog.",
       "tags": [
         "SwiftUI",
@@ -1028,7 +1142,7 @@
       "category": "Application",
       "href": "/projects/recallable",
       "primaryImageUrl": "/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/images/thumbnail.jpg",
-      "updatedAt": "2026-10-31"
+      "updatedAt": "2026-11-02"
     },
     {
       "id": "e8bdde7e-5fc7-5443-b0ce-321f3b697fd3",
@@ -1050,7 +1164,7 @@
       "domain": "Technology",
       "category": "Application",
       "href": "/projects/screenshot-to-calendar",
-      "primaryImageUrl": "/projects/screenshot-to-calendar_e8bdde7e-5fc7-5443-b0ce-321f3b697fd3//projects/screenshot-to-calendar_e8bdde7e-5fc7-5443-b0ce-321f3b697fd3/images/02-import-optimized.webp",
+      "primaryImageUrl": "/projects/screenshot-to-calendar_e8bdde7e-5fc7-5443-b0ce-321f3b697fd3/images/cover-optimized.webp",
       "updatedAt": "2026-11-01"
     },
     {
@@ -1065,9 +1179,9 @@
       "domain": "Technology",
       "category": "Application",
       "href": "/projects/trackables",
-      "primaryImageUrl": "/projects/trackables_1a1e475d-baba-58a5-9b13-c05f5d074bfa/images/thumbnail.svg",
-      "updatedAt": "2026-10-31"
+      "primaryImageUrl": "/projects/trackables_1a1e475d-baba-58a5-9b13-c05f5d074bfa/images/cover-optimized.webp",
+      "updatedAt": "2026-11-01"
     }
   ],
-  "count": 52
+  "count": 57
 }

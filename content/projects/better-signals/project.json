@@ -6,7 +6,7 @@
   "title": "Better Signals",
   "name": "Better Signals",
   "subtitle": "Record a moment. Keep the context.",
-  "summary": "A native iPhone, iPad, and Apple Watch app for recording how your mind, emotions, social energy, and surroundings feel. Review your Signals and export them in open formats. No account or developer-operated backend.",
+  "summary": "Record short observations on iPhone, iPad and Apple Watch, answer Quick Signals from Home or a widget, and export your history in open formats.",
   "oneLiner": "Quick observations, optional context, and data you can take with you.",
   "domain": "Technology",
   "category": "Application",
@@ -15,7 +15,7 @@
   "featured": true,
   "isPublic": true,
   "createdAt": null,
-  "updatedAt": "2026-10-31",
+  "updatedAt": "2026-11-01",
   "tags": [
     "SwiftUI",
     "iOS",

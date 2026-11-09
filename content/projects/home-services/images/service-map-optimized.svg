@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="810" viewBox="0 0 1440 810" role="img" aria-labelledby="title desc">
+  <title id="title">Home Services integration map</title>
+  <desc id="desc">Camera Monitor, Files and Backups, and other Apple apps connect to an optional Raspberry Pi service through scoped interfaces.</desc>
+  <defs>
+    <linearGradient id="background" x2="1" y2="1" gradientUnits="objectBoundingBox">
+      <stop stop-color="#101c2b"/>
+      <stop offset="1" stop-color="#203747"/>
+    </linearGradient>
+    <radialGradient id="glow">
+      <stop stop-color="#5aaac0" stop-opacity=".22"/>
+      <stop offset="1" stop-color="#5aaac0" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1440" height="810" fill="url(#background)"/>
+  <ellipse cx="720" cy="450" rx="680" ry="360" fill="url(#glow)"/>
+  <g font-family="system-ui, sans-serif" text-anchor="middle">
+    <text x="720" y="134" fill="#b4d8e3" font-size="23" font-weight="600" letter-spacing="4">PRIVATE INFRASTRUCTURE</text>
+    <text x="720" y="218" fill="#f7fbff" font-size="75" font-weight="720">Home Services</text>
+    <path d="M280 339v48h440m440-48v48H720m0-48v121" fill="none" stroke="#7299ad" stroke-width="3"/>
+    <g fill="#263f51" stroke="#678c9e" stroke-width="2">
+      <rect x="110" y="265" width="340" height="74" rx="17"/>
+      <rect x="550" y="265" width="340" height="74" rx="17"/>
+      <rect x="990" y="265" width="340" height="74" rx="17"/>
+    </g>
+    <g fill="#f1f7fa" font-size="31" font-weight="630">
+      <text x="280" y="312">Camera Monitor</text>
+      <text x="720" y="312">Files &amp; Backups</text>
+      <text x="1160" y="312">Connected apps</text>
+    </g>
+    <rect x="508" y="416" width="424" height="174" rx="26" fill="#102635" stroke="#78cad3" stroke-width="3"/>
+    <text x="720" y="484" fill="#eafcfd" font-size="43" font-weight="700">Raspberry Pi</text>
+    <text x="720" y="539" fill="#b8dbe5" font-size="27">Scoped access · Versioned API</text>
+    <text x="720" y="673" fill="#dce9f2" font-size="32">Camera recording · Backup recovery · Private relays</text>
+  </g>
+</svg>

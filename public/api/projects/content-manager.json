@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-10-30T00:27:24.620660+00:00",
+  "generated_at": "2026-11-09T20:01:48.130100+00:00",
   "data": {
     "id": "20732ff7-0f29-54af-9f8a-3ef13bfa196c",
     "slug": "content-manager",
@@ -10,8 +10,8 @@
     "title": "Social Posts Content Manager",
     "name": "Social Posts Content Manager",
     "subtitle": "Review the exact post. Make a clear decision. Move on.",
-    "summary": "A native Mac, iPhone and iPad editorial workspace for reviewing LinkedIn and Bluesky drafts in Notion, with destination-specific previews, explicit approval, and quick rejection.",
-    "oneLiner": "Review social drafts on iPhone and iPad; keep generation on Mac.",
+    "summary": "A native editorial workspace for LinkedIn, Bluesky and Markdown articles, with destination previews, version-bound approval and a private Mac generation service.",
+    "oneLiner": "Review social drafts and run Mac-backed article workflows from iPhone and iPad.",
     "domain": "Technology",
     "category": "Application",
     "status": "In Progress",
@@ -19,7 +19,7 @@
     "featured": true,
     "isPublic": true,
     "createdAt": "2026-10-21",
-    "updatedAt": "2026-10-21",
+    "updatedAt": "2026-11-08",
     "tags": [
       "SwiftUI",
       "iOS",
@@ -33,9 +33,9 @@
     "description": "Review LinkedIn and Bluesky text separately, see which destinations will receive it, and inspect the selected publication image before deciding. Persistent Mark Ready and Reject & Next controls keep the review queue moving. Edits and approval use the same Notion data as the Mac app.",
     "story": "Content creation and publishing already had independent local backends. This app adds a focused editorial interface: the Mac handles generation and articles, while iPhone and iPad keep review and decisions close at hand. Approval binds to the reviewed content; it does not immediately publish.",
     "images": {
-      "thumbnail": "images/iphone-review.png",
+      "thumbnail": "/projects/content_manager_20732ff7-0f29-54af-9f8a-3ef13bfa196c/images/cover-optimized.webp",
       "hero": "images/iphone-review.png",
-      "banner": "images/mac-home.png",
+      "banner": "/projects/content_manager_20732ff7-0f29-54af-9f8a-3ef13bfa196c/images/cover-optimized.webp",
       "icon": "images/app-icon.png"
     },
     "resources": [
@@ -52,10 +52,22 @@
     ],
     "assets": [
       {
-        "id": "iphone-review",
+        "id": "publication-preview",
         "type": "image",
-        "path": "/projects/content_manager_20732ff7-0f29-54af-9f8a-3ef13bfa196c/images/iphone-review.png",
-        "label": "iPhone publication preview with in-memory sample drafts"
+        "path": "/projects/content_manager_20732ff7-0f29-54af-9f8a-3ef13bfa196c/images/publication-preview-optimized.webp",
+        "label": "iPhone: publication previews for LinkedIn and Bluesky"
+      },
+      {
+        "id": "fixture-calendar",
+        "type": "image",
+        "path": "/projects/content_manager_20732ff7-0f29-54af-9f8a-3ef13bfa196c/images/fixture-calendar-optimized.webp",
+        "label": "iPhone: fictional scheduled and published posts in Calendar"
+      },
+      {
+        "id": "ipad-publication-preview",
+        "type": "image",
+        "path": "/projects/content_manager_20732ff7-0f29-54af-9f8a-3ef13bfa196c/images/ipad-publication-preview-optimized.webp",
+        "label": "iPad: publication preview and approval controls"
       },
       {
         "id": "mac-home",
@@ -64,15 +76,27 @@
         "label": "Content Manager Mac Home screen"
       }
     ],
+    "caseStudy": {
+      "problem": "An editor needs to see exactly what each destination will receive and continue work from another device.",
+      "role": "I built the native Mac and mobile editorial interfaces, version-bound approval, and the mobile connection to generation.",
+      "architecture": [
+        "Social review uses an existing Notion database. The generation service runs longer jobs on a paired Mac and reports progress to mobile.",
+        "Article Studio can send selected context to the Mac and open the resulting draft in the mobile workflow."
+      ],
+      "validation": [
+        "A physical iPhone loaded the live calendar and followed a Mac-backed article preparation job. The public browser demo runs on fictional drafts."
+      ]
+    },
     "readme": {
-      "content": "# Social Posts Content Manager\n\nReview the exact post. Make a clear decision. Move on.\n\nA native SwiftUI editorial workspace for Mac, iPhone and iPad. The mobile app reviews social drafts in your existing Notion Social Posts database; the Mac also handles generation and local Markdown articles.\n\n## Review on mobile\n\n- Read distinct LinkedIn and Bluesky previews, with selected destinations clearly marked.\n- Inspect the selected publication image, or the explicit text-only state.\n- Edit text and dates. Unsaved changes block approval and rejection.\n- Use persistent **Reject & Next** to decline a draft and open the next one. Restore declined drafts from Calendar → All.\n- Confirm **Mark Ready** to approve the saved version. Any later content edit withdraws approval.\n- Browse upcoming and posted items in Calendar; the widget shows the last refreshed queue snapshot.\n\nThe internal title is never added to the published text. Final platform layout, cropping and link cards can differ.\n\n## Availability and setup\n\nThe iPhone and iPad app uses TestFlight for private beta testing. There is no public App Store download or open beta invitation yet. Testers need an invitation and the existing Notion Social Posts schema; this beta does not provision a new workspace.\n\nUse the integration token for that workspace in Settings. It is verified before being stored in this device's Keychain. The phone does not need a direct connection to the Mac.\n\n## Publication remains deliberate\n\nMark Ready authorizes the independent publishing automation for the reviewed version. It does not publish immediately or turn on a paused publisher. Generation, Article Studio and automation controls remain on Mac.\n\n[Setup and support](/content-manager/support) · [Privacy policy](/content-manager/privacy)\n",
+      "content": "# Social Posts Content Manager\n\nReview LinkedIn and Bluesky drafts with separate destination previews. Inspect the publication image, edit the copy, then decline the draft or confirm Mark Ready. Approval is bound to the saved version. A later content edit withdraws that approval.\n\nA paired Mac can also run longer generation jobs for social posts and Markdown articles. The phone can submit an Article Studio request and follow its progress. Social review works with an existing Notion Social Posts database. Publication remains a separate, explicitly configured step.\n\nNative releases are in private TestFlight on iPhone, iPad and Mac. [Try the browser demo](/content-manager/demo) to compare destinations and make a review decision with fictional drafts.\n",
       "sourceUrl": "/projects/content_manager_20732ff7-0f29-54af-9f8a-3ef13bfa196c/README.md"
     },
     "application": {
       "landingPath": "/content-manager",
       "platforms": [
         "iPhone (private beta)",
-        "iPad (private beta)"
+        "iPad (private beta)",
+        "Mac (private beta)"
       ]
     },
     "workLogs": [

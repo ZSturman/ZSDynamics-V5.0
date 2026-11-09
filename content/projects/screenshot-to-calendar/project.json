@@ -11,7 +11,7 @@
   "domain": "Technology",
   "category": "Application",
   "status": "Active",
-  "phase": "Awaiting Apple review",
+  "phase": "Pre-release",
   "isPublic": true,
   "featured": false,
   "createdAt": "2026-11-01",
@@ -35,8 +35,9 @@
     ]
   },
   "images": {
-    "thumbnail": "/projects/screenshot-to-calendar_e8bdde7e-5fc7-5443-b0ce-321f3b697fd3/images/02-import-optimized.webp",
-    "icon": "/projects/screenshot-to-calendar_e8bdde7e-5fc7-5443-b0ce-321f3b697fd3/images/app-icon-optimized.webp"
+    "thumbnail": "/projects/screenshot-to-calendar_e8bdde7e-5fc7-5443-b0ce-321f3b697fd3/images/cover-optimized.webp",
+    "icon": "/projects/screenshot-to-calendar_e8bdde7e-5fc7-5443-b0ce-321f3b697fd3/images/app-icon-optimized.webp",
+    "banner": "/projects/screenshot-to-calendar_e8bdde7e-5fc7-5443-b0ce-321f3b697fd3/images/cover-optimized.webp"
   },
   "resources": [
     {
@@ -64,10 +65,22 @@
       "label": "Import with contextual guidance"
     },
     {
+      "id": "03-review",
+      "type": "image",
+      "path": "/projects/screenshot-to-calendar_e8bdde7e-5fc7-5443-b0ce-321f3b697fd3/images/03-review-optimized.webp",
+      "label": "Review extracted appointments before saving"
+    },
+    {
       "id": "04-editor",
       "type": "image",
       "path": "/projects/screenshot-to-calendar_e8bdde7e-5fc7-5443-b0ce-321f3b697fd3/images/04-editor-optimized.webp",
       "label": "Review details and remember corrections"
+    },
+    {
+      "id": "05-ready-to-save",
+      "type": "image",
+      "path": "/projects/screenshot-to-calendar_e8bdde7e-5fc7-5443-b0ce-321f3b697fd3/images/05-ready-to-save-optimized.webp",
+      "label": "Choose Calendar or Reminders and confirm the selected items"
     }
   ],
   "caseStudy": {

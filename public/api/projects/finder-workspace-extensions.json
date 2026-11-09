@@ -1,0 +1,96 @@
+{
+  "schema_version": 1,
+  "kind": "projects.detail",
+  "generated_at": "2026-11-09T20:07:03.690069+00:00",
+  "data": {
+    "id": "99b2b1ae-e8df-5f6a-bfaa-2ee4711eb44c",
+    "slug": "finder-workspace-extensions",
+    "href": "/projects/finder-workspace-extensions",
+    "folderName": "finder-workspace-extensions_99b2b1ae-e8df-5f6a-bfaa-2ee4711eb44c",
+    "title": "Finder Workspace Extensions",
+    "summary": "A macOS companion that brings project status, tasks, work sessions and Quick Look previews into Finder.",
+    "oneLiner": "A macOS companion that brings project status, tasks, work sessions and Quick Look previews into Finder.",
+    "domain": "Technology",
+    "category": "Application",
+    "status": "Active",
+    "phase": "Development preview",
+    "featured": false,
+    "isPublic": true,
+    "updatedAt": "2026-11-05",
+    "tags": [
+      "SwiftUI",
+      "macOS",
+      "Finder Sync",
+      "Quick Look",
+      "Core Spotlight",
+      "Developer Tools"
+    ],
+    "disciplines": [
+      "software"
+    ],
+    "images": {
+      "thumbnail": "/projects/finder-workspace-extensions_99b2b1ae-e8df-5f6a-bfaa-2ee4711eb44c/images/cover-optimized.webp",
+      "banner": "/projects/finder-workspace-extensions_99b2b1ae-e8df-5f6a-bfaa-2ee4711eb44c/images/cover-optimized.webp"
+    },
+    "resources": [
+      {
+        "type": "website",
+        "label": "Watch the Finder demo",
+        "url": "/projects/finder-workspace-extensions#asset-finder-status"
+      },
+      {
+        "type": "website",
+        "label": "Explore Better Workspace",
+        "url": "/projects/better-workspace"
+      }
+    ],
+    "assets": [
+      {
+        "id": "finder-status",
+        "type": "video",
+        "path": "/projects/finder-workspace-extensions_99b2b1ae-e8df-5f6a-bfaa-2ee4711eb44c/images/finder-status-optimized.mp4",
+        "label": "Change a project status from Finder",
+        "summary": "In the sample collection, select Field Notes, open Set Status, and watch the folder badge update. Silent recording from the development build.",
+        "thumbnail": "/projects/finder-workspace-extensions_99b2b1ae-e8df-5f6a-bfaa-2ee4711eb44c/images/finder-status-poster-optimized.webp"
+      },
+      {
+        "id": "quick-look-demo",
+        "type": "video",
+        "path": "/projects/finder-workspace-extensions_99b2b1ae-e8df-5f6a-bfaa-2ee4711eb44c/images/quick-look-demo-optimized.mp4",
+        "label": "Preview a project card with Quick Look",
+        "summary": "Open the exported Field Notes card and scroll through its embedded preview, next action and recorded task progress. Silent recording from the development build.",
+        "thumbnail": "/projects/finder-workspace-extensions_99b2b1ae-e8df-5f6a-bfaa-2ee4711eb44c/images/quick-look-demo-poster-optimized.webp"
+      },
+      {
+        "id": "project-overview",
+        "type": "image",
+        "path": "/projects/finder-workspace-extensions_99b2b1ae-e8df-5f6a-bfaa-2ee4711eb44c/images/project-overview-optimized.webp",
+        "label": "Project overview opened from Finder"
+      },
+      {
+        "id": "quick-look",
+        "type": "image",
+        "path": "/projects/finder-workspace-extensions_99b2b1ae-e8df-5f6a-bfaa-2ee4711eb44c/images/quick-look-optimized.webp",
+        "label": "The exported Field Notes project card in Finder Quick Look"
+      }
+    ],
+    "caseStudy": {
+      "problem": "Folders make projects easy to find, but task progress and next steps are hard to see while browsing.",
+      "role": "I built the native companion, Finder extension, project viewer and Quick Look provider.",
+      "architecture": [
+        "Finder Sync shows status badges and opens focused windows for tasks and work sessions.",
+        "Better Workspace publishes linked project metadata. The companion sends edits back as requests and checks that the underlying record still matches before applying them."
+      ],
+      "validation": [
+        "Real Finder captures show status badges and Quick Look against a sample collection."
+      ],
+      "limitations": [
+        "Development preview. Release distribution and additional native Finder entry points still need acceptance."
+      ]
+    },
+    "readme": {
+      "content": "# Finder Workspace Extensions\n\nBrowse project folders in Finder and open an overview, add a task, or start a work session from the project menu. Project View adds sortable columns for metadata Finder cannot display, such as priority, phase and open tasks. Export a project card to inspect a snapshot with Quick Look.\n\nFor linked projects, Better Workspace owns the shared metadata. The companion keeps its own records for standalone projects. The recordings show the native workflow in a sample collection before the November status expansion.\n",
+      "sourceUrl": "/projects/finder-workspace-extensions_99b2b1ae-e8df-5f6a-bfaa-2ee4711eb44c/README.md"
+    }
+  }
+}

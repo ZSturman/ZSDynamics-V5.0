@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "kind": "projects.detail",
+  "generated_at": "2026-11-09T20:07:03.690216+00:00",
+  "data": {
+    "id": "156a988f-d557-5f7e-9b25-7591231987e3",
+    "slug": "grounded-memory",
+    "href": "/projects/grounded-memory",
+    "folderName": "grounded-memory_156a988f-d557-5f7e-9b25-7591231987e3",
+    "title": "Grounded Memory",
+    "summary": "A local learning system that asks about unfamiliar sights and sounds, remembers evidence, and revises what it thinks it knows.",
+    "oneLiner": "A local learning system that asks about unfamiliar sights and sounds, remembers evidence, and revises what it thinks it knows.",
+    "domain": "Technology",
+    "category": "Research prototype",
+    "status": "Active",
+    "phase": "Research",
+    "featured": false,
+    "isPublic": true,
+    "updatedAt": "2026-11-09",
+    "tags": [
+      "Computer Vision",
+      "Machine Learning",
+      "Robotics",
+      "Python",
+      "SwiftUI",
+      "Local-first"
+    ],
+    "disciplines": [
+      "ai-data",
+      "research",
+      "software"
+    ],
+    "images": {
+      "thumbnail": "/projects/grounded-memory_156a988f-d557-5f7e-9b25-7591231987e3/images/cover-optimized.webp",
+      "banner": "/projects/grounded-memory_156a988f-d557-5f7e-9b25-7591231987e3/images/cover-optimized.webp"
+    },
+    "assets": [
+      {
+        "id": "teaching-console",
+        "type": "image",
+        "path": "/projects/grounded-memory_156a988f-d557-5f7e-9b25-7591231987e3/images/teaching-console-optimized.webp",
+        "label": "Teaching an unfamiliar object in a synthetic video",
+        "summary": "The app isolates the yellow shape and asks what it is. The teacher can review an answer before saving it."
+      },
+      {
+        "id": "recall-and-memory",
+        "type": "image",
+        "path": "/projects/grounded-memory_156a988f-d557-5f7e-9b25-7591231987e3/images/recall-and-memory-optimized.webp",
+        "label": "Saved observations and learned labels",
+        "summary": "The recall timeline lets you revisit earlier observations. You can remove a teaching claim without deleting its source recording."
+      }
+    ],
+    "caseStudy": {
+      "problem": "A learner in a new environment needs to distinguish what it observed, what it inferred, and what a person taught it.",
+      "role": "I built the Mac learning runtime and console, the paired iPhone sensing app, and the replay tools.",
+      "architecture": [
+        "A Mac orders video, audio and optional pose or depth observations. A paired iPhone supplies live sensing.",
+        "Place recognition uses multiple views and recent movement. The memory stores observations, expectations, questions and revisions as separate records."
+      ],
+      "decisions": [
+        "Keep source recordings and teaching claims separate so a later correction preserves the evidence.",
+        "Keep language inference on the local machine and let uncertain observations remain unresolved."
+      ],
+      "validation": [
+        "Automated learning and replay checks cover place recognition, repeated observations, and corrections."
+      ],
+      "limitations": [
+        "The current research build still needs end-to-end physical iPhone acceptance and recognition calibration."
+      ]
+    },
+    "cardSummary": "A local learner that asks about unfamiliar sights and sounds, then revises its memory.",
+    "readme": {
+      "content": "# Grounded Memory\n\nWhat should a machine do when it sees something unfamiliar or when yesterday’s explanation stops fitting? Grounded Memory is a research prototype for a future robot that learns by observing, asking and revising.\n\nThe Mac console shows the evidence behind a question, saved expectations and revisions. The paired iPhone can supply video, audio and optional pose or depth. The console also accepts a recorded clip so the same sequence can be replayed. In the example here, the learner isolates a shape from a synthetic clip and asks for a label.\n\nThe learner can keep observing while its location is uncertain. When teaching and later evidence conflict, it can revise the belief while retaining what the person originally said.\n",
+      "sourceUrl": "/projects/grounded-memory_156a988f-d557-5f7e-9b25-7591231987e3/README.md"
+    }
+  }
+}

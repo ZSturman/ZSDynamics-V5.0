@@ -1,3 +1,40 @@
+# Portfolio refresh — November 9, 2026
+
+Compared the live 52-project API at commit `b80edc0` with local source, recent
+work, and release records. The refresh keeps all 52 existing project IDs and
+adds five entries through the normal authored-project merge.
+
+| New project | Public evidence |
+| --- | --- |
+| Grounded Memory | Crops from the real teaching console using a synthetic clip. The research prototype has replay evidence, and physical iPhone acceptance is pending. |
+| Finder Workspace Extensions | Two native recordings from the October fixture, with Finder's sidebar cropped out. Current Better Workspace metadata integration is described separately from the recorded build. |
+| Opportunity Discovery | Real dashboard captures from an isolated SQLite database populated with a fictional organization. |
+| Home Services | A labeled architecture diagram for the private Raspberry Pi deployment and its app clients. |
+| Inbox Review | Existing native captures of the review dashboard and sample file and folder flows. |
+
+Better Workspace, Content Manager, Casino Exit, Trackables and Screenshot to Calendar
+have refreshed covers or galleries. Content Manager's product pages now describe
+the private Mac generation connection. ChewSense documents the encrypted handoff
+validated on iPhone. Public Store checks found Better Workspace 1.0.4, Recallable
+1.0.4, Trackables 1.0.1 and Better Signals 1.5.2. Home Page and Screenshot to
+Calendar still had no public listing. Selected Work now leads with Better Workspace,
+Grounded Memory and Content Manager while retaining Recallable and the Hue controller
+and adding Screenshot to Calendar.
+
+The API now resolves rooted cover URLs and uses the existing optimized variant when
+the original is absent. Authored entries and their optimized media live under
+`content/projects/`. Selected Work order lives in `content/selected-work.json`.
+The local monitor remains Better Workspace infrastructure. Private service
+addresses, workspace data and draft research are excluded from the public media.
+
+Run `npm run build && npm run validate:portfolio` and expect 57 projects and
+102 canonical routes. Run `python3 scripts/serve-export.py` and review the
+homepage, `/projects/finder-workspace-extensions#asset-finder-status`, and
+`/content-manager/demo` on a phone or desktop. When Apple publishes Home Page or
+Screenshot to Calendar, verify the listing before adding an install action.
+
+---
+
 # Daily analytics email redesign + Cloudflare observability check — November 6, 2026
 
 The daily GA4 email now opens with an at-a-glance section modeled on Google's console emails. It has a light header, an inbox preview line, and eight KPI tiles (users, new users, sessions, views, engaged sessions, engagement rate, avg. session, high-intent actions) with ▲/▼ day-over-day chips. Below the tiles are the key takeaways and bar lists for top countries (users), cities, sources and pages. All previous detailed sections follow under a "Full report" divider and are unchanged. Table headers are now sentence case and cells wrap, which fixes the earlier sideways scroll on phones. The plain-text email gained an "At a glance" block. Queries, metrics and privacy posture are unchanged. Not yet sent to a real inbox; try it with `ANALYTICS_DRY_RUN=true npm run daily-analytics` (needs the GA4 credentials from `.env.local`; does not send), then let the next scheduled email arrive and check it in Gmail and iOS Mail.

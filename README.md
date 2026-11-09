@@ -41,6 +41,8 @@ Articles support shareable search, series/tag/project filters, view and sort sta
 
 The homepage leads with a professional introduction and Selected Work; `/about`, `/experience`, `/resume` and shareable `/explore/<focus>` views draw on one profile source (`lib/site-content.ts`) and the existing project metadata. [Managing featured work, focus areas, case studies and profile content](docs/setup/portfolio-presentation.md).
 
+The archive includes recent work on local learning, Finder integration, evidence-based outreach, and Raspberry Pi infrastructure. [Browse projects](https://zacharysturman.com/projects).
+
 ## Better Workspace portfolio entry
 
 Better Workspace has a public advanced Mac 1.0 download, source links, edition comparison, getting-started instructions and a no-account interactive browser demo using real sample screenshots. Local content survives Notion regeneration. [Maintaining, previewing and releasing the entry](docs/BETTER_WORKSPACE.md).

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-10-31T13:06:13.837453+00:00",
+  "generated_at": "2026-11-09T20:03:36.997101+00:00",
   "data": {
     "id": "306aec94-4d3c-808d-9ada-f0ccca484d3b",
     "slug": "chewsense",
@@ -10,7 +10,7 @@
     "name": "ChewSense",
     "subtitle": "Using AirPods and motion data to help people slow down and eat more mindfully.",
     "summary": "A research workflow for paired eating video and AirPods motion: collect, review candidate events, and evaluate personalized models.",
-    "oneLiner": "An iOS app that uses AirPods’ motion sensors to detect chewing and help users eat more mindfully by slowing down their pace.",
+    "oneLiner": "Research tools for collecting, labeling and learning from AirPods motion and synchronized video.",
     "domain": "Technology",
     "category": "Application",
     "status": "Active",
@@ -18,7 +18,7 @@
     "featured": true,
     "featuredOrder": 2,
     "createdAt": "2025-10-15",
-    "updatedAt": "2026-10-31",
+    "updatedAt": "2026-11-09",
     "isPublic": true,
     "tags": [
       "iOS",
@@ -31,7 +31,7 @@
     "genres": [],
     "topics": [],
     "subjects": [],
-    "description": "ChewSense combines Collect on iPhone, local Vision processing, human Review on Mac, and a motion-model research pipeline. The existing Collect app is publicly available; version 1.2 (7) refreshes private TestFlight with guided collection and optional, explicitly selected transfer to the Mac. The guided end-to-end loop has software and legacy-video evidence; a new physical paired recording and independent annotation are still required. Predictions are proposals, not verified labels or health advice. Live model promotion remains gated on measured data quality and evaluation. Archived shells and older model-debugging apps are separate experiments.",
+    "description": "ChewSense combines guided iPhone capture, local Vision processing, human review on Mac and motion-model evaluation. The public Collect app is available on the App Store. Recent development adds an encrypted holding service for selected recordings when the paired Mac is unavailable. The Mac collects them later for review. The mailbox handoff was exercised on a physical iPhone. Model promotion still depends on measured data quality and independent annotation.",
     "story": "",
     "images": {
       "poster": "poster.png",
@@ -93,6 +93,17 @@
       "platforms": [
         "iPhone (Collect)",
         "Mac (research tools)"
+      ]
+    },
+    "caseStudy": {
+      "problem": "Learning from chewing motion requires synchronized evidence and labels that a person can verify.",
+      "role": "I built the iPhone collector, the Mac review pipeline and the capture handoff.",
+      "decisions": [
+        "Keep suggested events separate from reviewed labels.",
+        "Encrypt a recording on iPhone before using the fallback mailbox. The Mac imports it and acknowledges receipt."
+      ],
+      "validation": [
+        "The private mailbox handoff was exercised on an iPhone, including resumed upload, Mac collection and deletion after acknowledgment."
       ]
     }
   }

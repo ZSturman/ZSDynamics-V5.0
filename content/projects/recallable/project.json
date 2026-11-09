@@ -36,7 +36,8 @@
     "hero": "images/hero.jpg",
     "banner": "images/banner.jpg",
     "icon": "images/icon.png",
-    "social": "images/social.jpg"
+    "social": "images/social.jpg",
+    "featured": "/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/images/cover-optimized.webp"
   },
   "resources": [
     {

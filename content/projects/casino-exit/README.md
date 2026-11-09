@@ -1,9 +1,5 @@
 # Casino Exit
 
-A job-search companion that brings opportunity discovery, application preparation, and review into one workflow.
+Casino Exit brings discovery, fit review and application preparation together. It builds application materials from verified facts and approved answers and lets the reviewer inspect the employer form before submitting. The phone can use a private Raspberry Pi runner when the Mac is unavailable.
 
-The iOS companion works with separately configured job-search services. Opportunities include software, IT operations, engineering technicians, university technical work, and research roles. Qualification explanations help review fit; application materials use verified facts and approved answers.
-
-Assisted applications pause for sign-in, missing answers, security checks, and final review. Employer submission requires an explicit Confirm Submit action. Connected Apps status sharing does not authorize an application submission.
-
-Version 1.0 (5) refreshes the private TestFlight beta with current connection support. This is a personal, configured workflow; no public App Store release, unattended application guarantee, or public beta invitation is advertised.
+Assisted flows pause for missing answers, account steps and final confirmation. The app keeps a recorded submission receipt separate from an attempt it could not confirm. Screenshots use fictional jobs and applications. The native app is in private testing.

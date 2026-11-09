@@ -232,8 +232,12 @@ def _slim_project(project: dict[str, Any], hosted: dict[str, str]) -> dict[str, 
     for key in ("thumbnail", "hero", "banner", "icon"):
         v = images.get(key)
         if isinstance(v, str) and v:
-            local_guess = f"/projects/{folder}/{v}"
-            primary = hosted.get(local_guess) or local_guess
+            url = v if v.startswith(("/", "https://", "http://")) else f"/projects/{folder}/{v}"
+            if url.startswith("/") and url not in hosted:
+                variants = expand_to_optimized_variants(url)
+                if variants:
+                    url = variants[0]
+            primary = hosted.get(url) or url
             break
     return {
         "id": project.get("id"),

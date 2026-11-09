@@ -9,15 +9,15 @@
   "domain": "Technology",
   "category": "Application",
   "status": "Active",
-  "phase": "Testing",
+  "phase": "Private beta",
   "featured": false,
   "isPublic": true,
   "createdAt": null,
-  "updatedAt": "2026-10-31",
+  "updatedAt": "2026-11-01",
   "application": {
     "landingPath": "/home-page",
     "platforms": [
-      "macOS 14.4+ (private beta; App Store review pending)"
+      "macOS 14.4+ (private beta)"
     ]
   },
   "resources": [

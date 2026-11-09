@@ -6,8 +6,8 @@
   "title": "Social Posts Content Manager",
   "name": "Social Posts Content Manager",
   "subtitle": "Review the exact post. Make a clear decision. Move on.",
-  "summary": "A native Mac, iPhone and iPad editorial workspace for reviewing LinkedIn and Bluesky drafts in Notion, with destination-specific previews, explicit approval, and quick rejection.",
-  "oneLiner": "Review social drafts on iPhone and iPad; keep generation on Mac.",
+  "summary": "A native editorial workspace for LinkedIn, Bluesky and Markdown articles, with destination previews, version-bound approval and a private Mac generation service.",
+  "oneLiner": "Review social drafts and run Mac-backed article workflows from iPhone and iPad.",
   "domain": "Technology",
   "category": "Application",
   "status": "In Progress",
@@ -15,7 +15,7 @@
   "featured": true,
   "isPublic": true,
   "createdAt": "2026-10-21",
-  "updatedAt": "2026-10-21",
+  "updatedAt": "2026-11-08",
   "tags": [
     "SwiftUI",
     "iOS",
@@ -29,9 +29,9 @@
   "description": "Review LinkedIn and Bluesky text separately, see which destinations will receive it, and inspect the selected publication image before deciding. Persistent Mark Ready and Reject & Next controls keep the review queue moving. Edits and approval use the same Notion data as the Mac app.",
   "story": "Content creation and publishing already had independent local backends. This app adds a focused editorial interface: the Mac handles generation and articles, while iPhone and iPad keep review and decisions close at hand. Approval binds to the reviewed content; it does not immediately publish.",
   "images": {
-    "thumbnail": "images/iphone-review.png",
+    "thumbnail": "/projects/content_manager_20732ff7-0f29-54af-9f8a-3ef13bfa196c/images/cover-optimized.webp",
     "hero": "images/iphone-review.png",
-    "banner": "images/mac-home.png",
+    "banner": "/projects/content_manager_20732ff7-0f29-54af-9f8a-3ef13bfa196c/images/cover-optimized.webp",
     "icon": "images/app-icon.png"
   },
   "resources": [
@@ -43,10 +43,22 @@
   ],
   "assets": [
     {
-      "id": "iphone-review",
+      "id": "publication-preview",
       "type": "image",
-      "path": "/projects/content_manager_20732ff7-0f29-54af-9f8a-3ef13bfa196c/images/iphone-review.png",
-      "label": "iPhone publication preview with in-memory sample drafts"
+      "path": "/projects/content_manager_20732ff7-0f29-54af-9f8a-3ef13bfa196c/images/publication-preview-optimized.webp",
+      "label": "iPhone: publication previews for LinkedIn and Bluesky"
+    },
+    {
+      "id": "fixture-calendar",
+      "type": "image",
+      "path": "/projects/content_manager_20732ff7-0f29-54af-9f8a-3ef13bfa196c/images/fixture-calendar-optimized.webp",
+      "label": "iPhone: fictional scheduled and published posts in Calendar"
+    },
+    {
+      "id": "ipad-publication-preview",
+      "type": "image",
+      "path": "/projects/content_manager_20732ff7-0f29-54af-9f8a-3ef13bfa196c/images/ipad-publication-preview-optimized.webp",
+      "label": "iPad: publication preview and approval controls"
     },
     {
       "id": "mac-home",
@@ -54,5 +66,16 @@
       "path": "/projects/content_manager_20732ff7-0f29-54af-9f8a-3ef13bfa196c/images/mac-home.png",
       "label": "Content Manager Mac Home screen"
     }
-  ]
+  ],
+  "caseStudy": {
+    "problem": "An editor needs to see exactly what each destination will receive and continue work from another device.",
+    "role": "I built the native Mac and mobile editorial interfaces, version-bound approval, and the mobile connection to generation.",
+    "architecture": [
+      "Social review uses an existing Notion database. The generation service runs longer jobs on a paired Mac and reports progress to mobile.",
+      "Article Studio can send selected context to the Mac and open the resulting draft in the mobile workflow."
+    ],
+    "validation": [
+      "A physical iPhone loaded the live calendar and followed a Mac-backed article preparation job. The public browser demo runs on fictional drafts."
+    ]
+  }
 }

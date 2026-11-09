@@ -9,11 +9,11 @@
   "domain": "Technology",
   "category": "Application",
   "status": "Active",
-  "phase": "Testing",
+  "phase": "Released on iOS",
   "featured": false,
   "isPublic": true,
   "createdAt": null,
-  "updatedAt": "2026-10-31",
+  "updatedAt": "2026-11-01",
   "application": {
     "landingPath": "/projects/trackables",
     "platforms": [
@@ -32,7 +32,28 @@
   ],
   "workLogs": [],
   "images": {
-    "thumbnail": "images/thumbnail.svg",
-    "icon": "images/app-icon.png"
-  }
+    "thumbnail": "/projects/trackables_1a1e475d-baba-58a5-9b13-c05f5d074bfa/images/cover-optimized.webp",
+    "icon": "images/app-icon.png",
+    "banner": "/projects/trackables_1a1e475d-baba-58a5-9b13-c05f5d074bfa/images/cover-optimized.webp"
+  },
+  "assets": [
+    {
+      "id": "iphone-record",
+      "type": "image",
+      "path": "/projects/trackables_1a1e475d-baba-58a5-9b13-c05f5d074bfa/images/iphone-record-optimized.webp",
+      "label": "iPhone: record a count, choice, duration or amount"
+    },
+    {
+      "id": "watch-record",
+      "type": "image",
+      "path": "/projects/trackables_1a1e475d-baba-58a5-9b13-c05f5d074bfa/images/watch-record-optimized.webp",
+      "label": "Apple Watch: record from the companion app"
+    },
+    {
+      "id": "quick-entry-widget",
+      "type": "image",
+      "path": "/projects/trackables_1a1e475d-baba-58a5-9b13-c05f5d074bfa/images/quick-entry-widget-optimized.webp",
+      "label": "Home Screen widget with sample coffee choices"
+    }
+  ]
 }

@@ -36,7 +36,7 @@ These are unedited captures of the real app, using its built-in starter decks wi
 
 ## Availability
 
-Recallable is released for iPhone and iPad on the App Store. The separate Mac version is still in Apple review. It needs iOS, iPadOS, or watchOS 26, or macOS 26.
+Recallable is available on the App Store for iPhone, iPad and Mac. It needs iOS, iPadOS, or watchOS 26, or macOS 26.
 
 ## Help and privacy
 
@@ -46,8 +46,6 @@ Copyright © 2026 Zachary Sturman.
 
 ## Install or try
 
-[Install for iPhone and iPad](https://apps.apple.com/us/app/recallable-flashcards/id6822919785) · [Try the browser demo](/recallable/demo). Public release 1.0.0 (8) is separate from newer TestFlight builds.
+[Get Recallable on the App Store](https://apps.apple.com/us/app/recallable-flashcards/id6822919785) · [Try the browser demo](/recallable/demo)
 
-## October 31 update
-
-iPhone, iPad and Mac editions are publicly available. Version 1.0.2 (18) is in private TestFlight and submitted for Apple review, with editor character guidance and readable long-card widget excerpts. Installed widget appearance and larger system text still need device acceptance.
+On Apple Watch, study reminders can reveal answers and let you rate a card. Display notices identify cards that exceed the limits of a particular widget or Watch screen.

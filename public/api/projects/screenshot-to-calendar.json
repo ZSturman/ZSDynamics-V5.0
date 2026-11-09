@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-11-02T01:26:26.464635+00:00",
+  "generated_at": "2026-11-09T20:01:48.131819+00:00",
   "data": {
     "id": "e8bdde7e-5fc7-5443-b0ce-321f3b697fd3",
     "slug": "screenshot-to-calendar",
@@ -15,7 +15,7 @@
     "domain": "Technology",
     "category": "Application",
     "status": "Active",
-    "phase": "Awaiting Apple review",
+    "phase": "Pre-release",
     "isPublic": true,
     "featured": false,
     "createdAt": "2026-11-01",
@@ -39,8 +39,9 @@
       ]
     },
     "images": {
-      "thumbnail": "/projects/screenshot-to-calendar_e8bdde7e-5fc7-5443-b0ce-321f3b697fd3/images/02-import-optimized.webp",
-      "icon": "/projects/screenshot-to-calendar_e8bdde7e-5fc7-5443-b0ce-321f3b697fd3/images/app-icon-optimized.webp"
+      "thumbnail": "/projects/screenshot-to-calendar_e8bdde7e-5fc7-5443-b0ce-321f3b697fd3/images/cover-optimized.webp",
+      "icon": "/projects/screenshot-to-calendar_e8bdde7e-5fc7-5443-b0ce-321f3b697fd3/images/app-icon-optimized.webp",
+      "banner": "/projects/screenshot-to-calendar_e8bdde7e-5fc7-5443-b0ce-321f3b697fd3/images/cover-optimized.webp"
     },
     "resources": [
       {
@@ -68,10 +69,22 @@
         "label": "Import with contextual guidance"
       },
       {
+        "id": "03-review",
+        "type": "image",
+        "path": "/projects/screenshot-to-calendar_e8bdde7e-5fc7-5443-b0ce-321f3b697fd3/images/03-review-optimized.webp",
+        "label": "Review extracted appointments before saving"
+      },
+      {
         "id": "04-editor",
         "type": "image",
         "path": "/projects/screenshot-to-calendar_e8bdde7e-5fc7-5443-b0ce-321f3b697fd3/images/04-editor-optimized.webp",
         "label": "Review details and remember corrections"
+      },
+      {
+        "id": "05-ready-to-save",
+        "type": "image",
+        "path": "/projects/screenshot-to-calendar_e8bdde7e-5fc7-5443-b0ce-321f3b697fd3/images/05-ready-to-save-optimized.webp",
+        "label": "Choose Calendar or Reminders and confirm the selected items"
       }
     ],
     "caseStudy": {
@@ -113,7 +126,7 @@
       }
     ],
     "readme": {
-      "content": "# Screenshot to Calendar\n\nFrom a screenshot. Into your day. A private iPhone app for turning captured schedules, appointments and tasks into Calendar events and Reminders.\n\nRequires iOS 17 or later. Version **1.0 (4)** is **Waiting for Review**, with automatic release after Apple approval. Public installation is not available yet.\n\n## Bring it in, make it yours\n\nChoose up to 20 screenshots from Photos or Files, paste text, or add an item manually. Apple Vision reads screenshots on the iPhone. Review dates, overnight times, the time zone and destination before saving. Uncertain suggestions stay in Needs review until checked.\n\nA first-launch introduction and native TipKit guidance reveal import, review, remembered corrections and saving at the relevant stage. Rename a matching title or add a location, leave Remember enabled and tap Done to suggest those details next time. Dates are always read again.\n\nNothing is added to Calendar or Reminders until you tap Save. Duplicate checks protect against repeated imports. Preferences and drafts stay local. Optional place search connects directly to Apple Maps; Calendar and Reminders use the sync settings of your chosen accounts.\n\n## Limits\n\nEnglish recognition and deterministic parsing do not understand every layout. Check all suggestions. There is no share extension, background screenshot monitoring, recurrence extraction or automatic reconciliation of changed schedules. Local preferences do not sync across devices.\n\n[Setup & support](/screenshot-to-calendar/support) · [Privacy policy](/screenshot-to-calendar/privacy)\n",
+      "content": "# Screenshot to Calendar\n\nFrom a screenshot. Into your day. A private iPhone app for turning captured schedules, appointments and tasks into Calendar events and Reminders.\n\nRequires iOS 17 or later. Version 1.0 was submitted to Apple. The project is in pre-release.\n\n## Bring it in, make it yours\n\nChoose up to 20 screenshots from Photos or Files, paste text, or add an item manually. Apple Vision reads screenshots on the iPhone. Review dates, overnight times, the time zone and destination before saving. Uncertain suggestions stay in Needs review until checked.\n\nA first-launch introduction and native TipKit guidance reveal import, review, remembered corrections and saving at the relevant stage. Rename a matching title or add a location, leave Remember enabled and tap Done to suggest those details next time. Dates are always read again.\n\nNothing is added to Calendar or Reminders until you tap Save. Duplicate checks protect against repeated imports. Preferences and drafts stay local. Optional place search connects directly to Apple Maps; Calendar and Reminders use the sync settings of your chosen accounts.\n\n## Limits\n\nEnglish recognition and deterministic parsing do not understand every layout. Check all suggestions. There is no share extension, background screenshot monitoring, recurrence extraction or automatic reconciliation of changed schedules. Local preferences do not sync across devices.\n\n[Setup & support](/screenshot-to-calendar/support) · [Privacy policy](/screenshot-to-calendar/privacy)\n",
       "sourceUrl": "/projects/screenshot-to-calendar_e8bdde7e-5fc7-5443-b0ce-321f3b697fd3/README.md"
     }
   }

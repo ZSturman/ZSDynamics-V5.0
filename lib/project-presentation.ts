@@ -144,6 +144,7 @@ export function getProjectStage(project: Pick<Project, "status" | "phase">): Pro
   if (/released|^release$/.test(phase)) return { key: "released", label: "Released" };
   if (status === "maintained" || phase === "maintenance") return { key: "maintained", label: "Released · maintained" };
   if (/paused|blocked|on hold|dormant/.test(status)) return { key: "paused", label: "Paused" };
+  if (phase === "pre-release") return { key: "testing", label: "Pre-release" };
   if (/beta|testing/.test(phase)) return { key: "testing", label: "In testing" };
   if (phase === "prototype") return { key: "prototype", label: "Working prototype" };
   if (phase === "research") return { key: "research", label: "Research experiment" };

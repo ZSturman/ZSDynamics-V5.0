@@ -1,0 +1,62 @@
+{
+  "id": "40447ad7-01c5-5e55-aed7-8dbeee469f9b",
+  "slug": "opportunity-discovery",
+  "href": "/projects/opportunity-discovery",
+  "folderName": "opportunity-discovery_40447ad7-01c5-5e55-aed7-8dbeee469f9b",
+  "title": "Opportunity Discovery",
+  "summary": "A research and review tool for finding organizations, checking public evidence and preparing a specific offer before outreach.",
+  "oneLiner": "A research and review tool for finding organizations, checking public evidence and preparing a specific offer before outreach.",
+  "domain": "Technology",
+  "category": "Application",
+  "status": "Active",
+  "phase": "Private pilot",
+  "featured": false,
+  "isPublic": true,
+  "updatedAt": "2026-11-09",
+  "tags": [
+    "Python",
+    "SQLite",
+    "SwiftUI",
+    "Raspberry Pi",
+    "Data Provenance",
+    "Automation"
+  ],
+  "disciplines": [
+    "software",
+    "ai-data"
+  ],
+  "images": {
+    "thumbnail": "/projects/opportunity-discovery_40447ad7-01c5-5e55-aed7-8dbeee469f9b/images/cover-optimized.webp",
+    "banner": "/projects/opportunity-discovery_40447ad7-01c5-5e55-aed7-8dbeee469f9b/images/cover-optimized.webp"
+  },
+  "assets": [
+    {
+      "id": "sample-review",
+      "type": "image",
+      "path": "/projects/opportunity-discovery_40447ad7-01c5-5e55-aed7-8dbeee469f9b/images/sample-review-optimized.webp",
+      "label": "Reviewing a fictional organization in the live app interface",
+      "summary": "The review keeps the public activity, inferred need and next decision separate."
+    },
+    {
+      "id": "sample-decision",
+      "type": "image",
+      "path": "/projects/opportunity-discovery_40447ad7-01c5-5e55-aed7-8dbeee469f9b/images/sample-decision-optimized.webp",
+      "label": "Decision and proposed offer for a fictional exhibit",
+      "summary": "Reviewers can pursue, pass, research further or save a case. The proposed offer is marked as inferred."
+    }
+  ],
+  "caseStudy": {
+    "problem": "Public directories and awards explain what organizations do. A useful proposal still needs evidence of what someone might need.",
+    "role": "I built the public-data collectors, review dashboard, iPhone client and approval workflow.",
+    "architecture": [
+      "Collectors preserve source links and versioned source records. SQLite stores the review state and drafts.",
+      "The iPhone app and dashboard share the review workflow. Approved messages go through a durable, scheduled outbox."
+    ],
+    "decisions": [
+      "Show potential fit and evidence confidence separately. Require approval of the exact message and recipient before scheduling outreach."
+    ],
+    "validation": [
+      "The private iPhone client has been tested against the deployed Raspberry Pi service. The portfolio capture uses a fictional organization in an isolated database."
+    ]
+  }
+}

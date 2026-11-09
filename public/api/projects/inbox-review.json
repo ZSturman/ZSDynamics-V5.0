@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "kind": "projects.detail",
+  "generated_at": "2026-11-09T20:01:48.130785+00:00",
+  "data": {
+    "id": "b4a3e690-11a9-53b7-a758-0363d95571f3",
+    "slug": "inbox-review",
+    "href": "/projects/inbox-review",
+    "folderName": "inbox-review_b4a3e690-11a9-53b7-a758-0363d95571f3",
+    "title": "Inbox Review",
+    "summary": "A native Mac dashboard that resurfaces saved items from six folders and gives each one an action.",
+    "oneLiner": "A native Mac dashboard that resurfaces saved items from six folders and gives each one an action.",
+    "domain": "Technology",
+    "category": "Application",
+    "status": "Active",
+    "phase": "In use privately",
+    "featured": false,
+    "isPublic": true,
+    "updatedAt": "2026-10-27",
+    "tags": [
+      "SwiftUI",
+      "macOS",
+      "Productivity",
+      "Local-first"
+    ],
+    "disciplines": [
+      "software"
+    ],
+    "images": {
+      "thumbnail": "/projects/inbox-review_b4a3e690-11a9-53b7-a758-0363d95571f3/images/cover-optimized.webp",
+      "banner": "/projects/inbox-review_b4a3e690-11a9-53b7-a758-0363d95571f3/images/cover-optimized.webp"
+    },
+    "assets": [
+      {
+        "id": "folder-dashboard",
+        "type": "image",
+        "path": "/projects/inbox-review_b4a3e690-11a9-53b7-a758-0363d95571f3/images/folder-dashboard-optimized.webp",
+        "label": "Six inboxes with sample files and projects"
+      },
+      {
+        "id": "review-file",
+        "type": "image",
+        "path": "/projects/inbox-review_b4a3e690-11a9-53b7-a758-0363d95571f3/images/review-file-optimized.webp",
+        "label": "Reviewing a saved lesson with a decision bar"
+      },
+      {
+        "id": "organize-folder",
+        "type": "image",
+        "path": "/projects/inbox-review_b4a3e690-11a9-53b7-a758-0363d95571f3/images/organize-folder-optimized.webp",
+        "label": "Inspecting a saved project folder before organizing it"
+      }
+    ],
+    "caseStudy": {
+      "problem": "Saved items accumulate across folders and the largest queue can crowd out everything else.",
+      "role": "I built the native Mac review dashboard and folder-specific actions.",
+      "decisions": [
+        "Rotate among inboxes and prioritize items that have had the least recent attention.",
+        "Keep review tied to ordinary folders so saved files remain accessible in Finder."
+      ]
+    },
+    "readme": {
+      "content": "# Inbox Review\n\nThe dashboard rotates through To Study, To Watch, To Organize, To Look Up, To Do and To Check Out. It offers a due item from one folder at a time, with folder-specific actions to open, defer or process it.\n\nAn optional desktop trigger opens the review when you return to the computer. When nothing is due, it stays quiet. The screenshots show the dashboard and two review flows with sample items.\n",
+      "sourceUrl": "/projects/inbox-review_b4a3e690-11a9-53b7-a758-0363d95571f3/README.md"
+    }
+  }
+}
