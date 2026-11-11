@@ -115,6 +115,13 @@ git push origin main
 
 Before pushing, make sure `main` is current with `origin/main` and that you have already run the relevant checks. The installed **pre-push hook** runs `npm run test:media:smoke` and refuses a push when the canonical media sources have uncommitted changes. It protects the media pipeline; it does not replace the broader test suite.
 
+If another preview is already using port 3100, keep it running and choose an
+unused port for the same pre-push media checks:
+
+```bash
+PORTFOLIO_MEDIA_TEST_PORT=3113 git push origin main
+```
+
 The non-blocking **post-push hook** probes the live Worker’s health, CORS, origin allow-list, and internal-auth guard. It is informational; a failed post-push probe does not undo the GitHub push.
 
 ### What happens after a `main` push

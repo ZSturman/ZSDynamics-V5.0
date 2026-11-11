@@ -1,5 +1,7 @@
 import { defineConfig, devices } from "@playwright/test";
 
+const mediaTestPort = Number(process.env.PORTFOLIO_MEDIA_TEST_PORT || 3100);
+
 export default defineConfig({
   testDir: "tests/media",
   workers: 1,
@@ -11,14 +13,14 @@ export default defineConfig({
   reporter: "list",
   use: {
     headless: true,
-    baseURL: "http://127.0.0.1:3100",
+    baseURL: `http://127.0.0.1:${mediaTestPort}`,
     trace: "on-first-retry",
     screenshot: "only-on-failure",
     video: "retain-on-failure",
   },
   webServer: {
-    command: "npm run dev -- --hostname 127.0.0.1 --port 3100",
-    port: 3100,
+    command: `npm run dev -- --hostname 127.0.0.1 --port ${mediaTestPort}`,
+    port: mediaTestPort,
     reuseExistingServer: false,
     env: { NEXT_PUBLIC_ANALYTICS_DISABLED: "true" },
     timeout: 120_000,

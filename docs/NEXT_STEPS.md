@@ -10,6 +10,8 @@ or work history. The generated project detail and list APIs use the same content
 
 Validation: static build passed, 34 focused portfolio tests passed, and the
 output validator passed for 57 projects, 9 articles and 102 canonical routes.
+The pre-push media checks accept `PORTFOLIO_MEDIA_TEST_PORT` (default 3100)
+so an existing preview can stay running while the checks use another port.
 Verify again with `npm run build && npm run validate:portfolio`. After the normal
 main-branch deployment, check `/projects/chewsense` for the November 10 date,
 Research stage, current source/study links and the one-wearer limitations.
