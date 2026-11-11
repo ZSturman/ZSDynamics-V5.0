@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.list",
-  "generated_at": "2026-11-09T20:07:03.683133+00:00",
+  "generated_at": "2026-11-11T03:29:41.267125+00:00",
   "data": [
     {
       "id": "3f5aec94-4d3c-8116-99d5-c9752bb4af87",
@@ -416,14 +416,17 @@
       "id": "306aec94-4d3c-808d-9ada-f0ccca484d3b",
       "slug": "chewsense",
       "title": "ChewSense",
-      "summary": "A research workflow for paired eating video and AirPods motion: collect, review candidate events, and evaluate personalized models.",
-      "oneLiner": "Research tools for collecting, labeling and learning from AirPods motion and synchronized video.",
+      "summary": "An AirPods chewing-detection research pipeline with guided capture, Mac review and evaluation by independent recording sittings.",
+      "oneLiner": "From synchronized AirPods capture to reviewed labels and measured chewing detection.",
       "tags": [
         "iOS",
+        "macOS",
         "Swift",
-        "Spaced Repetition",
-        "Data Analytics",
-        "Machine Learning"
+        "Python",
+        "AirPods",
+        "Machine Learning",
+        "Computer Vision",
+        "Research"
       ],
       "status": "Active",
       "featured": true,
@@ -431,7 +434,7 @@
       "category": "Application",
       "href": "/projects/chewsense",
       "primaryImageUrl": "/projects/chewsense_306aec94-4d3c-808d-9ada-f0ccca484d3b/thumbnail.png",
-      "updatedAt": "2026-11-09"
+      "updatedAt": "2026-11-10"
     },
     {
       "id": "306aec94-4d3c-807e-a7ef-db0aa63a2ec7",

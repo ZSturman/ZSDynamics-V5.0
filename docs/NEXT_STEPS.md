@@ -1,3 +1,21 @@
+# ChewSense research update — November 10, 2026
+
+The authored `chewsense` override in `content/project-updates.json` now links
+to the active Chew-Sense repository and its validity study. The case study,
+README, research stage, tags and work log distinguish the public collector
+from the experimental detector and describe the one-wearer evidence,
+resampling issue and pending confound recordings. Existing images are retained.
+The override survives cached and Notion builds without freezing imported media
+or work history. The generated project detail and list APIs use the same content.
+
+Validation: static build passed, 34 focused portfolio tests passed, and the
+output validator passed for 57 projects, 9 articles and 102 canonical routes.
+Verify again with `npm run build && npm run validate:portfolio`. After the normal
+main-branch deployment, check `/projects/chewsense` for the November 10 date,
+Research stage, current source/study links and the one-wearer limitations.
+
+---
+
 # Portfolio refresh — November 9, 2026
 
 Compared the live 52-project API at commit `b80edc0` with local source, recent

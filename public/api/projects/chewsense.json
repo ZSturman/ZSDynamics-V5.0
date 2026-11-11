@@ -1,37 +1,40 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-11-09T20:03:36.997101+00:00",
+  "generated_at": "2026-11-11T03:29:41.271151+00:00",
   "data": {
     "id": "306aec94-4d3c-808d-9ada-f0ccca484d3b",
     "slug": "chewsense",
     "href": "/projects/chewsense",
     "title": "ChewSense",
     "name": "ChewSense",
-    "subtitle": "Using AirPods and motion data to help people slow down and eat more mindfully.",
-    "summary": "A research workflow for paired eating video and AirPods motion: collect, review candidate events, and evaluate personalized models.",
-    "oneLiner": "Research tools for collecting, labeling and learning from AirPods motion and synchronized video.",
+    "subtitle": "Researching chewing detection with AirPods motion and paired video.",
+    "summary": "An AirPods chewing-detection research pipeline with guided capture, Mac review and evaluation by independent recording sittings.",
+    "oneLiner": "From synchronized AirPods capture to reviewed labels and measured chewing detection.",
     "domain": "Technology",
     "category": "Application",
     "status": "Active",
-    "phase": "Production",
+    "phase": "Research",
     "featured": true,
     "featuredOrder": 2,
     "createdAt": "2025-10-15",
-    "updatedAt": "2026-11-09",
+    "updatedAt": "2026-11-10",
     "isPublic": true,
     "tags": [
       "iOS",
+      "macOS",
       "Swift",
-      "Spaced Repetition",
-      "Data Analytics",
-      "Machine Learning"
+      "Python",
+      "AirPods",
+      "Machine Learning",
+      "Computer Vision",
+      "Research"
     ],
     "mediums": [],
     "genres": [],
     "topics": [],
     "subjects": [],
-    "description": "ChewSense combines guided iPhone capture, local Vision processing, human review on Mac and motion-model evaluation. The public Collect app is available on the App Store. Recent development adds an encrypted holding service for selected recordings when the paired Mac is unavailable. The Mac collects them later for review. The mailbox handoff was exercised on a physical iPhone. Model promotion still depends on measured data quality and independent annotation.",
+    "description": "ChewSense combines guided iPhone capture, local computer vision, human review on Mac and motion-model evaluation. The public Collect app records evidence; Live is an experimental detector. A November 10 validity study found that motion distinguishes chewing from pauses within held-out meals for one wearer, with evaluation grouped by sitting. A frozen detector also found both chewing bouts in one later recording. Talking, gum, drinking, soft food and other wearers remain open tests. An identified resampling issue may shift Live’s false-alarm rate; the study did not replace the bundled detector. Recordings can reach the Mac directly or through a temporary, phone-encrypted home-server mailbox.",
     "story": "",
     "images": {
       "poster": "poster.png",
@@ -47,13 +50,30 @@
       },
       {
         "type": "github",
-        "label": "Repo",
-        "url": "https://github.com/ZSturman/ChewSense---Data-Collection-and-Labeling"
+        "label": "Current source & setup",
+        "url": "https://github.com/ZSturman/Chew-Sense"
+      },
+      {
+        "type": "website",
+        "label": "Validity study · November 10",
+        "url": "https://github.com/ZSturman/Chew-Sense/blob/main/docs/VALIDITY_2026-11-10.md"
       }
     ],
     "assets": [],
     "collection": {},
     "workLogs": [
+      {
+        "id": "6e4288ca-014d-5e55-b69b-e937328506fc",
+        "title": "Audited chewing-detector validity and evaluation independence",
+        "entry": "Audited chewing-detector validity and evaluation independence",
+        "date": "2026-11-10",
+        "sessionType": [
+          "Research",
+          "Build"
+        ],
+        "whatHappened": "Evaluated development recordings by sitting, examined the vibration signal and resampling sensitivity, and recorded one forward test of the frozen detector. Added reproducible validity and prospective-scoring commands. The locked test was not rescored and no replacement detector was deployed.",
+        "url": "https://github.com/ZSturman/Chew-Sense/blob/main/docs/VALIDITY_2026-11-10.md"
+      },
       {
         "id": "339aec94-4d3c-8065-b3e0-c0457622bded",
         "title": "Created new project entry for ChewSense",
@@ -85,26 +105,49 @@
     ],
     "folderName": "chewsense_306aec94-4d3c-808d-9ada-f0ccca484d3b",
     "readme": {
-      "content": "# Chew Sense – Data Collection and Labeling\n\nChew Sense records synchronized AirPods motion data and video for research, prototyping, and dataset creation. While optimized for chewing-related motion analysis, it can support any workflow requiring aligned video and AirPods motion samples.\n\n---\n\n## Features\n\n### Automatic AirPods Connection\n- The app connects to supported AirPods motion sensors on launch.  \n- Recording is enabled only when motion data is actively available.\n\n### Synchronized Recording\n- Each session stores a `.mov` video file and a `.csv` motion-data file in a single folder.  \n- Timestamps ensure precise alignment between modalities.\n\n### Optional Labeling Workflow\n- Recordings can be exported immediately when started in **Not eating** mode.  \n- When labeling is required, the detail view supports:\n  - Playback  \n  - Marker placement  \n  - Segment-based boolean labels  \n- Segments between markers are labeled `true`; all others are `false`.\n\n### Connection-Loss Protection\n- The app automatically pauses recording if the AirPods connection drops.  \n- This prevents incomplete or misaligned datasets.\n\n---\n\n## Data Format\n\n- **Video:** `recording.mov`  \n- **Motion data:** `motion.csv` with timestamped sensor rows  \n- **Labels:** Boolean values aligned to motion-data segments  \n\n---\n\n## Exporting\n\nRecordings can be exported or shared as a folder containing both files. This design simplifies downstream processing and machine-learning dataset assembly.\n\n---\n\n## Intended Use\n\nChew Sense is designed for technical users who need clean, consistent, and synchronized motion/video data.  \nIt is **not** intended as a consumer chewing-monitoring or health-tracking product.",
-      "sourceUrl": "https://github.com/ZSturman/ChewSense---Data-Collection-and-Labeling/blob/main/README.md"
+      "content": "# ChewSense: capture, review and evaluate\n\nChewSense is a research workflow for learning from synchronized AirPods motion and eating video. The public Collect app captures evidence; the experimental detector is still being evaluated.\n\n## How the pieces fit\n\n1. **Collect — iPhone and iPad.** Record paired camera video and AirPods motion. Guided takes save instruction-derived coarse spans that the wearer can adjust; natural meals need manual marking.\n2. **Vision and Review — Mac.** Local computer vision proposes events. Human review records accepted or corrected labels; predictions alone are never verified truth.\n3. **Motion — Python.** Compare chewing-bout models, inspect errors and report uncertainty with recordings from one sitting kept together.\n4. **Live — iPhone.** Replay an exported experimental detector and compare its output with Mac replay. This remains a research check.\n\nRecording works without the Mac. Transfer uses the paired Mac directly when available, or a temporary home-server mailbox that receives phone-encrypted deposits for later Mac collection.\n\n## What the November 10 study found\n\nThe development set contains 23 recordings from **one wearer**, grouped into **12 sittings**, five with chewing. The detector distinguished chewing from pauses within held-out meals (AUC-ROC 0.965). A detector frozen on November 4 also found both chewing bouts in one November 9 recording: 50 of 50 labelled chewing windows and no false positives among 88 labelled non-chewing windows.\n\nThose are pilot results. Overlapping windows are not independent trials, and one later recording cannot establish general accuracy. The study kept the locked test out of fitting and scoring.\n\nThe strongest signal is jaw vibration in the 5–25 Hz band. A resampling issue can damp that band and may change the operating point in Live. Training now offers a sample-aligned comparison, with export blocked until Live supports the same grid. The study did not replace the bundled detector.\n\n## What remains\n\nRecord dedicated Soft Food, Crunchy Food, Talking, Drinking and Gum Chewing takes, then a complete Natural Meal on another day. Score those development recordings with the frozen detector before retraining. Other wearers, free-living use, individual chew counts, bites, swallows and health outcomes remain unvalidated.\n\nThe [validity study](https://github.com/ZSturman/Chew-Sense/blob/main/docs/VALIDITY_2026-11-10.md) explains the evidence, threshold-selection limits and resampling issue. The [current repository](https://github.com/ZSturman/Chew-Sense) contains installation, architecture and development instructions.\n",
+      "sourceUrl": "https://github.com/ZSturman/Chew-Sense/blob/main/README.md"
     },
     "application": {
       "landingPath": "/projects/chewsense",
       "platforms": [
-        "iPhone (Collect)",
-        "Mac (research tools)"
+        "iPhone / iPad (Collect)",
+        "Mac (review and research)",
+        "iPhone (experimental Live)"
       ]
     },
     "caseStudy": {
-      "problem": "Learning from chewing motion requires synchronized evidence and labels that a person can verify.",
-      "role": "I built the iPhone collector, the Mac review pipeline and the capture handoff.",
+      "problem": "Can AirPods motion distinguish chewing from other activity, and can paired video and review produce labels that make the evaluation credible?",
+      "role": "I built the Swift capture and review apps, the local processing and transfer loop, and Python tools for motion-model training and evaluation.",
+      "architecture": [
+        "Collect captures paired camera video and AirPods motion, with guided takes and editable coarse chewing spans.",
+        "A shared transfer client reaches the paired Mac directly; a temporary home-server mailbox holds phone-encrypted recordings when needed.",
+        "Local Vision produces candidates, Mac Review records human decisions, and Motion evaluates chewing-bout models. Predictions remain separate from verified labels.",
+        "Live replays the exported experimental feature model; Python and Swift parity checks test matching runtime behavior."
+      ],
       "decisions": [
-        "Keep suggested events separate from reviewed labels.",
-        "Encrypt a recording on iPhone before using the fallback mailbox. The Mac imports it and acknowledges receipt."
+        "Keep recordings from one sitting together in development folds and resample sittings for uncertainty estimates.",
+        "Keep the locked test separate from exploration and score later development recordings once with the frozen detector.",
+        "Report threshold-selection sensitivity, recording-level decisions and split overlap alongside window scores.",
+        "Block export of sample-aligned training runs until Live implements the same resampling grid."
       ],
       "validation": [
-        "The private mailbox handoff was exercised on an iPhone, including resumed upload, Mac collection and deletion after acknowledgment."
+        "November 10 study: 23 development recordings from one wearer, grouped into 12 sittings, five with chewing; within-meal AUC-ROC was 0.965 on held-out sittings.",
+        "The November 4 frozen detector found 50/50 labelled chewing windows and both bouts in one November 9 recording, with 0/88 false-positive windows. This is one recording, not population accuracy.",
+        "The encrypted mailbox handoff was exercised on a physical iPhone, including resumed upload, Mac collection and deletion after acknowledgment."
+      ],
+      "limitations": [
+        "One wearer; no evidence yet for other people, other AirPods fits or free-living use.",
+        "Dedicated talking, gum, drinking and soft-food tests remain pending. The study included only 12 labelled talking windows.",
+        "Resampling can damp the vibration band and may shift Live’s false-alarm rate; this has not been measured as drift on the phone.",
+        "Individual chew counts, bites, swallows and health benefits are unvalidated. Collect’s public availability does not establish detector readiness.",
+        "The threshold-from-other-folds estimate reduces direct threshold selection on scored windows; it is not fully nested cross-validation."
       ]
-    }
+    },
+    "disciplines": [
+      "software",
+      "ai-data",
+      "research"
+    ]
   }
 }
