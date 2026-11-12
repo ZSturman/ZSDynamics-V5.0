@@ -166,3 +166,15 @@ Prior release notes and conflict alternatives are preserved in [historical check
 
 ## Bench Lens store support — November 12, 2026
 Added `/iphone-microscope/privacy` and `/iphone-microscope/support` for the Mac/iPhone app release, using the existing page layout and contact route. These describe encrypted local pairing, Keychain trust, local recordings, keyboard controls and pending store availability. Validate the live routes after deployment; app review status remains owned by the iPhoneMicroscope project.
+
+
+## Workspace capture refresh — November 12, 2026
+
+Updated the maintained Better Workspace and Finder Workspace Extensions entries and
+regenerated their public README/API/manifests. Ownership now correctly identifies
+Finder as owner of project metadata. The new capture behavior and development
+preview limitations are described without implying a Finder App Store edition.
+Finder 0.1.1 preview is notarized/stapled and public. Better Workspace 1.0.5 Mac is notarized/stapled and Gatekeeper accepted; mobile build 57 passed Apple server validation and is being uploaded. Both release URLs are prepared for this deployment.
+Validation: 9 local-project/published-workspace Python checks pass using `.venv/bin/python`.
+The push hook performs the existing media smoke checks, and main pushes trigger
+Firebase production deployment. Preserve unrelated entries and media.

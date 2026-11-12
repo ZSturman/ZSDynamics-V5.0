@@ -5,7 +5,7 @@
   "folderName": "better_workspace_210b2324-2bdf-5751-a101-9c334db91f8c",
   "title": "Better Workspace",
   "subtitle": "Projects, ideas and next steps across Mac, iPhone and iPad.",
-  "summary": "Projects, tasks and ideas across Apple devices. Advanced Mac 1.0 is available now, with a browser demo and public source; the native Store apps are completing Apple’s release process.",
+  "summary": "Projects, tasks and ideas across Apple devices, with a direct Mac download, mobile App Store app, browser demo and public source.",
   "oneLiner": "Turn a folder full of projects into a workspace you can act on.",
   "domain": "Technology",
   "category": "Application",
@@ -14,7 +14,7 @@
   "featured": true,
   "isPublic": true,
   "createdAt": null,
-  "updatedAt": "2026-10-31",
+  "updatedAt": "2026-11-12",
   "tags": [
     "SwiftUI",
     "macOS",
@@ -26,7 +26,7 @@
   "mediums": [
     "Software"
   ],
-  "description": "Better Workspace helps turn ideas into projects and projects into a useful next step. Advanced Mac 1.0 connects real folders, portable plans, priorities, capture, work history and optional reviewed integrations. Its signed, notarized download includes the runtime for Apple silicon and Intel. A separate native personal workspace for Mac, iPhone and iPad brings offline projects, tasks, ideas and documents together with private iCloud sync. Explore the browser demo, download advanced Mac, or view the MIT-licensed source. App Store availability is shown on the product page.",
+  "description": "Better Workspace connects real folders, portable plans, priorities, capture and work history on Mac with independent iPhone/iPad planning and optional private iCloud sync. The Mac 1.0.5 capture update retains drafts through file picking, preserves Finder-pasted video originals, fixes attachment removal, shows readable errors and notifies after an idea save. The advanced Mac remains a separate download; the native Mac Store edition is retired.",
   "story": "I built Better Workspace to connect the parts of creative and technical work that usually live in separate tools: files, ideas, plans, captures and the decision about what to do next. The architecture keeps the filesystem as the source of truth, uses explicit reviewed actions for changes, and lets the phone participate without pretending it has direct access to the Mac filesystem.",
   "images": {
     "thumbnail": "/projects/better_workspace_210b2324-2bdf-5751-a101-9c334db91f8c/images/cover-optimized.webp",
@@ -38,7 +38,7 @@
     {
       "type": "download",
       "label": "Download for Mac",
-      "url": "https://github.com/ZSturman/Better-Workspace-Public/releases/download/v1.0/BetterWorkspace-1.0-8-mac.zip"
+      "url": "https://github.com/ZSturman/Better-Workspace-Public/releases/download/v1.0.5/BetterWorkspace-1.0.5-57-mac.zip"
     },
     {
       "type": "website",

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.list",
-  "generated_at": "2026-11-11T03:29:41.267125+00:00",
+  "generated_at": "2026-11-12T17:00:23.248618+00:00",
   "data": [
     {
       "id": "3f5aec94-4d3c-8116-99d5-c9752bb4af87",
@@ -982,7 +982,7 @@
       "category": "Application",
       "href": "/projects/finder-workspace-extensions",
       "primaryImageUrl": "/projects/finder-workspace-extensions_99b2b1ae-e8df-5f6a-bfaa-2ee4711eb44c/images/cover-optimized.webp",
-      "updatedAt": "2026-11-05"
+      "updatedAt": "2026-11-12"
     },
     {
       "id": "156a988f-d557-5f7e-9b25-7591231987e3",

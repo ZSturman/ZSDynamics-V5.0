@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-11-09T20:07:03.690069+00:00",
+  "generated_at": "2026-11-12T17:00:23.258326+00:00",
   "data": {
     "id": "99b2b1ae-e8df-5f6a-bfaa-2ee4711eb44c",
     "slug": "finder-workspace-extensions",
@@ -16,7 +16,7 @@
     "phase": "Development preview",
     "featured": false,
     "isPublic": true,
-    "updatedAt": "2026-11-05",
+    "updatedAt": "2026-11-12",
     "tags": [
       "SwiftUI",
       "macOS",
@@ -33,6 +33,11 @@
       "banner": "/projects/finder-workspace-extensions_99b2b1ae-e8df-5f6a-bfaa-2ee4711eb44c/images/cover-optimized.webp"
     },
     "resources": [
+      {
+        "type": "download",
+        "label": "Download Mac preview 0.1.1",
+        "url": "https://github.com/ZSturman/Finder-Workspace-Extensions-Public/releases/download/v0.1.1/FinderWorkspace-0.1.1-2.zip"
+      },
       {
         "type": "website",
         "label": "Watch the Finder demo",
@@ -89,7 +94,7 @@
       ]
     },
     "readme": {
-      "content": "# Finder Workspace Extensions\n\nBrowse project folders in Finder and open an overview, add a task, or start a work session from the project menu. Project View adds sortable columns for metadata Finder cannot display, such as priority, phase and open tasks. Export a project card to inspect a snapshot with Quick Look.\n\nFor linked projects, Better Workspace owns the shared metadata. The companion keeps its own records for standalone projects. The recordings show the native workflow in a sample collection before the November status expansion.\n",
+      "content": "# Finder Workspace Extensions\n\nBrowse project folders in Finder and open an overview, add a task, or start a work session from the project menu. Project View adds sortable columns for metadata Finder cannot display, such as priority, phase and open tasks. Export a project card to inspect a snapshot with Quick Look.\n\nFinder Workspace Extensions owns linked project status, phase, domain, priority and maintenance. Better Workspace mirrors those values and owns tasks and ideas. Neither app reads the other’s database. The recordings show the native workflow in a sample collection before the November status expansion.\n\n## Capture an idea without losing its draft\n\nFinder’s Capture Idea opens Better Workspace’s shared composer. The 1.0.5 capture\nupdate keeps file-picker navigation active, copies Finder-pasted movies as\noriginal attachments, shows full errors, and keeps text when removing a file.\nCompleted idea saves request a Better Workspace notification. Save before quitting:\ndrafts remain in memory.\n\nFinder Workspace Extensions 0.1.1 (2) is a signed, notarized development preview for\nmacOS 14.4 or later, with Apple silicon and Intel binaries. It remains a separate\nMac download; it has no TestFlight or App Store edition. Enable only the extensions\nand workspace roots you want. Clean-user installation, Intel runtime and broader\nFinder/Services acceptance remain follow-ups.\n\n[Download the preview and read setup instructions](https://github.com/ZSturman/Finder-Workspace-Extensions-Public/releases/tag/v0.1.1).\n",
       "sourceUrl": "/projects/finder-workspace-extensions_99b2b1ae-e8df-5f6a-bfaa-2ee4711eb44c/README.md"
     }
   }

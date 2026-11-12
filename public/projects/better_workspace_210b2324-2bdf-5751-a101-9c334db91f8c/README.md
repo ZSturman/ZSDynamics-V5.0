@@ -2,7 +2,7 @@
 
 Projects, ideas and a useful next step — across Mac, iPhone and iPad.
 
-[Download for Mac](https://github.com/ZSturman/Better-Workspace-Public/releases/download/v1.0/BetterWorkspace-1.0-8-mac.zip) · [Try Demo](/better-workspace/demo) · [View Source](https://github.com/ZSturman/Better-Workspace-Public) · [Getting started](/better-workspace#getting-started)
+[Download for Mac](https://github.com/ZSturman/Better-Workspace-Public/releases/download/v1.0.5/BetterWorkspace-1.0.5-57-mac.zip) · [Try Demo](/better-workspace/demo) · [View Source](https://github.com/ZSturman/Better-Workspace-Public) · [Getting started](/better-workspace#getting-started)
 
 ![Actual Mac personal workspace with fictional sample projects](/projects/better_workspace_210b2324-2bdf-5751-a101-9c334db91f8c/images/mac-personal-sample.webp)
 
@@ -14,7 +14,7 @@ Start with an idea, give it a project, and keep the next task close at hand. Bet
 
 | Edition | Best for | Availability |
 | --- | --- | --- |
-| Advanced Mac | Real folders, portable plans, scoring, capture, progress, work history and optional Notion/agent tools | Download 1.0 now; macOS 14.4+, Apple silicon and Intel |
+| Advanced Mac | Real folders, portable plans, scoring, capture, progress, work history and optional Notion/agent tools | Download 1.0.5 now; macOS 14.4+, Apple silicon and Intel |
 | iPhone and iPad | Projects, tasks, ideas and documents; offline workspace and optional Mac access | [Install from the App Store](https://apps.apple.com/us/app/better-workspace/id6822519097) |
 | Optional connected mobile workspace | Browse the advanced Mac’s published index and queue captures/planning changes | Requires advanced Mac, the same Apple account and iCloud Drive; Mac online to apply changes |
 
@@ -22,7 +22,7 @@ The mobile Store app works independently. The separate native Mac Store edition 
 
 ## Start in a few minutes
 
-1. Download **BetterWorkspace-1.0-8-mac.zip**, expand it and drag **Better Workspace.app** to Applications.
+1. Download **BetterWorkspace-1.0.5-57-mac.zip**, expand it and drag **Better Workspace.app** to Applications.
 2. Open the app. In **Settings → General**, choose your workspace and inbox folders. An empty folder is a safe place to explore.
 3. Browse an existing project or add a folder under Projects. Add a task or portable work plan, then choose a priority.
 4. Keep early possibilities in Ideas. Use **Quick Capture / Ingest** for a thought, link or file, then review where it belongs.
@@ -47,7 +47,7 @@ The gallery shows native Mac, iPhone and iPad sample UI, connected project plann
 
 ## Release and source
 
-[Release notes and checksum](https://github.com/ZSturman/Better-Workspace-Public/releases/tag/v1.0) · [MIT-licensed source](https://github.com/ZSturman/Better-Workspace-Public)
+[Release notes and checksum](https://github.com/ZSturman/Better-Workspace-Public/releases/tag/v1.0.5) · [MIT-licensed source](https://github.com/ZSturman/Better-Workspace-Public)
 
 Build 8 passed installed-device acceptance, private Production sync and isolated packaged-runtime checks. Separate-user advanced installer/login acceptance and wider widget configuration coverage remain follow-ups. Cloud synchronization is eventual. The public source is a clean release snapshot; private development history and personal QA evidence are excluded.
 
@@ -58,3 +58,13 @@ Build 8 passed installed-device acceptance, private Production sync and isolated
 ## October 31 update
 
 Recent development builds keep a note and its attachments together when capturing an idea. Mac and mobile entry points include the share sheet, widgets, Shortcuts and Ingest. The signed public Mac download is distributed separately from the mobile App Store release.
+
+## November 12 capture update
+
+The Mac 1.0.5 (57) update keeps file picking responsive and retains the draft and
+selected destination. Paste a movie copied in Finder to save the original beside
+the idea note. Removing an attachment keeps your text and says it is still a draft;
+errors wrap in full. Successful idea saves request a macOS notification. Allow
+banners in System Settings, and save before quitting. Finder’s Capture Idea uses
+the same composer. The Mac apps remain direct downloads; mobile TestFlight and
+App Store delivery is handled separately by Apple.
