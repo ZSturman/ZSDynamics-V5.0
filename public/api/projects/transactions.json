@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-11-12T17:53:18.985961+00:00",
+  "generated_at": "2026-11-12T17:59:41.576279+00:00",
   "data": {
     "id": "35eaec94-4d3c-80bc-9273-c1403b6c02ad",
     "slug": "transactions",
@@ -47,6 +47,11 @@
     },
     "resources": [
       {
+        "type": "github",
+        "label": "Mobile & web source",
+        "url": "https://github.com/ZSturman/Transactions-Mobile-Public"
+      },
+      {
         "type": "website",
         "label": "Open web app",
         "url": "https://transactions-lmct.vercel.app/login"
@@ -65,11 +70,6 @@
         "type": "apple",
         "label": "Install for iPhone and iPad",
         "url": "https://apps.apple.com/app/id6826151834"
-      },
-      {
-        "type": "github",
-        "label": "Mobile & web source",
-        "url": "https://github.com/ZSturman/Transactions-Mobile-Public"
       }
     ],
     "assets": [

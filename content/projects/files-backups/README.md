@@ -1,5 +1,7 @@
 # Files & Backups
 
+[Public source and tests](https://github.com/ZSturman/Files-and-Backups-Public)
+
 A native file and backup browser for iPhone, iPad, and Mac, with explicit provider configuration.
 
 Browse configured SMB, WebDAV, SFTP, local Mac folders, or Home Services storage. Manage transfers, inspect file details, and use provider-supported backup and restore features. Home Services adds managed Trash and snapshot browsing; capabilities are specific to each provider.

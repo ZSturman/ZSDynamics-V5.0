@@ -183,9 +183,11 @@ Firebase production deployment. Preserve unrelated entries and media.
 <!-- PUBLIC-SOURCE-RELEASE:START -->
 ## Public source release — November 12, 2026
 
-Published and anonymously verified the first six curated repositories: Home Services, Grounded Memory, Arduino Sensor Telemetry, Flow Review, Transactions Mobile, and Warehouse Wanderer. Private development histories and working trees remain separate. Source links are maintained through local project entries and overrides; see PUBLIC_SOURCE.md.
+Published 13 curated source repositories and verified unauthenticated GitHub access. The portfolio has 64 project entries, including seven new entries, and source resources for all 13 selected projects. See [Public source](PUBLIC_SOURCE.md) for the full list and maintenance boundaries.
 
-Validation: local-content tests (7), presentation tests (8), TypeScript checks, static export and portfolio validation passed. Source snapshots passed focused fixture tests and local secret scans with narrowly reviewed false positives. Physical Android/hardware checks were not rerun.
+Private repositories, histories, credentials, personal inputs, running services and unrelated development changes remain separate. Exact snapshot Git histories passed local Gitleaks scans with narrowly scoped, manually reviewed synthetic/test-vector exceptions. Source checks covered Python fixture tests, Android authentication/Jest/type checks and microscope Swift unit tests; Camera Monitor and Files & Backups received package-manifest validation rather than native builds. No physical hardware, Android devices, production storage or signing flows were exercised.
 
-Next action: deploy these links through the existing main-branch Firebase workflow, verify the production marker and rendered links, then finish the remaining seven source snapshots.
+Portfolio validation: seven local-content tests, eight presentation tests, TypeScript checking, static export and metadata/link validation. The installed pre-push media checks passed for the first release (35 passed, three skipped). First-release Firebase deployment succeeded; real browser clicks verified all six initial source controls, including Home Services, Grounded Memory and Transactions, with analytics suppressed. The final batch follows the same existing deployment workflow; deployment confirmation is reported in the release chat.
+
+Future maintenance: edit source links in local project metadata/overrides; run `npm run sync:local-projects`, `.venv/bin/python -m pytest -q tests_python/test_local_projects.py`, `node --test tests/project-presentation.test.mjs`, `npm run typecheck`, `npm run build`, and `npm run validate:portfolio`. Review and commit generated output before pushing `main`. Source snapshots require an explicit reviewed refresh; private source changes do not propagate automatically. Physical-device/hardware compatibility remains each project's documented follow-up.
 <!-- PUBLIC-SOURCE-RELEASE:END -->

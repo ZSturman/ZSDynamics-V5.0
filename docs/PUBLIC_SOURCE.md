@@ -4,12 +4,19 @@ Updated November 12, 2026. These curated source snapshots preserve private devel
 
 | Project | Public source | Portfolio |
 | --- | --- | --- |
-| Home Services | [Home-Services-Public](https://github.com/ZSturman/Home-Services-Public) | [Project](/projects/home-services) |
-| Grounded Memory | [grounded-memory-public](https://github.com/ZSturman/grounded-memory-public) | [Project](/projects/grounded-memory) |
-| Arduino Sensor Telemetry | [Arduino-Sensor-Telemetry](https://github.com/ZSturman/Arduino-Sensor-Telemetry) | [Project](/projects/arduino-sensor-telemetry) |
-| Flow Review | [Flow-Review-Public](https://github.com/ZSturman/Flow-Review-Public) | [Project](/projects/flow-review) |
-| Transactions Mobile | [Transactions-Mobile-Public](https://github.com/ZSturman/Transactions-Mobile-Public) | [Project](/projects/transactions) |
-| Warehouse Wanderer | [Warehouse-Wanderer](https://github.com/ZSturman/Warehouse-Wanderer) | [Project](/projects/warehouse-wanderer) |
+| Home Services | [Home-Services-Public](https://github.com/ZSturman/Home-Services-Public) | [Project](https://zacharysturman.com/projects/home-services) |
+| Grounded Memory | [grounded-memory-public](https://github.com/ZSturman/grounded-memory-public) | [Project](https://zacharysturman.com/projects/grounded-memory) |
+| Arduino Sensor Telemetry | [Arduino-Sensor-Telemetry](https://github.com/ZSturman/Arduino-Sensor-Telemetry) | [Project](https://zacharysturman.com/projects/arduino-sensor-telemetry) |
+| Flow Review | [Flow-Review-Public](https://github.com/ZSturman/Flow-Review-Public) | [Project](https://zacharysturman.com/projects/flow-review) |
+| Transactions Mobile | [Transactions-Mobile-Public](https://github.com/ZSturman/Transactions-Mobile-Public) | [Project](https://zacharysturman.com/projects/transactions) |
+| Warehouse Wanderer | [Warehouse-Wanderer](https://github.com/ZSturman/Warehouse-Wanderer) | [Project](https://zacharysturman.com/projects/warehouse-wanderer) |
+| iPhone Microscope | [iPhone-Microscope](https://github.com/ZSturman/iPhone-Microscope) | [Project](https://zacharysturman.com/projects/iphone-microscope) |
+| Workspace Telemetry | [Workspace-Telemetry](https://github.com/ZSturman/Workspace-Telemetry) | [Project](https://zacharysturman.com/projects/workspace-telemetry) |
+| Multi-Context Memory System | [Multi-Context-Memory-System](https://github.com/ZSturman/Multi-Context-Memory-System) | [Project](https://zacharysturman.com/projects/multi-context-memory-system) |
+| Picture Sorter CLI | [Picture-Sorter-CLI](https://github.com/ZSturman/Picture-Sorter-CLI) | [Project](https://zacharysturman.com/projects/picture-sorter-cli) |
+| Analyze Speech | [Analyze-Speech](https://github.com/ZSturman/Analyze-Speech) | [Project](https://zacharysturman.com/projects/analyze-speech) |
+| Camera Monitor | [Camera-Monitor-Public](https://github.com/ZSturman/Camera-Monitor-Public) | [Project](https://zacharysturman.com/projects/camera-monitor) |
+| Files & Backups | [Files-and-Backups-Public](https://github.com/ZSturman/Files-and-Backups-Public) | [Project](https://zacharysturman.com/projects/files-backups) |
 
 ## Maintenance
 

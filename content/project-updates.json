@@ -60,6 +60,11 @@
     "description": "Transactions records shared expenses, requests, approvals, disputes and settlements between people. Native Expo/React Native clients share Firebase Authentication and Firestore records with the Next.js web app. iOS 1.0.0 (1), Transactions: Shared Ledger, is publicly available on the App Store. Android store publication remains deferred. CSV import/export and native sharing keep records portable. Transactions records obligations; it does not transfer money or connect to bank accounts.",
     "resources": [
       {
+        "type": "github",
+        "label": "Mobile & web source",
+        "url": "https://github.com/ZSturman/Transactions-Mobile-Public"
+      },
+      {
         "type": "website",
         "label": "Open web app",
         "url": "https://transactions-lmct.vercel.app/login"
@@ -78,11 +83,6 @@
         "type": "apple",
         "label": "Install for iPhone and iPad",
         "url": "https://apps.apple.com/app/id6826151834"
-      },
-      {
-        "type": "github",
-        "label": "Mobile & web source",
-        "url": "https://github.com/ZSturman/Transactions-Mobile-Public"
       }
     ],
     "updatedAt": "2026-11-12",

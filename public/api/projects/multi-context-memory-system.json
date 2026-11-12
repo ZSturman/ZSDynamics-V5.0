@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "kind": "projects.detail",
+  "generated_at": "2026-11-12T17:59:41.584303+00:00",
+  "data": {
+    "id": "77904de9-4d29-58f5-8eec-a79cbf23f3c4",
+    "slug": "multi-context-memory-system",
+    "href": "/projects/multi-context-memory-system",
+    "folderName": "multi-context-memory-system_77904de9-4d29-58f5-8eec-a79cbf23f3c4",
+    "title": "Multi-Context Memory System",
+    "name": "Multi-Context Memory System",
+    "summary": "A simulation-first Python memory architecture with episodic recall, state machines and scenario-based tests.",
+    "oneLiner": "A simulation-first Python memory architecture with episodic recall, state machines and scenario-based tests.",
+    "cardSummary": "A simulation-first Python memory architecture with episodic recall, state machines and scenario-based tests.",
+    "domain": "Technology",
+    "category": "Research prototype",
+    "status": "Active",
+    "phase": "Prototype",
+    "featured": false,
+    "isPublic": true,
+    "updatedAt": "2026-11-12",
+    "tags": [
+      "Python",
+      "pytest",
+      "Simulation",
+      "State Machines",
+      "Research"
+    ],
+    "disciplines": [
+      "software"
+    ],
+    "resources": [
+      {
+        "type": "github",
+        "label": "View source & tests",
+        "url": "https://github.com/ZSturman/Multi-Context-Memory-System"
+      }
+    ],
+    "workLogs": [],
+    "caseStudy": {
+      "problem": "A simulation-first Python memory architecture with episodic recall, state machines and scenario-based tests.",
+      "role": "Personal project: implementation, integration and testing.",
+      "architecture": [
+        "The Python CLI runs deterministic scenarios through memory, recall and state-machine components. YAML configuration separates scenario inputs from the runtime; an optional Streamlit dashboard inspects results."
+      ],
+      "validation": [
+        "Public source includes documented focused test commands; see the repository validation notes for current results."
+      ],
+      "limitations": [
+        "Simulation-first research prototype. Synthetic results do not establish physical-world recognition accuracy or a deployed autonomous system."
+      ]
+    },
+    "readme": {
+      "content": "# Multi-Context Memory System\n\nA simulation-first Python memory architecture with episodic recall, state machines and scenario-based tests.\n\n## Implementation\n\nThe Python CLI runs deterministic scenarios through memory, recall and state-machine components. YAML configuration separates scenario inputs from the runtime; an optional Streamlit dashboard inspects results.\n\n## Source and testing\n\n[Public source and setup](https://github.com/ZSturman/Multi-Context-Memory-System)\n\n[Validation and next steps](https://github.com/ZSturman/Multi-Context-Memory-System/blob/main/docs/NEXT_STEPS.md)\n\n## Current limitations\n\nSimulation-first research prototype. Synthetic results do not establish physical-world recognition accuracy or a deployed autonomous system.\n",
+      "sourceUrl": "/projects/multi-context-memory-system_77904de9-4d29-58f5-8eec-a79cbf23f3c4/README.md"
+    }
+  }
+}

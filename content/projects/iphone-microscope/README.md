@@ -1,5 +1,7 @@
 # iPhone Microscope
 
+[Public source and tests](https://github.com/ZSturman/iPhone-Microscope)
+
 A native Mac workbench viewer with a paired iPhone camera companion for inspecting, capturing, and measuring small objects.
 
 Choose Continuity Camera, a USB camera, or the paired iPhone companion. The companion exposes supported rear lenses, camera zoom, focus, exposure and torch controls. The Mac viewer adds stabilization, image adjustments, reference frames, still/video capture and calibrated line measurements. Digital zoom enlarges pixels; it is not optical magnification.

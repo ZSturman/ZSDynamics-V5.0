@@ -1,0 +1,49 @@
+{
+  "id": "71c0905b-270a-510c-b632-b6615918bda7",
+  "slug": "workspace-telemetry",
+  "href": "/projects/workspace-telemetry",
+  "folderName": "workspace-telemetry_71c0905b-270a-510c-b632-b6615918bda7",
+  "title": "Workspace Telemetry",
+  "name": "Workspace Telemetry",
+  "summary": "A local-first Python telemetry and work-session service with explicit evidence, retention and mocked integration tests.",
+  "oneLiner": "A local-first Python telemetry and work-session service with explicit evidence, retention and mocked integration tests.",
+  "cardSummary": "A local-first Python telemetry and work-session service with explicit evidence, retention and mocked integration tests.",
+  "domain": "Technology",
+  "category": "Software / hardware project",
+  "status": "Active",
+  "phase": "Prototype",
+  "featured": false,
+  "isPublic": true,
+  "updatedAt": "2026-11-12",
+  "tags": [
+    "Python",
+    "pytest",
+    "SQLite",
+    "Telemetry",
+    "Testing"
+  ],
+  "disciplines": [
+    "software"
+  ],
+  "resources": [
+    {
+      "type": "github",
+      "label": "View source & tests",
+      "url": "https://github.com/ZSturman/Workspace-Telemetry"
+    }
+  ],
+  "workLogs": [],
+  "caseStudy": {
+    "problem": "A local-first Python telemetry and work-session service with explicit evidence, retention and mocked integration tests.",
+    "role": "Personal project: implementation, integration and testing.",
+    "architecture": [
+      "A Python package separates normalized event ingestion, work-session state, evidence exports and optional Notion writes. Tests use temporary directories and mocked remote calls."
+    ],
+    "validation": [
+      "Public source includes documented focused test commands; see the repository validation notes for current results."
+    ],
+    "limitations": [
+      "Development service. Configure private destinations locally; review optional integration and retention settings before use. No personal activity history is included."
+    ]
+  }
+}

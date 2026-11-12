@@ -13,7 +13,7 @@
   "featured": false,
   "isPublic": true,
   "createdAt": null,
-  "updatedAt": "2026-10-31",
+  "updatedAt": "2026-11-12",
   "application": {
     "landingPath": "/projects/files-backups",
     "platforms": [
@@ -22,7 +22,13 @@
       "Mac (private beta)"
     ]
   },
-  "resources": [],
+  "resources": [
+    {
+      "type": "github",
+      "label": "View source & tests",
+      "url": "https://github.com/ZSturman/Files-and-Backups-Public"
+    }
+  ],
   "workLogs": [],
   "images": {
     "thumbnail": "images/thumbnail.svg",

@@ -289,6 +289,11 @@
     },
     "resources": [
       {
+        "type": "github",
+        "label": "Mobile & web source",
+        "url": "https://github.com/ZSturman/Transactions-Mobile-Public"
+      },
+      {
         "type": "website",
         "label": "Open web app",
         "url": "https://transactions-lmct.vercel.app/login"
@@ -307,11 +312,6 @@
         "type": "apple",
         "label": "Install for iPhone and iPad",
         "url": "https://apps.apple.com/app/id6826151834"
-      },
-      {
-        "type": "github",
-        "label": "Mobile & web source",
-        "url": "https://github.com/ZSturman/Transactions-Mobile-Public"
       }
     ],
     "assets": [
@@ -4341,6 +4341,59 @@
     }
   },
   {
+    "id": "3fad34b4-d2bb-5b67-a13f-db9aa05923c2",
+    "slug": "analyze-speech",
+    "href": "/projects/analyze-speech",
+    "folderName": "analyze-speech_3fad34b4-d2bb-5b67-a13f-db9aa05923c2",
+    "title": "Analyze Speech",
+    "name": "Analyze Speech",
+    "summary": "Local Python transcript and audio analysis with dependency-free core commands and synthetic tests.",
+    "oneLiner": "Local Python transcript and audio analysis with dependency-free core commands and synthetic tests.",
+    "cardSummary": "Local Python transcript and audio analysis with dependency-free core commands and synthetic tests.",
+    "domain": "Technology",
+    "category": "Software / hardware project",
+    "status": "Active",
+    "phase": "Prototype",
+    "featured": false,
+    "isPublic": true,
+    "updatedAt": "2026-11-12",
+    "tags": [
+      "Python",
+      "Audio",
+      "unittest",
+      "CLI",
+      "Privacy"
+    ],
+    "disciplines": [
+      "software"
+    ],
+    "resources": [
+      {
+        "type": "github",
+        "label": "View source & tests",
+        "url": "https://github.com/ZSturman/Analyze-Speech"
+      }
+    ],
+    "workLogs": [],
+    "caseStudy": {
+      "problem": "Local Python transcript and audio analysis with dependency-free core commands and synthetic tests.",
+      "role": "Personal project: implementation, integration and testing.",
+      "architecture": [
+        "A standard-library CLI computes transcript statistics and WAV measurements. FFmpeg conversion and optional pitch analysis extend the core without uploading source recordings."
+      ],
+      "validation": [
+        "Public source includes documented focused test commands; see the repository validation notes for current results."
+      ],
+      "limitations": [
+        "Research tools, not clinical speech assessment. Real recordings, transcripts and derived personal outputs are deliberately excluded. FFmpeg is needed for formats other than supported WAV input."
+      ]
+    },
+    "readme": {
+      "content": "# Analyze Speech\n\nLocal Python transcript and audio analysis with dependency-free core commands and synthetic tests.\n\n## Implementation\n\nA standard-library CLI computes transcript statistics and WAV measurements. FFmpeg conversion and optional pitch analysis extend the core without uploading source recordings.\n\n## Source and testing\n\n[Public source and setup](https://github.com/ZSturman/Analyze-Speech)\n\n[Validation and next steps](https://github.com/ZSturman/Analyze-Speech/blob/main/docs/NEXT_STEPS.md)\n\n## Current limitations\n\nResearch tools, not clinical speech assessment. Real recordings, transcripts and derived personal outputs are deliberately excluded. FFmpeg is needed for formats other than supported WAV input.\n",
+      "sourceUrl": "/projects/analyze-speech_3fad34b4-d2bb-5b67-a13f-db9aa05923c2/README.md"
+    }
+  },
+  {
     "id": "d5cbd61c-a773-534f-8f22-19d9fa93c1e0",
     "slug": "arduino-sensor-telemetry",
     "href": "/projects/arduino-sensor-telemetry",
@@ -4697,7 +4750,7 @@
     "featured": false,
     "isPublic": true,
     "createdAt": null,
-    "updatedAt": "2026-10-31",
+    "updatedAt": "2026-11-12",
     "application": {
       "landingPath": "/projects/camera-monitor",
       "platforms": [
@@ -4706,14 +4759,20 @@
         "Mac (private beta)"
       ]
     },
-    "resources": [],
+    "resources": [
+      {
+        "type": "github",
+        "label": "View source & tests",
+        "url": "https://github.com/ZSturman/Camera-Monitor-Public"
+      }
+    ],
     "workLogs": [],
     "images": {
       "thumbnail": "images/thumbnail.svg",
       "icon": "images/app-icon.png"
     },
     "readme": {
-      "content": "# Camera Monitor\n\nA native camera dashboard for iPhone, iPad, and Mac, with direct providers and optional Home Services connections.\n\nConnect supported RTSP, HLS, MJPEG, ONVIF, go2rtc, Frigate, or Home Services sources. Organize cameras, inspect snapshots and available recordings, and see connection status. Provider capabilities vary; live viewing does not imply recording support.\n\nVersion 0.1.0 (4) refreshes the private TestFlight beta with current Connected Apps support. No public App Store download or open beta invitation is advertised. Camera streams and recording controls require their own provider configuration and permissions; approving a status summary does not authorize stream access.\n\nA local backend is optional. Hardware compatibility, network conditions, and extended camera sessions remain separate acceptance checks.\n",
+      "content": "# Camera Monitor\n\n[Public source and tests](https://github.com/ZSturman/Camera-Monitor-Public)\n\nA native camera dashboard for iPhone, iPad, and Mac, with direct providers and optional Home Services connections.\n\nConnect supported RTSP, HLS, MJPEG, ONVIF, go2rtc, Frigate, or Home Services sources. Organize cameras, inspect snapshots and available recordings, and see connection status. Provider capabilities vary; live viewing does not imply recording support.\n\nVersion 0.1.0 (4) refreshes the private TestFlight beta with current Connected Apps support. No public App Store download or open beta invitation is advertised. Camera streams and recording controls require their own provider configuration and permissions; approving a status summary does not authorize stream access.\n\nA local backend is optional. Hardware compatibility, network conditions, and extended camera sessions remain separate acceptance checks.\n",
       "sourceUrl": "/projects/camera_monitor_9cb88592-7541-5a7e-9cd0-3e103ee2e481/README.md"
     }
   },
@@ -4929,7 +4988,7 @@
     "featured": false,
     "isPublic": true,
     "createdAt": null,
-    "updatedAt": "2026-10-31",
+    "updatedAt": "2026-11-12",
     "application": {
       "landingPath": "/projects/files-backups",
       "platforms": [
@@ -4938,14 +4997,20 @@
         "Mac (private beta)"
       ]
     },
-    "resources": [],
+    "resources": [
+      {
+        "type": "github",
+        "label": "View source & tests",
+        "url": "https://github.com/ZSturman/Files-and-Backups-Public"
+      }
+    ],
     "workLogs": [],
     "images": {
       "thumbnail": "images/thumbnail.svg",
       "icon": "images/app-icon.png"
     },
     "readme": {
-      "content": "# Files & Backups\n\nA native file and backup browser for iPhone, iPad, and Mac, with explicit provider configuration.\n\nBrowse configured SMB, WebDAV, SFTP, local Mac folders, or Home Services storage. Manage transfers, inspect file details, and use provider-supported backup and restore features. Home Services adds managed Trash and snapshot browsing; capabilities are specific to each provider.\n\nVersion 0.1 (4) refreshes the private TestFlight beta with current Connected Apps support. No public App Store download or open beta link is advertised. Summary-sharing consent is separate from storage credentials, file operations, and restore permissions.\n\nThe companion backup agent and Home Services are independent installations. Installing the app does not install a server or begin backups. Real restores and provider/hardware checks remain separate from build and permission tests.\n",
+      "content": "# Files & Backups\n\n[Public source and tests](https://github.com/ZSturman/Files-and-Backups-Public)\n\nA native file and backup browser for iPhone, iPad, and Mac, with explicit provider configuration.\n\nBrowse configured SMB, WebDAV, SFTP, local Mac folders, or Home Services storage. Manage transfers, inspect file details, and use provider-supported backup and restore features. Home Services adds managed Trash and snapshot browsing; capabilities are specific to each provider.\n\nVersion 0.1 (4) refreshes the private TestFlight beta with current Connected Apps support. No public App Store download or open beta link is advertised. Summary-sharing consent is separate from storage credentials, file operations, and restore permissions.\n\nThe companion backup agent and Home Services are independent installations. Installing the app does not install a server or begin backups. Real restores and provider/hardware checks remain separate from build and permission tests.\n",
       "sourceUrl": "/projects/files_backups_1185b98e-d26d-5efe-86cc-ec9b38cd45c6/README.md"
     }
   },
@@ -5366,7 +5431,7 @@
     "featured": false,
     "isPublic": true,
     "createdAt": null,
-    "updatedAt": "2026-10-31",
+    "updatedAt": "2026-11-12",
     "application": {
       "landingPath": "/projects/iphone-microscope",
       "platforms": [
@@ -5374,14 +5439,20 @@
         "iPhone (private beta)"
       ]
     },
-    "resources": [],
+    "resources": [
+      {
+        "type": "github",
+        "label": "View source & tests",
+        "url": "https://github.com/ZSturman/iPhone-Microscope"
+      }
+    ],
     "workLogs": [],
     "images": {
       "thumbnail": "images/thumbnail.svg",
       "icon": "images/app-icon.png"
     },
     "readme": {
-      "content": "# iPhone Microscope\n\nA native Mac workbench viewer with a paired iPhone camera companion for inspecting, capturing, and measuring small objects.\n\nChoose Continuity Camera, a USB camera, or the paired iPhone companion. The companion exposes supported rear lenses, camera zoom, focus, exposure and torch controls. The Mac viewer adds stabilization, image adjustments, reference frames, still/video capture and calibrated line measurements. Digital zoom enlarges pixels; it is not optical magnification.\n\nThe iPhone companion is listed in private TestFlight as **Bench Lens: Microscope Camera**, version 1.0 (2). It requires the separate Mac viewer, which currently uses local development distribution. No public App Store download or public beta invitation is advertised. Pairing requires a code, encrypted local transport, Camera and Local Network permission, and both apps in the foreground.\n\nPhysical testing on October 30 delivered about 59 FPS at 1920 × 1440 over Continuity Camera. The companion route delivered about 3 FPS at 1080p and 0.75 FPS at 4K in the latest test; it needs throughput work before smooth live soldering use. Twenty software tests and short recording/controls checks pass. These measurements are device-specific; latency, long-session reliability and certified measurement accuracy are not established.\n\nThe Ender 3 V2 overhead stand is a separate printable prototype. Its geometry has been checked, but physical fit, load and clearance are unverified. This is an inspection tool, not a certified measurement instrument.\n",
+      "content": "# iPhone Microscope\n\n[Public source and tests](https://github.com/ZSturman/iPhone-Microscope)\n\nA native Mac workbench viewer with a paired iPhone camera companion for inspecting, capturing, and measuring small objects.\n\nChoose Continuity Camera, a USB camera, or the paired iPhone companion. The companion exposes supported rear lenses, camera zoom, focus, exposure and torch controls. The Mac viewer adds stabilization, image adjustments, reference frames, still/video capture and calibrated line measurements. Digital zoom enlarges pixels; it is not optical magnification.\n\nThe iPhone companion is listed in private TestFlight as **Bench Lens: Microscope Camera**, version 1.0 (2). It requires the separate Mac viewer, which currently uses local development distribution. No public App Store download or public beta invitation is advertised. Pairing requires a code, encrypted local transport, Camera and Local Network permission, and both apps in the foreground.\n\nPhysical testing on October 30 delivered about 59 FPS at 1920 × 1440 over Continuity Camera. The companion route delivered about 3 FPS at 1080p and 0.75 FPS at 4K in the latest test; it needs throughput work before smooth live soldering use. Twenty software tests and short recording/controls checks pass. These measurements are device-specific; latency, long-session reliability and certified measurement accuracy are not established.\n\nThe Ender 3 V2 overhead stand is a separate printable prototype. Its geometry has been checked, but physical fit, load and clearance are unverified. This is an inspection tool, not a certified measurement instrument.\n",
       "sourceUrl": "/projects/iphone_microscope_ca7748ce-f9b8-5bb9-a928-86ca6e8c95b1/README.md"
     }
   },
@@ -5454,6 +5525,59 @@
     }
   },
   {
+    "id": "77904de9-4d29-58f5-8eec-a79cbf23f3c4",
+    "slug": "multi-context-memory-system",
+    "href": "/projects/multi-context-memory-system",
+    "folderName": "multi-context-memory-system_77904de9-4d29-58f5-8eec-a79cbf23f3c4",
+    "title": "Multi-Context Memory System",
+    "name": "Multi-Context Memory System",
+    "summary": "A simulation-first Python memory architecture with episodic recall, state machines and scenario-based tests.",
+    "oneLiner": "A simulation-first Python memory architecture with episodic recall, state machines and scenario-based tests.",
+    "cardSummary": "A simulation-first Python memory architecture with episodic recall, state machines and scenario-based tests.",
+    "domain": "Technology",
+    "category": "Research prototype",
+    "status": "Active",
+    "phase": "Prototype",
+    "featured": false,
+    "isPublic": true,
+    "updatedAt": "2026-11-12",
+    "tags": [
+      "Python",
+      "pytest",
+      "Simulation",
+      "State Machines",
+      "Research"
+    ],
+    "disciplines": [
+      "software"
+    ],
+    "resources": [
+      {
+        "type": "github",
+        "label": "View source & tests",
+        "url": "https://github.com/ZSturman/Multi-Context-Memory-System"
+      }
+    ],
+    "workLogs": [],
+    "caseStudy": {
+      "problem": "A simulation-first Python memory architecture with episodic recall, state machines and scenario-based tests.",
+      "role": "Personal project: implementation, integration and testing.",
+      "architecture": [
+        "The Python CLI runs deterministic scenarios through memory, recall and state-machine components. YAML configuration separates scenario inputs from the runtime; an optional Streamlit dashboard inspects results."
+      ],
+      "validation": [
+        "Public source includes documented focused test commands; see the repository validation notes for current results."
+      ],
+      "limitations": [
+        "Simulation-first research prototype. Synthetic results do not establish physical-world recognition accuracy or a deployed autonomous system."
+      ]
+    },
+    "readme": {
+      "content": "# Multi-Context Memory System\n\nA simulation-first Python memory architecture with episodic recall, state machines and scenario-based tests.\n\n## Implementation\n\nThe Python CLI runs deterministic scenarios through memory, recall and state-machine components. YAML configuration separates scenario inputs from the runtime; an optional Streamlit dashboard inspects results.\n\n## Source and testing\n\n[Public source and setup](https://github.com/ZSturman/Multi-Context-Memory-System)\n\n[Validation and next steps](https://github.com/ZSturman/Multi-Context-Memory-System/blob/main/docs/NEXT_STEPS.md)\n\n## Current limitations\n\nSimulation-first research prototype. Synthetic results do not establish physical-world recognition accuracy or a deployed autonomous system.\n",
+      "sourceUrl": "/projects/multi-context-memory-system_77904de9-4d29-58f5-8eec-a79cbf23f3c4/README.md"
+    }
+  },
+  {
     "id": "40447ad7-01c5-5e55-aed7-8dbeee469f9b",
     "slug": "opportunity-discovery",
     "href": "/projects/opportunity-discovery",
@@ -5517,6 +5641,59 @@
     "readme": {
       "content": "# Opportunity Discovery\n\nStart with a public activity, investigate a possible contribution, and decide if it is worth pursuing. The review queue brings together source evidence, a possible offer, the gaps in that offer and a next action. A reviewer can request more research, defer, reject, or prepare a draft.\n\nThe project covers software, research support, electronics, fabrication and creative work. It uses sources such as public nonprofit records and NSF awards. The source record stays attached to the opportunity so a reader can distinguish the documented activity from the proposed work.\n\nThe dashboard and iPhone client are in private use. The example shows a fictional exhibit and review decision.\n",
       "sourceUrl": "/projects/opportunity-discovery_40447ad7-01c5-5e55-aed7-8dbeee469f9b/README.md"
+    }
+  },
+  {
+    "id": "792d83a1-3d1c-5dd6-ac0a-52fd5adf1bbf",
+    "slug": "picture-sorter-cli",
+    "href": "/projects/picture-sorter-cli",
+    "folderName": "picture-sorter-cli_792d83a1-3d1c-5dd6-ac0a-52fd5adf1bbf",
+    "title": "Picture Sorter CLI",
+    "name": "Picture Sorter CLI",
+    "summary": "Python image/video sorting with object detection, OCR, local inference and regression tests for safe file operations.",
+    "oneLiner": "Python image/video sorting with object detection, OCR, local inference and regression tests for safe file operations.",
+    "cardSummary": "Python image/video sorting with object detection, OCR, local inference and regression tests for safe file operations.",
+    "domain": "Technology",
+    "category": "Software / hardware project",
+    "status": "Active",
+    "phase": "Prototype",
+    "featured": false,
+    "isPublic": true,
+    "updatedAt": "2026-11-12",
+    "tags": [
+      "Python",
+      "Computer Vision",
+      "OCR",
+      "CLI",
+      "Testing"
+    ],
+    "disciplines": [
+      "software"
+    ],
+    "resources": [
+      {
+        "type": "github",
+        "label": "View source & tests",
+        "url": "https://github.com/ZSturman/Picture-Sorter-CLI"
+      }
+    ],
+    "workLogs": [],
+    "caseStudy": {
+      "problem": "Python image/video sorting with object detection, OCR, local inference and regression tests for safe file operations.",
+      "role": "Personal project: implementation, integration and testing.",
+      "architecture": [
+        "A CLI routes images through OCR/object classification and samples video frames for captioning. File operations handle collisions and malformed media; dry-run previews planned moves."
+      ],
+      "validation": [
+        "Public source includes documented focused test commands; see the repository validation notes for current results."
+      ],
+      "limitations": [
+        "Classification quality is provisional. Audio sorting, undo/journaling and a distributable app are not implemented. Optional model downloads can be large; test first on copies of your files."
+      ]
+    },
+    "readme": {
+      "content": "# Picture Sorter CLI\n\nPython image/video sorting with object detection, OCR, local inference and regression tests for safe file operations.\n\n## Implementation\n\nA CLI routes images through OCR/object classification and samples video frames for captioning. File operations handle collisions and malformed media; dry-run previews planned moves.\n\n## Source and testing\n\n[Public source and setup](https://github.com/ZSturman/Picture-Sorter-CLI)\n\n[Validation and next steps](https://github.com/ZSturman/Picture-Sorter-CLI/blob/main/docs/NEXT_STEPS.md)\n\n## Current limitations\n\nClassification quality is provisional. Audio sorting, undo/journaling and a distributable app are not implemented. Optional model downloads can be large; test first on copies of your files.\n",
+      "sourceUrl": "/projects/picture-sorter-cli_792d83a1-3d1c-5dd6-ac0a-52fd5adf1bbf/README.md"
     }
   },
   {
@@ -5924,6 +6101,59 @@
     "readme": {
       "content": "# Warehouse Wanderer\n\nAn Android/iOS warehouse-visit passport with local visit tracking, wishlists and targeted UI tests.\n\n## Implementation\n\nExpo/React Native screens use local persistence and warehouse data providers. Config plugins preserve native setup when Expo regenerates Android and iOS hosts.\n\n## Source and testing\n\n[Public source and setup](https://github.com/ZSturman/Warehouse-Wanderer)\n\n[Validation and next steps](https://github.com/ZSturman/Warehouse-Wanderer/blob/main/docs/NEXT_STEPS.md)\n\n## Current limitations\n\nIndependent, unofficial prototype with no retailer affiliation. Prior Android emulator flows passed; no physical Android acceptance is established. Native builds require a compatible JDK/Android SDK. Optional map features need your own API key.\n",
       "sourceUrl": "/projects/warehouse-wanderer_366db058-5aae-5db3-a3f4-5674df96fa94/README.md"
+    }
+  },
+  {
+    "id": "71c0905b-270a-510c-b632-b6615918bda7",
+    "slug": "workspace-telemetry",
+    "href": "/projects/workspace-telemetry",
+    "folderName": "workspace-telemetry_71c0905b-270a-510c-b632-b6615918bda7",
+    "title": "Workspace Telemetry",
+    "name": "Workspace Telemetry",
+    "summary": "A local-first Python telemetry and work-session service with explicit evidence, retention and mocked integration tests.",
+    "oneLiner": "A local-first Python telemetry and work-session service with explicit evidence, retention and mocked integration tests.",
+    "cardSummary": "A local-first Python telemetry and work-session service with explicit evidence, retention and mocked integration tests.",
+    "domain": "Technology",
+    "category": "Software / hardware project",
+    "status": "Active",
+    "phase": "Prototype",
+    "featured": false,
+    "isPublic": true,
+    "updatedAt": "2026-11-12",
+    "tags": [
+      "Python",
+      "pytest",
+      "SQLite",
+      "Telemetry",
+      "Testing"
+    ],
+    "disciplines": [
+      "software"
+    ],
+    "resources": [
+      {
+        "type": "github",
+        "label": "View source & tests",
+        "url": "https://github.com/ZSturman/Workspace-Telemetry"
+      }
+    ],
+    "workLogs": [],
+    "caseStudy": {
+      "problem": "A local-first Python telemetry and work-session service with explicit evidence, retention and mocked integration tests.",
+      "role": "Personal project: implementation, integration and testing.",
+      "architecture": [
+        "A Python package separates normalized event ingestion, work-session state, evidence exports and optional Notion writes. Tests use temporary directories and mocked remote calls."
+      ],
+      "validation": [
+        "Public source includes documented focused test commands; see the repository validation notes for current results."
+      ],
+      "limitations": [
+        "Development service. Configure private destinations locally; review optional integration and retention settings before use. No personal activity history is included."
+      ]
+    },
+    "readme": {
+      "content": "# Workspace Telemetry\n\nA local-first Python telemetry and work-session service with explicit evidence, retention and mocked integration tests.\n\n## Implementation\n\nA Python package separates normalized event ingestion, work-session state, evidence exports and optional Notion writes. Tests use temporary directories and mocked remote calls.\n\n## Source and testing\n\n[Public source and setup](https://github.com/ZSturman/Workspace-Telemetry)\n\n[Validation and next steps](https://github.com/ZSturman/Workspace-Telemetry/blob/main/docs/NEXT_STEPS.md)\n\n## Current limitations\n\nDevelopment service. Configure private destinations locally; review optional integration and retention settings before use. No personal activity history is included.\n",
+      "sourceUrl": "/projects/workspace-telemetry_71c0905b-270a-510c-b632-b6615918bda7/README.md"
     }
   }
 ]

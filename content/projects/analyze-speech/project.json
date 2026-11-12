@@ -1,0 +1,49 @@
+{
+  "id": "3fad34b4-d2bb-5b67-a13f-db9aa05923c2",
+  "slug": "analyze-speech",
+  "href": "/projects/analyze-speech",
+  "folderName": "analyze-speech_3fad34b4-d2bb-5b67-a13f-db9aa05923c2",
+  "title": "Analyze Speech",
+  "name": "Analyze Speech",
+  "summary": "Local Python transcript and audio analysis with dependency-free core commands and synthetic tests.",
+  "oneLiner": "Local Python transcript and audio analysis with dependency-free core commands and synthetic tests.",
+  "cardSummary": "Local Python transcript and audio analysis with dependency-free core commands and synthetic tests.",
+  "domain": "Technology",
+  "category": "Software / hardware project",
+  "status": "Active",
+  "phase": "Prototype",
+  "featured": false,
+  "isPublic": true,
+  "updatedAt": "2026-11-12",
+  "tags": [
+    "Python",
+    "Audio",
+    "unittest",
+    "CLI",
+    "Privacy"
+  ],
+  "disciplines": [
+    "software"
+  ],
+  "resources": [
+    {
+      "type": "github",
+      "label": "View source & tests",
+      "url": "https://github.com/ZSturman/Analyze-Speech"
+    }
+  ],
+  "workLogs": [],
+  "caseStudy": {
+    "problem": "Local Python transcript and audio analysis with dependency-free core commands and synthetic tests.",
+    "role": "Personal project: implementation, integration and testing.",
+    "architecture": [
+      "A standard-library CLI computes transcript statistics and WAV measurements. FFmpeg conversion and optional pitch analysis extend the core without uploading source recordings."
+    ],
+    "validation": [
+      "Public source includes documented focused test commands; see the repository validation notes for current results."
+    ],
+    "limitations": [
+      "Research tools, not clinical speech assessment. Real recordings, transcripts and derived personal outputs are deliberately excluded. FFmpeg is needed for formats other than supported WAV input."
+    ]
+  }
+}

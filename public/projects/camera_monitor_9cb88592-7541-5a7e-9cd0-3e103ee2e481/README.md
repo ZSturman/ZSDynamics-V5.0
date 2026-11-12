@@ -1,5 +1,7 @@
 # Camera Monitor
 
+[Public source and tests](https://github.com/ZSturman/Camera-Monitor-Public)
+
 A native camera dashboard for iPhone, iPad, and Mac, with direct providers and optional Home Services connections.
 
 Connect supported RTSP, HLS, MJPEG, ONVIF, go2rtc, Frigate, or Home Services sources. Organize cameras, inspect snapshots and available recordings, and see connection status. Provider capabilities vary; live viewing does not imply recording support.

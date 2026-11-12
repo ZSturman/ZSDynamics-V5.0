@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "kind": "projects.detail",
+  "generated_at": "2026-11-12T17:59:41.584488+00:00",
+  "data": {
+    "id": "792d83a1-3d1c-5dd6-ac0a-52fd5adf1bbf",
+    "slug": "picture-sorter-cli",
+    "href": "/projects/picture-sorter-cli",
+    "folderName": "picture-sorter-cli_792d83a1-3d1c-5dd6-ac0a-52fd5adf1bbf",
+    "title": "Picture Sorter CLI",
+    "name": "Picture Sorter CLI",
+    "summary": "Python image/video sorting with object detection, OCR, local inference and regression tests for safe file operations.",
+    "oneLiner": "Python image/video sorting with object detection, OCR, local inference and regression tests for safe file operations.",
+    "cardSummary": "Python image/video sorting with object detection, OCR, local inference and regression tests for safe file operations.",
+    "domain": "Technology",
+    "category": "Software / hardware project",
+    "status": "Active",
+    "phase": "Prototype",
+    "featured": false,
+    "isPublic": true,
+    "updatedAt": "2026-11-12",
+    "tags": [
+      "Python",
+      "Computer Vision",
+      "OCR",
+      "CLI",
+      "Testing"
+    ],
+    "disciplines": [
+      "software"
+    ],
+    "resources": [
+      {
+        "type": "github",
+        "label": "View source & tests",
+        "url": "https://github.com/ZSturman/Picture-Sorter-CLI"
+      }
+    ],
+    "workLogs": [],
+    "caseStudy": {
+      "problem": "Python image/video sorting with object detection, OCR, local inference and regression tests for safe file operations.",
+      "role": "Personal project: implementation, integration and testing.",
+      "architecture": [
+        "A CLI routes images through OCR/object classification and samples video frames for captioning. File operations handle collisions and malformed media; dry-run previews planned moves."
+      ],
+      "validation": [
+        "Public source includes documented focused test commands; see the repository validation notes for current results."
+      ],
+      "limitations": [
+        "Classification quality is provisional. Audio sorting, undo/journaling and a distributable app are not implemented. Optional model downloads can be large; test first on copies of your files."
+      ]
+    },
+    "readme": {
+      "content": "# Picture Sorter CLI\n\nPython image/video sorting with object detection, OCR, local inference and regression tests for safe file operations.\n\n## Implementation\n\nA CLI routes images through OCR/object classification and samples video frames for captioning. File operations handle collisions and malformed media; dry-run previews planned moves.\n\n## Source and testing\n\n[Public source and setup](https://github.com/ZSturman/Picture-Sorter-CLI)\n\n[Validation and next steps](https://github.com/ZSturman/Picture-Sorter-CLI/blob/main/docs/NEXT_STEPS.md)\n\n## Current limitations\n\nClassification quality is provisional. Audio sorting, undo/journaling and a distributable app are not implemented. Optional model downloads can be large; test first on copies of your files.\n",
+      "sourceUrl": "/projects/picture-sorter-cli_792d83a1-3d1c-5dd6-ac0a-52fd5adf1bbf/README.md"
+    }
+  }
+}
