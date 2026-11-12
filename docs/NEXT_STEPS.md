@@ -174,7 +174,7 @@ Updated the maintained Better Workspace and Finder Workspace Extensions entries 
 regenerated their public README/API/manifests. Ownership now correctly identifies
 Finder as owner of project metadata. The new capture behavior and development
 preview limitations are described without implying a Finder App Store edition.
-Finder 0.1.1 preview is notarized/stapled and public. Better Workspace 1.0.5 Mac is notarized/stapled and Gatekeeper accepted; mobile build 57 passed Apple server validation and is being uploaded. Both release URLs are prepared for this deployment.
+Finder 0.1.1 preview is notarized/stapled and public. Better Workspace 1.0.5 Mac is notarized/stapled and Gatekeeper accepted; mobile build 57 is VALID, in internal TestFlight and Waiting for Review with automatic release after approval. Production deploy 43266354725 succeeded for content commit 8fdc3f0. Both live product JSON entries/pages and both signed-download URLs were checked successfully. No browser analytics executed.
 Validation: 9 local-project/published-workspace Python checks pass using `.venv/bin/python`.
 The push hook performs the existing media smoke checks, and main pushes trigger
 Firebase production deployment. Preserve unrelated entries and media.
