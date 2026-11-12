@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta name="robots" content="noindex, nofollow">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'">
+<title>Open Microscope Camera · Bench Lens</title>
+<style>html{color-scheme:dark;font-family:system-ui,sans-serif;background:#071317;color:#f5fafb}body{margin:0;min-height:100svh;display:grid;place-items:center}main{max-width:28rem;margin:2rem;line-height:1.6}h1{font-size:2rem;line-height:1.2}a{color:#69dfd1}a.primary{display:block;text-align:center;border-radius:.8rem;background:#69dfd1;color:#071317;padding:.9rem;margin:1rem 0;font-weight:650;text-decoration:none}p{color:#c5d5d8}.brand{color:#69dfd1;font-weight:600;letter-spacing:.08em}</style>
+</head><body><main>
+<div class="brand">BENCH LENS</div><h1>A closer look starts here.</h1>
+<p>Opening the App Store for Microscope Camera. If the app is installed, scan the Mac QR code again to open it directly.</p>
+<a class="primary" href="https://apps.apple.com/app/id6829212410">Get Microscope Camera</a>
+<a id="open" hidden>Already installed? Open Camera</a>
+<p>After installing, scan a fresh Mac QR code, then tap Start Sharing. During beta, use your TestFlight invitation if the store page is not yet available.</p>
+<noscript><p>Tap Get Microscope Camera above, then return to your Mac for a fresh QR code.</p></noscript>
+</main><script>
+// No analytics, storage, third-party resources or server-side pairing data.
+const store = 'https://apps.apple.com/app/id6829212410';
+const invite = new URLSearchParams(location.hash.slice(1));
+const keys = ['invite','viewer','code','expires','secret'];
+if (keys.every(key => invite.getAll(key).length === 1) && /^\d{6}$/.test(invite.get('code') || '')) {
+  const open = document.getElementById('open');
+  open.href = 'benchlens://pair?' + invite.toString(); open.hidden = false;
+}
+const fallback = setTimeout(() => location.replace(store), 1200);
+document.getElementById('open').addEventListener('click', () => clearTimeout(fallback));
+</script></body></html>

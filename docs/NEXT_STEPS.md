@@ -1,3 +1,7 @@
+## Bench Lens QR setup — November 12, 2026
+
+`public/iphone-microscope/connect.html` is an analytics-free App Store fallback for the iPhone app's universal link. Pairing credentials remain in the URL fragment; the page sends no analytics or pairing request. `public/apple-app-site-association.json` retains Recallable and adds the exact Bench Lens connect path. Deploy both together before installing companion 1.2 (6), then check the AASA response and Apple's CDN. An uninstalled iPhone goes to the App Store; installed-device QR handling needs physical confirmation. App Store availability still depends on Apple approval. No deferred pairing after install: scan a fresh QR.
+
 # ChewSense research update — November 10, 2026
 
 The authored `chewsense` override in `content/project-updates.json` now links
