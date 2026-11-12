@@ -178,3 +178,14 @@ Finder 0.1.1 preview is notarized/stapled and public. Better Workspace 1.0.5 Mac
 Validation: 9 local-project/published-workspace Python checks pass using `.venv/bin/python`.
 The push hook performs the existing media smoke checks, and main pushes trigger
 Firebase production deployment. Preserve unrelated entries and media.
+
+
+<!-- PUBLIC-SOURCE-RELEASE:START -->
+## Public source release — November 12, 2026
+
+Published and anonymously verified the first six curated repositories: Home Services, Grounded Memory, Arduino Sensor Telemetry, Flow Review, Transactions Mobile, and Warehouse Wanderer. Private development histories and working trees remain separate. Source links are maintained through local project entries and overrides; see PUBLIC_SOURCE.md.
+
+Validation: local-content tests (7), presentation tests (8), TypeScript checks, static export and portfolio validation passed. Source snapshots passed focused fixture tests and local secret scans with narrowly reviewed false positives. Physical Android/hardware checks were not rerun.
+
+Next action: deploy these links through the existing main-branch Firebase workflow, verify the production marker and rendered links, then finish the remaining seven source snapshots.
+<!-- PUBLIC-SOURCE-RELEASE:END -->

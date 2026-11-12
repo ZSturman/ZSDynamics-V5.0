@@ -1,0 +1,51 @@
+{
+  "id": "d5cbd61c-a773-534f-8f22-19d9fa93c1e0",
+  "slug": "arduino-sensor-telemetry",
+  "href": "/projects/arduino-sensor-telemetry",
+  "folderName": "arduino-sensor-telemetry_d5cbd61c-a773-534f-8f22-19d9fa93c1e0",
+  "title": "Arduino Sensor Telemetry",
+  "name": "Arduino Sensor Telemetry",
+  "summary": "Arduino Mega sensor firmware, a Python/FastAPI telemetry backend and a React dashboard with serial and simulated transports.",
+  "oneLiner": "Arduino Mega sensor firmware, a Python/FastAPI telemetry backend and a React dashboard with serial and simulated transports.",
+  "cardSummary": "Arduino Mega sensor firmware, a Python/FastAPI telemetry backend and a React dashboard with serial and simulated transports.",
+  "domain": "Technology",
+  "category": "Software / hardware project",
+  "status": "Active",
+  "phase": "Prototype",
+  "featured": false,
+  "isPublic": true,
+  "updatedAt": "2026-11-12",
+  "tags": [
+    "Python",
+    "Arduino",
+    "FastAPI",
+    "Hardware Testing",
+    "Serial",
+    "pytest"
+  ],
+  "disciplines": [
+    "software",
+    "hardware"
+  ],
+  "resources": [
+    {
+      "type": "github",
+      "label": "View source & tests",
+      "url": "https://github.com/ZSturman/Arduino-Sensor-Telemetry"
+    }
+  ],
+  "workLogs": [],
+  "caseStudy": {
+    "problem": "Arduino Mega sensor firmware, a Python/FastAPI telemetry backend and a React dashboard with serial and simulated transports.",
+    "role": "Personal project: implementation, integration and testing.",
+    "architecture": [
+      "Firmware emits newline-delimited JSON envelopes. Backend transport adapters normalize serial and simulator data; shared schemas and a sensor catalog connect the backend to the TypeScript dashboard."
+    ],
+    "validation": [
+      "Public source includes documented focused test commands; see the repository validation notes for current results."
+    ],
+    "limitations": [
+      "Hardware/software prototype with simulator support. Firmware upload, real wiring, sensor accuracy and serial reliability require physical-board acceptance. Bluetooth is a planned extension."
+    ]
+  }
+}

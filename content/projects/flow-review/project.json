@@ -1,0 +1,49 @@
+{
+  "id": "c37f744d-b793-54e4-9f3d-da80625f40fc",
+  "slug": "flow-review",
+  "href": "/projects/flow-review",
+  "folderName": "flow-review_c37f744d-b793-54e4-9f3d-da80625f40fc",
+  "title": "Flow Review",
+  "name": "Flow Review",
+  "summary": "Python tooling that turns small YAML UI flows into generated XCUITests and review artifacts.",
+  "oneLiner": "Python tooling that turns small YAML UI flows into generated XCUITests and review artifacts.",
+  "cardSummary": "Python tooling that turns small YAML UI flows into generated XCUITests and review artifacts.",
+  "domain": "Technology",
+  "category": "Software / hardware project",
+  "status": "Active",
+  "phase": "Prototype",
+  "featured": false,
+  "isPublic": true,
+  "updatedAt": "2026-11-12",
+  "tags": [
+    "Python",
+    "Test Automation",
+    "XCUITest",
+    "YAML",
+    "CLI"
+  ],
+  "disciplines": [
+    "software"
+  ],
+  "resources": [
+    {
+      "type": "github",
+      "label": "View source & tests",
+      "url": "https://github.com/ZSturman/Flow-Review-Public"
+    }
+  ],
+  "workLogs": [],
+  "caseStudy": {
+    "problem": "Python tooling that turns small YAML UI flows into generated XCUITests and review artifacts.",
+    "role": "Personal project: implementation, integration and testing.",
+    "architecture": [
+      "The Python core discovers project configuration, validates linear flows and generates test sources. The Mac interface calls the CLI; Xcode project mutation is isolated in a Ruby helper."
+    ],
+    "validation": [
+      "Public source includes documented focused test commands; see the repository validation notes for current results."
+    ],
+    "limitations": [
+      "Prototype for Apple-platform testing. Running generated UI tests needs macOS and Xcode. Linear flows intentionally do not replace arbitrary handwritten UI automation."
+    ]
+  }
+}

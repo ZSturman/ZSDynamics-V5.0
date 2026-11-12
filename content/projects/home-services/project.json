@@ -12,7 +12,7 @@
   "phase": "Deployed privately",
   "featured": false,
   "isPublic": true,
-  "updatedAt": "2026-11-09",
+  "updatedAt": "2026-11-12",
   "tags": [
     "Raspberry Pi",
     "Linux",
@@ -38,6 +38,11 @@
       "type": "website",
       "label": "Explore Files & Backups",
       "url": "/projects/files-backups"
+    },
+    {
+      "type": "github",
+      "label": "View source & tests",
+      "url": "https://github.com/ZSturman/Home-Services-Public"
     }
   ],
   "caseStudy": {

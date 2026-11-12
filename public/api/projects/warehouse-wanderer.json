@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "kind": "projects.detail",
+  "generated_at": "2026-11-12T17:54:27.173651+00:00",
+  "data": {
+    "id": "366db058-5aae-5db3-a3f4-5674df96fa94",
+    "slug": "warehouse-wanderer",
+    "href": "/projects/warehouse-wanderer",
+    "folderName": "warehouse-wanderer_366db058-5aae-5db3-a3f4-5674df96fa94",
+    "title": "Warehouse Wanderer",
+    "name": "Warehouse Wanderer",
+    "summary": "An Android/iOS warehouse-visit passport with local visit tracking, wishlists and targeted UI tests.",
+    "oneLiner": "An Android/iOS warehouse-visit passport with local visit tracking, wishlists and targeted UI tests.",
+    "cardSummary": "An Android/iOS warehouse-visit passport with local visit tracking, wishlists and targeted UI tests.",
+    "domain": "Technology",
+    "category": "Software / hardware project",
+    "status": "Active",
+    "phase": "Prototype",
+    "featured": false,
+    "isPublic": true,
+    "updatedAt": "2026-11-12",
+    "tags": [
+      "Android",
+      "React Native",
+      "Jest",
+      "TypeScript",
+      "Offline"
+    ],
+    "disciplines": [
+      "software"
+    ],
+    "resources": [
+      {
+        "type": "github",
+        "label": "View source & tests",
+        "url": "https://github.com/ZSturman/Warehouse-Wanderer"
+      }
+    ],
+    "workLogs": [],
+    "caseStudy": {
+      "problem": "An Android/iOS warehouse-visit passport with local visit tracking, wishlists and targeted UI tests.",
+      "role": "Personal project: implementation, integration and testing.",
+      "architecture": [
+        "Expo/React Native screens use local persistence and warehouse data providers. Config plugins preserve native setup when Expo regenerates Android and iOS hosts."
+      ],
+      "validation": [
+        "Public source includes documented focused test commands; see the repository validation notes for current results."
+      ],
+      "limitations": [
+        "Independent, unofficial prototype with no retailer affiliation. Prior Android emulator flows passed; no physical Android acceptance is established. Native builds require a compatible JDK/Android SDK. Optional map features need your own API key."
+      ]
+    },
+    "readme": {
+      "content": "# Warehouse Wanderer\n\nAn Android/iOS warehouse-visit passport with local visit tracking, wishlists and targeted UI tests.\n\n## Implementation\n\nExpo/React Native screens use local persistence and warehouse data providers. Config plugins preserve native setup when Expo regenerates Android and iOS hosts.\n\n## Source and testing\n\n[Public source and setup](https://github.com/ZSturman/Warehouse-Wanderer)\n\n[Validation and next steps](https://github.com/ZSturman/Warehouse-Wanderer/blob/main/docs/NEXT_STEPS.md)\n\n## Current limitations\n\nIndependent, unofficial prototype with no retailer affiliation. Prior Android emulator flows passed; no physical Android acceptance is established. Native builds require a compatible JDK/Android SDK. Optional map features need your own API key.\n",
+      "sourceUrl": "/projects/warehouse-wanderer_366db058-5aae-5db3-a3f4-5674df96fa94/README.md"
+    }
+  }
+}

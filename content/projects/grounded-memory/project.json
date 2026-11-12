@@ -12,7 +12,7 @@
   "phase": "Research",
   "featured": false,
   "isPublic": true,
-  "updatedAt": "2026-11-09",
+  "updatedAt": "2026-11-12",
   "tags": [
     "Computer Vision",
     "Machine Learning",
@@ -64,5 +64,12 @@
       "The current research build still needs end-to-end physical iPhone acceptance and recognition calibration."
     ]
   },
-  "cardSummary": "A local learner that asks about unfamiliar sights and sounds, then revises its memory."
+  "cardSummary": "A local learner that asks about unfamiliar sights and sounds, then revises its memory.",
+  "resources": [
+    {
+      "type": "github",
+      "label": "View source & tests",
+      "url": "https://github.com/ZSturman/grounded-memory-public"
+    }
+  ]
 }

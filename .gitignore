@@ -184,3 +184,12 @@ coverage/
 !/content/projects/casino-exit/**
 !/content/projects/iphone-microscope/
 !/content/projects/iphone-microscope/**
+
+# Reviewed public project entries
+!/content/projects/arduino-sensor-telemetry/
+!/content/projects/flow-review/
+!/content/projects/warehouse-wanderer/
+!/content/projects/workspace-telemetry/
+!/content/projects/multi-context-memory-system/
+!/content/projects/picture-sorter-cli/
+!/content/projects/analyze-speech/

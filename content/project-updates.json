@@ -78,9 +78,14 @@
         "type": "apple",
         "label": "Install for iPhone and iPad",
         "url": "https://apps.apple.com/app/id6826151834"
+      },
+      {
+        "type": "github",
+        "label": "Mobile & web source",
+        "url": "https://github.com/ZSturman/Transactions-Mobile-Public"
       }
     ],
-    "updatedAt": "2026-10-31",
+    "updatedAt": "2026-11-12",
     "tags": [
       "Next.js",
       "Firebase",

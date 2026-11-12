@@ -1,5 +1,7 @@
 # Grounded Memory
 
+[Public source and tests](https://github.com/ZSturman/grounded-memory-public)
+
 What should a machine do when it sees something unfamiliar or when yesterday’s explanation stops fitting? Grounded Memory is a research prototype for a future robot that learns by observing, asking and revising.
 
 The Mac console shows the evidence behind a question, saved expectations and revisions. The paired iPhone can supply video, audio and optional pose or depth. The console also accepts a recorded clip so the same sequence can be replayed. In the example here, the learner isolates a shape from a synthetic clip and asks for a label.

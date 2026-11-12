@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-11-09T20:01:48.130709+00:00",
+  "generated_at": "2026-11-12T17:53:00.933078+00:00",
   "data": {
     "id": "d4ea7bc6-6816-5397-867d-289ba6d1518f",
     "slug": "home-services",
@@ -16,7 +16,7 @@
     "phase": "Deployed privately",
     "featured": false,
     "isPublic": true,
-    "updatedAt": "2026-11-09",
+    "updatedAt": "2026-11-12",
     "tags": [
       "Raspberry Pi",
       "Linux",
@@ -42,6 +42,11 @@
         "type": "website",
         "label": "Explore Files & Backups",
         "url": "/projects/files-backups"
+      },
+      {
+        "type": "github",
+        "label": "View source & tests",
+        "url": "https://github.com/ZSturman/Home-Services-Public"
       }
     ],
     "caseStudy": {
@@ -59,7 +64,7 @@
       ]
     },
     "readme": {
-      "content": "# Home Services\n\nA small server runs continuously on a Raspberry Pi. It handles managed camera recordings, backup status and recovery, and selected app handoffs. The Mac status console shows disk space, schedules and recent jobs.\n\nMobile clients use scoped access for the services they need. When the Mac is asleep, the Pi can hold selected edits or encrypted captures for later processing. Publication and other source-owned decisions stay with the apps that own them.\n\nThe architecture diagram shows how the apps connect to this private deployment.\n",
+      "content": "# Home Services\n\n[Public source and tests](https://github.com/ZSturman/Home-Services-Public)\n\nA small server runs continuously on a Raspberry Pi. It handles managed camera recordings, backup status and recovery, and selected app handoffs. The Mac status console shows disk space, schedules and recent jobs.\n\nMobile clients use scoped access for the services they need. When the Mac is asleep, the Pi can hold selected edits or encrypted captures for later processing. Publication and other source-owned decisions stay with the apps that own them.\n\nThe architecture diagram shows how the apps connect to this private deployment.\n",
       "sourceUrl": "/projects/home-services_d4ea7bc6-6816-5397-867d-289ba6d1518f/README.md"
     }
   }

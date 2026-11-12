@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-10-31T13:06:13.834316+00:00",
+  "generated_at": "2026-11-12T17:53:18.985961+00:00",
   "data": {
     "id": "35eaec94-4d3c-80bc-9273-c1403b6c02ad",
     "slug": "transactions",
@@ -18,7 +18,7 @@
     "featured": true,
     "featuredOrder": 8,
     "createdAt": "2024-08-12",
-    "updatedAt": "2026-10-31",
+    "updatedAt": "2026-11-12",
     "isPublic": true,
     "tags": [
       "Next.js",
@@ -65,6 +65,11 @@
         "type": "apple",
         "label": "Install for iPhone and iPad",
         "url": "https://apps.apple.com/app/id6826151834"
+      },
+      {
+        "type": "github",
+        "label": "Mobile & web source",
+        "url": "https://github.com/ZSturman/Transactions-Mobile-Public"
       }
     ],
     "assets": [

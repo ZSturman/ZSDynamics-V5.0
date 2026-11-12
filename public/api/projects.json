@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.list",
-  "generated_at": "2026-11-12T17:00:23.248618+00:00",
+  "generated_at": "2026-11-12T17:54:27.164070+00:00",
   "data": [
     {
       "id": "3f5aec94-4d3c-8116-99d5-c9752bb4af87",
@@ -72,7 +72,7 @@
       "category": "Application",
       "href": "/projects/transactions",
       "primaryImageUrl": "/projects/transactions_35eaec94-4d3c-80bc-9273-c1403b6c02ad/thumb.png",
-      "updatedAt": "2026-10-31"
+      "updatedAt": "2026-11-12"
     },
     {
       "id": "34faec94-4d3c-80bf-928b-e0e32ba51cc8",
@@ -843,6 +843,28 @@
       "updatedAt": "2026-10-19"
     },
     {
+      "id": "d5cbd61c-a773-534f-8f22-19d9fa93c1e0",
+      "slug": "arduino-sensor-telemetry",
+      "title": "Arduino Sensor Telemetry",
+      "summary": "Arduino Mega sensor firmware, a Python/FastAPI telemetry backend and a React dashboard with serial and simulated transports.",
+      "oneLiner": "Arduino Mega sensor firmware, a Python/FastAPI telemetry backend and a React dashboard with serial and simulated transports.",
+      "tags": [
+        "Python",
+        "Arduino",
+        "FastAPI",
+        "Hardware Testing",
+        "Serial",
+        "pytest"
+      ],
+      "status": "Active",
+      "featured": false,
+      "domain": "Technology",
+      "category": "Software / hardware project",
+      "href": "/projects/arduino-sensor-telemetry",
+      "primaryImageUrl": null,
+      "updatedAt": "2026-11-12"
+    },
+    {
       "id": "33baec94-4d3c-805b-aa92-e0d16cc8a3f1",
       "slug": "better-signals",
       "title": "Better Signals",
@@ -985,6 +1007,27 @@
       "updatedAt": "2026-11-12"
     },
     {
+      "id": "c37f744d-b793-54e4-9f3d-da80625f40fc",
+      "slug": "flow-review",
+      "title": "Flow Review",
+      "summary": "Python tooling that turns small YAML UI flows into generated XCUITests and review artifacts.",
+      "oneLiner": "Python tooling that turns small YAML UI flows into generated XCUITests and review artifacts.",
+      "tags": [
+        "Python",
+        "Test Automation",
+        "XCUITest",
+        "YAML",
+        "CLI"
+      ],
+      "status": "Active",
+      "featured": false,
+      "domain": "Technology",
+      "category": "Software / hardware project",
+      "href": "/projects/flow-review",
+      "primaryImageUrl": null,
+      "updatedAt": "2026-11-12"
+    },
+    {
       "id": "156a988f-d557-5f7e-9b25-7591231987e3",
       "slug": "grounded-memory",
       "title": "Grounded Memory",
@@ -1004,7 +1047,7 @@
       "category": "Research prototype",
       "href": "/projects/grounded-memory",
       "primaryImageUrl": "/projects/grounded-memory_156a988f-d557-5f7e-9b25-7591231987e3/images/cover-optimized.webp",
-      "updatedAt": "2026-11-09"
+      "updatedAt": "2026-11-12"
     },
     {
       "id": "748b7fdb-3972-534d-be54-a7866995cda3",
@@ -1040,7 +1083,7 @@
       "category": "Infrastructure",
       "href": "/projects/home-services",
       "primaryImageUrl": "/projects/home-services_d4ea7bc6-6816-5397-867d-289ba6d1518f/images/service-map-optimized.svg",
-      "updatedAt": "2026-11-09"
+      "updatedAt": "2026-11-12"
     },
     {
       "id": "b4a3e690-11a9-53b7-a758-0363d95571f3",
@@ -1184,7 +1227,28 @@
       "href": "/projects/trackables",
       "primaryImageUrl": "/projects/trackables_1a1e475d-baba-58a5-9b13-c05f5d074bfa/images/cover-optimized.webp",
       "updatedAt": "2026-11-01"
+    },
+    {
+      "id": "366db058-5aae-5db3-a3f4-5674df96fa94",
+      "slug": "warehouse-wanderer",
+      "title": "Warehouse Wanderer",
+      "summary": "An Android/iOS warehouse-visit passport with local visit tracking, wishlists and targeted UI tests.",
+      "oneLiner": "An Android/iOS warehouse-visit passport with local visit tracking, wishlists and targeted UI tests.",
+      "tags": [
+        "Android",
+        "React Native",
+        "Jest",
+        "TypeScript",
+        "Offline"
+      ],
+      "status": "Active",
+      "featured": false,
+      "domain": "Technology",
+      "category": "Software / hardware project",
+      "href": "/projects/warehouse-wanderer",
+      "primaryImageUrl": null,
+      "updatedAt": "2026-11-12"
     }
   ],
-  "count": 57
+  "count": 60
 }

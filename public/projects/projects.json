@@ -260,7 +260,7 @@
     "featured": true,
     "featuredOrder": 8,
     "createdAt": "2024-08-12",
-    "updatedAt": "2026-10-31",
+    "updatedAt": "2026-11-12",
     "isPublic": true,
     "tags": [
       "Next.js",
@@ -307,6 +307,11 @@
         "type": "apple",
         "label": "Install for iPhone and iPad",
         "url": "https://apps.apple.com/app/id6826151834"
+      },
+      {
+        "type": "github",
+        "label": "Mobile & web source",
+        "url": "https://github.com/ZSturman/Transactions-Mobile-Public"
       }
     ],
     "assets": [
@@ -4336,6 +4341,61 @@
     }
   },
   {
+    "id": "d5cbd61c-a773-534f-8f22-19d9fa93c1e0",
+    "slug": "arduino-sensor-telemetry",
+    "href": "/projects/arduino-sensor-telemetry",
+    "folderName": "arduino-sensor-telemetry_d5cbd61c-a773-534f-8f22-19d9fa93c1e0",
+    "title": "Arduino Sensor Telemetry",
+    "name": "Arduino Sensor Telemetry",
+    "summary": "Arduino Mega sensor firmware, a Python/FastAPI telemetry backend and a React dashboard with serial and simulated transports.",
+    "oneLiner": "Arduino Mega sensor firmware, a Python/FastAPI telemetry backend and a React dashboard with serial and simulated transports.",
+    "cardSummary": "Arduino Mega sensor firmware, a Python/FastAPI telemetry backend and a React dashboard with serial and simulated transports.",
+    "domain": "Technology",
+    "category": "Software / hardware project",
+    "status": "Active",
+    "phase": "Prototype",
+    "featured": false,
+    "isPublic": true,
+    "updatedAt": "2026-11-12",
+    "tags": [
+      "Python",
+      "Arduino",
+      "FastAPI",
+      "Hardware Testing",
+      "Serial",
+      "pytest"
+    ],
+    "disciplines": [
+      "software",
+      "hardware"
+    ],
+    "resources": [
+      {
+        "type": "github",
+        "label": "View source & tests",
+        "url": "https://github.com/ZSturman/Arduino-Sensor-Telemetry"
+      }
+    ],
+    "workLogs": [],
+    "caseStudy": {
+      "problem": "Arduino Mega sensor firmware, a Python/FastAPI telemetry backend and a React dashboard with serial and simulated transports.",
+      "role": "Personal project: implementation, integration and testing.",
+      "architecture": [
+        "Firmware emits newline-delimited JSON envelopes. Backend transport adapters normalize serial and simulator data; shared schemas and a sensor catalog connect the backend to the TypeScript dashboard."
+      ],
+      "validation": [
+        "Public source includes documented focused test commands; see the repository validation notes for current results."
+      ],
+      "limitations": [
+        "Hardware/software prototype with simulator support. Firmware upload, real wiring, sensor accuracy and serial reliability require physical-board acceptance. Bluetooth is a planned extension."
+      ]
+    },
+    "readme": {
+      "content": "# Arduino Sensor Telemetry\n\nArduino Mega sensor firmware, a Python/FastAPI telemetry backend and a React dashboard with serial and simulated transports.\n\n## Implementation\n\nFirmware emits newline-delimited JSON envelopes. Backend transport adapters normalize serial and simulator data; shared schemas and a sensor catalog connect the backend to the TypeScript dashboard.\n\n## Source and testing\n\n[Public source and setup](https://github.com/ZSturman/Arduino-Sensor-Telemetry)\n\n[Validation and next steps](https://github.com/ZSturman/Arduino-Sensor-Telemetry/blob/main/docs/NEXT_STEPS.md)\n\n## Current limitations\n\nHardware/software prototype with simulator support. Firmware upload, real wiring, sensor accuracy and serial reliability require physical-board acceptance. Bluetooth is a planned extension.\n",
+      "sourceUrl": "/projects/arduino-sensor-telemetry_d5cbd61c-a773-534f-8f22-19d9fa93c1e0/README.md"
+    }
+  },
+  {
     "id": "33baec94-4d3c-805b-aa92-e0d16cc8a3f1",
     "slug": "better-signals",
     "href": "/projects/better-signals",
@@ -4986,6 +5046,59 @@
     }
   },
   {
+    "id": "c37f744d-b793-54e4-9f3d-da80625f40fc",
+    "slug": "flow-review",
+    "href": "/projects/flow-review",
+    "folderName": "flow-review_c37f744d-b793-54e4-9f3d-da80625f40fc",
+    "title": "Flow Review",
+    "name": "Flow Review",
+    "summary": "Python tooling that turns small YAML UI flows into generated XCUITests and review artifacts.",
+    "oneLiner": "Python tooling that turns small YAML UI flows into generated XCUITests and review artifacts.",
+    "cardSummary": "Python tooling that turns small YAML UI flows into generated XCUITests and review artifacts.",
+    "domain": "Technology",
+    "category": "Software / hardware project",
+    "status": "Active",
+    "phase": "Prototype",
+    "featured": false,
+    "isPublic": true,
+    "updatedAt": "2026-11-12",
+    "tags": [
+      "Python",
+      "Test Automation",
+      "XCUITest",
+      "YAML",
+      "CLI"
+    ],
+    "disciplines": [
+      "software"
+    ],
+    "resources": [
+      {
+        "type": "github",
+        "label": "View source & tests",
+        "url": "https://github.com/ZSturman/Flow-Review-Public"
+      }
+    ],
+    "workLogs": [],
+    "caseStudy": {
+      "problem": "Python tooling that turns small YAML UI flows into generated XCUITests and review artifacts.",
+      "role": "Personal project: implementation, integration and testing.",
+      "architecture": [
+        "The Python core discovers project configuration, validates linear flows and generates test sources. The Mac interface calls the CLI; Xcode project mutation is isolated in a Ruby helper."
+      ],
+      "validation": [
+        "Public source includes documented focused test commands; see the repository validation notes for current results."
+      ],
+      "limitations": [
+        "Prototype for Apple-platform testing. Running generated UI tests needs macOS and Xcode. Linear flows intentionally do not replace arbitrary handwritten UI automation."
+      ]
+    },
+    "readme": {
+      "content": "# Flow Review\n\nPython tooling that turns small YAML UI flows into generated XCUITests and review artifacts.\n\n## Implementation\n\nThe Python core discovers project configuration, validates linear flows and generates test sources. The Mac interface calls the CLI; Xcode project mutation is isolated in a Ruby helper.\n\n## Source and testing\n\n[Public source and setup](https://github.com/ZSturman/Flow-Review-Public)\n\n[Validation and next steps](https://github.com/ZSturman/Flow-Review-Public/blob/main/docs/NEXT_STEPS.md)\n\n## Current limitations\n\nPrototype for Apple-platform testing. Running generated UI tests needs macOS and Xcode. Linear flows intentionally do not replace arbitrary handwritten UI automation.\n",
+      "sourceUrl": "/projects/flow-review_c37f744d-b793-54e4-9f3d-da80625f40fc/README.md"
+    }
+  },
+  {
     "id": "156a988f-d557-5f7e-9b25-7591231987e3",
     "slug": "grounded-memory",
     "href": "/projects/grounded-memory",
@@ -4999,7 +5112,7 @@
     "phase": "Research",
     "featured": false,
     "isPublic": true,
-    "updatedAt": "2026-11-09",
+    "updatedAt": "2026-11-12",
     "tags": [
       "Computer Vision",
       "Machine Learning",
@@ -5052,8 +5165,15 @@
       ]
     },
     "cardSummary": "A local learner that asks about unfamiliar sights and sounds, then revises its memory.",
+    "resources": [
+      {
+        "type": "github",
+        "label": "View source & tests",
+        "url": "https://github.com/ZSturman/grounded-memory-public"
+      }
+    ],
     "readme": {
-      "content": "# Grounded Memory\n\nWhat should a machine do when it sees something unfamiliar or when yesterday’s explanation stops fitting? Grounded Memory is a research prototype for a future robot that learns by observing, asking and revising.\n\nThe Mac console shows the evidence behind a question, saved expectations and revisions. The paired iPhone can supply video, audio and optional pose or depth. The console also accepts a recorded clip so the same sequence can be replayed. In the example here, the learner isolates a shape from a synthetic clip and asks for a label.\n\nThe learner can keep observing while its location is uncertain. When teaching and later evidence conflict, it can revise the belief while retaining what the person originally said.\n",
+      "content": "# Grounded Memory\n\n[Public source and tests](https://github.com/ZSturman/grounded-memory-public)\n\nWhat should a machine do when it sees something unfamiliar or when yesterday’s explanation stops fitting? Grounded Memory is a research prototype for a future robot that learns by observing, asking and revising.\n\nThe Mac console shows the evidence behind a question, saved expectations and revisions. The paired iPhone can supply video, audio and optional pose or depth. The console also accepts a recorded clip so the same sequence can be replayed. In the example here, the learner isolates a shape from a synthetic clip and asks for a label.\n\nThe learner can keep observing while its location is uncertain. When teaching and later evidence conflict, it can revise the belief while retaining what the person originally said.\n",
       "sourceUrl": "/projects/grounded-memory_156a988f-d557-5f7e-9b25-7591231987e3/README.md"
     }
   },
@@ -5118,7 +5238,7 @@
     "phase": "Deployed privately",
     "featured": false,
     "isPublic": true,
-    "updatedAt": "2026-11-09",
+    "updatedAt": "2026-11-12",
     "tags": [
       "Raspberry Pi",
       "Linux",
@@ -5144,6 +5264,11 @@
         "type": "website",
         "label": "Explore Files & Backups",
         "url": "/projects/files-backups"
+      },
+      {
+        "type": "github",
+        "label": "View source & tests",
+        "url": "https://github.com/ZSturman/Home-Services-Public"
       }
     ],
     "caseStudy": {
@@ -5161,7 +5286,7 @@
       ]
     },
     "readme": {
-      "content": "# Home Services\n\nA small server runs continuously on a Raspberry Pi. It handles managed camera recordings, backup status and recovery, and selected app handoffs. The Mac status console shows disk space, schedules and recent jobs.\n\nMobile clients use scoped access for the services they need. When the Mac is asleep, the Pi can hold selected edits or encrypted captures for later processing. Publication and other source-owned decisions stay with the apps that own them.\n\nThe architecture diagram shows how the apps connect to this private deployment.\n",
+      "content": "# Home Services\n\n[Public source and tests](https://github.com/ZSturman/Home-Services-Public)\n\nA small server runs continuously on a Raspberry Pi. It handles managed camera recordings, backup status and recovery, and selected app handoffs. The Mac status console shows disk space, schedules and recent jobs.\n\nMobile clients use scoped access for the services they need. When the Mac is asleep, the Pi can hold selected edits or encrypted captures for later processing. Publication and other source-owned decisions stay with the apps that own them.\n\nThe architecture diagram shows how the apps connect to this private deployment.\n",
       "sourceUrl": "/projects/home-services_d4ea7bc6-6816-5397-867d-289ba6d1518f/README.md"
     }
   },
@@ -5746,6 +5871,59 @@
     "readme": {
       "content": "# Trackables\n\nA personal recorder for counts, choices, amounts and duration. Create a Trackable, record in a tap, or add typed fields and reusable answers. Review History, inspect descriptive charts, and export CSV or JSON.\n\nTrackables is available for iPhone and iPad, with widgets and an Apple Watch companion that can queue records offline. The native Mac edition is in private testing. Optional Connected Apps summaries require approval in the source app.\n",
       "sourceUrl": "/projects/trackables_1a1e475d-baba-58a5-9b13-c05f5d074bfa/README.md"
+    }
+  },
+  {
+    "id": "366db058-5aae-5db3-a3f4-5674df96fa94",
+    "slug": "warehouse-wanderer",
+    "href": "/projects/warehouse-wanderer",
+    "folderName": "warehouse-wanderer_366db058-5aae-5db3-a3f4-5674df96fa94",
+    "title": "Warehouse Wanderer",
+    "name": "Warehouse Wanderer",
+    "summary": "An Android/iOS warehouse-visit passport with local visit tracking, wishlists and targeted UI tests.",
+    "oneLiner": "An Android/iOS warehouse-visit passport with local visit tracking, wishlists and targeted UI tests.",
+    "cardSummary": "An Android/iOS warehouse-visit passport with local visit tracking, wishlists and targeted UI tests.",
+    "domain": "Technology",
+    "category": "Software / hardware project",
+    "status": "Active",
+    "phase": "Prototype",
+    "featured": false,
+    "isPublic": true,
+    "updatedAt": "2026-11-12",
+    "tags": [
+      "Android",
+      "React Native",
+      "Jest",
+      "TypeScript",
+      "Offline"
+    ],
+    "disciplines": [
+      "software"
+    ],
+    "resources": [
+      {
+        "type": "github",
+        "label": "View source & tests",
+        "url": "https://github.com/ZSturman/Warehouse-Wanderer"
+      }
+    ],
+    "workLogs": [],
+    "caseStudy": {
+      "problem": "An Android/iOS warehouse-visit passport with local visit tracking, wishlists and targeted UI tests.",
+      "role": "Personal project: implementation, integration and testing.",
+      "architecture": [
+        "Expo/React Native screens use local persistence and warehouse data providers. Config plugins preserve native setup when Expo regenerates Android and iOS hosts."
+      ],
+      "validation": [
+        "Public source includes documented focused test commands; see the repository validation notes for current results."
+      ],
+      "limitations": [
+        "Independent, unofficial prototype with no retailer affiliation. Prior Android emulator flows passed; no physical Android acceptance is established. Native builds require a compatible JDK/Android SDK. Optional map features need your own API key."
+      ]
+    },
+    "readme": {
+      "content": "# Warehouse Wanderer\n\nAn Android/iOS warehouse-visit passport with local visit tracking, wishlists and targeted UI tests.\n\n## Implementation\n\nExpo/React Native screens use local persistence and warehouse data providers. Config plugins preserve native setup when Expo regenerates Android and iOS hosts.\n\n## Source and testing\n\n[Public source and setup](https://github.com/ZSturman/Warehouse-Wanderer)\n\n[Validation and next steps](https://github.com/ZSturman/Warehouse-Wanderer/blob/main/docs/NEXT_STEPS.md)\n\n## Current limitations\n\nIndependent, unofficial prototype with no retailer affiliation. Prior Android emulator flows passed; no physical Android acceptance is established. Native builds require a compatible JDK/Android SDK. Optional map features need your own API key.\n",
+      "sourceUrl": "/projects/warehouse-wanderer_366db058-5aae-5db3-a3f4-5674df96fa94/README.md"
     }
   }
 ]

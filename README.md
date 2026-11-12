@@ -152,6 +152,8 @@ The site itself is static—email is deliberately handled outside Firebase:
 
 ## Documentation map
 
+- [Public project source](docs/PUBLIC_SOURCE.md) — reviewed GitHub snapshots, test notes, and maintenance.
+
 - **[Run, build & publish](docs/development-and-deployment.md)** — the practical end-to-end guide.
 - [Notion schema & storage architecture](docs/notion-and-storage-architecture.md) — the six Notion
   databases, project/asset schema mapping, and the Project/Workspace/legacy media resolution model
