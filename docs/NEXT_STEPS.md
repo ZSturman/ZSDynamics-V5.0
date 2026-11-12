@@ -158,3 +158,7 @@ The next agent action after owner approval is integration through the existing d
 ## Historical evidence
 
 Prior release notes and conflict alternatives are preserved in [historical checkpoints](history/NEXT_STEPS-before-reliability-cycle.md). Older hold/release instructions there are not current operational instructions.
+
+
+## Bench Lens store support — November 12, 2026
+Added `/iphone-microscope/privacy` and `/iphone-microscope/support` for the Mac/iPhone app release, using the existing page layout and contact route. These describe encrypted local pairing, Keychain trust, local recordings, keyboard controls and pending store availability. Validate the live routes after deployment; app review status remains owned by the iPhoneMicroscope project.
