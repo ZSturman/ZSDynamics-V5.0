@@ -8,6 +8,6 @@ Today keeps configured cards together. Updates provides a searchable action cent
 
 Participating apps own their data and permissions. Compare installation codes and approve individual capabilities; writes require separate approval. Compatible source versions can expose tasks, text-card study and numeric check-ins. Other integrations provide summaries. Source versions and installed-copy compatibility vary, and some reads switch to the source app.
 
-The private TestFlight beta adds a first-run welcome and contextual tips for configuring cards. Cards label stale data when a connected app is unavailable. Each source app owns its records and handles approved actions.
+Private TestFlight build 5 adds a first-run welcome and contextual tips for configuring cards. Cards label stale data when a connected app is unavailable. Each source app owns its records and handles approved actions.
 
 [Overview](/home-page) · [Setup and support](/home-page/support) · [Privacy](/home-page/privacy)

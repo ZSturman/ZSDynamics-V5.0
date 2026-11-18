@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-11-09T20:01:48.131819+00:00",
+  "generated_at": "2026-11-18T01:19:45.660868+00:00",
   "data": {
     "id": "e8bdde7e-5fc7-5443-b0ce-321f3b697fd3",
     "slug": "screenshot-to-calendar",
@@ -19,7 +19,7 @@
     "isPublic": true,
     "featured": false,
     "createdAt": "2026-11-01",
-    "updatedAt": "2026-11-01",
+    "updatedAt": "2026-11-17",
     "tags": [
       "SwiftUI",
       "iOS",
@@ -105,7 +105,7 @@
         "13 focused parser, time-zone, deduplication and preference tests pass.",
         "Simulator UI automation verifies first launch and progressive import, review, editing and save guidance.",
         "Product screenshots use invented appointments; physical-device acceptance remains separate.",
-        "Version 1.0 (4) passed Apple build processing; five real screenshots are complete and the first public release is Waiting for Review with automatic release after approval."
+        "Build 4 is available in private TestFlight. The initial App Store submission was rejected and public installation is unavailable."
       ],
       "limitations": [
         "English text recognition and deterministic parsing do not cover every layout.",
@@ -122,11 +122,11 @@
         "sessionType": [
           "Build"
         ],
-        "whatHappened": "Added a native splash screen, first-launch introduction and progressive TipKit guidance. Captured five real simulator screenshots using invented appointments. Uploaded and submitted iPhone version 1.0 (4); Apple reports Waiting for Review with automatic release after approval. Published the portfolio project, support and privacy pages. Physical iPhone acceptance remains separate."
+        "whatHappened": "Added a native splash screen, first-launch introduction and progressive TipKit guidance. Captured five real simulator screenshots using invented appointments. Uploaded and submitted iPhone version 1.0 (4); At submission, Apple reported Waiting for Review with automatic release after approval. Published the portfolio project, support and privacy pages. Physical iPhone acceptance remains separate."
       }
     ],
     "readme": {
-      "content": "# Screenshot to Calendar\n\nFrom a screenshot. Into your day. A private iPhone app for turning captured schedules, appointments and tasks into Calendar events and Reminders.\n\nRequires iOS 17 or later. Version 1.0 was submitted to Apple. The project is in pre-release.\n\n## Bring it in, make it yours\n\nChoose up to 20 screenshots from Photos or Files, paste text, or add an item manually. Apple Vision reads screenshots on the iPhone. Review dates, overnight times, the time zone and destination before saving. Uncertain suggestions stay in Needs review until checked.\n\nA first-launch introduction and native TipKit guidance reveal import, review, remembered corrections and saving at the relevant stage. Rename a matching title or add a location, leave Remember enabled and tap Done to suggest those details next time. Dates are always read again.\n\nNothing is added to Calendar or Reminders until you tap Save. Duplicate checks protect against repeated imports. Preferences and drafts stay local. Optional place search connects directly to Apple Maps; Calendar and Reminders use the sync settings of your chosen accounts.\n\n## Limits\n\nEnglish recognition and deterministic parsing do not understand every layout. Check all suggestions. There is no share extension, background screenshot monitoring, recurrence extraction or automatic reconciliation of changed schedules. Local preferences do not sync across devices.\n\n[Setup & support](/screenshot-to-calendar/support) · [Privacy policy](/screenshot-to-calendar/privacy)\n",
+      "content": "# Screenshot to Calendar\n\nFrom a screenshot. Into your day. A private iPhone app for turning captured schedules, appointments and tasks into Calendar events and Reminders.\n\nRequires iOS 17 or later. Version 1.0 (4) is in private TestFlight. The initial App Store submission was rejected. Public installation is unavailable.\n\n## Bring it in, make it yours\n\nChoose up to 20 screenshots from Photos or Files, paste text, or add an item manually. Apple Vision reads screenshots on the iPhone. Review dates, overnight times, the time zone and destination before saving. Uncertain suggestions stay in Needs review until checked.\n\nA first-launch introduction and native TipKit guidance reveal import, review, remembered corrections and saving at the relevant stage. Rename a matching title or add a location, leave Remember enabled and tap Done to suggest those details next time. Dates are always read again.\n\nNothing is added to Calendar or Reminders until you tap Save. Duplicate checks protect against repeated imports. Preferences and drafts stay local. Optional place search connects directly to Apple Maps; Calendar and Reminders use the sync settings of your chosen accounts.\n\n## Limits\n\nEnglish recognition and deterministic parsing do not understand every layout. Check all suggestions. There is no share extension, background screenshot monitoring, recurrence extraction or automatic reconciliation of changed schedules. Local preferences do not sync across devices.\n\n[Setup & support](/screenshot-to-calendar/support) · [Privacy policy](/screenshot-to-calendar/privacy)\n",
       "sourceUrl": "/projects/screenshot-to-calendar_e8bdde7e-5fc7-5443-b0ce-321f3b697fd3/README.md"
     }
   }

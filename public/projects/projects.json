@@ -4599,7 +4599,7 @@
     "featured": true,
     "isPublic": true,
     "createdAt": null,
-    "updatedAt": "2026-11-09",
+    "updatedAt": "2026-11-17",
     "tags": [
       "SwiftUI",
       "macOS",
@@ -4628,7 +4628,7 @@
       {
         "type": "download",
         "label": "Download for Mac",
-        "url": "https://github.com/ZSturman/Better-Workspace-Public/releases/download/v1.0/BetterWorkspace-1.0-8-mac.zip"
+        "url": "https://github.com/ZSturman/Better-Workspace-Public/releases/download/v1.0.5/BetterWorkspace-1.0.5-57-mac.zip"
       },
       {
         "type": "website",
@@ -4939,7 +4939,7 @@
       ]
     },
     "readme": {
-      "content": "# Social Posts Content Manager\n\nReview LinkedIn and Bluesky drafts with separate destination previews. Inspect the publication image, edit the copy, then decline the draft or confirm Mark Ready. Approval is bound to the saved version. A later content edit withdraws that approval.\n\nA paired Mac can also run longer generation jobs for social posts and Markdown articles. The phone can submit an Article Studio request and follow its progress. Social review works with an existing Notion Social Posts database. Publication remains a separate, explicitly configured step.\n\nNative releases are in private TestFlight on iPhone, iPad and Mac. [Try the browser demo](/content-manager/demo) to compare destinations and make a review decision with fictional drafts.\n",
+      "content": "# Social Posts Content Manager\n\nReview LinkedIn and Bluesky drafts with separate destination previews. Inspect the publication image, edit the copy, then decline the draft or confirm Mark Ready. Approval is bound to the saved version. A later content edit withdraws that approval.\n\nA paired Mac can also run longer generation jobs for social posts and Markdown articles. The phone can submit an Article Studio request and follow its progress. Social review works with an existing Notion Social Posts database. Publication remains a separate, explicitly configured step.\n\nVersion 1.0 (17) is in private TestFlight on iPhone, iPad and Mac. [Try the browser demo](/content-manager/demo) to compare destinations and make a review decision with fictional drafts.\n",
       "sourceUrl": "/projects/content_manager_20732ff7-0f29-54af-9f8a-3ef13bfa196c/README.md"
     },
     "application": {
@@ -5285,7 +5285,7 @@
       "icon": "images/app-icon.png"
     },
     "readme": {
-      "content": "# Home Page\n\nA native macOS 14.4+ workspace for app updates, configurable cards, Shortcuts, and small source-owned actions.\n\n![Actual first-run screen from an isolated preview; no live source data](/projects/home_page_748b7fdb-3972-534d-be54-a7866995cda3/images/workspace-setup.jpg)\n\nToday keeps configured cards together. Updates provides a searchable action center; Apps & Setup guides connection access and verification. Create multiple cards for a source, choose their height and visible actions, or add simple application, website and Shortcut launchers.\n\nParticipating apps own their data and permissions. Compare installation codes and approve individual capabilities; writes require separate approval. Compatible source versions can expose tasks, text-card study and numeric check-ins. Other integrations provide summaries. Source versions and installed-copy compatibility vary, and some reads switch to the source app.\n\nThe private TestFlight beta adds a first-run welcome and contextual tips for configuring cards. Cards label stale data when a connected app is unavailable. Each source app owns its records and handles approved actions.\n\n[Overview](/home-page) · [Setup and support](/home-page/support) · [Privacy](/home-page/privacy)\n",
+      "content": "# Home Page\n\nA native macOS 14.4+ workspace for app updates, configurable cards, Shortcuts, and small source-owned actions.\n\n![Actual first-run screen from an isolated preview; no live source data](/projects/home_page_748b7fdb-3972-534d-be54-a7866995cda3/images/workspace-setup.jpg)\n\nToday keeps configured cards together. Updates provides a searchable action center; Apps & Setup guides connection access and verification. Create multiple cards for a source, choose their height and visible actions, or add simple application, website and Shortcut launchers.\n\nParticipating apps own their data and permissions. Compare installation codes and approve individual capabilities; writes require separate approval. Compatible source versions can expose tasks, text-card study and numeric check-ins. Other integrations provide summaries. Source versions and installed-copy compatibility vary, and some reads switch to the source app.\n\nPrivate TestFlight build 5 adds a first-run welcome and contextual tips for configuring cards. Cards label stale data when a connected app is unavailable. Each source app owns its records and handles approved actions.\n\n[Overview](/home-page) · [Setup and support](/home-page/support) · [Privacy](/home-page/privacy)\n",
       "sourceUrl": "/projects/home_page_748b7fdb-3972-534d-be54-a7866995cda3/README.md"
     }
   },
@@ -5431,11 +5431,11 @@
     "featured": false,
     "isPublic": true,
     "createdAt": null,
-    "updatedAt": "2026-11-12",
+    "updatedAt": "2026-11-17",
     "application": {
       "landingPath": "/projects/iphone-microscope",
       "platforms": [
-        "Mac (local build)",
+        "Mac (private beta)",
         "iPhone (private beta)"
       ]
     },
@@ -5452,7 +5452,7 @@
       "icon": "images/app-icon.png"
     },
     "readme": {
-      "content": "# iPhone Microscope\n\n[Public source and tests](https://github.com/ZSturman/iPhone-Microscope)\n\nA native Mac workbench viewer with a paired iPhone camera companion for inspecting, capturing, and measuring small objects.\n\nChoose Continuity Camera, a USB camera, or the paired iPhone companion. The companion exposes supported rear lenses, camera zoom, focus, exposure and torch controls. The Mac viewer adds stabilization, image adjustments, reference frames, still/video capture and calibrated line measurements. Digital zoom enlarges pixels; it is not optical magnification.\n\nThe iPhone companion is listed in private TestFlight as **Bench Lens: Microscope Camera**, version 1.0 (2). It requires the separate Mac viewer, which currently uses local development distribution. No public App Store download or public beta invitation is advertised. Pairing requires a code, encrypted local transport, Camera and Local Network permission, and both apps in the foreground.\n\nPhysical testing on October 30 delivered about 59 FPS at 1920 × 1440 over Continuity Camera. The companion route delivered about 3 FPS at 1080p and 0.75 FPS at 4K in the latest test; it needs throughput work before smooth live soldering use. Twenty software tests and short recording/controls checks pass. These measurements are device-specific; latency, long-session reliability and certified measurement accuracy are not established.\n\nThe Ender 3 V2 overhead stand is a separate printable prototype. Its geometry has been checked, but physical fit, load and clearance are unverified. This is an inspection tool, not a certified measurement instrument.\n",
+      "content": "# iPhone Microscope\n\n[Public source and tests](https://github.com/ZSturman/iPhone-Microscope)\n\nA native Mac workbench viewer with a paired iPhone camera companion for inspecting, capturing, and measuring small objects.\n\nChoose Continuity Camera, a USB camera, or the paired iPhone companion. The companion exposes supported rear lenses, camera zoom, focus, exposure and torch controls. The Mac viewer adds stabilization, image adjustments, reference frames, still/video capture and calibrated line measurements. Digital zoom enlarges pixels; it is not optical magnification.\n\nPrivate TestFlight has **Bench Lens: Microscope Camera** 1.2 (8) for iPhone and **Bench Lens: Microscope** 1.2 (9) for Mac. The App Store submissions were rejected. Access is limited to private testers. Pairing requires a code, encrypted local transport, Camera and Local Network permission, and both apps in the foreground.\n\nPhysical testing on October 30 delivered about 59 FPS at 1920 × 1440 over Continuity Camera. The companion route delivered about 3 FPS at 1080p and 0.75 FPS at 4K in the latest test; it needs throughput work before smooth live soldering use. Twenty software tests and short recording/controls checks pass. These measurements are device-specific; latency, long-session reliability and certified measurement accuracy are not established.\n\nThe Ender 3 V2 overhead stand is a separate printable prototype. Its geometry has been checked, but physical fit, load and clearance are unverified. This is an inspection tool, not a certified measurement instrument.\n",
       "sourceUrl": "/projects/iphone_microscope_ca7748ce-f9b8-5bb9-a928-86ca6e8c95b1/README.md"
     }
   },
@@ -5712,7 +5712,7 @@
     "featured": true,
     "isPublic": true,
     "createdAt": null,
-    "updatedAt": "2026-11-02",
+    "updatedAt": "2026-11-17",
     "tags": [
       "SwiftUI",
       "iOS",
@@ -5823,7 +5823,7 @@
       }
     ],
     "readme": {
-      "content": "# Recallable\n\nSpaced-repetition flashcards that fit into your day, on iPhone, iPad, Mac, and Apple Watch.\n\n![Recallable on iPad, iPhone, and Apple Watch](/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/images/hero.jpg)\n\n## What it does\n\nOpen Recallable and a card is waiting. Show the answer, rate it Hard, Good, or Easy, and the next one is ready. Every rating spaces that card: ones you know drift further apart, and hard ones come back sooner. Unlike most spaced-repetition apps, nothing is ever \"due\". The queue only decides what to show first, so a few days away never leaves you with a backlog.\n\n- **Quick study** on Home, the Home Screen widget, and Apple Watch, plus focused rounds of 10.\n- **Discover:** built-in starter decks that work offline, and community decks with reporting, blocking, and moderation.\n- **Your own cards** with pictures, hints, explanations, links, and LaTeX math typeset on every device.\n- **CSV import and export.**\n- **AI drafts** from a topic, text, a web page, a PDF, or a photo of notes, using on-device Apple Intelligence, LM Studio, or your own Gemini key. Every draft is reviewed before it's saved.\n- **Widgets, a Control Center control, Shortcuts and Siri,** and reminders that never show card text.\n- **iCloud sync** across devices, where reviews from every device are kept.\n\n## Screenshots\n\nThese are unedited captures of the real app, using its built-in starter decks with study history from the app's own scheduler.\n\n| Home | Answer | Progress | Discover |\n|---|---|---|---|\n| ![Home](/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/images/iphone-01-home-optimized.webp) | ![Answer](/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/images/iphone-02-answer-optimized.webp) | ![Progress](/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/images/iphone-03-progress-optimized.webp) | ![Discover](/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/images/iphone-04-discover-optimized.webp) |\n\n![Apple Watch: a question](/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/images/watch-01-question-optimized.webp) ![Apple Watch: the answer](/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/images/watch-02-answer-optimized.webp)\n\n## How it's built\n\n- **RecallableDomain:** a pure Swift package with the scheduler, models, CSV, rich text and math, and the SwiftData store, covered by 94 unit tests.\n- **Apps:** SwiftUI for iPhone and iPad, the Mac through Mac Catalyst, a WidgetKit extension, and a watchOS app.\n- **Sync:** SwiftData with CloudKit mirroring. Review events are immutable and insert-only, so merges from several devices are unions.\n- **Watch:** gets a bounded set of upcoming cards and replays offline ratings over WatchConnectivity.\n- **Technologies:** Swift 6, SwiftUI, SwiftData, CloudKit, WidgetKit, App Intents, WatchConnectivity, Foundation Models, TipKit, and XCTest and Swift Testing.\n\n## Availability\n\nRecallable is available on the App Store for iPhone, iPad and Mac. It needs iOS, iPadOS, or watchOS 26, or macOS 26.\n\n## Help and privacy\n\n[Support](/recallable/support) · [Privacy policy](/recallable/privacy)\n\nCopyright © 2026 Zachary Sturman.\n\n## Install or try\n\n[Get Recallable on the App Store](https://apps.apple.com/us/app/recallable-flashcards/id6822919785) · [Try the browser demo](/recallable/demo)\n\nOn Apple Watch, study reminders can reveal answers and let you rate a card. Display notices identify cards that exceed the limits of a particular widget or Watch screen.\n",
+      "content": "# Recallable\n\nSpaced-repetition flashcards that fit into your day, on iPhone, iPad, Mac, and Apple Watch.\n\n![Recallable on iPad, iPhone, and Apple Watch](/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/images/hero.jpg)\n\n## What it does\n\nOpen Recallable and a card is waiting. Show the answer, rate it Hard, Good, or Easy, and the next one is ready. Every rating spaces that card: ones you know drift further apart, and hard ones come back sooner. Unlike most spaced-repetition apps, nothing is ever \"due\". The queue only decides what to show first, so a few days away never leaves you with a backlog.\n\n- **Quick study** on Home, the Home Screen widget, and Apple Watch, plus focused rounds of 10.\n- **Discover:** built-in starter decks that work offline, and community decks with reporting, blocking, and moderation.\n- **Your own cards** with pictures, hints, explanations, links, and LaTeX math typeset on every device.\n- **CSV import and export.**\n- **AI drafts** from a topic, text, a web page, a PDF, or a photo of notes, using on-device Apple Intelligence, LM Studio, or your own Gemini key. Every draft is reviewed before it's saved.\n- **Widgets, a Control Center control, Shortcuts and Siri,** and reminders that never show card text.\n- **iCloud sync** across devices, where reviews from every device are kept.\n\n## Screenshots\n\nThese are unedited captures of the real app, using its built-in starter decks with study history from the app's own scheduler.\n\n| Home | Answer | Progress | Discover |\n|---|---|---|---|\n| ![Home](/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/images/iphone-01-home-optimized.webp) | ![Answer](/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/images/iphone-02-answer-optimized.webp) | ![Progress](/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/images/iphone-03-progress-optimized.webp) | ![Discover](/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/images/iphone-04-discover-optimized.webp) |\n\n![Apple Watch: a question](/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/images/watch-01-question-optimized.webp) ![Apple Watch: the answer](/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/images/watch-02-answer-optimized.webp)\n\n## How it's built\n\n- **RecallableDomain:** a pure Swift package with the scheduler, models, CSV, rich text and math, and the SwiftData store, covered by 94 unit tests.\n- **Apps:** SwiftUI for iPhone and iPad, the Mac through Mac Catalyst, a WidgetKit extension, and a watchOS app.\n- **Sync:** SwiftData with CloudKit mirroring. Review events are immutable and insert-only, so merges from several devices are unions.\n- **Watch:** gets a bounded set of upcoming cards and replays offline ratings over WatchConnectivity.\n- **Technologies:** Swift 6, SwiftUI, SwiftData, CloudKit, WidgetKit, App Intents, WatchConnectivity, Foundation Models, TipKit, and XCTest and Swift Testing.\n\n## Availability\n\nRecallable 1.0.4 is available on the App Store for iPhone, iPad and Mac. Apple Watch reminders can show a card, flip it and record a rating. It needs iOS, iPadOS, or watchOS 26, or macOS 26.\n\n## Help and privacy\n\n[Support](/recallable/support) · [Privacy policy](/recallable/privacy)\n\nCopyright © 2026 Zachary Sturman.\n\n## Install or try\n\n[Get Recallable on the App Store](https://apps.apple.com/us/app/recallable-flashcards/id6822919785) · [Try the browser demo](/recallable/demo)\n\nOn Apple Watch, study reminders can reveal answers and let you rate a card. Display notices identify cards that exceed the limits of a particular widget or Watch screen.\n",
       "sourceUrl": "/projects/recallable_5031ef4c-2724-54a4-92ca-42d270a59716/README.md"
     },
     "application": {
@@ -5876,7 +5876,7 @@
     "isPublic": true,
     "featured": false,
     "createdAt": "2026-11-01",
-    "updatedAt": "2026-11-01",
+    "updatedAt": "2026-11-17",
     "tags": [
       "SwiftUI",
       "iOS",
@@ -5962,7 +5962,7 @@
         "13 focused parser, time-zone, deduplication and preference tests pass.",
         "Simulator UI automation verifies first launch and progressive import, review, editing and save guidance.",
         "Product screenshots use invented appointments; physical-device acceptance remains separate.",
-        "Version 1.0 (4) passed Apple build processing; five real screenshots are complete and the first public release is Waiting for Review with automatic release after approval."
+        "Build 4 is available in private TestFlight. The initial App Store submission was rejected and public installation is unavailable."
       ],
       "limitations": [
         "English text recognition and deterministic parsing do not cover every layout.",
@@ -5979,11 +5979,11 @@
         "sessionType": [
           "Build"
         ],
-        "whatHappened": "Added a native splash screen, first-launch introduction and progressive TipKit guidance. Captured five real simulator screenshots using invented appointments. Uploaded and submitted iPhone version 1.0 (4); Apple reports Waiting for Review with automatic release after approval. Published the portfolio project, support and privacy pages. Physical iPhone acceptance remains separate."
+        "whatHappened": "Added a native splash screen, first-launch introduction and progressive TipKit guidance. Captured five real simulator screenshots using invented appointments. Uploaded and submitted iPhone version 1.0 (4); At submission, Apple reported Waiting for Review with automatic release after approval. Published the portfolio project, support and privacy pages. Physical iPhone acceptance remains separate."
       }
     ],
     "readme": {
-      "content": "# Screenshot to Calendar\n\nFrom a screenshot. Into your day. A private iPhone app for turning captured schedules, appointments and tasks into Calendar events and Reminders.\n\nRequires iOS 17 or later. Version 1.0 was submitted to Apple. The project is in pre-release.\n\n## Bring it in, make it yours\n\nChoose up to 20 screenshots from Photos or Files, paste text, or add an item manually. Apple Vision reads screenshots on the iPhone. Review dates, overnight times, the time zone and destination before saving. Uncertain suggestions stay in Needs review until checked.\n\nA first-launch introduction and native TipKit guidance reveal import, review, remembered corrections and saving at the relevant stage. Rename a matching title or add a location, leave Remember enabled and tap Done to suggest those details next time. Dates are always read again.\n\nNothing is added to Calendar or Reminders until you tap Save. Duplicate checks protect against repeated imports. Preferences and drafts stay local. Optional place search connects directly to Apple Maps; Calendar and Reminders use the sync settings of your chosen accounts.\n\n## Limits\n\nEnglish recognition and deterministic parsing do not understand every layout. Check all suggestions. There is no share extension, background screenshot monitoring, recurrence extraction or automatic reconciliation of changed schedules. Local preferences do not sync across devices.\n\n[Setup & support](/screenshot-to-calendar/support) · [Privacy policy](/screenshot-to-calendar/privacy)\n",
+      "content": "# Screenshot to Calendar\n\nFrom a screenshot. Into your day. A private iPhone app for turning captured schedules, appointments and tasks into Calendar events and Reminders.\n\nRequires iOS 17 or later. Version 1.0 (4) is in private TestFlight. The initial App Store submission was rejected. Public installation is unavailable.\n\n## Bring it in, make it yours\n\nChoose up to 20 screenshots from Photos or Files, paste text, or add an item manually. Apple Vision reads screenshots on the iPhone. Review dates, overnight times, the time zone and destination before saving. Uncertain suggestions stay in Needs review until checked.\n\nA first-launch introduction and native TipKit guidance reveal import, review, remembered corrections and saving at the relevant stage. Rename a matching title or add a location, leave Remember enabled and tap Done to suggest those details next time. Dates are always read again.\n\nNothing is added to Calendar or Reminders until you tap Save. Duplicate checks protect against repeated imports. Preferences and drafts stay local. Optional place search connects directly to Apple Maps; Calendar and Reminders use the sync settings of your chosen accounts.\n\n## Limits\n\nEnglish recognition and deterministic parsing do not understand every layout. Check all suggestions. There is no share extension, background screenshot monitoring, recurrence extraction or automatic reconciliation of changed schedules. Local preferences do not sync across devices.\n\n[Setup & support](/screenshot-to-calendar/support) · [Privacy policy](/screenshot-to-calendar/privacy)\n",
       "sourceUrl": "/projects/screenshot-to-calendar_e8bdde7e-5fc7-5443-b0ce-321f3b697fd3/README.md"
     }
   },

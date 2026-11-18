@@ -36,7 +36,7 @@ These are unedited captures of the real app, using its built-in starter decks wi
 
 ## Availability
 
-Recallable is available on the App Store for iPhone, iPad and Mac. It needs iOS, iPadOS, or watchOS 26, or macOS 26.
+Recallable 1.0.4 is available on the App Store for iPhone, iPad and Mac. Apple Watch reminders can show a card, flip it and record a rating. It needs iOS, iPadOS, or watchOS 26, or macOS 26.
 
 ## Help and privacy
 

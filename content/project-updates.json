@@ -349,7 +349,7 @@
       }
     ],
     "phase": "Released",
-    "updatedAt": "2026-11-02",
+    "updatedAt": "2026-11-17",
     "summary": "A native flashcard app with focused study, rich text and math, widgets and private iCloud sync. Try a sample deck in your browser or get the app for iPhone, iPad and Mac.",
     "workLogs": [
       {
@@ -394,7 +394,7 @@
       {
         "type": "download",
         "label": "Download for Mac",
-        "url": "https://github.com/ZSturman/Better-Workspace-Public/releases/download/v1.0/BetterWorkspace-1.0-8-mac.zip"
+        "url": "https://github.com/ZSturman/Better-Workspace-Public/releases/download/v1.0.5/BetterWorkspace-1.0.5-57-mac.zip"
       },
       {
         "type": "website",
@@ -413,7 +413,7 @@
       }
     ],
     "summary": "Manage projects, tasks and ideas across Mac, iPhone and iPad. Try the browser demo, get the native app, or explore how recent development keeps idea notes and attachments together.",
-    "updatedAt": "2026-11-09",
+    "updatedAt": "2026-11-17",
     "workLogs": [
       {
         "id": "eb209eb8-30bc-5c22-8679-ede37adaa8dd",

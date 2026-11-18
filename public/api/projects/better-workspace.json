@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-11-12T17:00:23.257101+00:00",
+  "generated_at": "2026-11-18T01:19:45.657652+00:00",
   "data": {
     "id": "210b2324-2bdf-5751-a101-9c334db91f8c",
     "slug": "better-workspace",
@@ -18,7 +18,7 @@
     "featured": true,
     "isPublic": true,
     "createdAt": null,
-    "updatedAt": "2026-11-09",
+    "updatedAt": "2026-11-17",
     "tags": [
       "SwiftUI",
       "macOS",
@@ -47,7 +47,7 @@
       {
         "type": "download",
         "label": "Download for Mac",
-        "url": "https://github.com/ZSturman/Better-Workspace-Public/releases/download/v1.0/BetterWorkspace-1.0-8-mac.zip"
+        "url": "https://github.com/ZSturman/Better-Workspace-Public/releases/download/v1.0.5/BetterWorkspace-1.0.5-57-mac.zip"
       },
       {
         "type": "website",

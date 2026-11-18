@@ -15,7 +15,7 @@
   "isPublic": true,
   "featured": false,
   "createdAt": "2026-11-01",
-  "updatedAt": "2026-11-01",
+  "updatedAt": "2026-11-17",
   "tags": [
     "SwiftUI",
     "iOS",
@@ -101,7 +101,7 @@
       "13 focused parser, time-zone, deduplication and preference tests pass.",
       "Simulator UI automation verifies first launch and progressive import, review, editing and save guidance.",
       "Product screenshots use invented appointments; physical-device acceptance remains separate.",
-      "Version 1.0 (4) passed Apple build processing; five real screenshots are complete and the first public release is Waiting for Review with automatic release after approval."
+      "Build 4 is available in private TestFlight. The initial App Store submission was rejected and public installation is unavailable."
     ],
     "limitations": [
       "English text recognition and deterministic parsing do not cover every layout.",
@@ -118,7 +118,7 @@
       "sessionType": [
         "Build"
       ],
-      "whatHappened": "Added a native splash screen, first-launch introduction and progressive TipKit guidance. Captured five real simulator screenshots using invented appointments. Uploaded and submitted iPhone version 1.0 (4); Apple reports Waiting for Review with automatic release after approval. Published the portfolio project, support and privacy pages. Physical iPhone acceptance remains separate."
+      "whatHappened": "Added a native splash screen, first-launch introduction and progressive TipKit guidance. Captured five real simulator screenshots using invented appointments. Uploaded and submitted iPhone version 1.0 (4); At submission, Apple reported Waiting for Review with automatic release after approval. Published the portfolio project, support and privacy pages. Physical iPhone acceptance remains separate."
     }
   ]
 }

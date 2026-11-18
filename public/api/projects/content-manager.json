@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-11-09T20:01:48.130100+00:00",
+  "generated_at": "2026-11-18T01:19:45.658224+00:00",
   "data": {
     "id": "20732ff7-0f29-54af-9f8a-3ef13bfa196c",
     "slug": "content-manager",
@@ -88,7 +88,7 @@
       ]
     },
     "readme": {
-      "content": "# Social Posts Content Manager\n\nReview LinkedIn and Bluesky drafts with separate destination previews. Inspect the publication image, edit the copy, then decline the draft or confirm Mark Ready. Approval is bound to the saved version. A later content edit withdraws that approval.\n\nA paired Mac can also run longer generation jobs for social posts and Markdown articles. The phone can submit an Article Studio request and follow its progress. Social review works with an existing Notion Social Posts database. Publication remains a separate, explicitly configured step.\n\nNative releases are in private TestFlight on iPhone, iPad and Mac. [Try the browser demo](/content-manager/demo) to compare destinations and make a review decision with fictional drafts.\n",
+      "content": "# Social Posts Content Manager\n\nReview LinkedIn and Bluesky drafts with separate destination previews. Inspect the publication image, edit the copy, then decline the draft or confirm Mark Ready. Approval is bound to the saved version. A later content edit withdraws that approval.\n\nA paired Mac can also run longer generation jobs for social posts and Markdown articles. The phone can submit an Article Studio request and follow its progress. Social review works with an existing Notion Social Posts database. Publication remains a separate, explicitly configured step.\n\nVersion 1.0 (17) is in private TestFlight on iPhone, iPad and Mac. [Try the browser demo](/content-manager/demo) to compare destinations and make a review decision with fictional drafts.\n",
       "sourceUrl": "/projects/content_manager_20732ff7-0f29-54af-9f8a-3ef13bfa196c/README.md"
     },
     "application": {

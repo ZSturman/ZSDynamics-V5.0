@@ -13,11 +13,11 @@
   "featured": false,
   "isPublic": true,
   "createdAt": null,
-  "updatedAt": "2026-11-12",
+  "updatedAt": "2026-11-17",
   "application": {
     "landingPath": "/projects/iphone-microscope",
     "platforms": [
-      "Mac (local build)",
+      "Mac (private beta)",
       "iPhone (private beta)"
     ]
   },
