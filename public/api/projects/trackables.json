@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.detail",
-  "generated_at": "2026-11-09T20:01:48.132040+00:00",
+  "generated_at": "2026-11-20T04:42:05.771411+00:00",
   "data": {
     "id": "1a1e475d-baba-58a5-9b13-c05f5d074bfa",
     "slug": "trackables",
@@ -24,13 +24,13 @@
         "iPhone",
         "iPad",
         "Apple Watch",
-        "Mac (private beta)"
+        "Mac with Apple silicon"
       ]
     },
     "resources": [
       {
         "type": "apple",
-        "label": "Install for iPhone and iPad",
+        "label": "Install from the App Store",
         "url": "https://apps.apple.com/app/id6826155743"
       }
     ],
@@ -61,7 +61,7 @@
       }
     ],
     "readme": {
-      "content": "# Trackables\n\nA personal recorder for counts, choices, amounts and duration. Create a Trackable, record in a tap, or add typed fields and reusable answers. Review History, inspect descriptive charts, and export CSV or JSON.\n\nTrackables is available for iPhone and iPad, with widgets and an Apple Watch companion that can queue records offline. The native Mac edition is in private testing. Optional Connected Apps summaries require approval in the source app.\n",
+      "content": "# Trackables\n\nA personal recorder for counts, choices, amounts and duration. Create a Trackable, record in a tap, or add typed fields and reusable answers. Review History, inspect descriptive charts, and export CSV or JSON.\n\nTrackables is available for iPhone, iPad and Apple silicon Mac. The iPhone and iPad app includes widgets, and the Apple Watch companion can queue records offline. Optional Connected Apps summaries require approval in the source app.\n",
       "sourceUrl": "/projects/trackables_1a1e475d-baba-58a5-9b13-c05f5d074bfa/README.md"
     }
   }

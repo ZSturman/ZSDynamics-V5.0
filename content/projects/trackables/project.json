@@ -20,13 +20,13 @@
       "iPhone",
       "iPad",
       "Apple Watch",
-      "Mac (private beta)"
+      "Mac with Apple silicon"
     ]
   },
   "resources": [
     {
       "type": "apple",
-      "label": "Install for iPhone and iPad",
+      "label": "Install from the App Store",
       "url": "https://apps.apple.com/app/id6826155743"
     }
   ],

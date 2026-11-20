@@ -9,11 +9,11 @@
   "domain": "Technology",
   "category": "Application",
   "status": "Active",
-  "phase": "Private beta",
+  "phase": "Waiting for App Review",
   "featured": false,
   "isPublic": true,
   "createdAt": null,
-  "updatedAt": "2026-11-01",
+  "updatedAt": "2026-11-19",
   "application": {
     "landingPath": "/home-page",
     "platforms": [

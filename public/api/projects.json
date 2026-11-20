@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.list",
-  "generated_at": "2026-11-18T01:19:45.649802+00:00",
+  "generated_at": "2026-11-20T04:56:53.666486+00:00",
   "data": [
     {
       "id": "3f5aec94-4d3c-8116-99d5-c9752bb4af87",
@@ -1083,7 +1083,7 @@
       "category": "Application",
       "href": "/projects/home-page",
       "primaryImageUrl": "/projects/home_page_748b7fdb-3972-534d-be54-a7866995cda3/images/thumbnail.svg",
-      "updatedAt": "2026-11-01"
+      "updatedAt": "2026-11-19"
     },
     {
       "id": "d4ea7bc6-6816-5397-867d-289ba6d1518f",
@@ -1274,7 +1274,7 @@
       "category": "Application",
       "href": "/projects/screenshot-to-calendar",
       "primaryImageUrl": "/projects/screenshot-to-calendar_e8bdde7e-5fc7-5443-b0ce-321f3b697fd3/images/cover-optimized.webp",
-      "updatedAt": "2026-11-17"
+      "updatedAt": "2026-11-19"
     },
     {
       "id": "1a1e475d-baba-58a5-9b13-c05f5d074bfa",

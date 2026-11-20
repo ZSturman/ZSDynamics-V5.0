@@ -7,7 +7,7 @@
   "subtitle": "From a screenshot. Into your day.",
   "summary": "A private iPhone app that turns screenshots into editable Calendar events and Reminders, with on-device text recognition and remembered corrections.",
   "oneLiner": "Turn captured details into reviewed plans on iPhone.",
-  "description": "Import screenshots, files or text; review dates, overnight times and destinations; then save to Calendar or Reminders. Native TipKit guidance reveals the next step as you work. Title and location corrections are remembered locally. Version 1.0 (4) is submitted and waiting for Apple review, with automatic release after approval. Public installation is not available yet.",
+  "description": "Import screenshots, files or text, review dates and destinations, then save to Calendar or Reminders. Native TipKit guidance reveals the next step as you work. Title and location corrections are remembered locally. Build 5 is in private TestFlight while the first App Store release is being prepared for resubmission.",
   "domain": "Technology",
   "category": "Application",
   "status": "Active",
@@ -15,7 +15,7 @@
   "isPublic": true,
   "featured": false,
   "createdAt": "2026-11-01",
-  "updatedAt": "2026-11-17",
+  "updatedAt": "2026-11-19",
   "tags": [
     "SwiftUI",
     "iOS",
@@ -101,7 +101,7 @@
       "13 focused parser, time-zone, deduplication and preference tests pass.",
       "Simulator UI automation verifies first launch and progressive import, review, editing and save guidance.",
       "Product screenshots use invented appointments; physical-device acceptance remains separate.",
-      "Build 4 is available in private TestFlight. The initial App Store submission was rejected and public installation is unavailable."
+      "Build 5 is available in private TestFlight. Apple requested a physical-device recording for the initial App Store submission."
     ],
     "limitations": [
       "English text recognition and deterministic parsing do not cover every layout.",
