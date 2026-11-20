@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "projects.list",
-  "generated_at": "2026-11-20T04:56:53.666486+00:00",
+  "generated_at": "2026-11-20T10:03:38.973261+00:00",
   "data": [
     {
       "id": "3f5aec94-4d3c-8116-99d5-c9752bb4af87",
@@ -1274,7 +1274,7 @@
       "category": "Application",
       "href": "/projects/screenshot-to-calendar",
       "primaryImageUrl": "/projects/screenshot-to-calendar_e8bdde7e-5fc7-5443-b0ce-321f3b697fd3/images/cover-optimized.webp",
-      "updatedAt": "2026-11-19"
+      "updatedAt": "2026-11-20"
     },
     {
       "id": "1a1e475d-baba-58a5-9b13-c05f5d074bfa",
