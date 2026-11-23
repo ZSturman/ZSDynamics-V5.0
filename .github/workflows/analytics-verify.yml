@@ -15,6 +15,10 @@ on:
         description: "Attempt a read-only GA4 Admin API permissions check"
         type: boolean
         default: false
+      register_dimensions:
+        description: "Register the six approved Portfolio GA4 event dimensions"
+        type: boolean
+        default: false
       qa_run:
         description: "Optional zs_qa run id to isolate"
         default: ""
@@ -41,5 +45,6 @@ jobs:
           ANALYTICS_VERIFY_DAYS: ${{ inputs.days }}
           ANALYTICS_VERIFY_DATE: ${{ inputs.date }}
           ANALYTICS_VERIFY_ADMIN: ${{ inputs.check_admin }}
+          ANALYTICS_REGISTER_DIMENSIONS: ${{ inputs.register_dimensions }}
           ANALYTICS_VERIFY_QA_RUN: ${{ inputs.qa_run }}
         run: node scripts/analytics-verify.mjs

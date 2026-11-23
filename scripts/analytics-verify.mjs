@@ -101,6 +101,43 @@ async function main(env = process.env) {
   const days = Math.min(90, Math.max(1, Number.parseInt(env.ANALYTICS_VERIFY_DAYS || "7", 10) || 7));
   const date = env.ANALYTICS_VERIFY_DATE || undefined;
   if (date && !/^\d{4}-\d{2}-\d{2}$/.test(date)) throw new Error("ANALYTICS_VERIFY_DATE must be YYYY-MM-DD");
+  if (env.ANALYTICS_REGISTER_DIMENSIONS === "true") {
+    if (env.GA_PROPERTY_ID !== "453629949") throw new Error("Refusing to modify an unexpected GA4 property");
+    const { GoogleAuth } = await import("google-auth-library");
+    const auth = new GoogleAuth({ credentials, scopes: ["https://www.googleapis.com/auth/analytics.edit"] });
+    const url = `https://analyticsadmin.googleapis.com/v1beta/properties/${env.GA_PROPERTY_ID}/customDimensions`;
+    const approved = [
+      ["product_slug", "Product slug", "Stable portfolio product slug attached to product and resource events."],
+      ["action_type", "Action type", "Type of tracked action, such as store referral, download, demo or repository click."],
+      ["destination_category", "Destination category", "Category of the clicked destination, such as repository, store, download or website."],
+      ["source_section", "Source section", "Tagged page section containing the clicked element."],
+      ["filter_type", "Filter type", "Type of portfolio filter changed, such as category, tag, year or search."],
+      ["filter_value", "Filter value", "Instrumented value of the selected portfolio filter."],
+    ];
+    try {
+      const configured = new Set();
+      let pageToken;
+      do {
+        const { data } = await auth.request({ url, params: { pageSize: 100, ...(pageToken ? { pageToken } : {}) } });
+        for (const dimension of data.customDimensions || []) {
+          if (dimension.scope === "EVENT") configured.add(dimension.parameterName);
+        }
+        pageToken = data.nextPageToken;
+      } while (pageToken);
+      for (const [parameterName, displayName, description] of approved) {
+        if (configured.has(parameterName)) {
+          console.log(`Already registered: ${parameterName}`);
+          continue;
+        }
+        const response = await auth.request({ url, method: "POST", data: { parameterName, displayName, description, scope: "EVENT" } });
+        console.log(`Registered ${parameterName}: HTTP ${response.status}`);
+      }
+    } catch (error) {
+      console.log(`GA4 Admin write stopped: HTTP ${error.response?.status || "unknown"} (${error.response?.data?.error?.status || "unknown"}).`);
+      throw new Error("GA4 custom dimension registration did not complete.");
+    }
+    return;
+  }
   await verifyAnalytics({ client, propertyId: env.GA_PROPERTY_ID, days, date, qaRun: env.ANALYTICS_VERIFY_QA_RUN || undefined });
   if (env.ANALYTICS_VERIFY_ADMIN === "true") {
     try {
