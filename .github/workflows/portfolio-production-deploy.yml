@@ -33,6 +33,9 @@ jobs:
       DEPLOY_COMMIT_SHA: ${{ inputs.commit_sha }}
       NEXT_PUBLIC_FIREBASE_ANALYTICS_ENABLED: ${{ vars.NEXT_PUBLIC_FIREBASE_ANALYTICS_ENABLED }}
       NEXT_PUBLIC_ANALYTICS_DISABLED: "false"
+      # First-party session stream (POST /collect). Leave unset until the Worker
+      # migration 0002 is applied and the Worker is deployed; see docs/analytics/session-analytics.md.
+      NEXT_PUBLIC_SESSION_ANALYTICS_ENABLED: ${{ vars.NEXT_PUBLIC_SESSION_ANALYTICS_ENABLED }}
       NEXT_PUBLIC_ANALYTICS_ALLOWED_HOSTS: "zacharysturman.com,www.zacharysturman.com"
       NEXT_PUBLIC_FIREBASE_API_KEY: ${{ vars.NEXT_PUBLIC_FIREBASE_API_KEY }}
       NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN: ${{ vars.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN }}

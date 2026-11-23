@@ -1,3 +1,14 @@
+## Portfolio session analytics — November 23, 2026
+
+The existing first-party stream, reconstruction, click attribution and daily brief are integrated with the production Worker. D1 migration `0002_sessions.sql` is applied. Worker version `7412e963-380d-4d91-b4ab-fc4139d60c17` passed live ingestion-route, health, intake-origin and report authentication checks. Firebase deployment, controlled session evidence and email acceptance are recorded below as verified.
+
+- Production: [session analytics and recovery](analytics/session-analytics.md).
+- GA4: [November 22 investigations and remaining custom definitions](analytics/anomalies.md).
+- Maintainer validation: `npm run test:unit`, `npm --prefix worker test`, and `npx playwright test -c playwright.contact.config.ts tests/session-stream.spec.ts`.
+- The prior notes about publisher controls refer to the separate portfolio publishing job. The scheduled analytics email remains active.
+
+---
+
 ## Bench Lens QR setup — November 12, 2026
 
 `public/iphone-microscope/connect.html` is an analytics-free App Store fallback for the iPhone app's universal link. Pairing credentials remain in the URL fragment; the page sends no analytics or pairing request. `public/apple-app-site-association.json` retains Recallable and adds the exact Bench Lens connect path. Deploy both together before installing companion 1.2 (6), then check the AASA response and Apple's CDN. An uninstalled iPhone goes to the App Store; installed-device QR handling needs physical confirmation. App Store availability still depends on Apple approval. No deferred pairing after install: scan a fresh QR.

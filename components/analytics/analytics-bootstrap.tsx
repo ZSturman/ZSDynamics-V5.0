@@ -5,11 +5,11 @@ import { usePathname, useSearchParams } from "next/navigation";
 
 import {
   initializeAnalytics,
+  clickContext,
   configureProducts,
   trackProjectResourceClick,
   trackArticleProjectClick,
   trackContentFilter,
-  setActiveAnalyticsSection,
   trackContactClick,
   trackOutboundLink,
   trackRouteView,
@@ -136,7 +136,7 @@ export function AnalyticsBootstrap({ products }: { products: ProductContext[] })
       if (anchor.dataset.analyticsSkip === "true") return;
       if (isContactAnchor(anchor)) {
         // Intent only; a delivered message is recorded separately as contact_submit.
-        trackContactClick(inferSurface(anchor));
+        trackContactClick(inferSurface(anchor), clickContext(anchor).source_section);
         return;
       }
       const articleProject = anchor.dataset.articleProject;
@@ -151,14 +151,15 @@ export function AnalyticsBootstrap({ products }: { products: ProductContext[] })
         const url = new URL(anchor.href);
         const meaningful = ["http:", "https:"].includes(url.protocol) && (url.origin !== window.location.origin || url.pathname.endsWith("/demo") || anchor.hasAttribute("download"));
         if (meaningful) {
-          trackProjectResourceClick({ projectSlug: product.slug, projectTitle: product.title, resourceUrl: anchor.href, resourceLabel: anchor.textContent?.trim() || "Product action", isInternal: url.origin === window.location.origin, surface: inferSurface(anchor) });
+          trackProjectResourceClick({ projectSlug: product.slug, projectTitle: product.title, resourceUrl: anchor.href, resourceLabel: anchor.textContent?.trim() || "Product action", isInternal: url.origin === window.location.origin, surface: anchor.dataset.analyticsSurface || clickContext(anchor).surface, element: anchor });
           return;
         }
       }
       if (!isExternalAnchor(anchor)) return;
       trackOutboundLink({
         destinationUrl: anchor.href,
-        surface: inferSurface(anchor),
+        surface: anchor.dataset.analyticsSurface || clickContext(anchor).surface,
+        sourceSection: clickContext(anchor).source_section,
         label: anchor.textContent?.trim().slice(0, 200),
       });
     };
@@ -241,10 +242,7 @@ export function AnalyticsBootstrap({ products }: { products: ProductContext[] })
         const active = !exited && document.visibilityState === "visible" &&
           meaningfullyVisible(element.getBoundingClientRect(), window.innerWidth, window.innerHeight);
         const payload = getVisibilityPayload(element);
-        if (active) {
-          setActiveAnalyticsSection(payload);
-          if (!seenViews.has(key)) { seenViews.add(key); trackSectionView(payload); }
-        }
+        if (active && !seenViews.has(key)) { seenViews.add(key); trackSectionView(payload); }
         for (const seconds of state.clock.update(now, active)) {
           trackSectionEngaged({ ...payload, engagementBucket: `${seconds}s`, visibleTimeSec: seconds });
         }

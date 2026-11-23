@@ -5,6 +5,12 @@ import {
   runIntakeJobs,
   type IntakeEnv,
 } from "./intake";
+import {
+  handleCollect,
+  handleSessionRead,
+  pruneSessionData,
+  type SessionEnv,
+} from "./sessions";
 
 /**
  * zacharysturman.com API Worker
@@ -13,6 +19,8 @@ import {
  *   POST /contact                  — contact-form submission (Turnstile + rate-limited)
  *   POST /newsletter-interest      — opt-in email collection
  *   POST /internal/daily-summary   — bearer-protected; relays a daily GA summary email
+ *   POST /collect                  — anonymous first-party session analytics (see sessions.ts)
+ *   GET  /analytics/explorer       — private session explorer and stored detailed reports
  *   GET  /health                   — liveness probe
  *
  * Spam controls:
@@ -24,7 +32,7 @@ import {
  * subscribers receive new-writing emails. Request bodies are never logged.
  */
 
-export interface Env extends IntakeEnv {
+export interface Env extends IntakeEnv, SessionEnv {
   // vars
   ALLOWED_ORIGINS: string;
   CONTACT_FROM_EMAIL: string;
@@ -211,7 +219,7 @@ async function handleDailySummary(
     );
   }
   return jsonResponse(
-    { ok: true, status: "sent" },
+    { ok: true, status: "sent", resendId: sent.id },
     { status: 200, origin, env },
   );
 }
@@ -253,6 +261,14 @@ export default {
         { origin, env },
       );
     }
+
+    // Session analytics: /collect validates its own Origin; explorer/report
+    // reads require the administrator password. Internal requests use the bearer token.
+    if (url.pathname === "/collect" && request.method === "POST") {
+      return handleCollect(request, env);
+    }
+    const sessionRead = await handleSessionRead(request, env);
+    if (sessionRead) return sessionRead;
 
     // Signed subscription links are served by the API itself. Their HTML forms
     // submit with the API Origin, rather than the portfolio's Origin.
@@ -331,5 +347,6 @@ export default {
   },
   async scheduled(event: ScheduledController, env: Env): Promise<void> {
     await runIntakeJobs(env, event.cron === "0 * * * *");
+    if (event.cron === "0 * * * *") await pruneSessionData(env);
   },
 } satisfies ExportedHandler<Env>;

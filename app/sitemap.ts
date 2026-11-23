@@ -15,7 +15,7 @@ function toDate(value: unknown): Date | undefined {
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [projects, articles] = await Promise.all([loadProjectsManifest(), loadArticles()]);
-  const pages = ["", "/projects", "/apps", "/experience", "/about", "/resume", "/articles", "/work-logs", "/contact"];
+  const pages = ["", "/projects", "/apps", "/experience", "/about", "/resume", "/articles", "/work-logs", "/contact", "/privacy"];
 
   for (const project of projects) {
     const landing = project.application?.landingPath;

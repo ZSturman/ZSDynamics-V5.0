@@ -1,6 +1,10 @@
 # Setup: Analytics
 
-Google Analytics 4 (via Firebase Analytics SDK) plus first-party UTM capture.
+Google Analytics 4 (via Firebase Analytics SDK), first-party UTM capture, and an anonymous first-party session stream for individual journeys and traffic quality.
+
+- Canonical event definitions: [docs/analytics/event-taxonomy.md](../analytics/event-taxonomy.md)
+- Session journeys, bot/automation classification, explorer and deployment: [docs/analytics/session-analytics.md](../analytics/session-analytics.md)
+- November 22, 2026 anomaly investigation: [docs/analytics/anomalies.md](../analytics/anomalies.md)
 
 ## What gets captured
 
@@ -31,7 +35,7 @@ Google Analytics 4 (via Firebase Analytics SDK) plus first-party UTM capture.
 
 Every event automatically merges the captured UTM dimensions, so attribution is preserved across the session.
 
-The enriched journey events stay aggregate and privacy-conscious. They do not collect screenshots, typed content, form messages, email addresses, raw IPs, session replay, or a per-user playback ID.
+GA4 events stay aggregate and privacy-conscious. The site sends no screenshots, typed content, form messages, email addresses, raw IPs or session replay. GA4 sets its own browser identifier, which the reports never use; the site adds no long-lived visitor id of its own. The session stream uses a random **session** id that rotates after 30 minutes of inactivity and is deleted after 30 days (see [session-analytics.md](../analytics/session-analytics.md)). Action events carry the clicked element's own `surface`, `source_section` and `destination_category`; before November 23, 2026 they inherited the last *visible* section instead.
 
 ## Conversions
 
@@ -48,7 +52,7 @@ To see these as **Key events** in GA4's own reports, mark `resume_download`, `co
 
 ## Configuration
 
-Required public env vars (build-time, baked into the static export):
+Required public env vars (build-time, baked into the static export). `NEXT_PUBLIC_SESSION_ANALYTICS_ENABLED=true` additionally enables the session stream (production deploys read the repository variable of the same name):
 
 ```
 NEXT_PUBLIC_FIREBASE_ANALYTICS_ENABLED=true
@@ -115,7 +119,9 @@ gh run watch && gh run view --log | grep -A40 "## Realtime"
 
 ## Daily report: what it means
 
-The email starts with **Daily Analytics Summary**, **What Actually Happened**, and **Traffic Quality**, then acquisition, geography, content, high-intent actions, journeys, attention, and technical detail.
+The email is a short **brief**: Summary, Key metrics, What visitors did, Notable journeys, Traffic quality, Problems and opportunities, and Details. The Details section has signed links (14 days) to the **full report** (every table below, stored by the Worker) and the **session explorer**. Human/automated/uncertain counts and journeys come only from the session stream. When the stream is unavailable the brief says so and falls back to GA4 aggregates without inferring them. Samples: [docs/analytics/samples](../analytics/samples/).
+
+The full report keeps the earlier sections — Daily Analytics Summary, What Actually Happened, Traffic Quality, Session Stream, acquisition, geography, content, high-intent actions, aggregate route transitions, attention, click and device diagnostics, and technical detail.
 
 Raw GA4 totals remain available when their query succeeds. The report distinguishes observations from derived event ratios:
 
@@ -168,13 +174,22 @@ GitHub Actions secrets:
 | `API_BASE_URL` | Worker base URL (e.g. `https://api.zacharysturman.com`). |
 | `INTERNAL_TOKEN` | Bearer token shared with the Worker. |
 
+Production repository variables for the scheduled report:
+
+| Variable | Purpose |
+| --- | --- |
+| `ANALYTICS_SESSION_STARTED_AT` | ISO timestamp of the first verified Firebase release with first-party tracking. Older days show unavailable. |
+| `ANALYTICS_ACCESS_ENABLED` | Set to `true` after validating the private administrator sign-in. Enables detailed report storage and links. |
+
 Optional env vars:
 
 | Variable | Default | Description |
 | --- | --- | --- |
 | `SITE_NAME` | `zacharysturman.com` | Display name used in the subject/header. |
 | `ANALYTICS_TIME_ZONE` | `America/Los_Angeles` | Time zone used to select "yesterday" for the report. |
-| `ANALYTICS_DRY_RUN` | `false` | Set to `true` to render and log the email without POSTing to the Worker. |
+| `ANALYTICS_DRY_RUN` | `false` | Set to `true` to render without posting. The public GitHub workflow logs result status only. Local runs can write the rendered files. |
+| `ANALYTICS_OUTPUT_DIR` | unset | Also write `brief-<date>.html/.txt` and `detailed-<date>.html` to this folder (e.g. `build/analytics-report`). |
+| `ANALYTICS_REPORT_DATE` | yesterday | Re-run a specific reporting day (`YYYY-MM-DD`). Regular sends use `daily-analytics-<date>` for Resend’s 24-hour deduplication window. Set `test_email=true` for a labeled acceptance email with a separate idempotency key. |
 | `LM_STUDIO_BASE_URL` | unset | Optional loopback LM Studio server, e.g. `http://127.0.0.1:1234`. The script only accepts localhost/loopback endpoints. |
 | `LM_STUDIO_MODEL` | `local-model` | Optional loaded LM Studio model identifier. |
 
@@ -207,6 +222,7 @@ The site forwards event parameters with every custom analytics event, but GA4 Da
 | `section_key`, `section_label`, `item_id`, `item_type`, `item_label`, `collection_key`, `media_role` | Section, collection item, asset, work-log, related article, and media exposure. |
 | `scroll_percent`, `engagement_bucket`, `visible_time_sec`, `progress_percent`, `interaction_type` | Scroll depth, dwell-time buckets, media progress, and action-flow detail. |
 | `filter_type`, `filter_value` | Which archive filters and search keywords visitors use. |
+| `destination_category`, `source_section` | What an action opened (repository, App Store, download, demo…) and which section contained the clicked link. New November 23, 2026. |
 | `qa_run` | Isolating a controlled QA visit in the verification workflow. |
 
 If these dimensions are missing, the daily email still sends. It will show built-in acquisition, local content tags, and a data-quality note listing the unavailable custom dimensions.
@@ -226,6 +242,6 @@ Event validation rejects missing required context or unknown product identities 
 
 Attention uses visible area relative to the smaller of the viewport and element, so long sections can qualify. It counts foreground time only, pauses on document visibility/page exit, removes detached targets, and resets on page or project-modal navigation. Buckets begin at five seconds and emit once per target per visit. This measures eligible exposure, not proof of reading, understanding, or a human visitor.
 
-Reports separate portfolio, product, and content activity. Events and sessions containing an event are distinct; session rows overlap and cannot be summed. Download/store actions measure intent; actual installations remain unknown without authoritative store data. Human, bot and suspicious-session totals are not inferred. Extra route events are events beyond the first per reporting session, never an estimate of multi-page sessions. The explicit aggregate caution rule requires at least 20 sessions, engagement below 15%, and average session duration below 3 seconds. It classifies no individual session. A `user_engagement` event does not establish a ten-second threshold.
+Reports separate portfolio, product, and content activity. Events and sessions containing an event are distinct; session rows overlap and cannot be summed. Download/store actions measure intent; actual installations remain unknown without authoritative store data. Human, automated and uncertain totals come only from the first-party session stream, with per-session evidence; GA4 aggregates never infer them. Extra route events are events beyond the first per reporting session, never an estimate of multi-page sessions. The explicit aggregate caution rule requires at least 20 sessions, engagement below 15%, and average session duration below 3 seconds. It classifies no individual session. A `user_engagement` event does not establish a ten-second threshold.
 
 Failed overview/quality queries retain null/unavailable values and warnings. Successfully queried empty sets remain observed zeroes. Historical event names remain readable. GA4 administrative changes and live inbox/Turnstile acceptance require the owner and are separate from local regression results.

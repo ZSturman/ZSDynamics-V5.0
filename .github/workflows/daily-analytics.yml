@@ -10,6 +10,13 @@ on:
         description: "Render from live GA4 data and print it to the log without emailing"
         type: boolean
         default: false
+      report_date:
+        description: "Optional reporting date in Pacific time (YYYY-MM-DD)"
+        type: string
+      test_email:
+        description: "Send a labeled acceptance email to the configured recipient"
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -34,4 +41,8 @@ jobs:
           INTERNAL_TOKEN: ${{ secrets.INTERNAL_TOKEN }}
           SITE_NAME: zacharysturman.com
           ANALYTICS_DRY_RUN: ${{ inputs.dry_run && 'true' || 'false' }}
+          ANALYTICS_REPORT_DATE: ${{ inputs.report_date }}
+          ANALYTICS_TEST_RUN: ${{ inputs.test_email && github.run_id || '' }}
+          ANALYTICS_ACCESS_ENABLED: ${{ vars.ANALYTICS_ACCESS_ENABLED }}
+          ANALYTICS_SESSION_STARTED_AT: ${{ vars.ANALYTICS_SESSION_STARTED_AT }}
         run: npm run daily-analytics

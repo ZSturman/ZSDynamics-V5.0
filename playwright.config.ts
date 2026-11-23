@@ -6,7 +6,7 @@ export default defineConfig({
   // pre-push browser validation local and independent of a live deployment.
   // contact.spec.ts and analytics-journey.spec.ts need the mocked API from
   // playwright.contact.config.ts; under this config they would submit to production.
-  testIgnore: ['media/**', 'production/**', 'contact.spec.ts', 'analytics-journey.spec.ts'],
+  testIgnore: ['media/**', 'production/**', 'contact.spec.ts', 'analytics-journey.spec.ts', 'session-stream.spec.ts'],
   // Node unit tests (*.test.mjs) run under `npm run test:unit`, not Playwright.
   testMatch: '**/*.spec.ts',
   // The suite shares one `next dev` server; more parallel pages cause

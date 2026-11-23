@@ -473,7 +473,7 @@ test("builds journey, attention, media, and action-flow sections from custom dim
   assert.equal(report.actionFlow.rows[0].eventLabel, "Project resource click");
 
   const html = renderReportHtml(report);
-  assert.match(html, /Visitor Journeys/);
+  assert.match(html, /Aggregate Route Transitions/);
   assert.match(html, /Scroll &amp; Attention/);
   assert.match(html, /Project Detail Engagement/);
   assert.match(html, /Media &amp; Fullscreen Activity/);
@@ -589,7 +589,7 @@ test("renders all major email sections and custom-dimension fallback", () => {
     "Acquisition",
     "Geography",
     "Top Content",
-    "Visitor Journeys",
+    "Aggregate Route Transitions",
     "Scroll &amp; Attention",
     "Project Detail Engagement",
     "Media &amp; Fullscreen Activity",
@@ -616,7 +616,7 @@ test("renders all major email sections and custom-dimension fallback", () => {
     "## Acquisition",
     "## Geography",
     "## Content performance",
-    "## Visitor journeys",
+    "## Aggregate route transitions",
     "## Scroll and attention",
     "## Project detail engagement",
     "## Media and fullscreen activity",
@@ -630,7 +630,11 @@ test("renders all major email sections and custom-dimension fallback", () => {
     assert.match(text, new RegExp(section));
   }
 
-  assert.equal(email.subject, "zacharysturman.com analytics - Jun 28, 2026 - 42 sessions / 11 key actions");
+  assert.equal(email.subject, "zacharysturman.com · Jun 28 · 42 sessions · 11 action events");
+  // The email is the short brief; the tables live in the detailed report.
+  for (const heading of ["Summary", "Key metrics", "What visitors did", "Notable journeys", "Traffic quality", "Details"]) assert.match(email.html, new RegExp(`>${heading}<`));
+  for (const table of ["Geography", "Content Tags", "Technical / Data Quality"]) assert.doesNotMatch(email.html, new RegExp(table));
+  assert.ok(email.html.length < html.length / 2, "the brief is much shorter than the detailed report");
 });
 
 test("excludes QA sessions from every query, reports campaign conversions, and never counts failed submissions", async () => {

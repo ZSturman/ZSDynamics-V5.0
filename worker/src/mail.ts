@@ -25,8 +25,8 @@ export async function sendEmail(
     idempotencyKey?: string;
     headers?: Record<string, string>;
   },
-): Promise<boolean> {
-  if (!env.RESEND_API_KEY) return false;
+): Promise<{ id?: string } | null> {
+  if (!env.RESEND_API_KEY) return null;
   try {
     const res = await fetch("https://api.resend.com/emails", {
       method: "POST",
@@ -51,8 +51,10 @@ export async function sendEmail(
           : {}),
       }),
     });
-    return res.ok;
+    if (!res.ok) return null;
+    const receipt = await res.json<{ id?: string }>().catch(() => null);
+    return { id: receipt?.id };
   } catch {
-    return false;
+    return null;
   }
 }

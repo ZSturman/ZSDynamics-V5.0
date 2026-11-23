@@ -43,6 +43,7 @@ export default function ResourceButton({
       resourceLabel: resource.label,
       resourceUrl: resource.url,
       isInternal: isFolio,
+      element: e.currentTarget as Element,
     });
 
     if (isFolio) {

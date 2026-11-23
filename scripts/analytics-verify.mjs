@@ -7,6 +7,8 @@ import { pathToFileURL } from "node:url";
 import { BetaAnalyticsDataClient } from "@google-analytics/data";
 
 const QA_SOURCE = "qa";
+// Keep in sync with docs/analytics/event-taxonomy.md ("Register (recommended)").
+const RECOMMENDED_DIMENSIONS = ["product_slug", "action_type", "destination_category", "source_section", "filter_type", "filter_value", "project_slug", "viewport_category", "surface", "section_key"];
 
 function rowsToText(rows = []) {
   return rows.map((row) =>
@@ -14,9 +16,9 @@ function rowsToText(rows = []) {
   );
 }
 
-export async function verifyAnalytics({ client, propertyId, days = 7, qaRun, log = console.log }) {
+export async function verifyAnalytics({ client, propertyId, days = 7, date, qaRun, log = console.log }) {
   const property = `properties/${propertyId}`;
-  const dateRanges = [{ startDate: `${days}daysAgo`, endDate: "today" }];
+  const dateRanges = date ? [{ startDate: date, endDate: date }] : [{ startDate: `${days}daysAgo`, endDate: "today" }];
   const sections = [];
 
   async function report(label, input, run = (req) => client.runReport(req)) {
@@ -36,12 +38,12 @@ export async function verifyAnalytics({ client, propertyId, days = 7, qaRun, log
 
   await report("Realtime: events, last 30 minutes", { dimensions: dims("eventName"), metrics: mets("eventCount"), orderBys: desc("eventCount") }, (req) => client.runRealtimeReport({ ...req, dateRanges: undefined }));
   await report("Realtime: device category, last 30 minutes", { dimensions: dims("deviceCategory"), metrics: mets("activeUsers") }, (req) => client.runRealtimeReport({ ...req, dateRanges: undefined }));
-  await report(`Overview, last ${days} days`, { dateRanges, metrics: mets("sessions", "totalUsers", "newUsers", "screenPageViews", "engagedSessions", "averageSessionDuration") });
+  await report(date ? `Overview for ${date} (GA4 property time zone)` : `Overview: ${days} days ago through today`, { dateRanges, metrics: mets("sessions", "totalUsers", "newUsers", "screenPageViews", "engagedSessions", "averageSessionDuration") });
   await report("Events", { dateRanges, dimensions: dims("eventName"), metrics: mets("eventCount"), orderBys: desc("eventCount") });
   await report("Sessions by source / medium / campaign", { dateRanges, dimensions: dims("sessionSource", "sessionMedium", "sessionCampaignName"), metrics: mets("sessions", "engagedSessions"), orderBys: desc("sessions") });
   await report("Page views on URLs with a query string (duplicate-page-view check)", {
     dateRanges,
-    dimensions: dims("pagePathPlusQueryString"),
+    dimensions: dims("pagePath"),
     metrics: mets("screenPageViews"),
     orderBys: desc("screenPageViews"),
     dimensionFilter: { filter: { fieldName: "pagePathPlusQueryString", stringFilter: { matchType: "CONTAINS", value: "?" } } },
@@ -53,6 +55,32 @@ export async function verifyAnalytics({ client, propertyId, days = 7, qaRun, log
     orderBys: desc("eventCount"),
     dimensionFilter: { filter: { fieldName: "sessionSource", stringFilter: { matchType: "EXACT", value: QA_SOURCE } } },
   });
+  // Query only counts. A raw page referrer can contain sensitive paths or parameters.
+  const exact = (fieldName, value) => ({ filter: { fieldName, stringFilter: { matchType: "EXACT", value } } });
+  await report("Page-view events with an external document referrer (count only)", {
+    dateRanges, metrics: mets("eventCount"),
+    dimensionFilter: { andGroup: { expressions: [
+      exact("eventName", "page_view"),
+      { filter: { fieldName: "pageReferrer", stringFilter: { matchType: "PARTIAL_REGEXP", value: "^https?://" } } },
+      { notExpression: { filter: { fieldName: "pageReferrer", stringFilter: {
+        matchType: "PARTIAL_REGEXP", value: "^https?://(www[.])?(zacharysturman[.]com|zachary-sturman[.]com)(/|$)",
+      } } } },
+    ] } },
+  });
+  // Custom-dimension registration check (read-only metadata).
+  try {
+    const [metadata] = await client.getMetadata({ name: `${property}/metadata` });
+    const registered = (metadata.dimensions || []).map((d) => d.apiName).filter((name) => name?.startsWith("customEvent:")).map((name) => name.slice(12)).sort();
+    const missing = RECOMMENDED_DIMENSIONS.filter((param) => !registered.includes(param));
+    sections.push("\n## Registered event-scoped custom dimensions", `  ${registered.length} registered (GA4 standard limit: 50): ${registered.join(", ") || "(none)"}`, `  Recommended but missing: ${missing.join(", ") || "(none)"}`);
+  } catch (error) {
+    sections.push(`\n## Registered event-scoped custom dimensions: unavailable (${String(error.message).slice(0, 160)})`);
+  }
+  // Anomaly diagnostics: where resource clicks happened and when.
+  await report("Resource clicks by project and page", { dateRanges, dimensions: dims("customEvent:project_slug", "pagePath"), metrics: mets("eventCount", "sessions"), orderBys: desc("eventCount"), dimensionFilter: { filter: { fieldName: "eventName", stringFilter: { matchType: "EXACT", value: "project_resource_click" } } } });
+  await report("Resource clicks by hour, city and project", { dateRanges, dimensions: dims("dateHour", "city", "customEvent:project_slug"), metrics: mets("eventCount", "sessions"), orderBys: desc("eventCount"), dimensionFilter: { filter: { fieldName: "eventName", stringFilter: { matchType: "EXACT", value: "project_resource_click" } } } });
+  await report("Device category vs measured window width (route views)", { dateRanges, dimensions: dims("deviceCategory", "customEvent:viewport_category"), metrics: mets("sessions", "eventCount"), orderBys: desc("sessions"), dimensionFilter: { filter: { fieldName: "eventName", stringFilter: { matchType: "EXACT", value: "portfolio_route_view" } } } });
+
   if (qaRun) {
     await report(`QA run ${qaRun} by event (needs qa_run custom dimension)`, {
       dateRanges,
@@ -68,9 +96,24 @@ export async function verifyAnalytics({ client, propertyId, days = 7, qaRun, log
 
 async function main(env = process.env) {
   if (!env.GA_PROPERTY_ID || !env.GA_SERVICE_ACCOUNT_JSON) throw new Error("GA_PROPERTY_ID and GA_SERVICE_ACCOUNT_JSON are required.");
-  const client = new BetaAnalyticsDataClient({ credentials: JSON.parse(env.GA_SERVICE_ACCOUNT_JSON) });
+  const credentials = JSON.parse(env.GA_SERVICE_ACCOUNT_JSON);
+  const client = new BetaAnalyticsDataClient({ credentials });
   const days = Math.min(90, Math.max(1, Number.parseInt(env.ANALYTICS_VERIFY_DAYS || "7", 10) || 7));
-  await verifyAnalytics({ client, propertyId: env.GA_PROPERTY_ID, days, qaRun: env.ANALYTICS_VERIFY_QA_RUN || undefined });
+  const date = env.ANALYTICS_VERIFY_DATE || undefined;
+  if (date && !/^\d{4}-\d{2}-\d{2}$/.test(date)) throw new Error("ANALYTICS_VERIFY_DATE must be YYYY-MM-DD");
+  await verifyAnalytics({ client, propertyId: env.GA_PROPERTY_ID, days, date, qaRun: env.ANALYTICS_VERIFY_QA_RUN || undefined });
+  if (env.ANALYTICS_VERIFY_ADMIN === "true") {
+    try {
+      const { GoogleAuth } = await import("google-auth-library");
+      const auth = new GoogleAuth({ credentials, scopes: ["https://www.googleapis.com/auth/analytics.edit"] });
+      const response = await auth.request({
+        url: `https://analyticsadmin.googleapis.com/v1beta/properties/${env.GA_PROPERTY_ID}/customDimensions`,
+      });
+      console.log(`GA4 Admin API custom dimensions read: HTTP ${response.status}. A read does not verify edit permission.`);
+    } catch (error) {
+      console.log(`GA4 Admin API custom dimensions read unavailable: HTTP ${error.response?.status || "unknown"} (${error.response?.data?.error?.status || "unknown"}).`);
+    }
+  }
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {

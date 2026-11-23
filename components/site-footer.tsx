@@ -175,7 +175,12 @@ export function SiteFooter() {
           </div>
 
           <div className="mt-8 border-t border-border/35 pt-4 text-sm text-muted-foreground">
-            <p>© {currentYear} Zachary Sturman. Built to keep projects, articles, and work logs in one consistent frame.</p>
+            <p>
+              © {currentYear} Zachary Sturman. Built to keep projects, articles, and work logs in one consistent frame.{" "}
+              <Link href="/privacy" className="underline underline-offset-2 hover:text-foreground">
+                Privacy
+              </Link>
+            </p>
           </div>
         </div>
       </PageFrame>

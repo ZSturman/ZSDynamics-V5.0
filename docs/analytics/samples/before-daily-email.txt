@@ -1,0 +1,148 @@
+Subject: zacharysturman.com analytics - Nov 22, 2026 - 49 sessions / 17 key actions
+
+zacharysturman.com analytics - Sun, Nov 22, 2026
+Generated: Nov 23, 2026, 6:05 AM PST
+Source: Google Analytics 4 Data API + local content manifest
+
+## At a glance
+- Users: 49 (+25.6% vs. previous day)
+- New users: 49 (+28.9% vs. previous day)
+- Sessions: 49 (+25.6% vs. previous day)
+- Views: 54 (+35.0% vs. previous day)
+- Engagement rate: 51.0% (+563.5% vs. previous day)
+- High-intent actions: 17
+- Top countries: United States (48), Singapore (1)
+
+## Daily analytics summary
+Metric | Value | Prev day | 7-day avg
+-------------------------------------
+Sessions | 49 | +25.6% | +523.6%
+Users | 49 | +25.6% | +547.2%
+New users | 49 | +28.9% | +586.0%
+Views | 54 | +35.0% | +575.0%
+Views / session | 1.1 | +7.4% | +8.2%
+Engaged sessions | 25 | +733.3% | +3,400.0%
+Engagement rate | 51.0% | +563.5% | +461.3%
+Avg. session | 16s | +121.6% | +168.9%
+Events | 590 | +32.3% | +650.9%
+
+## What actually happened
+GA4 recorded 49 sessions and 49 users; the session count 49 vs. 39 the previous day (+25.6%). 25 sessions met GA4's engagement definition; this does not identify human visitors.
+(direct) / (none) led acquisition with 49 sessions and 17 high-intent actions. “Direct” means GA4 could not determine a referring source; it does not prove visitors typed the URL.
+Social Posts Content Manager was the most-viewed content (12 views, 66.7% engagement). The strongest high-intent action was project resource click (17).
+
+## Traffic quality
+Metric | Value
+--------------
+Raw GA4 sessions | 49
+Sessions without observed engagement | 24
+Engaged sessions | 25
+Sessions with user_engagement event | 4
+Known synthetic/test sessions | 0
+Events / session | 12.0
+
+## Portfolio activity
+Event | Events | Sessions with action (overlapping)
+---------------------------------------------------
+project_open | 35 | 33
+## Product activity
+Store referrals and downloads are intent; verified installations are unavailable.
+(no data)
+## Content activity
+Event | Events | Sessions with action (overlapping)
+---------------------------------------------------
+article_open | 3 | 3
+work_log_open | 3 | 2
+## Acquisition
+Source / medium | Sessions | Engaged | Users | Actions
+------------------------------------------------------
+(direct) / (none) | 49 | 25 | 49 | 17
+
+## Geography
+Kind | Location | Sessions | Engaged | Engagement | Actions
+-----------------------------------------------------------
+Country | United States | 49 | 25 | 52.1% | 17
+Country | Singapore | 1 | 0 | 0.0% | 0
+Region | Iowa | 27 | 18 | 66.7% | 3
+Region | Virginia | 9 | 3 | 33.3% | 2
+Region | California | 6 | 1 | 16.7% | 11
+Region | Illinois | 3 | 2 | 66.7% | 0
+City | Council Bluffs / Iowa | 21 | 16 | 76.2% | 2
+City | Des Moines / Iowa | 6 | 2 | 33.3% | 0
+City | San Jose / California | 6 | 1 | 16.7% | 11
+City | Unattributed / Virginia | 6 | 3 | 50.0% | 0
+
+## Content performance
+Page | Type | Tags | Views | Engagement
+---------------------------------------
+Social Posts Content Manager (/projects/content-manager) | Project | SwiftUI, iOS, macOS, Notion API | 12 | 66.7%
+Production-Scheduling-Web-App (/projects/production-scheduling-web-app) | Project | Production, Scheduling, Next.js, React | 11 | 61.5%
+Arduino Sensor Telemetry (/projects/arduino-sensor-telemetry) | Project | Python, Arduino, FastAPI, Hardware Testing | 9 | 70.0%
+Home (/) | Home | No local tags | 7 | 42.9%
+Better Workspace (/projects/better-workspace) | Project | SwiftUI, macOS, iOS, Productivity | 3 | 33.3%
+Building a Desktop App Around Google Sheets (/articles/building-a-desktop-app-around-google-sheets) | Article | Desktop App, Google Sheets, Manufacturing, SaaS | 2 | 33.3%
+Projects (/projects) | Project index | No local tags | 2 | 66.7%
+Work logs (/work-logs) | Work logs | No local tags | 2 | 66.7%
+
+## Visitor journeys
+(no data)
+
+## Scroll and attention
+(no data)
+
+(no data)
+
+## Project detail engagement
+(no data)
+
+## Media and fullscreen activity
+(no data)
+
+(no data)
+
+## Content-to-action flow
+(no data)
+
+## Content tags
+Tag | Views
+-----------
+iOS | 15
+macOS | 15
+SwiftUI | 15
+Google Sheets | 13
+Editorial workflows | 12
+Notion API | 12
+Firebase | 11
+Next.js | 11
+Production | 11
+React | 11
+Scheduling | 11
+Arduino | 9
+
+## Custom detail availability
+Custom detail unavailable until registered in GA4: customEvent:product_id, customEvent:product_slug, customEvent:action_type, customEvent:log_id, customEvent:filter_type, customEvent:filter_value, customEvent:qa_run
+
+## High-intent actions
+Event | Group | Intent | Count
+------------------------------
+Project resource click | High-intent actions | Consideration | 17
+
+## Technical / data quality
+Kind | Value | Sessions
+-----------------------
+Engagement event | Section engaged | 151
+Engagement event | Section viewed | 134
+Engagement event | Project opened | 35
+Engagement event | Scroll depth milestone | 30
+Engagement event | Article opened | 3
+Engagement event | Work Log Open | 3
+Diagnostic event | Route view | 58
+Device | desktop | 44
+Device | mobile | 5
+
+## Data quality
+- Content tags, domains, categories, statuses, and series are enriched from the local portfolio manifests.
+- Some event-level custom details are not registered as GA4 custom dimensions yet, so the report shows available built-in attribution plus local content tags.
+- Known automated browsing is suppressed before GA4 initializes. GA4 aggregate reports cannot identify human/bot session counts or individual session paths.
+- City and region values come from GA4's privacy-preserving dimensions. Small counts are directional only; this report does not collect raw IP addresses.
+- Warning: Product activity (register product_slug and action_type event dimensions) unavailable because GA4 does not expose eventName, customEvent:product_slug, customEvent:action_type.

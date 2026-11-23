@@ -8,6 +8,13 @@ on:
       days:
         description: "Days of history to summarize (1-90)"
         default: "7"
+      date:
+        description: "Optional exact reporting date (YYYY-MM-DD, GA4 property time zone)"
+        default: ""
+      check_admin:
+        description: "Attempt a read-only GA4 Admin API permissions check"
+        type: boolean
+        default: false
       qa_run:
         description: "Optional zs_qa run id to isolate"
         default: ""
@@ -32,5 +39,7 @@ jobs:
           GA_PROPERTY_ID: ${{ secrets.GA_PROPERTY_ID }}
           GA_SERVICE_ACCOUNT_JSON: ${{ secrets.GA_SERVICE_ACCOUNT_JSON }}
           ANALYTICS_VERIFY_DAYS: ${{ inputs.days }}
+          ANALYTICS_VERIFY_DATE: ${{ inputs.date }}
+          ANALYTICS_VERIFY_ADMIN: ${{ inputs.check_admin }}
           ANALYTICS_VERIFY_QA_RUN: ${{ inputs.qa_run }}
         run: node scripts/analytics-verify.mjs

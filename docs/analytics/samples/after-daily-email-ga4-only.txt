@@ -1,0 +1,55 @@
+Subject: zacharysturman.com · Nov 22 · 49 sessions · 17 action events
+
+DAILY PORTFOLIO BRIEF — Sun, Nov 22, 2026
+zacharysturman.com · times in America/Los_Angeles
+
+SUMMARY
+GA4 recorded 49 sessions, 10 more than Sat and well above the 7-day average of 8 a day.
+25 sessions met GA4's engagement rule (10 s, two pages or a key event). That rule doesn't show a person was present, and there's no session-level evidence for this day to tell people from automation.
+GA4 logged 17 project-resource clicks from 9 sessions; treat them as possible, not confirmed, interest.
+Worth a look: traffic spike: 49 sessions vs a 7-day average of 8 a day.
+
+KEY METRICS
+- Sessions (GA4): 49 — +10 vs Sat (39, +26%) · 7-day avg 8/day
+- Users (GA4 estimate): 49 — 49 new · 0 returning
+- Engaged sessions (GA4 rule): 25 — 51% · +43 pp vs Sat
+- Key action events (GA4): 17 — events, not people
+- Avg. session (GA4): 16 s — includes inactive time
+
+WHAT VISITORS DID
+GA4 acquisition channels:
+  - Direct · 49 sessions
+GA4 sources:
+  - (direct) / (none) · 49 sessions
+Most-viewed pages (GA4):
+  - Social Posts Content Manager — 12 views, 67% engaged
+  - Production-Scheduling-Web-App — 11 views, 62% engaged
+  - Arduino Sensor Telemetry — 9 views, 70% engaged
+  - Home — 7 views, 43% engaged
+Actions (GA4 events · sessions containing them):
+  - Project resource click — 17 events · 9 sessions
+Exploration:
+  - 54 page views across 49 sessions (1.1 per session). Individual paths need the session stream.
+(GA4 aggregates: counts, not individual journeys.)
+
+NOTABLE JOURNEYS
+The session collector is not deployed yet, so individual journeys are unavailable.
+
+TRAFFIC QUALITY
+Human, automated and uncertain counts need session-level evidence, which wasn't available for this day.
+25 sessions met GA4's engagement rule, but only 4 sent GA4's end-of-page engagement event — consistent with browsers left open or shut down abruptly, which is common for automation.
+
+PROBLEMS AND OPPORTUNITIES
+- [!] Traffic spike: 49 sessions vs a 7-day average of 8 a day. Compare with the traffic-quality split before treating it as new interest.
+- [!] All 49 GA4 sessions had no source. GA4 had no attributable source for those sessions. Private shares, absent campaign tags and other referrer loss can all produce this result.
+- 27 sessions came from cities that host large cloud data centres. Council Bluffs, Iowa alone had 21 sessions. Location is never used to classify a session — people live there too — but it is worth comparing with the traffic-quality evidence.
+- Better Workspace: 10 resource clicks vs 3 detail-page views. 7 of the clicks happened outside the detail page — /projects (5), /better-workspace (2) — on project cards and product pages, so the counts are not contradictory.
+- 13 desktop sessions used a 768–1023 px window. Common browser-automation tools open 800×600 windows by default. Supporting evidence only; a narrow desktop window is also normal.
+
+DETAILS
+Full report: https://portfolio.example/analytics/report?date=2026-11-22
+Session explorer: https://portfolio.example/analytics/explorer?date=2026-11-22&tz=America%2FLos_Angeles
+Portfolio administrator sign-in required.
+
+2 data sources partly unavailable — details are in the full report.
+Numbers come from GA4 aggregates and the site's anonymous session stream. Classifications are evidence-based estimates, not identities.

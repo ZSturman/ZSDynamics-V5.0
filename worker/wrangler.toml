@@ -33,6 +33,12 @@ PUBLIC_API_URL = "https://api.zacharysturman.com"
 NOTION_MESSAGES_DATABASE_ID = "72ce9e577255443a85a9abda87af675b"
 NOTION_MESSAGES_DATA_SOURCE_ID = "cf02a9bf-bd99-411c-8452-abb5d68d7ccb"
 NOTION_SUBSCRIBERS_DATA_SOURCE_ID = "22e3b233-380e-4f23-963a-1510bd0ceb43"
+# First-party session analytics (worker/src/sessions.ts). Session rows and
+# events are deleted after this many days by the hourly cron.
+SESSION_RETENTION_DAYS = "30"
+# Free-tier guard rails against abusive or fabricated /collect traffic.
+SESSION_DAILY_EVENT_CAP = "20000"
+SESSION_DAILY_SESSION_CAP = "3000"
 
 # ---------------------------------------------------------------------------
 # Secrets — set with `wrangler secret put <NAME>`:
@@ -41,6 +47,7 @@ NOTION_SUBSCRIBERS_DATA_SOURCE_ID = "22e3b233-380e-4f23-963a-1510bd0ceb43"
 #   TURNSTILE_SECRET    Cloudflare Turnstile server secret
 #   NOTION_API_KEY     Notion integration connected to both private trackers
 #   INTERNAL_TOKEN      shared bearer for /internal/* endpoints (GH Actions)
+#   ANALYTICS_ADMIN_PASSWORD  unrelated 256-bit owner password for /analytics/*
 # ---------------------------------------------------------------------------
 
 [[routes]]

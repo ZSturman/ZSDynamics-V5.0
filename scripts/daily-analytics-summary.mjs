@@ -13,6 +13,9 @@ import { pathToFileURL } from "node:url";
 
 import { BetaAnalyticsDataClient } from "@google-analytics/data";
 
+import { buildBrief, renderBriefHtml, renderBriefText } from "./analytics-brief.mjs";
+import { buildAnalyticsLinks, loadSessionStream, uploadDetailedReport } from "./analytics-session-source.mjs";
+
 export const DEFAULT_TIME_ZONE = "America/Los_Angeles";
 export const DEFAULT_SITE_NAME = "zacharysturman.com";
 export const REPORT_SOURCE = "Google Analytics 4 Data API + local content manifest";
@@ -136,6 +139,8 @@ export const OPTIONAL_CUSTOM_PARAMETERS = [
   "filter_type",
   "filter_value",
   "qa_run",
+  "destination_category",
+  "source_section",
 ];
 
 const MANUAL_UTM_DIMENSIONS = [
@@ -938,7 +943,8 @@ async function fetchBreakdown(client, propertyId, input, metadata, warnings) {
 
   if (!canQueryDimensions(metadata, dimensions, { requireMetadata })) {
     if (warnMissing) {
-      warnings.push(`${label} unavailable because GA4 does not expose ${dimensions.join(", ")}.`);
+      const missing = metadata.available ? dimensions.filter((dimension) => !metadata.dimensions.has(dimension)) : dimensions;
+      warnings.push(`${label} unavailable because GA4 does not expose ${missing.join(", ")}.`);
     }
     return Object.assign([], { unavailable: true });
   }
@@ -1123,7 +1129,7 @@ async function fetchTraffic(client, propertyId, dateIso, metadata, warnings) {
     fetchBreakdown(client, propertyId, {
       label: "Landing pages by source",
       dateIso,
-      dimensions: ["landingPagePlusQueryString", "sessionSource", "sessionMedium"],
+      dimensions: ["landingPage", "sessionSource", "sessionMedium"],
       metrics: ["sessions", "engagedSessions"],
       orderBy: "sessions",
       limit: 8,
@@ -1345,6 +1351,28 @@ export function compactNarrativeInput(report) {
   };
 }
 
+/**
+ * Numbers in a generated narrative that do not appear in the facts it was
+ * given (allowing rates written as whole percentages and the report date).
+ */
+export function unsupportedNarrativeNumbers(text, facts, dateIso = "") {
+  const allowed = new Set();
+  const add = (value) => {
+    const number = Number(value);
+    if (!Number.isFinite(number)) return;
+    allowed.add(String(number));
+    allowed.add(String(Math.round(number)));
+    allowed.add(number.toFixed(1));
+    if (number > 0 && number <= 1) { allowed.add(String(Math.round(number * 100))); allowed.add((number * 100).toFixed(1)); }
+  };
+  JSON.stringify(facts, (key, value) => { if (typeof value === "number") add(value); return value; });
+  for (const part of dateIso.split("-")) add(part);
+  for (const small of [1, 2, 3, 4, 7]) add(small); // "one to four paragraphs", "7-day"
+  return [...String(text).matchAll(/\d[\d,]*(?:\.\d+)?/g)]
+    .map((match) => match[0].replace(/,/g, ""))
+    .filter((value) => !allowed.has(value) && !allowed.has(String(Number(value))));
+}
+
 export function isLocalLmStudioEndpoint(endpoint) {
   try {
     const url = new URL(endpoint);
@@ -1382,6 +1410,8 @@ export async function enhanceWithLocalAnalysis(report, options = {}) {
     const body = await response.json();
     const content = String(body?.choices?.[0]?.message?.content || "").trim();
     if (!content) throw new Error("LM Studio returned no analysis");
+    const unsupported = unsupportedNarrativeNumbers(content, compactNarrativeInput(report), report.meta.dateIso);
+    if (unsupported.length) throw new Error(`narrative contained numbers not in the supplied facts (${unsupported.slice(0, 5).join(", ")})`);
     return { ...report, analysis: content.split(/\n\s*\n/).filter(Boolean).slice(0, 4), analysisSource: "LM Studio (local)" };
   } catch (error) {
     return {
@@ -1655,6 +1685,38 @@ async function fetchActionFlowInsights(client, propertyId, dateIso, metadata, wa
   };
 }
 
+/**
+ * Explains resource-click counts and device classifications with built-in
+ * dimensions: which page each project's clicks happened on, and how GA4's
+ * device category compares with the measured window width.
+ */
+async function fetchActionDiagnostics(client, propertyId, dateIso, metadata, warnings) {
+  const [clickRows, viewportRows] = await Promise.all([
+    fetchBreakdown(client, propertyId, {
+      label: "Resource clicks by page", dateIso,
+      dimensions: [customDimension("project_slug"), "pagePath"], metrics: ["eventCount", "sessions"], orderBy: "eventCount", limit: 40,
+      requireMetadata: true, warnMissing: false, dimensionFilter: eventNameFilter("project_resource_click"),
+    }, metadata, warnings),
+    fetchBreakdown(client, propertyId, {
+      label: "Device category vs window width", dateIso,
+      dimensions: ["deviceCategory", customDimension("viewport_category")], metrics: ["sessions", "eventCount"], orderBy: "sessions", limit: 12,
+      requireMetadata: true, warnMissing: false, dimensionFilter: eventNameFilter("portfolio_route_view"),
+    }, metadata, warnings),
+  ]);
+  return {
+    clicksByPage: clickRows.map((row) => ({
+      projectSlug: cleanDimension(row.dimensions[customDimension("project_slug")], ""),
+      pagePath: normalizePathname(row.dimensions.pagePath || ""),
+      events: metricCount(row), sessions: metricCount(row, "sessions"),
+    })).filter((row) => row.projectSlug),
+    deviceViewport: viewportRows.map((row) => ({
+      device: cleanDimension(row.dimensions.deviceCategory, "unknown"),
+      viewport: cleanDimension(row.dimensions[customDimension("viewport_category")], "unknown"),
+      sessions: metricCount(row, "sessions"), events: metricCount(row),
+    })),
+  };
+}
+
 async function fetchAudience(client, propertyId, dateIso, metadata, warnings) {
   const geographyMetrics = ["sessions", "totalUsers", "engagedSessions", "engagementRate"];
   const [countries, regions, cities, devices, countryActions, regionActions, cityActions] = await Promise.all([
@@ -1745,6 +1807,7 @@ export async function buildDailyAnalyticsReport(options) {
     rootDir = process.cwd(),
     dateIso = getReportDateIso(now, timeZone),
     retryDelayMs,
+    sessionStream: sessionStreamInput,
   } = options;
 
   const warnings = [];
@@ -1773,6 +1836,7 @@ export async function buildDailyAnalyticsReport(options) {
     actionFlow,
     qualitySignals,
     productActivity,
+    actionDiagnostics,
   ] = await Promise.all([
     fetchOverview(resilientClient, propertyId, dateIso, warnings, "Overview"),
     fetchOverview(resilientClient, propertyId, previousDate, warnings, "Previous-day overview"),
@@ -1788,7 +1852,18 @@ export async function buildDailyAnalyticsReport(options) {
     fetchActionFlowInsights(resilientClient, propertyId, dateIso, metadata, warnings),
     fetchTrafficQualitySignals(resilientClient, propertyId, dateIso, metadata, warnings),
     fetchProductActivity(resilientClient, propertyId, dateIso, metadata, warnings),
+    fetchActionDiagnostics(resilientClient, propertyId, dateIso, metadata, warnings),
   ]);
+
+  // First-party session stream (optional). A loader receives the catalog so
+  // session timelines can show content titles.
+  const titleForPath = (pathname) => {
+    const content = getContentForPath(catalog, pathname);
+    return content.unknown ? "" : content.title || "";
+  };
+  const sessionStream = typeof sessionStreamInput === "function"
+    ? await sessionStreamInput({ dateIso, previousDateIso: previousDate, timeZone, titleForPath })
+    : sessionStreamInput || { available: false, reason: "The report was run without session-stream access." };
 
   const scorecards = buildScorecards(current, previous, prior7);
   const tagInsights = {
@@ -1828,12 +1903,15 @@ export async function buildDailyAnalyticsReport(options) {
     tagInsights,
     audience,
     trafficQuality,
+    actionDiagnostics,
+    sessionStream,
     qualityNotes: [
       "Content tags, domains, categories, statuses, and series are enriched from the local portfolio manifests.",
       customDimensions.missing.length > 0
         ? "Some event-level custom details are not registered as GA4 custom dimensions yet, so the report shows available built-in attribution plus local content tags."
       : "All recommended event-level custom dimensions are available in GA4 metadata.",
-      "Known automated browsing is suppressed before GA4 initializes. GA4 aggregate reports cannot identify human/bot session counts or individual session paths.",
+      "Known automated browsing is suppressed before GA4 initializes. GA4 aggregates cannot identify human/bot sessions or individual paths; those come only from the first-party session stream, which starts with its deployment and is not reconstructed for earlier days.",
+      "GA4 counts a session as engaged after 10 seconds in the foreground, two page views or a key event. That is not evidence of a person. GA4 sends its user_engagement event mainly when a page is hidden or unloaded, so browsers that are killed (common for automation) can be engaged without one.",
       "City and region values come from GA4's privacy-preserving dimensions. Small counts are directional only; this report does not collect raw IP addresses.",
     ],
     warnings: unique(warnings),
@@ -1845,6 +1923,37 @@ export async function buildDailyAnalyticsReport(options) {
     analysis: buildDeterministicAnalysis(report),
     analysisSource: "Deterministic local analysis",
   };
+}
+
+function renderSessionStreamSection(report) {
+  const stream = report.sessionStream;
+  if (!stream?.available) {
+    return `${renderSectionTitle("Session Stream", "Individual anonymous sessions from the site's first-party stream.")}
+  <tr><td style="padding:0 28px">${renderEmpty(stream?.reason || "Unavailable.")}</td></tr>`;
+  }
+  const summary = stream.summary;
+  const counts = summary.counts;
+  const classRows = [["Likely human", counts.likely_human], ["Uncertain", counts.uncertain], ["Likely automated", counts.likely_automated], ["Known automated (self-declared)", counts.known_automated], ["Internal test", counts.known_internal], ["All observed sessions", summary.total]]
+    .map(([label, value]) => [{ value: label }, { value: formatInteger(value), align: "right" }]);
+  const sessionRows = stream.sessions.slice(0, 60).map((session) => [
+    { value: session.timeline[0]?.time || "" }, { value: session.classification.label }, { value: session.landing || "—" },
+    { value: formatInteger(session.pageCount), align: "right" }, { value: formatDuration(session.activeMs / 1000), align: "right" },
+    { value: formatInteger(session.actionCount), align: "right" }, { value: session.referrer }, { value: session.classification.reasons?.[0] || "" },
+  ]);
+  const flowRows = stream.flows.map((flow) => [{ value: flow.flow }, { value: formatInteger(flow.count), align: "right" }]);
+  return `${renderSectionTitle("Session Stream", "Anonymous first-party sessions, classified from observed evidence. Classifications are estimates, not identities.")}
+  <tr><td style="padding:0 28px 12px">${renderTable([{ label: "Classification" }, { label: "Sessions", align: "right" }], classRows)}</td></tr>
+  <tr><td style="padding:0 28px 12px">${renderTable([{ label: "Start" }, { label: "Class" }, { label: "Landing" }, { label: "Pages", align: "right" }, { label: "Active", align: "right" }, { label: "Actions", align: "right" }, { label: "Source" }, { label: "Strongest evidence" }], sessionRows)}</td></tr>
+  <tr><td style="padding:0 28px">${renderTable([{ label: "Observed navigation flow" }, { label: "Sessions", align: "right" }], flowRows)}</td></tr>`;
+}
+
+function renderActionDiagnosticsSection(report) {
+  const diagnostics = report.actionDiagnostics || {};
+  const clickRows = (diagnostics.clicksByPage || []).map((row) => [{ value: row.projectSlug }, { value: row.pagePath }, { value: formatInteger(row.events), align: "right" }, { value: formatInteger(row.sessions), align: "right" }]);
+  const viewportRows = (diagnostics.deviceViewport || []).map((row) => [{ value: row.device }, { value: row.viewport }, { value: formatInteger(row.sessions), align: "right" }]);
+  return `${renderSectionTitle("Click And Device Diagnostics", "Where each project's resource clicks happened, and GA4 device category vs measured window width.")}
+  <tr><td style="padding:0 28px 12px">${clickRows.length ? renderTable([{ label: "Project" }, { label: "Clicked on page" }, { label: "Events", align: "right" }, { label: "Sessions", align: "right" }], clickRows) : renderEmpty("No resource clicks or project_slug is not registered.")}</td></tr>
+  <tr><td style="padding:0 28px">${viewportRows.length ? renderTable([{ label: "GA4 device" }, { label: "Window width class" }, { label: "Sessions", align: "right" }], viewportRows) : renderEmpty("Unavailable.")}</td></tr>`;
 }
 
 function renderPill(label) {
@@ -1988,7 +2097,7 @@ function renderTrafficSection(report) {
   ]);
 
   const landingRows = (report.traffic.landingPages || []).map((row) => [
-    { value: row.dimensions.landingPagePlusQueryString || row.label },
+    { value: row.dimensions.landingPage || row.label },
     { value: `${row.dimensions.sessionSource || "Unattributed"} / ${row.dimensions.sessionMedium || "Unattributed"}` },
     { value: formatInteger(row.metrics.sessions), align: "right" },
     { value: formatInteger(row.metrics.engagedSessions), align: "right" },
@@ -2074,14 +2183,14 @@ function renderJourneySection(report) {
     { value: formatInteger(row.count), align: "right" },
   ]);
 
-  return `${renderSectionTitle("Visitor Journeys", "Aggregate route paths and modal/full-page browsing context.")}
+  return `${renderSectionTitle("Aggregate Route Transitions", "GA4 route-view counts by previous and current page. These are aggregates, not individual journeys; see Session Stream for observed paths.")}
   <tr><td style="padding:0 28px 14px">
     ${renderTable(
       [
         { label: "From" },
         { label: "To" },
         { label: "Surface" },
-        { label: "Viewport" },
+        { label: "Window width class" },
         { label: "Events", align: "right" },
       ],
       transitionRows,
@@ -2091,7 +2200,7 @@ function renderJourneySection(report) {
     ${renderTable(
       [
         { label: "Surface" },
-        { label: "Viewport" },
+        { label: "Window width class" },
         { label: "Route views", align: "right" },
       ],
       surfaceRows,
@@ -2212,7 +2321,7 @@ function renderActionFlowSection(report) {
     { value: formatInteger(row.count), align: "right" },
   ]);
 
-  return `${renderSectionTitle("Content-To-Action Flow", "Which visible project/article context preceded high-intent actions.")}
+  return `${renderSectionTitle("Content-To-Action Flow", "Actions by project and section. Before Nov 23, 2026 the section was whichever element was last visible, not where the click happened.")}
   <tr><td style="padding:0 28px">
     ${renderTable(
       [
@@ -2495,7 +2604,7 @@ export function renderReportHtml(report) {
     <tr><td align="center" style="padding:24px 12px">
       <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:860px;border-collapse:collapse;background:#ffffff;border:1px solid #dadce0;border-radius:12px;overflow:hidden">
         <tr><td style="padding:28px 28px 20px;border-bottom:1px solid #e8eaed">
-          <div style="color:#1a73e8;font-size:13px;line-height:18px;font-weight:600;letter-spacing:.02em">DAILY ANALYTICS REPORT</div>
+          <div style="color:#1a73e8;font-size:13px;line-height:18px;font-weight:600;letter-spacing:.02em">DETAILED ANALYTICS REPORT</div>
           <h1 style="margin:6px 0 0;color:#202124;font-size:26px;line-height:32px;font-weight:500">${escapeHtml(report.meta.siteName)}</h1>
           <div style="margin:4px 0 0;color:#5f6368;font-size:14px;line-height:20px">${escapeHtml(report.meta.dateLabel)}</div>
         </td></tr>
@@ -2510,6 +2619,7 @@ export function renderReportHtml(report) {
         ${renderDailySummary(report)}
         ${renderNarrative(report)}
         ${renderTrafficQualitySection(report)}
+        ${renderSessionStreamSection(report)}
         ${renderActivityArea(report, "Portfolio activity", ["project_open", "resume_download", "resume_view", "contact_click", "contact_submit", "social_click"])}
         ${renderProductActivity(report)}
         ${renderActivityArea(report, "Content activity", ["article_open", "article_source_click", "article_project_click", "work_log_open", "newsletter_interest"])}
@@ -2522,6 +2632,7 @@ export function renderReportHtml(report) {
         ${renderProjectDetailSection(report)}
         ${renderMediaSection(report)}
         ${renderActionFlowSection(report)}
+        ${renderActionDiagnosticsSection(report)}
         ${renderTechnicalEventsSection(report)}
         ${renderTagInsights(report)}
         ${renderQualitySection(report)}
@@ -2620,9 +2731,9 @@ export function renderReportText(report) {
       ]),
     ),
     "",
-    "## Visitor journeys",
+    "## Aggregate route transitions (GA4 counts, not individual journeys)",
     renderTextRows(
-      ["From", "To", "Surface", "Viewport", "Events"],
+      ["From", "To", "Surface", "Window width class", "Events"],
       (report.journeys?.transitions || []).map((row) => [
         row.from,
         row.to,
@@ -2734,17 +2845,23 @@ export function renderReportText(report) {
   return lines.join("\n");
 }
 
-export function buildEmail(report) {
-  const sessions = report.scorecards.find((card) => card.key === "sessions")?.value ?? 0;
-  const subject = `${report.meta.siteName} analytics - ${formatDateLabel(report.meta.dateIso)} - ${formatInteger(sessions)} sessions / ${formatInteger(report.events.keyActionCount)} key actions`;
+/** The daily email is the short brief; the full report is stored separately and linked. */
+export function buildEmail(report, { links = null } = {}) {
+  const brief = buildBrief(report, links);
   return {
-    subject,
-    html: renderReportHtml(report),
-    text: renderReportText(report),
+    subject: brief.headline,
+    html: renderBriefHtml(brief),
+    text: renderBriefText(brief),
+    brief,
   };
 }
 
-async function postToWorker({ apiBaseUrl, internalToken, subject, html, text }) {
+/** The full report (all tables and diagnostics), served after administrator sign-in. */
+export function buildDetailedReport(report) {
+  return { html: renderReportHtml(report), text: renderReportText(report) };
+}
+
+async function postToWorker({ apiBaseUrl, internalToken, subject, html, text, idempotencyKey }) {
   const url = `${apiBaseUrl.replace(/\/$/, "")}/internal/daily-summary`;
   const res = await fetch(url, {
     method: "POST",
@@ -2752,7 +2869,9 @@ async function postToWorker({ apiBaseUrl, internalToken, subject, html, text }) 
       "Content-Type": "application/json",
       Authorization: `Bearer ${internalToken}`,
     },
-    body: JSON.stringify({ subject, html, text }),
+    // The Worker forwards the key to Resend, so a re-run for the same day
+    // within 24 hours does not send a second email.
+    body: JSON.stringify({ subject, html, text, idempotencyKey }),
   });
   const body = await res.text();
   if (!res.ok) {
@@ -2790,6 +2909,11 @@ function readRuntimeConfig(env) {
     siteName: env.SITE_NAME || DEFAULT_SITE_NAME,
     timeZone: env.ANALYTICS_TIME_ZONE || DEFAULT_TIME_ZONE,
     dryRun,
+    testRun: env.ANALYTICS_TEST_RUN || "",
+    accessEnabled: env.ANALYTICS_ACCESS_ENABLED === "true",
+    streamStartedAt: env.ANALYTICS_SESSION_STARTED_AT || "",
+    outputDir: env.ANALYTICS_OUTPUT_DIR || "",
+    reportDate: /^\d{4}-\d{2}-\d{2}$/.test(env.ANALYTICS_REPORT_DATE || "") ? env.ANALYTICS_REPORT_DATE : undefined,
     lmStudioUrl: env.LM_STUDIO_BASE_URL,
     lmStudioModel: env.LM_STUDIO_MODEL,
   };
@@ -2805,25 +2929,58 @@ export async function main(env = process.env) {
     siteName: config.siteName,
     timeZone: config.timeZone,
     now,
+    ...(config.reportDate ? { dateIso: config.reportDate } : {}),
+    sessionStream: (input) => loadSessionStream({ apiBaseUrl: config.apiBaseUrl, internalToken: config.internalToken, startedAt: config.streamStartedAt, now: now.getTime(), ...input }),
   });
   report = await enhanceWithLocalAnalysis(report, { endpoint: config.lmStudioUrl, model: config.lmStudioModel });
-  const email = buildEmail(report);
+  const detailed = buildDetailedReport(report);
+
+  // Store the full report first; if that fails the brief still sends, without links.
+  let links = null;
+  if (!config.dryRun && !config.testRun && config.apiBaseUrl && config.internalToken && config.accessEnabled) {
+    try {
+      await uploadDetailedReport({ apiBaseUrl: config.apiBaseUrl, internalToken: config.internalToken, dateIso: report.meta.dateIso, html: detailed.html });
+      links = buildAnalyticsLinks({ apiBaseUrl: config.apiBaseUrl, dateIso: report.meta.dateIso, timeZone: config.timeZone });
+    } catch (error) {
+      report = { ...report, warnings: unique([...report.warnings, `Detailed report storage failed: ${error.message}`]) };
+    }
+  }
+  if (config.testRun && config.accessEnabled) {
+    links = buildAnalyticsLinks({ apiBaseUrl: config.apiBaseUrl, dateIso: report.meta.dateIso, timeZone: config.timeZone });
+    delete links.report; // The acceptance run does not replace the stored daily report.
+  }
+  const email = buildEmail(report, { links });
+
+  if (config.outputDir) {
+    await fs.mkdir(config.outputDir, { recursive: true });
+    await fs.writeFile(path.join(config.outputDir, `brief-${report.meta.dateIso}.html`), email.html);
+    await fs.writeFile(path.join(config.outputDir, `brief-${report.meta.dateIso}.txt`), email.text);
+    await fs.writeFile(path.join(config.outputDir, `detailed-${report.meta.dateIso}.html`), detailed.html);
+  }
 
   if (config.dryRun) {
-    console.log(email.subject);
-    console.log("");
-    console.log(email.text);
-    console.log("");
-    console.log(`HTML length: ${email.html.length}`);
+    if (env.GITHUB_ACTIONS === "true") {
+      console.log(`Rendered analytics for ${report.meta.dateIso}. First-party coverage: ${report.sessionStream?.available ? "available" : "unavailable"}. Warnings: ${report.warnings.length}.`);
+    } else {
+      console.log(email.subject);
+      console.log("");
+      console.log(email.text);
+      console.log("");
+    }
+    console.log(`Brief HTML length: ${email.html.length}; detailed report HTML length: ${detailed.html.length}`);
     return;
   }
 
-  await postToWorker({
+  const receipt = await postToWorker({
     apiBaseUrl: config.apiBaseUrl,
     internalToken: config.internalToken,
-    ...email,
+    subject: config.testRun ? `[Analytics acceptance] ${email.subject}` : email.subject,
+    html: email.html,
+    text: email.text,
+    idempotencyKey: config.testRun ? `analytics-acceptance-${config.testRun}` : `daily-analytics-${report.meta.dateIso}`,
   });
-  console.log(`Sent rich analytics summary for ${report.meta.dateIso}`);
+  const { resendId } = JSON.parse(receipt);
+  console.log(`Sent analytics brief for ${report.meta.dateIso}${resendId ? ` (Resend ${resendId})` : ""}`);
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {

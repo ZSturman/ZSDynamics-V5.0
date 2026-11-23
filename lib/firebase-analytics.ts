@@ -6,6 +6,8 @@ import type { FirebaseApp } from "firebase/app";
 
 import { getQaRun, getStoredUtm } from "./analytics-utm";
 import { getAnalyticsSuppressionReason as evaluateAnalyticsSuppression } from "./analytics-suppression.mjs";
+import { destinationCategory } from "./analytics-taxonomy.mjs";
+import { sessionEvent, sessionPageView, startSessionStream } from "./session-collector";
 
 type AnalyticsValue = string | number | undefined;
 type AnalyticsParams = Record<string, AnalyticsValue>;
@@ -29,6 +31,8 @@ type ProjectResourceClickInput = {
   resourceUrl: string;
   isInternal: boolean;
   surface?: string;
+  /** The clicked element; used to record where on the page the click happened. */
+  element?: Element | null;
 };
 
 type ArticleOpenInput = {
@@ -112,7 +116,6 @@ let analyticsPromise: Promise<Analytics | null> | null = null;
 let lastRouteViewKey = "";
 let routeStep = 0;
 let activePageContext: AnalyticsParams = {};
-let activeAttentionContext: AnalyticsParams = {};
 let missingConfigWarned = false;
 
 function canUseBrowser(): boolean {
@@ -270,7 +273,7 @@ async function getAnalyticsInstance(): Promise<Analytics | null> {
     return null;
   }
 
-  if (getAnalyticsSuppressionReason() || !hasCompleteConfig()) {
+  if (getAnalyticsSuppressionReason() || (navigator as Navigator & { globalPrivacyControl?: boolean }).globalPrivacyControl || !hasCompleteConfig()) {
     warnMissingConfigOnce();
     return null;
   }
@@ -316,7 +319,6 @@ async function logAnalyticsEvent(name: string, params: AnalyticsParams = {}): Pr
     ...utm,
     ...(qaRun ? { traffic_type: "internal", qa_run: qaRun } : {}),
     ...activePageContext,
-    ...activeAttentionContext,
     ...params,
   };
 
@@ -335,6 +337,9 @@ async function logAnalyticsEvent(name: string, params: AnalyticsParams = {}): Pr
     observer.push({ name, params: sanitizeParams(merged) });
   }
 
+  // First-party session stream (allow-listed params only; own gate).
+  try { sessionEvent(name, merged); } catch { /* never break the page */ }
+
   const analytics = await getAnalyticsInstance();
   if (!analytics) {
     return;
@@ -345,7 +350,26 @@ async function logAnalyticsEvent(name: string, params: AnalyticsParams = {}): Pr
 }
 
 export function initializeAnalytics(): void {
+  startSessionStream({ gate: getAnalyticsSuppressionReason, qaRun: getQaRun });
   void getAnalyticsInstance();
+}
+
+/**
+ * Where a click happened: the nearest explicit analytics surface (card grid,
+ * list, modal, selected work, footer...) or the page type, plus the nearest
+ * tagged section. Derived from the clicked element, never from whatever
+ * section was last visible.
+ */
+export function clickContext(element?: Element | null): { surface: string; source_section?: string } {
+  const surfaceHost = element?.closest<HTMLElement>("[data-analytics-surface]");
+  const sectionHost = element?.closest<HTMLElement>("[data-analytics-section]");
+  const section = sectionHost?.dataset.analyticsSection;
+  if (surfaceHost?.dataset.analyticsSurface) return { surface: surfaceHost.dataset.analyticsSurface, source_section: section };
+  const group = typeof activePageContext.page_group === "string" ? activePageContext.page_group : "other";
+  const surface = activePageContext.modal_context === "project_modal" ? "project_modal"
+    : group === "project" ? (activePageContext.project_slug ? "project_page" : "project_index")
+      : group === "product" ? "product_page" : group === "home" ? "home" : group;
+  return { surface, source_section: section };
 }
 
 export function trackRouteView(input: RouteViewInput): void {
@@ -364,10 +388,12 @@ export function trackRouteView(input: RouteViewInput): void {
   routeStep += 1;
   lastRouteViewKey = routeKey;
   activePageContext = routeDetails;
-  activeAttentionContext = {};
   viewedProjects.clear();
   viewedArticles.clear();
 
+  try {
+    sessionPageView({ path: input.pathname || "/", group: String(routeDetails.page_group || "other"), slug: String(routeDetails.page_slug || ""), modal: modal || undefined });
+  } catch { /* never break navigation */ }
   if (product) void logAnalyticsEvent("product_view", { product_id: product.id, product_slug: product.slug, surface: input.pathname.endsWith("/demo") ? "demo_page" : "product_page" });
   void logAnalyticsEvent("portfolio_route_view", {
     ...routeDetails,
@@ -391,12 +417,17 @@ export function trackProjectOpen(input: ProjectOpenInput): void {
 export function trackProjectResourceClick(input: ProjectResourceClickInput): void {
   const product = products.find((p) => p.slug === input.projectSlug || p.id === input.projectSlug);
   const action = resourceAction({ url: input.resourceUrl, label: input.resourceLabel, type: input.resourceType || "" });
+  const where = clickContext(input.element);
   void logAnalyticsEvent("project_resource_click", {
     project_slug: input.projectSlug,
     project_title: input.projectTitle,
     product_id: product?.id,
     product_slug: product?.slug,
-    surface: input.surface || "project_resource",
+    surface: input.surface || where.surface,
+    source_section: where.source_section,
+    // Kept for the existing GA4 section_key dimension: the section that contains the clicked link.
+    section_key: where.source_section,
+    destination_category: canUseBrowser() ? destinationCategory(input.resourceUrl, { label: input.resourceLabel, type: input.resourceType, origin: window.location.origin }) : undefined,
     action_type: action,
     resource_type: input.resourceType?.toLowerCase(),
     resource_label: input.resourceLabel,
@@ -463,19 +494,24 @@ type OutboundLinkInput = {
   destinationUrl: string;
   surface: string;
   label?: string;
+  sourceSection?: string;
 };
 
 export function trackOutboundLink(input: OutboundLinkInput): void {
+  // Query strings and fragments can carry tokens; only origin + path is kept.
+  const safeUrl = (() => { try { const u = new URL(input.destinationUrl); return `${u.origin}${u.pathname}`; } catch { return undefined; } })();
   void logAnalyticsEvent("outbound_click", {
     destination_domain: normalizeDomain(input.destinationUrl),
-    destination_url: input.destinationUrl.slice(0, 500),
+    destination_url: safeUrl?.slice(0, 300),
+    destination_category: canUseBrowser() ? destinationCategory(input.destinationUrl, { label: input.label, origin: window.location.origin }) : undefined,
     surface: input.surface,
-    link_label: input.label?.slice(0, 200),
+    source_section: input.sourceSection,
+    link_label: input.label?.slice(0, 100),
   });
 }
 
-export function trackContactClick(surface: string): void {
-  void logAnalyticsEvent("contact_click", { surface });
+export function trackContactClick(surface: string, sourceSection?: string): void {
+  void logAnalyticsEvent("contact_click", { surface, source_section: sourceSection });
 }
 
 type ContactSubmitStatus = "success" | "error" | "rate_limited" | "invalid";
@@ -552,21 +588,6 @@ export function trackGitHubClick(input: { destinationUrl: string; surface: strin
   });
 }
 
-export function setActiveAnalyticsSection(input: SectionAnalyticsInput): void {
-  activeAttentionContext = {
-    section_key: sanitizeAnalyticsText(input.sectionKey),
-    section_label: sanitizeAnalyticsText(input.sectionLabel, 120),
-    project_slug: sanitizeAnalyticsText(input.projectSlug),
-    project_title: sanitizeAnalyticsText(input.projectTitle, 120),
-    article_slug: sanitizeAnalyticsText(input.articleSlug),
-    article_title: sanitizeAnalyticsText(input.articleTitle, 120),
-    item_id: sanitizeAnalyticsText(input.itemId),
-    item_type: sanitizeAnalyticsText(input.itemType),
-    collection_key: sanitizeAnalyticsText(input.collectionKey),
-    media_role: sanitizeAnalyticsText(input.mediaRole),
-    surface: sanitizeAnalyticsText(input.surface),
-  };
-}
 
 export function trackScrollDepth(input: ScrollDepthInput): void {
   void logAnalyticsEvent("portfolio_scroll_depth", {
@@ -575,7 +596,6 @@ export function trackScrollDepth(input: ScrollDepthInput): void {
 }
 
 export function trackSectionView(input: SectionAnalyticsInput): void {
-  setActiveAnalyticsSection(input);
   void logAnalyticsEvent("portfolio_section_view", {
     section_key: sanitizeAnalyticsText(input.sectionKey),
     section_label: sanitizeAnalyticsText(input.sectionLabel, 120),
@@ -592,7 +612,6 @@ export function trackSectionView(input: SectionAnalyticsInput): void {
 }
 
 export function trackSectionEngaged(input: SectionEngagementInput): void {
-  setActiveAnalyticsSection(input);
   void logAnalyticsEvent("portfolio_section_engaged", {
     section_key: sanitizeAnalyticsText(input.sectionKey),
     section_label: sanitizeAnalyticsText(input.sectionLabel, 120),

@@ -10,7 +10,7 @@
     "typecheck": "tsc --noEmit",
     "setup:intake": "node scripts/setup-intake.mjs",
     "migrate:local": "wrangler d1 migrations apply portfolio-intake --local --config wrangler.local.toml",
-    "test": "node --test tests/intake.test.mjs"
+    "test": "node --test tests/intake.test.mjs tests/sessions.test.mjs"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20240909.0",
