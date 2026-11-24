@@ -5,9 +5,8 @@ zacharysturman.com · times in America/Los_Angeles
 
 SUMMARY
 GA4 recorded 49 sessions, 10 more than Sat and well above the 7-day average of 8 a day.
-25 sessions met GA4's engagement rule (10 s, two pages or a key event). That rule doesn't show a person was present, and there's no session-level evidence for this day to tell people from automation.
-GA4 logged 17 project-resource clicks from 9 sessions; treat them as possible, not confirmed, interest.
-Worth a look: traffic spike: 49 sessions vs a 7-day average of 8 a day.
+25 sessions met GA4's engagement rule.
+GA4 recorded 17 project-resource clicks across 9 sessions.
 
 WHERE VISITS CAME FROM
 Top countries

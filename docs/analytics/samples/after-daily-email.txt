@@ -7,7 +7,6 @@ SUMMARY
 GA4 recorded 49 sessions, 10 more than Sat and well above the 7-day average of 8 a day.
 First-party analytics observed 14 sessions. 5 likely human, 1 known automated, 6 suspected automated and 1 unclassified.
 3 likely-human sessions took a meaningful action, most often: opened the GitHub repository for Better Workspace.
-Worth a look: traffic spike: 49 sessions vs a 7-day average of 8 a day.
 
 WHERE VISITS CAME FROM
 Top countries

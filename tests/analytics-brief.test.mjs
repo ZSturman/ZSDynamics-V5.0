@@ -109,8 +109,8 @@ test("without session data the brief says so instead of inferring humans or jour
   const r = await report({ sessionStream: { available: false, reason: "The session collector is not deployed yet, so individual journeys are unavailable." } });
   const brief = buildBrief(r, null);
   assert.ok(!brief.metrics.some((m) => /human|automated/i.test(m.label)));
-  assert.match(brief.summary.join(" "), /doesn't show a person was present/);
-  assert.match(brief.summary.join(" "), /17 project-resource clicks from 9 sessions/);
+  assert.match(brief.quality.sentences.join(" "), /need session-level evidence/);
+  assert.match(brief.summary.join(" "), /17 project-resource clicks across 9 sessions/);
   assert.equal(brief.journeys.items.length, 0);
   assert.match(brief.journeys.note, /not deployed/);
   assert.match(brief.quality.sentences.join(" "), /25 sessions met GA4's engagement rule, but only 4 sent GA4's end-of-page engagement event/);

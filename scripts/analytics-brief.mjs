@@ -244,12 +244,14 @@ export function buildBrief(report, links = null) {
     } else if (observedSessions) sentences.push("The first-party stream recorded no meaningful actions.");
     if (!observedSessions && resourceEvent) sentences.push(`GA4 recorded ${plural(resourceEvent.count, "project-resource click")}${n(resourceEvent.sessions) !== null ? ` across ${plural(resourceEvent.sessions, "session")}` : ""}.`);
   } else if (sessions) {
-    sentences.push(`${plural(n(current.engagedSessions) ?? 0, "session")} met GA4's engagement rule (10 s, two pages or a key event). That rule doesn't show a person was present, and there's no session-level evidence for this day to tell people from automation.`);
-    if (resourceEvent) sentences.push(`GA4 logged ${plural(resourceEvent.count, "project-resource click")} from ${plural(resourceEvent.sessions ?? 0, "session")}; treat them as possible, not confirmed, interest.`);
+    const engaged = n(current.engagedSessions);
+    if (engaged !== null) sentences.push(`${plural(engaged, "session")} met GA4's engagement rule.`);
+    if (resourceEvent) {
+      const across = n(resourceEvent.sessions) === null ? "" : ` across ${plural(resourceEvent.sessions, "session")}`;
+      sentences.push(`GA4 recorded ${plural(resourceEvent.count, "project-resource click")}${across}.`);
+    }
   }
   const findings = buildFindings(report);
-  const headline = findings.find((f) => f.severity === "warning");
-  if (headline && sentences.length < 4) sentences.push(`Worth a look: ${lowerFirst(headline.title)}.`);
 
   // B. Key metrics ---------------------------------------------------------
   const metrics = [];
