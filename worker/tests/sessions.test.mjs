@@ -199,8 +199,9 @@ test("the explorer requires separate sign-in and rejects forwarded or forged cre
   assert.equal(page.headers.get("Referrer-Policy"), "no-referrer");
   assert.match(await page.text(), /Session explorer/);
 
-  const day = new Date(now).toISOString().slice(0, 10);
-  const data = await (await mf.dispatchFetch(`https://api.example.com/analytics/explorer/data?from_date=${day}&to_date=${day}&tz=UTC`, { headers: { Authorization: BASIC } })).json();
+  const fromDay = new Date(now - 90_000).toISOString().slice(0, 10);
+  const toDay = new Date(now).toISOString().slice(0, 10);
+  const data = await (await mf.dispatchFetch(`https://api.example.com/analytics/explorer/data?from_date=${fromDay}&to_date=${toDay}&tz=UTC`, { headers: { Authorization: BASIC } })).json();
   assert.equal(data.sessions.length, 1);
   const [session] = data.sessions;
   assert.equal(session.classification.category, "likely_human");

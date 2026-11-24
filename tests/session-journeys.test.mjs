@@ -97,6 +97,7 @@ test("session params are allow-listed: no titles, URLs, search text or unknown k
   assert.deepEqual(out, { filter_type: "search", surface: "projects" });
   const page = sanitizeSessionParams("page_view", { path: "/projects/x?token=abc#frag", destination_domain: "https://evil", fg_ms: "1200.6", pointer: -4 });
   assert.deepEqual(page, { path: "/projects/x", fg_ms: 1201, pointer: 0 });
+  assert.deepEqual(sanitizeSessionParams("page_attention", { first_input_ms: 123 }), { first_input_ms: 123 });
 });
 
 // ---------------------------------------------------------------------------
@@ -135,6 +136,19 @@ test("2. multi-project exploration with a GitHub click is a likely-human journey
   assert.equal(session.timeToFirstInputMs, 1_500);
   assert.equal(session.timeToFirstActionMs, 68_000);
   assert.match(narrateSession(session, { titleForPath }), /^One likely-human session arrived on Home from a github\.com referral, went on to Projects, Better Workspace, spent about 52 seconds active on Better Workspace, kept its description story section in view for 30\+ seconds, and opened the GitHub repository for Better Workspace\.$/);
+});
+
+test("interleaved documents keep scroll depth and route changes on the correct page", () => {
+  const base = Date.UTC(2026, 10, 22, 12);
+  const session = reconstructSession({ session_id: "multi-document" }, [
+    { event_id: "a-1", tab_id: "a", seq: 1, ts: base, name: "page_view", props: { path: "/", nav: "landing", pv: "home" } },
+    { event_id: "b-1", tab_id: "b", seq: 1, ts: base + 2, name: "page_view", props: { path: "/projects", nav: "landing", pv: "projects" } },
+    { event_id: "a-2", tab_id: "a", seq: 2, ts: base + 3, name: "portfolio_scroll_depth", props: { scroll_percent: 75 } },
+    { event_id: "a-3", tab_id: "a", seq: 3, ts: base + 4, name: "page_view", props: { path: "/resume", nav: "route", pv: "resume" } },
+  ], opts);
+  assert.equal(session.timeline[1].text, "Opened Projects");
+  assert.equal(session.timeline[2].text, "Scrolled to 75% of Home");
+  assert.deepEqual(navigationFlows([session], opts).map((entry) => entry.flow).sort(), ["(entry) → Home", "Home → Resume"]);
 });
 
 test("3. background-tab time is excluded from active and foreground time", () => {

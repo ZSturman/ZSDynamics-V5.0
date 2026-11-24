@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
     inputs:
       dry_run:
-        description: "Render from live GA4 data and print it to the log without emailing"
+        description: "Check report generation from live data without storing or emailing"
         type: boolean
         default: false
       report_date:
@@ -15,6 +15,10 @@ on:
         type: string
       test_email:
         description: "Send a labeled acceptance email to the configured recipient"
+        type: boolean
+        default: false
+      store_only:
+        description: "Store the authenticated detailed report without emailing"
         type: boolean
         default: false
 
@@ -43,6 +47,7 @@ jobs:
           ANALYTICS_DRY_RUN: ${{ inputs.dry_run && 'true' || 'false' }}
           ANALYTICS_REPORT_DATE: ${{ inputs.report_date }}
           ANALYTICS_TEST_RUN: ${{ inputs.test_email && github.run_id || '' }}
+          ANALYTICS_STORE_ONLY: ${{ inputs.store_only && 'true' || 'false' }}
           ANALYTICS_ACCESS_ENABLED: ${{ vars.ANALYTICS_ACCESS_ENABLED }}
           ANALYTICS_SESSION_STARTED_AT: ${{ vars.ANALYTICS_SESSION_STARTED_AT }}
         run: npm run daily-analytics

@@ -33,6 +33,7 @@ export interface SessionEnv {
 const MAX_BODY_BYTES = 32 * 1024;
 const MAX_EVENTS_PER_BATCH = 50;
 const MAX_EVENTS_PER_SESSION = 1500;
+const MAX_WINDOW_EVENTS = 25_000;
 const CLOCK_TOLERANCE_MS = 2_000;
 const MAX_EVENT_AGE_MS = 6 * 60 * 60 * 1000;
 
@@ -210,12 +211,18 @@ export async function loadSessionWindow(db: D1Database, from: number, to: number
   let truncated = sessions.length > limit;
   if (truncated) sessions.pop();
   const events: Array<Record<string, unknown>> = [];
-  for (let i = 0; i < sessions.length; i += 90) {
-    const ids = sessions.slice(i, i + 90).map((s) => s.session_id);
+  for (let i = 0; i < sessions.length; i += 88) {
+    const ids = sessions.slice(i, i + 88).map((s) => s.session_id);
+    const remaining = MAX_WINDOW_EVENTS - events.length;
     const rows = await db.prepare(
-      `SELECT session_id, event_id, tab_id, seq, ts, name, props FROM analytics_events WHERE session_id IN (${ids.map(() => "?").join(",")}) ORDER BY ts, seq LIMIT 20001`,
-    ).bind(...ids).all();
-    if (rows.results.length > 20_000) { truncated = true; rows.results.pop(); }
+      `SELECT session_id, event_id, tab_id, seq, ts, name, props FROM analytics_events WHERE session_id IN (${ids.map(() => "?").join(",")}) ORDER BY ts, seq LIMIT ?`,
+    ).bind(...ids, remaining + 1).all();
+    if (rows.results.length > remaining) {
+      // Keep complete journeys. A shortened date range can retrieve the rest.
+      truncated = true;
+      sessions.length = i;
+      break;
+    }
     events.push(...rows.results);
   }
   return { sessions, events, truncated };
@@ -422,10 +429,10 @@ document.getElementById("list").innerHTML="<table><thead><tr><th>Start</th><th>C
 return "<tr class='row"+(selected===s.id?" sel":"")+"' data-id='"+esc(s.id)+"'><td>"+esc(fmtTime(s.startedAt))+"</td><td><span class='pill "+esc(s.classification.category)+"'>"+esc(s.classification.label)+"</span></td><td>"+esc(s.landing)+(s.exit&&s.exit!==s.landing?" → "+esc(s.exit):"")+"</td><td>"+s.pageCount+"</td><td>"+sec(s.activeMs)+"</td><td>"+s.actionCount+"</td><td>"+esc(s.referrer)+"</td></tr>"}).join("")+"</tbody></table>";
 Array.prototype.forEach.call(document.querySelectorAll("tr.row"),function(tr){tr.addEventListener("click",function(){selected=tr.getAttribute("data-id");render()})})}
 var s=data.sessions.find(function(x){return x.id===selected});document.getElementById("detail").innerHTML=s?detail(s):'<p class="muted">Select a session to see its timeline.</p>';
-document.getElementById("flows").innerHTML="<h2 style='font-size:15px;margin:0 0 6px'>Observed navigation flows</h2><p class='muted' style='margin:0 0 6px;font-size:12px'>Page-to-page transitions inside real sessions for the selected dates.</p><ol>"+data.flows.map(function(f){return "<li>"+esc(f.flow)+" <span class='muted'>· "+f.count+"</span></li>"}).join("")+"</ol>"}
+document.getElementById("flows").innerHTML="<h2 style='font-size:15px;margin:0 0 6px'>Observed navigation flows</h2><p class='muted' style='margin:0 0 6px;font-size:12px'>Route changes observed within one open document for the selected dates.</p><ol>"+data.flows.map(function(f){return "<li>"+esc(f.flow)+" <span class='muted'>· "+f.count+"</span></li>"}).join("")+"</ol>"}
 function detail(s){var c=s.classification;return "<h2>Session "+esc(s.shortId)+"</h2><div class='muted'>"+esc(fmtTime(s.startedAt))+" · "+esc(s.device)+" · "+esc(s.browser)+" on "+esc(s.os)+(s.country?" · "+esc(s.country):"")+" · network: "+esc(s.network)+"</div>"+
 "<p><span class='pill "+esc(c.category)+"'>"+esc(c.label)+"</span> <span class='muted'>confidence: "+esc(c.confidence)+"</span></p><p>"+esc(s.narrative)+"</p>"+
-"<div class='metrics'><div class='metric'><b>"+sec(s.elapsedMs)+"</b><span>Elapsed</span></div><div class='metric'><b>"+sec(s.foregroundMs)+"</b><span>Foreground</span></div><div class='metric'><b>"+sec(s.activeMs)+"</b><span>Active</span></div><div class='metric'><b>"+(s.timeToFirstInputMs==null?"—":sec(s.timeToFirstInputMs))+"</b><span>To first input</span></div><div class='metric'><b>"+(s.timeToFirstActionMs==null?"—":sec(s.timeToFirstActionMs))+"</b><span>To first action</span></div><div class='metric'><b>"+s.uniquePaths+"</b><span>Distinct pages</span></div></div>"+
+"<div class='metrics'><div class='metric'><b>"+sec(s.elapsedMs)+"</b><span>Elapsed</span></div><div class='metric'><b>"+sec(s.foregroundMs)+"</b><span>Foreground page time</span></div><div class='metric'><b>"+sec(s.activeMs)+"</b><span>Active page time</span></div><div class='metric'><b>"+(s.timeToFirstInputMs==null?"—":sec(s.timeToFirstInputMs))+"</b><span>To first input</span></div><div class='metric'><b>"+(s.timeToFirstActionMs==null?"—":sec(s.timeToFirstActionMs))+"</b><span>To first action</span></div><div class='metric'><b>"+s.uniquePaths+"</b><span>Distinct pages</span></div></div>"+
 "<h3 style='font-size:13px;margin:12px 0 0'>Timeline</h3><ol class='timeline'>"+s.timeline.map(function(i){return "<li><time>"+esc(i.time)+"</time><div class='k-"+esc(i.kind)+"'>"+esc(i.text)+(i.repeat?" ×"+i.repeat:"")+(i.detail?"<span class='sub'>"+esc(i.detail)+"</span>":"")+"</div></li>"}).join("")+"</ol>"+
 "<h3 style='font-size:13px;margin:14px 0 0'>Classification evidence</h3><ul class='evidence'>"+(c.evidence||[]).map(function(e){return "<li>"+esc(e.text)+" <span class='muted'>("+(e.weight>0?"+":"")+e.weight+")</span></li>"}).join("")+"</ul>"+
 "<p class='muted' style='font-size:12px'>Positive weights point towards automation, negative towards a person. The last observed activity is not proof of when someone stopped reading.</p>"}

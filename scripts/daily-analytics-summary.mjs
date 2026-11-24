@@ -1719,7 +1719,7 @@ async function fetchActionDiagnostics(client, propertyId, dateIso, metadata, war
 
 async function fetchAudience(client, propertyId, dateIso, metadata, warnings) {
   const geographyMetrics = ["sessions", "totalUsers", "engagedSessions", "engagementRate"];
-  const [countries, regions, cities, devices, countryActions, regionActions, cityActions] = await Promise.all([
+  const [countries, regions, cities, devices, countryActions, regionActions, cityActions, newVsReturning] = await Promise.all([
     fetchBreakdown(client, propertyId, {
       label: "Countries",
       dateIso,
@@ -1781,6 +1781,13 @@ async function fetchAudience(client, propertyId, dateIso, metadata, warnings) {
       limit: 8,
       dimensionFilter: eventNameFilter([...HIGH_INTENT_EVENTS]),
     }, metadata, warnings),
+    fetchBreakdown(client, propertyId, {
+      label: "GA4 new and returning users",
+      dateIso,
+      dimensions: ["newVsReturning"],
+      metrics: ["totalUsers"],
+      limit: 4,
+    }, metadata, warnings),
   ]);
 
   const mergeActions = (rows, actionRows) => {
@@ -1792,6 +1799,7 @@ async function fetchAudience(client, propertyId, dateIso, metadata, warnings) {
     regions: mergeActions(regions, regionActions),
     cities: mergeActions(cities, cityActions),
     devices,
+    returningUsers: newVsReturning.unavailable ? null : newVsReturning.find((row) => row.dimensions.newVsReturning === "returning")?.metrics.totalUsers ?? 0,
     browsers: [],
     operatingSystems: [],
   };
@@ -2910,6 +2918,7 @@ function readRuntimeConfig(env) {
     timeZone: env.ANALYTICS_TIME_ZONE || DEFAULT_TIME_ZONE,
     dryRun,
     testRun: env.ANALYTICS_TEST_RUN || "",
+    storeOnly: env.ANALYTICS_STORE_ONLY === "true",
     accessEnabled: env.ANALYTICS_ACCESS_ENABLED === "true",
     streamStartedAt: env.ANALYTICS_SESSION_STARTED_AT || "",
     outputDir: env.ANALYTICS_OUTPUT_DIR || "",
@@ -2921,6 +2930,9 @@ function readRuntimeConfig(env) {
 
 export async function main(env = process.env) {
   const config = readRuntimeConfig(env);
+  if (config.storeOnly && (config.dryRun || config.testRun || !config.accessEnabled)) {
+    throw new Error("Store-only mode requires private report access and cannot be used with dry_run or test_email.");
+  }
   const client = new BetaAnalyticsDataClient({ credentials: config.credentials });
   const now = new Date();
   let report = await buildDailyAnalyticsReport({
@@ -2942,8 +2954,13 @@ export async function main(env = process.env) {
       await uploadDetailedReport({ apiBaseUrl: config.apiBaseUrl, internalToken: config.internalToken, dateIso: report.meta.dateIso, html: detailed.html });
       links = buildAnalyticsLinks({ apiBaseUrl: config.apiBaseUrl, dateIso: report.meta.dateIso, timeZone: config.timeZone });
     } catch (error) {
+      if (config.storeOnly) throw error;
       report = { ...report, warnings: unique([...report.warnings, `Detailed report storage failed: ${error.message}`]) };
     }
+  }
+  if (config.storeOnly) {
+    console.log(`Stored private detailed report for ${report.meta.dateIso}. No email was sent.`);
+    return;
   }
   if (config.testRun && config.accessEnabled) {
     links = buildAnalyticsLinks({ apiBaseUrl: config.apiBaseUrl, dateIso: report.meta.dateIso, timeZone: config.timeZone });

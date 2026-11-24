@@ -189,6 +189,7 @@ Optional env vars:
 | `ANALYTICS_TIME_ZONE` | `America/Los_Angeles` | Time zone used to select "yesterday" for the report. |
 | `ANALYTICS_DRY_RUN` | `false` | Set to `true` to render without posting. The public GitHub workflow logs result status only. Local runs can write the rendered files. |
 | `ANALYTICS_OUTPUT_DIR` | unset | Also write `brief-<date>.html/.txt` and `detailed-<date>.html` to this folder (e.g. `build/analytics-report`). |
+| `ANALYTICS_STORE_ONLY` | `false` | Store a detailed report for the selected date without emailing. Requires private report access. |
 | `ANALYTICS_REPORT_DATE` | yesterday | Re-run a specific reporting day (`YYYY-MM-DD`). Regular sends use `daily-analytics-<date>` for Resend’s 24-hour deduplication window. Set `test_email=true` for a labeled acceptance email with a separate idempotency key. |
 | `LM_STUDIO_BASE_URL` | unset | Optional loopback LM Studio server, e.g. `http://127.0.0.1:1234`. The script only accepts localhost/loopback endpoints. |
 | `LM_STUDIO_MODEL` | `local-model` | Optional loaded LM Studio model identifier. |

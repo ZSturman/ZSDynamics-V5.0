@@ -11,7 +11,7 @@ Worth a look: traffic spike: 49 sessions vs a 7-day average of 8 a day.
 
 KEY METRICS
 - Sessions (GA4): 49 — +10 vs Sat (39, +26%) · 7-day avg 8/day
-- Users (GA4 estimate): 49 — 49 new · 0 returning
+- Users (GA4 estimate): 49 — 49 new · returning unavailable
 - Engaged sessions (GA4 rule): 25 — 51% · +43 pp vs Sat
 - Key action events (GA4): 17 — events, not people
 - Avg. session (GA4): 16 s — includes inactive time
@@ -51,5 +51,5 @@ Full report: https://portfolio.example/analytics/report?date=2026-11-22
 Session explorer: https://portfolio.example/analytics/explorer?date=2026-11-22&tz=America%2FLos_Angeles
 Portfolio administrator sign-in required.
 
-2 data sources partly unavailable — details are in the full report.
+3 data sources partly unavailable — details are in the full report.
 Numbers come from GA4 aggregates and the site's anonymous session stream. Classifications are evidence-based estimates, not identities.

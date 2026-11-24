@@ -128,7 +128,7 @@ export function buildFindings(report) {
         title: `${projectTitleFromSlug(report, slug)}: ${plural(entry.clicks, "resource click")} vs ${plural(views, "detail-page view")}`,
         detail: elsewhere.length
           ? `${int(entry.offPage)} of the clicks happened outside the detail page — ${elsewhere.join(", ")} — on project cards and product pages, so the counts are not contradictory.`
-          : `All clicks happened on the detail page, from ${plural(entry.sessions, "session")}: repeated clicks by the same visitors rather than extra views.`,
+          : `GA4 recorded all clicks on the detail page, across ${plural(entry.sessions, "session")}. Each session can contain multiple clicks.`,
       });
     }
   }
@@ -237,7 +237,7 @@ export function buildBrief(report, links = null) {
   const metrics = [];
   metrics.push({ label: "Sessions (GA4)", value: int(sessions), note: [compareCount(sessions, n(previous.sessions), prevLabel), n(avg7) !== null ? `7-day avg ${int(avg7)}/day` : null].filter(Boolean).join(" · ") || "No comparison" });
   if (n(current.totalUsers) !== null) {
-    const returning = n(report.audienceQualities?.returningUsers) ?? (n(current.newUsers) === null ? null : Math.max(0, current.totalUsers - current.newUsers));
+    const returning = n(report.audience?.returningUsers);
     metrics.push({ label: "Users (GA4 estimate)", value: int(current.totalUsers),
       note: `${int(current.newUsers)} new · ${returning === null ? "returning unavailable" : `${int(returning)} returning`}` });
   }
@@ -261,7 +261,7 @@ export function buildBrief(report, links = null) {
   const did = { source: hasStream ? "session" : "ga4", items: [] };
   const channels = (report.traffic?.channelGroups || []).slice(0, 4);
   const sources = (report.traffic?.sourceMedium || []).slice(0, 4);
-  const campaigns = (report.traffic?.campaigns || []).slice(0, 3);
+  const campaigns = (report.traffic?.campaigns || []).filter((row) => row.label && !row.label.startsWith("(")).slice(0, 3);
   if (channels.length) did.items.push({ heading: "GA4 acquisition channels", rows: channels.map((row) => `${row.label} · ${plural(row.metrics.sessions, "session")}`) });
   if (sources.length) did.items.push({ heading: "GA4 sources", rows: sources.map((row) => `${row.label} · ${plural(row.metrics.sessions, "session")}`) });
   if (campaigns.length) did.items.push({ heading: "GA4 campaigns", rows: campaigns.map((row) => `${row.label} · ${plural(row.metrics.sessions, "session")}`) });
