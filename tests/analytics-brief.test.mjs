@@ -64,10 +64,45 @@ test("email wording never overclaims", async () => {
   assert.doesNotMatch(email.html, /<script/i);
   const hrefs = [...email.html.matchAll(/href="([^"]+)"/g)].map((m) => m[1].replace(/&amp;/g, "&"));
   assert.deepEqual(hrefs, [LINKS.report, LINKS.explorer]);
-  for (const heading of ["SUMMARY", "KEY METRICS", "WHAT VISITORS DID", "NOTABLE JOURNEYS", "TRAFFIC QUALITY", "PROBLEMS AND OPPORTUNITIES", "DETAILS"]) assert.match(email.text, new RegExp(`^${heading}$`, "m"));
+  for (const heading of ["SUMMARY", "KEY METRICS", "WHERE VISITS CAME FROM", "WHAT VISITORS DID", "NOTABLE JOURNEYS", "TRAFFIC QUALITY", "PROBLEMS AND OPPORTUNITIES", "OPTIONAL DETAILS"]) assert.match(email.text, new RegExp(`^${heading}$`, "m"));
   assert.match(email.subject, /^zacharysturman\.com · Nov 22 · 49 sessions · \d+ likely human · \d+ actions$/);
   assert.match(email.html, /<html lang="en">/);
   assert.match(email.html, /max-width:640px/);
+});
+
+test("country and state counts are visible near the top of the email with or without a first-party stream", async () => {
+  for (const sessionStream of [stream(), { available: false }]) {
+    const email = buildEmail(await report({ sessionStream }));
+    for (const rendered of [email.html, email.text]) {
+      assert.match(rendered, /United States · 49 sessions/);
+      assert.match(rendered, /Singapore · 1 session/);
+      assert.match(rendered, /California, United States · 6 sessions/);
+      assert.match(rendered, /Approximate locations from GA4/);
+      assert.doesNotMatch(rendered, /Product actions can't be broken down/);
+    }
+    assert.ok(email.html.indexOf("Where visits came from") < email.html.indexOf("Key metrics"));
+  }
+});
+
+test("empty first-party coverage still shows GA4 pages and actions inline", async () => {
+  const sessionStream = fromSessions([], { titleForPath });
+  const email = buildEmail(await report({ sessionStream }));
+  assert.match(email.text, /First-party analytics recorded zero sessions/);
+  assert.match(email.text, /GA4 recorded 17 project-resource clicks across 9 sessions/);
+  assert.match(email.text, /Most-viewed pages \(GA4\)/);
+  assert.match(email.text, /Direct or unattributed · 49 sessions/);
+});
+
+test("a failed state query leaves the country breakdown readable", async () => {
+  const client = createNov22Ga4Client();
+  const runReport = client.runReport;
+  client.runReport = async (request) => {
+    if (request.dimensions?.map(({ name }) => name).join(",") === "region,country") throw new Error("regions down");
+    return runReport(request);
+  };
+  const email = buildEmail(await report({ client }));
+  assert.match(email.text, /United States · 49 sessions/);
+  assert.match(email.text, /State and region breakdown unavailable/);
 });
 
 test("without session data the brief says so instead of inferring humans or journeys", async () => {
@@ -79,15 +114,17 @@ test("without session data the brief says so instead of inferring humans or jour
   assert.equal(brief.journeys.items.length, 0);
   assert.match(brief.journeys.note, /not deployed/);
   assert.match(brief.quality.sentences.join(" "), /25 sessions met GA4's engagement rule, but only 4 sent GA4's end-of-page engagement event/);
-  assert.match(renderBriefText(brief), /Report links are unavailable/);
+  assert.doesNotMatch(renderBriefText(brief), /OPTIONAL DETAILS/);
   assert.equal(brief.did.source, "ga4");
 });
 
 test("zero-traffic days and failed GA4 queries are shown honestly", async () => {
-  const empty = { async getMetadata() { return [{ dimensions: [], metrics: [] }]; }, async runReport() { return [{ rows: [] }]; } };
+  const empty = { async getMetadata() { return [{ dimensions: ["country", "region"].map((apiName) => ({ apiName })), metrics: [] }]; }, async runReport() { return [{ rows: [] }]; } };
   const zero = buildBrief(await report({ client: empty, sessionStream: fromSessions([], { titleForPath }) }), null);
   assert.match(zero.summary[0], /recorded no sessions/);
   assert.match(zero.journeys.note, /recorded no sessions/);
+  assert.match(renderBriefText(zero), /No countries reported/);
+  assert.match(renderBriefText(zero), /No states or regions reported/);
   const failing = { async getMetadata() { throw new Error("metadata down"); }, async runReport() { throw new Error("quota exhausted"); } };
   const failed = buildBrief(await report({ client: failing, sessionStream: { available: false, reason: "Session data unavailable." } }), null);
   assert.match(failed.summary[0], /unavailable/);

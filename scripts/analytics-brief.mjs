@@ -3,8 +3,7 @@
  * full report object. Every number comes from a deterministic calculation on
  * GA4 aggregates or the first-party session stream; each sentence says which.
  *
- * Structure: A summary · B key metrics · C what visitors did · D notable
- * journeys · E traffic quality · F problems and opportunities · G links.
+ * Leads with the daily summary, estimated visitor locations and activity.
  */
 
 const COLORS = {
@@ -90,7 +89,7 @@ export function buildFindings(report) {
       severity: "warning", kind: "attribution",
       title: directSessions === sessions ? `All ${int(sessions)} GA4 sessions had no source` : `${int(directSessions)} of ${int(sessions)} GA4 sessions had no source`,
       detail: streamReferred
-        ? `The session stream saw a referrer or campaign for ${plural(streamReferred, "session")}, so GA4 may be losing some attribution; compare in the full report.`
+        ? `The session stream saw a referrer or campaign for ${plural(streamReferred, "session")}, while GA4 reported mostly direct traffic. The two systems observe different sets of sessions.`
         : "GA4 had no attributable source for those sessions. Private shares, absent campaign tags and other referrer loss can all produce this result.",
     });
   }
@@ -178,11 +177,6 @@ export function buildFindings(report) {
     findings.unshift({ severity: "warning", kind: "spike", title: `Traffic spike: ${int(sessions)} sessions vs a 7-day average of ${int(avg)} a day`, detail: "Compare with the traffic-quality split before treating it as new interest." });
   }
 
-  const missing = report.tagInsights?.customDimensions?.missing || [];
-  const productDims = missing.filter((m) => ["product_slug", "action_type"].includes(m.param));
-  if (productDims.length) {
-    findings.push({ severity: "info", kind: "instrumentation", title: "Product actions can't be broken down in GA4 yet", detail: `Register ${productDims.map((m) => m.param).join(" and ")} as event-scoped custom dimensions (GA4 Admin → Custom definitions).` });
-  }
   const order = { warning: 0, opportunity: 1, info: 2 };
   return findings.sort((a, b) => order[a.severity] - order[b.severity]).slice(0, 5);
 }
@@ -191,11 +185,34 @@ export function buildFindings(report) {
 // Brief model
 // ---------------------------------------------------------------------------
 
+function trafficLocations(audience = {}) {
+  const locationName = (value) => value && !/^(?:unattributed|\(not set\)|\(other\)|unknown)$/i.test(value) ? value : "";
+  const countries = (audience.countries || [])
+    .filter((row) => n(row.metrics?.sessions) > 0)
+    .slice(0, 4)
+    .map((row) => `${locationName(row.dimensions?.country || row.label) || "Unknown country"} · ${plural(row.metrics.sessions, "session")}`);
+  const regions = (audience.regions || []).flatMap((row) => {
+    const region = locationName(row.dimensions?.region || row.label);
+    const country = locationName(row.dimensions?.country);
+    if (!region || !(n(row.metrics?.sessions) > 0)) return [];
+    return [`${[region, country === region ? "" : country].filter(Boolean).join(", ")} · ${plural(row.metrics.sessions, "session")}`];
+  }).slice(0, 5);
+
+  return {
+    rows: [
+      { heading: "Top countries", rows: countries, empty: audience.countryDataAvailable ? "No countries reported." : "Country breakdown unavailable." },
+      { heading: "Top states and regions", rows: regions, empty: audience.regionDataAvailable ? "No states or regions reported." : "State and region breakdown unavailable." },
+    ],
+    note: "Approximate locations from GA4. Counts are sessions and may include automated traffic.",
+  };
+}
+
 export function buildBrief(report, links = null) {
   const meta = report.meta;
   const stream = report.sessionStream || { available: false };
   const hasStream = stream.available;
   const summary = hasStream ? stream.summary : null;
+  const observedSessions = Boolean(summary?.total);
   const current = report.current || {};
   const previous = report.previous || {};
   const prevLabel = weekdayShort(meta.previousDate);
@@ -224,7 +241,8 @@ export function buildBrief(report, links = null) {
       sentences.push(`${plural(summary.actionSessionsHuman, "likely-human session")} took a meaningful action${top ? `, most often: ${lowerFirst(top.label)}` : ""}.`);
     } else if (summary.actionSessions) {
       sentences.push(`${plural(summary.actionSessions, "session")} took an action, but none of them were clearly human, so this is weak evidence of interest.`);
-    } else sentences.push("No session took a meaningful action such as opening a repository, demo or contact link.");
+    } else if (observedSessions) sentences.push("The first-party stream recorded no meaningful actions.");
+    if (!observedSessions && resourceEvent) sentences.push(`GA4 recorded ${plural(resourceEvent.count, "project-resource click")}${n(resourceEvent.sessions) !== null ? ` across ${plural(resourceEvent.sessions, "session")}` : ""}.`);
   } else if (sessions) {
     sentences.push(`${plural(n(current.engagedSessions) ?? 0, "session")} met GA4's engagement rule (10 s, two pages or a key event). That rule doesn't show a person was present, and there's no session-level evidence for this day to tell people from automation.`);
     if (resourceEvent) sentences.push(`GA4 logged ${plural(resourceEvent.count, "project-resource click")} from ${plural(resourceEvent.sessions ?? 0, "session")}; treat them as possible, not confirmed, interest.`);
@@ -258,30 +276,36 @@ export function buildBrief(report, links = null) {
   }
 
   // C. What visitors did -----------------------------------------------------
-  const did = { source: hasStream ? "session" : "ga4", items: [] };
+  const did = { source: observedSessions ? "session" : "ga4", items: [] };
   const channels = (report.traffic?.channelGroups || []).slice(0, 4);
-  const sources = (report.traffic?.sourceMedium || []).slice(0, 4);
+  const sources = (report.traffic?.sourceMedium || []).slice(0, 3);
   const campaigns = (report.traffic?.campaigns || []).filter((row) => row.label && !row.label.startsWith("(")).slice(0, 3);
-  if (channels.length) did.items.push({ heading: "GA4 acquisition channels", rows: channels.map((row) => `${row.label} · ${plural(row.metrics.sessions, "session")}`) });
-  if (sources.length) did.items.push({ heading: "GA4 sources", rows: sources.map((row) => `${row.label} · ${plural(row.metrics.sessions, "session")}`) });
+  const acquisition = sources.length ? sources : channels.slice(0, 3);
+  if (acquisition.length) {
+    did.items.push({ heading: "How visits arrived (GA4)", rows: acquisition.map((row) => {
+      const label = row.dimensions?.sessionSource === "(direct)" ? "Direct or unattributed" : row.label;
+      return `${label} · ${plural(row.metrics.sessions, "session")}`;
+    }) });
+  }
   if (campaigns.length) did.items.push({ heading: "GA4 campaigns", rows: campaigns.map((row) => `${row.label} · ${plural(row.metrics.sessions, "session")}`) });
-  if (hasStream) {
+  if (observedSessions) {
     if (summary.referrers.length) did.items.push({ heading: "First-party referrers and tagged sources", rows: summary.referrers.slice(0, 4).map((row) => `${row.label} · ${plural(row.count, "session")}`) });
-    const projects = summary.projects.filter((p) => p.sessions > 0).slice(0, 4);
+    const projects = summary.projects.filter((p) => p.sessions > 0).slice(0, 3);
     if (projects.length) did.items.push({ heading: "Projects that drew attention", rows: projects.map((p) => `${p.title} — ${plural(p.sessions, "session")} (${int(p.humanSessions)} likely human), ${formatActive(p.activeMs)} active${p.actionSessions ? `, ${plural(p.actionSessions, "session")} took action` : ""}`) });
     if (summary.landings.length) did.items.push({ heading: "Where sessions started", rows: summary.landings.slice(0, 3).map((l) => `${l.label} · ${int(l.count)}`) });
     if (summary.exits.length) did.items.push({ heading: "Last pages observed", rows: summary.exits.slice(0, 3).map((l) => `${l.label} · ${int(l.count)}`) });
     did.items.push({ heading: "Exploration", rows: [`${plural(summary.multiPage, "session")} viewed more than one page (${int(summary.multiPageHuman)} likely human); ${plural(summary.engagement.find((e) => e.label === "sustained")?.count || 0, "session")} had sustained active time (≥ 1 min, or ≥ 30 s across pages).`] });
-    if (summary.actions.length) did.items.push({ heading: "Actions (events · distinct sessions)", rows: summary.actions.slice(0, 5).map((a) => `${a.label} — ${plural(a.events, "event")} · ${plural(a.sessions, "session")}${a.automatedSessions ? ` (${int(a.automatedSessions)} automated-likely)` : ""}${a.surfaces.length ? ` · from ${a.surfaces.slice(0, 2).map((s) => s.surface.replace(/_/g, " ")).join(", ")}` : ""}`) });
+    if (summary.actions.length) did.items.push({ heading: "Actions (events · distinct sessions)", rows: summary.actions.slice(0, 3).map((a) => `${a.label} — ${plural(a.events, "event")} · ${plural(a.sessions, "session")}${a.automatedSessions ? ` (${int(a.automatedSessions)} automated-likely)` : ""}${a.surfaces.length ? ` · from ${a.surfaces.slice(0, 2).map((s) => s.surface.replace(/_/g, " ")).join(", ")}` : ""}`) });
     const timed = stream.sessions.flatMap((s) => s.openToAction).filter((t) => t.ms >= 0);
     if (timed.length) {
       const sorted = timed.map((t) => t.ms).sort((a, b) => a - b);
       did.items.push({ heading: "From opening to acting", rows: [`Median ${formatActive(sorted[Math.floor(sorted.length / 2)])} between opening a project and opening one of its resources (${plural(timed.length, "action")}).`] });
     }
-  } else {
-    const pages = (report.content?.pages || []).slice(0, 4);
+  }
+  if (!observedSessions || stream.partial || !summary.projects.length) {
+    const pages = (report.content?.pages || []).slice(0, 3);
     if (pages.length) did.items.push({ heading: "Most-viewed pages (GA4)", rows: pages.map((p) => `${p.title} — ${plural(p.views, "view")}${n(p.engagementRate) !== null ? `, ${pct(p.engagementRate)} engaged` : ""}`) });
-    const actionRows = (events.highIntentActions || []).slice(0, 4);
+    const actionRows = (events.highIntentActions || []).slice(0, 3);
     if (actionRows.length) did.items.push({ heading: "Actions (GA4 events · sessions containing them)", rows: actionRows.map((a) => `${a.label} — ${plural(a.count, "event")} · ${a.sessions == null ? "sessions unknown" : plural(a.sessions, "session")}`) });
     const views = n(current.screenPageViews);
     if (views !== null && sessions) did.items.push({ heading: "Exploration", rows: [`${int(views)} page views across ${plural(sessions, "session")} (${(views / sessions).toFixed(1)} per session). Individual paths need the session stream.`] });
@@ -289,7 +313,7 @@ export function buildBrief(report, links = null) {
 
   // D. Journeys ---------------------------------------------------------------
   const journeys = hasStream
-    ? { available: true, items: stream.notable.map((s) => ({ narrative: s.narrative, label: s.classification.label, category: s.classification.category, steps: journeySteps(s.timeline) })) }
+    ? { available: true, items: stream.notable.slice(0, 1).map((s) => ({ narrative: s.narrative, label: s.classification.label, category: s.classification.category, steps: journeySteps(s.timeline, 4) })) }
     : { available: false, items: [] };
   if (hasStream && stream.empty) journeys.note = "The session stream recorded no sessions for this day.";
   else if (hasStream && !journeys.items.length) journeys.note = "No session today combined human-like activity with several pages, sustained attention or an action.";
@@ -319,14 +343,14 @@ export function buildBrief(report, links = null) {
   }
 
   return {
-    meta, headline: subjectFor(report, summary), summary: sentences.slice(0, 4), metrics, did, journeys, quality, findings, links,
-    dataNotes: (report.warnings || []).length ? [`${plural(report.warnings.length, "data source")} partly unavailable — details are in the full report.`] : [],
+    meta, headline: subjectFor(report, summary), summary: sentences.slice(0, 4), geography: trafficLocations(report.audience), metrics, did, journeys, quality, findings, links,
+    dataNotes: (report.warnings || []).length ? [`${plural(report.warnings.length, "data source")} partly unavailable.`] : [],
     analysisSource: report.analysisSource,
   };
 }
 
-/** Up to seven timeline steps; navigation and actions are always kept. */
-function journeySteps(timeline, limit = 7) {
+/** Prioritize navigation and actions in the email excerpt. */
+function journeySteps(timeline, limit) {
   const steps = timeline.filter((item) => item.kind !== "end");
   const keep = new Set(steps.filter((item) => item.kind === "navigation" || item.kind === "action").slice(0, limit));
   for (const item of steps) { if (keep.size >= limit) break; keep.add(item); }
@@ -373,6 +397,12 @@ function list(rows) {
   return `<ul style="margin:0 0 6px;padding:0 0 0 18px">${rows.map((row) => `<li style="margin:0 0 4px;font:400 14px/20px ${FONT};color:${COLORS.ink}">${esc(row)}</li>`).join("")}</ul>`;
 }
 
+function locationBlock(geography) {
+  const groups = geography.rows.map(({ heading, rows, empty }) =>
+    `<div style="margin:0 0 4px;font:600 13px/18px ${FONT};color:${COLORS.muted}">${esc(heading)}</div>${rows.length ? list(rows) : paragraph(empty)}`);
+  return groups.join("") + paragraph(geography.note, `font-size:12px;color:${COLORS.muted}`);
+}
+
 function metricCells(metrics) {
   const toneColor = { human: COLORS.human, auto: COLORS.auto, uncertain: COLORS.uncertain };
   const rows = [];
@@ -412,7 +442,7 @@ export function renderBriefHtml(brief) {
   const linksBlock = brief.links
     ? `${brief.links.report ? button(brief.links.report, "Open the full report") : ""}${button(brief.links.explorer, "Explore sessions")}
        <p style="margin:4px 0 0;font:400 12px/17px ${FONT};color:${COLORS.faint}">Opening these pages requires the portfolio administrator sign-in.</p>`
-    : paragraph("Private report links are unavailable for this email.", `color:${COLORS.muted}`);
+    : "";
   return `<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light"><meta name="supported-color-schemes" content="light"><title>${esc(brief.headline)}</title></head>
 <body style="margin:0;padding:0;background:${COLORS.page}">
@@ -425,12 +455,13 @@ export function renderBriefHtml(brief) {
   <div style="font:400 13px/18px ${FONT};color:${COLORS.muted}">${esc(brief.meta.siteName)} · times in ${esc(brief.meta.timeZone)}</div>
 </td></tr>
 ${section("Summary", brief.summary.map((s) => paragraph(s)).join(""), { first: false })}
+${section("Where visits came from", locationBlock(brief.geography))}
 ${section("Key metrics", metricCells(brief.metrics))}
 ${section("What visitors did", `${brief.did.items.map((item) => `<div style="margin:0 0 6px;font:600 13px/18px ${FONT};color:${COLORS.muted}">${esc(item.heading)}</div>${list(item.rows)}`).join("") || paragraph("No activity to describe.")}${brief.did.source === "ga4" ? paragraph("From GA4 aggregates: these are counts, not individual journeys.", `font-size:12px;color:${COLORS.muted}`) : ""}`)}
 ${section("Notable journeys", brief.journeys.items.length ? `${brief.journeys.items.map(journeyBlock).join("")}${paragraph("Observed events in order; time is measured, interest is inferred.", `font-size:12px;color:${COLORS.muted}`)}` : paragraph(brief.journeys.note, `color:${COLORS.muted}`))}
 ${section("Traffic quality", brief.quality.sentences.map((s) => paragraph(s)).join(""))}
 ${brief.findings.length ? section("Problems and opportunities", brief.findings.map(findingBlock).join("")) : ""}
-${section("Details", linksBlock)}
+${brief.links ? section("Optional details", linksBlock) : ""}
 <tr><td style="padding:16px 24px 22px">
   <p style="margin:0;font:400 12px/17px ${FONT};color:${COLORS.faint}">${esc([...brief.dataNotes, "Numbers come from GA4 aggregates and the site's anonymous session stream. Classifications are evidence-based estimates, not identities."].join(" "))}</p>
 </td></tr>
@@ -438,7 +469,11 @@ ${section("Details", linksBlock)}
 }
 
 export function renderBriefText(brief) {
-  const lines = [`DAILY PORTFOLIO BRIEF — ${brief.meta.dateLabel}`, `${brief.meta.siteName} · times in ${brief.meta.timeZone}`, "", "SUMMARY", ...brief.summary, "", "KEY METRICS"];
+  const lines = [`DAILY PORTFOLIO BRIEF — ${brief.meta.dateLabel}`, `${brief.meta.siteName} · times in ${brief.meta.timeZone}`, "", "SUMMARY", ...brief.summary, "", "WHERE VISITS CAME FROM"];
+  for (const { heading, rows, empty } of brief.geography.rows) {
+    lines.push(heading, ...(rows.length ? rows.map((row) => `- ${row}`) : [empty]));
+  }
+  lines.push(brief.geography.note, "", "KEY METRICS");
   for (const m of brief.metrics) lines.push(`- ${m.label}: ${m.value}${m.note ? ` — ${m.note}` : ""}`);
   lines.push("", "WHAT VISITORS DID");
   for (const item of brief.did.items) { lines.push(`${item.heading}:`); for (const row of item.rows) lines.push(`  - ${row}`); }
@@ -453,9 +488,7 @@ export function renderBriefText(brief) {
     for (const f of brief.findings) lines.push(`- ${f.severity === "warning" ? "[!] " : ""}${f.title}. ${f.detail}`);
     lines.push("");
   }
-  lines.push("DETAILS");
-  if (brief.links) lines.push(...(brief.links.report ? [`Full report: ${brief.links.report}`] : []), `Session explorer: ${brief.links.explorer}`, "Portfolio administrator sign-in required.");
-  else lines.push("Report links are unavailable.");
+  if (brief.links) lines.push("OPTIONAL DETAILS", ...(brief.links.report ? [`Full report: ${brief.links.report}`] : []), `Session explorer: ${brief.links.explorer}`, "Portfolio administrator sign-in required.");
   lines.push("", ...brief.dataNotes, "Numbers come from GA4 aggregates and the site's anonymous session stream. Classifications are evidence-based estimates, not identities.");
   return lines.join("\n");
 }

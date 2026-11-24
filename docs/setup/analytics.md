@@ -119,7 +119,7 @@ gh run watch && gh run view --log | grep -A40 "## Realtime"
 
 ## Daily report: what it means
 
-The email is a short **brief**: Summary, Key metrics, What visitors did, Notable journeys, Traffic quality, Problems and opportunities, and Details. The Details section links to the authenticated **full report** and **session explorer** after administrator access is configured. Human/automated/uncertain counts and journeys come only from the session stream. When the stream is unavailable the brief says so and falls back to GA4 aggregates without inferring them. Samples: [docs/analytics/samples](../analytics/samples/).
+The email starts with a daily summary, then **Where visits came from** lists the top countries and states or regions with GA4 session counts. GA4 estimates geographic origin, and these totals can include automated traffic. The email includes leading traffic sources and the most useful project and action details. GA4 page and action totals remain visible when first-party coverage is empty or partial. The optional footer links to the private full report and session explorer. Samples are available in [docs/analytics/samples](../analytics/samples/).
 
 The full report keeps the earlier sections — Daily Analytics Summary, What Actually Happened, Traffic Quality, Session Stream, acquisition, geography, content, high-intent actions, aggregate route transitions, attention, click and device diagnostics, and technical detail.
 

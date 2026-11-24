@@ -9,6 +9,17 @@ GA4 recorded 49 sessions, 10 more than Sat and well above the 7-day average of 8
 GA4 logged 17 project-resource clicks from 9 sessions; treat them as possible, not confirmed, interest.
 Worth a look: traffic spike: 49 sessions vs a 7-day average of 8 a day.
 
+WHERE VISITS CAME FROM
+Top countries
+- United States · 49 sessions
+- Singapore · 1 session
+Top states and regions
+- Iowa, United States · 27 sessions
+- Virginia, United States · 9 sessions
+- California, United States · 6 sessions
+- Illinois, United States · 3 sessions
+Approximate locations from GA4. Counts are sessions and may include automated traffic.
+
 KEY METRICS
 - Sessions (GA4): 49 — +10 vs Sat (39, +26%) · 7-day avg 8/day
 - Users (GA4 estimate): 49 — 49 new · returning unavailable
@@ -17,15 +28,12 @@ KEY METRICS
 - Avg. session (GA4): 16 s — includes inactive time
 
 WHAT VISITORS DID
-GA4 acquisition channels:
-  - Direct · 49 sessions
-GA4 sources:
-  - (direct) / (none) · 49 sessions
+How visits arrived (GA4):
+  - Direct or unattributed · 49 sessions
 Most-viewed pages (GA4):
   - Social Posts Content Manager — 12 views, 67% engaged
   - Production-Scheduling-Web-App — 11 views, 62% engaged
   - Arduino Sensor Telemetry — 9 views, 70% engaged
-  - Home — 7 views, 43% engaged
 Actions (GA4 events · sessions containing them):
   - Project resource click — 17 events · 9 sessions
 Exploration:
@@ -46,10 +54,10 @@ PROBLEMS AND OPPORTUNITIES
 - Better Workspace: 10 resource clicks vs 3 detail-page views. 7 of the clicks happened outside the detail page — /projects (5), /better-workspace (2) — on project cards and product pages, so the counts are not contradictory.
 - 13 desktop sessions used a 768–1023 px window. Common browser-automation tools open 800×600 windows by default. Supporting evidence only; a narrow desktop window is also normal.
 
-DETAILS
+OPTIONAL DETAILS
 Full report: https://portfolio.example/analytics/report?date=2026-11-22
 Session explorer: https://portfolio.example/analytics/explorer?date=2026-11-22&tz=America%2FLos_Angeles
 Portfolio administrator sign-in required.
 
-3 data sources partly unavailable — details are in the full report.
+3 data sources partly unavailable.
 Numbers come from GA4 aggregates and the site's anonymous session stream. Classifications are evidence-based estimates, not identities.

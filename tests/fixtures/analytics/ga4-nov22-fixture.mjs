@@ -84,8 +84,8 @@ export function createNov22Ga4Client({ registered = [] } = {}) {
       } else if (dims === "pagePath,pageTitle") rows = PAGES.map(([p, t, ...m]) => row([p, t], m));
       else if (dims === "country" && events) rows = [row(["United States"], [17])];
       else if (dims === "country") rows = COUNTRIES.map(([c, ...m]) => row([c], m));
-      else if (dims === "region" && events) rows = [row(["California"], [11]), row(["Iowa"], [3]), row(["Virginia"], [2]), row(["Washington"], [1])];
-      else if (dims === "region") rows = REGIONS.map(([r, ...m]) => row([r], m));
+      else if (dims === "region,country" && events) rows = [row(["California", "United States"], [11]), row(["Iowa", "United States"], [3]), row(["Virginia", "United States"], [2]), row(["Washington", "United States"], [1])];
+      else if (dims === "region,country") rows = REGIONS.map(([r, ...m]) => row([r, "United States"], m));
       else if (dims === "city,region" && events) rows = [row(["San Jose", "California"], [11]), row(["Council Bluffs", "Iowa"], [2])];
       else if (dims === "city,region") rows = CITIES.map(([c, r, ...m]) => row([c, r], m));
       // Illustrative only: the live click-by-page split for Nov 22 has not been queried yet.

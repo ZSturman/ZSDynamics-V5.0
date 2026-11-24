@@ -210,14 +210,14 @@ test("keeps GA4 country, region, and city aggregates privacy-preserving and sepa
       const names = (request.dimensions || []).map((dimension) => dimension.name);
       if (names.length === 0) return [{ rows: [metricRow([3, 2, 3, 2, 0.67, 4, 14, 20])] }];
       if (names.includes("city")) return [{ rows: [dimensionMetricRow(["Seattle", "Washington"], [2, 2, 1, 0.5])] }];
-      if (names.includes("region")) return [{ rows: [dimensionMetricRow(["Washington"], [2, 2, 1, 0.5])] }];
+      if (names.includes("region")) return [{ rows: [dimensionMetricRow(["Washington", "United States"], [2, 2, 1, 0.5])] }];
       if (names.includes("country")) return [{ rows: [dimensionMetricRow(["United States"], [3, 2, 2, 0.67])] }];
       return [{ rows: [] }];
     },
   };
   const report = await buildDailyAnalyticsReport({ client, propertyId: "123", rootDir: await fs.mkdtemp(path.join(os.tmpdir(), "analytics-geo-")), retryDelayMs: 0 });
   assert.equal(report.audience.countries[0].label, "United States");
-  assert.equal(report.audience.regions[0].label, "Washington");
+  assert.deepEqual(report.audience.regions[0].dimensions, { region: "Washington", country: "United States" });
   assert.equal(report.audience.cities[0].label, "Seattle / Washington");
 });
 
@@ -632,8 +632,8 @@ test("renders all major email sections and custom-dimension fallback", () => {
 
   assert.equal(email.subject, "zacharysturman.com · Jun 28 · 42 sessions · 11 action events");
   // The email is the short brief; the tables live in the detailed report.
-  for (const heading of ["Summary", "Key metrics", "What visitors did", "Notable journeys", "Traffic quality", "Details"]) assert.match(email.html, new RegExp(`>${heading}<`));
-  for (const table of ["Geography", "Content Tags", "Technical / Data Quality"]) assert.doesNotMatch(email.html, new RegExp(table));
+  for (const heading of ["Summary", "Where visits came from", "Key metrics", "What visitors did", "Notable journeys", "Traffic quality"]) assert.match(email.html, new RegExp(`>${heading}<`));
+  for (const table of ["Optional details", "Geography", "Content Tags", "Technical / Data Quality"]) assert.doesNotMatch(email.html, new RegExp(table));
   assert.ok(email.html.length < html.length / 2, "the brief is much shorter than the detailed report");
 });
 

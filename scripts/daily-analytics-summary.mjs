@@ -1731,7 +1731,7 @@ async function fetchAudience(client, propertyId, dateIso, metadata, warnings) {
     fetchBreakdown(client, propertyId, {
       label: "US states and regions",
       dateIso,
-      dimensions: ["region"],
+      dimensions: ["region", "country"],
       metrics: geographyMetrics,
       orderBy: "sessions",
       limit: 10,
@@ -1766,7 +1766,7 @@ async function fetchAudience(client, propertyId, dateIso, metadata, warnings) {
     fetchBreakdown(client, propertyId, {
       label: "High-intent actions by region",
       dateIso,
-      dimensions: ["region"],
+      dimensions: ["region", "country"],
       metrics: ["eventCount"],
       orderBy: "eventCount",
       limit: 10,
@@ -1796,7 +1796,9 @@ async function fetchAudience(client, propertyId, dateIso, metadata, warnings) {
   };
   return {
     countries: mergeActions(countries, countryActions),
+    countryDataAvailable: !countries.unavailable,
     regions: mergeActions(regions, regionActions),
+    regionDataAvailable: !regions.unavailable,
     cities: mergeActions(cities, cityActions),
     devices,
     returningUsers: newVsReturning.unavailable ? null : newVsReturning.find((row) => row.dimensions.newVsReturning === "returning")?.metrics.totalUsers ?? 0,
