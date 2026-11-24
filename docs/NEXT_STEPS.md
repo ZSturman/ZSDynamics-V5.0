@@ -1,11 +1,18 @@
 ## Portfolio session analytics — November 23, 2026
 
-The existing first-party stream, reconstruction, click attribution and daily brief are integrated with the production Worker. D1 migration `0002_sessions.sql` is applied. Worker version `7412e963-380d-4d91-b4ab-fc4139d60c17` passed live ingestion-route, health, intake-origin and report authentication checks. Firebase deployment, controlled session evidence and email acceptance are recorded below as verified.
+The anonymous first-party stream is live from **3:56 p.m. Pacific on November 23, 2026** (`2026-11-23T23:56:36Z`). The launch day has partial first-party coverage. D1 migration `0002_sessions.sql` is applied, with no pending production migrations. The release starts new session-level history while GA4 remains the source of historical aggregates.
 
-- Production: [session analytics and recovery](analytics/session-analytics.md).
-- GA4: [November 22 investigations and remaining custom definitions](analytics/anomalies.md).
-- Maintainer validation: `npm run test:unit`, `npm --prefix worker test`, and `npx playwright test -c playwright.contact.config.ts tests/session-stream.spec.ts`.
-- The prior notes about publisher controls refer to the separate portfolio publishing job. The scheduled analytics email remains active.
+- Code: initial release `ff8d2a4`, verified final release `b369856`. Firebase version `93defc3aef67da68` and [Hosting workflow 45294047531](https://github.com/ZSturman/ZSDynamics-V5.0/actions/runs/45294047531). Both the production build and the live canonical deployment marker identify the release commit.
+- Cloudflare: Worker version `8186cbbe-6ef2-4a28-884b-28e1a8b23b3b`, deployment `1ff4b700-732a-4018-9b88-a08cb865caf2`. The browser administrator password is separate from the reporting bearer. Public ingestion and contact endpoints remain available.
+- Configuration: `NEXT_PUBLIC_SESSION_ANALYTICS_ENABLED=true`, `ANALYTICS_ACCESS_ENABLED=true`, and `ANALYTICS_SESSION_STARTED_AT=2026-11-23T23:56:36Z`.
+- Live acceptance: two controlled runs checked desktop and emulated mobile journeys, cross-document and concurrent navigation, simulated backgrounding and inactivity, first-input timing, scroll, a real PDF download, UTM/referrer capture, an accepted batch replayed after a simulated 503, D1 deduplication, and the authenticated explorer. Run `session-qa-mwtxlwxi` recorded 21 distinct desktop events. Its project page showed 10.8 s active and 41.1 s foreground, with the first session input 8.0 s after arrival. Controlled visits attempted zero GA4 requests and were filtered from the brief.
+- Email: [acceptance send 45293108859](https://github.com/ZSturman/ZSDynamics-V5.0/actions/runs/45293108859) reached the configured inbox. Desktop and phone-width renders of the delivered HTML passed inspection. [Storage-only run 45294119220](https://github.com/ZSturman/ZSDynamics-V5.0/actions/runs/45294119220) stored the final live-data detail report. Its browser view returned 200 with the separate administrator credential, and 401 for both anonymous and automation-bearer requests.
+- Local: 99 site unit tests, 23 Worker tests, four targeted browser tests and both typechecks passed. Media smoke had 35 passes and three documented skips. Firebase validated 64 projects, nine articles and 112 canonical routes. The live contact form rendered and its Worker rejected foreign origins. Real Turnstile completion and live contact submission were not exercised.
+- Scheduled report: the active daily workflow runs the same entry point at 14:00 UTC. The post-release schedule was verified by configuration and manual execution. The next timed invocation after rollout remains to be observed.
+
+**Owner action:** Register the six event-scoped GA4 definitions in property 453629949. The reporting credential failed the authorized write with 403. [Exact definitions and November 22 findings](analytics/anomalies.md).
+
+**Try it:** Open the authenticated explorer from the email. The username is `portfolio-admin`. On the deployment Mac run `pbcopy < ~/.config/portfolio-analytics/admin-password` to copy its password. To replay the production checks, run `node --env-file=.env.local scripts/verify-production-sessions.mjs` from this repository. It should report tagged sessions, zero GA4 requests and a passing authenticated journey. [Operations, privacy limits and recovery](analytics/session-analytics.md).
 
 ---
 

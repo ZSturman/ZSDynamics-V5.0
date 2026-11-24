@@ -23,7 +23,7 @@ Work Logs opens recent sessions directly, with notes, attachments, project activ
 | Hosting | Firebase Hosting | Serves the production site at `zacharysturman.com`. |
 | Content | Notion + local files | Optional build-time synchronization for projects, articles, and media. |
 | Forms & mail | Cloudflare Worker + Resend | Saves contact messages, syncs private Notion trackers, confirms writing subscribers, and delivers updates/reports. |
-| Analytics | Firebase Analytics / GA4 | Privacy-conscious aggregate engagement reporting; local, preview, and automated browsing are excluded before GA4 loads. |
+| Analytics | Firebase Analytics / GA4 + Cloudflare Worker and D1 | GA4 aggregates, short-lived anonymous session journeys, and a private daily engagement brief. |
 | Media | Repository files, optional Cloudflare R2 | Keeps media local by default; R2 adds long-lived cached URLs when enabled. |
 | Quality gates | Firebase deploy + local Playwright | Confirms the exact live release from this Mac, tests it, and stores evidence. |
 
@@ -75,13 +75,13 @@ For the exact development, build, test, and GitHub publishing steps, see **[the 
                                         ▼
 ┌─────────────────────────────────────────────────────────────────────────┐
 │ Firebase Hosting · zacharysturman.com                                    │
-│ Portfolio UI · Firebase/GA4 analytics · read-only /api/*.json endpoints │
+│ Portfolio UI · GA4 · anonymous session collector · read-only JSON      │
 └─────────────────────┬───────────────────────────────────────────────────┘
-                      │ form submissions / status reports
+                      │ form submissions / session batches
                       ▼
 ┌─────────────────────────────────────────────────────────────────────────┐
 │ Cloudflare Worker · api.zacharysturman.com                               │
-│ Contact + subscription endpoints · Turnstile · D1 · Notion · Resend  │
+│ Contact intake · Turnstile · D1 session stream · private reports         │
 └─────────────────────┬───────────────────────────────────────────────────┘
                       │
           ┌───────────┴────────────┐
@@ -89,7 +89,7 @@ For the exact development, build, test, and GitHub publishing steps, see **[the 
 ┌──────────────────────┐  ┌─────────────────────────────────────────────┐
 │ Resend                │  │ GitHub Actions                              │
 │ Form + deployment     │  │ main push → deploy → live QA → previews    │
-│ + analytics emails    │  │ daily GA4 summary → Worker → Resend         │
+│ + analytics emails    │  │ GA4 + D1 → daily brief → Worker → Resend     │
 └──────────────────────┘  └─────────────────────────────────────────────┘
 
 Optional: Cloudflare R2 at media.zacharysturman.com serves hash-versioned media.
@@ -147,7 +147,7 @@ Each integration is optional for a plain local preview. Never commit `.env.local
 The site itself is static—email is deliberately handled outside Firebase:
 
 - **Visitor forms:** the browser sends contact and newsletter-interest requests to the Cloudflare Worker. Turnstile, a honeypot, and atomic D1 rate limits protect these endpoints. D1 saves messages and consent before cron jobs sync private Notion trackers and send through Resend. Writing updates require email confirmation and include unsubscribe links. See [contact operations](docs/setup/contact-intake.md).
-- **Daily analytics:** GitHub Actions queries GA4 each day at 14:00 UTC, sends the rendered summary to the Worker, and the Worker sends it through Resend.
+- **Daily analytics:** GitHub Actions combines GA4 aggregates and the anonymous D1 session stream at 14:00 UTC. The Worker sends the brief through Resend. Detailed reports and session journeys require administrator sign-in. See [session analytics](docs/analytics/session-analytics.md).
 - **Deployment reports:** after Firebase updates a `main` deployment, this Mac emails a success report only after local live QA and preview capture pass. On a failure, it sends a prioritized report with the affected stage and retained evidence. An email-delivery problem is reported separately and never turns a successful deployment into a failed one.
 
 ## Documentation map

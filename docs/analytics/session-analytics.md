@@ -104,13 +104,19 @@ Example outputs (from the synthetic scenarios): *"Likely automated — 10 page l
 
 ## Production operation and recovery
 
-1. From `worker/`, verify production identity with `npx wrangler whoami`, the database with `npx wrangler d1 info INTAKE_DB`, and the current migrations with `npx wrangler d1 migrations list INTAKE_DB --remote`. Capture a Time Travel bookmark with `npx wrangler d1 time-travel info INTAKE_DB`.
+1. From `worker/`, verify production identity with `npx wrangler whoami`, the database with `npx wrangler d1 info INTAKE_DB`, and pending migrations with `npx wrangler d1 migrations list INTAKE_DB --remote`. Capture a Time Travel bookmark with `npx wrangler d1 time-travel info INTAKE_DB`.
 2. Apply the additive migration with `npx wrangler d1 migrations apply INTAKE_DB --remote`. Deploy the existing `zacharysturman-api` Worker and preserve its intake secrets and schedules.
-3. Verify `/health`, intake preflight, `/collect` validation and separate authenticated and unauthenticated report requests. Set repository variables `NEXT_PUBLIC_SESSION_ANALYTICS_ENABLED=true` and `ANALYTICS_ACCESS_ENABLED=true` and deploy through the existing main/Firebase workflow. Set `ANALYTICS_SESSION_STARTED_AT` to the confirmed first live build timestamp. The launch day is partial.
+3. Verify `/health`, intake preflight, `/collect` validation and separate authenticated and unauthenticated report requests. Set repository variables `NEXT_PUBLIC_SESSION_ANALYTICS_ENABLED=true` and `ANALYTICS_ACCESS_ENABLED=true` and deploy through the existing main/Firebase workflow. Set `ANALYTICS_SESSION_STARTED_AT` to the confirmed first live rollout timestamp. The launch day is partial.
 4. Use `gh workflow run daily-analytics.yml -f dry_run=true` to verify the scheduled code path or `gh workflow run daily-analytics.yml -f test_email=true -f report_date=YYYY-MM-DD` to send to the existing configured inbox. The test send has separate deduplication and does not overwrite the day's detailed report. Use `-f store_only=true -f report_date=YYYY-MM-DD` to check detailed-report storage without emailing.
 5. For a tracking-only rollback, set the first-party build flag to false and redeploy Firebase. To remove links from future email, set `ANALYTICS_ACCESS_ENABLED=false`. The prior Worker version was `c95029a4-aa12-41ba-86b0-f8dc986aa43c`. Rolling back Worker code leaves the additive schema and data in place. The pre-migration D1 bookmark is `00002be7-00000000-0000512c-c051e9a8e4cc5230b4ff4bfe11f083dd`. Restoring it would also rewind unrelated intake writes, so preserve the schema and use Worker rollback for ordinary recovery.
 
 On the deployment Mac, copy the administrator password with `pbcopy < ~/.config/portfolio-analytics/admin-password` and paste it into the browser's login prompt. The owner-only file is outside the repository, and the server copy is a Worker secret. Rotate using `npx wrangler secret put ANALYTICS_ADMIN_PASSWORD`, then update the saved copy. The scope is the API's `/analytics/` routes and does not include `/collect` or intake.
+
+### Verified rollout
+
+Collection began on November 23, 2026 at 3:56 p.m. Pacific (`2026-11-23T23:56:36Z`). The final Firebase release was code commit `b369856`, Hosting version `93defc3aef67da68`. Cloudflare Worker version `8186cbbe-6ef2-4a28-884b-28e1a8b23b3b` serves the collector and private views. See [release verification](../NEXT_STEPS.md) for job IDs and exact checks. The canonical apex was used for acceptance. The `www` alias returned 404 before release.
+
+Run `node --env-file=.env.local scripts/verify-production-sessions.mjs` on the deployment Mac for a repeatable controlled browser check. It marks emitted sessions as QA and blocks production GA4 requests. The script reads the existing reporting token and owner-only administrator credential and writes controlled evidence to ignored `tmp/` files.
 
 ### Measurement and privacy limits
 

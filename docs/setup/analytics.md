@@ -119,7 +119,7 @@ gh run watch && gh run view --log | grep -A40 "## Realtime"
 
 ## Daily report: what it means
 
-The email is a short **brief**: Summary, Key metrics, What visitors did, Notable journeys, Traffic quality, Problems and opportunities, and Details. The Details section has signed links (14 days) to the **full report** (every table below, stored by the Worker) and the **session explorer**. Human/automated/uncertain counts and journeys come only from the session stream. When the stream is unavailable the brief says so and falls back to GA4 aggregates without inferring them. Samples: [docs/analytics/samples](../analytics/samples/).
+The email is a short **brief**: Summary, Key metrics, What visitors did, Notable journeys, Traffic quality, Problems and opportunities, and Details. The Details section links to the authenticated **full report** and **session explorer** after administrator access is configured. Human/automated/uncertain counts and journeys come only from the session stream. When the stream is unavailable the brief says so and falls back to GA4 aggregates without inferring them. Samples: [docs/analytics/samples](../analytics/samples/).
 
 The full report keeps the earlier sections — Daily Analytics Summary, What Actually Happened, Traffic Quality, Session Stream, acquisition, geography, content, high-intent actions, aggregate route transitions, attention, click and device diagnostics, and technical detail.
 

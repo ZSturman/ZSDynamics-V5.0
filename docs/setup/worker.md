@@ -14,7 +14,7 @@ The existing `zacharysturman-api` Worker serves the static portfolio's contact a
 | POST | `/collect` | Anonymous session-stream batches (allowed Origin, size/rate caps). See [session analytics](../analytics/session-analytics.md). |
 | GET | `/internal/analytics/sessions` | Bearer-protected raw sessions and events for a time window (daily report). |
 | POST | `/internal/analytics/report` | Bearer-protected storage of the detailed daily report. |
-| GET | `/analytics/explorer`, `/analytics/explorer/data`, `/analytics/report` | Session explorer and stored report via signed, expiring links (or the bearer token). |
+| GET | `/analytics/explorer`, `/analytics/explorer/data`, `/analytics/report` | Private session explorer and stored report, requiring a separate administrator login. |
 
 Browser form requests require an allowed Origin, a valid Turnstile hostname/action, and D1 rate-limit capacity. Subscription links are signed and their confirmation forms submit on the API origin. `/internal/*` uses the existing `INTERNAL_TOKEN`. `worker/wrangler.toml` binds D1 and schedules five-minute delivery jobs plus hourly article discovery. No public endpoint lists visitor records; internal analytics reads use the bearer token, and browser reports use the separate `ANALYTICS_ADMIN_PASSWORD` Worker secret. Migration `0002_sessions.sql` must be applied (`npx wrangler d1 migrations apply portfolio-intake --remote`) before session data is collected.
 
